@@ -1,7 +1,7 @@
 /*
  * Created 22. Dezember 2004 / 13:07:41
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -34,7 +34,6 @@ public class Profession extends Herkunft {
     	magisch("magisch"), 
     	geweiht("geweiht"), 
     	schamanisch("schamanisch");
-    	
 		private String xmlValue; // XML-Tag des Elements
 		
 		private Art(String xmlValue) {
@@ -72,7 +71,7 @@ public class Profession extends Herkunft {
 	private AuswahlAusruestung ausruestung;
 	private AuswahlAusruestung besondererBesitz;
 	
-	private String geweihtRitus; // Falls die Pro Geweiht ist: Der Name des Ritus
+	private Gottheit geweihtGottheit; // Falls die Pro Geweiht ist: Der Name des Ritus
 //	Modis auf LiturgieKenntnis, Geister rufen, usw.; Der Name des Ritus steht mit im Link
 	private Auswahl ritusModis; 
 	
@@ -164,7 +163,11 @@ public class Profession extends Herkunft {
     	
     	// Auslesen der Geweihten-Werte, sofern vorhanden   	
     	if ( xmlElement.getFirstChildElement("geweiht") != null ) {
-    		geweihtRitus = xmlElement.getFirstChildElement("geweiht").getAttributeValue("ritus");
+    		geweihtGottheit = (Gottheit) ProgAdmin.charKompAdmin.getCharElement(
+    			xmlElement.getFirstChildElement("geweiht").getAttributeValue("gottheitId"),
+    			CharKomponenten.gottheit
+    		);
+    		
     		ritusModis = new Auswahl(this);
     		ritusModis.loadXmlElement(xmlElement.getFirstChildElement("geweiht")
     											.getFirstChildElement("modis"));
@@ -248,9 +251,9 @@ public class Profession extends Herkunft {
     	}
     	
     	// Schreiben der Geweihten angaben
-    	if ( geweihtRitus != null )  {
+    	if ( geweihtGottheit != null )  {
     		tmpElement = new Element("geweiht");
-    		tmpElement.addAttribute(new Attribute("ritus", geweihtRitus));
+    		tmpElement.addAttribute( new Attribute("gottheitId", geweihtGottheit.getId()) );
     		tmpElement.appendChild(ritusModis.writeXmlElement("modis"));
     		xmlElement.appendChild(tmpElement);
     	}
