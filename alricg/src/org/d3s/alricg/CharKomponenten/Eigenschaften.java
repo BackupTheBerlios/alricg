@@ -1,7 +1,7 @@
 /*
  * Created 22. Dezember 2004 / 13:10:45
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU licence.
+ * protected an under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -15,6 +15,7 @@ package org.d3s.alricg.CharKomponenten;
  * @author V.Strelow
  */
 public class Eigenschaften {
+    
 	public final static int MU = 0;
 	public final static int KL = 1;
 	public final static int IN = 2;

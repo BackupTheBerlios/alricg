@@ -1,7 +1,7 @@
 /*
  * Created 22. Dezember 2004 / 01:49:46
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU licence.
+ * protected an under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -17,12 +17,24 @@ package org.d3s.alricg.CharKomponenten;
  */
 public class RegelAnmerkung
 {
-	private String[] anmerkungen; // Array von Anmerkungen
+    /**
+     * REGEL - Etwas was der Benutzer beachten sollte, aber das Programm nicht automatisch machen kann
+     * TOD0 - Etwas was der Benutzer beachten sollte, aber nicht muß (z.B. sich einen Titel geben bei dem 
+     *      Vorteil "Adlige Abstammung" 
+     */
+    public enum Modus { REGEL, TODO }
+    
+	private String[] anmerkungen; // Array von Anmerkungen, gleicher index bei modus => Zugehörig
+	private Modus[] modus;
 
     /**
      * @return Ein Array mit allen Anmerkungen, oder ein leeres Array.
      */
 	public String[] getAllAnmerkungen() {
+        /*
+         * if ( RegelAnmerkung.Modus.REGEL.ordinal() == 5) {
+            return null;
+        }*/
         return anmerkungen;
 	}
 

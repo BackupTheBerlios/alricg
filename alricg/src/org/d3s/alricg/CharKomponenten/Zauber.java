@@ -1,7 +1,7 @@
 /*
  * Created 23. Dezember 2004 / 14:53:55
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU licence.
+ * protected an under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -12,19 +12,16 @@ package org.d3s.alricg.CharKomponenten;
  * @author V.Strelow
  */
 public class Zauber extends Faehigkeit {
-	private String[] merkmale;
-	private String verbreitung;
+	private int[] merkmale;
+    // Verbreitung:
+	private String[] repraesentation;
+	private int[] wert;
 	
 	/**
 	 * @return Liefert das Attribut merkmale.
 	 */
-	public String[] getMerkmale() {
+	public int[] getMerkmale() {
 		return merkmale;
 	}
-	/**
-	 * @return Liefert das Attribut verbreitung.
-	 */
-	public String getVerbreitung() {
-		return verbreitung;
-	}
+
 }

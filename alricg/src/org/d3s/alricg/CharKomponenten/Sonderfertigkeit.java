@@ -1,7 +1,7 @@
 /*
  * Created 23. Dezember 2004 / 12:53:19
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU licence.
+ * protected an under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -20,25 +20,18 @@ public class Sonderfertigkeit extends Fertigkeit {
 	public static int ART_SCHAMANISCH = 4;
 	public static int ART_SONSTIGE = 5;
 
-	private int ap;
+	private int apKosten;
 	private int art;
-	
+	private int[] permKosten = new int[3]; // Asp, Ka, Lep,
+	private org.d3s.alricg.CharKomponenten.Links.Voraussetzung voraussetzung;
+
 	/**
 	 * @return Liefert das Attribut ap - die Kosten für diese SF in
 	 * Abenteuerpunkten.
 	 */
-	public int getAp() {
-		return ap;
-	}
-	
-	/**
-	 * @return Liefert die Kosten für diese SF in Generierungspunkten 
-	 * (dies entspricht normalerweise (AP/50).
-	 * TODO Überprüfe ob Rechnung immer aufgeht!
-	 */
-	public int getGp() {
-		return (ap/50);
-	}
+	public int getApKosten() {
+		return apKosten;
+	}	
 	
 	/**
 	 * @return Liefert das Attribut art.

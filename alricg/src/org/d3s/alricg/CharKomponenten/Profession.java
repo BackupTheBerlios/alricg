@@ -1,7 +1,7 @@
 /*
  * Created 22. Dezember 2004 / 13:07:41
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU licence.
+ * protected an under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -22,8 +22,8 @@ public class Profession extends Herkunft {
 	private Sonderfertigkeit[] verbotenSF;
 	private Auswahl sprachen;
 	private Auswahl schriften;
-	private String ausruestung;
-	private String besondererBesitz;
+	private Auswahl ausruestung;
+	private Auswahl besondererBesitz;
 
     public final static int ART_HANDWERKLICH = 0;
 	public final static int ART_KRIEGERISCH = 1;
@@ -54,7 +54,14 @@ public class Profession extends Herkunft {
 
 	public Auswahl getSchriften(){ return schriften; }
 
-	public String getAusruestung(){ return ausruestung; }
+	public Auswahl getAusruestung(){ return ausruestung; }
 
-	public String getBesondererBesitz(){ return besondererBesitz; }
+	public Auswahl getBesondererBesitz(){ return besondererBesitz; }
+
+	private static class MagierAkademie {        	
+		private int gilde;
+    	private int besondereMerkmale[];
+    	private boolean zweitStudiumMoeglich;
+        private boolean drittStudiumMoeglich;
+	}
 }

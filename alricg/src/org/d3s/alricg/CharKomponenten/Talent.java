@@ -1,7 +1,7 @@
 /*
  * Created 23. Dezember 2004 / 14:53:48
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU licence.
+ * protected an under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -13,6 +13,7 @@ import org.d3s.alricg.CharKomponenten.Links.Voraussetzung;
  * @author V.Strelow
  */
 public class Talent extends Faehigkeit {
+	private String[] spezialisierungen;
 	public final static int ART_BASIS = 0;
 	public final static int ART_SPEZIAL = 1;
 	public final static int ART_BERUF = 2;
@@ -25,7 +26,8 @@ public class Talent extends Faehigkeit {
 
 	private int art;
     private int sorte;
-    private Voraussetzung Voraussetzung;
+    private int abWert; // Bezieht sich auf Voraussetzung
+    private Voraussetzung voraussetzung;
     
 	/**
 	 * @return Liefert das Attribut art.
@@ -39,12 +41,4 @@ public class Talent extends Faehigkeit {
 	public int getSorte() {
 		return sorte;
 	}
-	/**
-	 * @return Liefert das Attribut voraussetzung.
-	 */
-	public Voraussetzung getVoraussetzung() {
-		return Voraussetzung;
-	}
-
-
 }

@@ -1,11 +1,13 @@
 /*
  * Created 22. Dezember 2004 / 13:07:48
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU licence.
+ * protected an under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
 package org.d3s.alricg.CharKomponenten;
+
+import nu.xom.Element;
 
 import org.d3s.alricg.CharKomponenten.Links.Auswahl;
 /**
@@ -19,15 +21,13 @@ public class Kultur extends Herkunft {
 	private Auswahl zweitsprache;
 	private Auswahl sprachen;
 	private Auswahl schriften;
-	private String ausruestung;
-	
+	private Auswahl ausruestung;
+	private RegionVolk regionVolk;	
 	
 	/**
 	 * @return Liefert das Attribut ausruestung.
 	 */
-	public String getAusruestung() {
-		return ausruestung;
-	}
+	public Auswahl getAusruestung() { return ausruestung; }
 	/**
 	 * @return Liefert das Attribut muttersprache.
 	 */

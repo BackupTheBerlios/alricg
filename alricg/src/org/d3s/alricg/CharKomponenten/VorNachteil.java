@@ -1,7 +1,7 @@
 /*
  * Created 26. Dezember 2004 / 22:58:17
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU licence.
+ * protected an under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -16,7 +16,7 @@ import java.util.Hashtable;
  * @author V.Strelow
  */
 public abstract class VorNachteil extends Fertigkeit {
-	private int gp;
+	private int proStufe; // Bezieht sich auf GP
 	private int minStufe;
 	private int maxStufe;
 	private Vorteil[] verbietetVorteil;
@@ -25,6 +25,8 @@ public abstract class VorNachteil extends Fertigkeit {
 	private Hashtable aendertGpVorteil;
 	private Hashtable aendertGpNachteil;
 	private boolean istMehrfachWaehlbar;
+	private org.d3s.alricg.CharKomponenten.Links.Voraussetzung voraussetzung;
+
 	/**
 	 * @return Liefert das Attribut aendertApSf.
 	 */
@@ -43,11 +45,12 @@ public abstract class VorNachteil extends Fertigkeit {
 	public Hashtable getAendertGpVorteil() {
 		return aendertGpVorteil;
 	}
+
 	/**
-	 * @return Liefert das Attribut gp.
+	 * @return Liefert das Attribut proStufe.
 	 */
-	public int getGp() {
-		return gp;
+	public int getProStufe() {
+		return proStufe;
 	}
 	/**
 	 * @return Liefert das Attribut istMehrfachWaehlbar.
