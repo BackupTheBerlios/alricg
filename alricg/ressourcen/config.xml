@@ -3,11 +3,11 @@
 <config>
 	<schemas basis="basis-schema.xsd" held="held-schema.xsd" 
 			library="library-schema.xsd" varTypen="varTypen-schema.xsd"/>
-	<library file="libraryGerman.xml"/>
+	<library file="libraryGerman.xml" lang="DE"/>
 	<xmlRuleFilesD3S>
-		<readFile>test.xml</readFile>
+		<readFile>test-alricgSchema-2.xml</readFile>
 	</xmlRuleFilesD3S>
-	<xmlRuleFilesUser>
-		<readFileNot>test.xml</readFileNot>
+	<xmlRuleFilesUser readUserFiles="false"> 
+		<readFile>test.xml</readFile>
 	</xmlRuleFilesUser>
 </config>
