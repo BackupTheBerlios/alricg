@@ -373,6 +373,11 @@ public class CharKompAdmin {
 		
 		// Alle CharKomponenten durchgehen 
 		for (int i = 0; i < charKompArray.length; i++) {
+			
+			if (charKompArray[i] == eigenschaft) {
+				continue; // Eigenschaften werden nicht geschrieben, daher Abbruch
+			}
+			
 			ite = getHashMap(charKompArray[i]).values().iterator(); // Alle Elemente holen
 			
 			// Das "Box" Element hinzufügen, wenn es Unterelemente gibt
@@ -527,17 +532,11 @@ public class CharKompAdmin {
 		region("regionen", "REG"),
 		gottheit("gottheiten", "GOT"),
 		repraesentation("repraesentationen", "REP"),
-		eigenschaft("-", "EIG"); // Hat keinen XML Tag, wird durch Source-Code gefüllt
+		eigenschaft("x", "EIG"); // Hat keinen XML Tag, wird durch Source-Code gefüllt
 		
 //		Der XML-Tag der Komponente
 		private String xmlTag; // XML-Tag das alle entsprechenden Elemente umschließt
 		private String prefix; // Prefix der ID aller entsprechenden Elemente
-		/*private static CharKomponenten[] valuesEchte =  { 
-			rasse, kultur, profession, zusatzProfession, vorteil, gabe, nachteil,
-			sonderfertigkeit, ritusSF, talent, zauber, sprache, schrift, liturgie,
-			ritual, ausruestung, fahrzeug, waffeNk, waffeFk, ruestung, schild, 
-			daemonenPakt, schwarzeGabe, tier
-		};*/
 		
 		/**
 		 * Konstruktor
