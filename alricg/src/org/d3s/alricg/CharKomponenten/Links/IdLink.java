@@ -1,4 +1,4 @@
-/*
+ /*
  * Created 22. Dezember 2004 / 14:23:17
  * This file is part of the project ALRICG. The file is copyright
  * protected an under the GNU General Public License.
@@ -28,10 +28,11 @@ import org.d3s.alricg.Held.HeldenLink;
  * @author V.Strelow
  */
 public class IdLink {
+	public static int KEIN_WERT = -100; 
 	private CharElement zielId; // Das Ziel dieses Links (z.B. eine SF)
 	private CharElement linkId; // Ein in Beziehung stehendes Element (z.B. Unfähigkeit "SCHWERT")
 	private String text; // Ein Text (z.B. Vorurteile gegen "Orks")
-	private int wert = -100; // Wert der Beziehung (z.B. Höhenangst 5) / "-100": es gibt keinen Wert
+	private int wert = KEIN_WERT; // Wert der Beziehung (z.B. Höhenangst 5) / "-100": es gibt keinen Wert
 	private boolean leitwert = false; // Für Elfen, verändert kosten / Default = false
 	
 	private Auswahl auswahl; // Falls dieser IdLink durch eine Auswahl entstand
@@ -72,7 +73,8 @@ public class IdLink {
 	*/
 	
 	/**
-	 * Konstruktor, initialisiert das Objekt.
+	 * Konstruktor, initialisiert das Objekt. Nach der Erstellung sollte mit 
+	 * "loadFromId()" oder "loadXmlElement()" der IdLink mit Inhalt gefüllt werden.
 	 * @param quelle Von wo der Link "ausgeht". Typischer weise eine Herkunft.
 	 * @param auswahl Falls der Link zu einer Auswahl gehört, ansonsten "null".
 	 */
@@ -83,7 +85,7 @@ public class IdLink {
 	}
 	
 	/**
-	 * 
+	 * Liefert das CharElement, welches diesen IdLink "besitzt"
 	 * @return Das CharElement, zu dem der IdLink gehört
 	 */
 	public CharElement getQuellElement() {
@@ -186,14 +188,24 @@ public class IdLink {
 		this.wert = wert;
 	}
 	/**
-	 * @param zielId Setzt das Attribut zielId.
+	 * @param zielId Setzt das Attribut zielId. (Das Ziel dieses Links, z.B. eine SF)
 	 */
 	public void setZielId(CharElement zielId) {
 		this.zielId = zielId;
 	}
 	
 	/**
-	 * Ließt aus einem XmlElement alle nötigen Daten der LinkId aus
+	 * Initiiert einen simplen IdLink, indem nur die zielId übergeben wird.
+	 * @param id Die zielID des IdLinks.
+	 */
+	public void loadFromId(String id) {
+    	this.zielId = ProgAdmin.charKompAdmin.getCharElement(id, 
+    			ProgAdmin.charKompAdmin.getCharKompFromId(id));
+	}
+	
+	/**
+	 * Initiiert einen IdLink indem aus einem XmlElement alle nötigen Daten des 
+	 * IdLinks ausgelesen werden.
 	 * @param xmlElement Ein LinkID-Tag als XmlElement
 	 */
     public void loadXmlElement(Element xmlElement) {
@@ -256,10 +268,10 @@ public class IdLink {
     	if (text != null) {
     		xmlElement.addAttribute( new Attribute("text", text) );
     	}
-    	if (wert != -100) {
+    	if (wert != KEIN_WERT) {
     		xmlElement.addAttribute( new Attribute("wert", Integer.toString(wert)) );
     	}
-    	if (leitwert) {
+    	if (leitwert) { // false ist Default, braucht daher nicht geschrieben zu werden
     		xmlElement.addAttribute( new Attribute("leitwert", "true" ) );
     	}
 
