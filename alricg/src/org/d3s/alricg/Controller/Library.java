@@ -33,14 +33,14 @@ public class Library {
     }
     
     public String getShortText(String key) {
-        return "";
+        return "?";
     }
     
     public String getMiddleText(String key) {
-        return "";
+        return "?";
     }
     
     public String getLongText(String key) {
-        return "";
+        return "?";
     }
 }
