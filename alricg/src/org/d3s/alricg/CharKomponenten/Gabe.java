@@ -14,7 +14,7 @@ import nu.xom.Element;
  * @author V.Strelow
  */
 public class Gabe extends Vorteil {
-	private Eigenschaften[] dreiEigenschaften;
+	private EigenschaftEnum[] dreiEigenschaften;
     
 	/**
 	 * Konstruktur; id beginnt mit "GAB-" für Gabe
@@ -27,7 +27,7 @@ public class Gabe extends Vorteil {
     /**
      * @return Liefert die drei Eigenschaften, auf die eine Probe abgelegt wird..
      */
-    public Eigenschaften[] getDreiEigenschaften() {
+    public EigenschaftEnum[] getDreiEigenschaften() {
         return dreiEigenschaften;
     }
     

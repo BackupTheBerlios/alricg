@@ -17,14 +17,14 @@ import org.d3s.alricg.Prozessor.SKT.KostenKlasse;
  * @author V.Strelow
  */
 public abstract class Faehigkeit extends CharElement {
-	private Eigenschaften[] dreiEigenschaften = new Eigenschaften[3];
+	private EigenschaftEnum[] dreiEigenschaften = new EigenschaftEnum[3];
 	private KostenKlasse kostenKlasse;
 	
     /**
      * @see Klasse org.d3s.alricg.CharKomponenten.Eigenschaften
 	 * @return Liefert die drei Eigenschaften, auf die die Probe abgelegt werden muﬂ.
 	 */
-	public Eigenschaften[] getDreiEigenschaften() {
+	public EigenschaftEnum[] getDreiEigenschaften() {
 		return dreiEigenschaften;
 	}
 	
