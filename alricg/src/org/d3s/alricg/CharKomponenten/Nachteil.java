@@ -16,6 +16,15 @@ import nu.xom.Element;
  */
 public class Nachteil extends VorNachteil {
 	private boolean isSchlechteEigen;
+	
+	/**
+	 * Konstruktur; id beginnt mit "NAC-" für Nachteil
+	 * @param id Systemweit eindeutige id
+	 */
+	public Nachteil(String id) {
+		setId(id);
+	}
+	
 	/**
 	 * @return Liefert das Attribut isSchlechteEigen.
 	 */

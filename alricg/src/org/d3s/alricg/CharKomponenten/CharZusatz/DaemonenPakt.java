@@ -37,7 +37,13 @@ public class DaemonenPakt extends CharElement {
 	private SchwarzeGabe[] schwarzeGaben;
 	private Eigenschaften[] verbilligteEigenschaften;
 	
-	
+	/**
+	 * Konstruktur; id beginnt mit "DAE-" für DaemonenPakt
+	 * @param id Systemweit eindeutige id
+	 */
+	public DaemonenPakt(String id) {
+		setId(id);
+	}
 	
     /* (non-Javadoc) Methode überschrieben
      * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)

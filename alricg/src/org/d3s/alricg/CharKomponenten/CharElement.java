@@ -15,7 +15,7 @@ import nu.xom.Element;
  * 
  * @author V.Strelow
  */
-abstract public class CharElement {
+abstract public class CharElement implements Comparable<CharElement> {
     private String id; // Programmweit eindeutige ID
     private String name; // Name des Element
     private String sammelBegriff; // Zur besseren Sortierung
@@ -34,7 +34,13 @@ abstract public class CharElement {
     private String anzeigenText;
 
     
+    protected void setId(String id) {
+    	assert id != null;
+    	this.id = id;
+    }
+    
     /**
+     * Wird von allen Konstruktoren aufgerufen
      * @return Die eindeutige, einmalige ID des Elements
      */
     public String getId() {
@@ -129,7 +135,10 @@ abstract public class CharElement {
      * @param xmlElement Das Xml-Element mit allen nötigen angaben
      */
     public void loadXmlElement(Element xmlElement) {
-    	// TODO implement
+    	xmlElement.getAttribute("sonderRegel");
+    	xmlElement.getAttribute("name");
+    	xmlElement.getAttribute("id");
+    	
     }
     
     /**
@@ -145,5 +154,17 @@ abstract public class CharElement {
     	return null;
     }
     
-
+    /**
+     * Ermöglicht einen vergleich zwischen CharElementen. Dieser Vergelich wird
+     * anhand der ID-Strings durchgeführt. Vor allem wichtig um Arrays mit CharElementen
+     * sortieren zu können!
+     * @see java.lang.compareTo()
+     * @param ce Das CharElement, mit dem verglichen werden soll
+     * @return "a negative integer, zero, or a positive integer as this object is less than,
+     * 				 equal to, or greater than the specified object."
+     */
+    public int compareTo(CharElement ce) {
+    	return id.compareTo(ce.getId());
+    }
+    
 }

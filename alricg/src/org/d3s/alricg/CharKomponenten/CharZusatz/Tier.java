@@ -19,6 +19,14 @@ public class Tier extends CharElement{
 
 	// TODO Die Felder für das Tier anlegen!
 	
+	/**
+	 * Konstruktur; id beginnt mit "TIE-" für Tier
+	 * @param id Systemweit eindeutige id
+	 */
+	public Tier(String id) {
+		setId(id);
+	}
+	
     /* (non-Javadoc) Methode überschrieben
      * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
      */

@@ -15,6 +15,14 @@ import nu.xom.Element;
  */
 public class Liturgie extends Ritus {
 
+	/**
+	 * Konstruktur; id beginnt mit "LIT-" für Liturgie
+	 * @param id Systemweit eindeutige id
+	 */
+	public Liturgie(String id) {
+		setId(id);
+	}
+	
     /* (non-Javadoc) Methode überschrieben
      * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
      */

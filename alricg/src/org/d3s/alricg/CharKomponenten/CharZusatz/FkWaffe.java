@@ -18,6 +18,13 @@ public class FkWaffe extends Waffe {
 	private String reichweite;
 	private String reichweiteTpPlus; // Zusätzliche TP durch Reichweite
 
+	/**
+	 * Konstruktur; id beginnt mit "FKW-" für Fernkampf-Waffe
+	 * @param id Systemweit eindeutige id
+	 */
+	public FkWaffe(String id) {
+		setId(id);
+	}
 	
 	/**
 	 * @return Liefert das Attribut laden.

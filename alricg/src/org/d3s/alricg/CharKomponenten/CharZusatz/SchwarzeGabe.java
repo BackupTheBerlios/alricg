@@ -22,6 +22,14 @@ public class SchwarzeGabe extends CharElement {
 	private int minStufe;
 	private int maxStufe;
 	
+	/**
+	 * Konstruktur; id beginnt mit "SGA-" für Schwarze-Gabe
+	 * @param id Systemweit eindeutige id
+	 */
+	public SchwarzeGabe(String id) {
+		setId(id);
+	}
+	
     /* (non-Javadoc) Methode überschrieben
      * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
      */

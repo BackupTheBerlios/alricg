@@ -27,6 +27,14 @@ public class Ruestung extends Gegenstand {
 	private int zoneGes;
 	
 	/**
+	 * Konstruktur; id beginnt mit "RUE-" für Ruestung
+	 * @param id Systemweit eindeutige id
+	 */
+	public Ruestung(String id) {
+		setId(id);
+	}
+	
+	/**
 	 * @return Liefert den gesamt Bruchfaktor.
 	 */
 	public int getGBf() {

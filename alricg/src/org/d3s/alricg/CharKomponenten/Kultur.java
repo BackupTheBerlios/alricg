@@ -27,6 +27,14 @@ public class Kultur extends Herkunft {
     private Auswahl ausruestung;
     private RegionVolk regionVolk;
 
+	/**
+	 * Konstruktur; id beginnt mit "KUL-" für Kultur
+	 * @param id Systemweit eindeutige id
+	 */
+	public Kultur(String id) {
+		setId(id);
+	}
+    
     /**
      * @return Liefert das Attribut ausruestung.
      */

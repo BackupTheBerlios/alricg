@@ -26,6 +26,14 @@ public class ZusatzProfession extends Profession {
 	
 	
 	/**
+	 * Konstruktur; id beginnt mit "ZPR-" für ZusatzProfession
+	 * @param id Systemweit eindeutige id
+	 */
+	public ZusatzProfession(String id) {
+		super(id);
+	}
+	
+	/**
 	 * @return Liefert das Attribut apKosten.
 	 */
 	public int getApKosten() {

@@ -18,6 +18,14 @@ public class Fahrzeug extends Gegenstand {
 	private String aussehen; // Ein allgemeiner Text zur Farbe, Zustand, usw.
 	
 	/**
+	 * Konstruktur; id beginnt mit "FAH-" für Fahrzeug
+	 * @param id Systemweit eindeutige id
+	 */
+	public Fahrzeug(String id) {
+		setId(id);
+	}
+	
+	/**
 	 * @return Liefert das Attribut aussehen.
 	 */
 	public String getAussehen() {

@@ -21,6 +21,14 @@ public class Ausruestung extends Gegenstand {
 	private String haltbarkeit;
     
     
+	/**
+	 * Konstruktur; id beginnt mit "VOR-" für Vorteil
+	 * @param id Systemweit eindeutige id
+	 */
+	public Ausruestung(String id) {
+		setId(id);
+	}
+	
     /**
      * @return Liefert die ungefähre Haltbarkeit des Gegenstands.
      */

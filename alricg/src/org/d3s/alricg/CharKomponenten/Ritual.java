@@ -15,6 +15,14 @@ import nu.xom.Element;
  */
 public class Ritual extends Ritus {
 
+	/**
+	 * Konstruktur; id beginnt mit "RIT-" für Ritual
+	 * @param id Systemweit eindeutige id
+	 */
+	public Ritual(String id) {
+		setId(id);
+	}
+	
     /* (non-Javadoc) Methode überschrieben
      * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
      */

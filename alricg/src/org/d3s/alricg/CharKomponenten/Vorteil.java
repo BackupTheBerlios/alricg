@@ -16,6 +16,14 @@ import nu.xom.Element;
  */
 public class Vorteil extends VorNachteil {
 	
+	/**
+	 * Konstruktur; id beginnt mit "VOR-" für Vorteil
+	 * @param id Systemweit eindeutige id
+	 */
+	public Vorteil(String id) {
+		setId(id);
+	}
+	
     /* (non-Javadoc) Methode überschrieben
      * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
      */

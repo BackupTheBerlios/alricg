@@ -8,7 +8,7 @@
  */
 package org.d3s.alricg.Controller;
 
-import java.util.Hashtable;
+import java.util.HashMap;
 
 import nu.xom.Element;
 import nu.xom.Elements;
@@ -26,9 +26,9 @@ public class Library {
     // Statischer selbstverweis!
     public static Library self = null;
     
-    private static Hashtable<String, String> shortTxt = new Hashtable<String, String>();
-    private static Hashtable<String, String> middleTxt = new Hashtable<String, String>();
-    private static Hashtable<String, String> longTxt = new Hashtable<String, String>();
+    private static HashMap<String, String> shortTxt = new HashMap<String, String>();
+    private static HashMap<String, String> middleTxt = new HashMap<String, String>();
+    private static HashMap<String, String> longTxt = new HashMap<String, String>();
     
     
     private Library() {
@@ -56,10 +56,15 @@ public class Library {
      * @param xmlElement Das XML-Element zum auslesen der Texte
      * @param hash Die Hashtable zum speichern der Texte
      */
-    private static void fillHashtable(Element xmlElement, Hashtable<String, String> hash) {
+    private static void fillHashtable(Element xmlElement, HashMap<String, String> hash) {
     	Elements tmpXmlArray;
+    	int t;
     	
     	tmpXmlArray = xmlElement.getChildElements();
+    	/* Größes der HashMap sollte bei dem LoadFaktor von 0.75 bei 25% über der
+    	 * eigentlichen größe liegen. */
+    	hash = new HashMap<String, String>( Math.round(tmpXmlArray.size() * 1.25f) + 1 );
+    	
     	for (int i = 0; i < tmpXmlArray.size(); i++) {
     		hash.put(
     			tmpXmlArray.get(i).getAttribute("key").getValue(),
@@ -73,7 +78,8 @@ public class Library {
      * @param key Das Schlüsselword zu dem Text
      * @return Den Text zum Schlüsselwort
      */
-    public static String getShortText(String key) {
+    public static final String getShortText(String key) {
+    	assert shortTxt.get(key) != null;
         return shortTxt.get(key);
     }
     
@@ -82,7 +88,8 @@ public class Library {
      * @param key Das Schlüsselword zu dem Text
      * @return Den Text zum Schlüsselwort
      */
-    public static String getMiddleText(String key) {
+    public static final String getMiddleText(String key) {
+    	assert shortTxt.get(key) != null;
         return middleTxt.get(key);
     }
     
@@ -91,7 +98,8 @@ public class Library {
      * @param key Das Schlüsselword zu dem Text
      * @return Den Text zum Schlüsselwort
      */
-    public static String getLongText(String key) {
+    public static final String getLongText(String key) {
+    	assert shortTxt.get(key) != null;
         return longTxt.get(key);
     }
 }

@@ -19,6 +19,14 @@ public class Sprache extends SchriftSprache {
 	private Schrift[] zugehoerigeSchrift;	
 
 	/**
+	 * Konstruktur; id beginnt mit "SPR-" für Sprache
+	 * @param id Systemweit eindeutige id
+	 */
+	public Sprache(String id) {
+		setId(id);
+	}
+	
+	/**
 	 * @return Liefert das Attribut zugehoerigeSchrift.
 	 */
 	public Schrift[] getZugehoerigeSchrift() {

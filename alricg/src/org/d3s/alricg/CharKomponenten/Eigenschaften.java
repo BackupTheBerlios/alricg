@@ -46,7 +46,7 @@ public enum Eigenschaften {
      * @param bezeichnung Key für Library für den vollen Namen
      * @param abkuerzung Key für Library für die Akkürzung des Namens
      */
-    public Eigenschaften (String bezeichnung, String abkuerzung) {
+    private Eigenschaften (String bezeichnung, String abkuerzung) {
     	name = Library.getShortText(bezeichnung);
     	abk = Library.getShortText(abkuerzung);
     }

@@ -22,6 +22,14 @@ public class Schild extends Gegenstand {
 	private int wmPA; // Waffenmodifikator / PA
 	
 	/**
+	 * Konstruktur; id beginnt mit "SLD-" für Schild
+	 * @param id Systemweit eindeutige id
+	 */
+	public Schild(String id) {
+		setId(id);
+	}
+	
+	/**
 	 * @return Liefert den Bruchfaktor.
 	 */
 	public int getBF() {

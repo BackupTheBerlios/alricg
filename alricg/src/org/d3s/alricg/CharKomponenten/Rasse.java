@@ -26,6 +26,14 @@ public class Rasse extends Herkunft {
 	private int geschwindigk;
 
 	/**
+	 * Konstruktur; id beginnt mit "RAS-" für Rasse
+	 * @param id Systemweit eindeutige id
+	 */
+	public Rasse(String id) {
+		setId(id);
+	}
+	
+	/**
 	 * @return Liefert das Attribut augenfarbe.
 	 */
 	public String[] getAugenfarbe() {

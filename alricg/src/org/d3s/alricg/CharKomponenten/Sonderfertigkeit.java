@@ -27,6 +27,14 @@ public class Sonderfertigkeit extends Fertigkeit {
 	private Voraussetzung voraussetzung;
 
 	/**
+	 * Konstruktur; id beginnt mit "SF-" für Sonderfertigkeit
+	 * @param id Systemweit eindeutige id
+	 */
+	public Sonderfertigkeit(String id) {
+		setId(id);
+	}
+	
+	/**
 	 * @return Liefert das Attribut ap - die Kosten für diese SF in
 	 * Abenteuerpunkten.
 	 */

@@ -25,6 +25,14 @@ public class Talent extends Faehigkeit {
     private Voraussetzung voraussetzung;
     
 	/**
+	 * Konstruktur id; beginnt mit "TAL-" für Talent
+	 * @param id Systemweit eindeutige id
+	 */
+	public Talent(String id) {
+		setId(id);
+	}
+    
+	/**
 	 * @return Liefert das Attribut art.
 	 */
 	public Art getArt() {

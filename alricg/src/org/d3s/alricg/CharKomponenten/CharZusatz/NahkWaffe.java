@@ -21,6 +21,13 @@ public class NahkWaffe extends Waffe {
 	private int wmAT; // Waffenmodifikator / AT
 	private int wmPA; // Waffenmodifikator / PA
 	
+	/**
+	 * Konstruktur; id beginnt mit "NKW-" für Nahkampf-Waffe
+	 * @param id Systemweit eindeutige id
+	 */
+	public NahkWaffe(String id) {
+		setId(id);
+	}
 	
 	/**
 	 * @return Liefert den Bruchfaktor

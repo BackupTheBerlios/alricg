@@ -43,6 +43,14 @@ public class Profession extends Herkunft {
     public final static int AUFWAND_ZEITAUFW = 1;
     public final static int AUFWAND_ZUSATZPROF = 2; // Bei Elfen*/
 
+	/**
+	 * Konstruktur; id beginnt mit "PRO-" für Profession
+	 * @param id Systemweit eindeutige id
+	 */
+	public Profession(String id) {
+		setId(id);
+	}
+	
 
 	public Aufwand getAufwand(){ return aufwand; }
 

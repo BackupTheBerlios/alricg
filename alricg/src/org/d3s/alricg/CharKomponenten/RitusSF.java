@@ -20,6 +20,13 @@ public class RitusSF extends Sonderfertigkeit {
 	private String kult;
 	private boolean isLiturgie;
 	
+	/**
+	 * Konstruktur; id beginnt mit "RSF-" für RitusSF
+	 * @param id Systemweit eindeutige id
+	 */
+	public RitusSF(String id) {
+		super(id);
+	}
 	
 	/**
 	 * @return Liefert das Attribut dreiEigenschaften.

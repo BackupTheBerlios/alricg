@@ -9,10 +9,12 @@
 package org.d3s.alricg.Test;
 
 import java.io.File;
+import java.util.logging.Level;
 
 import org.d3s.alricg.CharKomponenten.*;
 import org.d3s.alricg.CharKomponenten.CharZusatz.*;
 import org.d3s.alricg.CharKomponenten.Links.*;
+import org.d3s.alricg.Controller.ProgAdmin;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -24,7 +26,14 @@ public class TestDriver {
 	
 	public static void main(String[] args) {
 		
-		TestDriver TD = new TestDriver();
+		new ProgAdmin();
+		ProgAdmin.logger.logp(Level.WARNING, 
+				"CharKompAdmin",
+				"initCharKomponents",
+				"ID vom zu erzeugenen Objekt wurde nicht gefunden!");
+		//TestDriver TD = new TestDriver();
+		
+
 		/*
 		
 		File x = new File("lala.txt");
@@ -61,9 +70,9 @@ public class TestDriver {
 	
 	public <T> void getTestGeneric()
 	{
-	    T;
+	    //T;
 	  	
-	  	System.out.println(m.toString());
+	  	//System.out.println(m.toString());
 	  	//return Math.random() > 0.5 ? m : n;
 	}
 	

@@ -20,6 +20,14 @@ public class Zauber extends Faehigkeit {
 	private int[] wert;
 	
 	/**
+	 * Konstruktur; id beginnt mit "ZAU-" für Zauber
+	 * @param id Systemweit eindeutige id
+	 */
+	public Zauber(String id) {
+		setId(id);
+	}
+	
+	/**
 	 * @return Liefert das Attribut merkmale.
 	 */
 	public int[] getMerkmale() {

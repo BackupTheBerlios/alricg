@@ -15,6 +15,14 @@ import nu.xom.Element;
  */
 public class Schrift extends SchriftSprache {
 
+	/**
+	 * Konstruktur; id beginnt mit "SFT-" für Schrift
+	 * @param id Systemweit eindeutige id
+	 */
+	public Schrift(String id) {
+		setId(id);
+	}
+	
     /* (non-Javadoc) Methode überschrieben
      * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
      */
