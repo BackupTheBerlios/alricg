@@ -1,7 +1,7 @@
 /*
  * Created 23. Dezember 2004 / 12:53:19
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -102,7 +102,7 @@ public class Sonderfertigkeit extends Fertigkeit {
     	// Auslesen der Art der Sonderfertigkeit
     	for (int i = 0; i < Art.values().length; i++) {
     		if (Art.values()[i].getXmlValue().equals(xmlElement
-    							.getFirstChildElement("art"))) 
+    							.getFirstChildElement("art").getValue())) 
     		{
     				art = Art.values()[i];
     				break; // Gefunden, abbrechen
@@ -116,6 +116,8 @@ public class Sonderfertigkeit extends Fertigkeit {
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
     	Element tmpElement;
+    	
+    	xmlElement.setLocalName("sonderf");
     	
     	// Hinzufügen der AP-Kosten
     	if (   apKosten != KEIN_WERT 

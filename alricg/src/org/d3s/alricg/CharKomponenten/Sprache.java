@@ -84,8 +84,10 @@ public class Sprache extends SchriftSprache {
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
 
+    	xmlElement.setLocalName("sprache");
+    	
     	// Schreiben der Kostenklasse
-    	xmlElement.appendChild("nichtMuttersprache");
+    	xmlElement.appendChild(new Element("nichtMuttersprache"));
     	xmlElement.getFirstChildElement("nichtMuttersprache").addAttribute(
     				new Attribute("kostenKlasse", kostenNichtMutterSpr.getXmlValue())
     			);
