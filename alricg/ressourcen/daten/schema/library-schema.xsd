@@ -7,31 +7,19 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
 -->
-<xsd:schema targetNamespace="http://alricg.die3sphaere.de/lib/" xmlns="http://alricg.die3sphaere.de/lib/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<xsd:annotation>
-		<xsd:documentation xml:lang="EN">
-			Schema-file for Alricg text. The text is stored in library-element.
-			You can change the text, but DON'T CHANGE THE KEY-WORD!!
-			The text is identified by the key-word.
-			
-			library-element has 3 under-elements:
-				short - Text has only one word.
-				middle - Text has two or three words.
-				long - Text has more as three words.
-		</xsd:documentation>
-	</xsd:annotation>
+<xsd:schema targetNamespace="http://alricg.die3sphaere.de/lib/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://alricg.die3sphaere.de/lib/">
 	<xsd:element name="alricgXML">
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element name="preamble">
 					<xsd:complexType>
-						<xsd:complexContent>
+						<xsd:simpleContent>
 							<xsd:extension base="xsd:string">
 								<xsd:attribute name="language" type="xsd:string" use="required"/>
 								<xsd:attribute name="version" type="xsd:string" use="required"/>
 								<xsd:attribute name="author" type="xsd:string" use="optional"/>
 							</xsd:extension>
-						</xsd:complexContent>
+						</xsd:simpleContent>
 					</xsd:complexType>
 				</xsd:element>
 				<xsd:element name="library">
@@ -62,14 +50,20 @@
 					</xsd:complexType>
 				</xsd:element>
 			</xsd:sequence>
-		</xsd:complexType>		
+		</xsd:complexType>
 	</xsd:element>
-	
 	<xsd:complexType name="entry">
-		<xsd:complexContent>
-			<xsd:extension base="xsd:string">
-				<xsd:attribute name="key" type="xsd:string" use="required"/>
-			</xsd:extension>
-		</xsd:complexContent>
+		<xsd:sequence>
+			<xsd:element name="e" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:simpleContent>
+						<xsd:extension base="xsd:string">
+							<xsd:attribute name="lang" type="xsd:string" use="required"/>
+						</xsd:extension>
+					</xsd:simpleContent>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="key" type="xsd:string" use="required"/>
 	</xsd:complexType>
 </xsd:schema>
