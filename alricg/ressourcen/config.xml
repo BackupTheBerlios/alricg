@@ -2,7 +2,7 @@
 <!-- This file is part of the project ALRICG. -->
 <config>
 	<schemas basis="basis-schema.xsd" held="held-schema.xsd" 
-			library="library-schema.xsd" library="varTypen-schema.xsd"/>
+			library="library-schema.xsd" varTypen="varTypen-schema.xsd"/>
 	<library file="libraryGerman.xml"/>
 	<xmlRuleFilesD3S>
 		<readFile>test.xml</readFile>
