@@ -13,10 +13,7 @@ import nu.xom.Element;
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
  * @author V.Strelow
  */
-public class RegionVolk {
-	private String id;
-	private String regionVolkName;
-	private String anmerkung;
+public class RegionVolk extends CharElement {
 	private String bindeWortMann;
 	private String bindeWortFrau;
 	private String[] vornamenMann;
@@ -24,26 +21,12 @@ public class RegionVolk {
 	private String[] nachnamen;
 	private String[] nachnamenEndung;
 	
-	
 	/**
-	 * @return Liefert das Attribut anmerkung.
+	 * Konstruktur; id beginnt mit "REG-" für Region
+	 * @param id Systemweit eindeutige id
 	 */
-	public String getAnmerkung() {
-		return anmerkung;
-	}
-	
-	/**
-	 * @return Liefert das Attribut id.
-	 */
-	public String getId() {
-		return id;
-	}
-	
-	/**
-	 * @return Liefert das Attribut regionName.
-	 */
-	public String getRegionVolkName() {
-		return regionVolkName;
+	public RegionVolk(String id)  {
+		setId(id);
 	}
 	
     /**
