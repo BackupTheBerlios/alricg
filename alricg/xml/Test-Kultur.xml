@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<n:alricgXML xmlns:n="http://www.die3sphaere.de/alricg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.die3sphaere.de/alricg
+alricg-schema.xsd">
+
+<kommentar>Dies ist ein Test</kommentar>
+<kultur id="testID" name="Elfische Siedlung" sonderRegel="SR-elf+Mensch">
+	<beschreibung>
+		Dieses ist ein Test!
+	</beschreibung>
+	<sammelbegriff>
+		Elf
+	</sammelbegriff>
+	<gp>1</gp>
+	<soMin>4</soMin>
+	<soMax>10</soMax>
+	<nachteile>
+		<fest id="Elf. Weltsicht"/>
+		<fest id="Neugier" wert="5"/>
+		<fest id="Unfähigkeit" linkID="Götter/Kulte"/>
+	</nachteile>
+	<sonderf>
+		<fest id="Groß Meditation"/>
+		<fest id="Repräsentation Elf"/>
+		<fest id="Salasandra"/>
+	</sonderf>
+	<empfVorteile ids="123 456 778 899 6766"/>
+	<empfNachteile ids="123 456 778 899 6766">
+		<linkId id="Vorurteile gegen " text="Zwerge"/>
+	</empfNachteile>
+	<ungeNachteile ids="123 456 778 899 6766"/>
+	<verbilligteSonderf>
+		<fest id="Regeneration I"/>
+	</verbilligteSonderf>
+	
+	<talente>
+		<fest id="Bogen" wert="3" leitwert="TRUE"/>
+		<fest id="Akrobatik" wert="4"/>
+		<auswahl modus="LISTE" werte="2">
+			<option id="Fechtwaffen"/>
+			<option id="Säbel"/>
+			<option id="schwerter"/>
+		</auswahl>
+		<auswahl modus="VERTEILUNG" werte="6" anzahl="2">
+			<option id="Abrichten"/>
+			<option id="Bogebau"/>
+			<option id="Boote fahren"/>
+		</auswahl>
+	</talente>
+	<hauszauber>
+		<auswahl modus="LISTE" werte="7">
+			<option id="Balsam"/>
+			<option id="Fulminictus"/>
+			<option id="ba"/>
+		</auswahl>
+		<auswahl modus="LISTE" werte="6">
+			<option id="Balsam"/>
+			<option id="Fulminictus"/>
+			<option id="ba"/>
+		</auswahl>
+	</hauszauber>
+	<zauber>
+		<auswahl modus="LISTE" werte="7">
+			<option id="Balsam"/>
+			<option id="Fulminictus"/>
+			<option id="ba"/>
+		</auswahl>
+		<auswahl modus="LISTE" werte="6">
+			<option id="Balsam"/>
+			<option id="Fulminictus"/>
+			<option id="ba"/>
+		</auswahl>
+	</zauber>
+	<aktivierbareZauber ids="12 121290 129012"/>
+	
+	<professionUeblich ids="3313 234234 24234"/>
+	<professionMoeglich ids="123 456 778 899 6766"/>
+	<sprachen>
+		<auswahl modus="LISTE" werte="1">
+			<option id="Garethie"/>
+			<option id="Fulminictus"/>
+			<option id="ba"/>
+		</auswahl>
+	</sprachen>
+	<muttersprache>
+		<fest id="Isdira"/>
+	</muttersprache>
+	<zweitsprache>
+		<auswahl modus="LISTE" werte="1">
+			<option id="Garethie"/>
+			<option id="Fulminictus"/>
+			<option id="ba"/>
+		</auswahl>
+	</zweitsprache>
+</kultur>
+
+</n:alricgXML>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <n:alricgXML xmlns:n="http://www.die3sphaere.de/alricg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.die3sphaere.de/alricg
-D:\Programmierung\ChaErsPro\alricg\xml\alricg-schema.xsd">
+alricg-schema.xsd">
 
 <kommentar>Dies ist ein Test</kommentar>
 <rasse id="testID" name="Halbelf">
