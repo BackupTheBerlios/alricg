@@ -1,7 +1,7 @@
 /*
  * Created 22. Dezember 2004 / 01:07:12
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -153,10 +153,10 @@ abstract public class CharElement implements Comparable<CharElement> {
     	this.name = xmlElement.getAttributeValue("name");
     	
 // 		Auslesen der Sonderregel ( min: 0 / max: 1
-    	if (xmlElement.getFirstChildElement("sonderRegel") != null) {
+    	if (xmlElement.getFirstChildElement("sonderregel") != null) {
     		this.sonderRegel = new SonderRegel(
-    				xmlElement.getFirstChildElement("sonderRegel").getAttributeValue("id"),
-    				xmlElement.getFirstChildElement("sonderRegel").getValue().trim()
+    				xmlElement.getFirstChildElement("sonderregel").getAttributeValue("id"),
+    				xmlElement.getFirstChildElement("sonderregel").getValue().trim()
     			);
     	}
     	
@@ -243,7 +243,7 @@ abstract public class CharElement implements Comparable<CharElement> {
 		
 		// Sonderregel einfügen
 		if (this.sonderRegel != null) {
-			tmpElement = new Element("sonderRegel");
+			tmpElement = new Element("sonderregel");
 			
 			tmpElement.addAttribute( new Attribute("id", this.sonderRegel.getId()) );
 			tmpElement.appendChild( this.sonderRegel.getBeschreibung() );

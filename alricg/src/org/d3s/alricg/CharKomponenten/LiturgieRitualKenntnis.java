@@ -1,7 +1,7 @@
 /*
  * Created 20. Januar 2005 / 16:18:50
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -105,6 +105,8 @@ public class LiturgieRitualKenntnis extends Faehigkeit {
     	Element xmlElement = super.writeXmlElement();
     	Element tmpElement;
     	
+    	xmlElement.setLocalName("liRiKenntnis");
+    	
     	// Schreiben ob es zu einer "Göttlichen" oder "Schamanischen" Tradition gehört
     	if ( !isLiturgieKenntnis ) {
     		tmpElement = new Element("istLiturgieKenntnis");
@@ -115,23 +117,4 @@ public class LiturgieRitualKenntnis extends Faehigkeit {
     	return xmlElement;
     }
     
-    /*
-     * Liefert anhand des XmlTags die Art der LiturgieK / RitualK zurück
-     * @param xmlValue Der xmlTag
-     * @return Die zu dem xmlTag zugehörige Art
-     *
-    private Art getKenntnisArtByXmlTag(String xmlValue) {
-    	Art[] artArray = Art.values();
-		
-		// Suchen des richtigen Elements
-		for (int i = 0; i < artArray.length; i++) {
-			if (xmlValue.equals(artArray[i].getXmlValue())) {
-				return artArray[i]; // Gefunden
-			}
-		}
-		
-		ProgAdmin.logger.severe("XmlValue konnte nicht gefunden werden!");
-		
-		return null;
-    }*/
 }
