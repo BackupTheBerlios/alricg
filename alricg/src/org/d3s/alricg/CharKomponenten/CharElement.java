@@ -7,7 +7,9 @@
 
 package org.d3s.alricg.CharKomponenten;
 
+import nu.xom.Attribute;
 import nu.xom.Element;
+import nu.xom.Elements;
 /**
  * <b>Beschreibung: </b> <br>
  * Dies ist die super-Klasse für alle Charakter-Elemente. Alle Elemente eines
@@ -18,8 +20,8 @@ import nu.xom.Element;
 abstract public class CharElement implements Comparable<CharElement> {
     private String id; // Programmweit eindeutige ID
     private String name; // Name des Element
-    private String sammelBegriff; // Zur besseren Sortierung
-    private String beschreibung; // text, z.B.  "Siehe MBK S. 10"
+    private String sammelBegriff = ""; // Zur besseren Sortierung
+    private String beschreibung = ""; // text, z.B.  "Siehe MBK S. 10"
     private RegelAnmerkung regelAnmerkung; // Anmerkungen für den User!
     private SonderRegel sonderRegel; // Zu beachtende Sonderreglen
 
@@ -30,12 +32,16 @@ abstract public class CharElement implements Comparable<CharElement> {
      * Eigenschaften berücksichtigt wird. Das Element wird grau dargestellt,will
      * man es wählen erscheint der Text ("Kann nur bei ... gewählt werden.")
      */
-    private boolean anzeigen;
+    private boolean anzeigen = true; // Default Wert
     private String anzeigenText;
 
-    
+    /**
+     * Setzt die ID des Elements neu. Vor allem Benutzt von abgeleiteten Klassen
+     * @param id Neue Id des Elements
+     */
     protected void setId(String id) {
     	assert id != null;
+    	
     	this.id = id;
     }
     
@@ -70,11 +76,16 @@ abstract public class CharElement implements Comparable<CharElement> {
      * @return Liefert eine Beschreibung des Elements, meißt einen Verweis
      *  auf ein Regelbuch.
      */
-    /**
-     * @return
-     */
     public String getBeschreibung() {
         return beschreibung;
+    }
+    
+    
+    /**
+     * @param besch Der neue text für die Beschreibung
+     */
+    protected void setBeschreibung(String besch) {
+    	beschreibung = besch;
     }
 
     /**
@@ -135,10 +146,61 @@ abstract public class CharElement implements Comparable<CharElement> {
      * @param xmlElement Das Xml-Element mit allen nötigen angaben
      */
     public void loadXmlElement(Element xmlElement) {
-    	xmlElement.getAttribute("sonderRegel");
-    	xmlElement.getAttribute("name");
-    	xmlElement.getAttribute("id");
+    	Elements tmpElements;
     	
+// 		Auslesen des Namen ( = 1 )
+    	this.name = xmlElement.getAttributeValue("name");
+    	
+// 		Auslesen der Sonderregel ( min: 0 / max: 1
+    	if (xmlElement.getFirstChildElement("sonderRegel") != null) {
+    		this.sonderRegel = new SonderRegel(
+    				xmlElement.getFirstChildElement("sonderRegel").getAttributeValue("id"),
+    				xmlElement.getFirstChildElement("sonderRegel").getValue().trim()
+    			);
+    	}
+    	
+// 		Auslesen der "Anzeigen" Elements - Boolean + Text ( min: 0 / max: 1)
+    	if ( xmlElement.getFirstChildElement("anzeigen") != null ) {
+    		
+    		// Prüfung, ob der text auch nur "true" und "false" enthält
+    		assert xmlElement.getFirstChildElement("anzeigen")
+			  				.getAttributeValue("anzeigen").equals("true") || 
+			  			xmlElement.getFirstChildElement("anzeigen")
+			  				.getAttributeValue("anzeigen").equals("false");
+    		
+    		if ( xmlElement.getFirstChildElement("anzeigen")
+					  .getAttributeValue("anzeigen").equals("true") ) {
+    			this.anzeigen = true; // Entspricht dem Default wert -> Kein Text nötig
+    		} else {
+    			this.anzeigen = false;
+    			this.anzeigenText = xmlElement.getFirstChildElement("anzeigen").getValue().trim();
+    		}
+    	}
+
+//		Hinzufügen der Regelanmerkungen (min: 0 / max: 1)
+    	if ( xmlElement.getFirstChildElement("regelAnmerkungen") != null ) {
+    		regelAnmerkung = new RegelAnmerkung(); // RegelAnmerkung erzeugen
+    		tmpElements = xmlElement.getFirstChildElement("regelAnmerkungen")
+    								.getChildElements("regel");
+
+    		// Hinzufügen der einzelnen RegelAnmerkungen (min: 1 / max: beliebig)
+    		for (int i = 0; i < tmpElements.size(); i++) {
+    			regelAnmerkung.add(
+    				tmpElements.get(i).getValue().trim(),
+    				tmpElements.get(i).getAttributeValue("modus")
+    			);
+    		}
+    	}
+// 		Hinzufügen der Beschreibung (min: 0 / max: 1)
+    	if ( xmlElement.getFirstChildElement("beschreibung") != null ) {
+    		this.beschreibung = xmlElement.getFirstChildElement("beschreibung").getValue().trim();
+    	}
+    	
+// 		Hinzufügen des Sammelbegriffs
+    	if ( xmlElement.getFirstChildElement("sammelbegriff") != null ) {
+    		this.sammelBegriff = xmlElement.getFirstChildElement("sammelbegriff").getValue().trim();
+    		
+    	}
     }
     
     /**
@@ -150,8 +212,58 @@ abstract public class CharElement implements Comparable<CharElement> {
      * @return Ein Xml-Element mit allen nötigen Angaben.
      */
     public Element writeXmlElement(){
-//    	 TODO implement
-    	return null;
+		Element element, tmpElement;
+		
+		element = new Element("temp"); // Muß in den Unterklassen neu gesetzt werden!
+		
+		element.addAttribute( new Attribute("id", this.id) );
+		element.addAttribute( new Attribute("name", this.name) );
+		
+		// Beschreibung einfügen
+		if (this.beschreibung.length() > 0) {
+			tmpElement = new Element("beschreibung");
+			tmpElement.appendChild(this.beschreibung);
+			
+			element.appendChild( tmpElement );
+		}
+		
+		// Anzeigen einfügen
+		if (this.anzeigenText != null) {
+			tmpElement = new Element("anzeigen");
+			
+			if (this.anzeigen) {
+				tmpElement.addAttribute( new Attribute("anzeigen", "true") );
+			} else {
+				tmpElement.addAttribute( new Attribute("anzeigen", "false") );
+			}
+			tmpElement.appendChild(this.anzeigenText);
+			element.appendChild( tmpElement );
+		}
+		
+		// Sonderregel einfügen
+		if (this.sonderRegel != null) {
+			tmpElement = new Element("sonderRegel");
+			
+			tmpElement.addAttribute( new Attribute("id", this.sonderRegel.getId()) );
+			tmpElement.appendChild( this.sonderRegel.getBeschreibung() );
+			
+			element.appendChild( tmpElement );
+		}
+		
+		// Regelanmerkungen einfügen
+		if (this.regelAnmerkung != null) {
+			element.appendChild( regelAnmerkung.writeXmlElement() );
+		}
+		
+		// Sammelbegriff einfügen
+		if (this.sammelBegriff.length() > 0) {
+			tmpElement = new Element("sammelbegriff");
+			tmpElement.appendChild(this.sammelBegriff);
+			
+			element.appendChild( tmpElement );
+		}
+    	
+		return element;
     }
     
     /**
