@@ -12,14 +12,38 @@ import nu.xom.Element;
 import org.d3s.alricg.Prozessor.SKT.KostenKlasse;
 
 /**
- * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
+ * <b>Beschreibung:</b><br>
+ * Nimmt nur die Werte an "Liturgiekenntnis", "Geister Rufen", "Geister bannen", 
+ * "Geister binden" und "Geister aufnehmen". Die Art der Gottheit wird per LinkId
+ * als Text mit angegeben.
  * @author V.Strelow
  */
 public class LiturgieRitualKenntnis extends Faehigkeit {
-	private KostenKlasse sktGenerierung; // SKT bei der Generierung
-	private KostenKlasse sktSpaet; // SKT nach der Generierung
-	private String kultId;
-	private boolean isLiturgieKenntnis; // Ansonsten Ritualkenntnis --> Schamanen
+	
+	private static KostenKlasse LITURGIE_KOSTEN_GENERIERUNG = KostenKlasse.E;
+	private static KostenKlasse LITURGIE_KOSTEN_SPAETER = KostenKlasse.G;
+	private static KostenKlasse RITUAL_KOSTEN = KostenKlasse.E;
+	/*
+	public enum Art {
+		liturgie("liturgie"),
+		geisterBannen("geisterBannen"),
+		geisterBinden("geisterBinden"),
+		geisterAufnehmen("geisterAufnehmen"),
+		geisterRufen("geisterRufen");
+		private String xmlValue; // XML-Tag des Elements
+		
+		private Art(String xmlValue) {
+			this.xmlValue = xmlValue;
+		}
+		
+		public String getXmlValue() {
+			return xmlValue;
+		}	
+	}*/
+
+	private boolean isLiturgieKenntnis = true;
+	//private String kultId;
+	//private Art kenntnisArt; // Ansonsten Ritualkenntnis --> Schamanen
 	
 	/**
 	 * Konstruktur; id beginnt mit "LRK-" für LiturgieRitualKenntnis
@@ -29,33 +53,30 @@ public class LiturgieRitualKenntnis extends Faehigkeit {
 		setId(id);
 	}
 	
-	/**
-	 * @return true - Dies eine LiturgieKenntnis / false - RitualKenntnis --> Schamanen
-	 */
-	public boolean isLiturgie() {
-		return isLiturgieKenntnis;
+	/*
+	 * @return 
+	 *
+	public Art getKenntnisArt() {
+		return kenntnisArt;
 	}
-	/**
+	/*
 	 * @return Liefert das Attribut kultId.
-	 */
+	 *
 	public String getKult() {
 		return kultId;
-	}
-	/**
-	 * Die KostenKlasse für die Steigerung dieser Lturgie/Ritual-Kenntnis bei
-	 * der Generierung eines Helden.
-	 * @return Die Kostenklasse bei Generierung.
-	 */
-	public KostenKlasse getSktGenerierung() {
-		return sktGenerierung;
-	}
+	}*/
+
 	/**
 	 * Die KostenKlasse für die Steigerung dieser Lturgie/Ritual-Kenntnis NACH
-	 * der Generierung des Helden
+	 * der Generierung des Helden. Diese kann sich von der KK der Generierug unterscheiden!
 	 * @return Die Kostenklasse NACH Generierung.
 	 */
 	public KostenKlasse getSktSpaet() {
-		return sktSpaet;
+		if (isLiturgieKenntnis) {
+			return LITURGIE_KOSTEN_SPAETER;
+		} 
+		
+		return RITUAL_KOSTEN;
 	}
 	
     /* (non-Javadoc) Methode überschrieben
@@ -63,7 +84,18 @@ public class LiturgieRitualKenntnis extends Faehigkeit {
      */
     public void loadXmlElement(Element xmlElement) {
     	super.loadXmlElement(xmlElement);
-    	// TODO implement
+    	
+    	// Auslesen ob es zu einer "Göttlichen" oder "Schamanischen" Tradition gehört
+    	if ( xmlElement.getFirstChildElement("istLiturgieKenntnis") != null ) {
+    		// Wertebereich prüfen
+    		assert xmlElement.getFirstChildElement("istLiturgieKenntnis").getValue().equals("true")
+    			|| xmlElement.getFirstChildElement("istLiturgieKenntnis").getValue().equals("false");
+    	
+    		if (xmlElement.getFirstChildElement("istLiturgieKenntnis").getValue().equals("false")) {
+    			isLiturgieKenntnis = false;
+    		}
+    	}
+    	
     }
     
     /* (non-Javadoc) Methode überschrieben
@@ -71,7 +103,35 @@ public class LiturgieRitualKenntnis extends Faehigkeit {
      */
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
-    	// TODO implement
-    	return null;
+    	Element tmpElement;
+    	
+    	// Schreiben ob es zu einer "Göttlichen" oder "Schamanischen" Tradition gehört
+    	if ( !isLiturgieKenntnis ) {
+    		tmpElement = new Element("istLiturgieKenntnis");
+    		tmpElement.appendChild("false");
+    		xmlElement.appendChild(tmpElement);
+    	}
+    	
+    	return xmlElement;
     }
+    
+    /*
+     * Liefert anhand des XmlTags die Art der LiturgieK / RitualK zurück
+     * @param xmlValue Der xmlTag
+     * @return Die zu dem xmlTag zugehörige Art
+     *
+    private Art getKenntnisArtByXmlTag(String xmlValue) {
+    	Art[] artArray = Art.values();
+		
+		// Suchen des richtigen Elements
+		for (int i = 0; i < artArray.length; i++) {
+			if (xmlValue.equals(artArray[i].getXmlValue())) {
+				return artArray[i]; // Gefunden
+			}
+		}
+		
+		ProgAdmin.logger.severe("XmlValue konnte nicht gefunden werden!");
+		
+		return null;
+    }*/
 }
