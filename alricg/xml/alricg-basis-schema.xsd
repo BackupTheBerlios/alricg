@@ -11,7 +11,7 @@
 <xsd:schema targetNamespace="http://www.die3sphaere.de/alricg" xmlns="http://www.die3sphaere.de/alricg" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<xsd:annotation>
 		<xsd:documentation xml:lang="DE">
-			Schema-file für ALRICG. Alle Daten aus der XML-Datenbasis können mit diesem File validiert werden.
+			Schema-file für ALRICG. Wird von anderen Files importiert
 		</xsd:documentation>
 	</xsd:annotation>
 
@@ -115,6 +115,75 @@
 			<xsd:enumeration value="verstaendigung"/>
 		</xsd:restriction>
 	</xsd:simpleType>
+	<xsd:simpleType name="regionVolkTyp">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="DE">
+				GAR 	- garetien
+				HOR, ART - horasreich
+				ALB 	- albernien
+				ALM 	- almada
+				AND 	- andergast (+ Nostria)
+				WEI, TOB, SVE - weiden
+				ZYK 	- zyklopeninseln
+				BOR 	- bornland
+				THO 	- thorwal
+				RIV   	- gjalskerland
+				   		- fjarninger
+				NIV 	- nivensen
+					   	- norbarden
+				MHA, KHU, RAS, GOR, THA - tulamidisch
+				KHO		- wüsteKhom
+				ARA		- aranien
+						- ferkina
+						- trollzacker
+						- zahori
+				WAL, CHA - waldmenschen
+				ZWE 	- zwerge
+				ORK 	- orks
+						- goblins
+				ACH		- achaz
+				SHI, SKR, MAR - maraskan
+				ELF, FIR - elfen
+				ALA, BRA, MEN - südlicheStädte
+				GAL, RHA, XER, GLO, ORO - schwarzeLande
+				EHE 	 - ehernesSchwert
+				
+				schwarzeLande und ehernesSchwert sind KEINE angaben für sprachen, sondern für Waffen u.ä.
+			</xsd:documentation>
+		</xsd:annotation>
+	
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="garetien"/>
+			<xsd:enumeration value="horasreich"/>
+			<xsd:enumeration value="albernien"/>
+			<xsd:enumeration value="almada"/>
+			<xsd:enumeration value="andergast"/>
+			<xsd:enumeration value="weiden"/>
+			<xsd:enumeration value="zyklopeninseln"/>
+			<xsd:enumeration value="bornland"/>
+			<xsd:enumeration value="thorwal"/>
+			<xsd:enumeration value="gjalskerland"/>
+			<xsd:enumeration value="fjarninger"/>
+			<xsd:enumeration value="nivensen"/>
+			<xsd:enumeration value="norbarden"/>
+			<xsd:enumeration value="tulamidisch"/>
+			<xsd:enumeration value="arnaien"/>
+			<xsd:enumeration value="ferkina"/>
+			<xsd:enumeration value="trollzacker"/>
+			<xsd:enumeration value="zahori"/>
+			<xsd:enumeration value="waldmenschen"/>
+			<xsd:enumeration value="zwerge"/>
+			<xsd:enumeration value="orks"/>
+			<xsd:enumeration value="goblins"/>
+			<xsd:enumeration value="elfen"/>
+			<xsd:enumeration value="maraskan"/>
+			<xsd:enumeration value="südlicheStädte"/>
+			<xsd:enumeration value="wüsteKhom"/>
+			<xsd:enumeration value="schwarzeLande"/>
+			<xsd:enumeration value="ehernesSchwert"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
 	<xsd:simpleType name="charArtenTyp">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="alle"/>
@@ -124,6 +193,15 @@
 			<xsd:enumeration value="viertelZauberer"/>
 			<xsd:enumeration value="geweiht"/>
 			<xsd:enumeration value="borbaradianer"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="magierGildeTyp">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="weiß"/>
+			<xsd:enumeration value="grau"/>
+			<xsd:enumeration value="schwarz"/>
+			<xsd:enumeration value="unbekannt"/>
+			<xsd:enumeration value="keine"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 </xsd:schema>

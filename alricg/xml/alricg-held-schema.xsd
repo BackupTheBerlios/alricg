@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-
 <!--
  * Created on 17.12.2004
  *
@@ -8,7 +7,7 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
 -->
-<xsd:schema targetNamespace="http://www.die3sphaere.de/alricg" xmlns="http://www.die3sphaere.de/alricg" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:schema targetNamespace="http://www.die3sphaere.de/alricg" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.die3sphaere.de/alricg">
 	<xsd:annotation>
 		<xsd:documentation xml:lang="DE">
 			Schema-file für ALRICG. Alle Daten aus der XML-Datenbasis können mit diesem File validiert werden.
@@ -29,8 +28,10 @@
 							<xsd:element name="herkunft" type="h_herkunftTyp"/>
 							<xsd:element name="logBuch" type="h_charakerLogBuchTyp"/>
 							<xsd:element name="vorteile" type="h_vorteilTyp"/>
+							<xsd:element name="gaben" type="h_vorteilGabenTyp"/>
 							<xsd:element name="nachteile" type="h_nachteilTyp"/>
 							<xsd:element name="sonderfertigkeiten" type="h_sonderfertigkeitTyp"/>
+							<xsd:element name="sonderfLiRi" type="h_sonderfLiRiTyp"/>
 							<xsd:element name="sprachen" type="h_sprachTyp"/>
 							<xsd:element name="schriften" type="h_schriftTyp"/>
 							<xsd:element name="talente" type="h_talenteTyp"/>
@@ -42,8 +43,9 @@
 							<xsd:element name="fkWaffen" type="h_fkWaffenTyp" minOccurs="0"/>
 							<xsd:element name="schilde" type="h_schildTyp" minOccurs="0"/>
 							<xsd:element name="ruestungen" type="h_ruestungTyp" minOccurs="0"/>
-							<xsd:element name="tiere" type="h_tiereTyp" minOccurs="0"/>
-							<xsd:element name="verbindungen" type="h_verbindungenTyp" minOccurs="0"/>					
+							<xsd:element name="tiere" type="h_tierTyp" minOccurs="0"/>
+							<xsd:element name="fahrzeuge" type="h_fahrzeugTyp" minOccurs="0"/>
+							<xsd:element name="verbindungen" type="h_verbindungenTyp" minOccurs="0"/>
 						</xsd:sequence>
 					</xsd:complexType>
 				</xsd:element>
@@ -106,6 +108,7 @@
 			<xsd:documentation xml:lang="DE">
 					zweitKultur - Für "Kind zweier Welten" siehe S.1 124
 					zweitProfession - Für "Beitgefächerte Bildung" s. S.124
+					akademieGildeType - Nur für Magier: Welcher Gilde der Char angehört!
 				</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
@@ -113,7 +116,14 @@
 			<xsd:element name="kultur" type="xsd:string"/>
 			<xsd:element name="zweitKultur" type="xsd:string"/>
 			<xsd:element name="profession" type="profHilfsTyp"/>
-			<xsd:element name="zweitProfession" type="profHilfsTyp"/>
+			<xsd:element name="zweitProfession" type="profHilfsTyp" minOccurs="0"/>
+			<xsd:element name="zweitStudium" type="profHilfsTyp" minOccurs="0"/>
+			<xsd:element name="drittStudium" type="profHilfsTyp" minOccurs="0"/>
+			<xsd:element name="akademieGildeType" minOccurs="0">
+				<xsd:complexType>
+					<xsd:attribute name="h_akademieGilde" type="magierGildeTyp" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="profHilfsTyp">
@@ -202,7 +212,7 @@
 					<xsd:complexContent>
 						<xsd:extension base="heldElementTyp">
 							<xsd:attribute name="repraesentation" type="xsd:string" use="required"/>
-							<xsd:attribute name="hauszauber" type="xsd:boolean" use="required"/>
+							<xsd:attribute name="isHauszauber" type="xsd:boolean" use="required"/>
 						</xsd:extension>
 					</xsd:complexContent>
 				</xsd:complexType>
@@ -212,13 +222,24 @@
 	<!-- ***************************** Sonderf ******************************* -->
 	<xsd:complexType name="h_sonderfertigkeitTyp">
 		<xsd:sequence>
-			<xsd:element name="vorteil" type="heldElementTyp" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="sonderf" type="heldElementTyp" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="h_sonderfLiRiTyp">
+		<!-- Für Liturgiekenntnic und Ritualkenntnis --> 
+		<xsd:sequence>
+			<xsd:element name="sonderfLiRi" type="heldElementTyp" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<!-- ***************************** Vorteile ******************************* -->
 	<xsd:complexType name="h_vorteilTyp">
 		<xsd:sequence>
 			<xsd:element name="vorteil" type="heldElementTyp" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="h_vorteilGabenTyp">
+		<xsd:sequence>
+			<xsd:element name="gabe" type="heldElementTyp" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<!-- ***************************** Nachteile ******************************* -->
@@ -289,7 +310,8 @@
 	<xsd:complexType name="h_ausruestungTyp">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="DE">
-				alsText - Belibige Ausrüstung als Text (falls User das besser findet)
+				alsText - Beliebige Ausrüstung als Text (falls User das besser findet)
+				enthaelt - Wenn der Gegenstand ein Behälter ist: Die enthaltenen Gegenstände.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
@@ -301,6 +323,7 @@
 							<xsd:sequence>
 								<xsd:element name="haltbarkeit" type="xsd:string" minOccurs="0"/>
 								<xsd:element name="woGetragen" type="xsd:string" minOccurs="0"/>
+								<xsd:element name="enthaelt" type="h_ausruestungTyp" minOccurs="0"/>
 							</xsd:sequence>
 						</xsd:extension>
 					</xsd:complexContent>
@@ -388,7 +411,13 @@
 	<xsd:complexType name="h_tierTyp">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="DE">
-				Für tierische Begeleiter und "Vertraute".
+				Für tierische Begeleiter und "Vertraute". Eine Albelitung von dem Typ im alricg-schema.xsd
+					ist NICHT möglich, da die Werte hier durhc ein "heldElementTyp" Dokumentiert werden!
+				ausruestung.gegenstaende - Für Dinge die am Pferd sind
+				ausruestung.ruestung - Rüstung die das Pferd Trägt
+				aussehen - textuelle Beschreibung
+				aussehen.groesse - In Finger
+				aussehen.gewicht - In Unzen
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
@@ -415,7 +444,6 @@
 									<xsd:element name="LeP" type="heldElementTyp"/>
 									<xsd:element name="AsP" type="heldElementTyp"/>
 									<xsd:element name="AuP" type="heldElementTyp"/>
-									<xsd:element name="KA" type="heldElementTyp"/>
 									<xsd:element name="MR" type="heldElementTyp"/>
 									<xsd:element name="INI" type="heldElementTyp"/>
 									<xsd:element name="PA" type="heldElementTyp"/>
@@ -424,6 +452,8 @@
 									<xsd:element name="FS" type="heldElementTyp"/>
 									<xsd:element name="GS" type="heldElementTyp"/>
 									<xsd:element name="GW" type="heldElementTyp"/>
+									<xsd:element name="TK" type="xsd:nonNegativeInteger"/>
+									<xsd:element name="ZK" type="xsd:nonNegativeInteger"/>
 								</xsd:sequence>
 							</xsd:complexType>
 						</xsd:element>
@@ -455,17 +485,27 @@
 								</xsd:sequence>
 							</xsd:complexType>
 						</xsd:element>
-						<xsd:element name="ausruestung" maxOccurs="unbounded">
+						<xsd:element name="aussehen">
+							<xsd:complexType>
+								<xsd:simpleContent>
+									<xsd:extension base="xsd:string">
+										<xsd:attribute name="gewicht" type="xsd:string" use="optional"/>
+										<xsd:attribute name="groesse" type="xsd:string" use="optional"/>
+									</xsd:extension>
+								</xsd:simpleContent>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="ausruestung" minOccurs="0">
 							<xsd:complexType>
 								<xsd:sequence>
-									<xsd:element name="gegenstand" type="xsd:string"/>
+									<xsd:element name="gegenstaende" type="h_ausruestungTyp"/>
+									<xsd:element name="ruestungen" type="h_ruestungTyp"/>
 								</xsd:sequence>
 							</xsd:complexType>
 						</xsd:element>
 						<xsd:element name="zucht" type="xsd:string" minOccurs="0"/>
-						<xsd:element name="ausbildung" type="xsd:string"/>
-						<xsd:element name="farbe" type="xsd:string"/>
-						<xsd:element name="aussehen" type="xsd:string"/>
+						<xsd:element name="ausbildung" type="xsd:string" minOccurs="0"/>
+						<xsd:element name="ap" type="heldElementTyp" minOccurs="0"/>
 						<xsd:element name="anmerkung" type="xsd:string" minOccurs="0"/>
 					</xsd:sequence>
 					<xsd:attribute name="tierart" type="xsd:string" use="required"/>
@@ -474,8 +514,37 @@
 			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
+	<!-- ********************************  Fahrzeuge  ******************************** -->
+	<xsd:complexType name="h_fahrzeugTyp">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="DE">
+				Für Wagen und karren.
+				fahrzeugArt - z.B. Ruderboot, Kastenwagen
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="fahrzeug" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:complexContent>
+						<xsd:extension base="fahrzeugTyp">
+							<xsd:sequence>
+								<xsd:element name="ausruestung" minOccurs="0">
+									<xsd:complexType>
+										<xsd:sequence>
+											<xsd:element name="gegenstaende" type="h_ausruestungTyp"/>
+											<xsd:element name="ruestungen" type="h_ruestungTyp"/>
+										</xsd:sequence>
+									</xsd:complexType>
+								</xsd:element>
+							</xsd:sequence>
+						</xsd:extension>
+					</xsd:complexContent>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
 	<!-- ******************************  Verbinungen ******************************** -->
-	<xsd:complexType name="h_verbindungenTyp">	
+	<xsd:complexType name="h_verbindungenTyp">
 		<xsd:sequence>
 			<xsd:element name="verbindung" minOccurs="0" maxOccurs="unbounded">
 				<xsd:complexType>
