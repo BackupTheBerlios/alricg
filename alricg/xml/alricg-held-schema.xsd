@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * Created on 17.12.2004
+ *
+ * This file is part of the project ALRICG. The file is copyright
+ * protected an under the GNU licence.
+ * For more information see "http://alricg.die3sphaere.de/".
+ *
+-->
+<xsd:schema targetNamespace="http://www.die3sphaere.de/alricg" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.die3sphaere.de/alricg">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="DE">
+
+		</xsd:documentation>
+	</xsd:annotation>
+	<xsd:element name="alricgXML">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="allgemeineDaten" type="allgemeineDatenType" minOccurs="0"/>
+				<xsd:element name="basisWerte" type="basisWerteType" minOccurs="0"/>
+				<xsd:element name="talente" type="talenteType" minOccurs="0"/>
+				<xsd:element name="zauber" type="zauberType" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:complexType name="allgemeineDatenType">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string"/>
+			<xsd:element name="titel" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="stand" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="geschlecht" type="xsd:string"/>
+			<xsd:element name="alter" type="xsd:positiveInteger"/>
+			<xsd:element name="groesse" type="xsd:positiveInteger"/>
+			<xsd:element name="haarfarbe" type="xsd:string"/>
+			<xsd:element name="augenfarbe" type="xsd:string"/>
+			<xsd:element name="sozialstatus" type="xsd:string"/>
+			<xsd:element name="aussehen" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="herkunft" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+<!-- ***************************** Basis Werte ******************************* -->	
+	<xsd:complexType name="basisWerteType">
+		<xsd:sequence>
+			<xsd:element name="eigenschaften">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="MU" type="charWerteType"/>
+						<xsd:element name="KL" type="charWerteType"/>
+						<xsd:element name="IN" type="charWerteType"/>
+						<xsd:element name="CH" type="charWerteType"/>
+						<xsd:element name="FF" type="charWerteType"/>
+						<xsd:element name="GE" type="charWerteType"/>
+						<xsd:element name="KO" type="charWerteType"/>
+						<xsd:element name="KK" type="charWerteType"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="charPunkteType">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="LeP" type="charPunkteType"/>
+						<xsd:element name="AsP" type="charPunkteType"/>
+						<xsd:element name="AuP" type="charPunkteType"/>
+						<xsd:element name="KA" type="charPunkteType"/>
+						<xsd:element name="MR" type="charPunkteType"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+<!-- ***************************** Talente ******************************* -->
+	<xsd:complexType name="talenteType">
+		<xsd:sequence>
+			<xsd:element name="talent" type="idLinkTyp"/>
+		</xsd:sequence>
+	 </xsd:complexType>
+<!-- ***************************** Zauber ******************************* -->
+	<xsd:complexType name="zauberType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="DE">
+				repräsentation - die Repräsentation in der der Zauber gelernt wurde
+				hauszauber - Ist der Zauber ein Hauszauber?
+				id - Das eigentliche Ziel, wie bei "FlimFlam 5" --> FlimFlam
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="charWerteType">
+				<xsd:attribute name="id" type="xsd:string" use="required"/>
+				<xsd:attribute name="repräsentation" type="xsd:string" use="required"/>
+				<xsd:attribute name="hauszauber" type="xsd:boolean" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	 </xsd:complexType>
+<!-- ***************************** Sonderf ******************************* -->
+	 <xsd:complexType name="sonderfertigkeitType">
+		<xsd:sequence>
+			<xsd:element name="id" type="xsd:String"/>
+			<xsd:element name="linkId" type="xsd:String" minOccurs="0"/>
+			<xsd:element name="text" type="xsd:String" minOccurs="0"/>
+			<xsd:element name="ap" type="xsd:nonNegativeInteger"/>
+			<xsd:element name="anmerkung" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	 </xsd:complexType>
+<!-- ***************************** Vorteile ******************************* -->
+	 <xsd:complexType name="vorteilType">
+		<xsd:sequence>
+			<xsd:element name="id" type="xsd:String"/>
+			<xsd:element name="stufe" type="xsd:String"/>
+			<xsd:element name="linkId" type="xsd:String" minOccurs="0"/>
+			<xsd:element name="text" type="xsd:String" minOccurs="0"/>
+			<xsd:element name="ap" type="xsd:nonNegativeInteger" minOccurs="0"/>
+			<xsd:element name="anmerkung" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	 </xsd:complexType>
+	 <xsd:complexType name="gabenType">
+	 	<xsd:complexContent>
+			<xsd:extension base="charWerteType">
+			</xsd:extension>
+		</xsd:complexContent>
+	 </xsd:complexType>
+<!-- ***************************** Nachteile ******************************* -->  
+	 <xsd:complexType name="nachteilType">
+		<xsd:sequence>
+			<xsd:element name="id" type="xsd:String"/>
+			<xsd:element name="stufe" type="xsd:String"/>
+			<xsd:element name="startStufe" type="xsd:String"/>
+			<xsd:element name="linkId" type="xsd:String" minOccurs="0"/>
+			<xsd:element name="text" type="xsd:String" minOccurs="0"/>
+			<xsd:element name="ap" type="xsd:nonNegativeInteger" minOccurs="0"/>
+			<xsd:element name="anmerkung" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	 </xsd:complexType>
+	 
+<!-- **************************************************************************** -->
+	<xsd:complexType name="charWerteType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="DE">
+				GrundType für alle Werte-Bestandteile eines Chars!
+				anmerkung - Eine Anmerkung zu dem Bestandteil
+				startWert - Wert wie er bei der Generierung erstellt wurde.
+				durchSpezErf - Wert der durch spezielle Erfahrungen gewonnen wurde
+					(Hier kann der AP aufwand direkt berechnet werden, keine Angabe
+					nötig)
+				durchLehrm - Wert der durch selbst lernen mit Lernmeister erworben wurde
+				durchSelbstSt - Wert der durch selbst Studium erworben wurde
+				durchUser - Wert der mit durch den User gewählte Kosten hinzugefügt 
+					wurde (kann auch für "0 Kosten" sein)
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="startWert" type="xsd:int" minOccurs="0"/>
+			<xsd:element name="durchSpezErf" type="xsd:int" minOccurs="0"/>
+			<xsd:element name="durchLehrm" type="wertApType" minOccurs="0"/>
+			<xsd:element name="durchSelbstSt" type="wertApType" minOccurs="0"/>
+			<xsd:element name="durchUser" type="wertApType" minOccurs="0"/>
+			<xsd:element name="anmerkung" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<xsd:complexType name="charPunkteType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="DE">
+				Bei Lep, Aup, Asp, KA gibt es keine unterschiedlichen Lernmethoden, 
+				die Kosten entsprechen dennen beim "Lermeister"!
+				gekauft - Regulär gekaufte Punkte
+				gekauftUser - Gekaufte Punkte mit durch User festgesetzen AP aufwand
+				speziel - Punkte, die hinzugewonnen wurden und NICHT als gekauft
+					gelten, also nicht das maximum zu kaufender Punkte senkt. Die
+					Kosten werden selbst vom User gewählt.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="startWert" type="xsd:int" minOccurs="0"/>
+			<xsd:element name="gekauft" type="xsd:int" minOccurs="0"/>
+			<xsd:element name="gekauftUser" type="wertApType" minOccurs="0"/>
+			<xsd:element name="speziel" type="wertApType" minOccurs="0"/>
+			<xsd:element name="anmerkung" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="idLinkTyp">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="DE">
+				text - Z.B. Vorurteile gegen "Orks"
+				leitwert - Für Elfische Weltsicht
+				linkId - Z.B. Begabt für "schwerter"
+				id - Das eigentliche Ziel, wie bei "Schwerter 5" --> Schwerter
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="charWerteType">
+				<xsd:attribute name="text" type="xsd:string" use="optional"/>
+				<xsd:attribute name="leitwert" type="xsd:boolean" use="optional"/>
+				<xsd:attribute name="linkId" type="xsd:string" use="optional"/>
+				<xsd:attribute name="id" type="xsd:string" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="idLinkZauberTyp">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="DE">
+				repräsentation - die Repräsentation in der der Zauber gelernt wurde
+				hauszauber - Ist der Zauber ein Hauszauber?
+				id - Das eigentliche Ziel, wie bei "FlimFlam 5" --> FlimFlam
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="charWerteType">
+				<xsd:attribute name="id" type="xsd:string" use="required"/>
+				<xsd:attribute name="repräsentation" type="xsd:string" use="required"/>
+				<xsd:attribute name="hauszauber" type="xsd:boolean" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="wertApType">
+		<xsd:attribute name="wert" type="xsd:nonNegativeInteger" use="required"/>
+		<xsd:attribute name="ap" type="xsd:nonNegativeInteger" use="required"/>
+	</xsd:complexType>
+</xsd:schema>
