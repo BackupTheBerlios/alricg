@@ -1,7 +1,7 @@
 /*
  * Created 22. Dezember 2004 / 13:07:57
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -113,7 +113,7 @@ public class Rasse extends Herkunft {
     	super.loadXmlElement(xmlElement);
     	Elements tmpElements;
     	int[] anzahlWuerfel, augenWuerfel;
-    	
+
     	try {
 	    	// "varianteVon" auslesen
 			if ( xmlElement.getFirstChildElement("varianteVon") !=  null ) {
@@ -216,6 +216,10 @@ public class Rasse extends Herkunft {
     			idx++;
     		}
     	}
+    	
+    	if (idx < 20) {
+    		ProgAdmin.logger.warning("Index zu klein: Sollwert von 20 wurde nicht erreicht!");
+    	}
     }
     
     /**
@@ -229,7 +233,8 @@ public class Rasse extends Herkunft {
     	int idx = 0;
     	
     	for (int i = 0; i < array.length; i++) {
-    		if ( !tmpFarbe.equals(array[i]) ) {
+    		if ( !tmpFarbe.equals(array[i]) )
+    		{
     			element = new Element("farbe");
     			element.addAttribute( new Attribute("farbe", tmpFarbe));
     			element.addAttribute( new Attribute("anteil", Integer.toString(idx)));
@@ -242,6 +247,13 @@ public class Rasse extends Herkunft {
     		}
     	}
     	
+    	// Letztes Element "nachtragen"
+		element = new Element("farbe");
+		element.addAttribute( new Attribute("farbe", tmpFarbe));
+		element.addAttribute( new Attribute("anteil", Integer.toString(idx)));
+		xmlElement.appendChild(element);
+
+    	
     }
     
     
@@ -250,9 +262,8 @@ public class Rasse extends Herkunft {
      */
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
-    	
     	int idx; 
-    	Element element;
+    	Element element, element2;
     	
     	xmlElement.setLocalName("rasse");
     	
@@ -287,11 +298,12 @@ public class Rasse extends Herkunft {
     	element.addAttribute(new Attribute("wert", 
     							Integer.toString(alterWuerfel.getFestWert())));
     	for (int i = 0; i < alterWuerfel.getAnzahlWuerfel().length; i++) {
-    		element = new Element("wuerfel");
-    		element.addAttribute( new Attribute("anzWuerfel",
+    		element2 = new Element("wuerfel");
+    		element2.addAttribute( new Attribute("anzWuerfel",
     				Integer.toString(alterWuerfel.getAnzahlWuerfel()[i])) );
-    		element.addAttribute( new Attribute("augenWuerfel",
+    		element2.addAttribute( new Attribute("augenWuerfel",
     				Integer.toString(alterWuerfel.getAugenWuerfel()[i])) );
+    		element.appendChild(element2);
     	}
     	xmlElement.appendChild(element);
     	
@@ -300,11 +312,12 @@ public class Rasse extends Herkunft {
     	element.addAttribute(new Attribute("wert", 
     							Integer.toString(groesseWuerfel.getFestWert())));
     	for (int i = 0; i < groesseWuerfel.getAnzahlWuerfel().length; i++) {
-    		element = new Element("wuerfel");
-    		element.addAttribute( new Attribute("anzWuerfel",
+    		element2 = new Element("wuerfel");
+    		element2.addAttribute( new Attribute("anzWuerfel",
     				Integer.toString(groesseWuerfel.getAnzahlWuerfel()[i])) );
-    		element.addAttribute( new Attribute("augenWuerfel",
+    		element2.addAttribute( new Attribute("augenWuerfel",
     				Integer.toString(groesseWuerfel.getAugenWuerfel()[i])) );
+    		element.appendChild(element2);
     	}
     	xmlElement.appendChild(element);
     	
