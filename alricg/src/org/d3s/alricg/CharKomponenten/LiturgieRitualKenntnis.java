@@ -1,7 +1,7 @@
 /*
  * Created 20. Januar 2005 / 16:18:50
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GPL licence.
+ * protected an under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -9,46 +9,52 @@ package org.d3s.alricg.CharKomponenten;
 
 import nu.xom.Element;
 
+import org.d3s.alricg.Prozessor.SKT.KostenKlasse;
+
 /**
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
  * @author V.Strelow
  */
-public class RitualKenntnis extends Faehigkeit {
-	private int sktGenerierung; // SKT bei der Generierung
-	private int sktSpaet; // SKT nach der Generierung
-	private String kult;
-	private boolean isLiturgie;
+public class LiturgieRitualKenntnis extends Faehigkeit {
+	private KostenKlasse sktGenerierung; // SKT bei der Generierung
+	private KostenKlasse sktSpaet; // SKT nach der Generierung
+	private String kultId;
+	private boolean isLiturgieKenntnis; // Ansonsten Ritualkenntnis --> Schamanen
 	
 	/**
-	 * Konstruktur; id beginnt mit "RSF-" für RitusSF
+	 * Konstruktur; id beginnt mit "LRK-" für LiturgieRitualKenntnis
 	 * @param id Systemweit eindeutige id
 	 */
-	public RitualKenntnis(String id) {
+	public LiturgieRitualKenntnis(String id) {
 		setId(id);
 	}
 	
 	/**
-	 * @return Liefert das Attribut isLiturgie.
+	 * @return true - Dies eine LiturgieKenntnis / false - RitualKenntnis --> Schamanen
 	 */
 	public boolean isLiturgie() {
-		return isLiturgie;
+		return isLiturgieKenntnis;
 	}
 	/**
-	 * @return Liefert das Attribut kult.
+	 * @return Liefert das Attribut kultId.
 	 */
 	public String getKult() {
-		return kult;
+		return kultId;
 	}
 	/**
-	 * @return Liefert das Attribut sktGener.
+	 * Die KostenKlasse für die Steigerung dieser Lturgie/Ritual-Kenntnis bei
+	 * der Generierung eines Helden.
+	 * @return Die Kostenklasse bei Generierung.
 	 */
-	public int getSktGenerierung() {
+	public KostenKlasse getSktGenerierung() {
 		return sktGenerierung;
 	}
 	/**
-	 * @return Liefert das Attribut sktSpaet.
+	 * Die KostenKlasse für die Steigerung dieser Lturgie/Ritual-Kenntnis NACH
+	 * der Generierung des Helden
+	 * @return Die Kostenklasse NACH Generierung.
 	 */
-	public int getSktSpaet() {
+	public KostenKlasse getSktSpaet() {
 		return sktSpaet;
 	}
 	
