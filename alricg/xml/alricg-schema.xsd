@@ -32,6 +32,7 @@
 						</xsd:sequence>
 					</xsd:complexType>
 				</xsd:element>
+				<xsd:element name="datenBasis" type="datenBasisTyp" minOccurs="0"/>
 				<xsd:element name="rasse" type="rasseTyp" minOccurs="0" maxOccurs="unbounded"/>
 				<xsd:element name="kultur" type="kulturTyp" minOccurs="0" maxOccurs="unbounded"/>
 				<xsd:element name="profession" type="professionTyp" minOccurs="0" maxOccurs="unbounded"/>
@@ -67,7 +68,7 @@
 							<xsd:attribute name="wert" type="xsd:positiveInteger" use="required"/>
 						</xsd:complexType>
 					</xsd:element>
-					<xsd:element name="gewicht">
+					<xsd:element name="gewichtModi">
 						<xsd:complexType>
 							<xsd:attribute name="wert" type="xsd:negativeInteger" use="required"/>
 						</xsd:complexType>
@@ -165,6 +166,7 @@
 			<xsd:extension base="faehigkeitTyp">
 				<xsd:sequence>
 					<xsd:element name="ap" type="apKostenTyp"/>
+					<xsd:element name="hatText" type="xsd:boolean" minOccurs="0"/>
 					<xsd:element name="istWaehlbar" type="xsd:boolean"/>
 					<xsd:element name="art">
 						<xsd:simpleType>
@@ -195,6 +197,7 @@
 					<xsd:element name="gp" type="xsd:nonNegativeInteger"/>
 					<xsd:element name="istWaehlbar" type="xsd:boolean" minOccurs="0"/>
 					<xsd:element name="istGabe" type="xsd:boolean" minOccurs="0"/>
+					<xsd:element name="hatText" type="xsd:boolean" minOccurs="0"/>
 					<xsd:element name="istMehrfachWaehlbar" type="xsd:boolean"/>
 					<xsd:element name="minStufe" type="xsd:positiveInteger" minOccurs="0"/>
 					<xsd:element name="maxStufe" type="xsd:positiveInteger" minOccurs="0"/>
@@ -218,10 +221,10 @@
 					<xsd:element name="gp" type="xsd:nonPositiveInteger"/>
 					<xsd:element name="istWaehlbar" type="xsd:boolean"/>
 					<xsd:element name="istSchlechteEigen" type="xsd:boolean"/>
+					<xsd:element name="hatText" type="xsd:boolean" minOccurs="0"/>
 					<xsd:element name="istMehrfachWaehlbar" type="xsd:boolean"/>
 					<xsd:element name="minStufe" type="xsd:positiveInteger" minOccurs="0"/>
 					<xsd:element name="maxStufe" type="xsd:positiveInteger" minOccurs="0"/>
-					<xsd:element name="fuerWelcheChars" type="charArtenType" maxOccurs="5"/>
 					<xsd:element name="fuerWelcheChars" type="charArtenType" maxOccurs="5"/>
 					<xsd:element name="verbietetVorteil" type="idListe" minOccurs="0"/>
 					<xsd:element name="verbietetNachteil" type="idListe" minOccurs="0"/>
@@ -421,11 +424,11 @@
 					<xsd:element name="empfNachteile" type="idListe" minOccurs="0"/>
 					<xsd:element name="ungeVorteile" type="idListe" minOccurs="0"/>
 					<xsd:element name="ungeNachteile" type="idListe" minOccurs="0"/>
-					<xsd:element name="verbilligteVorteile" type="auswahlType" minOccurs="0"/>
-					<xsd:element name="verbilligteNachteile" type="auswahlType" minOccurs="0"/>
-					<xsd:element name="verbilligteSonderf" type="auswahlType" minOccurs="0"/>
-					<xsd:element name="verbilligteLiturgien" type="auswahlType" minOccurs="0"/>
-					<xsd:element name="verbilligteRituale" type="auswahlType" minOccurs="0"/>
+					<!-- <xsd:element name="verbilligteVorteile" type="auswahlType" minOccurs="0"/>
+					<xsd:element name="verbilligteNachteile" type="auswahlType" minOccurs="0"/> -->
+					<xsd:element name="verbilligteSonderf" type="idListe" minOccurs="0"/>
+					<xsd:element name="verbilligteLiturgien" type="idListe" minOccurs="0"/>
+					<xsd:element name="verbilligteRituale" type="idListe" minOccurs="0"/>
 					<xsd:element name="talente" type="auswahlType" minOccurs="0"/>
 					<xsd:element name="hauszauber" type="auswahlType" minOccurs="0"/>
 					<xsd:element name="zauber" type="auswahlType" minOccurs="0"/>
@@ -564,8 +567,8 @@
 		<xsd:attribute name="id" type="xsd:string" use="required"/>
 		<xsd:attribute name="wert" type="xsd:int" use="required"/>
 	</xsd:complexType>
-	<!-- ********************************************************************************************************************************************-->
-	<!-- ***********************************                                 Simple BasisTypen                              *********************************** -->
+	<!-- ******************************************************************************************************************************************** -->
+	<!-- ***********************************                                 Simple BasisTypen                    *********************************** -->
 	<!--********************************************************************************************************************************************* -->
 	<xsd:simpleType name="eigenschaftType">
 		<xsd:restriction base="xsd:string">
