@@ -18,7 +18,7 @@ class reference {
 */
 class reference2 {
 }/**
-@__ref <oiref:java#Class#org.d3s.alricg.CharKomponenten.Rasse:oiref><oihard>
+@__ref <oiref:java#Class#org.d3s.alricg.CharKomponenten.Profession:oiref><oihard>
 @__modelType reference 
 */
 class reference4 {
@@ -28,7 +28,7 @@ class reference4 {
 */
 class reference6 {
 }/**
-@__ref <oiref:java#Class#org.d3s.alricg.CharKomponenten.Profession:oiref><oihard>
+@__ref <oiref:java#Class#org.d3s.alricg.CharKomponenten.Rasse:oiref><oihard>
 @__modelType reference 
 */
 class reference8 {
@@ -49,13 +49,13 @@ class __options {
 }/**
 @__positions <oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Kultur:oiref>=491,254,83,82,1:oigroup>
 <oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Herkunft:oiref>=252,15,200,222,1:oigroup>
-<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Rasse:oiref>=131,254,83,82,1:oigroup>
-<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Profession:oiref>=131,4,83,82,1:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Profession:oiref>=131,254,83,82,1:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Rasse:oiref>=131,4,83,82,1:oigroup>
 <oigroup:<oiref:design#Class#id28qtne2yuce5be2yum7vp.diagram:oiref>=10,10,83,104,1:oigroup>
-<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Profession#org.d3s.alricg.CharKomponenten.Herkunft:oiref>=214,50,252,50:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Rasse#org.d3s.alricg.CharKomponenten.Herkunft:oiref>=214,50,252,50:oigroup>
 <oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Eigenschaften:oiref>=226,249,93,315,1:oigroup>
 <oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Kultur#org.d3s.alricg.CharKomponenten.Herkunft:oiref>=491,270,452,197:oigroup>
-<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Rasse#org.d3s.alricg.CharKomponenten.Herkunft:oiref>=214,270,252,197:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Profession#org.d3s.alricg.CharKomponenten.Herkunft:oiref>=214,270,252,197:oigroup>
 */
 class __positions {
 }

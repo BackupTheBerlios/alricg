@@ -1,6 +1,5 @@
-workspace.diagram.active = <oiref:design#Class#id4kwaxe30oxwshe30r0hae.diagram:oiref>
-workspace.diagram.open.0 = <oiref:design#Class#id4kwaxe30oxwshe30r0hae.diagram:oiref>
-workspace.editor.active = D:\Programmierung\ChaErsPro\alricg\src\org\Herkunft.java
-workspace.editor.open.0 = D:\Programmierung\ChaErsPro\alricg\src\org\d3s\alricg\CharElement.java
-workspace.editor.open.1 = D:\Programmierung\ChaErsPro\alricg\src\org\d3s\alricg\RegelAnmerkung.java
-workspace.editor.open.2 = D:\Programmierung\ChaErsPro\alricg\src\org\Herkunft.java
+workspace.diagram.active = <oiref:design#Class#id4q6mne31fr990e31iii2j.diagram:oiref>
+workspace.diagram.open.0 = <oiref:design#Class#id4q6mne31fr990e31iii2j.diagram:oiref>
+workspace.editor.active = D:\Programmierung\ChaErsPro\alricg\src\org\d3s\alricg\CharKomponenten\Zauber.java
+workspace.editor.open.0 = D:\Programmierung\ChaErsPro\alricg\src\org\d3s\alricg\CharKomponenten\Zauber.java
+workspace.editor.open.1 = D:\Programmierung\ChaErsPro\alricg\src\org\d3s\alricg\CharKomponenten\SonderRegel.java
