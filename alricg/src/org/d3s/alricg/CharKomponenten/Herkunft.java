@@ -1,7 +1,7 @@
 /*
  * Created 22. Dezember 2004 / 02:25:53
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -15,6 +15,7 @@ import org.d3s.alricg.CharKomponenten.Links.IdLinkList;
 import org.d3s.alricg.CharKomponenten.Links.Voraussetzung;
 import org.d3s.alricg.CharKomponenten.Werte.Geschlecht;
 import org.d3s.alricg.Controller.ProgAdmin;
+import org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten;
 
 /**
  * <b>Beschreibung: </b> <br>
@@ -45,6 +46,7 @@ public abstract class Herkunft extends CharElement {
     // TODO: Es gibt doch auch hier ne Auswahl??
     private Auswahl eigenschaftModis;
     private Voraussetzung voraussetzung;
+    private Repraesentation repraesentation;
     
     private Auswahl vorteileAuswahl;
     private Auswahl nachteileAuswahl;
@@ -201,6 +203,7 @@ public abstract class Herkunft extends CharElement {
      */
     public void loadXmlElement(Element xmlElement) {
     	super.loadXmlElement(xmlElement);
+    	Element tmpElement = null;
     	
 // 		Auslesen der GP
     	try {
@@ -361,28 +364,42 @@ public abstract class Herkunft extends CharElement {
     			talente.loadXmlElement(xmlElement.getFirstChildElement("talente"));
     		}
     		
-    		// Auslesen der Hauszauber
-    		if ( xmlElement.getFirstChildElement("hauszauber") != null ) {
-    			hauszauber = new Auswahl(this);
-    			hauszauber.loadXmlElement(xmlElement.getFirstChildElement("hauszauber"));
-    		}
-    		
-    		// Auslesen der Zauber
-    		if ( xmlElement.getFirstChildElement("zauber") != null ) {
-    			zauber = new Auswahl(this);
-    			zauber.loadXmlElement(xmlElement.getFirstChildElement("zauber"));
-    		}
-    		
-    		// Auslesen der Zauber
-    		if ( xmlElement.getFirstChildElement("aktivierbareZauber") != null ) {
-    			aktivierbareZauber = new Auswahl(this);
-    			aktivierbareZauber.loadXmlElement(xmlElement.getFirstChildElement("aktivierbareZauber"));
-    		}
-    		
-    		// Auslesen der Zauber, die nicht zu Beginn wählbar sind
-    		if ( xmlElement.getFirstChildElement("zauberNichtZuBegin") != null ) {
-    			ZauberNichtBeginn = new IdLinkList(this);
-    			ZauberNichtBeginn.loadXmlElement(xmlElement.getFirstChildElement("zauberNichtZuBegin"));
+    		// Auslesen der magischen Werte 
+    		if ( xmlElement.getFirstChildElement("magie") != null ) {
+    			tmpElement = xmlElement.getFirstChildElement("magie");
+    			
+    			// Auslesen der Art der Magischen repräsentation
+    			if ( tmpElement.getAttribute("repraesentId") != null ) {
+	    			repraesentation = (Repraesentation) ProgAdmin.charKompAdmin
+	    				.getCharElement(
+	    					tmpElement.getAttributeValue("repraesentId"),
+	    					CharKomponenten.repraesentation
+	    				);
+    			}
+    			
+	    		// Auslesen der Hauszauber
+	    		if ( tmpElement.getFirstChildElement("hauszauber") != null ) {
+	    			hauszauber = new Auswahl(this);
+	    			hauszauber.loadXmlElement(tmpElement.getFirstChildElement("hauszauber"));
+	    		}
+	    		
+	    		// Auslesen der Zauber
+	    		if ( tmpElement.getFirstChildElement("zauber") != null ) {
+	    			zauber = new Auswahl(this);
+	    			zauber.loadXmlElement(tmpElement.getFirstChildElement("zauber"));
+	    		}
+	    		
+	    		// Auslesen der Zauber
+	    		if ( tmpElement.getFirstChildElement("aktivierbareZauber") != null ) {
+	    			aktivierbareZauber = new Auswahl(this);
+	    			aktivierbareZauber.loadXmlElement(tmpElement.getFirstChildElement("aktivierbareZauber"));
+	    		}
+	    		
+	    		// Auslesen der Zauber, die nicht zu Beginn wählbar sind
+	    		if ( tmpElement.getFirstChildElement("zauberNichtZuBegin") != null ) {
+	    			ZauberNichtBeginn = new IdLinkList(this);
+	    			ZauberNichtBeginn.loadXmlElement(tmpElement.getFirstChildElement("zauberNichtZuBegin"));
+	    		}
     		}
     		
     	} catch (NumberFormatException ex) {
@@ -522,26 +539,42 @@ public abstract class Herkunft extends CharElement {
     		xmlElement.appendChild(talente.writeXmlElement("talente"));
     	}
     	
-    	// Hinzufügen der Hauszauber
-    	if ( this.hauszauber != null ) {
-    		xmlElement.appendChild(hauszauber.writeXmlElement("hauszauber"));
+    	// Hinzufügen der Magie 
+    	if (this.repraesentation != null 
+    			|| this.hauszauber != null 
+    			|| this.zauber != null 
+    			|| this.aktivierbareZauber != null
+    			|| this.ZauberNichtBeginn != null) 
+    	{
+    		tmpElement = new Element("magie");
+
+    		// Schreiben der Repraesentation
+    		if (repraesentation != null) {
+    			tmpElement.addAttribute(new Attribute("repraesentId", repraesentation.getId()));
+    		}
+    		
+	    	// Hinzufügen der Hauszauber
+	    	if ( this.hauszauber != null ) {
+	    		tmpElement.appendChild(hauszauber.writeXmlElement("hauszauber"));
+	    	}
+	    	
+	    	// Hinzufügen der Zauber
+	    	if ( this.zauber != null ) {
+	    		tmpElement.appendChild(zauber.writeXmlElement("zauber"));
+	    	}
+	    	
+	    	// Hinzufügen der aktivierbaren Zauber
+	    	if ( this.aktivierbareZauber != null ) {
+	    		tmpElement.appendChild(aktivierbareZauber.writeXmlElement("aktivierbareZauber"));
+	    	}
+	    	
+	    	// Hinzufügen der nicht zu beginn wählbaren Zauber
+	    	if ( this.ZauberNichtBeginn != null ) {
+	    		tmpElement.appendChild(ZauberNichtBeginn.writeXmlElement("zauberNichtZuBegin"));
+	    	}
+	    	
+	    	xmlElement.appendChild(tmpElement);
     	}
-    	
-    	// Hinzufügen der Zauber
-    	if ( this.zauber != null ) {
-    		xmlElement.appendChild(zauber.writeXmlElement("zauber"));
-    	}
-    	
-    	// Hinzufügen der aktivierbaren Zauber
-    	if ( this.aktivierbareZauber != null ) {
-    		xmlElement.appendChild(aktivierbareZauber.writeXmlElement("aktivierbareZauber"));
-    	}
-    	
-    	// Hinzufügen der nicht zu beginn wählbaren Zauber
-    	if ( this.ZauberNichtBeginn != null ) {
-    		xmlElement.appendChild(ZauberNichtBeginn.writeXmlElement("zauberNichtZuBegin"));
-    	}
-    	
     	return xmlElement;
     }
 
