@@ -25,7 +25,8 @@ import org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten;
 public class SimpelGegenstand extends Gegenstand {
 	public static final String TEMP_ID = "SIM-temp"; 
 //	 Legt die art des Gegenstandes Fest, da dies aus der Klasse nicht erkennbar ist
-	private CharKomponenten art; 
+	private CharKomponenten art;
+	private int anzahl = 1; 
 	
 	/**
 	 * Konstruktor
@@ -40,6 +41,16 @@ public class SimpelGegenstand extends Gegenstand {
 	public void loadXmlElement(Element xmlElement) {
 		super.loadXmlElement(xmlElement);
 		
+		// Lesen der Anzahl
+		if ( xmlElement.getAttribute("anzahl") != null ) {
+			try {
+				anzahl = Integer.parseInt(xmlElement.getAttributeValue("anzahl"));
+			} catch (NumberFormatException exc) {
+				ProgAdmin.logger.severe("Konnte String nicht in int umwandeln: " + exc);
+			}
+		}
+		
+		// Lesen der Art
 		art = ProgAdmin.charKompAdmin.getCharKompFromPrefix(
 					xmlElement.getAttributeValue("art")
 				);
@@ -52,6 +63,14 @@ public class SimpelGegenstand extends Gegenstand {
 	public Element writeXmlElement(String tagName) {
 		Element xmlElement = super.writeXmlElement();
 		
+		xmlElement.setLocalName(tagName);
+		
+		// Schreiben der Anzahl
+		if (anzahl != 1) {
+			xmlElement.addAttribute(new Attribute("anzahl", Integer.toString(anzahl)));
+		}
+		
+		// Schreiben der Art
 		xmlElement.addAttribute(new Attribute("art", art.getPrefix()));
 		
 		return xmlElement;
