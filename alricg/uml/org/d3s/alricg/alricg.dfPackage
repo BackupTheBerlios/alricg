@@ -7,15 +7,29 @@ package id1kr6he2yuce5be2yum7wk;
 */
 class diagram {
 /**
-@__ref <oiref:java#Class#org.d3s.alricg.CharElement:oiref><oihard>
-@__modelType reference 
+@__ref <oiref:design#Class#id2notve31fr990e31idws1.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#org.d3s.alricg.CharKomponenten:oiref> 
 */
-class reference {
+class reference11 {
 }/**
-@__ref <oiref:java#Class#org.d3s.alricg.RegelAnmerkung:oiref><oihard>
-@__modelType reference 
+@__ref <oiref:design#Class#id47zt8e31fr990e31ie7tl.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#org.d3s.alricg.GUI:oiref> 
 */
-class reference6 {
+class reference12 {
+}/**
+@__ref <oiref:design#Class#id1wlone31fr990e31iedk7.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#org.d3s.alricg.Prozessor:oiref> 
+*/
+class reference13 {
+}/**
+@__ref <oiref:design#Class#idcr06e31fr990e31ifaqn.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#org.d3s.alricg.Held:oiref> 
+*/
+class reference14 {
 }}/**
 @__tags
 @shapeType ClassDiagram 
@@ -26,7 +40,16 @@ class __tags {
 */
 class __options {
 }/**
-@__positions <oigroup:<oiref:java#Class#org.d3s.alricg.CharElement:oiref>=10,10,85,107,1:oigroup> 
+@__positions <oigroup:<oiref:design#Class#id47zt8e31fr990e31ie7tl.diagram:oiref>=160,40,120,110,0:oigroup>
+<oigroup:<oiref:design#Class#idcr06e31fr990e31ifaqn.diagram:oiref>=480,50,110,110,0:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.CharElement:oiref>=10,10,330,194,0:oigroup>
+<oigroup:<oiref:java#Member#org.d3s.alricg.CharKomponenten.RegelAnmerkung#anmerkungen:oiref>=38,292,161,16,1:oigroup>
+<oigroup:<oiref:java#Member#org.d3s.alricg.CharKomponenten.RegelAnmerkung#hasAnmerkungen#(##)#:oiref>=38,324,161,16,1:oigroup>
+<oigroup:<oiref:design#Class#id2notve31fr990e31idws1.diagram:oiref>=10,20,131,160,0:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.RegelAnmerkung:oiref>=20,260,183,126,1:oigroup>
+<oigroup:<oiref:design#Class#id1wlone31fr990e31iedk7.diagram:oiref>=310,50,150,110,0:oigroup>
+<oigroup:BeanProperty#<oiref:java#Member#org.d3s.alricg.CharKomponenten.RegelAnmerkung#getAllAnmerkungen#(##)#:oiref>=38,356,161,16,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.CharElement#regelAnmerkung:oiref>=210,87,249,87:oigroup>
 */
 class __positions {
 }
