@@ -9,11 +9,12 @@
 package org.d3s.alricg.Test;
 
 import java.io.File;
-import java.util.logging.Level;
+import java.io.IOException;
 
-import org.d3s.alricg.CharKomponenten.*;
-import org.d3s.alricg.CharKomponenten.CharZusatz.*;
-import org.d3s.alricg.CharKomponenten.Links.*;
+import nu.xom.Document;
+import nu.xom.Serializer;
+
+import org.d3s.alricg.CharKomponenten.CharZusatz.WuerfelSammlung;
 import org.d3s.alricg.Controller.ProgAdmin;
 
 /**
@@ -23,34 +24,38 @@ import org.d3s.alricg.Controller.ProgAdmin;
  */
 public class TestDriver {
 	public enum testEnum { EINS, ZWEI, DREI }
+	ProgAdmin pa;
+	
 	
 	public static void main(String[] args) {
 		
-		new ProgAdmin();
-		ProgAdmin.logger.logp(Level.WARNING, 
-				"CharKompAdmin",
-				"initCharKomponents",
-				"ID vom zu erzeugenen Objekt wurde nicht gefunden!");
-		//TestDriver TD = new TestDriver();
-		
-
-		/*
-		
-		File x = new File("lala.txt");
-		
-		try {
-			x.createNewFile();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		*/
+		TestDriver TD = new TestDriver();
 	}
 	
 	public TestDriver()  {
 		
-		testFile();
+		pa = new ProgAdmin();
+		pa.initProgAdmin();
+		
+		xmlWriteTest();
+		
+		//testFile();
 		//testGeneric();
 		//testGeneric(new Integer(4));
+	}
+	
+
+	public void xmlWriteTest() {
+		Document doc = new Document(ProgAdmin.charKompAdmin.writeXML());
+		
+	    try {
+	        Serializer serializer = new Serializer(System.out, "ISO-8859-1");
+	        serializer.setIndent(4);
+	        serializer.setMaxLength(64);
+	        serializer.write(doc);
+	      } catch (IOException ex) {
+	         System.err.println(ex);
+	      }
 	}
 	
 	public void testFile() {
@@ -58,24 +63,6 @@ public class TestDriver {
 		System.out.println(f.exists());
 		
 	}
-	
-	
-	public <T> void testGeneric( T m )
-	{
-		T blub;
-	  	
-	  	System.out.println(m.toString());
-	  	//return Math.random() > 0.5 ? m : n;
-	}
-	
-	public <T> void getTestGeneric()
-	{
-	    //T;
-	  	
-	  	//System.out.println(m.toString());
-	  	//return Math.random() > 0.5 ? m : n;
-	}
-	
 	
 	private void testWuerfel() {
 		WuerfelSammlung w = new WuerfelSammlung(5, null, new int[]{6});
