@@ -7,14 +7,14 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
 -->
-<xsd:schema targetNamespace="http://alricg.die3sphaere.de/" xmlns="http://alricg.die3sphaere.de/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:schema targetNamespace="http://alricg.die3sphaere.de/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://alricg.die3sphaere.de/">
 	<xsd:annotation>
 		<xsd:documentation xml:lang="DE">
 			Schema-file für ALRICG. Für die Speicherung generierter Helden.
 		</xsd:documentation>
 	</xsd:annotation>
 	<!-- Einbindung des "Grund-Schemas", nötig für die "extension" für Waffen, fkWaffen, Ausrüstung, Schilde, Rüstung  -->
-	<xsd:include schemaLocation="alricg-schema.xsd"/>
+	<xsd:include schemaLocation="basis-schema.xsd"/>
 	<xsd:element name="alricgHeldXML">
 		<xsd:complexType>
 			<xsd:sequence>
