@@ -15,6 +15,8 @@ package org.d3s.alricg.CharKomponenten;
  */
 public abstract class Ritus extends CharElement {
 	private int grad;
+	private String additionsId;
+	private int permanenteKaKosten;
 	private String herkunft;
 	
 	/**
@@ -28,5 +30,20 @@ public abstract class Ritus extends CharElement {
 	 */
 	public String getHerkunft() {
 		return herkunft;
+	}
+	/**
+	 * Id von gleichartigen Liturgien, diese ist wichtig da bei zusammengehörigen
+	 * Liturgien kosten anderes berechnet werden. Gleiche AdditionsIds zeigen
+	 * zusammengehörigkeit an.
+	 * @return Liefert das Attribut additionsId.
+	 */
+	public String getAdditionsId() {
+		return additionsId;
+	}
+	/**
+	 * @return Liefert das Attribut permanenteKaKosten.
+	 */
+	public int getPermanenteKaKosten() {
+		return permanenteKaKosten;
 	}
 }
