@@ -13,6 +13,8 @@ import java.util.HashMap;
 import nu.xom.Element;
 import nu.xom.Elements;
 
+import org.d3s.alricg.GUI.Messenger;
+
 /**
  * <u>Beschreibung:</u><br> 
  * Dient dem bereitstellen aller Texte die angezeigt werden. Die Texte werden 
@@ -26,51 +28,92 @@ public class Library {
     // Statischer selbstverweis!
     public static Library self = null;
     
+    private static String lang;
     private static HashMap<String, String> shortTxt = new HashMap<String, String>();
     private static HashMap<String, String> middleTxt = new HashMap<String, String>();
     private static HashMap<String, String> longTxt = new HashMap<String, String>();
-    
+    private static HashMap<String, String> errorMsgTxt = new HashMap<String, String>();
     
     private Library() {
     	// Noop!
     }
     
-    public static void initLibrary(Element xmlElement) {
+    /**
+     * Initialisiert die Library, ließt texte in der Sprache neu aus.
+     * @param xmlElement Das xmlElement der Library, zum auslesen der texte
+     * @param langIn Kennung für die Sprache, aus Config-file ("DE"/ "EN")
+     */
+    public static void initLibrary(Element xmlElement, String langIn) {
+    	boolean s, m, l, e;
     	
     	if (self == null) {
     		self = new Library();
     	}
     	
+    	// Sprache einstellen
+    	lang = langIn;
+    	
     	// Nur das library-Element ist hier wichtig!
     	xmlElement = xmlElement.getFirstChildElement("library");
     	
     	// Erzeugung der drei "Rubriken"
-    	fillHashtable( xmlElement.getFirstChildElement("short"), shortTxt );
-    	fillHashtable( xmlElement.getFirstChildElement("middle"), middleTxt );
-    	fillHashtable( xmlElement.getFirstChildElement("long"), longTxt );
+    	s = fillHashtable( xmlElement.getFirstChildElement("short"), shortTxt );
+    	m = fillHashtable( xmlElement.getFirstChildElement("middle"), middleTxt );
+    	l = fillHashtable( xmlElement.getFirstChildElement("long"), longTxt );
+    	e = fillHashtable( xmlElement.getFirstChildElement("errorMsg"), errorMsgTxt );
+    	
+    	if ( !s || !m || !l || !e) { // Wenn mindestens einer der Fälle Fehlerhaft ist
+    		ProgAdmin.messenger.showMessage(Messenger.Level.erwartetFehler, 
+    				"Es konnten nicht alle Texte geladen werden! \n" 
+    				+ "Dies ist für eine Fehlerfreie anzeige jedoch notwendig. \n" 
+    				+ "Die Library Datei scheint fehlerfaft zu sein. Bitte stellen \n"
+    				+ "sie sicher das diese Datei im Originalzustand ist. \n" 
+    				+ "\n"
+    				+ "Das Programm wird nun wahscheinlich nur Fehlerhaft funktionieren."
+    		);
+    	}
     	
     }
-    
     
     /**
      * @param xmlElement Das XML-Element zum auslesen der Texte
      * @param hash Die Hashtable zum speichern der Texte
      */
-    private static void fillHashtable(Element xmlElement, HashMap<String, String> hash) {
-    	Elements tmpXmlArray;
-    	int t;
+    private static boolean fillHashtable(Element xmlElement, HashMap<String, String> hash) {
+    	Elements tmpXmlArray, tmpXmlEntrys;
+    	int idx;
+    	boolean fehlerFrei = true;
     	
+    	hash.clear(); // Evtl. alte einträge löschen
     	tmpXmlArray = xmlElement.getChildElements();
-    	/* Größes der HashMap sollte bei dem LoadFaktor von 0.75 bei 25% über der
-    	 * eigentlichen größe liegen. */
-    	hash = new HashMap<String, String>( Math.round(tmpXmlArray.size() * 1.25f) + 1 );
     	
     	for (int i = 0; i < tmpXmlArray.size(); i++) {
-    		hash.put(
-    			tmpXmlArray.get(i).getAttribute("key").getValue(),
-    			tmpXmlArray.get(i).getValue()
-    		);
+    		tmpXmlEntrys = tmpXmlArray.get(i).getChildElements();
+    		
+    		idx = -1; // Index für fehlererkennung setzen
+    		
+    		// richtige Sprache suchen
+    		for (int ii = 0; ii < tmpXmlEntrys.size(); ii++) {
+    			if ( tmpXmlEntrys.get(ii).getAttributeValue("lang").equals(lang) ) {
+    				idx = ii;
+    				break; // Abbruch der Schleife, Ergebnis Gefunden
+    			}
+    		}
+    		
+    		if (idx < 0) { // Fehler ist erkannt, 
+    			ProgAdmin.logger.warning("Sprache (="+ lang + ") des Library-Entrys mit dem key '"
+    					+ tmpXmlArray.get(i).getAttributeValue("key") + "'"
+    					+ "konnte nicht gefunden werden.");
+    			fehlerFrei = false;
+    		} else {
+	    		hash.put(
+	    			tmpXmlArray.get(i).getAttributeValue("key"),
+	    			tmpXmlEntrys.get(idx).getValue()
+	    		);
+    		}
     	}
+    	
+    	return fehlerFrei;
     }
     
     /**
@@ -78,7 +121,7 @@ public class Library {
      * @param key Das Schlüsselword zu dem Text
      * @return Den Text zum Schlüsselwort
      */
-    public static final String getShortText(String key) {
+    public static final String getShortTxt(String key) {
     	assert shortTxt.get(key) != null;
         return shortTxt.get(key);
     }
@@ -88,8 +131,8 @@ public class Library {
      * @param key Das Schlüsselword zu dem Text
      * @return Den Text zum Schlüsselwort
      */
-    public static final String getMiddleText(String key) {
-    	assert shortTxt.get(key) != null;
+    public static final String getMiddleTxt(String key) {
+    	assert middleTxt.get(key) != null;
         return middleTxt.get(key);
     }
     
@@ -98,8 +141,18 @@ public class Library {
      * @param key Das Schlüsselword zu dem Text
      * @return Den Text zum Schlüsselwort
      */
-    public static final String getLongText(String key) {
-    	assert shortTxt.get(key) != null;
+    public static final String getLongTxt(String key) {
+    	assert longTxt.get(key) != null;
         return longTxt.get(key);
+    }
+    
+    /**
+     * Für alle Texte die Fehlermeldungen sind bestehen.
+     * @param key Das Schlüsselword zu dem Text
+     * @return Den Text zum Schlüsselwort
+     */
+    public static final String getErrorTxt(String key) {
+    	assert errorMsgTxt.get(key) != null;
+        return errorMsgTxt.get(key);
     }
 }
