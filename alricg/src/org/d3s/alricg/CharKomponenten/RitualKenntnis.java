@@ -13,10 +13,9 @@ import nu.xom.Element;
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
  * @author V.Strelow
  */
-public class RitusSF extends Sonderfertigkeit {
-	private int[] dreiEigenschaften;
-	private int sktGener;
-	private int sktSpaet;
+public class RitualKenntnis extends Faehigkeit {
+	private int sktGenerierung; // SKT bei der Generierung
+	private int sktSpaet; // SKT nach der Generierung
 	private String kult;
 	private boolean isLiturgie;
 	
@@ -24,16 +23,10 @@ public class RitusSF extends Sonderfertigkeit {
 	 * Konstruktur; id beginnt mit "RSF-" für RitusSF
 	 * @param id Systemweit eindeutige id
 	 */
-	public RitusSF(String id) {
-		super(id);
+	public RitualKenntnis(String id) {
+		setId(id);
 	}
 	
-	/**
-	 * @return Liefert das Attribut dreiEigenschaften.
-	 */
-	public int[] getDreiEigenschaften() {
-		return dreiEigenschaften;
-	}
 	/**
 	 * @return Liefert das Attribut isLiturgie.
 	 */
@@ -49,8 +42,8 @@ public class RitusSF extends Sonderfertigkeit {
 	/**
 	 * @return Liefert das Attribut sktGener.
 	 */
-	public int getSktGener() {
-		return sktGener;
+	public int getSktGenerierung() {
+		return sktGenerierung;
 	}
 	/**
 	 * @return Liefert das Attribut sktSpaet.
