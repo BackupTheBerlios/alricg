@@ -1,16 +1,20 @@
 /*
  * Created 20. Januar 2005 / 17:01:28
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
 package org.d3s.alricg.CharKomponenten.CharZusatz;
 
+import nu.xom.Attribute;
 import nu.xom.Element;
+import nu.xom.Elements;
 
 import org.d3s.alricg.CharKomponenten.CharElement;
 import org.d3s.alricg.CharKomponenten.RegionVolk;
+import org.d3s.alricg.Controller.ProgAdmin;
+import org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten;
 /**
  * <b>Beschreibung:</b><br>
  * Repräsentiert alle Gegenstände in Alricg.
@@ -18,10 +22,10 @@ import org.d3s.alricg.CharKomponenten.RegionVolk;
  * @author V.Strelow
  */
 public abstract class Gegenstand extends CharElement {
-	private int gewicht;
+	private int gewicht = KEIN_WERT;
 	private RegionVolk[] erhältlichBei;
 	private String einordnung;
-	private int wert;
+	private int wert = KEIN_WERT;
     
     
     /**
@@ -55,7 +59,40 @@ public abstract class Gegenstand extends CharElement {
      */
     public void loadXmlElement(Element xmlElement) {
     	super.loadXmlElement(xmlElement);
-    	// TODO implement
+    	Elements tmpElements;
+    	
+		try {
+	    	// Auslesen des Gewichts
+	    	if ( xmlElement.getFirstChildElement("gewicht") != null) {
+	    		gewicht = Integer.parseInt(xmlElement
+	    							.getFirstChildElement("gewicht").getValue());
+	    	}
+	    	
+	    	// Auslesen der Wertes
+	    	if ( xmlElement.getFirstChildElement("wert") != null) {
+	    		wert = Integer.parseInt(xmlElement
+	    							.getFirstChildElement("wert").getValue());
+	    	}
+		} catch (NumberFormatException exc) {
+			// TODO bessere Fehlermeldung einbauen
+			ProgAdmin.logger.severe("Konnte String nicht in int umwandeln: " + exc.toString());
+		}
+		
+		// Auslesen, wo dieser Gegenstand typischer Weise erhältlich ist
+		tmpElements = xmlElement.getChildElements("erhaeltlichBei");
+		erhältlichBei = new RegionVolk[tmpElements.size()];
+		for (int i = 0; i < tmpElements.size(); i++) {
+			erhältlichBei[i] = (RegionVolk) ProgAdmin.charKompAdmin.getCharElement(
+					tmpElements.get(i).getValue(),
+					CharKomponenten.region
+				);
+		}
+		
+		// Auslesen der Einordnung des Gegenstandes
+		if ( xmlElement.getAttribute("einordnung") != null ) {
+			einordnung = xmlElement.getAttributeValue("einordnung");
+		}
+		
     }
     
     /* (non-Javadoc) Methode überschrieben
@@ -63,7 +100,34 @@ public abstract class Gegenstand extends CharElement {
      */
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
-    	// TODO implement
-    	return null;
+    	Element tmpElement;
+    	
+    	// Schreiben des Gewichtes
+    	if ( gewicht != KEIN_WERT ) {
+    		tmpElement = new Element("gewicht");
+    		tmpElement.appendChild(Integer.toString(gewicht));
+    		xmlElement.appendChild(tmpElement);
+    	}
+    	
+    	// Schreiben des Wertes des Gegenstands
+    	if ( wert != KEIN_WERT ) {
+    		tmpElement = new Element("wert");
+    		tmpElement.appendChild(Integer.toString(wert));
+    		xmlElement.appendChild(tmpElement);
+    	}
+    	
+    	// Schreiben wo typischer wiese zu erhalten
+    	for ( int i = 0; i < erhältlichBei.length; i++) {
+    		tmpElement = new Element("erhaeltlichBei");
+    		tmpElement.appendChild(erhältlichBei[i].getId());
+    		xmlElement.appendChild(tmpElement);
+    	}
+    	
+    	// Schreiben der Einordnung
+    	if ( einordnung != null && einordnung.trim().length() > 0) {
+    		xmlElement.addAttribute(new Attribute("einordnung", einordnung));
+    	}
+    	
+    	return xmlElement;
     }
 }

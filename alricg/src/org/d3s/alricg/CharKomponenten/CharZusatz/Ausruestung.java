@@ -1,7 +1,7 @@
 /*
  * Created 20. Januar 2005 / 17:07:26
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -11,13 +11,13 @@ import nu.xom.Element;
 
 /**
  * <b>Beschreibung:</b><br>
- * Alle Gegenstande die nicht durch die anderen Klassen (Waffe, Rüstung, usw.) abgedeckt werden, fallen unter
- * diese Klasse.
+ * Alle Gegenstande die nicht durch die anderen Klassen (Waffe, Rüstung, usw.) abgedeckt 
+ * werden, fallen unter diese Klasse.
  * 
  * @author V.Strelow
  */
 public class Ausruestung extends Gegenstand {
-    private boolean isBehaelter;
+    private boolean istBehaelter = false;
 	private String haltbarkeit;
     
     
@@ -39,8 +39,8 @@ public class Ausruestung extends Gegenstand {
      * @return true - Die Ausrüstung ist ein Behälter und kann beliebige andere Gegenstände enthalten, 
      *  ansonsten ist dies kein Behälter.
      */
-    public boolean isBehaelter() {
-        return isBehaelter;
+    public boolean istBehaelter() {
+        return istBehaelter;
     }
     
     /* (non-Javadoc) Methode überschrieben
@@ -48,7 +48,21 @@ public class Ausruestung extends Gegenstand {
      */
     public void loadXmlElement(Element xmlElement) {
     	super.loadXmlElement(xmlElement);
-    	// TODO implement
+
+    	// Auslesen ob es sich um einen Behälter handelt
+    	if ( xmlElement.getFirstChildElement("istBehaelter") != null ) {
+    		assert xmlElement.getFirstChildElement("istBehaelter").getValue().equals("true")
+    			|| xmlElement.getFirstChildElement("istBehaelter").getValue().equals("false");
+    		
+    		if (xmlElement.getFirstChildElement("istBehaelter").getValue().equals("true")) {
+    			istBehaelter = true;
+    		} // false ist Default, muß nicht überprüft werden
+    	}
+    	
+    	// Auslesen der Haltbarkeit
+    	if ( xmlElement.getFirstChildElement("haltbarkeit") != null ) {
+    		haltbarkeit = xmlElement.getFirstChildElement("haltbarkeit").getValue();
+    	}
     }
     
     /* (non-Javadoc) Methode überschrieben
@@ -56,7 +70,22 @@ public class Ausruestung extends Gegenstand {
      */
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
-    	// TODO implement
-    	return null;
+    	Element tmpElement;
+    	
+    	// Schreiben ob es sich um einen Behälter handelt
+    	if ( !istBehaelter ) {
+    		tmpElement = new Element("istBehaelter");
+    		tmpElement.appendChild("false");
+    		xmlElement.appendChild(tmpElement);
+    	}
+
+    	// Schreiben der Haltbarkeit
+    	if ( haltbarkeit != null && haltbarkeit.trim().length() > 0 ) {
+    		tmpElement = new Element("haltbarkeit");
+    		tmpElement.appendChild(haltbarkeit);
+    		xmlElement.appendChild(tmpElement);
+    	}
+    	
+    	return xmlElement;
     }
 }

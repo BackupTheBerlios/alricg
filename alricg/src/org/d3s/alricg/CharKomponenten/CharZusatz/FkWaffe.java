@@ -1,12 +1,15 @@
 /*
  * Created 20. Januar 2005 / 17:07:50
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
 package org.d3s.alricg.CharKomponenten.CharZusatz;
 
+import org.d3s.alricg.Controller.ProgAdmin;
+
+import nu.xom.Attribute;
 import nu.xom.Element;
 
 /**
@@ -14,8 +17,8 @@ import nu.xom.Element;
  * @author V.Strelow
  */
 public class FkWaffe extends Waffe {
-	private int laden;
-	private String reichweite;
+	private int laden = KEIN_WERT;
+	private int reichweite = KEIN_WERT;
 	private String reichweiteTpPlus; // Zusätzliche TP durch Reichweite
 
 	/**
@@ -36,7 +39,7 @@ public class FkWaffe extends Waffe {
 	/**
 	 * @return Liefert das Attribut reichweite.
 	 */
-	public String getReichweite() {
+	public int getReichweite() {
 		return reichweite;
 	}
 	
@@ -52,7 +55,32 @@ public class FkWaffe extends Waffe {
      */
     public void loadXmlElement(Element xmlElement) {
     	super.loadXmlElement(xmlElement);
-    	// TODO implement
+    	Element tmpElement;
+    	
+    	tmpElement = xmlElement.getFirstChildElement("tp");
+    	// Auslesen der TP-Zusätze für Fernkampfwaffen
+    	if ( tmpElement != null ) {
+    		reichweiteTpPlus = tmpElement.getAttributeValue("plus-reichweite");
+    	}
+	    	
+	    try {
+	    	// Auslesen der weiteren Eigenschaften
+	    	tmpElement = xmlElement.getFirstChildElement("eigenschaften");
+	    	// Auslesen der benötigten Aktionen zum Laden
+	    	if ( tmpElement != null && tmpElement.getAttribute("laden") != null ) {
+	    		laden = Integer.parseInt(tmpElement.getAttributeValue("laden"));
+	    	}
+	    	
+	    	// Auslesen der Reichweite
+	    	if ( tmpElement != null && tmpElement.getAttribute("reichweite") != null ) {
+	    		reichweite = Integer.parseInt(tmpElement.getAttributeValue("reichweite"));
+	    	}
+	    	
+    	}  catch (NumberFormatException exc) {
+    		// TODO Bessere Fehlermeldung einbauen
+    		ProgAdmin.logger.severe("Konnte String nicht in int umwandeln: " +exc.toString());
+    	}
+    	
     }
     
     /* (non-Javadoc) Methode überschrieben
@@ -60,7 +88,40 @@ public class FkWaffe extends Waffe {
      */
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
-    	// TODO implement
-    	return null;
+    	Element tmpElement;
+    	
+    	tmpElement = xmlElement.getFirstChildElement("tp");
+    	// Schreiben der "Schwelle" für den KK -Zuschlag durch Reichweite
+    	if (reichweiteTpPlus != null) {
+    		if (tmpElement == null) {
+    			tmpElement = new Element("tp");
+    			xmlElement.appendChild(tmpElement);
+    		}
+    		
+    		tmpElement.addAttribute(new Attribute("plus-reichweite", reichweiteTpPlus));
+    	}
+    	
+    	tmpElement = xmlElement.getFirstChildElement("eigenschaften");
+    	// Schreiben wie lange zum Laden benötigt wird
+    	if (laden != KEIN_WERT) {
+    		if (tmpElement == null) {
+    			tmpElement = new Element("eigenschaften");
+    			xmlElement.appendChild(tmpElement);
+    		}
+    		
+    		tmpElement.addAttribute(new Attribute("laden", Integer.toString(laden)));
+    	}
+    	
+    	// Schreiben der Reichweite
+    	if (reichweite != KEIN_WERT) {
+    		if (tmpElement == null) {
+    			tmpElement = new Element("eigenschaften");
+    			xmlElement.appendChild(tmpElement);
+    		}
+    		
+    		tmpElement.addAttribute(new Attribute("reichweite", Integer.toString(reichweite)));
+    	}
+    	
+    	return xmlElement;
     }
 }

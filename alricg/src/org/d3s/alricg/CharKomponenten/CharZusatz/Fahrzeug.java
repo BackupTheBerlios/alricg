@@ -1,7 +1,7 @@
 /*
  * Created 20. Januar 2005 / 17:38:35
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -44,7 +44,16 @@ public class Fahrzeug extends Gegenstand {
      */
     public void loadXmlElement(Element xmlElement) {
     	super.loadXmlElement(xmlElement);
-    	// TODO implement
+
+    	// Lesen wie das Fahrzeug aussieht
+    	if ( xmlElement.getFirstChildElement("aussehen") != null ) {
+    		aussehen = xmlElement.getFirstChildElement("aussehen").getValue();
+    	}
+    	
+    	// Lesen was für ein Fahrzeugtyp das ist
+    	if ( xmlElement.getAttribute("fahrzeugArt") != null ) {
+    		typ = xmlElement.getAttributeValue("fahrzeugArt");
+    	}
     }
     
     /* (non-Javadoc) Methode überschrieben
@@ -52,7 +61,22 @@ public class Fahrzeug extends Gegenstand {
      */
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
-    	// TODO implement
-    	return null;
+    	Element tmpElement;
+    	
+    	// Schreiben wie das Fahrzeug Aussieht
+    	if ( aussehen != null && aussehen.trim().length() > 0 ) {
+    		tmpElement = new Element("aussehen");
+    		tmpElement.appendChild(aussehen);
+    		xmlElement.appendChild(tmpElement);
+    	}
+    	
+    	// Schreiben was für ein Typ/ Art das Fahrzeug ist
+    	if ( typ != null && typ.trim().length() > 0 ) {
+    		tmpElement = new Element("fahrzeugArt");
+    		tmpElement.appendChild(typ);
+    		xmlElement.appendChild(tmpElement);
+    	}
+
+    	return xmlElement;
     }
 }
