@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<n:alricgXML xmlns:n="http://www.die3sphaere.de/alricg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.die3sphaere.de/alricg
+D:\Programmierung\ChaErsPro\alricg\xml\alricg-schema.xsd">
+
+<kommentar>Dies ist ein Test</kommentar>
+<rasse id="testID" name="Halbelf">
+	<beschreibung>
+		Dieses ist ein Test!
+	</beschreibung>
+	<sammelbegriff>
+		Elf
+	</sammelbegriff>
+	<gp>3</gp>
+	<lepModi>8</lepModi>
+	<aupModi>10</aupModi>
+	<mrModi>-4</mrModi>
+	<soMin>3</soMin>
+	<soMax>4</soMax>
+	<eigenschaftModi>
+		<fest eigenschaft="KK" wert="-1"/>
+		<fest eigenschaft="GE" wert="1"/>
+		<fest eigenschaft="KO" wert="13"/>
+		<fest eigenschaft="KO" wert="11"/>
+	</eigenschaftModi>
+	<vorteile>
+		<fest id="123"/>
+		<fest id="456"/>
+	</vorteile>
+	<empfVorteile ids="123 456 778 899 6766"/>
+	<empfNachteile ids="123 456 778 899 6766">
+		<linkId id="Vorurteile gegen " text="Blasshäute"/>
+	</empfNachteile>
+	
+	<talente>
+		<fest id="Raufen" wert="3"/>
+		<fest id="Akrobatik" wert="4"/>
+		<auswahl modus="LISTE" werte="4">
+			<option id="Blasrohr"/>
+			<option id="Bogen"/>
+			<option id="Wurfspeer"/>
+		</auswahl>
+		<auswahl modus="ANZAHL" werte="1">
+			<option id="Mercenario"/>
+			<option id="Unauer Schule"/>
+			<option id="Hruruzat"/>
+		</auswahl>
+	</talente>
+	
+	<kulturUeblich ids="123 456 778 899 6766"/>
+	<kulturMoeglich ids="123 456 778 899 6766"/>
+	<groesse wert="158">	
+		<wuerfel anzWuerfel="1" augenWuerfel="20"/>
+		<wuerfel anzWuerfel="4" augenWuerfel="6"/>
+	</groesse>
+	<gewicht wert="-120"/>
+	<haarfarbe>
+		<farbe farbe="rot" wuerfelWurf="3"/>
+		<farbe farbe="braun" wuerfelWurf="6"/>
+		<farbe farbe="blond" wuerfelWurf="10"/>
+	</haarfarbe>
+	<augenfarbe>
+		<farbe farbe="rot" wuerfelWurf="3"/>
+		<farbe farbe="braun" wuerfelWurf="6"/>
+		<farbe farbe="blond" wuerfelWurf="10"/>
+	</augenfarbe>
+
+</rasse>
+
+</n:alricgXML>

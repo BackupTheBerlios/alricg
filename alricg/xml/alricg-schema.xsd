@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * Created on 17.12.2004
+ *
+ * This file is part of the project ALRICG. The file is copyright
+ * protected an under the GNU licence.
+ * For more information see "http://alricg.die3sphaere.de/".
+ *
+-->
+
 <xsd:schema targetNamespace="http://www.die3sphaere.de/alricg" xmlns="http://www.die3sphaere.de/alricg" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<xsd:annotation>
 		<xsd:documentation xml:lang="DE">
-		Schema fuer ALRICG
+		Schema-file fuer ALRICG. Alle Daten aus den Regelb� k�n �ieses File validiert werden.
 		</xsd:documentation>
 	</xsd:annotation>
 	<xsd:element name="alricgXML">
@@ -30,6 +39,8 @@
 		<xsd:complexContent>
 			<xsd:extension base="herkunftTyp">
 				<xsd:sequence>
+					<xsd:element name="kulturUeblich" type="idListe" minOccurs="0"/>
+					<xsd:element name="kulturMoeglich" type="idListe" minOccurs="0"/>
 					<xsd:element name="groesse">
 						<xsd:complexType>
 							<xsd:sequence>
@@ -45,7 +56,7 @@
 					</xsd:element>
 					<xsd:element name="gewicht">
 						<xsd:complexType>
-							<xsd:attribute name="gewicht" type="xsd:negativeInteger" use="required"/>
+							<xsd:attribute name="wert" type="xsd:negativeInteger" use="required"/>
 						</xsd:complexType>
 					</xsd:element>
 					<xsd:element name="haarfarbe">
@@ -72,12 +83,6 @@
 							</xsd:sequence>
 						</xsd:complexType>
 					</xsd:element>
-					<xsd:element name="alter">
-						<xsd:complexType>
-							<xsd:attribute name="von" type="xsd:positiveInteger" use="required"/>
-							<xsd:attribute name="bis" type="xsd:positiveInteger" use="required"/>
-						</xsd:complexType>
-					</xsd:element>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -87,8 +92,8 @@
 		<xsd:complexContent>
 			<xsd:extension base="herkunftTyp">
 				<xsd:sequence>
-					<xsd:element name="rassenUeblich" type="idListe" minOccurs="0"/>
-					<xsd:element name="rassenMoeglich" type="idListe" minOccurs="0"/>
+					<xsd:element name="professionUeblich" type="idListe" minOccurs="0"/>
+					<xsd:element name="professionMoeglich" type="idListe" minOccurs="0"/>
 					<xsd:element name="sprachen" type="auswahlType" minOccurs="0"/>
 					<xsd:element name="schriften" type="auswahlType" minOccurs="0"/>
 					<xsd:element name="liturgien" type="auswahlType" minOccurs="0"/>
@@ -118,10 +123,8 @@
 						</xsd:simpleType>
 						<!-- in erster Line für eine bessere Anordnung der Elemenet -->
 					</xsd:element>
-					<xsd:element name="kulturenUeblich" type="idListe" minOccurs="0"/>
-					<xsd:element name="kulturenMoeglich" type="idListe" minOccurs="0"/>
 					<xsd:element name="ausruestung" type="xsd:string"/>
-					<xsd:element name="besondererBesitz" type="xsd:string"/>
+					<xsd:element name="besondererBesitz" type="xsd:string" minOccurs="0"/>
 				</xsd:sequence>
 				<xsd:attribute name="aufwand" use="optional">
 					<xsd:simpleType>
@@ -136,7 +139,7 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	<!-- ############################################ Sonderfertigkeit ########################################### -->
-	<!-- sammelbegriffe: Repräsentation, Ritualkenntnis -->
+	<!-- sammelbegriffe: Repräsentation, Ritualkenntnis, Gabe -->
 	<xsd:complexType name="sondefType">
 		<xsd:complexContent>
 			<xsd:extension base="faehigkeitTyp">
@@ -349,13 +352,13 @@
 				<xsd:sequence>
 					<xsd:element name="gp" type="xsd:nonNegativeInteger"/>
 					<xsd:element name="varianteVon" type="xsd:string" minOccurs="0"/>
-					<xsd:element name="lepModi" type="xsd:int"/>
-					<xsd:element name="aupModi" type="xsd:int"/>
-					<xsd:element name="aspModi" type="xsd:int"/>
-					<xsd:element name="mrModi" type="xsd:int"/>
-					<xsd:element name="soMax" type="xsd:nonNegativeInteger" minOccurs="0"/>
+					<xsd:element name="lepModi" type="xsd:int" minOccurs="0"/>
+					<xsd:element name="aupModi" type="xsd:int" minOccurs="0"/>
+					<xsd:element name="aspModi" type="xsd:int" minOccurs="0"/>
+					<xsd:element name="mrModi" type="xsd:int" minOccurs="0"/>
 					<xsd:element name="soMin" type="xsd:nonNegativeInteger" minOccurs="0"/>
-					<xsd:element name="soModi" type="xsd:int"/>
+					<xsd:element name="soMax" type="xsd:nonNegativeInteger" minOccurs="0"/>
+					<xsd:element name="soModi" type="xsd:int" minOccurs="0"/>
 					<xsd:element name="eigenschaftModi" type="auswahlEigenschaftType" minOccurs="0" maxOccurs="unbounded"/>
 					<xsd:element name="eigenschaftVoraussetzung" type="auswahlEigenschaftType" minOccurs="0" maxOccurs="unbounded"/>
 					<xsd:element name="vorteile" type="auswahlType" minOccurs="0"/>
@@ -367,6 +370,7 @@
 					<xsd:element name="ungeNachteile" type="idListe" minOccurs="0"/>
 					<xsd:element name="verbilligteVorteile" type="auswahlType" minOccurs="0"/>
 					<xsd:element name="verbilligteNachteile" type="auswahlType" minOccurs="0"/>
+					<xsd:element name="verbilligteSonderf" type="auswahlType" minOccurs="0"/>
 					<xsd:element name="talente" type="auswahlType" minOccurs="0" maxOccurs="unbounded"/>
 				</xsd:sequence>
 			</xsd:extension>
@@ -383,6 +387,8 @@
 	<xsd:complexType name="eigenschaftModiType">
 		<xsd:attribute name="eigenschaft" type="eigenschaftType" use="required"/>
 		<xsd:attribute name="wert" type="xsd:int" use="required"/>
+		<!-- Bei voraussetzungen wichtig: Ist das Wert ein Minimum (default) oder maximum!-->
+		<xsd:attribute name="maximum" type="xsd:boolean" use="optional"/>
 	</xsd:complexType>
 	<!--******************************************************************************************************************************************** -->
 	<xsd:complexType name="auswahlType">
@@ -391,20 +397,21 @@
 			<xsd:element name="auswahl" minOccurs="0" maxOccurs="unbounded">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="ids" minOccurs="0" maxOccurs="unbounded">
-							<xsd:complexType>
-								<xsd:sequence>
-									<xsd:element name="id" type="idLinkTyp"/>
-								</xsd:sequence>
-							</xsd:complexType>
-						</xsd:element>
-						<xsd:element name="werte" type="xsd:NMTOKEN"/>
+						<xsd:element name="option" type="idLinkTyp" minOccurs="0" maxOccurs="unbounded"/>
 					</xsd:sequence>
+					<xsd:attribute name="werte" type="xsd:NMTOKENS"/>
 					<xsd:attribute name="modus">
 						<xsd:simpleType>
 							<xsd:restriction base="xsd:string">
-								<xsd:enumeration value="ODER"/>
+								<!-- 
+									Der Modus bezieht sich auf das Feld "werte":
+									LISTE - Es ist eine Liste von werten gegeben, jeder Wert wird einer
+										ID zugeordnet.
+									ANZAHL - Es ist die Anzahl der zu w㧬enden Elemente angegeben,
+										der Wert kann aus dem link gelesen werden bzw. es gibt keinen (z.B. SF)
+								-->
 								<xsd:enumeration value="LISTE"/>
+								<xsd:enumeration value="ANZAHL"/>
 							</xsd:restriction>
 						</xsd:simpleType>
 					</xsd:attribute>
@@ -440,7 +447,7 @@
 								</xsd:sequence>
 							</xsd:complexType>
 						</xsd:element>
-						<xsd:element name="werte" type="xsd:NMTOKEN"/>
+						<xsd:element name="werte" type="xsd:NMTOKENS"/>
 					</xsd:sequence>
 					<xsd:attribute name="modus">
 						<xsd:simpleType>
@@ -459,12 +466,12 @@
 		<xsd:sequence>
 			<xsd:element name="modi" minOccurs="0" maxOccurs="unbounded">
 				<xsd:complexType>
+					<!-- Falls mehrere modis existieren -->
 					<xsd:attribute name="prioritaet" type="xsd:nonNegativeInteger" use="optional"/>
+					<!-- Der SF / Vor-/Nachteil -->
 					<xsd:attribute name="id" type="xsd:nonNegativeInteger" use="required"/>
 					<xsd:attribute name="kostenAP" type="xsd:nonNegativeInteger" use="required"/>
 					<xsd:attribute name="kostenGP" type="xsd:nonNegativeInteger" use="optional"/>
-					<!-- Falls mehrere modis existieren -->
-					<!-- Der SF / Vor-/Nachteil -->
 				</xsd:complexType>
 			</xsd:element>
 		</xsd:sequence>
@@ -474,18 +481,22 @@
 	</xsd:complexType>
 	<!--******************************************************************************************************************************************** -->
 	<xsd:complexType name="idLinkTyp">
+		<!-- Verpflichtet der "Praios-Kirche", Vorurteile gegen "Orks" -->
 		<xsd:attribute name="text" type="xsd:string" use="optional"/>
-		<xsd:attribute name="stufe" type="xsd:int" use="optional"/>
-		<xsd:attribute name="leitwert" type="xsd:boolean" use="optional"/>
-		<xsd:attribute name="linkId" type="xsd:string" use="optional"/>
-		<xsd:attribute name="id" type="xsd:string" use="required"/>
-		<!-- "Praios-Kirche" -->
+		<!-- Eitelkeit Stufe 5 -->
+		<xsd:attribute name="wert" type="xsd:int" use="optional"/>
 		<!-- Für elfische Weltsicht -->
-		<!-- Schwerter -->
-		<!-- Unbegabt für... -->
+		<xsd:attribute name="leitwert" type="xsd:boolean" use="optional"/>
+		<!-- Unbegabt für... linkId -->
+		<xsd:attribute name="linkId" type="xsd:string" use="optional"/>
+		<!-- normales "Ziel"-->
+		<xsd:attribute name="id" type="xsd:string" use="required"/> 
 	</xsd:complexType>
 	<xsd:complexType name="idListe">
-		<xsd:attribute name="ids" type="xsd:NMTOKEN" use="required"/>
+		<xsd:sequence>
+			<xsd:element name="linkId" type="idLinkTyp" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="ids" type="xsd:NMTOKENS" use="required"/>
 	</xsd:complexType>
 	<xsd:complexType name="idUndWert">
 		<xsd:attribute name="id" type="xsd:string" use="required"/>
@@ -547,7 +558,7 @@
 			<xsd:enumeration value="gravesh"/>
 			<xsd:enumeration value="rikai"/>
 			<xsd:enumeration value="kamaluqs"/>
-			<xsd:enumeration value="himmelswölfe"/>
+			<xsd:enumeration value="himmelsw�"/>
 			<xsd:enumeration value="sonstiges"/>
 		</xsd:restriction>
 	</xsd:simpleType>
