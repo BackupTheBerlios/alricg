@@ -63,7 +63,7 @@ abstract public class SchriftSprache extends CharElement {
     	Element xmlElement = super.writeXmlElement();
 
     	// Schreiben der Kostenklasse
-    	xmlElement.appendChild("daten");
+    	xmlElement.appendChild(new Element("daten"));
     	xmlElement.getFirstChildElement("daten").addAttribute(
     				new Attribute("kostenKlasse", kostenKlasse.getXmlValue())
     			);

@@ -1,7 +1,7 @@
 /*
  * Created 26. Dezember 2004 / 23:36:19
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -111,7 +111,7 @@ public abstract class Fertigkeit extends CharElement {
     		assert xmlElement.getFirstChildElement("hatText").getValue().equals("true") 
     			|| xmlElement.getFirstChildElement("hatText").getValue().equals("false");
     		
-    		if ( xmlElement.getFirstChildElement("hatText").equals("true") ) {
+    		if ( xmlElement.getFirstChildElement("hatText").getValue().equals("true") ) {
     			hatText = true;
     		} // false ist default
     	}

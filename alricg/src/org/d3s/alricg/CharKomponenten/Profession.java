@@ -363,7 +363,7 @@ public class Profession extends Herkunft {
         		assert xmlElement.getFirstChildElement("zweitStudiumMoeglich").getValue().equals("false")
         			|| xmlElement.getFirstChildElement("zweitStudiumMoeglich").getValue().equals("true");
         		
-        		if (xmlElement.getFirstChildElement("zweitStudiumMoeglich").equals("false")) {
+        		if (xmlElement.getFirstChildElement("zweitStudiumMoeglich").getValue().equals("false")) {
         			zweitStudiumMoeglich = false;
         		}
         	}
@@ -375,7 +375,7 @@ public class Profession extends Herkunft {
         		assert xmlElement.getFirstChildElement("drittStudiumMoeglich").getValue().equals("false")
         			|| xmlElement.getFirstChildElement("drittStudiumMoeglich").getValue().equals("true");
         		
-        		if (xmlElement.getFirstChildElement("drittStudiumMoeglich").equals("true")) {
+        		if (xmlElement.getFirstChildElement("drittStudiumMoeglich").getValue().equals("true")) {
         			drittStudiumMoeglich = true;
         		}
         	}
