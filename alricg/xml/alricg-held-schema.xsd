@@ -42,7 +42,8 @@
 							<xsd:element name="fkWaffen" type="h_fkWaffenTyp" minOccurs="0"/>
 							<xsd:element name="schilde" type="h_schildTyp" minOccurs="0"/>
 							<xsd:element name="ruestungen" type="h_ruestungTyp" minOccurs="0"/>
-							<xsd:element name="tiere" type="h_tiereTyp" minOccurs="0"/>							
+							<xsd:element name="tiere" type="h_tiereTyp" minOccurs="0"/>
+							<xsd:element name="verbindungen" type="h_verbindungenTyp" minOccurs="0"/>					
 						</xsd:sequence>
 					</xsd:complexType>
 				</xsd:element>
@@ -469,6 +470,21 @@
 					</xsd:sequence>
 					<xsd:attribute name="tierart" type="xsd:string" use="required"/>
 					<xsd:attribute name="namen" type="xsd:string" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- ******************************  Verbinungen ******************************** -->
+	<xsd:complexType name="h_verbindungenTyp">	
+		<xsd:sequence>
+			<xsd:element name="verbindung" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="name" type="xsd:string"/>
+						<xsd:element name="wohnort" type="xsd:string"/>
+						<xsd:element name="beschreibung" type="xsd:string"/>
+					</xsd:sequence>
+					<xsd:attribute name="soWert" type="xsd:nonNegativeInteger" use="optional"/>
 				</xsd:complexType>
 			</xsd:element>
 		</xsd:sequence>

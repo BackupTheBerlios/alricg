@@ -11,12 +11,12 @@
 <xsd:schema targetNamespace="http://www.die3sphaere.de/alricg" xmlns="http://www.die3sphaere.de/alricg" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<xsd:annotation>
 		<xsd:documentation xml:lang="DE">
-		Schema-file für ALRICG. Alle Daten aus der XML-Datenbasis können mit diesem File validiert werden.
-		
-		kommentar - Anmerkungen, die nur für Entwickler gedacht sind
-		beschreibung - Text der für Benutzer gedacht ist
-		benoetigtDateien - Dateien, auf die DIESE Datei zugreift (wird auto. 
-			erstellt)
+			Schema-file für ALRICG. Alle Daten aus der XML-Datenbasis können mit diesem File validiert werden.
+			
+			kommentar - Anmerkungen, die nur für Entwickler gedacht sind
+			beschreibung - Text der für Benutzer gedacht ist
+			benoetigtDateien - Dateien, auf die DIESE Datei zugreift (wird auto. 
+				erstellt)
 		</xsd:documentation>
 	</xsd:annotation>
 	<!-- Einbinden der Basis Typen -->
@@ -165,6 +165,20 @@
 				<xsd:sequence>
 					<xsd:element name="kulturUeblich" type="idListe" minOccurs="0"/>
 					<xsd:element name="kulturMoeglich" type="idListe" minOccurs="0"/>
+					<xsd:element name="geschwindigkeit" type="xsd:positiveInteger" minOccurs="0"/>
+					<xsd:element name="alter">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="wuerfel" maxOccurs="unbounded">
+									<xsd:complexType>
+										<xsd:attribute name="anzWuerfel" type="xsd:positiveInteger" use="required"/>
+										<xsd:attribute name="augenWuerfel" type="xsd:positiveInteger" use="required"/>
+									</xsd:complexType>
+								</xsd:element>
+							</xsd:sequence>
+							<xsd:attribute name="wert" type="xsd:positiveInteger" use="required"/>
+						</xsd:complexType>
+					</xsd:element>
 					<xsd:element name="groesse">
 						<xsd:complexType>
 							<xsd:sequence>
@@ -659,10 +673,21 @@
 					die das Programm nicht automatisch erledigen kann
 				- sammelbegriff: Oberbegriffe (z.B. Zwerge) zur besseren Sortierung
 				- sonderregel: Id zu einer Sonderregel
+				- anzeigen: Soll dieses Element normal angezeigt werden, oder steht es an 
+						anderer Stelle im Programm zur Auswahl. Das Element wird grau dargestellt,
+						will man es wählen erscheint der Text ("Kann nur bei ... gewählt werden.")
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
 			<xsd:element name="beschreibung" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="anzeigen" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="text" type="xsd:string"/>
+					</xsd:sequence>
+					<xsd:attribute name="anzeigen" type="xsd:boolean" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
 			<xsd:element name="regelAnmerkung" minOccurs="0">
 				<xsd:complexType>
 					<xsd:sequence>
