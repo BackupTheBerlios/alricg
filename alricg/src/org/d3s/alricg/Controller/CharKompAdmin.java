@@ -445,7 +445,7 @@ public class CharKompAdmin {
 	 * Erlaubt einen Zurgiff auf eine bestimmt charKomponente anhand der ID, 
 	 * bzw. des Prefixes aus der ID.
 	 * (Z.B. "RAS-Zwerg") "RAS" ist das Prefix, das für alle Rassen-Ids gilt.
-	 * @param id Die ID mit dem Perfix
+	 * @param id Die ID mit dem Prefix
 	 * @return CharKomponente zu dem Prefix der ID
 	 */
 	public CharKomponenten getCharKompFromId(String id) {
@@ -456,6 +456,18 @@ public class CharKompAdmin {
 		} catch (ArrayIndexOutOfBoundsException e) {
 			ProgAdmin.logger.severe("prefix falsch aufgebaut! \n" + e.toString());
 		}
+		//assert charKompMap.get(prefix) != null; // Gültigkeitsprüfung
+		
+		return getCharKompFromPrefix(prefix);
+	}
+	
+	/**
+	 * Erlaubt einen Zurgiff auf eine bestimmt charKomponente anhand der ID, 
+	 * bzw. des Prefixes einer ID.
+	 * @param prefix Der prefix 
+	 * @return CharKomponente zu dem Prefix
+	 */
+	public CharKomponenten getCharKompFromPrefix(String prefix) {
 		assert charKompMap.get(prefix) != null; // Gültigkeitsprüfung
 		
 		return charKompMap.get(prefix);
