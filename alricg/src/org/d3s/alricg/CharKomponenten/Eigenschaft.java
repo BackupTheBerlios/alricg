@@ -42,7 +42,7 @@ public class Eigenschaft extends CharElement {
 	 * @see org.d3s.alricg.CharKomponenten.CharElement#getId()
 	 */
 	public String getId() {
-		return eigenschaft.getId();
+		return eigenschaft.getXmlValue();
 	}
 
     /* (non-Javadoc) Methode überschrieben
@@ -69,8 +69,8 @@ public class Eigenschaft extends CharElement {
 		EigenschaftEnum[] eigenArray = EigenschaftEnum.values();
 		
 		for (int i = 0; i < eigenArray.length; i++) {
-			if ( eigenArray[i].getId().equals(id) ) {
-				setBeschreibung(Library.getLongTxt("Beschreibung " + eigenArray[i].getId()));
+			if ( eigenArray[i].getXmlValue().equals(id) ) {
+				setBeschreibung(Library.getLongTxt("Beschreibung " + eigenArray[i].getXmlValue()));
 				return eigenArray[i];
 			}
 		}
