@@ -29,6 +29,10 @@
 			<entry key="AuP">AuP</entry>
 			<entry key="KA">KA</entry>
 			<entry key="SO">SO</entry>
+			<entry key="INI">INI</entry>
+			<entry key="AT">AT</entry>
+			<entry key="PA">PA</entry>
+			
 			<entry key="Mut">Mut</entry>
 			<entry key="Klugheit">Klugheit</entry>
 			<entry key="Intuition">Intuition</entry>
@@ -38,17 +42,21 @@
 			<entry key="Konstitution">Konstitution</entry>
 			<entry key="Körperkraft">Körperkraft</entry>
 			<entry key="Initiative">Initiative</entry>
-			<entry key="Magieresistens">Magieresistens</entry>
+			<entry key="Magieresistenz">Magieresistenz</entry>
 			<entry key="Lebenspunkte">Lebenspunkte</entry>
 			<entry key="Astralpunkte">Astralpunkte</entry>
 			<entry key="Ausdauerpunkt">Ausdauerpunkt</entry>
 			<entry key="Karmaernergie">Karmaernergie</entry>
 			<entry key="Sozialstatus">Sozialstatus</entry>
+			<entry key="Initiative">Initiative</entry>
+			<entry key="Attacke">Attacke</entry>
+			<entry key="Parade">Parade</entry>
+			
 			<entry key="X">X</entry>
     
 		</short>
 		<middle>
-			<entry key="x">Zwei bis 3 Wörter</entry>
+			<entry key="x">maximal drei Wörter</entry>
 		</middle>
 		<long>
 			<entry key="x">Alles mehr als 3 Wörter</entry>
