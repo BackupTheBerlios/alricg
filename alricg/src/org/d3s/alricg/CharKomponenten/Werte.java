@@ -33,6 +33,26 @@ public class Werte {
 		}
 	}
 	
+	public enum CharArten {
+		alle("alle"),
+		nichtMagisch("nichtMagisch"),
+		vollZauberer("vollZauberer"),
+		halbZauberer("halbZauberer"),
+		viertelZauberer("viertelZauberer"),
+		geweiht("geweiht"),
+		borbaradianer("borbaradianer")
+		;
+		private String xmlValue; // XML-Tag des Elements
+		
+		private CharArten(String xmlValue) {
+			this.xmlValue = xmlValue;
+		}
+		
+		public String getXmlValue() {
+			return xmlValue;
+		}
+		
+	}
 	
 	public enum Gilde { 
 		weiss("weiss"), 
@@ -139,5 +159,25 @@ public class Werte {
 	
 		// Suchen + zurückliefern des Elements
 		return magieMerkmale.get(xmlValue);
+	}
+	
+	/**
+	 * Liefert zu einem XML-Tag die entsprechende Enum zurück.
+	 * @param xmlValue Der XML-Tag des CharArten
+	 * @return Die Enum CharArten die zu den xmlValue gehört
+	 */
+	public static CharArten getCharArtenByXmlValue(String xmlValue) {
+		CharArten[] charArtenArray = CharArten.values();
+		
+		// Suchen des richtigen Elements
+		for (int i = 0; i < charArtenArray.length; i++) {
+			if (xmlValue.equals(charArtenArray[i].getXmlValue())) {
+				return charArtenArray[i]; // Gefunden
+			}
+		}
+		
+		ProgAdmin.logger.severe("XmlValue konnte nicht gefunden werden!");
+		
+		return null;
 	}
 }
