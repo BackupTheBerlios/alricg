@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- This file is part of the project ALRICG. -->
+<config>
+	<schemas path="\daten\schema\"/>
+	<library path="\daten\text\libraryGerman.xml"/>
+	<images basicPath="\img">
+	
+	</images>
+</config>
