@@ -4,45 +4,20 @@
  * Created on 17.12.2004
  *
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU licence.
+ * protected an under the GPL licence.
  * For more information see "http://alricg.die3sphaere.de/".
  *
 -->
 <xsd:schema targetNamespace="http://www.die3sphaere.de/alricg" xmlns="http://www.die3sphaere.de/alricg" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<xsd:annotation>
 		<xsd:documentation xml:lang="DE">
-		Schema-file für ALRICG. Alle Daten aus der XML-Datenbasis können mit diesem File validiert werden.
-
+			Schema-file für ALRICG. Alle Daten aus der XML-Datenbasis können mit diesem File validiert werden.
 		</xsd:documentation>
 	</xsd:annotation>
 
 	<!-- ************************************************************************************************************************** -->
 	<!-- ***********************************                         Simple BasisTypen             ****************************** -->
 	<!--**************************************************************************************************************************** -->
-	<xsd:simpleType name="eigenschaftTyp">
-		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="MU"/>
-			<xsd:enumeration value="KL"/>
-			<xsd:enumeration value="IN"/>
-			<xsd:enumeration value="CH"/>
-			<xsd:enumeration value="FF"/>
-			<xsd:enumeration value="GE"/>
-			<xsd:enumeration value="KO"/>
-			<xsd:enumeration value="KK"/>
-		</xsd:restriction>
-	</xsd:simpleType>
-	<xsd:simpleType name="kostenKlasseTyp">
-		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="A"/>
-			<xsd:enumeration value="B"/>
-			<xsd:enumeration value="C"/>
-			<xsd:enumeration value="D"/>
-			<xsd:enumeration value="E"/>
-			<xsd:enumeration value="F"/>
-			<xsd:enumeration value="G"/>
-			<xsd:enumeration value="H"/>
-		</xsd:restriction>
-	</xsd:simpleType>
 	<xsd:simpleType name="liturgieHerkunftTyp">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="allgemein"/>

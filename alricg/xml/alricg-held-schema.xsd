@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by tyr (odin) -->
+
 <!--
  * Created on 17.12.2004
  *
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU licence.
+ * protected an under the GPL licence.
  * For more information see "http://alricg.die3sphaere.de/".
  *
 -->
@@ -27,6 +27,7 @@
 							<xsd:element name="allgemeineDaten" type="h_allgemeineDatenTyp"/>
 							<xsd:element name="basisWerte" type="h_basisWerteTyp"/>
 							<xsd:element name="herkunft" type="h_herkunftTyp"/>
+							<xsd:element name="logBuch" type="h_charakerLogBuchTyp"/>
 							<xsd:element name="vorteile" type="h_vorteilTyp"/>
 							<xsd:element name="nachteile" type="h_nachteilTyp"/>
 							<xsd:element name="sonderfertigkeiten" type="h_sonderfertigkeitTyp"/>
@@ -41,6 +42,7 @@
 							<xsd:element name="fkWaffen" type="h_fkWaffenTyp" minOccurs="0"/>
 							<xsd:element name="schilde" type="h_schildTyp" minOccurs="0"/>
 							<xsd:element name="ruestungen" type="h_ruestungTyp" minOccurs="0"/>
+							<xsd:element name="tiere" type="h_tiereTyp" minOccurs="0"/>							
 						</xsd:sequence>
 					</xsd:complexType>
 				</xsd:element>
@@ -62,11 +64,12 @@
 			<xsd:element name="titel" type="xsd:string" minOccurs="0"/>
 			<xsd:element name="stand" type="xsd:string" minOccurs="0"/>
 			<xsd:element name="geschlecht" type="xsd:string"/>
-			<xsd:element name="alter" type="xsd:positiveInteger"/>
+			<xsd:element name="geburtstag" type="xsd:string"/>
 			<xsd:element name="groesse" type="xsd:positiveInteger"/>
 			<xsd:element name="haarfarbe" type="xsd:string"/>
 			<xsd:element name="augenfarbe" type="xsd:string"/>
 			<xsd:element name="sozialstatus" type="xsd:int"/>
+			<xsd:element name="geburtsort" type="xsd:string"/>
 			<xsd:element name="aussehen" type="xsd:string" minOccurs="0"/>
 			<xsd:element name="herkunft" type="xsd:string" minOccurs="0"/>
 			<xsd:element name="beschreibung" type="xsd:string" minOccurs="0"/>
@@ -76,13 +79,24 @@
 	<xsd:complexType name="h_charakerLogBuchTyp">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="DE">
-				Hier kann die Entwicklung eines Charakters festgehalten werden
+				Hier kann die Entwicklung eines Charakters festgehalten werden.
+				geschichte - Entwicklung des Chars als Text.
+				notizen - Ein Text für Dinge, die nur kurzfristig gemerkt werden sollen
+				eintrag - Das eigentliche LogBuch
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="titel" type="xsd:string" minOccurs="0"/>
-			<xsd:element name="datum" type="xsd:string" minOccurs="0"/>
-			<xsd:element name="text" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="geschichte" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="notizen" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="eintrag" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="titel" type="xsd:string" minOccurs="0"/>
+						<xsd:element name="datum" type="xsd:string" minOccurs="0"/>
+						<xsd:element name="text" type="xsd:string" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<!-- ***************************** Herkunft ******************************* -->
@@ -272,7 +286,13 @@
 	</xsd:complexType>
 	<!-- ******************************** Ausrüstung ******************************** -->
 	<xsd:complexType name="h_ausruestungTyp">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="DE">
+				alsText - Belibige Ausrüstung als Text (falls User das besser findet)
+			</xsd:documentation>
+		</xsd:annotation>
 		<xsd:sequence>
+			<xsd:element name="alsText" type="xsd:string" minOccurs="0"/>
 			<xsd:element name="gegenstand" minOccurs="0" maxOccurs="unbounded">
 				<xsd:complexType>
 					<xsd:complexContent>
@@ -364,7 +384,7 @@
 		</xsd:sequence>
 	</xsd:complexType>
 	<!-- ********************************  Tiere  ******************************** -->
-	<xsd:complexType name="tierTyp">
+	<xsd:complexType name="h_tierTyp">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="DE">
 				Für tierische Begeleiter und "Vertraute".
@@ -492,7 +512,8 @@
 						"lehrmeister" - Mit hilfe eines Lehrmeisters
 						"selbstStudium" - Selbst beigebracht
 					Lep, Aup, Asp, KA:
-						"gekauft" - Einzige reguläre Möglichkeit
+						"gekauft" - Einzige reguläre Möglichkeit für zugewinn
+						"bezahlt" - Per. verlohren durch Rituale, Artefakte o.ä.
 					Nachteile:
 						"gesenktNT" - regulär gesenkter Nachteil
 					Sonderf:
