@@ -1,7 +1,7 @@
 /*
  * Created 23. Januar 2005 / 16:09:44
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -17,14 +17,16 @@ import nu.xom.Element;
 import org.d3s.alricg.CharKomponenten.CharElement;
 import org.d3s.alricg.CharKomponenten.Eigenschaft;
 import org.d3s.alricg.CharKomponenten.Gabe;
+import org.d3s.alricg.CharKomponenten.Gottheit;
 import org.d3s.alricg.CharKomponenten.Kultur;
 import org.d3s.alricg.CharKomponenten.Liturgie;
+import org.d3s.alricg.CharKomponenten.LiturgieRitualKenntnis;
 import org.d3s.alricg.CharKomponenten.Nachteil;
 import org.d3s.alricg.CharKomponenten.Profession;
 import org.d3s.alricg.CharKomponenten.Rasse;
 import org.d3s.alricg.CharKomponenten.RegionVolk;
+import org.d3s.alricg.CharKomponenten.Repraesentation;
 import org.d3s.alricg.CharKomponenten.Ritual;
-import org.d3s.alricg.CharKomponenten.LiturgieRitualKenntnis;
 import org.d3s.alricg.CharKomponenten.Schrift;
 import org.d3s.alricg.CharKomponenten.Sonderfertigkeit;
 import org.d3s.alricg.CharKomponenten.Sprache;
@@ -46,13 +48,16 @@ import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.daemonenPa
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.eigenschaft;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.fahrzeug;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.gabe;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.gottheit;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.kultur;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.liturgie;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.nachteil;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.profession;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.rasse;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.region;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.repraesentation;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.ritual;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.ritusSF;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.ritLitKenntnis;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.ruestung;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.schild;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.schrift;
@@ -86,7 +91,7 @@ public class CharKompAdmin {
 	private HashMap<String, Gabe> gabeMap = new HashMap<String, Gabe>();
 	private HashMap<String, Nachteil> nachteilMap = new HashMap<String, Nachteil>();
 	private HashMap<String, Sonderfertigkeit> sonderfMap = new HashMap<String, Sonderfertigkeit>();
-	private HashMap<String, LiturgieRitualKenntnis> ritusSFMap = new HashMap<String, LiturgieRitualKenntnis>();
+	private HashMap<String, LiturgieRitualKenntnis> ritLitKentMap = new HashMap<String, LiturgieRitualKenntnis>();
 	private HashMap<String, Talent> talentMap = new HashMap<String, Talent>();
 	private HashMap<String, Zauber> zauberMap = new HashMap<String, Zauber>();
 	
@@ -112,7 +117,9 @@ public class CharKompAdmin {
 	private HashMap<String, Tier> tierMap = new HashMap<String, Tier>();
 	private HashMap<String, Eigenschaft> eigenschaftMap = new HashMap<String, Eigenschaft>();
 	private HashMap<String, RegionVolk> regionMap = new HashMap<String, RegionVolk>();
-
+	private HashMap<String, Gottheit> gottheitMap = new HashMap<String, Gottheit>();
+	private HashMap<String, Repraesentation> repraesentMap = new HashMap<String, Repraesentation>();
+	
 	// Die Enums der Komponeten selbst
 	private HashMap<String, CharKomponenten> charKompMap = new HashMap<String, CharKomponenten>();
 
@@ -191,10 +198,10 @@ public class CharKompAdmin {
 					sonderfMap.put(ids.get(i), new Sonderfertigkeit(ids.get(i)));
 				}
 				break;
-			case ritusSF:
+			case ritLitKenntnis:
 				for (int i = 0; i < ids.size(); i++) {
-					keyDoppelt(ids.get(i), ritusSFMap);
-					ritusSFMap.put(ids.get(i), new LiturgieRitualKenntnis(ids.get(i)));
+					keyDoppelt(ids.get(i), ritLitKentMap);
+					ritLitKentMap.put(ids.get(i), new LiturgieRitualKenntnis(ids.get(i)));
 				}
 				break;
 			case talent:
@@ -301,6 +308,18 @@ public class CharKompAdmin {
 					regionMap.put(ids.get(i), new RegionVolk(ids.get(i)));
 				}
 				break;
+			case gottheit:
+				for (int i = 0; i < ids.size(); i++) {
+					keyDoppelt(ids.get(i), gottheitMap);
+					gottheitMap.put(ids.get(i), new Gottheit(ids.get(i)));
+				}
+				break;
+			case repraesentation:
+				for (int i = 0; i < ids.size(); i++) {
+					keyDoppelt(ids.get(i), repraesentMap);
+					repraesentMap.put(ids.get(i), new Repraesentation(ids.get(i)));
+				}
+				break;
 			case eigenschaft:
 				for (int i = 0; i < ids.size(); i++) {
 					keyDoppelt(ids.get(i), eigenschaftMap);
@@ -392,7 +411,7 @@ public class CharKompAdmin {
 			case gabe:			return gabeMap;
 			case nachteil:		return nachteilMap;
 			case sonderfertigkeit: return sonderfMap;
-			case ritusSF:		return ritusSFMap;
+			case ritLitKenntnis:		return ritLitKentMap;
 			case talent:		return talentMap;
 			case zauber:		return zauberMap;
 			
@@ -417,6 +436,8 @@ public class CharKompAdmin {
 			case schwarzeGabe:	return schwarzeGabeMap;
 			case tier:			return tierMap;
 			case region:		return regionMap;
+			case gottheit:		return gottheitMap;
+			case repraesentation: return repraesentMap;
 			case eigenschaft:	return eigenschaftMap;
 			
 //		 >>>>>>>>>>>>>>> DEFAULT			
@@ -456,7 +477,6 @@ public class CharKompAdmin {
 		} catch (ArrayIndexOutOfBoundsException e) {
 			ProgAdmin.logger.severe("prefix falsch aufgebaut! \n" + e.toString());
 		}
-		//assert charKompMap.get(prefix) != null; // Gültigkeitsprüfung
 		
 		return getCharKompFromPrefix(prefix);
 	}
@@ -486,9 +506,9 @@ public class CharKompAdmin {
 		zusatzProfession("zusatzProfessionen", "ZPR"),
 		vorteil("vorteile", "VOR"),
 		gabe("vorteileGaben", "GAB"),
-		nachteil("nachteil", "NAC"),
+		nachteil("nachteile", "NAC"),
 		sonderfertigkeit("sonderfertigkeiten", "SF"),
-		ritusSF("liturgieRitualKenntnise", "LRK"),
+		ritLitKenntnis("liturgieRitualKenntnise", "LRK"),
 		talent("talente", "TAL"),
 		zauber("zauber", "ZAU"),
 		sprache("sprachen", "SPR"),
@@ -505,6 +525,8 @@ public class CharKompAdmin {
 		schwarzeGabe("schwarzeGaben", "SGA"),
 		tier("tiere", "TIE"),
 		region("regionen", "REG"),
+		gottheit("gottheiten", "GOT"),
+		repraesentation("repraesentationen", "REP"),
 		eigenschaft("-", "EIG"); // Hat keinen XML Tag, wird durch Source-Code gefüllt
 		
 //		Der XML-Tag der Komponente
