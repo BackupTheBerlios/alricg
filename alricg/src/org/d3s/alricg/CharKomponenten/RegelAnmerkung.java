@@ -28,7 +28,20 @@ public class RegelAnmerkung
      * TOD0 - Etwas was der Benutzer beachten sollte, aber nicht muß (z.B. sich einen Titel geben bei dem 
      *      Vorteil "Adlige Abstammung" 
      */
-    public enum Modus { REGEL, TODO }
+    public enum Modus { 
+    	regel("regel"), 
+    	todo("todo");
+    	
+		private String xmlValue; // XML-Tag des Elements
+		
+		private Modus(String xmlValue) {
+			this.xmlValue = xmlValue;
+		}
+		
+		public String getXmlValue() {
+			return xmlValue;
+		}
+}
     
 	private String[] anmerkungen; // Array von Anmerkungen, gleicher index bei modus => Zugehörig
 	private Modus[] modus;
@@ -63,9 +76,9 @@ public class RegelAnmerkung
 		list.addAll(Arrays.asList(modus));
 		
 		if (modusIn.equals("regel")) {
-			list.add(Modus.REGEL);
+			list.add(Modus.regel);
 		} else { // modusIn.equals("toDo")
-			list.add(Modus.TODO);
+			list.add(Modus.todo);
 		}
 		modus = (Modus[]) list.toArray(new Modus[list.size()]);
 	}
@@ -82,7 +95,7 @@ public class RegelAnmerkung
 		for (int i = 0; i < anmerkungen.length; i++) {
 			elemRegel = new Element("regel");
 			
-			elemRegel.addAttribute( new Attribute("modus", modus[i].toString()) );
+			elemRegel.addAttribute( new Attribute("modus", modus[i].getXmlValue()) );
 			elemRegel.appendChild(anmerkungen[i]);
 			element.appendChild(elemRegel);
 		}
