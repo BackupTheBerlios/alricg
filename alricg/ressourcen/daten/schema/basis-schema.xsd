@@ -534,7 +534,7 @@
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
-			<xsd:extension base="faehigkeitTyp">
+			<xsd:extension base="charElementTyp">
 				<xsd:sequence>
 					<xsd:element name="einordnung">
 						<xsd:complexType>
@@ -592,7 +592,7 @@
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
-			<xsd:extension base="faehigkeitTyp">
+			<xsd:extension base="charElementTyp">
 				<xsd:sequence>
 					<xsd:element name="daten">
 						<xsd:complexType>
@@ -614,7 +614,7 @@
 	<!-- ############################################ Schrift ########################################### -->
 	<xsd:complexType name="schriftTyp">
 		<xsd:complexContent>
-			<xsd:extension base="faehigkeitTyp">
+			<xsd:extension base="charElementTyp">
 				<xsd:sequence>
 					<xsd:element name="daten">
 						<xsd:complexType>
@@ -629,7 +629,7 @@
 	<!-- ############################################ Zauber ########################################### -->
 	<xsd:complexType name="zauberTyp">
 		<xsd:complexContent>
-			<xsd:extension base="faehigkeitTyp">
+			<xsd:extension base="charElementTyp">
 				<xsd:sequence>
 					<xsd:element name="kostenKlasse" type="kostenKlasseTyp"/>
 					<xsd:element name="merkmale" type="magieMerkmaleTyp" maxOccurs="unbounded"/>
@@ -662,7 +662,7 @@
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
-			<xsd:extension base="faehigkeitTyp">
+			<xsd:extension base="charElementTyp">
 				<xsd:sequence>
 					<xsd:element name="grad" type="xsd:nonNegativeInteger"/>
 					<xsd:element name="additionsId" type="xsd:string" minOccurs="0"/>
@@ -674,7 +674,7 @@
 	<!-- ############################################ Rituale ########################################### -->
 	<xsd:complexType name="ritualTyp">
 		<xsd:complexContent>
-			<xsd:extension base="faehigkeitTyp">
+			<xsd:extension base="charElementTyp">
 				<xsd:sequence>
 					<xsd:element name="grad" type="xsd:nonNegativeInteger"/>
 					<xsd:element name="additionsId" type="xsd:string" minOccurs="0"/>
@@ -806,18 +806,20 @@
 				fahrzeugArt - z.B. Ruderboot, Kastenwagen
 			</xsd:documentation>
 		</xsd:annotation>
-		<xsd:sequence>
-			<xsd:element name="fahrzeug" minOccurs="0" maxOccurs="unbounded">
-				<xsd:complexType>
-					<xsd:sequence>
-						<xsd:element name="aussehen" type="xsd:string"/>
-						<xsd:element name="anmerkung" type="xsd:string" minOccurs="0"/>
-					</xsd:sequence>
-					<xsd:attribute name="fahrzeugArt" type="xsd:string" use="required"/>
-					<xsd:attribute name="bezeichung" type="xsd:string" use="required"/>
-				</xsd:complexType>
-			</xsd:element>
-		</xsd:sequence>
+		<xsd:complexContent>
+			<xsd:extension base="gegenstandTyp">
+				<xsd:sequence>
+					<xsd:element name="fahrzeug" minOccurs="0" maxOccurs="unbounded">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="aussehen" type="xsd:string"/>
+							</xsd:sequence>
+							<xsd:attribute name="fahrzeugArt" type="xsd:string" use="required"/>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
 	</xsd:complexType>
 	<!-- ############################################ Waffen ########################################### -->
 	<xsd:complexType name="waffenTyp">
@@ -969,7 +971,6 @@
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="region" type="regionVolkTyp" maxOccurs="unbounded"/>
 			<xsd:element name="bindeWort" minOccurs="0">
 				<xsd:complexType>
 					<xsd:attribute name="mann" type="xsd:string" use="required"/>
@@ -1007,7 +1008,7 @@
 			<xsd:element name="anmerkung" type="xsd:string" minOccurs="0"/>
 		</xsd:sequence>
 		<xsd:attribute name="id" type="xsd:string" use="required"/>
-		<xsd:attribute name="bezeichnung" type="xsd:string" use="required"/>
+		<xsd:attribute name="bezeichnung" type="regionVolkTyp" use="required"/>
 	</xsd:complexType>
 	<!-- ############################################ DÄMONEN PAKT ########################################### -->
 	<xsd:complexType name="daemonenPaktTyp">
@@ -1018,7 +1019,7 @@
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
-			<xsd:extension base="faehigkeitTyp">
+			<xsd:extension base="charElementTyp">
 				<xsd:sequence>
 					<xsd:element name="daemonenName" type="xsd:string"/>
 					<xsd:element name="verbilligteEigenschaften" minOccurs="0">
@@ -1081,11 +1082,11 @@
 	<xsd:complexType name="schwarzeGabeTyp">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="DE">
-				"Sonderfertigkeiten" die nur von Paktierern gewählt werde
+				"Sonderfertigkeiten" die nur von Paktierern gewählt werden kann.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
-			<xsd:extension base="faehigkeitTyp">
+			<xsd:extension base="charElementTyp">
 				<xsd:sequence>
 					<xsd:element name="stufenGrenzen" minOccurs="0">
 						<xsd:complexType>
@@ -1110,7 +1111,7 @@
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
-			<xsd:extension base="faehigkeitTyp">
+			<xsd:extension base="charElementTyp">
 				<xsd:sequence>
 					<xsd:element name="gewicht" type="xsd:nonNegativeInteger" minOccurs="0"/>
 					<xsd:element name="wert" type="xsd:string" minOccurs="0"/>
@@ -1121,7 +1122,7 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	<!--**************************************************************************************************************** -->
-	<xsd:complexType name="faehigkeitTyp">
+	<xsd:complexType name="charElementTyp">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="DE">
 				Grundtype fuer alle Faehigkeiten (alles was ein Char wählen kann)
@@ -1176,7 +1177,7 @@
 	<!--***************************************************************************************************** -->
 	<xsd:complexType name="fertigkeitTyp">
 		<xsd:complexContent>
-			<xsd:extension base="faehigkeitTyp">
+			<xsd:extension base="charElementTyp">
 				<xsd:annotation>
 					<xsd:documentation xml:lang="DE">
 						Grundtype fuer alle Vor-/ Nachteil und SF
@@ -1224,7 +1225,7 @@
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
-			<xsd:extension base="faehigkeitTyp">
+			<xsd:extension base="charElementTyp">
 				<xsd:sequence>
 					<xsd:element name="gp" type="xsd:nonNegativeInteger"/>
 					<xsd:element name="varianteVon" type="xsd:string" minOccurs="0"/>
