@@ -7,9 +7,11 @@
 
 package org.d3s.alricg.CharKomponenten;
 
+import nu.xom.Attribute;
 import nu.xom.Element;
 
-import org.d3s.alricg.CharKomponenten.Links.Voraussetzung;
+import org.d3s.alricg.CharKomponenten.Links.IdLinkList;
+import org.d3s.alricg.Controller.ProgAdmin;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -18,11 +20,11 @@ import org.d3s.alricg.CharKomponenten.Links.Voraussetzung;
  * @author V.Strelow
  */
 public class ZusatzProfession extends Profession {
-	private Profession[] professionMoeglich; // Ist dies leer, so sind alle möglich
-	private Profession[] professionUeblich;
+	private IdLinkList professionMoeglich; // Ist dies leer, so sind alle möglich
+	private IdLinkList professionUeblich;
 	private int apKosten; // GP Kosten durch Profession
-	private boolean zusatzProf; //ansonsten späteProfession
-	private Voraussetzung voraussetzung;
+	private boolean zusatzProf; //ansonsten späteProfession, "spaeteProfession" 
+								//und "zusatzProfession" schließen sich aus!
 	
 	
 	/**
@@ -42,21 +44,16 @@ public class ZusatzProfession extends Profession {
 	/**
 	 * @return Liefert das Attribut professionMoeglich.
 	 */
-	public Profession[] getProfessionMoeglich() {
+	public IdLinkList getProfessionMoeglich() {
 		return professionMoeglich;
 	}
 	/**
 	 * @return Liefert das Attribut professionUeblich.
 	 */
-	public Profession[] getProfessionUeblich() {
+	public IdLinkList getProfessionUeblich() {
 		return professionUeblich;
 	}
-	/**
-	 * @return Liefert das Attribut voraussetzung.
-	 */
-	public Voraussetzung getVoraussetzung() {
-		return voraussetzung;
-	}
+
 	/**
 	 * @return Liefert das Attribut zusatzProf.
 	 */
@@ -69,7 +66,44 @@ public class ZusatzProfession extends Profession {
      */
     public void loadXmlElement(Element xmlElement) {
     	super.loadXmlElement(xmlElement);
-    	// TODO implement
+    	
+    	// Auslesen der üblichen Professionen
+    	if ( xmlElement.getFirstChildElement("professionUeblich") != null ) {
+    		professionUeblich = new IdLinkList(this);
+    		professionUeblich.loadXmlElement(xmlElement
+    				.getFirstChildElement("professionUeblich"));
+    	}
+    	
+    	// Auslesen der möglichen Professionen
+    	if ( xmlElement.getFirstChildElement("professionMoeglich") != null ) {
+    		professionMoeglich = new IdLinkList(this);
+    		professionMoeglich.loadXmlElement(xmlElement
+    				.getFirstChildElement("professionMoeglich"));
+    	}
+    	
+    	// Auslesen der AP-Kosten
+    	if ( xmlElement.getAttribute("apKosten") != null ) {
+	    	try {
+	    		apKosten = Integer.parseInt(xmlElement.getAttributeValue("apKosten"));
+	    	} catch (NumberFormatException ex) {
+	    		// TODO Richtige Fehlermeldung
+	    		ProgAdmin.logger.severe(ex.toString());
+	    	}
+    	} else {
+    		apKosten = KEIN_WERT;
+    	}
+    	
+    	// Auslesen der Art der Zusatzprofession
+    	
+    	// Sicherstellen des Wertebereichs
+    	assert xmlElement.getAttributeValue("zusatzArt").equals("spaeteProf") ||
+    			xmlElement.getAttributeValue("zusatzArt").equals("zusatzProf");
+    	
+    	if (xmlElement.getAttribute("zusatzArt").equals("spaeteProf")) {
+    		zusatzProf = false;
+    	} else { // ....equals("zusatzProf")
+    		zusatzProf = true;
+    	}
     }
     
     /* (non-Javadoc) Methode überschrieben
@@ -77,7 +111,30 @@ public class ZusatzProfession extends Profession {
      */
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
-    	// TODO implement
-    	return null;
+    	
+    	// Schreiben der üblichen Professionen
+    	if (professionUeblich != null) {
+    		xmlElement.appendChild(professionUeblich.writeXmlElement("professionUeblich"));
+    	}
+    	
+    	// Schreiben der möglichen Professionen
+    	if (professionMoeglich != null)  {
+    		xmlElement.appendChild(professionMoeglich.writeXmlElement("professionMoeglich"));
+    	}
+    	
+    	// Schreiben der AP-Kosten
+    	if ( apKosten != KEIN_WERT ) {
+    		xmlElement.addAttribute(new Attribute("apKosten", 
+    											Integer.toString(apKosten)));
+    	}
+    	
+    	// Die Art der Zusatzprofession schreiben
+    	if (zusatzProf) {
+    		xmlElement.addAttribute(new Attribute("zusatzArt", "zusatzProf"));
+    	} else {
+    		xmlElement.addAttribute(new Attribute("zusatzArt", "spaeteProf"));
+    	}
+    	
+    	return xmlElement;
     }
 }

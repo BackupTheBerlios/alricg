@@ -11,7 +11,7 @@ import nu.xom.Element;
 
 /**
  * <b>Beschreibung:</b><br>
- * Repräsentiert das Element Vorteil
+ * Repräsentiert das Element Vorteil.
  * @author V.Strelow
  */
 public class Vorteil extends VorNachteil {
@@ -29,7 +29,7 @@ public class Vorteil extends VorNachteil {
      */
     public void loadXmlElement(Element xmlElement) {
     	super.loadXmlElement(xmlElement);
-    	// TODO implement
+    	// Noop!
     }
     
     /* (non-Javadoc) Methode überschrieben
@@ -37,7 +37,7 @@ public class Vorteil extends VorNachteil {
      */
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
-    	// TODO implement
-    	return null;
+//    	 Noop!
+    	return xmlElement;
     }
 }

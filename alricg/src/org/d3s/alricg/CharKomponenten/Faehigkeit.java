@@ -7,8 +7,12 @@
 
 package org.d3s.alricg.CharKomponenten;
 
+import nu.xom.Attribute;
 import nu.xom.Element;
 
+import org.d3s.alricg.Controller.ProgAdmin;
+import org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten;
+import org.d3s.alricg.Prozessor.SKT;
 import org.d3s.alricg.Prozessor.SKT.KostenKlasse;
 
 /**
@@ -17,14 +21,14 @@ import org.d3s.alricg.Prozessor.SKT.KostenKlasse;
  * @author V.Strelow
  */
 public abstract class Faehigkeit extends CharElement {
-	private EigenschaftEnum[] dreiEigenschaften = new EigenschaftEnum[3];
+	private Eigenschaft[] dreiEigenschaften = new Eigenschaft[3];
 	private KostenKlasse kostenKlasse;
 	
     /**
      * @see Klasse org.d3s.alricg.CharKomponenten.Eigenschaften
 	 * @return Liefert die drei Eigenschaften, auf die die Probe abgelegt werden muß.
 	 */
-	public EigenschaftEnum[] getDreiEigenschaften() {
+	public Eigenschaft[] getDreiEigenschaften() {
 		return dreiEigenschaften;
 	}
 	
@@ -40,7 +44,23 @@ public abstract class Faehigkeit extends CharElement {
      */
     public void loadXmlElement(Element xmlElement) {
     	super.loadXmlElement(xmlElement);
-    	// TODO implement
+    	
+    	// Auslesen der Eigenschaften, auf die eine Probe abgelegt wird
+    	dreiEigenschaften[0] = (Eigenschaft) ProgAdmin.charKompAdmin.getCharElement(
+    			xmlElement.getFirstChildElement("probenWurf").getAttributeValue("eigen1"), 
+    			CharKomponenten.eigenschaft);
+    	dreiEigenschaften[1] = (Eigenschaft) ProgAdmin.charKompAdmin.getCharElement(
+    			xmlElement.getFirstChildElement("probenWurf").getAttributeValue("eigen2"), 
+    			CharKomponenten.eigenschaft);
+    	dreiEigenschaften[2] = (Eigenschaft) ProgAdmin.charKompAdmin.getCharElement(
+    			xmlElement.getFirstChildElement("probenWurf").getAttributeValue("eigen3"), 
+    			CharKomponenten.eigenschaft);
+
+    	// Auslesen der KostenKlasse
+    	kostenKlasse = SKT.getKostenKlasseByXmlValue(
+    			xmlElement.getAttributeValue("kostenKlasse")
+    		);
+
     }
     
 
@@ -49,7 +69,27 @@ public abstract class Faehigkeit extends CharElement {
      */
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
-    	// TODO implement
-    	return null;
+    	Element tmpElement;
+    	
+    	// Schreiben der 3 Eigenschaften für die Proben
+    	tmpElement = new Element("probenWurf");
+    	tmpElement.addAttribute(new Attribute(
+    			"eigen1",
+    			dreiEigenschaften[0].getEigenschaft().getXmlValue())
+    		);
+    	tmpElement.addAttribute(new Attribute(
+				"eigen2",
+				dreiEigenschaften[1].getEigenschaft().getXmlValue())
+			);
+    	tmpElement.addAttribute(new Attribute(
+				"eigen3",
+				dreiEigenschaften[2].getEigenschaft().getXmlValue())
+			);
+    	xmlElement.appendChild(tmpElement);
+    	
+    	// Schreiben der KostenKlasse
+    	xmlElement.addAttribute(new Attribute("kostenKlasse", kostenKlasse.getXmlValue()));
+    	
+    	return xmlElement;
     }
 }

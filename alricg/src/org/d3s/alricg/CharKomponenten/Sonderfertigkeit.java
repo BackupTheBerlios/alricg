@@ -7,9 +7,11 @@
 
 package org.d3s.alricg.CharKomponenten;
 
+import nu.xom.Attribute;
 import nu.xom.Element;
 
-import org.d3s.alricg.CharKomponenten.Links.Voraussetzung;
+import org.d3s.alricg.Controller.ProgAdmin;
+import org.d3s.alricg.Prozessor.FormelSammlung;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -18,13 +20,28 @@ import org.d3s.alricg.CharKomponenten.Links.Voraussetzung;
  */
 public class Sonderfertigkeit extends Fertigkeit {
 	
-	public enum art { WAFENLOSKAMPF, BEWAFFNETKAMPF, MAGISCH, 
-						GEWEIHT, SCHAMANISCH, SONSTIGE } 
+	public enum Art {
+		allgemein("allgemein"),
+		waffenloskampf("waffenlosKampf"), 
+		bewaffnetkampf("bewaffnetKampf"), 
+		magisch("magisch"), 
+		geweiht("geweiht"), 
+		schamanisch("schamanisch"), 
+		sonstige("sonstige");
+		private String xmlValue; // XML-Tag des Elements
+		
+		private Art(String xmlValue) {
+			this.xmlValue = xmlValue;
+		}
+		
+		public String getXmlValue() {
+			return xmlValue;
+		}
+	}
 
-	private int apKosten;
-	private int art;
-	private int[] permKosten = new int[3]; // Asp, Ka, Lep,
-	private Voraussetzung voraussetzung;
+	private int apKosten = KEIN_WERT; // falls sich AP nicht aus GP berechnen lassen
+	private Art art;
+	private int permAsp = 0, permKa = 0, permLep = 0; // Permanente Kosten
 
 	/**
 	 * Konstruktur; id beginnt mit "SF-" für Sonderfertigkeit
@@ -45,7 +62,7 @@ public class Sonderfertigkeit extends Fertigkeit {
 	/**
 	 * @return Liefert das Attribut art.
 	 */
-	public int getArt() {
+	public Art getArt() {
 		return art;
 	}
 
@@ -54,7 +71,43 @@ public class Sonderfertigkeit extends Fertigkeit {
      */
     public void loadXmlElement(Element xmlElement) {
     	super.loadXmlElement(xmlElement);
-    	// TODO implement
+    	
+    	try {
+//    		 Auslesen der permanenten AsP Kosten
+    		if ( xmlElement.getFirstChildElement("permAsP") != null ) {
+	    		permAsp = Integer.parseInt(xmlElement
+	    							.getFirstChildElement("permAsP").getValue());
+	    	}
+    		
+    		// Auslesen der permanenten Karmaenergie Kosten
+	    	if ( xmlElement.getFirstChildElement("permKa") != null ) {
+	    		permKa = Integer.parseInt(xmlElement
+	    							.getFirstChildElement("permKa").getValue());
+	    	}
+	    	
+	    	// Auslesen der permanenten Lebensenergie Kosten
+	    	if ( xmlElement.getFirstChildElement("permLeP") != null ) {
+	    		permLep = Integer.parseInt(xmlElement
+	    							.getFirstChildElement("permLeP").getValue());
+	    	}
+	    	
+	    	// Auslesen der AP kosten (nur nötig, falls abweichend von GP x 50)
+	    	if ( xmlElement.getAttribute("ap") != null ) {
+	    		apKosten = Integer.parseInt(xmlElement.getAttributeValue("ap"));
+	    	}
+    	} catch(NumberFormatException exc) {
+    		ProgAdmin.logger.severe("Fehler bei Umwandlung in Zahl: " + exc.toString());
+    	}
+    	
+    	// Auslesen der Art der Sonderfertigkeit
+    	for (int i = 0; i < Art.values().length; i++) {
+    		if (Art.values()[i].getXmlValue().equals(xmlElement
+    							.getFirstChildElement("art"))) 
+    		{
+    				art = Art.values()[i];
+    				break; // Gefunden, abbrechen
+    		}
+    	}
     }
     
     /* (non-Javadoc) Methode überschrieben
@@ -62,8 +115,42 @@ public class Sonderfertigkeit extends Fertigkeit {
      */
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
-    	// TODO implement
-    	return null;
+    	Element tmpElement;
+    	
+    	// Hinzufügen der AP-Kosten
+    	if (   apKosten != KEIN_WERT 
+    		&& apKosten != FormelSammlung.berechneSfAp(this.getGpKosten()) ) 
+    	{
+    		xmlElement.addAttribute(new Attribute("ap", Integer.toString(apKosten)));
+    	}
+    	
+    	// Hinzufügen der permanetnen ASP Kosten
+    	if ( permAsp != 0 ) {
+    		tmpElement = new Element("permAsP");
+    		tmpElement.appendChild(Integer.toString(permAsp));
+    		xmlElement.appendChild(tmpElement);
+    	}
+    	
+    	// Hinzufügen der permanetnen Karmaenergie Kosten
+    	if ( permKa != 0 ) {
+    		tmpElement = new Element("permKa");
+    		tmpElement.appendChild(Integer.toString(permKa));
+    		xmlElement.appendChild(tmpElement);
+    	}
+    	
+    	// Hinzufügen der permanetnen Lebensenergie Kosten
+    	if ( permLep != 0 ) {
+    		tmpElement = new Element("permLeP");
+    		tmpElement.appendChild(Integer.toString(permLep));
+    		xmlElement.appendChild(tmpElement);
+    	}
+    	
+    	// Hinzufügen der Art dieser Sonderf
+    	tmpElement = new Element("art");
+    	tmpElement.appendChild(art.getXmlValue());
+    	xmlElement.appendChild(tmpElement);
+    	
+    	return xmlElement;
     }
 
 }

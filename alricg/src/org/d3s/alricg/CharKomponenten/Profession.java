@@ -72,6 +72,10 @@ public class Profession extends Herkunft {
 	private AuswahlAusruestung ausruestung;
 	private AuswahlAusruestung besondererBesitz;
 	
+	private String geweihtRitus; // Falls die Pro Geweiht ist: Der Name des Ritus
+//	Modis auf LiturgieKenntnis, Geister rufen, usw.; Der Name des Ritus steht mit im Link
+	private Auswahl ritusModis; 
+	
     private Profession varianteVon;
     
 
@@ -158,6 +162,14 @@ public class Profession extends Herkunft {
     		magierAkademie.loadXmlElement(xmlElement.getFirstChildElement("magierAkademie"));
     	}
     	
+    	// Auslesen der Geweihten-Werte, sofern vorhanden   	
+    	if ( xmlElement.getFirstChildElement("geweiht") != null ) {
+    		geweihtRitus = xmlElement.getFirstChildElement("geweiht").getAttributeValue("ritus");
+    		ritusModis = new Auswahl(this);
+    		ritusModis.loadXmlElement(xmlElement.getFirstChildElement("geweiht")
+    											.getFirstChildElement("modis"));
+    	}
+    	
     	// Auslesen der verbotenen Vorteile
     	if ( xmlElement.getFirstChildElement("verboteVT") != null ) {
     		verbotenVort = new IdLinkList(this);
@@ -208,7 +220,6 @@ public class Profession extends Herkunft {
 	    		);
 		}
 		
-		// TODO implement
     }
     
     /* (non-Javadoc) Methode überschrieben
@@ -233,42 +244,50 @@ public class Profession extends Herkunft {
     	
     	// Schreiben der MagierAkademie
     	if ( magierAkademie != null ) {
-    		tmpElement.appendChild(magierAkademie.writeXmlElement("magierAkademie"));
+    		xmlElement.appendChild(magierAkademie.writeXmlElement("magierAkademie"));
+    	}
+    	
+    	// Schreiben der Geweihten angaben
+    	if ( geweihtRitus != null )  {
+    		tmpElement = new Element("geweiht");
+    		tmpElement.addAttribute(new Attribute("ritus", geweihtRitus));
+    		tmpElement.appendChild(ritusModis.writeXmlElement("modis"));
+    		xmlElement.appendChild(tmpElement);
     	}
     	
     	// Schreiben der verbotenen Vorteile
     	if ( verbotenVort != null ) {
-    		tmpElement.appendChild(verbotenVort.writeXmlElement("verboteVT"));
+    		xmlElement.appendChild(verbotenVort.writeXmlElement("verboteVT"));
     	}
     	
     	// Schreiben der verbotenen Nachteile
     	if ( verbotenNacht != null ) {
-    		tmpElement.appendChild(verbotenNacht.writeXmlElement("verboteNT"));
+    		xmlElement.appendChild(verbotenNacht.writeXmlElement("verboteNT"));
     	}
     	
     	// Schreiben der verbotenen Sonderfertigkeiten
     	if ( verbotenSF != null ) {
-    		tmpElement.appendChild(verbotenSF.writeXmlElement("verboteSF"));
+    		xmlElement.appendChild(verbotenSF.writeXmlElement("verboteSF"));
     	}
     	
     	// Schreiben der Sprachen
     	if ( sprachen != null ) {
-    		tmpElement.appendChild(sprachen.writeXmlElement("sprachen"));
+    		xmlElement.appendChild(sprachen.writeXmlElement("sprachen"));
     	}
     	
     	// Schreiben der Schriften
     	if ( schriften != null ) {
-    		tmpElement.appendChild(schriften.writeXmlElement("schriften"));
+    		xmlElement.appendChild(schriften.writeXmlElement("schriften"));
     	}
     	
     	// Schreiben der Ausrüstung
     	if ( ausruestung != null ) {
-    		tmpElement.appendChild(ausruestung.writeXmlElement("ausruestung"));
+    		xmlElement.appendChild(ausruestung.writeXmlElement("ausruestung"));
     	}
     	
     	// Schreiben des besonderen Besitzens
     	if ( besondererBesitz != null ) {
-    		tmpElement.appendChild(besondererBesitz.writeXmlElement("besondererBesitz"));
+    		xmlElement.appendChild(besondererBesitz.writeXmlElement("besondererBesitz"));
     	}
     	
 
@@ -282,8 +301,6 @@ public class Profession extends Herkunft {
 	    	// einfügen nach dem "gp" Element!
 	    	xmlElement.insertChild(tmpElement, idx+1);
     	}
-    	
-    	// TODO Implementieren
     	
     	return xmlElement;
     }
@@ -338,8 +355,8 @@ public class Profession extends Herkunft {
         	if ( xmlElement.getFirstChildElement("zweitStudiumMoeglich") != null ) {
         		
         		// Überprüfung ob es dem Wertebereich entspricht
-        		assert xmlElement.getFirstChildElement("zweitStudiumMoeglich").equals("false")
-        			|| xmlElement.getFirstChildElement("zweitStudiumMoeglich").equals("true");
+        		assert xmlElement.getFirstChildElement("zweitStudiumMoeglich").getValue().equals("false")
+        			|| xmlElement.getFirstChildElement("zweitStudiumMoeglich").getValue().equals("true");
         		
         		if (xmlElement.getFirstChildElement("zweitStudiumMoeglich").equals("false")) {
         			zweitStudiumMoeglich = false;
@@ -350,8 +367,8 @@ public class Profession extends Herkunft {
         	if ( xmlElement.getFirstChildElement("drittStudiumMoeglich") != null ) {
         		
         		// Überprüfung ob es dem Wertebereich entspricht
-        		assert xmlElement.getFirstChildElement("drittStudiumMoeglich").equals("false")
-        			|| xmlElement.getFirstChildElement("drittStudiumMoeglich").equals("true");
+        		assert xmlElement.getFirstChildElement("drittStudiumMoeglich").getValue().equals("false")
+        			|| xmlElement.getFirstChildElement("drittStudiumMoeglich").getValue().equals("true");
         		
         		if (xmlElement.getFirstChildElement("drittStudiumMoeglich").equals("true")) {
         			drittStudiumMoeglich = true;

@@ -10,33 +10,27 @@ package org.d3s.alricg.CharKomponenten;
 import nu.xom.Element;
 
 /**
- * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
+ * <b>Beschreibung:</b><br>
+ * Repräsentiert eine Gabe. Gaben sind laut Regelwerk Sonderf, von den Eigenschaften
+ * her jedoch eher als Faehigkeit einzuordnen.
  * @author V.Strelow
  */
-public class Gabe extends Vorteil {
-	private EigenschaftEnum[] dreiEigenschaften;
+public class Gabe extends Faehigkeit {
     
 	/**
 	 * Konstruktur; id beginnt mit "GAB-" für Gabe
 	 * @param id Systemweit eindeutige id
 	 */
 	public Gabe(String id) {
-		super(id);
+		setId(id);
 	}
-	
-    /**
-     * @return Liefert die drei Eigenschaften, auf die eine Probe abgelegt wird..
-     */
-    public EigenschaftEnum[] getDreiEigenschaften() {
-        return dreiEigenschaften;
-    }
     
     /* (non-Javadoc) Methode überschrieben
      * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
      */
     public void loadXmlElement(Element xmlElement) {
     	super.loadXmlElement(xmlElement);
-    	// TODO implement
+    	// Noop!
     }
     
     /* (non-Javadoc) Methode überschrieben
@@ -44,7 +38,7 @@ public class Gabe extends Vorteil {
      */
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
-    	// TODO implement
-    	return null;
+//    	 Noop!
+    	return xmlElement;
     }
 }

@@ -7,9 +7,12 @@
 
 package org.d3s.alricg.CharKomponenten;
 
+import nu.xom.Attribute;
 import nu.xom.Element;
+import nu.xom.Elements;
 
 import org.d3s.alricg.CharKomponenten.Links.Voraussetzung;
+import org.d3s.alricg.Controller.ProgAdmin;
 /**
  * <b>Beschreibung:</b><br>
  * Fasst gemeinsamkeiten von Vor-/ Nachteilen und Sonderfertigkeiten zusammmen und 
@@ -17,12 +20,12 @@ import org.d3s.alricg.CharKomponenten.Links.Voraussetzung;
  * @author V.Strelow
  */
 public abstract class Fertigkeit extends CharElement {
-	private boolean isWaehlbar; // Nicht wählbare können nur über die Herkunft erlangt werden
+	private Werte.CharArten[] fuerWelcheChars; // Welche Chars diese Fertigkeit wählen können
 	private Voraussetzung voraussetzung; // Es muß die Voraussetzungen gelten! 
-	private boolean hatText; // Gibt es noch einen Beschreibenen Text zu der Fertigkeit?
-	private String fuerWelcheChars;
-	private int additionsWert;	// z.B. Rüstungsgewöhung I = 1 und RG II = 2. Somit ergibt zwei mal	RG I --> ein mal RG II (sieht AH S.10)
+	private boolean hatText = false; // Gibt es noch einen Beschreibenen Text zu der Fertigkeit?
+	private boolean isWaehlbar = true; // Nicht wählbare können nur über die Herkunft erlangt werden
 	private String additionsID;  // "Familie" von Fertigkeiten, die aufaddiert werden z.B. Rüstungsgewöhung I und RG II
+	private int additionsWert = KEIN_WERT;	// z.B. Rüstungsgewöhung I = 1 und RG II = 2. Somit ergibt zwei mal	RG I --> ein mal RG II (sieht AH S.10)
 	private int gpKosten;
 
     /**
@@ -53,7 +56,7 @@ public abstract class Fertigkeit extends CharElement {
 	/**
 	 * @return Liefert das Attribut fuerWelcheChars.
 	 */
-	public String getFuerWelcheChars() {
+	public Werte.CharArten[] getFuerWelcheChars() {
 		return fuerWelcheChars;
 	}
 	/**
@@ -85,7 +88,67 @@ public abstract class Fertigkeit extends CharElement {
      */
     public void loadXmlElement(Element xmlElement) {
     	super.loadXmlElement(xmlElement);
-    	// TODO implement
+    	Elements tmpElements;
+    	
+    	// Auslesen der Additions-Werte
+    	if (xmlElement.getFirstChildElement("addition") != null) {
+    		additionsID = xmlElement.getFirstChildElement("addition")
+    								.getAttributeValue("id");
+    		try {
+        		additionsWert = Integer.parseInt(xmlElement
+        				.getFirstChildElement("addition")
+						.getAttributeValue("wertigkeit"));
+    		} catch (NumberFormatException exc) {
+    			// TODO Richtige Fehlermeldung einbauen
+    			ProgAdmin.logger.severe("Fehler beim Auslesen einer Nummer: " + exc);
+    		}
+    	}
+    	
+    	// Auslesen, ob diese Fertigkeit noch Text benötigt
+    	if ( xmlElement.getFirstChildElement("hatText") != null ) {
+    		
+    		// Sicherstellen des Wertebereiches
+    		assert xmlElement.getFirstChildElement("hatText").getValue().equals("true") 
+    			|| xmlElement.getFirstChildElement("hatText").getValue().equals("false");
+    		
+    		if ( xmlElement.getFirstChildElement("hatText").equals("true") ) {
+    			hatText = true;
+    		} // false ist default
+    	}
+    	
+    	// Auslesen, ob normal Wählbar oder nur über Herkunft o.ä. zu bekommen
+    	if ( xmlElement.getFirstChildElement("istWaehlbar") != null ) {
+    		assert xmlElement.getFirstChildElement("istWaehlbar").getValue().equals("true")
+    			|| xmlElement.getFirstChildElement("istWaehlbar").getValue().equals("false");
+    		
+    		if ( xmlElement.getFirstChildElement("istWaehlbar").getValue().equals("false") ) {
+    			isWaehlbar = false;
+    		} // true ist default
+    	}
+    	
+    	// Auslesen für welche CharArten die Fertigkeit ist
+    	tmpElements = xmlElement.getChildElements("fuerWelcheChars");
+    	fuerWelcheChars = new Werte.CharArten[tmpElements.size()];
+    	for (int i = 0; i < tmpElements.size(); i++) {
+    		fuerWelcheChars[i] = Werte.getCharArtenByXmlValue(
+    			tmpElements.get(i).getValue()
+    		);
+    	}
+    	
+    	// Auslesen der Voraussetzungen
+    	if ( xmlElement.getFirstChildElement("voraussetzungen") != null ) {
+    		voraussetzung = new Voraussetzung(this);
+    		voraussetzung.loadXmlElement(xmlElement.getFirstChildElement("voraussetzungen"));
+    	}
+    	
+    	// Auslesen der GP Kosten
+		try {
+			gpKosten = Integer.parseInt(xmlElement.getAttributeValue("gp"));
+		} catch (NumberFormatException exc) {
+			// TODO Richtige Fehlermeldung einbauen
+			ProgAdmin.logger.severe("Fehler beim Auslesen einer Nummer: " + exc);
+		}
+
     }
     
     /* (non-Javadoc) Methode überschrieben
@@ -93,7 +156,46 @@ public abstract class Fertigkeit extends CharElement {
      */
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
-    	// TODO implement
-    	return null;
+    	Element tmpElement;
+    	
+    	// Schreiben der additions-Werte
+    	if ( additionsWert != KEIN_WERT ) {
+    		tmpElement = new Element("addition");
+    		tmpElement.addAttribute(new Attribute("id", additionsID));
+    		tmpElement.addAttribute(new Attribute("wertigkeit", 
+    								Integer.toString(additionsWert)));
+    		xmlElement.appendChild(tmpElement);
+    	}
+    	
+    	// Schreiben, ob die Fertigkeit einen Text benötigt
+    	if (hatText) {
+    		tmpElement = new Element("hatText");
+    		tmpElement.appendChild("true");
+    		xmlElement.appendChild(tmpElement);
+    	}
+    	
+    	// Schreiben, ob das Element normal wählbar ist
+    	if (!isWaehlbar) {
+    		tmpElement = new Element("istWaehlbar");
+    		tmpElement.appendChild("false");
+    		xmlElement.appendChild(tmpElement);
+    	}
+    	
+    	// Schreiben der zulässigen CharArten
+    	for (int i = 0; i < fuerWelcheChars.length; i++) {
+    		tmpElement = new Element("fuerWelcheChars");
+    		tmpElement.appendChild(fuerWelcheChars[i].getXmlValue());
+    		xmlElement.appendChild(tmpElement);
+    	}
+    	
+    	// Schreiben der Voraussetzungen
+    	if ( voraussetzung != null ) {
+    		xmlElement.appendChild(voraussetzung.writeXmlElement("voraussetzungen"));
+    	}
+    	
+    	// Schreiben der GP Kosten
+    	xmlElement.addAttribute(new Attribute("gp", Integer.toString(gpKosten)));
+    	
+    	return xmlElement;
     }
 }

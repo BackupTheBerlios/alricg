@@ -15,7 +15,7 @@ import nu.xom.Element;
  * @author V.Strelow
  */
 public class Nachteil extends VorNachteil {
-	private boolean isSchlechteEigen;
+	private boolean isSchlechteEigen = false;
 	
 	/**
 	 * Konstruktur; id beginnt mit "NAC-" für Nachteil
@@ -37,7 +37,21 @@ public class Nachteil extends VorNachteil {
      */
     public void loadXmlElement(Element xmlElement) {
     	super.loadXmlElement(xmlElement);
-    	// TODO implement
+    	
+    	// Lesen ob es sich um eine schlechte eigenschaft handelt
+    	if ( xmlElement.getFirstChildElement("istSchlechteEigen") != null ) {
+    		
+    		// Prüfen des Wertebereichs
+    		assert xmlElement.getFirstChildElement("istSchlechteEigen")
+    				.getValue().equals("true")
+    				|| xmlElement.getFirstChildElement("istSchlechteEigen")
+    				.getValue().equals("false");
+    		
+    		if (xmlElement.getFirstChildElement("istSchlechteEigen").getValue()
+    				.equals("true") ) {
+    			isSchlechteEigen = true;
+    		}
+    	}
     }
     
     /* (non-Javadoc) Methode überschrieben
@@ -45,7 +59,14 @@ public class Nachteil extends VorNachteil {
      */
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
-    	// TODO implement
-    	return null;
+    	Element tmpElement;
+    	
+    	if ( isSchlechteEigen ) {
+    		tmpElement = new Element("istSchlechteEigen");
+    		tmpElement.appendChild("true");
+    		xmlElement.appendChild(tmpElement);
+    	} // false ist Default, braucht nicht angegeben werden
+    	
+    	return xmlElement;
     }
 }
