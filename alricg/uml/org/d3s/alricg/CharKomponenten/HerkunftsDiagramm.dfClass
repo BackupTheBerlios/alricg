@@ -1,0 +1,86 @@
+package id4q6mne31fr990e31iii2j;
+
+/**
+@version 2.0
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#org.d3s.alricg.CharKomponenten.CharElement:oiref><oihard>
+@__modelType reference
+@__imported*/
+class reference {
+}/**
+@__ref <oiref:java#Class#org.d3s.alricg.CharKomponenten.RegelAnmerkung:oiref><oihard>
+@__modelType reference
+@__imported*/
+class reference2 {
+}/**
+@__ref <oiref:java#Class#org.d3s.alricg.CharKomponenten.Herkunft:oiref><oihard>
+@__modelType reference
+@__imported*/
+class reference1 {
+}/**
+@__ref <oiref:java#Class#org.d3s.alricg.CharKomponenten.Rasse:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference3 {
+}/**
+@__ref <oiref:java#Class#org.d3s.alricg.CharKomponenten.Kultur:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference5 {
+}/**
+@__ref <oiref:java#Class#org.d3s.alricg.CharKomponenten.Profession:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference7 {
+}/**
+@__ref <oiref:java#Class#org.d3s.alricg.CharKomponenten.Eigenschaften:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference9 {
+}/**
+@__ref <oiref:design#Class#id3eqyke31fr990e31jf8yn.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#org.d3s.alricg.CharKomponenten.Hilfen:oiref>
+@__imported 
+*/
+class reference21 {
+}}/**
+
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options 
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:java#Member#org.d3s.alricg.CharKomponenten.Eigenschaften#KL:oiref>=410,260,154,16,1:oigroup>
+<oigroup:<oiref:java#Member#org.d3s.alricg.CharKomponenten.Eigenschaften#KO:oiref>=410,330,154,16,1:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Profession:oiref>=480,670,110,130,0:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Kultur#org.d3s.alricg.CharKomponenten.Herkunft:oiref>=340,670,340,620,230,620,266,516:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.CharElement:oiref>=10,20,270,230,0:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Herkunft#org.d3s.alricg.CharKomponenten.CharElement:oiref>=180,310,180,250:oigroup>
+<oigroup:<oiref:java#Member#org.d3s.alricg.CharKomponenten.Eigenschaften#IN:oiref>=410,280,154,16,1:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Profession#org.d3s.alricg.CharKomponenten.Herkunft:oiref>=540,670,540,620,230,620,230,516:oigroup>
+<oigroup:<oiref:java#Member#org.d3s.alricg.CharKomponenten.Eigenschaften#FF:oiref>=410,320,154,16,1:oigroup>
+<oigroup:<oiref:java#Member#org.d3s.alricg.CharKomponenten.Eigenschaften#GE:oiref>=420,320,154,16,1:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Eigenschaften:oiref>=480,210,160,220,0:oigroup>
+<oigroup:<oiref:java#Member#org.d3s.alricg.CharKomponenten.Eigenschaften#CH:oiref>=420,290,154,16,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.CharElement#regelAnmerkung:oiref>=280,105,370,105:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Rasse#org.d3s.alricg.CharKomponenten.Herkunft:oiref>=130,671,130,620,230,620,302,516:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Rasse:oiref>=70,671,159,131,0:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Kultur:oiref>=270,670,150,128,0:oigroup>
+<oigroup:<oiref:design#Class#id3eqyke31fr990e31jf8yn.diagram:oiref>=450,460,129,130,0:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.RegelAnmerkung:oiref>=370,30,220,150,0:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Herkunft:oiref>=80,310,258,206,0:oigroup>
+*/
+class __positions {
+}
