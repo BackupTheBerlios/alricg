@@ -7,6 +7,7 @@
 
 package org.d3s.alricg.CharKomponenten;
 
+import org.d3s.alricg.CharKomponenten.Links.Auswahl;
 /**
  * <b>Beschreibung:</b><br>
  * Dies ist die super-Klasse für alle Charakter-Elemente.
@@ -18,14 +19,13 @@ abstract public class CharElement {
 	private String name;
 	private String sammelBegriff;
 	private String beschreibung;
-	private String sonderRegel;
 	private RegelAnmerkung regelAnmerkung;
+	private SonderRegel sonderRegel;
 
     /**
      * @return Die eindeutige, einmalige ID des Elements
      */
 	public String getId() {
-		// TODO implement operation1
 		return id;
 	}
 
@@ -60,19 +60,10 @@ abstract public class CharElement {
 	 */
 	public String getSammelBegriff() {
 		return sammelBegriff;
-	}
-	
+	}	
+
 	/**
 	 * @return Liefert das Attribut sonderRegel.
 	 */
-	public String getSonderRegel() {
-		return sonderRegel;
-	}
-	
-	/**
-	 * @param id Setzt das Attribut id.
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
+	public SonderRegel getSonderRegel() { return sonderRegel; }
 }

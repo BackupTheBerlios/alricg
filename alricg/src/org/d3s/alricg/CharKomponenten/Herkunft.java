@@ -7,20 +7,41 @@
 
 package org.d3s.alricg.CharKomponenten;
 
+import org.d3s.alricg.CharKomponenten.Links.Auswahl;
 /**
  * <b>Beschreibung:</b><br>
- * Superklasse für Rasse, Kultur und Profession. Fasst Gemeinsamkeiten zusammen. 
+ * Superklasse für Rasse, Kultur und Profession. Fasst Gemeinsamkeiten zusammen.
+ * Elemente vom Typ "Herkunft" werden nach einer Initiierung nicht mehr verändert.
  * @author V.Strelow
  */
 public abstract class Herkunft extends CharElement {
     private int gp;
 	private String varianteVon;
-	private boolean kannGewaehltWerden;
+	private boolean kannGewaehltWerden; // Eine Herkunft kann auch nur als Basis für Varianten dienen
 	private int geschlecht;
     private int soMin;
-    private int soMax;	
-	private int eigenschaftVoraussetzungen;
+    private int soMax;
+    /**
+     * Beispiel: An der Stelle Eigenschaft.MU im Array steht der Wert für Mut.
+     */
+	private int[] eigenschaftVoraussetzungen = new int[Eigenschaften.getAnzahlEigenschaften()];
 	private int[] eigenschaftModis = new int[Eigenschaften.getAnzahlEigenschaften()];
+	private Auswahl vorteileAuswahl;
+	private Auswahl nachteileAuswahl;
+	private Auswahl sfAuswahl;
+	private Auswahl liturgienAuswahl;
+	private Auswahl ritualeAuswahl;
+	private Vorteil[] empfVorteil;
+	private Nachteil[] empfNachteile;
+	private Vorteil[] ungeVorteile;
+	private Nachteil[] ungeNachteile;
+	private Sonderfertigkeit[] verbilligteSonderf;
+	private Liturgie[] verbilligteLiturien;
+	private Ritual[] verbilligteRituale;
+	private Auswahl talente;
+	private Auswahl zauber;
+	private Auswahl hauszauber;
+	private Auswahl aktivierbareZauber;
 	
 	/**
 	 * @return Liefert das Attribut geschlecht.
@@ -37,7 +58,9 @@ public abstract class Herkunft extends CharElement {
 	}	
 	
 	/**
-	 * @return Liefert das Attribut kannGewaehltWerden.
+	 * Eine Herkunft die nicht gewählt werden kann, dient nur als Basis für
+     * Varianten.
+     * @return Liefert das Attribut kannGewaehltWerden
 	 */
 	public boolean isKannGewaehltWerden() {
 		return kannGewaehltWerden;
@@ -76,4 +99,47 @@ public abstract class Herkunft extends CharElement {
 		// TODO implement getModi
 		return eigenschaftModis[modiId];
 	}
+
+	public Auswahl getVorteileAuswahl(){
+        return vorteileAuswahl;
+    }
+
+	public Auswahl getNachteileAuswahl(){
+        return nachteileAuswahl;
+    }
+
+	public Auswahl getSfAuswahl(){
+        return sfAuswahl;
+    }
+
+	public Auswahl getLiturgienAuswahl(){
+        return liturgienAuswahl;
+    }
+
+	public Auswahl getRitualeAuswahl(){
+        return ritualeAuswahl;
+    }
+
+	public Vorteil[] getEmpfVorteil(){ return empfVorteil; }
+
+	public Nachteil[] getEmpfNachteile(){ return empfNachteile; }
+
+	public Vorteil[] getUngeVorteile(){ return ungeVorteile; }
+
+	public Nachteil[] getUngeNachteile(){ return ungeNachteile; }
+
+	public Sonderfertigkeit[] getVerbilligteSonderf(){ return verbilligteSonderf; }
+
+	public Liturgie[] getVerbilligteLiturien(){ return verbilligteLiturien; }
+
+	public Ritual[] getVerbilligteRituale(){ return verbilligteRituale; }
+
+	public Auswahl getTalente(){ return talente; }
+
+	public Auswahl getZauber(){ return zauber; }
+
+	public Auswahl getHauszauber(){ return hauszauber; }
+
+	public Auswahl getAktivierbareZauber(){ return aktivierbareZauber; }
+
 }
