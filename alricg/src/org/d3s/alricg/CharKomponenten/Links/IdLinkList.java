@@ -89,12 +89,17 @@ public class IdLinkList {
     			xmlElement.appendChild(tmpElement);
     			
     		} else { // Schreiben in Attribut, nur Id nötig
-    			strBuffer.append(links[i].getLinkId());
+    			strBuffer.append(links[i].getZielId().getId());
     			strBuffer.append(" ");
     		}
     	}
     	
     	// Attribut hinzufügen, falls mindestens ein element vorhanden
+    	if (strBuffer.toString().trim().equals("VOR-String VOR-String VOR-String")) {
+    		System.out.println("x");
+    	}
+    	
+    	
     	if ( strBuffer.length() > 0 ) {
     		xmlElement.addAttribute(new Attribute("ids", strBuffer.toString().trim()) );
     	}
