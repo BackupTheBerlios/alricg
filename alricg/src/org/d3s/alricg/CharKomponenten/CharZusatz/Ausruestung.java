@@ -22,7 +22,7 @@ public class Ausruestung extends Gegenstand {
     
     
 	/**
-	 * Konstruktur; id beginnt mit "VOR-" für Vorteil
+	 * Konstruktur; id beginnt mit "AUS-" für Vorteil
 	 * @param id Systemweit eindeutige id
 	 */
 	public Ausruestung(String id) {

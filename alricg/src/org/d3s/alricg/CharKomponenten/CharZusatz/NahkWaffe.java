@@ -16,7 +16,7 @@ import nu.xom.Element;
 public class NahkWaffe extends Waffe {
 	private int kkAb; // Ab diesem Wert gibt es TP Zuschlag
 	private int kkStufe; // Ab diesem Wert gibt es weitere TP Zuschlag
-	private int BF; // Bruchfaktor
+	private int bf; // Bruchfaktor
 	private int dk; // Distanzklasse
 	private int wmAT; // Waffenmodifikator / AT
 	private int wmPA; // Waffenmodifikator / PA
@@ -33,7 +33,7 @@ public class NahkWaffe extends Waffe {
 	 * @return Liefert den Bruchfaktor
 	 */
 	public int getBF() {
-		return BF;
+		return bf;
 	}
 	/**
 	 * @return Liefert die Distanzklasse(n).

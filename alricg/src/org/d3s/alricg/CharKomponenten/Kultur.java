@@ -10,6 +10,8 @@ package org.d3s.alricg.CharKomponenten;
 import nu.xom.Element;
 
 import org.d3s.alricg.CharKomponenten.Links.Auswahl;
+import org.d3s.alricg.Controller.ProgAdmin;
+import org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten;
 
 /**
  * <b>Beschreibung: </b> <br>
@@ -27,6 +29,9 @@ public class Kultur extends Herkunft {
     private Auswahl ausruestung;
     private RegionVolk regionVolk;
 
+    private Kultur varianteVon; 
+
+
 	/**
 	 * Konstruktur; id beginnt mit "KUL-" für Kultur
 	 * @param id Systemweit eindeutige id
@@ -34,6 +39,16 @@ public class Kultur extends Herkunft {
 	public Kultur(String id) {
 		setId(id);
 	}
+	
+    /**
+     * Wenn diese Herkunft eine Variante von einer anderen ist, so wird dies
+     * hier vermerkt.
+     * 
+     * @return Liefert die "Eltern-Herkunft"
+     */
+    public Kultur getVarianteVon() {
+        return varianteVon;
+    }
     
     /**
      * @return Liefert das Attribut ausruestung.
@@ -89,6 +104,14 @@ public class Kultur extends Herkunft {
      */
     public void loadXmlElement(Element xmlElement) {
     	super.loadXmlElement(xmlElement);
+    	
+		if ( xmlElement.getFirstChildElement("varianteVon") !=  null ) {
+			varianteVon = (Kultur) ProgAdmin.charKompAdmin.getCharElement(
+	    			xmlElement.getFirstChildElement("varianteVon").getValue(),
+	    			CharKomponenten.kultur
+	    		);
+		}
+		
     	// TODO implement
     }
     
@@ -97,7 +120,22 @@ public class Kultur extends Herkunft {
      */
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
-    	// TODO implement
-    	return null;
+    	
+    	int idx; 
+    	Element element;
+    	
+    	xmlElement.setLocalName("kultur");
+    	
+    	// "varianteVon" schreiben
+    	if ( this.varianteVon != null ) {
+	    	// hierfür muß die richtige Position bestimmt werden: 
+	    	idx = xmlElement.indexOf( xmlElement.getFirstChildElement("gp") );
+	    	element = new Element("varianteVon");
+	    	element.appendChild(this.varianteVon.getId());
+	    	
+	    	// einfügen nach dem "gp" Element!
+	    	xmlElement.insertChild(element, idx+1);
+    	}
+		return xmlElement;
     }
 }

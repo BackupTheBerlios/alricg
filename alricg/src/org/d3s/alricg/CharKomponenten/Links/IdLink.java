@@ -9,7 +9,11 @@ package org.d3s.alricg.CharKomponenten.Links;
 
 import java.util.ArrayList;
 
+import nu.xom.Attribute;
+import nu.xom.Element;
+
 import org.d3s.alricg.CharKomponenten.CharElement;
+import org.d3s.alricg.Controller.ProgAdmin;
 import org.d3s.alricg.Held.HeldenLink;
 
 /**
@@ -23,12 +27,12 @@ import org.d3s.alricg.Held.HeldenLink;
  * 
  * @author V.Strelow
  */
-public class IdLink<TypZiel extends CharElement, TypLink extends CharElement> {
-	private TypZiel zielId; // Das Ziel dieses Links (z.B. eine SF)
-	private TypLink linkId; // Ein in Beziehung stehendes Element (z.B. Unfähigkeit "SCHWERT")
+public class IdLink {
+	private CharElement zielId; // Das Ziel dieses Links (z.B. eine SF)
+	private CharElement linkId; // Ein in Beziehung stehendes Element (z.B. Unfähigkeit "SCHWERT")
 	private String text; // Ein Text (z.B. Vorurteile gegen "Orks")
-	private int wert; // Wert der Beziehung (z.B. Höhenangst 5) / "-100": es gibt keinen Wert
-	private boolean leitwert; // Für Elfen, verändert kosten
+	private int wert = -100; // Wert der Beziehung (z.B. Höhenangst 5) / "-100": es gibt keinen Wert
+	private boolean leitwert = false; // Für Elfen, verändert kosten / Default = false
 	
 	private Auswahl auswahl; // Falls dieser IdLink durch eine Auswahl entstand
 	private CharElement quelle; // Falls dieser IdLink NICHT durch eine Auswahl entstand
@@ -39,21 +43,21 @@ public class IdLink<TypZiel extends CharElement, TypLink extends CharElement> {
 	private ArrayList<HeldenLink> heldenLinks;
 	
 	
-	/**
+	/*
 	 * Konstruktor
 	 * @param zielId Das Element für das dieser Link gilt.
 	 * @param wert Der Wert der dem Element zugeordnet wird
-	 */
-	public IdLink(TypZiel zielId, int wert, CharElement quelle, Auswahl auswahl) {
+	 *
+	public IdLink(CharElement zielId, int wert, CharElement quelle, Auswahl auswahl) {
 		initIdLink(zielId, null, null, wert, false, quelle, auswahl);
 	}
-	
+
 	/**
 	 * Konstruktor
 	 * @param zielId Das Element für das dieser Link gilt.
 	 * @param linkId Das zusätzlich verbundene Element
-	 */
-	public IdLink(TypZiel zielId, TypLink linkId, CharElement quelle, Auswahl auswahl) {
+	 *
+	public IdLink(CharElement zielId, CharElement linkId, CharElement quelle, Auswahl auswahl) {
 		initIdLink(zielId, linkId, null, -100, false, quelle, auswahl);
 	}
 	
@@ -61,32 +65,21 @@ public class IdLink<TypZiel extends CharElement, TypLink extends CharElement> {
 	 * Konstruktor
 	 * @param zielId Das Element für das dieser Link gilt.
 	 * @param text Der dem Element zugehörge Text
-	 */
-	public IdLink(TypZiel zielId, String text, CharElement quelle, Auswahl auswahl) {
+	 *
+	public IdLink(CharElement zielId, String text, CharElement quelle, Auswahl auswahl) {
 		initIdLink(zielId, null, text, -100, false, quelle, auswahl);
 	}
+	*/
 	
 	/**
-	 * Initialisiert das Objekt. Wird von den Konstruktoren aufgerufen.
-	 * @param zielId Das Element für das dieser Link gilt.
-	 * @param linkId Für zusätzlich verbundene Elemente
-	 * @param text Der dem Element zugehörge Text
-	 * @param wert Der Wert der dem Element zugeordnet wird
-	 * @param isLeitwert Für Elfische Weltsicht
-	 * @param quelle Von wo der Link "ausgeht". Typischer weise eine Herkunft
-	 * @param auswahl Falls der Link zu einer Auswahl gehört.
+	 * Konstruktor, initialisiert das Objekt.
+	 * @param quelle Von wo der Link "ausgeht". Typischer weise eine Herkunft.
+	 * @param auswahl Falls der Link zu einer Auswahl gehört, ansonsten "null".
 	 */
-	private void initIdLink(TypZiel zielId, TypLink linkId, String text, 
-					int wert, boolean leitwert, CharElement quelle, Auswahl auswahl) 
+	public IdLink(CharElement quelle, Auswahl auswahl) 
 	{
-		this.zielId = zielId;
-		this.linkId = linkId;
-		this.text = text;
-		this.wert = wert;
-		this.leitwert = leitwert;
 		this.quelle = quelle;
 		this.auswahl = auswahl;
-		
 	}
 	
 	/**
@@ -113,7 +106,7 @@ public class IdLink<TypZiel extends CharElement, TypLink extends CharElement> {
 	 * @return Das Link-Element mit dem das Ziel verbunden ist, oder "null"
 	 * falls es kein Link-Elemnet gibt. 
 	 */
-	public TypLink getLinkId() {
+	public CharElement getLinkId() {
 		return linkId;
 	}
 	
@@ -138,7 +131,7 @@ public class IdLink<TypZiel extends CharElement, TypLink extends CharElement> {
 	/**
 	 * @return Liefert das Attribut zielId.
 	 */
-	public TypZiel getZielId() {
+	public CharElement getZielId() {
 		return zielId;
 	}
 	
@@ -168,7 +161,6 @@ public class IdLink<TypZiel extends CharElement, TypLink extends CharElement> {
 		}
 	}
 	
-	
 	/**
 	 * @param leitwert Setzt das Attribut leitwert.
 	 */
@@ -178,7 +170,7 @@ public class IdLink<TypZiel extends CharElement, TypLink extends CharElement> {
 	/**
 	 * @param linkId Setzt das Attribut linkId.
 	 */
-	public void setLinkId(TypLink linkId) {
+	public void setLinkId(CharElement linkId) {
 		this.linkId = linkId;
 	}
 	/**
@@ -196,7 +188,82 @@ public class IdLink<TypZiel extends CharElement, TypLink extends CharElement> {
 	/**
 	 * @param zielId Setzt das Attribut zielId.
 	 */
-	public void setZielId(TypZiel zielId) {
+	public void setZielId(CharElement zielId) {
 		this.zielId = zielId;
 	}
+	
+	/**
+	 * Ließt aus einem XmlElement alle nötigen Daten der LinkId aus
+	 * @param xmlElement Ein LinkID-Tag als XmlElement
+	 */
+    public void loadXmlElement(Element xmlElement) {
+    	String prefix;
+    	
+// 		Auslesen der Ziel ID (einzige, die ein linkId enthalten MUSS 
+    	this.zielId = ProgAdmin.charKompAdmin.getCharElement(
+    						xmlElement.getAttributeValue("id"),
+    						ProgAdmin.charKompAdmin.
+    							getCharKompFromId(xmlElement.getAttributeValue("id"))
+    					);
+    	
+// 		Auslesen des optionalen Texts
+    	if ( xmlElement.getAttribute("text") != null ) {
+    		this.text = xmlElement.getAttributeValue("text").trim();
+    	}
+//    	 Auslesen des optionalen Wertes
+    	if ( xmlElement.getAttribute("wert") != null ) {
+    		this.wert = Integer.parseInt(xmlElement.getAttributeValue("wert").trim());
+    	}
+//   	 Auslesen des optionalen Leitwertes (Default ist false)
+    	if ( xmlElement.getAttribute("leitwert") != null ) {
+    		// Gültigkeit des Wertes überprufen
+    		assert xmlElement.getAttributeValue("leitwert").equals("true") ||
+    			   xmlElement.getAttributeValue("leitwert").equals("false");
+    		
+    		if (xmlElement.getAttributeValue("leitwert").equals("true")) {
+    			this.leitwert = true;
+    		} else {
+    			this.leitwert = false;
+    		}
+    	}
+//  	 Auslesen der optionalen Link-ID
+    	if ( xmlElement.getAttribute("linkId") != null ) {
+    		this.linkId = ProgAdmin.charKompAdmin.getCharElement(
+								xmlElement.getAttributeValue("linkId"),
+								ProgAdmin.charKompAdmin.
+								getCharKompFromId(xmlElement.getAttributeValue("linkId")));
+    	}
+    	
+    }
+    
+    /**
+     * Schreibt diesen ID-Link in ein XML Element.
+     * @param tagName Der name des Tags
+     * @return XmlElement mit allen nötigen Daten der LinkID
+     */
+    public Element writeXmlElement(String tagName){
+    	Element xmlElement;
+    	
+    	xmlElement = new Element(tagName); // Element erstellen
+  
+    	// Schreiben des einzigen elements, das vorhanden sein MUSS
+    	xmlElement.addAttribute( new Attribute("id", zielId.getId()) );
+    	
+    	// Schreiben der Optionalen Elemente, sofern vorhanden und nicht Default
+    	if (linkId != null) {
+    		xmlElement.addAttribute( new Attribute("linkId", linkId.getId()) );
+    	}
+    	if (text != null) {
+    		xmlElement.addAttribute( new Attribute("text", text) );
+    	}
+    	if (wert != -100) {
+    		xmlElement.addAttribute( new Attribute("wert", Integer.toString(wert)) );
+    	}
+    	if (leitwert) {
+    		xmlElement.addAttribute( new Attribute("leitwert", "true" ) );
+    	}
+
+    	return xmlElement;
+    }
+	
 }

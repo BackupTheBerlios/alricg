@@ -10,6 +10,8 @@ package org.d3s.alricg.CharKomponenten;
 import nu.xom.Element;
 
 import org.d3s.alricg.CharKomponenten.Links.Auswahl;
+import org.d3s.alricg.Controller.ProgAdmin;
+import org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten;
 /**
  * <b>Beschreibung:</b><br>
  * Repräsentiert eine Profession, speichert alle nötigen Daten.
@@ -30,18 +32,9 @@ public class Profession extends Herkunft {
 	private Auswahl schriften;
 	private Auswahl ausruestung;
 	private Auswahl besondererBesitz;
-/*
-    public final static int ART_HANDWERKLICH = 0;
-	public final static int ART_KRIEGERISCH = 1;
-    public final static int ART_GESELLSCHAFTLICH = 2;
-    public final static int ART_WILDNESS = 3;
-    public final static int ART_MAGISCH = 4;
-    public final static int ART_GEWEIHT = 5;
-    public final static int ART_SCHAMANISCH = 6;
-
-	public final static int AUFWAND_ERTSPROF = 0;
-    public final static int AUFWAND_ZEITAUFW = 1;
-    public final static int AUFWAND_ZUSATZPROF = 2; // Bei Elfen*/
+	
+    private Profession varianteVon;
+    
 
 	/**
 	 * Konstruktur; id beginnt mit "PRO-" für Profession
@@ -77,7 +70,15 @@ public class Profession extends Herkunft {
      */
     public void loadXmlElement(Element xmlElement) {
     	super.loadXmlElement(xmlElement);
-    	// TODO implement
+    	
+		if ( xmlElement.getFirstChildElement("varianteVon") !=  null ) {
+			varianteVon = (Profession) ProgAdmin.charKompAdmin.getCharElement(
+	    			xmlElement.getFirstChildElement("varianteVon").getValue(),
+	    			CharKomponenten.profession
+	    		);
+		}
+		
+		// TODO implement
     }
     
     /* (non-Javadoc) Methode überschrieben
@@ -85,7 +86,25 @@ public class Profession extends Herkunft {
      */
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
-    	// TODO implement
+    	
+    	int idx; 
+    	Element element;
+    	
+    	xmlElement.setLocalName("profession");
+    	
+    	// "varianteVon" schreiben
+    	if ( this.varianteVon != null ) {
+	    	// hierfür muß die richtige Position bestimmt werden: 
+	    	idx = xmlElement.indexOf( xmlElement.getFirstChildElement("gp") );
+	    	element = new Element("varianteVon");
+	    	element.appendChild(this.varianteVon.getId());
+	    	
+	    	// einfügen nach dem "gp" Element!
+	    	xmlElement.insertChild(element, idx+1);
+    	}
+    	
+    	// TODO Implementieren
+    	
     	return null;
     }
 	

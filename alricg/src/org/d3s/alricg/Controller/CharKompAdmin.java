@@ -8,9 +8,14 @@
 package org.d3s.alricg.Controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.logging.Level;
 
+import nu.xom.Element;
+
+import org.d3s.alricg.CharKomponenten.CharElement;
+import org.d3s.alricg.CharKomponenten.Eigenschaft;
 import org.d3s.alricg.CharKomponenten.Gabe;
 import org.d3s.alricg.CharKomponenten.Kultur;
 import org.d3s.alricg.CharKomponenten.Liturgie;
@@ -35,9 +40,30 @@ import org.d3s.alricg.CharKomponenten.CharZusatz.Ruestung;
 import org.d3s.alricg.CharKomponenten.CharZusatz.Schild;
 import org.d3s.alricg.CharKomponenten.CharZusatz.SchwarzeGabe;
 import org.d3s.alricg.CharKomponenten.CharZusatz.Tier;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.ausruestung;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.daemonenPakt;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.fahrzeug;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.gabe;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.kultur;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.liturgie;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.nachteil;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.profession;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.rasse;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.ritual;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.ritusSF;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.ruestung;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.schild;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.schrift;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.schwarzeGabe;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.sonderfertigkeit;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.sprache;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.talent;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.tier;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.vorteil;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.waffeFk;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.waffeNk;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.zauber;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.zusatzProfession;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -46,284 +72,453 @@ import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.rasse;
  * @stereotype singelton
  */
 public class CharKompAdmin {
-	public static CharKompAdmin self;
 	
 	// Herkunft
-	private Rasse[] rasseList;
-	private Kultur[] kulterList;
-	private Profession[] profList;
-	private ZusatzProfession[] zusatzProfList;
+	private HashMap<String, Rasse> rasseMap = new HashMap<String, Rasse>();
+	private HashMap<String, Kultur> kulturMap = new HashMap<String, Kultur>();
+	private HashMap<String, Profession> professionMap = new HashMap<String, Profession>();
+	private HashMap<String, ZusatzProfession> zusatzProfMap = new HashMap<String, ZusatzProfession>();
 	
 	// Fertigkeiten & Fähigkeiten
-	private Vorteil[] vorteilList;
-	private Gabe[] gabeList;
-	private Nachteil[] nachteilList;
-	private Sonderfertigkeit[] sondefList;
-	private RitusSF[] ritusSfList;
-	private Talent[] talentList;
-	private Zauber[] zauberList;
+	private HashMap<String, Vorteil> vorteilMap = new HashMap<String, Vorteil>();
+	private HashMap<String, Gabe> gabeMap = new HashMap<String, Gabe>();
+	private HashMap<String, Nachteil> nachteilMap = new HashMap<String, Nachteil>();
+	private HashMap<String, Sonderfertigkeit> sonderfMap = new HashMap<String, Sonderfertigkeit>();
+	private HashMap<String, RitusSF> ritusSFMap = new HashMap<String, RitusSF>();
+	private HashMap<String, Talent> talentMap = new HashMap<String, Talent>();
+	private HashMap<String, Zauber> zauberMap = new HashMap<String, Zauber>();
 	
 	// Sprache
-	private Schrift[] schriftList;
-	private Sprache[] spracheList;
+	private HashMap<String, Schrift> schriftMap = new HashMap<String, Schrift>();
+	private HashMap<String, Sprache> spracheMap = new HashMap<String, Sprache>();
 	
 	// Götter & Kulte
-	private Liturgie[] liturgieList;
-	private Ritual[] ritualList;
+	private HashMap<String, Liturgie> liturgieMap = new HashMap<String, Liturgie>();
+	private HashMap<String, Ritual> ritualMap = new HashMap<String, Ritual>();
 	
 	// Ausrüstung
-	private Ausruestung[] ausruestungList;
-	private Fahrzeug[] fahrzeugList;
-	private NahkWaffe[] waffeNkList;
-	private FkWaffe[] waffeFkList;
-	private Ruestung[] ruestungList;
-	private Schild[] schildList;
+	private HashMap<String, Ausruestung> ausruestungMap = new HashMap<String, Ausruestung>();
+	private HashMap<String, Fahrzeug> fahrzeugMap = new HashMap<String, Fahrzeug>();
+	private HashMap<String, NahkWaffe> waffeNkMap = new HashMap<String, NahkWaffe>();
+	private HashMap<String, FkWaffe> waffeFkMap = new HashMap<String, FkWaffe>();
+	private HashMap<String, Ruestung> ruestungMap = new HashMap<String, Ruestung>();
+	private HashMap<String, Schild> schildMap = new HashMap<String, Schild>();
 
 	// Zusätzliches
-	private DaemonenPakt[] daemonenPaktList;
-	private SchwarzeGabe[] schwarzeGabeList;
-	private Tier[] tierList;
+	private HashMap<String, DaemonenPakt> daemonenPaktMap = new HashMap<String, DaemonenPakt>();
+	private HashMap<String, SchwarzeGabe> schwarzeGabeMap = new HashMap<String, SchwarzeGabe>();
+	private HashMap<String, Tier> tierMap = new HashMap<String, Tier>();
+	private HashMap<String, Eigenschaft> eigenschaftMap = new HashMap<String, Eigenschaft>();
+	
+	// Die Enums der Komponeten selbst
+	private HashMap<String, CharKomponenten> charKompMap = new HashMap<String, CharKomponenten>();
 
+	
+	/**
+	 * Privater Konstruktor - wird nur über initCharKompAdmin() aufgerufen!
+	 */
+	public CharKompAdmin() {
+		// Initialiserung der HashMap für schnellen Zugriff auf Komponenten 
+		// über deren ID
+		for (int i = 0; i < CharKomponenten.values().length; i++) {
+			charKompMap.put(CharKomponenten.values()[i].getPrefix(), 
+							CharKomponenten.values()[i]
+							);
+		}
+	}
+	
 	/**
 	 * Initialisiert die übergebene CharKomponent und erstellt zu jeder ID das Objekt.
 	 * Es wird ein sortiertes Array erstellt, wobei die Objekte nur die ID zugewiesen
 	 * bekommen haben.
-	 * @param ids
-	 * @param CharKomp
+	 * @param ids Eine Liste mit allen IDs der Objekte die angelegt werden sollen
+	 * @param CharKomp Der Typ der CharKomponente
 	 */
-	public void initCharKomponents(ArrayList<String> ids, CharKomponenten CharKomp) {
+	public void initCharKomponents(ArrayList<String> ids, CharKomponenten charKomp) {
 		
-		switch (CharKomp) {
+		switch (charKomp) {
 // >>>>>>>>>>>>>>> Herkunft
 			case rasse:
-				rasseList = new Rasse[ids.size()];
 				for (int i = 0; i < ids.size(); i++) {
-					rasseList[i] = new Rasse(ids.get(i));
+					keyDoppelt(ids.get(i), rasseMap);
+					rasseMap.put(ids.get(i), new Rasse(ids.get(i)));
 				}
-				Arrays.sort(rasseList);
 				break;
 			case kultur:
-				kulterList = new Kultur[ids.size()];
 				for (int i = 0; i < ids.size(); i++) {
-					kulterList[i] = new Kultur(ids.get(i));
+					keyDoppelt(ids.get(i), kulturMap);
+					kulturMap.put(ids.get(i), new Kultur(ids.get(i)));
 				}
-				Arrays.sort(kulterList);
 				break;
 			case profession:
-				profList = new Profession[ids.size()];
 				for (int i = 0; i < ids.size(); i++) {
-					profList[i] = new Profession(ids.get(i));
+					keyDoppelt(ids.get(i), professionMap);
+					professionMap.put(ids.get(i), new Profession(ids.get(i)));
 				}
-				Arrays.sort(profList);
 				break;
 			case zusatzProfession:
-				zusatzProfList = new ZusatzProfession[ids.size()];
 				for (int i = 0; i < ids.size(); i++) {
-					zusatzProfList[i] = new ZusatzProfession(ids.get(i));
+					keyDoppelt(ids.get(i), zusatzProfMap);
+					zusatzProfMap.put(ids.get(i), new ZusatzProfession(ids.get(i)));
 				}
-				Arrays.sort(zusatzProfList);
 				break;
 				
 // >>>>>>>>>>>>>>> Fertigkeiten & Fähigkeiten
 			case vorteil:
-				vorteilList = new Vorteil[ids.size()];
 				for (int i = 0; i < ids.size(); i++) {
-					vorteilList[i] = new Vorteil(ids.get(i));
+					keyDoppelt(ids.get(i), vorteilMap);
+					vorteilMap.put(ids.get(i), new Vorteil(ids.get(i)));
 				}
-				Arrays.sort(vorteilList);
 				break;
 			case gabe:
-				gabeList = new Gabe[ids.size()];
 				for (int i = 0; i < ids.size(); i++) {
-					gabeList[i] = new Gabe(ids.get(i));
+					keyDoppelt(ids.get(i), gabeMap);
+					gabeMap.put(ids.get(i), new Gabe(ids.get(i)));
 				}
-				Arrays.sort(gabeList);
 				break;
 			case nachteil:
-				nachteilList = new Nachteil[ids.size()];
 				for (int i = 0; i < ids.size(); i++) {
-					nachteilList[i] = new Nachteil(ids.get(i));
+					keyDoppelt(ids.get(i), nachteilMap);
+					nachteilMap.put(ids.get(i), new Nachteil(ids.get(i)));
 				}
-				Arrays.sort(nachteilList);
 				break;
 			case sonderfertigkeit:
-				sondefList = new Sonderfertigkeit[ids.size()];
 				for (int i = 0; i < ids.size(); i++) {
-					sondefList[i] = new Sonderfertigkeit(ids.get(i));
+					keyDoppelt(ids.get(i), sonderfMap);
+					sonderfMap.put(ids.get(i), new Sonderfertigkeit(ids.get(i)));
 				}
-				Arrays.sort(sondefList);
 				break;
 			case ritusSF:
-				ritusSfList = new RitusSF[ids.size()];
 				for (int i = 0; i < ids.size(); i++) {
-					ritusSfList[i] = new RitusSF(ids.get(i));
+					keyDoppelt(ids.get(i), ritusSFMap);
+					ritusSFMap.put(ids.get(i), new RitusSF(ids.get(i)));
 				}
-				Arrays.sort(ritusSfList);
 				break;
 			case talent:
-				talentList = new Talent[ids.size()];
 				for (int i = 0; i < ids.size(); i++) {
-					talentList[i] = new Talent(ids.get(i));
+					keyDoppelt(ids.get(i), talentMap);
+					talentMap.put(ids.get(i), new Talent(ids.get(i)));
 				}
-				Arrays.sort(talentList);
 				break;
 			case zauber:
-				zauberList = new Zauber[ids.size()];
 				for (int i = 0; i < ids.size(); i++) {
-					zauberList[i] = new Zauber(ids.get(i));
+					keyDoppelt(ids.get(i), zauberMap);
+					zauberMap.put(ids.get(i), new Zauber(ids.get(i)));
 				}
-				Arrays.sort(zauberList);
 				break;
 				
 // >>>>>>>>>>>>>>> Sprachen
 			case sprache:
-				spracheList = new Sprache[ids.size()];
 				for (int i = 0; i < ids.size(); i++) {
-					spracheList[i] = new Sprache(ids.get(i));
+					keyDoppelt(ids.get(i), spracheMap);
+					spracheMap.put(ids.get(i), new Sprache(ids.get(i)));
 				}
-				Arrays.sort(spracheList);
 				break;
 			case schrift:
-				schriftList = new Schrift[ids.size()];
 				for (int i = 0; i < ids.size(); i++) {
-					schriftList[i] = new Schrift(ids.get(i));
+					keyDoppelt(ids.get(i), schriftMap);
+					schriftMap.put(ids.get(i), new Schrift(ids.get(i)));
 				}
-				Arrays.sort(schriftList);
 				break;
 				
 // >>>>>>>>>>>>>>> Götter				
 			case liturgie:
-				liturgieList = new Liturgie[ids.size()];
 				for (int i = 0; i < ids.size(); i++) {
-					liturgieList[i] = new Liturgie(ids.get(i));
+					keyDoppelt(ids.get(i), liturgieMap);
+					liturgieMap.put(ids.get(i), new Liturgie(ids.get(i)));
 				}
-				Arrays.sort(liturgieList);
 				break;
 			case ritual:
-				ritualList = new Ritual[ids.size()];
 				for (int i = 0; i < ids.size(); i++) {
-					ritualList[i] = new Ritual(ids.get(i));
+					keyDoppelt(ids.get(i), ritualMap);
+					ritualMap.put(ids.get(i), new Ritual(ids.get(i)));
 				}
-				Arrays.sort(ritualList);
 				break;
 				
 // >>>>>>>>>>>>>>> Ausrüstung
 			case ausruestung:
-				ausruestungList = new Ausruestung[ids.size()];
 				for (int i = 0; i < ids.size(); i++) {
-					ausruestungList[i] = new Ausruestung(ids.get(i));
+					keyDoppelt(ids.get(i), ausruestungMap);
+					ausruestungMap.put(ids.get(i), new Ausruestung(ids.get(i)));
 				}
-				Arrays.sort(ausruestungList);
 				break;
 			case fahrzeug:
-				fahrzeugList = new Fahrzeug[ids.size()];
 				for (int i = 0; i < ids.size(); i++) {
-					fahrzeugList[i] = new Fahrzeug(ids.get(i));
+					keyDoppelt(ids.get(i), fahrzeugMap);
+					fahrzeugMap.put(ids.get(i), new Fahrzeug(ids.get(i)));
 				}
-				Arrays.sort(fahrzeugList);
 				break;
 			case waffeNk:
-				waffeNkList = new NahkWaffe[ids.size()];
 				for (int i = 0; i < ids.size(); i++) {
-					waffeNkList[i] = new NahkWaffe(ids.get(i));
+					keyDoppelt(ids.get(i), waffeNkMap);
+					waffeNkMap.put(ids.get(i), new NahkWaffe(ids.get(i)));
 				}
-				Arrays.sort(waffeNkList);
 				break;
 			case waffeFk:
-				waffeFkList = new FkWaffe[ids.size()];
 				for (int i = 0; i < ids.size(); i++) {
-					waffeFkList[i] = new FkWaffe(ids.get(i));
+					keyDoppelt(ids.get(i), waffeFkMap);
+					waffeFkMap.put(ids.get(i), new FkWaffe(ids.get(i)));
 				}
-				Arrays.sort(waffeFkList);
 				break;
 			case ruestung:
-				ruestungList = new Ruestung[ids.size()];
 				for (int i = 0; i < ids.size(); i++) {
-					ruestungList[i] = new Ruestung(ids.get(i));
+					keyDoppelt(ids.get(i), ruestungMap);
+					ruestungMap.put(ids.get(i), new Ruestung(ids.get(i)));
 				}
-				Arrays.sort(ruestungList);
 				break;
 			case schild:
-				schildList = new Schild[ids.size()];
 				for (int i = 0; i < ids.size(); i++) {
-					schildList[i] = new Schild(ids.get(i));
+					keyDoppelt(ids.get(i), schildMap);
+					schildMap.put(ids.get(i), new Schild(ids.get(i)));
 				}
-				Arrays.sort(schildList);
 				break;
 				
 // >>>>>>>>>>>>>>> Zusätzliches
 			case daemonenPakt:
-				daemonenPaktList = new DaemonenPakt[ids.size()];
 				for (int i = 0; i < ids.size(); i++) {
-					daemonenPaktList[i] = new DaemonenPakt(ids.get(i));
+					keyDoppelt(ids.get(i), daemonenPaktMap);
+					daemonenPaktMap.put(ids.get(i), new DaemonenPakt(ids.get(i)));
 				}
-				Arrays.sort(daemonenPaktList);
 				break;
 			case schwarzeGabe:
-				schwarzeGabeList = new SchwarzeGabe[ids.size()];
 				for (int i = 0; i < ids.size(); i++) {
-					schwarzeGabeList [i] = new SchwarzeGabe(ids.get(i));
+					keyDoppelt(ids.get(i), schwarzeGabeMap);
+					schwarzeGabeMap.put(ids.get(i), new SchwarzeGabe(ids.get(i)));
 				}
-				Arrays.sort(schwarzeGabeList);
 				break;
 			case tier:
-				tierList = new Tier[ids.size()];
 				for (int i = 0; i < ids.size(); i++) {
-					tierList [i] = new Tier(ids.get(i));
+					keyDoppelt(ids.get(i), tierMap);
+					tierMap.put(ids.get(i), new Tier(ids.get(i)));
 				}
-				Arrays.sort(tierList);
+				break;
+			case eigenschaft:
+				for (int i = 0; i < ids.size(); i++) {
+					keyDoppelt(ids.get(i), eigenschaftMap);
+					eigenschaftMap.put(ids.get(i), new Eigenschaft(ids.get(i)));
+				}
 				break;
 				
+
 // >>>>>>>>>>>>>>> DEFAULT			
 			default:
 				ProgAdmin.logger.logp(Level.SEVERE, "CharKompAdmin", 
 						"initCharKomponents", "Ein CharKomp wurde nicht gefunden: " 
-						+ CharKomp);
+						+ charKomp);
 		}
 	}
 	
-	
-	public <T> T getCharElement(String id, CharKomponenten charKomp) {
-		int idx;
-		idx = Arrays.binarySearch(rasseList, id);
+	/**
+	 * Liefert eine CharKomponente, die zu einer ID gehört zurück. 
+	 * @param id Die ID die gesucht wird
+	 * @param charKomp Die art der Charkomponente
+	 * @return Die gesuchte Charkomponente oder "null", falls zu dem Schlüssel keine 
+	 * CharKomponente gefunden werden kann.
+	 */
+	public CharElement getCharElement(String id, CharKomponenten charKomp) {
+		HashMap<String, ? extends CharElement> hashMap;
 		
-		return (T) rasseList[idx];
+		hashMap = getHashMap(charKomp); // Die zugehörige HashMap holen
+		
+		if ( hashMap.get(id) == null ) {
+			// TODO Evtl. noch eine bessere Meldung einbauen!
+			ProgAdmin.logger.warning("Id konnte nicht gefunden werden: " + id);
+		}
+		
+		return hashMap.get(id);
 	}
 	
+	/**
+	 * Schreibt alle enthaltenen Charakter-Elemente in ein einziges root element,
+	 * dieses ist ein Element mit einem "alricgXML"-Tag.
+	 * @return "alricgXML" Element mit allen enthaltenen Elementen.
+	 */
+	public Element writeXML() {
+		CharKomponenten[] charKompArray;
+		Iterator ite;
+		Element tmpElement = null;
+		
+		Element root = new Element("alricgXML");
+		charKompArray = CharKomponenten.values();
+		
+		// TODO Die preamble noch hinzufügen
+		
+		// Alle CharKomponenten durchgehen 
+		for (int i = 0; i < charKompArray.length; i++) {
+			ite = getHashMap(charKompArray[i]).values().iterator(); // Alle Elemente holen
+			
+			// Das "Box" Element hinzufügen, wenn es Unterelemente gibt
+			if (ite.hasNext()) {
+				tmpElement = new Element(charKompArray[i].getXmlBoxTag());
+				root.appendChild(tmpElement);
+			}
+			
+			// Alle Elemente der CharKomponente durchgehen
+			while ( ite.hasNext() ) {
+				Element testElement = ((CharElement) ite.next()).writeXmlElement();
+				
+				tmpElement.appendChild( testElement );
+			}
+		}
+		
+		return root;
+	}
+	
+	/**
+	 * Ermöglicht den Zugriff auf die HashMap mit den CharKomponenten.
+	 * @param charKomp Die CharKomponente zu der die HashMap zurückgegeben werden soll
+	 * @return HashMap mit allen Elementen zu dieser CharKomponente
+	 */
+	private HashMap<String, ? extends CharElement> getHashMap(CharKomponenten charKomp) {
+		
+		switch (charKomp) {
+//		 >>>>>>>>>>>>>>> Herkunft
+			case rasse: 		return rasseMap;
+			case kultur:		return kulturMap;
+			case profession:	return professionMap;
+			case zusatzProfession: return zusatzProfMap;
+						
+//		 >>>>>>>>>>>>>>> Fertigkeiten & Fähigkeiten
+			case vorteil:		return vorteilMap;
+			case gabe:			return gabeMap;
+			case nachteil:		return nachteilMap;
+			case sonderfertigkeit: return sonderfMap;
+			case ritusSF:		return ritusSFMap;
+			case talent:		return talentMap;
+			case zauber:		return zauberMap;
+			
+//		 >>>>>>>>>>>>>>> Sprachen
+			case sprache:		return spracheMap;
+			case schrift:		return schriftMap;
+			
+//		 >>>>>>>>>>>>>>> Götter				
+			case liturgie: 		return liturgieMap;
+			case ritual:		return ritualMap;
+			
+//		 >>>>>>>>>>>>>>> Ausrüstung
+			case ausruestung:	return ausruestungMap;
+			case fahrzeug:		return fahrzeugMap;
+			case waffeNk:		return waffeNkMap;
+			case waffeFk:		return waffeFkMap;
+			case ruestung:		return ruestungMap;
+			case schild:		return schildMap;
+			
+//		 >>>>>>>>>>>>>>> Zusätzliches
+			case daemonenPakt:	return daemonenPaktMap;
+			case schwarzeGabe:	return schwarzeGabeMap;
+			case tier:			return tierMap;
+			case eigenschaft:	return eigenschaftMap;
+			
+//		 >>>>>>>>>>>>>>> DEFAULT			
+			default:
+				ProgAdmin.logger.severe("Ein CharKomp wurde nicht gefunden: " 
+						+ charKomp);
+		}
+		
+		return null;
+	}
+
+	/**
+	 * Wird aufgerufen, um zu prüfen ob ein ID Wert doppelt vorkommt! In dem Fall wird eine
+	 * Warnung ausgegeben, aber nicht verhindert das der alte Wert überschrieben wird!
+	 * @param key Der Key der überprüft werden soll
+	 */
+	private void keyDoppelt(String key, HashMap<String, ? extends CharElement> hash) {
+		if ( hash.containsKey(key) ) {
+			// Doppelte ID, dadurch wird der alte Wert überschrieben
+			ProgAdmin.logger.warning("Bei der Initialisierung ist eine ID doppelt für die HashMap: " + key);
+			ProgAdmin.messenger.sendFehler(Library.getErrorTxt("CharKomponente ID doppelt"));
+		}
+	}
+	
+	/**
+	 * Erlaubt einen Zurgiff auf eine bestimmt charKomponente anhand der ID, 
+	 * bzw. des Prefixes aus der ID.
+	 * (Z.B. "RAS-Zwerg") "RAS" ist das Prefix, das für alle Rassen-Ids gilt.
+	 * @param id Die ID mit dem Perfix
+	 * @return CharKomponente zu dem Prefix der ID
+	 */
+	public CharKomponenten getCharKompFromId(String id) {
+		String prefix = "";
+		
+		try {
+			prefix = id.split("-")[0]; // Spaltet den Prefix von der ID ab
+		} catch (ArrayIndexOutOfBoundsException e) {
+			ProgAdmin.logger.severe("prefix falsch aufgebaut! \n" + e.toString());
+		}
+		assert charKompMap.get(prefix) != null; // Gültigkeitsprüfung
+		
+		return charKompMap.get(prefix);
+	}
+	
+	/**
+	 * <u>Beschreibung:</u><br> 
+	 * Eine Konstante für alle Charakter Komponenten die vorkommen können.
+	 * Die einzehnen Konstanten sind mit Zusatzinformationen angereichert.
+	 * @author V. Strelow
+	 */
 	public enum CharKomponenten {
-		rasse("rassen"), 
-		kultur("kulturen"), 
-		profession("professionen"),
-		zusatzProfession("zusatzProfessionen"),
-		vorteil("vorteile"),
-		gabe("vorteileGaben"),
-		nachteil("nachteil"),
-		sonderfertigkeit("sonderfertigkeiten"),
-		ritusSF("sonderfertigkeitenLiRi"),
-		talent("talente"),
-		zauber("zauber"),
-		sprache("sprachen"),
-		schrift("schriften"),
-		liturgie("liturgien"),
-		ritual("rituale"),
-		ausruestung("ausruestung"),
-		fahrzeug("fahrzeuge"),
-		waffeNk("nkWaffen"),
-		waffeFk("fkWaffen"),
-		ruestung("ruestungen"),
-		schild("schilde"),
-		daemonenPakt("daemonenPakte"),
-		schwarzeGabe("schwarzeGaben"),
-		tier("tiere");
+		rasse("rassen" , "RAS"), 
+		kultur("kulturen", "KUL"), 
+		profession("professionen", "PRO"),
+		zusatzProfession("zusatzProfessionen", "ZPR"),
+		vorteil("vorteile", "VOR"),
+		gabe("vorteileGaben", "GAB"),
+		nachteil("nachteil", "NAC"),
+		sonderfertigkeit("sonderfertigkeiten", "SF"),
+		ritusSF("sonderfertigkeitenLiRi", "RSF"),
+		talent("talente", "TAL"),
+		zauber("zauber", "ZAU"),
+		sprache("sprachen", "SPR"),
+		schrift("schriften", "SFT"),
+		liturgie("liturgien", "LIT"),
+		ritual("rituale", "RIT"),
+		ausruestung("ausruestung", "AUS"),
+		fahrzeug("fahrzeuge", "FAH"),
+		waffeNk("nkWaffen", "NKW"),
+		waffeFk("fkWaffen", "FKW"),
+		ruestung("ruestungen", "RUE"),
+		schild("schilde", "SLD"),
+		daemonenPakt("daemonenPakte", "DAE"),
+		schwarzeGabe("schwarzeGaben", "SGA"),
+		tier("tiere", "TIE"),
+		eigenschaft("-", "EIG"); // Hat keinen XML Tag, wird durch Source-Code gefüllt
 		
-		private String xmlTag;
+//		Der XML-Tag der Komponente
+		private String xmlTag; // XML-Tag das alle entsprechenden Elemente umschließt
+		private String prefix; // Prefix der ID aller entsprechenden Elemente
+		/*private static CharKomponenten[] valuesEchte =  { 
+			rasse, kultur, profession, zusatzProfession, vorteil, gabe, nachteil,
+			sonderfertigkeit, ritusSF, talent, zauber, sprache, schrift, liturgie,
+			ritual, ausruestung, fahrzeug, waffeNk, waffeFk, ruestung, schild, 
+			daemonenPakt, schwarzeGabe, tier
+		};*/
 		
-		private CharKomponenten(String xmlTag) {
+		/**
+		 * Konstruktor
+		 * @param xmlTag XML-Tag des Elements, der alle anderen entrys umschließt
+		 * @param hashMap Enthält alle Elemente die zu dieser CharKomponente gehören
+		 */
+		private CharKomponenten(String xmlTag, String prefix) {
 			this.xmlTag = xmlTag;
-		}
+			this.prefix = prefix;
+		}	
 		
+		/**
+		 * @return Den XML-Tag des Elements. Und zwar der, der alle Elemente
+		 * der Art umschließt (also z.B. "rassen", NICHT "rasse")
+		 */
 		public String getXmlBoxTag() {
 			return xmlTag;
 		}
+		
+		/**
+		 * @return Die ersten Buchstaben einer jeden ID einer Charakter-Komponente. 
+		 * Mit dem Buchstaben kann man die Art der Komponente bestimmen.
+		 */
+		public String getPrefix() {
+			return prefix;
+		}
+
 	}
 }

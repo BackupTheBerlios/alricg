@@ -10,6 +10,7 @@ package org.d3s.alricg.CharKomponenten;
 import nu.xom.Element;
 
 import org.d3s.alricg.CharKomponenten.Links.Auswahl;
+import org.d3s.alricg.Controller.ProgAdmin;
 
 /**
  * <b>Beschreibung: </b> <br>
@@ -20,11 +21,13 @@ import org.d3s.alricg.CharKomponenten.Links.Auswahl;
  * @author V.Strelow
  */
 public abstract class Herkunft extends CharElement {
-    private int gpKosten;
-    private Herkunft varianteVon; //TODO Etwas besseres finden, evtl. Generics?
-    private boolean kannGewaehltWerden; // Eine Herkunft kann auch nur als Basis
+    
+	public enum Geschlecht {mann, frau, mannFrau};
+	
+	private int gpKosten;
+    private boolean kannGewaehltWerden = true; // Eine Herkunft kann auch nur als Basis
                                         // für Varianten dienen
-    private int geschlecht;
+    private Geschlecht geschlecht = Geschlecht.mannFrau;
     private int soMin;
     private int soMax;
     /**
@@ -36,7 +39,6 @@ public abstract class Herkunft extends CharElement {
             .getAnzahlEigenschaften()];*/
     
     // TODO: Es gibt doch auch hier ne Auswahl??
-    private Auswahl eigenschaftVoraussetzungen;
     private Auswahl eigenschaftModis;
     
     private Auswahl vorteileAuswahl;
@@ -62,7 +64,7 @@ public abstract class Herkunft extends CharElement {
      * 
      * @return Liefert das vorgeschriebene Geschlecht für diese Herkunft.
      */
-    public int getGeschlecht() {
+    public Geschlecht getGeschlecht() {
         return geschlecht;
     }
 
@@ -98,42 +100,42 @@ public abstract class Herkunft extends CharElement {
     }
 
     /**
-     * Wenn diese Herkunft eine Variante von einer anderen ist, so wird dies
-     * hier vermerkt.
-     * 
-     * @return Liefert die "Eltern-Herkunft"
-     */
-    public Herkunft getVarianteVon() {
-        // TODO implement getModi mit generics
-        return varianteVon;
-    }
-
-    /**
      * Mit dieser Methode werden die Modifikationen auf Eigenschaften (MU, KL,.. ),
      * LeP, AsP, AuP, Ka, SO, INI und MR ausgelesen.
      * 
-     * @param modiID
-     *            Die ID aus der Klasse "Eigenschaften"
+     * @param eigenschaft Die Enum aus der Klasse "Eigenschaften"
      * @return Der Modifikator-Wert für diese Eigenschaft
-     * @see org.d3s.alricg.CharComponenten.Eigenschaften
+     * @see org.d3s.alricg.CharComponenten.EigenschaftEnum
      */
-    public int getEigenschaftModi(int modiId) {
+    public int getEigenschaftModi(EigenschaftEnum eigenschaft) {
         // TODO implement getModi mit enum
         return 0; // eigenschaftModis[modiId];
     }
 
+    /**
+     * @return Auswahl an Vorteilen, die gewählt werden können,
+     */
     public Auswahl getVorteileAuswahl() {
         return vorteileAuswahl;
     }
 
+    /**
+     * @return Auswahl an Nachteilen, die gewählt werden können
+     */
     public Auswahl getNachteileAuswahl() {
         return nachteileAuswahl;
     }
-
+    
+    /**
+     * @return Auswahl an Sonderfertigkeiten, die gewählt werden können
+     */
     public Auswahl getSfAuswahl() {
         return sfAuswahl;
     }
-
+    
+    /**
+     * @return Auswahl an Liturgien, die gewählt werden können
+     */
     public Auswahl getLiturgienAuswahl() {
         return liturgienAuswahl;
     }
@@ -186,21 +188,75 @@ public abstract class Herkunft extends CharElement {
         return aktivierbareZauber;
     }
     
-    /* (non-Javadoc) Methode überschrieben
+    /* (non-Javadoc) Methode überschrieben / ruft super Methode auf!
      * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
      */
     public void loadXmlElement(Element xmlElement) {
     	super.loadXmlElement(xmlElement);
+    	
+// 		Auslesen der GP
+    	try {
+    		this.gpKosten = Integer.parseInt(xmlElement.getFirstChildElement("gp")
+    													.getValue());
+    		
+    		// Auslesen vom "kannGewaehltWerde"-Tag
+    		if ( xmlElement.getFirstChildElement("kannGewaehltWerden") != null ) {
+    			
+    			// Sicherstellen, das der Wert gültig ist
+    			assert xmlElement.getFirstChildElement("kannGewaehltWerden")
+									.getValue().equals("false") 
+						|| xmlElement.getFirstChildElement("kannGewaehltWerden")
+									.getValue().equals("true"); 
+    			
+    			if ( xmlElement.getFirstChildElement("kannGewaehltWerden")
+    												.getValue().equals("false") ) 
+    			{
+    				this.kannGewaehltWerden = false;
+    			} else { // ... .getValue().equals("ture")
+    				this.kannGewaehltWerden = true;
+    			}
+    		}
+
+    		// Auslesen des Geschlechts
+    		if ( xmlElement.getFirstChildElement("geschlecht") != null ) {
+    			
+    			// Sicherstellen, das der Wert gültig ist
+    			assert xmlElement.getFirstChildElement("geschlecht")
+									.getValue().equals("M") 
+						|| xmlElement.getFirstChildElement("geschlecht")
+									.getValue().equals("W")
+						|| xmlElement.getFirstChildElement("geschlecht")
+									.getValue().equals("MW"); 
+    			
+    			if ( xmlElement.getFirstChildElement("geschlecht").getValue().equals("M") ) {
+    				this.geschlecht = Geschlecht.mann;
+    			} else if ( xmlElement.getFirstChildElement("geschlecht").getValue().equals("W") ) {
+    				this.geschlecht = Geschlecht.frau;
+    			} else { //... .getValue().equals("MW")
+    				this.geschlecht = Geschlecht.mannFrau;
+    			}
+    		}
+    		
+    		// Auslesen der eigenschaftModi
+    		if ( xmlElement.getFirstChildElement("eigenschaftModi") != null ) {
+    			eigenschaftModis = new Auswahl( this );
+    			eigenschaftModis.loadXmlElement(xmlElement.getFirstChildElement("eigenschaftModi"));
+    		}
+    		
+    	} catch (NumberFormatException ex) {
+    		ProgAdmin.logger.severe( ex.toString() );
+    	}
+    	
     	// TODO implement
     }
     
-    /* (non-Javadoc) Methode überschrieben
+    /* (non-Javadoc) Methode überschrieben / ruft super Methode auf!
      * @see org.d3s.alricg.CharKomponenten.CharElement#writeXmlElement()
      */
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
     	// TODO implement
-    	return null;
+    	return xmlElement;
     }
 
 }

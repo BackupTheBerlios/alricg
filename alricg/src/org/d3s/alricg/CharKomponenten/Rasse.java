@@ -10,6 +10,8 @@ package org.d3s.alricg.CharKomponenten;
 import nu.xom.Element;
 
 import org.d3s.alricg.CharKomponenten.CharZusatz.WuerfelSammlung;
+import org.d3s.alricg.Controller.ProgAdmin;
+import org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten;
 /**
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
  * @author V.Strelow
@@ -24,6 +26,8 @@ public class Rasse extends Herkunft {
 
 	private int gewichtModi;
 	private int geschwindigk;
+	
+    private Rasse varianteVon;
 
 	/**
 	 * Konstruktur; id beginnt mit "RAS-" für Rasse
@@ -104,7 +108,16 @@ public class Rasse extends Herkunft {
      */
     public void loadXmlElement(Element xmlElement) {
     	super.loadXmlElement(xmlElement);
-    	// TODO implement
+    	
+    	// "varianteVon" auslesen
+		if ( xmlElement.getFirstChildElement("varianteVon") !=  null ) {
+			varianteVon = (Rasse) ProgAdmin.charKompAdmin.getCharElement(
+	    			xmlElement.getFirstChildElement("varianteVon").getValue(),
+	    			CharKomponenten.rasse
+	    		);
+		}
+		
+		// TODO implement
     }
     
     /* (non-Javadoc) Methode überschrieben
@@ -112,7 +125,23 @@ public class Rasse extends Herkunft {
      */
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
-    	// TODO implement
-    	return null;
+    	
+    	int idx; 
+    	Element element;
+    	
+    	xmlElement.setLocalName("rasse");
+    	
+    	// "varianteVon" schreiben
+    	if ( this.varianteVon != null ) {
+	    	// hierfür muß die richtige Position bestimmt werden: 
+	    	idx = xmlElement.indexOf( xmlElement.getFirstChildElement("gp") );
+	    	element = new Element("varianteVon");
+	    	element.appendChild(this.varianteVon.getId());
+	    	
+	    	// einfügen nach dem "gp" Element!
+	    	xmlElement.insertChild(element, idx+1);
+    	}
+    	
+    	return xmlElement;
     }
 }

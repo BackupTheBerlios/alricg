@@ -16,7 +16,7 @@ import nu.xom.Element;
  * @author V. Strelow
  */
 public class Schild extends Gegenstand {
-	private int BF; // Bruchfaktor
+	private int bf; // Bruchfaktor
 	private int ini; // Bruchfaktor
 	private int wmAT; // Waffenmodifikator / AT
 	private int wmPA; // Waffenmodifikator / PA
@@ -33,7 +33,7 @@ public class Schild extends Gegenstand {
 	 * @return Liefert den Bruchfaktor.
 	 */
 	public int getBF() {
-		return BF;
+		return bf;
 	}
 	
 	/**

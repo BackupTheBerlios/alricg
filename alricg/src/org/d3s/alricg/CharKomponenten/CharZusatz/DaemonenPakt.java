@@ -11,7 +11,7 @@ package org.d3s.alricg.CharKomponenten.CharZusatz;
 import nu.xom.Element;
 
 import org.d3s.alricg.CharKomponenten.CharElement;
-import org.d3s.alricg.CharKomponenten.Eigenschaften;
+import org.d3s.alricg.CharKomponenten.EigenschaftEnum;
 import org.d3s.alricg.CharKomponenten.Nachteil;
 import org.d3s.alricg.CharKomponenten.Sonderfertigkeit;
 import org.d3s.alricg.CharKomponenten.Talent;
@@ -35,7 +35,7 @@ public class DaemonenPakt extends CharElement {
 	private Zauber[] verbilligteZauber;
 	private Nachteil[] schlechteEigenschaften;
 	private SchwarzeGabe[] schwarzeGaben;
-	private Eigenschaften[] verbilligteEigenschaften;
+	private EigenschaftEnum[] verbilligteEigenschaften;
 	
 	/**
 	 * Konstruktur; id beginnt mit "DAE-" für DaemonenPakt

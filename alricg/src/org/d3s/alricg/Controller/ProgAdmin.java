@@ -18,8 +18,13 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
 import nu.xom.ParsingException;
+import nu.xom.ValidityException;
 
-import org.d3s.alricg.CharKomponenten.Eigenschaften;
+import org.d3s.alricg.CharKomponenten.CharElement;
+import org.d3s.alricg.CharKomponenten.EigenschaftEnum;
+import org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten;
+import org.d3s.alricg.GUI.Messenger;
+import org.d3s.alricg.GUI.SplashScreen;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -45,108 +50,309 @@ public class ProgAdmin {
 	
 	// Singeltons
 	public static Logger logger; // Für Nachrichten aller Art
-	public static String library; // Wird durch config File eingelesen
-	
+	public static Library library; // Wird durch config File eingelesen
+	public static Messenger messenger; // Für Nachrichten die Angezeigt werden sollen
+	public static CharKompAdmin charKompAdmin;
 	
 	public static void main(String[] args) {
 		
-		new ProgAdmin();
+		ProgAdmin p = new ProgAdmin();
 		
+		p.initProgAdmin();
 	}
 	
+
+	/**
+	 * Konstruktor. 
+	 * Initiiert den Logging-Service und den Messenger.
+	 */
 	public ProgAdmin() {
-		Element configRoot, tmpElement;
-		Elements tmpElementList;
-		ArrayList<File> arrayFiles = new ArrayList<File>();
 		
-	// ******* Initialisiere den Logger
+		// Initialisiere den Logger
 		logger =  Logger.getLogger( "Programm-Logger" );
+		logger.setUseParentHandlers(false); // Default logger ausschalten
 		logger.addHandler(new ConsoleHandler());
 		
-		
-		// Bearbeite das Config File:
-		configRoot = getRootElement( new File(DATEI_CONFIG) );
-		
-	// ********* Initialisiere die Library *********
-		tmpElement = getRootElement( new File( PFAD_LIBRARY 
-						+ configRoot.getFirstChildElement("library")
-						.getAttribute("file").getValue()) );
-		Library.initLibrary(tmpElement);
-		
-	// ******** Lese die Pfade zu den XML-Files mit Komponten ein *********
-		tmpElementList = configRoot.getFirstChildElement("xmlRuleFilesD3S")
-									.getChildElements();
-		
-		// Alle Orginal-Files einlesen und als File speichern
-		for (int i = 0; i < tmpElementList.size(); i++) {
-			arrayFiles.add( new File (PFAD_XML_DATEN_D3S 
-					+ tmpElementList.get(i).getValue() )
-			);
-		}
-		
-		// Prüfen ob die Userdaten überhaupt eingelesen werden sollen
-		if ( configRoot.getFirstChildElement("xmlRuleFilesUser")
-					.getAttributeValue("readUserFiles").equals("true") ) 
-		{
-			tmpElementList = configRoot.getFirstChildElement("xmlRuleFilesUser")
-										.getChildElements();
-			
-			// Alle User-Files einlesen und als File speichern
-			for (int i = 0; i < tmpElementList.size(); i++) {
-				arrayFiles.add( new File (PFAD_XML_DATEN_USER 
-						+ tmpElementList.get(i).getValue() )
-				);
-			}
-		}	
-		
-		// Einlesen der Files
-		
-		loadKomponents(arrayFiles);
-		
-		// TEST Wieder entfernen!
-		System.out.println(Library.getShortText(Eigenschaften.FF.getBezeichnung()));
-		System.out.println(Library.getShortText("AT"));
-		System.out.println(Library.getShortText("Körperkraft"));
+		// Initialisiere den Messenger für Nachrichten
+		messenger = new Messenger();
 	}
 	
+	/**
+	 * Läd beim erschaffen alle für das Programm nötigen XML-Files:
+	 * 	- Config-File
+	 * 	- Daten-Files
+	 *  - Libraray-File
+	 */
+	public void initProgAdmin()  {
+		Element configRoot;
+		SplashScreen splash;
+		ArrayList<File> arrayFiles, arrayFilesNeed;
+		
+		// Initialisiere SplashScreen
+		splash = new SplashScreen();
+		splash.setVisible(true);
+
+// 		Einlesen von XML Files
+		configRoot = initConfig();
+		logger.info("Config Datei geladen...");
+		messenger.sendInfo( "Config Datei geladen..." );
+		
+//		Library laden für Sprache
+		initLibrary(configRoot); 
+		logger.info("Library Datei geladen...");		
+		messenger.sendInfo( Library.getMiddleTxt("Library Datei geladen") );
+		
+//		CharKomp initiieren
+		charKompAdmin = new CharKompAdmin();
+		logger.info("CharKompAdmin erzeugt...");
+		
+// 		Lade "Regel-Dateien"
+		messenger.sendInfo( Library.getLongTxt("Regel-Dateien werden geladen") );
+		arrayFiles = getXmlFiles(configRoot); // Files aus Config laden
+		logger.info("Regel-Files aus Config geladen...");
+		initCharKomponents(arrayFiles); // "leere"-CharKomponenten aus Files erstellen
+		loadCharKomponents(arrayFiles); // Erzeugte CharKomponenten mit Inhalt füllen
+		
+// 		SplashScreen schließen
+		splash.setVisible(false);
+		splash.prepareDispose(); // Vom Messenger abmelden
+		splash.dispose();
+		splash = null;
+		
+//		Garbage Collector aufrufen um den Speicher frei zu geben
+		System.gc();
+	}
 	
 	/**
-	 * @param arrayFiles
+	 * Alle "leeren" CharKomponenten durchgehen und die Komponenten füllen!
 	 */
-	private void loadKomponents(ArrayList<File> arrayFiles) {
+	private void loadCharKomponents(ArrayList<File> arrayFiles) {
 		Elements elementList;
 		Element[] rootElements;
 		CharKompAdmin.CharKomponenten[] charKomps;
-		ArrayList<String> idArray;
-		
-		// GUARD Prüfe ob die Dateien eingelesen werden können
-		for (int i = 0; i < arrayFiles.size(); i++) {
-			if ( !arrayFiles.get(i).canRead() ) {
-				// TODO eine richtige Fehlermeldung einfügen!
-				System.out.println("Die Datei " + arrayFiles.get(i).getName() 
-						+ " kann nicht gelesen werden!");
-				return;
-			}
-		}
+		CharElement charElem;
 		
 		charKomps = CharKompAdmin.CharKomponenten.values();
-		idArray = new ArrayList<String>();
 		
-		//Files auslesen:
+		// Files auslesen, hier kann eingelich kein Lade Fehler auftreten,
+		// da alle File bereits durch "loadRegleXML" geladen waren!
 		rootElements = new Element[arrayFiles.size()];
 		for (int i = 0; i < rootElements.length; i++) {
 			rootElements[i] = getRootElement(arrayFiles.get(i));
 		}
 		
 		// Erzeuge alle CharElement-Objekte, nur mit ID
-		for (int i = 0; i < charKomps.length; i++) { // Alle CharKompos...
+		for (int i = 0; i < charKomps.length; i++) { // Alle CharKomps...
+			
+			for (int ii = 0; ii < rootElements.length; ii++) { // Für alle Files...
+				
+				// Gibt es ein Tag im xml-File für die CharKomp? ...
+				if ( rootElements[ii].getFirstChildElement(charKomps[i].getXmlBoxTag()) 
+						== null ) {
+					continue; // ... wenn nicht, überspringen
+				}
+				
+				// Alle Elemente zu dem CharKomp auslesen
+				elementList = rootElements[ii]
+						.getFirstChildElement( charKomps[i].getXmlBoxTag() )
+						.getChildElements(); 
+				
+				// Alle Elemente durchgehen und die Obejkte füllen!
+				for (int iii = 0; iii < elementList.size(); iii++) {
+					charElem = charKompAdmin.getCharElement(
+							elementList.get(iii).getAttributeValue("id"),
+							charKomps[i]);
+					
+					charElem.loadXmlElement( elementList.get(iii) );
+				}
+			}
+		}
+		
+//		 TODO implement
+	}
+	
+	/**
+	 * Läd das Config-XML File und beendet das Programm falls dies nicht möglich ist!.
+	 * @return Das Root-Element des Config-XML Files
+	 */
+	private Element initConfig() {
+		Element configRoot;
+		
+		configRoot = getRootElement( new File(DATEI_CONFIG) ); // Liest das Config File ein
+		
+		if (configRoot == null) { // Config konnte nicht geladen werden!
+			logger.severe("Config Datei (" + DATEI_CONFIG + ") konnte nicht geladen werden. Programm beendet. ");
+			messenger.showMessage(Messenger.Level.erwartetFehler, "Die Config-Datei kommte unter \n" 
+					+ DATEI_CONFIG + "\n"
+					+ "nicht geladen werden! Bitte überprüfen sie ob die Datei \n"
+					+ "Zugriffsbereit ist und im Orginalzustand vorliegt. \n"
+					+ "\n"
+					+ "Das Programm konnte ohne diese Datei nicht gestartet werden \n" 
+					+ "und wird nun wieder geschlossen!");
+					 
+			System.exit(1); // Programm Beenden
+		}
+		
+		return configRoot;
+
+	}
+	
+	/**
+	 * Initialisiert die Library, die für die Sprachsteuerung zuständig ist!
+	 * @param configRoot Das Config-Element um den Pfad zur Datei auszulesen
+	 */
+	private void initLibrary(Element configRoot) {
+		Element tmpElement = null;
+		String lang = ""; // Welche Sprache
+		boolean error = false;
+		
+		try {
+			tmpElement = getRootElement( new File( PFAD_LIBRARY 
+						+ configRoot.getFirstChildElement("library")
+						.getAttribute("file").getValue()) );
+			lang = configRoot.getFirstChildElement("library")
+								.getAttributeValue("lang");
+			if (tmpElement == null) { // Datei konnte nicht geladen werden
+				error = true; // Flag für schließen des Programms
+			}
+		} catch (Exception ex) {
+			logger.severe(ex.toString());
+			error = true; // Flag für schließen des Programms
+		}
+		
+		if (error) { // Fehler ist aufgetreten, Programm wird geschlossen!
+			logger.severe("Library Datei (" 
+					+ PFAD_LIBRARY + configRoot.getFirstChildElement("library").getAttribute("file").getValue()
+					+ ") konnte nicht geladen werden. Programm beendet. ");
+			messenger.showMessage(Messenger.Level.erwartetFehler, "Die Library-Datei kommte unter \n" 
+				+ PFAD_LIBRARY + configRoot.getFirstChildElement("library").getAttribute("file").getValue()+ "\n"
+				+ "nicht geladen werden! Bitte überprüfen sie ob die Datei \n"
+				+ "Zugriffsbereit ist und im Orginalzustand vorliegt. \n"
+				+ "\n"
+				+ "Das Programm konnte ohne diese Datei nicht gestartet werden \n" 
+				+ "und wird nun wieder geschlossen!");
+			System.exit(1);
+		}
+		
+		Library.initLibrary(tmpElement, lang);
+	}
+	
+	/**
+	 * Ließt alle XML-Files ein, die laut Config eingelesen werden sollen.
+	 * Ließt auch die als im "benoetigtDateien" Tag angegeben Dateinen ein.
+	 * @param configRoot Das Config-Element um den Pfad zur Datei auszulesen
+	 * @return Eine ArrayList mir allen Files die eingelesen werden sollen 
+	 * 			(inklusive dem "benoetigtDateien"-Tag
+	 */
+	private ArrayList<File> getXmlFiles(Element configRoot) {
+		Elements tmpElementList;
+		ArrayList<File> arrayFiles = new ArrayList<File>();
+		
+		// Lese die Pfade zu den XML-Files mit Komponten ein
+		tmpElementList = configRoot.getFirstChildElement("xmlRuleFilesD3S")
+									.getChildElements();
+		
+		// Alle Orginal-Files einlesen und als File speichern
+		for (int i = 0; i < tmpElementList.size(); i++) {
+			loadRegelFile(arrayFiles, new File (PFAD_XML_DATEN_D3S 
+					+ tmpElementList.get(i).getValue()) );
+		}
+		
+		// Prüfen ob die Userdaten überhaupt eingelesen werden sollen
+		if ( configRoot.getFirstChildElement("xmlRuleFilesUser")
+					   .getAttributeValue("readUserFiles")
+					   .equals("true") ) 
+		{
+			tmpElementList = configRoot.getFirstChildElement("xmlRuleFilesUser")
+										.getChildElements();
+			
+			// Alle User-Files einlesen und als File speichern
+			for (int i = 0; i < tmpElementList.size(); i++) {
+				loadRegelFile(arrayFiles, new File (PFAD_XML_DATEN_USER 
+						+ tmpElementList.get(i).getValue()) );
+			}
+		}
+		
+		return arrayFiles;
+	}
+	
+	/**
+	 * Methode für Rekurisven Aufruf, fügt das übergebene file und alle
+	 * im "benötigteDateien"-Tag enthaltenen Files zum Array hinzu, wenn
+	 * sie im Array noch nicht vorhanden sind. (Nötig für einladen der Regel
+	 * Files) 
+	 * @param arrayFiles Array mit allen Parameter - IN/OUT Parameter
+	 * @param file Das File das ggf. hinzugefügt werden soll mit "benötigtenDateien".
+	 */
+	private void loadRegelFile(ArrayList<File> arrayFiles, File file) {
+		Element tempElement;
+		Elements elementList;
+		
+		// Wenn das File schon enthalten ist --> return
+		if ( arrayFiles.contains(file) ) return;
+		
+		tempElement = getRootElement(file); // File als XML laden
+		if (tempElement == null) return; // Konnte nicht geladen werden --> return
+		
+		arrayFiles.add(file); // ansonsten File hinzufügen
+		
+		tempElement = tempElement.getFirstChildElement("preamble")
+						.getFirstChildElement("benoetigtDateien");
+		
+		// Falls das File keine weiteren Dateien benötigt --> Return
+		if (tempElement == null) return;
+		
+		elementList = tempElement.getChildElements("datei");
+		
+		// Rekursiver Aufruf mit allen von diesem File benötigten Dateien
+		for (int i = 0; i < elementList.size(); i++) {
+			if (elementList.get(i).getAttribute("ordner").getValue().equals("d3s") ) 
+			{
+				loadRegelFile(arrayFiles, new File(PFAD_XML_DATEN_D3S 
+						+ elementList.get(i).getValue()));
+			} else { // value = user
+				loadRegelFile(arrayFiles, new File(PFAD_XML_DATEN_USER 
+						+ elementList.get(i).getValue()));
+			}
+		}
+	}
+	
+	/**
+	 * Ließt alle Files ein und erzeugt die CharElemente (nur mit ID)
+	 * @param arrayFiles Eine ArrayList mit allen Dateien die Eingelesen werden
+	 */
+	private void initCharKomponents(ArrayList<File> arrayFiles) {
+		Elements elementList;
+		Element[] rootElements;
+		CharKomponenten[] charKomps;
+		ArrayList<String> idArray;
+		
+		charKomps = CharKompAdmin.CharKomponenten.values();
+		idArray = new ArrayList<String>();
+		
+		// Files auslesen, hier kann eingelich kein Lade Fehler auftreten,
+		// da alle File bereits durch "loadRegleXML" geladen waren!
+		rootElements = new Element[arrayFiles.size()];
+		for (int i = 0; i < rootElements.length; i++) {
+			rootElements[i] = getRootElement(arrayFiles.get(i));
+		}
+		
+		// Erzeuge alle CharElement-Objekte, nur mit ID
+		for (int i = 0; i < charKomps.length; i++) { // Alle CharKomps...
 			idArray.clear();
 			
 			for (int ii = 0; ii < rootElements.length; ii++) { // Für alle Files...
 				
+				// Gibt es ein Tag im xml-File für die CharKomp? ...
+				if (rootElements[ii].getFirstChildElement( charKomps[i].getXmlBoxTag() ) 
+						== null) {
+					continue; // ... wenn nicht, überspringen
+				}
+				
+				// Alle Elemente zu dem CharKomp auslesen
 				elementList = rootElements[ii]
 						.getFirstChildElement( charKomps[i].getXmlBoxTag() )
-						.getChildElements(); // Alle Elemente auslesen
+						.getChildElements(); 
 				
 				// Ids in ein Array Schreiben
 				for (int iii = 0; iii < elementList.size(); iii++) { 
@@ -154,21 +360,63 @@ public class ProgAdmin {
 				}
 			}
 			
-			//Objekte erzeugen lassen
-			CharKompAdmin.self.initCharKomponents(idArray, charKomps[i]);
+			//Objekte erzeugen lassen (nur mit ID)
+			charKompAdmin.initCharKomponents(idArray, charKomps[i]);
 		}
+		
+		// Eigenschaften hinzufügen (initialisierung erstellt diese komplett)
+		charKompAdmin.initCharKomponents(EigenschaftEnum.getIdArray(), 
+										CharKomponenten.eigenschaft);
 	}
 	
-	private Element getRootElement(File xmlFile){
+	
+	/**
+	 * Ließt ein XML-File ein und gibt das RootElement zurück.
+	 * @param xmlFile Das File das eingelesen werden soll
+	 * @return Das rootElement des XML-Files oder null, falls die Datei nicht geladen 
+	 * werden konnte!
+	 */
+	private Element getRootElement(File xmlFile) {
 		
 		try {
-			Builder parser = new Builder();
+			Builder parser = new Builder(); // Auf true setzen für Validierung
 			Document doc = parser.build(xmlFile);
 			return doc.getRootElement();
+		
+		} catch (ValidityException ex) { 
+			logger.severe(ex.getMessage());
+			messenger.showMessage(Messenger.Level.erwartetFehler, 
+					Library.getErrorTxt("Fehlerhafte Datei") + "\n" 
+					+ "  " + xmlFile.getName() + "\n"
+					+ Library.getErrorTxt("XML Validierungsfehler") );
+			
 		} catch (ParsingException ex) {
-			ex.printStackTrace();
+			logger.severe(ex.getMessage());
+			messenger.showMessage( Messenger.Level.erwartetFehler,
+					Library.getErrorTxt("Fehlerhafte Datei") + "\n" 
+					+ "  " + xmlFile.getName() + "\n"
+					+ Library.getErrorTxt("XML Parsingfehler") );
+			
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			if ( !xmlFile.exists() ) {
+				logger.severe(ex.getMessage());
+				messenger.showMessage( Messenger.Level.erwartetFehler,
+						Library.getErrorTxt("Fehlerhafte Datei") + "\n" 
+						+ "  " + xmlFile.getName() + "\n"
+						+ Library.getErrorTxt("Datei existiert nicht Fehler") );
+			} else if (	!xmlFile.canRead() ) {
+				logger.severe(ex.getMessage());
+				messenger.showMessage( Messenger.Level.erwartetFehler,
+						Library.getErrorTxt("Fehlerhafte Datei") + "\n" 
+						+ "  " + xmlFile.getName() + "\n"
+						+ Library.getErrorTxt("Datei nicht lesbar Fehler") );
+			} else {
+				logger.severe(ex.getMessage());
+				messenger.showMessage( Messenger.Level.erwartetFehler,
+						Library.getErrorTxt("Fehlerhafte Datei") + "\n" 
+						+ "  " + xmlFile.getName() + "\n"
+						+ Library.getErrorTxt("Datei nicht lesbar/unbekannt Fehler") );
+			}
 		}
 		
 		return null;
