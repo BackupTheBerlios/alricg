@@ -79,9 +79,11 @@ public class IdLinkList {
     				|| links[i].getText() != null
     				|| links[i].getWert() != IdLink.KEIN_WERT
     				|| links[i].isLeitwert() != false) {
+    			
     			// Schreiben in Option, zusätzliche Angaben nötig
     			tmpElement = links[i].writeXmlElement("linkId");
-    		
+    			xmlElement.appendChild(tmpElement);
+    			
     		} else { // Schreiben in Attribut, nur Id nötig
     			strBuffer.append(links[i].getLinkId());
     			strBuffer.append(" ");
