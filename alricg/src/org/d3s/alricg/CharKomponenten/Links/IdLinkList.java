@@ -2,7 +2,7 @@
  * Created on 25.02.2005 / 19:13:45
  *
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
@@ -41,7 +41,11 @@ public class IdLinkList {
     	Elements tmpElements;
     	
     	// Auslesen der Tags
-    	ids = xmlElement.getAttributeValue("ids").split(" ");
+    	if ( xmlElement.getAttribute("ids") != null ) {
+    		ids = xmlElement.getAttributeValue("ids").split(" ");
+    	} else {
+    		ids = new String[0];
+    	}
     	tmpElements = xmlElement.getChildElements("linkId");
     	
     	// Erstellen des link-Objekts
