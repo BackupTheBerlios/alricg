@@ -26,6 +26,7 @@
 							<xsd:element name="allgemeineDaten" type="h_allgemeineDatenTyp"/>
 							<xsd:element name="basisWerte" type="h_basisWerteTyp"/>
 							<xsd:element name="herkunft" type="h_herkunftTyp"/>
+							<xsd:element name="daemonenPakte" type="h_paktTyp"/>
 							<xsd:element name="logBuch" type="h_charakerLogBuchTyp"/>
 							<xsd:element name="vorteile" type="h_vorteilTyp"/>
 							<xsd:element name="gaben" type="h_vorteilGabenTyp"/>
@@ -219,6 +220,35 @@
 			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
+	<!-- ***************************** Dämonen-Pakt ******************************* -->
+	<xsd:complexType name="h_paktTyp">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="DE">
+				kreisDerVerdammnis - Ein Wert zwischen 1-7
+				verfallspunkte - Siehe Seite 27 im "Mit Geistermscht und Sphärenkraft"?
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="daemonenPakt" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="kreisDerVerdammnis" type="heldElementTyp"/>
+						<xsd:element name="paktGp" type="heldElementTyp"/>
+						<xsd:element name="gesamtVerfallspunkte" type="heldElementTyp"/>
+						<xsd:element name="aktuelleVerfallspunkte" type="heldElementTyp"/>
+						<xsd:element name="schwarzeGaben" minOccurs="0">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="sonderf" type="heldElementTyp" maxOccurs="unbounded"/>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+					<xsd:attribute name="daemonenPaktId" type="xsd:string" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
 	<!-- ***************************** Sonderf ******************************* -->
 	<xsd:complexType name="h_sonderfertigkeitTyp">
 		<xsd:sequence>
@@ -226,10 +256,10 @@
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="h_sonderfLiRiTyp">
-		<!-- Für Liturgiekenntnic und Ritualkenntnis --> 
 		<xsd:sequence>
 			<xsd:element name="sonderfLiRi" type="heldElementTyp" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
+		<!-- Für Liturgiekenntnic und Ritualkenntnis -->
 	</xsd:complexType>
 	<!-- ***************************** Vorteile ******************************* -->
 	<xsd:complexType name="h_vorteilTyp">
@@ -474,7 +504,7 @@
 						<xsd:element name="nachteile">
 							<xsd:complexType>
 								<xsd:sequence>
-									<xsd:element name="nachteile" type="xsd:string"/>
+									<xsd:element name="nachteil" type="xsd:string"/>
 								</xsd:sequence>
 							</xsd:complexType>
 						</xsd:element>
@@ -573,7 +603,7 @@
 		<xsd:sequence>
 			<xsd:element name="text" type="xsd:string" minOccurs="0"/>
 			<xsd:element name="linkId" type="xsd:string" minOccurs="0"/>
-			<xsd:element name="log" type="logTyp"/>
+			<xsd:element name="log" type="logTyp" minOccurs="0"/>
 			<xsd:element name="anmerkung" type="xsd:string" minOccurs="0"/>
 		</xsd:sequence>
 		<xsd:attribute name="id" type="xsd:string" use="optional"/>
@@ -615,11 +645,17 @@
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="modus" type="xsd:string"/>
-			<xsd:element name="neuerWert" type="xsd:string"/>
-			<xsd:element name="bezahlteAp" type="xsd:int"/>
-			<xsd:element name="zeit" type="xsd:string"/>
-			<xsd:element name="logText" type="xsd:string"/>
+			<xsd:element name="eintrag" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="modus" type="xsd:string"/>
+						<xsd:element name="logText" type="xsd:string"/>
+					</xsd:sequence>
+					<xsd:attribute name="zeit" type="xsd:string" use="required"/>
+					<xsd:attribute name="neuerWert" type="xsd:string" use="required"/>
+					<xsd:attribute name="bezahlteAp" type="xsd:int" use="optional"/>
+				</xsd:complexType>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 </xsd:schema>

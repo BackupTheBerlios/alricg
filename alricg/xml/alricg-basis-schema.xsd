@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by tyr (odin) -->
 <!--
  * Created on 17.12.2004
  *
@@ -8,13 +7,12 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
 -->
-<xsd:schema targetNamespace="http://www.die3sphaere.de/alricg" xmlns="http://www.die3sphaere.de/alricg" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:schema targetNamespace="http://www.die3sphaere.de/alricg" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.die3sphaere.de/alricg">
 	<xsd:annotation>
 		<xsd:documentation xml:lang="DE">
 			Schema-file für ALRICG. Wird von anderen Files importiert
 		</xsd:documentation>
 	</xsd:annotation>
-
 	<!-- ************************************************************************************************************************** -->
 	<!-- ***********************************                         Simple BasisTypen             ****************************** -->
 	<!--**************************************************************************************************************************** -->
@@ -77,6 +75,7 @@
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="antimagie"/>
 			<xsd:enumeration value="beschwoerung"/>
+			<xsd:enumeration value="daemonisch"/>
 			<xsd:enumeration value="daemonisch (blakharaz)"/>
 			<xsd:enumeration value="daemonisch (belhalhar)"/>
 			<xsd:enumeration value="daemonisch (charyptoroth)"/>
@@ -151,7 +150,6 @@
 				schwarzeLande und ehernesSchwert sind KEINE angaben für sprachen, sondern für Waffen u.ä.
 			</xsd:documentation>
 		</xsd:annotation>
-	
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="garetien"/>
 			<xsd:enumeration value="horasreich"/>
@@ -183,7 +181,6 @@
 			<xsd:enumeration value="ehernesSchwert"/>
 		</xsd:restriction>
 	</xsd:simpleType>
-	
 	<xsd:simpleType name="charArtenTyp">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="alle"/>
@@ -205,4 +202,3 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 </xsd:schema>
-
