@@ -109,8 +109,6 @@
 					<xsd:element name="professionMoeglich" type="idListe" minOccurs="0"/>
 					<xsd:element name="sprachen" type="auswahlType" minOccurs="0"/>
 					<xsd:element name="schriften" type="auswahlType" minOccurs="0"/>
-					<xsd:element name="liturgien" type="auswahlType" minOccurs="0"/>
-					<xsd:element name="rituale" type="auswahlType" minOccurs="0"/>
 					<xsd:element name="muttersprache" type="auswahlType"/>
 					<xsd:element name="zweitsprache" type="auswahlType" minOccurs="0"/>
 					<xsd:element name="ausruestung" type="xsd:string"  minOccurs="0"/>
@@ -140,8 +138,6 @@
 					</xsd:element>
 					<xsd:element name="sprachen" type="auswahlType" minOccurs="0"/>
 					<xsd:element name="schriften" type="auswahlType" minOccurs="0"/>
-					<xsd:element name="liturgien" type="auswahlType" minOccurs="0"/>
-					<xsd:element name="rituale" type="auswahlType" minOccurs="0"/>
 					<xsd:element name="ausruestung" type="xsd:string"/>
 					<xsd:element name="besondererBesitz" type="xsd:string" minOccurs="0"/>
 				</xsd:sequence>
@@ -345,11 +341,23 @@
 	<xsd:complexType name="faehigkeitTyp">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="DE">
-				Grundtype fuer alle Faehigkeiten (alles was ein Char wÃ¤hlen kann)
+				Grundtype fuer alle Faehigkeiten (alles was ein Char waehlen kann)
+				- Beschreibung: Allgemeine Beschreibung der Faehigkeit
+				- regelAnmerkung: Eine Sammlung von Anmerkungen zu den Reglen,
+					die das Programm nicht automatisch erledigen kann
+				- sammelbegriff: Oberbegriffe (z.B. Zwerge) zur besseren Sortierung
+				- sonderregel: Id zu einer Sonderregel
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
 			<xsd:element name="beschreibung" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="regelAnmerkung" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="regel" type="xsd:string"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
 			<xsd:element name="sammelbegriff" type="xsd:string" minOccurs="0"/>
 			<!-- Seitenzahl -->
 			<!-- Z.B. "Rituale" Zur besseren Ordnung gleichartiger Elemente -->
@@ -364,6 +372,14 @@
 		<xsd:annotation>
 			<xsd:documentation xml:lang="DE">
 				Grundtype fuer Rasse, Kultur, Profession
+				varianteVon - Diese Herkunft ist eine Variante einer anderen
+				kannGewaehltWerden - Kann die Herkunft nicht gewählt werden,
+					so handelt es sich um einen "Varianten Rumpf", also einen
+					"Vater" von Varianten, der aber selbst nicht wählbar ist.
+					Default: true
+				geschlecht - Diese Herkunft ist nur für ein bestimmtes Geschlecht
+					möglich
+					Default: MW (Also beide Geschlechter)
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
@@ -371,9 +387,20 @@
 				<xsd:sequence>
 					<xsd:element name="gp" type="xsd:nonNegativeInteger"/>
 					<xsd:element name="varianteVon" type="xsd:string" minOccurs="0"/>
+					<xsd:element name="kannGewaehltWerden" type="xsd:boolean" minOccurs="0"/>
+					<xsd:element name="geschlecht" minOccurs="0">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:enumeration value="M"/>
+								<xsd:enumeration value="W"/>
+								<xsd:enumeration value="MW"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
 					<xsd:element name="lepModi" type="xsd:int" minOccurs="0"/>
 					<xsd:element name="aupModi" type="xsd:int" minOccurs="0"/>
 					<xsd:element name="aspModi" type="xsd:int" minOccurs="0"/>
+					<xsd:element name="kaModi" type="xsd:int" minOccurs="0"/>
 					<xsd:element name="mrModi" type="xsd:int" minOccurs="0"/>
 					<xsd:element name="soMin" type="xsd:nonNegativeInteger" minOccurs="0"/>
 					<xsd:element name="soMax" type="xsd:nonNegativeInteger" minOccurs="0"/>
@@ -383,6 +410,8 @@
 					<xsd:element name="vorteile" type="auswahlType" minOccurs="0"/>
 					<xsd:element name="nachteile" type="auswahlType" minOccurs="0"/>
 					<xsd:element name="sonderf" type="auswahlType" minOccurs="0"/>
+					<xsd:element name="liturgien" type="auswahlType" minOccurs="0"/>
+					<xsd:element name="rituale" type="auswahlType" minOccurs="0"/>
 					<xsd:element name="empfVorteile" type="idListe" minOccurs="0"/>
 					<xsd:element name="empfNachteile" type="idListe" minOccurs="0"/>
 					<xsd:element name="ungeVorteile" type="idListe" minOccurs="0"/>
@@ -390,6 +419,8 @@
 					<xsd:element name="verbilligteVorteile" type="auswahlType" minOccurs="0"/>
 					<xsd:element name="verbilligteNachteile" type="auswahlType" minOccurs="0"/>
 					<xsd:element name="verbilligteSonderf" type="auswahlType" minOccurs="0"/>
+					<xsd:element name="verbilligteLiturgien" type="auswahlType" minOccurs="0"/>
+					<xsd:element name="verbilligteRituale" type="auswahlType" minOccurs="0"/>
 					<xsd:element name="talente" type="auswahlType" minOccurs="0"/>
 					<xsd:element name="hauszauber" type="auswahlType" minOccurs="0"/>
 					<xsd:element name="zauber" type="auswahlType" minOccurs="0"/>
