@@ -107,10 +107,11 @@
 				<xsd:sequence>
 					<xsd:element name="professionUeblich" type="idListe" minOccurs="0"/>
 					<xsd:element name="professionMoeglich" type="idListe" minOccurs="0"/>
-					<xsd:element name="sprachen" type="auswahlType" minOccurs="0"/>
-					<xsd:element name="schriften" type="auswahlType" minOccurs="0"/>
 					<xsd:element name="muttersprache" type="auswahlType"/>
 					<xsd:element name="zweitsprache" type="auswahlType" minOccurs="0"/>
+					<xsd:element name="sprachen" type="auswahlType" minOccurs="0"/>
+					<xsd:element name="schriften" type="auswahlType" minOccurs="0"/>
+					<!-- Bei Sprachen und schriften sind als ID auch erlaubt: "muttersprache" und "mutterspracheSchrift" -->
 					<xsd:element name="ausruestung" type="xsd:string"  minOccurs="0"/>
 					<!-- haben die Elfen -->
 				</xsd:sequence>
@@ -136,6 +137,10 @@
 						</xsd:simpleType>
 						<!-- in erster Line für eine bessere Anordnung der Elemenet -->
 					</xsd:element>
+					<!-- Verbote sind nicht erlaubte Eigenschaften, die als Voraussetzung gelten -->
+					<xsd:element name="verboteVT" type="idListe" minOccurs="0"/>
+					<xsd:element name="verboteNT" type="idListe" minOccurs="0"/>
+					<xsd:element name="verboteSF" type="idListe" minOccurs="0"/>
 					<xsd:element name="sprachen" type="auswahlType" minOccurs="0"/>
 					<xsd:element name="schriften" type="auswahlType" minOccurs="0"/>
 					<xsd:element name="ausruestung" type="xsd:string"/>
@@ -146,7 +151,7 @@
 						<xsd:restriction base="xsd:string">
 							<xsd:enumeration value="zeitaufwendig"/>
 							<xsd:enumeration value="erstprofession"/>
-							<xsd:enumeration value="zweitprofession"/>
+							<xsd:enumeration value="zusatzprofession"/>
 						</xsd:restriction>
 					</xsd:simpleType>
 				</xsd:attribute>
