@@ -7,6 +7,7 @@
 
 package org.d3s.alricg.CharKomponenten.Links;
 
+import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Elements;
 
@@ -41,16 +42,14 @@ public class Auswahl {
 		}
 	}
 	
-	private VarianteAuswahl[] varianteAuswahl;
+	protected VariableAuswahl[] varianteAuswahl;
     private Herkunft herkunft; // Das CharElement, von dem die Auswahl kommt
-	private IdLink[] festeAuswahl; // Die unveränderlichen Werte
+	protected IdLink[] festeAuswahl; // Die unveränderlichen Werte
 	
 	
 	/**
 	 * Konstruktor
 	 * @param herkunft Die "quelle" dieser Auswahl
-	 * @param festeAuswahl Elemente, die fest sind, quasi also nicht 
-	 * 		gewählt werden
 	 */
 	public Auswahl(Herkunft herkunft) {
 		this.herkunft = herkunft;
@@ -86,8 +85,8 @@ public class Auswahl {
     	String tmpString;
     	String[] tmpStringAR;
         Modus modus;
-        int[] werte;
-        int anzahl = 0;
+        int[] werte = new int[0]; // Default
+        int anzahl = 0; // Default
         IdLink[] optionen;
         
     	// Auslesen der unveränderlichen, "festen" Elemente der Auswahl
@@ -100,7 +99,7 @@ public class Auswahl {
     	
     	// Auslesen der Auswahlmöglichkeiten
     	tmpElements = xmlElement.getChildElements("modus");
-    	varianteAuswahl = new VarianteAuswahl[tmpElements.size()];
+    	varianteAuswahl = new VariableAuswahl[tmpElements.size()];
     	for (int i = 0; i < varianteAuswahl.length; i++) {
     		tmpString = tmpElements.get(i).getAttributeValue("modus");
     		
@@ -126,8 +125,6 @@ public class Auswahl {
     			for (int ii = 0; ii < tmpStringAR.length; ii++){
     				werte[ii] = Integer.parseInt(tmpStringAR[ii]);
     			}
-    		} else {
-    			werte = new int[0];
     		}
     		
     		// EInlesen des optionalen Feldes Anzahl
@@ -145,20 +142,62 @@ public class Auswahl {
     		}
     		
     		// Erzeugen der Varianten Auswahl...
-    		varianteAuswahl[i] = new VarianteAuswahl(modus, werte, anzahl, optionen);
+    		varianteAuswahl[i] = new VariableAuswahl(modus, werte, anzahl, optionen);
     	}
     	
     }
     	
-	
     /**
      * Dient zur Speicherung (also für den Editor) des Objekts. Alle Angaben werden 
      * in ein XML Objekt "gemapt".
+     * @param tagName Der name des Tags
      * @return Ein Xml-Element mit allen nötigen Angaben.
      */
-    public Element writeXmlElement(){
-    	// TODO implement
-    	return null;
+    public Element writeXmlElement(String tagName){
+    	Element tmpXmlElemnt, xmlElement = new Element("tagName");
+    	StringBuffer tmpString = new StringBuffer("");
+    	
+// 		Schreiben der festen Elemente
+    	for (int i = 0; i < festeAuswahl.length; i++) {
+    		xmlElement.appendChild(festeAuswahl[i].writeXmlElement("fest"));
+    	}
+    	
+//    	 Schreiben der "variablen" Elemente
+    	for (int i = 0; i < varianteAuswahl.length; i++) {
+    		tmpXmlElemnt = new Element("auswahl");
+
+    		// Scheiben der einzelnen Optionen:
+    		for (int ii = 0; ii < varianteAuswahl[i].getOptionen().length; ii++ ){
+    			tmpXmlElemnt.appendChild(varianteAuswahl[i]
+    			                         .getOptionen()[ii].writeXmlElement("option"));
+    		}
+    		
+    		// Schreiben des Attributs "werte"
+    		for (int ii = 0; ii < varianteAuswahl[i].getWerte().length; ii++) {
+    			tmpString.append(Integer.toString(varianteAuswahl[i].getWerte()[ii]));
+    			tmpString.append(" ");
+    		}
+    		if (tmpString.length() > 0) {
+    			tmpXmlElemnt.addAttribute(new Attribute( "werte", 
+    											tmpString.toString().trim() ));
+    		}
+    		
+    		// Schreiben des Attribus "anzahl"
+    		if (varianteAuswahl[i].getAnzahl() != 0) {
+    			tmpXmlElemnt.addAttribute(new Attribute( "anzahl", 
+    								Integer.toString(varianteAuswahl[i].getAnzahl()) ));
+    		}
+    		
+    		// Schreiben des Attributs "modus"
+    		tmpXmlElemnt.addAttribute(new Attribute( "modus",
+    										varianteAuswahl[i].getModus().getXmlWert() ));
+    		
+    		
+    		// Anhängen des Elements:
+    		xmlElement.appendChild(tmpXmlElemnt);
+    	}
+    	
+    	return xmlElement;
     }
 	
 	/**
@@ -174,19 +213,42 @@ public class Auswahl {
      *  Optionen ausgewählt, dann der "wert" beliebig auf die gewählten optionen
      *  verteilt. (Siehe "Elfische Siedlung" S. 37 im AZ)
 	*/
-	private class VarianteAuswahl {
-        Modus modus;
-        int[] werte;
-        int anzahl;
-        IdLink[] optionen;
+	protected class VariableAuswahl {
+        private Modus modus;
+        private int[] werte;
+        private int anzahl;
+        private IdLink[] optionen;
 
-		public VarianteAuswahl(Modus modus, int[] werte, int anzahl, IdLink[] optionen) {
+		public VariableAuswahl(Modus modus, int[] werte, int anzahl, IdLink[] optionen) {
 			this.modus = modus;
 			this.werte = werte;
             this.anzahl = anzahl;
             this.optionen = optionen;
-            
 		}
 		
+		/**
+		 * @return Liefert das Attribut anzahl.
+		 */
+		public int getAnzahl() {
+			return anzahl;
+		}
+		/**
+		 * @return Liefert das Attribut modus.
+		 */
+		public Modus getModus() {
+			return modus;
+		}
+		/**
+		 * @return Liefert das Attribut optionen.
+		 */
+		public IdLink[] getOptionen() {
+			return optionen;
+		}
+		/**
+		 * @return Liefert das Attribut werte.
+		 */
+		public int[] getWerte() {
+			return werte;
+		}
 	}
 }
