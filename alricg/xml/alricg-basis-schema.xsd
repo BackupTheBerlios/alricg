@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by tyr (odin) -->
+<!--
+ * Created on 17.12.2004
+ *
+ * This file is part of the project ALRICG. The file is copyright
+ * protected an under the GNU licence.
+ * For more information see "http://alricg.die3sphaere.de/".
+ *
+-->
+<xsd:schema targetNamespace="http://www.die3sphaere.de/alricg" xmlns="http://www.die3sphaere.de/alricg" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="DE">
+		Schema-file für ALRICG. Alle Daten aus der XML-Datenbasis können mit diesem File validiert werden.
+
+		</xsd:documentation>
+	</xsd:annotation>
+
+	<!-- ************************************************************************************************************************** -->
+	<!-- ***********************************                         Simple BasisTypen             ****************************** -->
+	<!--**************************************************************************************************************************** -->
+	<xsd:simpleType name="eigenschaftTyp">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="MU"/>
+			<xsd:enumeration value="KL"/>
+			<xsd:enumeration value="IN"/>
+			<xsd:enumeration value="CH"/>
+			<xsd:enumeration value="FF"/>
+			<xsd:enumeration value="GE"/>
+			<xsd:enumeration value="KO"/>
+			<xsd:enumeration value="KK"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="kostenKlasseTyp">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="A"/>
+			<xsd:enumeration value="B"/>
+			<xsd:enumeration value="C"/>
+			<xsd:enumeration value="D"/>
+			<xsd:enumeration value="E"/>
+			<xsd:enumeration value="F"/>
+			<xsd:enumeration value="G"/>
+			<xsd:enumeration value="H"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="liturgieHerkunftTyp">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="allgemein"/>
+			<xsd:enumeration value="zwölf"/>
+			<xsd:enumeration value="praios"/>
+			<xsd:enumeration value="rondra"/>
+			<xsd:enumeration value="efferd"/>
+			<xsd:enumeration value="travia"/>
+			<xsd:enumeration value="boron"/>
+			<xsd:enumeration value="hesinde"/>
+			<xsd:enumeration value="firun"/>
+			<xsd:enumeration value="tsa"/>
+			<xsd:enumeration value="phex"/>
+			<xsd:enumeration value="peraine"/>
+			<xsd:enumeration value="ingerimm"/>
+			<xsd:enumeration value="rahja"/>
+			<xsd:enumeration value="aves"/>
+			<xsd:enumeration value="kor"/>
+			<xsd:enumeration value="nandus"/>
+			<xsd:enumeration value="ifirn"/>
+			<xsd:enumeration value="horas"/>
+			<xsd:enumeration value="swafnir"/>
+			<xsd:enumeration value="angrosch"/>
+			<xsd:enumeration value="h'szint"/>
+			<xsd:enumeration value="zsahh"/>
+			<xsd:enumeration value="tairach"/>
+			<xsd:enumeration value="gravesh"/>
+			<xsd:enumeration value="rikai"/>
+			<xsd:enumeration value="kamaluqs"/>
+			<xsd:enumeration value="himmelswölfe"/>
+			<xsd:enumeration value="sonstiges"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="repraesentationTyp">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="gildenmagier"/>
+			<xsd:enumeration value="elfen"/>
+			<xsd:enumeration value="druide"/>
+			<xsd:enumeration value="hexen"/>
+			<xsd:enumeration value="geode"/>
+			<xsd:enumeration value="schelme"/>
+			<xsd:enumeration value="scharlatane"/>
+			<xsd:enumeration value="borbaradianer"/>
+			<xsd:enumeration value="kristallomant"/>
+			<xsd:enumeration value="alchemist"/>
+			<xsd:enumeration value="derwisch"/>
+			<xsd:enumeration value="gjalsker"/>
+			<xsd:enumeration value="darna"/>
+			<xsd:enumeration value="sharisad (tulamidisch)"/>
+			<xsd:enumeration value="sharisad (novadisch)"/>
+			<xsd:enumeration value="sharisad (zahorisch)"/>
+			<xsd:enumeration value="sharisad (aranisch)"/>
+			<xsd:enumeration value="zibilja"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="magieMerkmaleTyp">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="antimagie"/>
+			<xsd:enumeration value="beschwoerung"/>
+			<xsd:enumeration value="daemonisch (blakharaz)"/>
+			<xsd:enumeration value="daemonisch (belhalhar)"/>
+			<xsd:enumeration value="daemonisch (charyptoroth)"/>
+			<xsd:enumeration value="daemonisch (lolgramoth)"/>
+			<xsd:enumeration value="daemonisch (thargunitoth)"/>
+			<xsd:enumeration value="daemonisch (amazeroth)"/>
+			<xsd:enumeration value="daemonisch (belshirash)"/>
+			<xsd:enumeration value="daemonisch (asfaloth)"/>
+			<xsd:enumeration value="daemonisch (tasfarelel)"/>
+			<xsd:enumeration value="daemonisch (belzhorash)"/>
+			<xsd:enumeration value="daemonisch (agrimoth)"/>
+			<xsd:enumeration value="daemonisch (belkelel)"/>
+			<xsd:enumeration value="eigenschaften"/>
+			<xsd:enumeration value="einfluss"/>
+			<xsd:enumeration value="elementar (feuer)"/>
+			<xsd:enumeration value="elementar (wasser)"/>
+			<xsd:enumeration value="elementar (luft)"/>
+			<xsd:enumeration value="elementar (erz)"/>
+			<xsd:enumeration value="elementar (humus)"/>
+			<xsd:enumeration value="elementar (eis)"/>
+			<xsd:enumeration value="form"/>
+			<xsd:enumeration value="geisterwesen"/>
+			<xsd:enumeration value="heilung"/>
+			<xsd:enumeration value="hellsicht"/>
+			<xsd:enumeration value="herbeirufung"/>
+			<xsd:enumeration value="herrschaft"/>
+			<xsd:enumeration value="illusion"/>
+			<xsd:enumeration value="kraft"/>
+			<xsd:enumeration value="limbus"/>
+			<xsd:enumeration value="metamagie"/>
+			<xsd:enumeration value="objekt"/>
+			<xsd:enumeration value="schaden"/>
+			<xsd:enumeration value="telekinese"/>
+			<xsd:enumeration value="temporal"/>
+			<xsd:enumeration value="umwelt"/>
+			<xsd:enumeration value="verstaendigung"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="charArtenTyp">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="alle"/>
+			<xsd:enumeration value="nichtMagisch"/>
+			<xsd:enumeration value="vollZauberer"/>
+			<xsd:enumeration value="halbZauberer"/>
+			<xsd:enumeration value="viertelZauberer"/>
+			<xsd:enumeration value="geweiht"/>
+			<xsd:enumeration value="borbaradianer"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>
+
