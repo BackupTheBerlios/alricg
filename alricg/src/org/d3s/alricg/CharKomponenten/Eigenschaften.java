@@ -26,7 +26,7 @@ public enum Eigenschaften {
     KK("Körperkraft", "KK"),
     
     SO("Sozialstatus", "SO"),
-    MR("Magieresistens", "MR"),
+    MR("Magieresistenz", "MR"),
     
     LEP("Lebenspunkte", "LeP"), 
     ASP("Astralpunkte", "AsP"), 
@@ -47,14 +47,14 @@ public enum Eigenschaften {
      * @param abkuerzung Key für Library für die Akkürzung des Namens
      */
     public Eigenschaften (String bezeichnung, String abkuerzung) {
-    	name = Library.self.getShortText(bezeichnung);
-    	abk = Library.self.getShortText(abkuerzung);
+    	name = Library.getShortText(bezeichnung);
+    	abk = Library.getShortText(abkuerzung);
     }
 
     /**
      * @return Den vollständigen Namen der Eigenschaft
      */
-    public String getName()  {
+    public String getBezeichnung()  {
         return name;
     }
     
