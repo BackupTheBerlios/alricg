@@ -13,4 +13,5 @@ package org.d3s.alricg.CharKomponenten;
  */
 public class Werte {
 	public enum Gilde { WEISS, GRAU, SCHWARZ };
+	public enum Geschlecht {mann, frau, mannFrau};
 }
