@@ -1,7 +1,7 @@
 /*
  * Created 22. Dezember 2004 / 13:07:48
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -56,7 +56,7 @@ public class Kultur extends Herkunft {
     /**
      * @return Liefert das Attribut ausruestung.
      */
-    public Auswahl getAusruestung() {
+    public AuswahlAusruestung getAusruestung() {
         return ausruestung;
     }
 
@@ -220,8 +220,6 @@ public class Kultur extends Herkunft {
     	if ( ausruestung != null ) {
     		xmlElement.appendChild(ausruestung.writeXmlElement("ausruestung"));
     	}
-    	
-//    	 TODO implement
     	
     	// "varianteVon" schreiben (gehört nach Schema eigentlich zur Herkunft)
     	if ( this.varianteVon != null ) {

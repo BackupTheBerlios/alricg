@@ -103,9 +103,9 @@ public class Profession extends Herkunft {
 
 	public Auswahl getSchriften(){ return schriften; }
 
-	public Auswahl getAusruestung(){ return ausruestung; }
+	public AuswahlAusruestung getAusruestung(){ return ausruestung; }
 
-	public Auswahl getBesondererBesitz(){ return besondererBesitz; }
+	public AuswahlAusruestung getBesondererBesitz(){ return besondererBesitz; }
 
 	
 	/**
@@ -134,6 +134,8 @@ public class Profession extends Herkunft {
      */
     public void loadXmlElement(Element xmlElement) {
     	super.loadXmlElement(xmlElement);
+    	
+    	xmlElement.setLocalName("profession");
     	
     	// Auslesen des Attribus "aufwand"
     	if ( xmlElement.getAttribute("aufwand") != null ) {
