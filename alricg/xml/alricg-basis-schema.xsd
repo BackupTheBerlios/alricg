@@ -3,14 +3,14 @@
  * Created on 17.12.2004
  *
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GPL licence.
+ * protected an under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  *
 -->
-<xsd:schema targetNamespace="http://www.die3sphaere.de/alricg" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.die3sphaere.de/alricg">
+<xsd:schema targetNamespace="http://alricg.die3sphaere.de/" xmlns="http://alricg.die3sphaere.de/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<xsd:annotation>
 		<xsd:documentation xml:lang="DE">
-			Schema-file für ALRICG. Wird von anderen Files importiert
+			Schema-file für ALRICG. Bereitstellung von einigen Typen.  Wird von anderen Files importiert
 		</xsd:documentation>
 	</xsd:annotation>
 	<!-- ************************************************************************************************************************** -->
@@ -44,20 +44,36 @@
 			<xsd:enumeration value="tairach"/>
 			<xsd:enumeration value="gravesh"/>
 			<xsd:enumeration value="rikai"/>
-			<xsd:enumeration value="kamaluqs"/>
+			<xsd:enumeration value="kamaluq"/>
 			<xsd:enumeration value="himmelswölfe"/>
+			<xsd:enumeration value="sonstiges"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ritualHerkunftTyp">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="allgemein"/>
+			<xsd:enumeration value="waldmenschen"/>
+			<xsd:enumeration value="Utulus"/>
+			<xsd:enumeration value="tocamuya"/>
+			<xsd:enumeration value="nivesen"/>
+			<xsd:enumeration value="orks"/>
+			<xsd:enumeration value="goblins"/>
+			<xsd:enumeration value="gjalskerländer"/>
+			<xsd:enumeration value="ferkina"/>
+			<xsd:enumeration value="trollzacker"/>
+			<xsd:enumeration value="achaz"/>
 			<xsd:enumeration value="sonstiges"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="repraesentationTyp">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="gildenmagier"/>
-			<xsd:enumeration value="elfen"/>
+			<xsd:enumeration value="elf"/>
 			<xsd:enumeration value="druide"/>
-			<xsd:enumeration value="hexen"/>
+			<xsd:enumeration value="hexe"/>
 			<xsd:enumeration value="geode"/>
-			<xsd:enumeration value="schelme"/>
-			<xsd:enumeration value="scharlatane"/>
+			<xsd:enumeration value="schelm"/>
+			<xsd:enumeration value="scharlatan"/>
 			<xsd:enumeration value="borbaradianer"/>
 			<xsd:enumeration value="kristallomant"/>
 			<xsd:enumeration value="alchemist"/>

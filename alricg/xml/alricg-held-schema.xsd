@@ -3,16 +3,14 @@
  * Created on 17.12.2004
  *
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GPL licence.
+ * protected an under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  *
 -->
-<xsd:schema targetNamespace="http://www.die3sphaere.de/alricg" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.die3sphaere.de/alricg">
+<xsd:schema targetNamespace="http://alricg.die3sphaere.de/" xmlns="http://alricg.die3sphaere.de/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<xsd:annotation>
 		<xsd:documentation xml:lang="DE">
-			Schema-file für ALRICG. Alle Daten aus der XML-Datenbasis können mit diesem File validiert werden.
-			
-			Für die speicherung Generierter Helden.
+			Schema-file für ALRICG. Für die Speicherung generierter Helden.
 		</xsd:documentation>
 	</xsd:annotation>
 	<!-- Einbindung des "Grund-Schemas", nötig für die "extension" für Waffen, fkWaffen, Ausrüstung, Schilde, Rüstung  -->
@@ -147,14 +145,14 @@
 			<xsd:element name="eigenschaften">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="MU" type="heldElementTyp"/>
-						<xsd:element name="KL" type="heldElementTyp"/>
-						<xsd:element name="IN" type="heldElementTyp"/>
-						<xsd:element name="CH" type="heldElementTyp"/>
-						<xsd:element name="FF" type="heldElementTyp"/>
-						<xsd:element name="GE" type="heldElementTyp"/>
-						<xsd:element name="KO" type="heldElementTyp"/>
-						<xsd:element name="KK" type="heldElementTyp"/>
+						<xsd:element name="MU" type="h_eigenschaftenHilfsTyp"/>
+						<xsd:element name="KL" type="h_eigenschaftenHilfsTyp"/>
+						<xsd:element name="IN" type="h_eigenschaftenHilfsTyp"/>
+						<xsd:element name="CH" type="h_eigenschaftenHilfsTyp"/>
+						<xsd:element name="FF" type="h_eigenschaftenHilfsTyp"/>
+						<xsd:element name="GE" type="h_eigenschaftenHilfsTyp"/>
+						<xsd:element name="KO" type="h_eigenschaftenHilfsTyp"/>
+						<xsd:element name="KK" type="h_eigenschaftenHilfsTyp"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -180,11 +178,20 @@
 			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
+	<xsd:complexType name="h_eigenschaftenHilfsTyp">
+		<xsd:complexContent>
+			<xsd:extension base="heldElementTyp">
+				<xsd:attribute name="maximal" type="xsd:nonNegativeInteger" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
 	<!-- ***************************** Talente ******************************* -->
 	<xsd:complexType name="h_talenteTyp">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="DE">
 				leitwert - Für Nachteil "Elfische Weltsicht"
+				aufAt - Nur für Kampfwerte: Wieviel des Talents auf die AT verteilt wurden
+				aufPa - Nur für Kampfwerte: Wieviel des Talents auf die PA verteilt wurden
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
@@ -193,6 +200,8 @@
 					<xsd:complexContent>
 						<xsd:extension base="heldElementTyp">
 							<xsd:attribute name="leitwert" type="xsd:boolean" use="optional"/>
+							<xsd:attribute name="aufAt" type="xsd:nonNegativeInteger" use="optional"/>
+							<xsd:attribute name="aufPa" type="xsd:nonNegativeInteger" use="optional"/>
 						</xsd:extension>
 					</xsd:complexContent>
 				</xsd:complexType>

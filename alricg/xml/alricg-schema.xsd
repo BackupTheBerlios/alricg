@@ -3,15 +3,15 @@
  * Created on 17.12.2004
  *
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GPL licence.
+ * protected an under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  *
 -->
-<xsd:schema targetNamespace="http://www.die3sphaere.de/alricg" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.die3sphaere.de/alricg">
+<xsd:schema targetNamespace="http://alricg.die3sphaere.de/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://alricg.die3sphaere.de/">
 	<xsd:annotation>
 		<xsd:documentation xml:lang="DE">
-			Schema-file für ALRICG. Alle Daten aus der XML-Datenbasis können mit diesem File validiert werden.
-			
+			Schema-file für ALRICG. Gibt die Strucktur der Charakter-Elemente vor.
+						
 			kommentar - Anmerkungen, die nur für Entwickler gedacht sind
 			beschreibung - Text der für Benutzer gedacht ist
 			benoetigtDateien - Dateien, auf die DIESE Datei zugreift (wird auto. erstellt)
@@ -127,14 +127,14 @@
 				<xsd:element name="liturgien" minOccurs="0">
 					<xsd:complexType>
 						<xsd:sequence>
-							<xsd:element name="liturgie" type="ritualLiturgieTyp" maxOccurs="unbounded"/>
+							<xsd:element name="liturgie" type="liturgieTyp" maxOccurs="unbounded"/>
 						</xsd:sequence>
 					</xsd:complexType>
 				</xsd:element>
 				<xsd:element name="rituale" minOccurs="0">
 					<xsd:complexType>
 						<xsd:sequence>
-							<xsd:element name="ritual" type="ritualLiturgieTyp" maxOccurs="unbounded"/>
+							<xsd:element name="ritual" type="ritualTyp" maxOccurs="unbounded"/>
 						</xsd:sequence>
 					</xsd:complexType>
 				</xsd:element>
@@ -209,7 +209,7 @@
 	<xsd:complexType name="rasseTyp">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="DE">
-				haarfarbe - Die "1" braucht nicht mit angegeben zu werden, es gilt immer von 1 - bis zur nächst höheren Zahl
+				haarfarbe/anteil - Der Anteil an der W20 Wurf. Aufaddiert sollten die Anteile 20 ergeben 
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
@@ -255,7 +255,7 @@
 								<xsd:element name="farbe" maxOccurs="20">
 									<xsd:complexType>
 										<xsd:attribute name="farbe" type="xsd:string" use="required"/>
-										<xsd:attribute name="wuerfelWurf" type="xsd:positiveInteger" use="required"/>
+										<xsd:attribute name="anteil" type="xsd:positiveInteger" use="required"/>
 									</xsd:complexType>
 								</xsd:element>
 							</xsd:sequence>
@@ -267,7 +267,7 @@
 								<xsd:element name="farbe" maxOccurs="20">
 									<xsd:complexType>
 										<xsd:attribute name="farbe" type="xsd:string" use="required"/>
-										<xsd:attribute name="wuerfelWurf" type="xsd:positiveInteger" use="required"/>
+										<xsd:attribute name="anteil" type="xsd:positiveInteger" use="required"/>
 									</xsd:complexType>
 								</xsd:element>
 							</xsd:sequence>
@@ -587,7 +587,7 @@
 	<xsd:complexType name="sprachTyp">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="DE">
-				komplexitaetNichtMutterspr - Die Komplexität, die maximal erreicht werden kann, wenn die Sprache
+				niichtMutterspr - Die Komplexität, die maximal erreicht werden kann, wenn die Sprache
 					NICHT Muttersprache ist.
 			</xsd:documentation>
 		</xsd:annotation>
@@ -651,7 +651,7 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	<!-- ############################################ Liturgien & Rituale ########################################### -->
-	<xsd:complexType name="ritualLiturgieTyp">
+	<xsd:complexType name="liturgieTyp">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="DE">
 				additionsId - Id von gleichartigen Liturgien, diese ist wichtig da
@@ -659,7 +659,6 @@
 				permanenteKaKosten - Es kann (evtl.) permanente KA kosten, wenn
 					eine Liturgie gelernt wird (NICHT Ausführung)
 				herkunft - 
-				istLiturgie - true = Es handelt sich um eine Liturgie, ansonsten ist es ein Ritual
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
@@ -667,10 +666,20 @@
 				<xsd:sequence>
 					<xsd:element name="grad" type="xsd:nonNegativeInteger"/>
 					<xsd:element name="additionsId" type="xsd:string" minOccurs="0"/>
-					<xsd:element name="permanenteKaKosten" type="xsd:nonNegativeInteger" minOccurs="0"/>
-					<xsd:element name="herkunft" type="xsd:string" maxOccurs="unbounded"/>
+					<xsd:element name="herkunft" type="liturgieHerkunftTyp" maxOccurs="unbounded"/>
 				</xsd:sequence>
-				<xsd:attribute name="istLiturgie" type="xsd:boolean" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!-- ############################################ Rituale ########################################### -->
+	<xsd:complexType name="ritualTyp">
+		<xsd:complexContent>
+			<xsd:extension base="faehigkeitTyp">
+				<xsd:sequence>
+					<xsd:element name="grad" type="xsd:nonNegativeInteger"/>
+					<xsd:element name="additionsId" type="xsd:string" minOccurs="0"/>
+					<xsd:element name="herkunft" type="ritualHerkunftTyp" maxOccurs="unbounded"/>
+				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -1100,15 +1109,16 @@
 				einordnung - Zur besseren Sortierung. Hier kann etwas wie "Pflanze", "Trank", "Kleidung" o.ä. angegeben werden.
 			</xsd:documentation>
 		</xsd:annotation>
-		<xsd:sequence>
-			<xsd:element name="gewicht" type="xsd:nonNegativeInteger" minOccurs="0"/>
-			<xsd:element name="wert" type="xsd:string" minOccurs="0"/>
-			<xsd:element name="anmerkung" type="xsd:string" minOccurs="0"/>
-			<xsd:element name="erhältlichBei" type="regionVolkTyp" minOccurs="0"/>
-		</xsd:sequence>
-		<xsd:attribute name="id" type="xsd:string" use="required"/>
-		<xsd:attribute name="bezeichnung" type="xsd:string" use="required"/>
-		<xsd:attribute name="einordnung" type="xsd:string" use="optional"/>
+		<xsd:complexContent>
+			<xsd:extension base="faehigkeitTyp">
+				<xsd:sequence>
+					<xsd:element name="gewicht" type="xsd:nonNegativeInteger" minOccurs="0"/>
+					<xsd:element name="wert" type="xsd:string" minOccurs="0"/>
+					<xsd:element name="erhältlichBei" type="regionVolkTyp" minOccurs="0"/>
+				</xsd:sequence>
+				<xsd:attribute name="einordnung" type="xsd:string" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
 	</xsd:complexType>
 	<!--**************************************************************************************************************** -->
 	<xsd:complexType name="faehigkeitTyp">
@@ -1124,6 +1134,10 @@
 						anderer Stelle im Programm zur Auswahl. Das Element wird grau dargestellt,
 						will man es wählen erscheint der Text ("Kann nur bei ... gewählt werden.")
 						Default: true
+				- regelAnmerkung/modus: 
+					"regel" - Etwas das der User beachten muß
+					"toDo" - Etwas was der Benutzer noch tun sollte (z.B. bei "Adliger Abstammung" 
+							einen Titel Eintragen, bei "Vorurteile gegen ... " etwas eintragen o.ä.) 
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
@@ -1133,7 +1147,7 @@
 					<xsd:sequence>
 						<xsd:element name="text" type="xsd:string"/>
 					</xsd:sequence>
-					<xsd:attribute name="anzeigen" type="xsd:boolean" use="optional"/>
+					<xsd:attribute name="anzeigen" type="xsd:boolean"/>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="regelAnmerkung" minOccurs="0">
@@ -1141,10 +1155,17 @@
 					<xsd:sequence>
 						<xsd:element name="regel" type="xsd:string"/>
 					</xsd:sequence>
+					<xsd:attribute name="modus">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:enumeration value="regel"/>
+								<xsd:enumeration value="toDo"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:attribute>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="sammelbegriff" type="xsd:string" minOccurs="0"/>
-			<!-- Seitenzahl -->
 			<!-- Z.B. "Rituale" Zur besseren Ordnung gleichartiger Elemente -->
 		</xsd:sequence>
 		<xsd:attribute name="sonderRegel" type="xsd:string" use="optional"/>
