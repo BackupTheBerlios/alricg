@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!-- This file is part of the project ALRICG. -->
 <config>
-	<schemas path="\daten\schema\"/>
-	<library path="\daten\text\libraryGerman.xml"/>
-	<images basicPath="\img">
-	
-	</images>
+	<schemas basis="basis-schema.xsd" held="held-schema.xsd" 
+			library="library-schema.xsd" library="varTypen-schema.xsd"/>
+	<library file="libraryGerman.xml"/>
+	<xmlRuleFilesD3S>
+		<readFile>test.xml</readFile>
+	</xmlRuleFilesD3S>
+	<xmlRuleFilesUser>
+		<readFileNot>test.xml</readFileNot>
+	</xmlRuleFilesUser>
 </config>
