@@ -9,6 +9,10 @@ package org.d3s.alricg.CharKomponenten;
 
 import java.util.Hashtable;
 
+import nu.xom.Element;
+
+import org.d3s.alricg.CharKomponenten.Links.Voraussetzung;
+
 /**
  * <b>Beschreibung:</b><br>
  * Fast gemeinsamkeiten von Vor- und Nachteilen zusammen und bildet die 
@@ -25,7 +29,7 @@ public abstract class VorNachteil extends Fertigkeit {
 	private Hashtable aendertGpVorteil;
 	private Hashtable aendertGpNachteil;
 	private boolean istMehrfachWaehlbar;
-	private org.d3s.alricg.CharKomponenten.Links.Voraussetzung voraussetzung;
+	private Voraussetzung voraussetzung;
 
 	/**
 	 * @return Liefert das Attribut aendertApSf.
@@ -82,4 +86,25 @@ public abstract class VorNachteil extends Fertigkeit {
 	public Vorteil[] getVerbietetVorteil() {
 		return verbietetVorteil;
 	}
+	
+    /**
+     * Dient zum initialisieren des Objekts. Ein XML-Elements wird gegeben, daraus
+     * werden alle relevanten Informationen ausgelesen.
+     * @param xmlElement Das Xml-Element mit allen nötigen angaben
+     */
+	protected void loadXmlElementVorNachteil(Element xmlElement){
+    	// TODO implement
+    }
+    
+    /**
+     * Dient zur Speicherung (also für den Editor) des Objekts. Alle Angaben werden 
+     * in ein XML Objekt "gemapt" und zugefügt, zu einem 
+     * übergebenen XML-Elemnet
+     * @param xmlElement Das Xml-Element zu dem die Daten hinzugefügt werden
+     * @return Ein Xml-Element mit allen nötigen Angaben.
+     */
+    protected Element writeXmlElementVorNachteil(Element xmlElement) {
+    	//TODO implement
+    	return null;
+    }
 }

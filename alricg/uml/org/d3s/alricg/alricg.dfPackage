@@ -30,6 +30,18 @@ class reference13 {
 @__fqn <oiref:#Package#org.d3s.alricg.Held:oiref> 
 */
 class reference14 {
+}/**
+@__ref <oiref:design#Class#id33vhqe4bbpxmfe4bbq5va.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#org.d3s.alricg.Controller:oiref> 
+*/
+class reference {
+}/**
+@__ref <oiref:design#Class#idqq2ye4bbpxmfe4bbq5yb.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#org.d3s.alricg.Test:oiref> 
+*/
+class reference1 {
 }}/**
 @__tags
 @shapeType ClassDiagram 

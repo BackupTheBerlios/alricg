@@ -8,10 +8,12 @@
 package org.d3s.alricg.CharKomponenten;
 
 import java.util.Random;
+
+import nu.xom.Element;
+
+import org.d3s.alricg.CharKomponenten.CharZusatz.WuerfelSammlung;
 /**
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
- * TODO: Evtl. Eine "Würfelsammlung" einbauen, für alter, groesse und
- * 		später auch Waffen
  * @author V.Strelow
  */
 public class Rasse extends Herkunft {
@@ -19,13 +21,17 @@ public class Rasse extends Herkunft {
 	private Kultur[] kulturUeblich;
     private String[] haarfarbe = new String[20];
 	private String[] augenfarbe = new String[20];
+	private WuerfelSammlung groesse;
+	private WuerfelSammlung alter;
+	/*
 	private int groesseWert;
 	private int[] groesseWuerfel; // Anzahl der Würfel
 	private int[] groesseAugen; // Augenzahl beim gleichen Index wie groesseWuerfel
-	private int gewichtModi;
 	private int alterWert;
     private int alterAugen[];
     private int alterWuerfel[];
+    */
+	private int gewichtModi;
 	private int geschwindigk;
 
 	/**
@@ -39,24 +45,6 @@ public class Rasse extends Herkunft {
 	 */
 	public int getGewichtModi() {
 		return gewichtModi;
-	}
-	/**
-	 * @return Liefert das Attribut groesseAugen.
-	 */
-	public int[] getGroesseAugen() {
-		return groesseAugen;
-	}
-	/**
-	 * @return Liefert das Attribut groesseWert.
-	 */
-	public int getGroesseWert() {
-		return groesseWert;
-	}
-	/**
-	 * @return Liefert das Attribut groesseWuerfel.
-	 */
-	public int[] getGroesseWuerfel() {
-		return groesseWuerfel;
 	}
 	/**
 	 * @return Liefert das Attribut haarfarbe.
@@ -87,12 +75,32 @@ public class Rasse extends Herkunft {
 		int tmpInt = 0;
 		Random r = new Random();
 		
-		for (int i1 = 0; i1 < groesseWuerfel.length; i1++) {
+		/*for (int i1 = 0; i1 < groesseWuerfel.length; i1++) {
 			for (int i2 = 0; i2 < groesseWuerfel[i1]; i2++) {
 				tmpInt = 1 + Math.abs(r.nextInt()) % groesseAugen[i1];
 			}
 		}
 		
-		return (groesseWert + tmpInt);
+		return (groesseWert + tmpInt);*/
+		return 0;
+	}
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
+	 */
+	public void loadXmlElement(Element xmlElement) {
+		this.loadXmlElementHerkunft(xmlElement);
+		// TODO Auto-generated method stub
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.CharKomponenten.CharElement#writeXmlElement()
+	 */
+	public Element writeXmlElement() {
+		Element xmlElem = null;
+		
+		this.writeXmlElementHerkunft(xmlElem);
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

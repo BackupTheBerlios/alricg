@@ -7,6 +7,8 @@
 
 package org.d3s.alricg.CharKomponenten;
 
+import nu.xom.Element;
+
 import org.d3s.alricg.CharKomponenten.Links.Auswahl;
 
 /**
@@ -19,7 +21,7 @@ import org.d3s.alricg.CharKomponenten.Links.Auswahl;
  */
 public abstract class Herkunft extends CharElement {
     private int gpKosten;
-    private String varianteVon;
+    private Herkunft varianteVon; //TODO Etwas besseres finden, evtl. Generics?
     private boolean kannGewaehltWerden; // Eine Herkunft kann auch nur als Basis
                                         // für Varianten dienen
     private int geschlecht;
@@ -96,7 +98,7 @@ public abstract class Herkunft extends CharElement {
      * 
      * @return Liefert die "Eltern-Herkunft"
      */
-    public String getVarianteVon() {
+    public Herkunft getVarianteVon() {
         // TODO implement getModi mit generics
         return varianteVon;
     }
@@ -177,6 +179,27 @@ public abstract class Herkunft extends CharElement {
 
     public Auswahl getAktivierbareZauber() {
         return aktivierbareZauber;
+    }
+    
+    /**
+     * Dient zum initialisieren des Objekts. Ein XML-Elements wird gegeben, daraus
+     * werden alle relevanten Informationen ausgelesen.
+     * @param xmlElement Das Xml-Element mit allen nötigen angaben
+     */
+    public void loadXmlElementHerkunft(Element xmlElement){
+    	// TODO implement
+    }
+    
+    /**
+     * Dient zur Speicherung (also für den Editor) des Objekts. Alle Angaben werden 
+     * in ein XML Objekt "gemapt" und zugefügt, zu einem 
+     * übergebenen XML-Elemnet
+     * @param xmlElement Das Xml-Element zu dem die Daten hinzugefügt werden
+     * @return Ein Xml-Element mit allen nötigen Angaben.
+     */
+    protected Element writeXmlElementHerkunft(Element xmlElement) {
+    	//TODO implement
+    	return null;
     }
 
 }

@@ -22,6 +22,11 @@ public class Auswahl {
 	 */
 	private IdLink[] festeAuswahl;
 
+    /* Speichert welche Auswahl getroffen wurde, speicher die entsprechende
+     * link-ID und den Wert!
+     */
+	private IdLink[] getroffeneAuswahl;
+
 	/**
 	 *	LISTE - In "wert"steht eine Liste von Werten, wobei jeder Wert einer
      * 	"option" zugewiesen werden muﬂ. Es werden soviele optionen gew‰hlt, wie
@@ -34,7 +39,7 @@ public class Auswahl {
      * Optionen ausgew‰hlt, dann der "wert" beliebig auf die gew‰hlten optionen
      * verteilt. (Siehe "Elfische Siedlung" S. 37 im AZ)
 	*/
-	private static class VarianteAuswahl {
+	private class VarianteAuswahl {
 		public static final int LISTE = 0;
 		public static final int ANZAHL = 1;
         public static final int VERTEILUNG = 2;

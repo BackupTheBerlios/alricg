@@ -7,9 +7,31 @@
 
 package org.d3s.alricg.CharKomponenten;
 
+import nu.xom.Element;
+
 /**
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
  * @author V.Strelow
  */
 public class Ritual extends Ritus {
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
+	 */
+	public void loadXmlElement(Element xmlElement) {
+		this.loadXmlElementRitus(xmlElement);
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.CharKomponenten.CharElement#writeXmlElement()
+	 */
+	public Element writeXmlElement() {
+		Element xmlElem = null;
+		
+		this.writeXmlElementRitus(xmlElem);
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

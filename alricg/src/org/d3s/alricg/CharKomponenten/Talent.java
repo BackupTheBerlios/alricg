@@ -7,38 +7,53 @@
 
 package org.d3s.alricg.CharKomponenten;
 
+import nu.xom.Element;
+
 import org.d3s.alricg.CharKomponenten.Links.Voraussetzung;
 /**
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
  * @author V.Strelow
  */
 public class Talent extends Faehigkeit {
+	
+	public enum Art {BASIS, SPEZIAL, BERUF}
+	public enum Sorte {KAMPF, KOERPER, GESELLSCHAFT, NATUR, WISSEN, HANDWERK}
 	private String[] spezialisierungen;
-	public final static int ART_BASIS = 0;
-	public final static int ART_SPEZIAL = 1;
-	public final static int ART_BERUF = 2;
-    public final static int  SORTE_KAMPF = 0;
-    public final static int  SORTE_KOERPER = 1;
-    public final static int  SORTE_GESELLSCHAFT = 2;
-    public final static int  SORTE_NATUR = 3;
-    public final static int  SORTE_WISSEN = 4;
-    public final static int  SORTE_HANDWERK = 5;
-
-	private int art;
-    private int sorte;
+	private Art art;
+    private Sorte sorte;
     private int abWert; // Bezieht sich auf Voraussetzung
     private Voraussetzung voraussetzung;
     
 	/**
 	 * @return Liefert das Attribut art.
 	 */
-	public int getArt() {
+	public Art getArt() {
 		return art;
 	}
 	/**
 	 * @return Liefert das Attribut sorte.
 	 */
-	public int getSorte() {
+	public Sorte getSorte() {
 		return sorte;
+	}
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
+	 */
+	public void loadXmlElement(Element xmlElement) {
+		this.loadXmlElementFaehigkeit(xmlElement);
+		// TODO Auto-generated method stub
+	}
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.CharKomponenten.CharElement#writeXmlElement()
+	 */
+	public Element writeXmlElement() {
+		Element xmlElem = null;
+		
+		this.writeXmlElementFaehigkeit(xmlElem);
+		
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

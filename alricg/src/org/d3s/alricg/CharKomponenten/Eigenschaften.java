@@ -7,6 +7,8 @@
 
 package org.d3s.alricg.CharKomponenten;
 
+import org.d3s.alricg.Controller.Library;
+
 /**
  * <b>Beschreibung:</b><br>
  * Hilfsklasse zum besseren Arbeiten mit Eigenschaften. Alle Eigenschaften werden
@@ -14,30 +16,61 @@ package org.d3s.alricg.CharKomponenten;
  * 
  * @author V.Strelow
  */
-public class Eigenschaften {
+public enum Eigenschaften {
+    MU("Mut", "MU"), 
+    KL("Klugheit", "KL"), 
+    IN("Intuition", "IN"), 
+    CH("Charisma", "CH"), 
+    FF("Fingerfertigkeit", "FF"),  
+    GE("Gewandheit", "GE"), 
+    KO("Konstitution", "KO"), 
+    KK("Körperkraft", "KK"), 
+    INI("Initiative", "INI"), 
+    MR("Magieresistens", "MR"), 
+    LEP("Lebenspunkte", "LeP"), 
+    ASP("Astralpunkte", "AsP"), 
+    AUP("Ausdauerpunkt", "AuP"), 
+    KA("Karmaernergie", "KA"), 
+    SO("Sozialstatus", "SO");
     
-	public final static int MU = 0;
-	public final static int KL = 1;
-	public final static int IN = 2;
-	public final static int CH = 3;
-	public final static int FF = 4;
-	public final static int GE = 5;
-	public final static int KO = 6;
-	public final static int KK = 7;
-    public final static int INI = 8;
-    public final static int MR = 9;
-    public final static int LEP = 10;
-    public final static int ASP = 11;
-    public final static int AUP = 12;
-    public final static int KA = 13;
-    public final static int SO = 14;
+    private String name; // Voller Name der Eigenschaft
+    private String abk; // Abkürzung der Eigenschaft
 
-    private final static int anzahlEigenschaften = 14;
 
+    /**
+     * @param bezeichnung Key für Library für den vollen Namen
+     * @param abkuerzung Key für Library für die Akkürzung des Namens
+     */
+    public Eigenschaften (String bezeichnung, String abkuerzung) {
+    	name = Library.self.getShortText(bezeichnung);
+    	abk = Library.self.getShortText(abkuerzung);
+    }
+
+    /**
+     * @return Den vollständigen Namen der Eigenschaft
+     */
+    public String getName()  {
+        return name;
+    }
+    
+    /**
+     * @return Die Abkürzung des Namens der Eigenschaft
+     */
+    public String getAbk()  {
+        return abk;
+    }
+    
+    /* (non-Javadoc) Methode überschrieben
+     * @see java.lang.Object#toString()
+     */
+    public String toString()  {
+        return abk;
+    }
+    
     /**
      * @return Gibt die anzahl aller Eigenschaften dieser Klasse an
      */
 	public static int getAnzahlEigenschaften() {
-		return anzahlEigenschaften;
+        return Eigenschaften.values().length;
 	}
 }

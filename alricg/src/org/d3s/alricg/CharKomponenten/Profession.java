@@ -7,6 +7,8 @@
 
 package org.d3s.alricg.CharKomponenten;
 
+import nu.xom.Element;
+
 import org.d3s.alricg.CharKomponenten.Links.Auswahl;
 /**
  * <b>Beschreibung:</b><br>
@@ -15,8 +17,12 @@ import org.d3s.alricg.CharKomponenten.Links.Auswahl;
  * @author V.Strelow
  */
 public class Profession extends Herkunft {
-	private int aufwand;
-	private int art;
+    
+    public enum Art { HANDWERKLICH, KRIEGERISCH, GESELLSCHAFTLICH, WILDNESS, MAGISCH, GEWEIHT, SCHAMANISCH }
+    public enum Aufwand { ZEITAUFW, ZUSATZPROF }
+    
+	private Aufwand aufwand;
+	private Art art;
 	private Vorteil[] verbotenVort;
 	private Nachteil[] verbotenNacht;
 	private Sonderfertigkeit[] verbotenSF;
@@ -24,7 +30,7 @@ public class Profession extends Herkunft {
 	private Auswahl schriften;
 	private Auswahl ausruestung;
 	private Auswahl besondererBesitz;
-
+/*
     public final static int ART_HANDWERKLICH = 0;
 	public final static int ART_KRIEGERISCH = 1;
     public final static int ART_GESELLSCHAFTLICH = 2;
@@ -35,14 +41,14 @@ public class Profession extends Herkunft {
 
 	public final static int AUFWAND_ERTSPROF = 0;
     public final static int AUFWAND_ZEITAUFW = 1;
-    public final static int AUFWAND_ZUSATZPROF = 2; // Bei Elfen
+    public final static int AUFWAND_ZUSATZPROF = 2; // Bei Elfen*/
 
 
-	public int getAufwand(){ return aufwand; }
+	public Aufwand getAufwand(){ return aufwand; }
 
-	public void setAufwand(int aufwand){ this.aufwand = aufwand; }
+	public void setAufwand(Aufwand aufwand){ this.aufwand = aufwand; }
 
-	public int getArt(){ return art; }
+	public Art getArt(){ return art; }
 
 	public Vorteil[] getVerbotenVort(){ return verbotenVort; }
 
@@ -63,5 +69,25 @@ public class Profession extends Herkunft {
     	private int besondereMerkmale[];
     	private boolean zweitStudiumMoeglich;
         private boolean drittStudiumMoeglich;
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
+	 */
+	public void loadXmlElement(Element xmlElement) {
+		this.loadXmlElementHerkunft(xmlElement);
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.CharKomponenten.CharElement#writeXmlElement()
+	 */
+	public Element writeXmlElement() {
+		Element xmlElem = null;
+		
+		this.writeXmlElementHerkunft(xmlElem);
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

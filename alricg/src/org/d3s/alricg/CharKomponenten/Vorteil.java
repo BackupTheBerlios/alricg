@@ -7,10 +7,32 @@
 
 package org.d3s.alricg.CharKomponenten;
 
+import nu.xom.Element;
+
 /**
  * <b>Beschreibung:</b><br>
  * Repräsentiert das Element Vorteil
  * @author V.Strelow
  */
-public class Vorteil extends VorNachteil {	
+public class Vorteil extends VorNachteil {
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
+	 */
+	public void loadXmlElement(Element xmlElement) {
+		this.loadXmlElementVorNachteil(xmlElement);
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.CharKomponenten.CharElement#writeXmlElement()
+	 */
+	public Element writeXmlElement() {
+		Element xmlElem = null;
+		
+		this.writeXmlElementVorNachteil(xmlElem);
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -7,6 +7,8 @@
 
 package org.d3s.alricg.CharKomponenten;
 
+import nu.xom.Element;
+
 /**
  * <b>Beschreibung:</b><br>
  * Fasst Gemeinsamkeiten von Liturgie und Ritual zusammen und 
@@ -46,4 +48,25 @@ public abstract class Ritus extends CharElement {
 	public int getPermanenteKaKosten() {
 		return permanenteKaKosten;
 	}
+	
+    /**
+     * Dient zum initialisieren des Objekts. Ein XML-Elements wird gegeben, daraus
+     * werden alle relevanten Informationen ausgelesen.
+     * @param xmlElement Das Xml-Element mit allen nötigen angaben
+     */
+    public void loadXmlElementRitus(Element xmlElement){
+    	// TODO implement
+    }
+    
+    /**
+     * Dient zur Speicherung (also für den Editor) des Objekts. Alle Angaben werden 
+     * in ein XML Objekt "gemapt" und zugefügt, zu einem 
+     * übergebenen XML-Elemnet
+     * @param xmlElement Das Xml-Element zu dem die Daten hinzugefügt werden
+     * @return Ein Xml-Element mit allen nötigen Angaben.
+     */
+    protected Element writeXmlElementRitus(Element xmlElement) {
+    	//TODO implement
+    	return null;
+    }
 }

@@ -7,17 +7,37 @@
 
 package org.d3s.alricg.CharKomponenten;
 
+import nu.xom.Element;
+
 /**
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
  * @author V.Strelow
  */
 public class Gabe extends Vorteil {
-	private int[] dreiEigenschaften;
+	private Eigenschaften[] dreiEigenschaften;
     
     /**
      * @return Liefert die drei Eigenschaften, auf die eine Probe abgelegt wird..
      */
-    public int[] getDreiEigenschaften() {
+    public Eigenschaften[] getDreiEigenschaften() {
         return dreiEigenschaften;
     }
+    
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
+	 */
+	public void loadXmlElement(Element xmlElement) {
+		super.loadXmlElementVorNachteil(xmlElement);
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.CharKomponenten.CharElement#writeXmlElement()
+	 */
+	public Element writeXmlElement() {
+		Element xmlElem = super.writeXmlElement();
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

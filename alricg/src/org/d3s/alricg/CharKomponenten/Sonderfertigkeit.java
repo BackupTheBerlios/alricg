@@ -7,23 +7,24 @@
 
 package org.d3s.alricg.CharKomponenten;
 
+import nu.xom.Element;
+
+import org.d3s.alricg.CharKomponenten.Links.Voraussetzung;
+
 /**
  * <b>Beschreibung:</b><br>
  * Repräsentiert eine Sonderfertigkeit.
  * @author V.Strelow
  */
 public class Sonderfertigkeit extends Fertigkeit {
-	public static int ART_WAFFENLOSKAMPF = 0;
-	public static int ART_BEWAFFNETKAMPF = 1;
-	public static int ART_MAGISCH = 2;
-	public static int ART_GEWEIHT = 3;
-	public static int ART_SCHAMANISCH = 4;
-	public static int ART_SONSTIGE = 5;
+	
+	public enum art { WAFENLOSKAMPF, BEWAFFNETKAMPF, MAGISCH, 
+						GEWEIHT, SCHAMANISCH, SONSTIGE } 
 
 	private int apKosten;
 	private int art;
 	private int[] permKosten = new int[3]; // Asp, Ka, Lep,
-	private org.d3s.alricg.CharKomponenten.Links.Voraussetzung voraussetzung;
+	private Voraussetzung voraussetzung;
 
 	/**
 	 * @return Liefert das Attribut ap - die Kosten für diese SF in
@@ -38,6 +39,26 @@ public class Sonderfertigkeit extends Fertigkeit {
 	 */
 	public int getArt() {
 		return art;
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
+	 */
+	public void loadXmlElement(Element xmlElement) {
+		this.loadXmlElementFertigkeit(xmlElement);
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.CharKomponenten.CharElement#writeXmlElement()
+	 */
+	public Element writeXmlElement() {
+		Element xmlElem = null;
+		
+		this.writeXmlElementFertigkeit(xmlElem);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

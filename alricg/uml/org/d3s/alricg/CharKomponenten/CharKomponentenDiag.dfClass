@@ -214,6 +214,7 @@ class __options {
 <oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.CharElement#regelAnmerkung:oiref>=820,125,930,125:oigroup>
 <oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Links.Auswahl:oiref>=510,220,200,149,0:oigroup>
 <oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Profession#org.d3s.alricg.CharKomponenten.Herkunft:oiref>=990,960,990,870,720,870,720,810:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Herkunft#varianteVon:oiref>=819,810,819,864,851,864,851,766,830,766:oigroup>
 <oigroup:<oiref:design#Class#id3eqyke31fr990e31jf8yn.diagram:oiref>=450,460,129,130,0:oigroup>
 <oigroup:Composite#supplierCardinality#MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Profession#verbotenNacht:oiref>=1190,1070,26,16,0:oigroup>
 <oigroup:<oiref:java#Member#org.d3s.alricg.CharKomponenten.Sprache#komplexMutterspr:oiref>=1830,630,157,16,1:oigroup>

@@ -7,6 +7,8 @@
 
 package org.d3s.alricg.CharKomponenten;
 
+import nu.xom.Element;
+
 /**
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
  * @author V.Strelow
@@ -23,5 +25,24 @@ public class Zauber extends Faehigkeit {
 	public int[] getMerkmale() {
 		return merkmale;
 	}
-
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
+	 */
+	public void loadXmlElement(Element xmlElement) {
+		this.loadXmlElementFaehigkeit(xmlElement);
+		// TODO Auto-generated method stub
+	}
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.CharKomponenten.CharElement#writeXmlElement()
+	 */
+	public Element writeXmlElement() {
+		Element xmlElem = null;
+		
+		this.writeXmlElementFaehigkeit(xmlElem);
+		
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

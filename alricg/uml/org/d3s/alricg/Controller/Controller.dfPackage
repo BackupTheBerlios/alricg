@@ -1,0 +1,41 @@
+package id33vhqe4bbpxmfe4bbq5va;
+
+/**
+@version 2.0
+@physicalPackage
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#org.d3s.alricg.Controller.Library:oiref><oihard>
+@__modelType reference 
+*/
+class reference {
+}/**
+@__ref <oiref:java#Class#org.d3s.alricg.Controller.ProgAdim:oiref><oihard>
+@__modelType reference 
+*/
+class reference2 {
+}/**
+@__ref <oiref:java#Class#org.d3s.alricg.Controller.CharKompAdmin:oiref><oihard>
+@__modelType reference 
+*/
+class reference4 {
+}}/**
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options 
+*/
+class __options {
+}/**
+@__positions <oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.Controller.Library#self:oiref>=555,224,555,260,617,260,617,198,581,198:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.Controller.ProgAdim:oiref>=250,50,127,176,0:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.Controller.CharKompAdmin:oiref>=50,50,134,172,0:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.Controller.Library:oiref>=450,50,131,174,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.Controller.ProgAdim#lnkLibrary:oiref>=327,137,450,137:oigroup>
+*/
+class __positions {
+}
