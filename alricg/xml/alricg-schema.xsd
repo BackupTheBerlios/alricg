@@ -43,8 +43,8 @@
 				<xsd:element name="sprache" type="sprachType" minOccurs="0" maxOccurs="unbounded"/>
 				<xsd:element name="schrift" type="schriftType" minOccurs="0" maxOccurs="unbounded"/>
 				<xsd:element name="zauber" type="zauberType" minOccurs="0" maxOccurs="unbounded"/>
-				<xsd:element name="liturgie" type="liturgieType" minOccurs="0" maxOccurs="unbounded"/>
-				<xsd:element name="ritual" type="ritualType" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element name="liturgie" type="ritualLiturgieType" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element name="ritual" type="ritualLiturgieType" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
@@ -312,28 +312,28 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	<!-- ############################################ Liturgien ########################################### -->
-	<xsd:complexType name="liturgieType">
+	<!-- ############################################ Liturgien & Rituale ########################################### -->
+	<xsd:complexType name="ritualLiturgieType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="DE">
+				additionsId - Id von gleichartigen Liturgien, diese ist wichtig da
+					bei zusammengehörigen Liturgien kosten anderes berechnet werden
+				permanenteKaKosten - Es kann (evtl.) permanente KA kosten, wenn
+					eine Liturgie gelernt wird (NICHT Ausführung)
+			</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexContent>
 			<xsd:extension base="faehigkeitTyp">
 				<xsd:sequence>
-					<xsd:element name="grad" type="kostenKlasseType"/>
+					<xsd:element name="grad" type="nonNegativeInteger"/>
+					<xsd:element name="additionsId" type="xsd:string" minOccurs="0"/>
+					<xsd:element name="permanenteKaKosten" type="nonNegativeInteger" minOccurs="0"/>
 					<xsd:element name="herkunft" type="xsd:string" maxOccurs="unbounded"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	<!-- ############################################ Rituale ########################################### -->
-	<xsd:complexType name="ritualType">
-		<xsd:complexContent>
-			<xsd:extension base="faehigkeitTyp">
-				<xsd:sequence>
-					<xsd:element name="grad" type="kostenKlasseType"/>
-					<xsd:element name="herkunft" type="xsd:string" maxOccurs="unbounded"/>
-				</xsd:sequence>
-			</xsd:extension>
-		</xsd:complexContent>
-	</xsd:complexType>
+
 	<!-- ***************************************************************************************************************-->
 	<!-- ***********************************                    VererbungsTypen              *************************** -->
 	<!--**************************************************************************************************************** -->
