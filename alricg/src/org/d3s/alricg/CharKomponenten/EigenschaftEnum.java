@@ -62,7 +62,10 @@ public enum EigenschaftEnum {
         return name;
     }
     
-    public String getId() {
+    /**
+     * @return Der XML Wert der Eigenschaft/ leichzeitig die ID
+     */
+    public String getXmlValue() {
     	return id;
     }
     
@@ -90,7 +93,7 @@ public enum EigenschaftEnum {
     	ids = new ArrayList<String>(EigenschaftEnum.values().length);
     	
     	for (int i = 0; i < EigenschaftEnum.values().length; i++) {
-    		ids.add( EigenschaftEnum.values()[i].getId() );
+    		ids.add( EigenschaftEnum.values()[i].getXmlValue() );
     	}
     	
     	return ids;
