@@ -18,6 +18,7 @@ import nu.xom.Elements;
  * @author V.Strelow
  */
 abstract public class CharElement implements Comparable<CharElement> {
+	public static int KEIN_WERT = -100;
     private String id; // Programmweit eindeutige ID
     private String name; // Name des Element
     private String sammelBegriff = ""; // Zur besseren Sortierung
