@@ -2,7 +2,7 @@
  * Created on 01.03.2005 / 13:48:04
  *
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
@@ -20,7 +20,7 @@ import org.d3s.alricg.CharKomponenten.CharZusatz.SimpelGegenstand;
  *
  * @author V. Strelow
  */
-public class AuswahlAusruestung extends Auswahl{
+public class AuswahlAusruestung extends Auswahl {
 	//protected VariableAuswahl[] varianteAuswahl;
     //private Herkunft herkunft; // Das CharElement, von dem die Auswahl kommt
 	//private IdLink[] festeAuswahl; // Die unveränderlichen Werte
@@ -84,7 +84,8 @@ public class AuswahlAusruestung extends Auswahl{
 	    					Modus.ANZAHL, 
 	    					new int[0],
 	    					anzahl,
-	    					optionen
+	    					optionen,
+	    					null
 	    			);
     		}
     	}

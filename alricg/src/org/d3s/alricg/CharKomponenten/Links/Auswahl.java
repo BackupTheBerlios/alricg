@@ -1,7 +1,7 @@
 /*
  * Created 22. Dezember 2004 / 14:23:42
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -88,6 +88,7 @@ public class Auswahl {
         int[] werte = new int[0]; // Default
         int anzahl = 0; // Default
         IdLink[] optionen;
+        IdLink[][] optionensGruppe;
         
     	// Auslesen der unveränderlichen, "festen" Elemente der Auswahl
     	tmpElements = xmlElement.getChildElements("fest");
@@ -141,8 +142,25 @@ public class Auswahl {
     			optionen[ii].loadXmlElement(tmpOptions.get(ii));
     		}
     		
+    		// Einlesen der Optionsgruppen
+    		tmpElements =  tmpElements.get(i).getChildElements("optionsGruppe");
+    		optionensGruppe = new IdLink[tmpElements.size()][];
+    		for (int ii = 0; ii < tmpElements.size(); ii++) {
+        		tmpOptions =  tmpElements.get(i).getChildElements("option");
+        		optionensGruppe[ii] = new IdLink[tmpOptions.size()];
+        		for (int iii = 0; iii < tmpOptions.size(); iii++) {
+        			optionensGruppe[ii][iii] = new IdLink(herkunft, this);
+        			optionensGruppe[ii][iii].loadXmlElement(tmpOptions.get(iii));
+        		}
+    		}
+    		if (optionensGruppe.length == 0) {
+    			optionensGruppe = null;
+    		}
+    		
+    		
     		// Erzeugen der Varianten Auswahl...
-    		varianteAuswahl[i] = new VariableAuswahl(modus, werte, anzahl, optionen);
+    		varianteAuswahl[i] = new VariableAuswahl(modus, werte, anzahl, 
+    											optionen, optionensGruppe);
     	}
     	
     }
@@ -218,12 +236,15 @@ public class Auswahl {
         private int[] werte;
         private int anzahl;
         private IdLink[] optionen;
-
-		public VariableAuswahl(Modus modus, int[] werte, int anzahl, IdLink[] optionen) {
+        private IdLink[][] optionensGruppe;
+        
+		public VariableAuswahl(Modus modus, int[] werte, int anzahl, 
+				IdLink[] optionen, IdLink[][] optionensGruppe) {
 			this.modus = modus;
 			this.werte = werte;
             this.anzahl = anzahl;
             this.optionen = optionen;
+            this.optionensGruppe = optionensGruppe;
 		}
 		
 		/**
