@@ -571,7 +571,7 @@
 		<!-- Für elfische Weltsicht -->
 		<!-- Unbegabt f�linkId -->
 		<!-- normales "Ziel"-->
-	</xsd:complexType>d
+	</xsd:complexType>
 	<xsd:complexType name="idListe">
 		<xsd:sequence>
 			<xsd:element name="linkId" type="idLinkTyp" minOccurs="0" maxOccurs="unbounded"/>
