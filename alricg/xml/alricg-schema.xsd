@@ -364,7 +364,7 @@
 		<xsd:attribute name="sonderRegel" type="xsd:string" use="optional"/>
 		<xsd:attribute name="name" type="xsd:string" use="required"/>
 		<xsd:attribute name="id" type="xsd:string" use="required"/>
-		<!-- Für handling in Java -->
+		<!-- Fuer handling in Java -->
 	</xsd:complexType>
 	<!--***************************************************************************************************** -->
 	<xsd:complexType name="fertigkeitTyp">
