@@ -279,7 +279,7 @@
 					<xsd:element name="kostenKlasse" type="kostenKlasseType"/>
 					<xsd:element name="komplexitaet" type="xsd:positiveInteger"/>
 					<xsd:element name="komplexitaetMuttersprache" type="xsd:positiveInteger" minOccurs="0"/>
-					<xsd:element name="schriftId" type="xsd:string"/>
+					<xsd:element name="schriftId" type="idListe"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
