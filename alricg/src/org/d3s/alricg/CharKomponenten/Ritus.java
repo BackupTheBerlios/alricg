@@ -1,13 +1,16 @@
 /*
  * Created 27. Dezember 2004 / 01:48:37
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
 package org.d3s.alricg.CharKomponenten;
 
 import nu.xom.Element;
+
+import org.d3s.alricg.Controller.ProgAdmin;
+import org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -18,8 +21,7 @@ import nu.xom.Element;
 public abstract class Ritus extends CharElement {
 	private int grad;
 	private String additionsId;
-	private int permanenteKaKosten;
-	private String herkunft;
+	private Gottheit gottheit;
 	
 	/**
 	 * @return Liefert das Attribut grad.
@@ -30,9 +32,10 @@ public abstract class Ritus extends CharElement {
 	/**
 	 * @return Liefert das Attribut herkunft.
 	 */
-	public String getHerkunft() {
-		return herkunft;
+	public Gottheit getHerkunft() {
+		return gottheit;
 	}
+	
 	/**
 	 * Id von gleichartigen Liturgien, diese ist wichtig da bei zusammengehörigen
 	 * Liturgien kosten anderes berechnet werden. Gleiche AdditionsIds zeigen
@@ -42,19 +45,32 @@ public abstract class Ritus extends CharElement {
 	public String getAdditionsId() {
 		return additionsId;
 	}
-	/**
-	 * @return Liefert das Attribut permanenteKaKosten.
-	 */
-	public int getPermanenteKaKosten() {
-		return permanenteKaKosten;
-	}
+
 	
     /* (non-Javadoc) Methode überschrieben
      * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
      */
     public void loadXmlElement(Element xmlElement) {
     	super.loadXmlElement(xmlElement);
-    	// TODO implement
+    	
+    	// Auslesen des Grades der Liturgie/ Ritual
+    	try {
+    		grad = Integer.parseInt(xmlElement.getFirstChildElement("grad").getValue());
+    	} catch (NumberFormatException exc) {
+    		// TODO Bessere Fehlermeldung einbauen
+    		ProgAdmin.logger.severe("String konnte nicht in Nummer umgewandelt werden: " 
+    				+ exc.toString());
+    	}
+    	
+    	// Auslesen der AdditionsId
+    	additionsId = xmlElement.getFirstChildElement("additionsId").getValue();
+	
+    	// Auslesen der Gottheit
+    	gottheit = (Gottheit) ProgAdmin.charKompAdmin.getCharElement(
+    			xmlElement.getFirstChildElement("gottheit").getValue(),
+    			CharKomponenten.gottheit
+    	);
+	
     }
     
     /* (non-Javadoc) Methode überschrieben
@@ -62,7 +78,23 @@ public abstract class Ritus extends CharElement {
      */
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
-    	// TODO implement
-    	return null;
+    	Element tmpElement;
+    	
+    	// Schreiben des Grades der Liturgie/ Ritual
+    	tmpElement = new Element("grad");
+    	tmpElement.appendChild(Integer.toString(grad));
+    	xmlElement.appendChild(tmpElement);
+    	
+    	// Schreiben der AdditionsID
+    	tmpElement = new Element("additionsId");
+    	tmpElement.appendChild(additionsId);
+    	xmlElement.appendChild(tmpElement);
+    	
+    	// Schreiben der gottheit
+    	tmpElement = new Element("gottheit");
+    	tmpElement.appendChild(gottheit.getId());
+    	xmlElement.appendChild(tmpElement);
+    	
+    	return xmlElement;
     }
 }

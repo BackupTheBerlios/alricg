@@ -1,7 +1,7 @@
 /*
  * Created 26. Dezember 2004 / 22:58:17
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -126,26 +126,31 @@ public abstract class VorNachteil extends Fertigkeit {
 		
     	// Auslesen welche Vorteile mit diesem Vor/Nachteil verboten sind
     	if ( xmlElement.getFirstChildElement("verbietetVorteil") != null ) {
+    		verbietetVorteil = new IdLinkList(this);
     		verbietetVorteil.loadXmlElement(xmlElement.getFirstChildElement("verbietetVorteil"));
     	}
     	
     	// Auslesen welche Nachteile mit diesem Vor/Nachteil verboten sind
     	if ( xmlElement.getFirstChildElement("verbietetNachteil") != null ) {
+    		verbietetNachteil = new IdLinkList(this);
     		verbietetNachteil.loadXmlElement(xmlElement.getFirstChildElement("verbietetNachteil"));
     	}
     	
     	// Auslesen bei welchen SF der Vor/Nachteil die Kosten verändert
     	if ( xmlElement.getFirstChildElement("aendertApSf") != null ) {
+    		aendertApSf = new IdLinkList(this);
     		aendertApSf.loadXmlElement(xmlElement.getFirstChildElement("aendertApSf"));
     	}
     	
     	// Auslesen bei welchen SF der Vor/Nachteil die Kosten verändert
     	if ( xmlElement.getFirstChildElement("aendertGpVorteil") != null ) {
+    		aendertGpVorteil =  new IdLinkList(this);
     		aendertGpVorteil.loadXmlElement(xmlElement.getFirstChildElement("aendertGpVorteil"));
     	}
     	
     	// Auslesen bei welchen SF der Vor/Nachteil die Kosten verändert
     	if ( xmlElement.getFirstChildElement("aendertGpNachteil") != null ) {
+    		aendertGpNachteil =  new IdLinkList(this);
     		aendertGpNachteil.loadXmlElement(xmlElement.getFirstChildElement("aendertGpNachteil"));
     	}
 	

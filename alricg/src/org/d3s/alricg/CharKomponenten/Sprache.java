@@ -1,22 +1,29 @@
 /*
  * Created 26. Dezember 2004 / 23:45:31
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
 package org.d3s.alricg.CharKomponenten;
 
+import nu.xom.Attribute;
 import nu.xom.Element;
 
+import org.d3s.alricg.CharKomponenten.Links.IdLinkList;
+import org.d3s.alricg.Controller.ProgAdmin;
+import org.d3s.alricg.Prozessor.SKT;
+import org.d3s.alricg.Prozessor.SKT.KostenKlasse;
+
 /**
- * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
+ * <b>Beschreibung:</b><br>
+ * Repräsentiert eine Sprache.
  * @author V.Strelow
  */
 public class Sprache extends SchriftSprache {
 	private int komplexNichtMutterSpr;
-	private int kostenNichtMutterSpr;
-	private Schrift[] zugehoerigeSchrift;	
+	private KostenKlasse kostenNichtMutterSpr;
+	private IdLinkList zugehoerigeSchrift;	
 
 	/**
 	 * Konstruktur; id beginnt mit "SPR-" für Sprache
@@ -29,7 +36,7 @@ public class Sprache extends SchriftSprache {
 	/**
 	 * @return Liefert das Attribut zugehoerigeSchrift.
 	 */
-	public Schrift[] getZugehoerigeSchrift() {
+	public IdLinkList getZugehoerigeSchrift() {
 		return zugehoerigeSchrift;
 	}
 	
@@ -42,7 +49,7 @@ public class Sprache extends SchriftSprache {
 	/**
 	 * @return Liefert das Attribut kostenNichtMutterSpr.
 	 */
-	public int getKostenNichtMutterSpr() {
+	public KostenKlasse getKostenNichtMutterSpr() {
 		return kostenNichtMutterSpr;
 	}
 	
@@ -51,7 +58,24 @@ public class Sprache extends SchriftSprache {
      */
     public void loadXmlElement(Element xmlElement) {
     	super.loadXmlElement(xmlElement);
-    	// TODO implement
+    	
+    	// Auslesen der Kostenklasse der Sprache
+    		kostenNichtMutterSpr = SKT.getKostenKlasseByXmlValue( xmlElement
+    			.getFirstChildElement("nichtMuttersprache").getAttributeValue("kostenKlasse") );
+    	
+    	// Auslesen der Kompläxität der Sprache
+    	try {
+    		komplexNichtMutterSpr = Integer.parseInt( xmlElement
+    			.getFirstChildElement("nichtMuttersprache").getAttributeValue("komplexitaet") );
+    	} catch (NumberFormatException exc) {
+    		ProgAdmin.logger.severe("Xml-Tag konnte nicht in Zahl umgewandelt werden: " + exc);
+    	}
+    	
+    	// Auslesen der dazugehörigen Schrift(en)
+    	if ( xmlElement.getFirstChildElement("schriften") != null ) {
+    		zugehoerigeSchrift = new IdLinkList(this);
+    		zugehoerigeSchrift.loadXmlElement(xmlElement.getFirstChildElement("schriften"));
+    	}
     }
     
     /* (non-Javadoc) Methode überschrieben
@@ -59,7 +83,23 @@ public class Sprache extends SchriftSprache {
      */
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
-    	// TODO implement
-    	return null;
+
+    	// Schreiben der Kostenklasse
+    	xmlElement.appendChild("nichtMuttersprache");
+    	xmlElement.getFirstChildElement("nichtMuttersprache").addAttribute(
+    				new Attribute("kostenKlasse", kostenNichtMutterSpr.getXmlValue())
+    			);
+    
+    	// Schreiben der Komplexität
+    	xmlElement.getFirstChildElement("nichtMuttersprache").addAttribute(
+				new Attribute("komplexitaet", Integer.toString(komplexNichtMutterSpr))
+			);
+    	
+    	// Schreiben der dazugehörigen Schrift(en)
+    	if ( zugehoerigeSchrift != null ) {
+    		xmlElement.appendChild( zugehoerigeSchrift.writeXmlElement("schriften") );
+    	}
+    		
+    	return xmlElement;
     }
 }
