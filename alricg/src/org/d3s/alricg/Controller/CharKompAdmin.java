@@ -502,6 +502,8 @@ public class CharKompAdmin {
 	 * <u>Beschreibung:</u><br> 
 	 * Eine Konstante für alle Charakter Komponenten die vorkommen können.
 	 * Die einzehnen Konstanten sind mit Zusatzinformationen angereichert.
+	 * WICHTIG! Die Reihenfolge bestimmt auch die Reihenfolge wie die 
+	 * Elemente in ein File geschrieben werden!
 	 * @author V. Strelow
 	 */
 	public enum CharKomponenten {
@@ -515,9 +517,9 @@ public class CharKompAdmin {
 		sonderfertigkeit("sonderfertigkeiten", "SF"),
 		ritLitKenntnis("liturgieRitualKenntnise", "LRK"),
 		talent("talente", "TAL"),
-		zauber("zauber", "ZAU"),
 		sprache("sprachen", "SPR"),
 		schrift("schriften", "SFT"),
+		zauber("zauber", "ZAU"),
 		liturgie("liturgien", "LIT"),
 		ritual("rituale", "RIT"),
 		ausruestung("ausruestung", "AUS"),
