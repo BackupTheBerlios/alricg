@@ -24,7 +24,7 @@ import org.d3s.alricg.CharKomponenten.Profession;
 import org.d3s.alricg.CharKomponenten.Rasse;
 import org.d3s.alricg.CharKomponenten.RegionVolk;
 import org.d3s.alricg.CharKomponenten.Ritual;
-import org.d3s.alricg.CharKomponenten.RitusSF;
+import org.d3s.alricg.CharKomponenten.LiturgieRitualKenntnis;
 import org.d3s.alricg.CharKomponenten.Schrift;
 import org.d3s.alricg.CharKomponenten.Sonderfertigkeit;
 import org.d3s.alricg.CharKomponenten.Sprache;
@@ -86,7 +86,7 @@ public class CharKompAdmin {
 	private HashMap<String, Gabe> gabeMap = new HashMap<String, Gabe>();
 	private HashMap<String, Nachteil> nachteilMap = new HashMap<String, Nachteil>();
 	private HashMap<String, Sonderfertigkeit> sonderfMap = new HashMap<String, Sonderfertigkeit>();
-	private HashMap<String, RitusSF> ritusSFMap = new HashMap<String, RitusSF>();
+	private HashMap<String, LiturgieRitualKenntnis> ritusSFMap = new HashMap<String, LiturgieRitualKenntnis>();
 	private HashMap<String, Talent> talentMap = new HashMap<String, Talent>();
 	private HashMap<String, Zauber> zauberMap = new HashMap<String, Zauber>();
 	
@@ -194,7 +194,7 @@ public class CharKompAdmin {
 			case ritusSF:
 				for (int i = 0; i < ids.size(); i++) {
 					keyDoppelt(ids.get(i), ritusSFMap);
-					ritusSFMap.put(ids.get(i), new RitusSF(ids.get(i)));
+					ritusSFMap.put(ids.get(i), new LiturgieRitualKenntnis(ids.get(i)));
 				}
 				break;
 			case talent:
@@ -488,7 +488,7 @@ public class CharKompAdmin {
 		gabe("vorteileGaben", "GAB"),
 		nachteil("nachteil", "NAC"),
 		sonderfertigkeit("sonderfertigkeiten", "SF"),
-		ritusSF("sonderfertigkeitenLiRi", "RSF"),
+		ritusSF("liturgieRitualKenntnise", "LRK"),
 		talent("talente", "TAL"),
 		zauber("zauber", "ZAU"),
 		sprache("sprachen", "SPR"),
@@ -506,8 +506,6 @@ public class CharKompAdmin {
 		tier("tiere", "TIE"),
 		region("regionen", "REG"),
 		eigenschaft("-", "EIG"); // Hat keinen XML Tag, wird durch Source-Code gefüllt
-
-		
 		
 //		Der XML-Tag der Komponente
 		private String xmlTag; // XML-Tag das alle entsprechenden Elemente umschließt
