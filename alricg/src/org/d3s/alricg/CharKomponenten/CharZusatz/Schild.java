@@ -2,13 +2,16 @@
  * Created on 26.01.2005 / 00:44:45
  *
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GPL licence.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
 package org.d3s.alricg.CharKomponenten.CharZusatz;
 
+import nu.xom.Attribute;
 import nu.xom.Element;
+
+import org.d3s.alricg.Controller.ProgAdmin;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -16,10 +19,11 @@ import nu.xom.Element;
  * @author V. Strelow
  */
 public class Schild extends Gegenstand {
-	private int bf; // Bruchfaktor
-	private int ini; // Bruchfaktor
-	private int wmAT; // Waffenmodifikator / AT
-	private int wmPA; // Waffenmodifikator / PA
+	private String typ;
+	private int bf = KEIN_WERT; // Bruchfaktor
+	private int ini = KEIN_WERT; // Bruchfaktor
+	private int wmAT = KEIN_WERT; // Waffenmodifikator / AT
+	private int wmPA = KEIN_WERT; // Waffenmodifikator / PA
 	
 	/**
 	 * Konstruktur; id beginnt mit "SLD-" für Schild
@@ -62,7 +66,48 @@ public class Schild extends Gegenstand {
      */
     public void loadXmlElement(Element xmlElement) {
     	super.loadXmlElement(xmlElement);
-    	// TODO implement
+    	
+    	// den Schild-Typ auslesen
+    	if (xmlElement.getFirstChildElement("typ") != null) {
+    		typ = xmlElement.getFirstChildElement("typ").getValue();
+    	}
+    	try {
+    		// Eigenschaften auslesen
+    		if ( xmlElement.getFirstChildElement("eigenschaften") != null ) {
+    			
+    			// bf auslesen
+    			if ( xmlElement.getFirstChildElement("eigenschaften").getAttribute("bf") != null ) {
+    				bf = Integer.parseInt(xmlElement.getFirstChildElement("eigenschaften")
+    												.getAttributeValue("bf"));
+    			}
+    			
+    			// ini auslesen
+    			if ( xmlElement.getFirstChildElement("eigenschaften").getAttribute("ini") != null ) {
+    				ini = Integer.parseInt(xmlElement.getFirstChildElement("eigenschaften")
+    												.getAttributeValue("ini"));
+    			}
+    		}
+    		
+    		// WM auslesen 
+    		if ( xmlElement.getFirstChildElement("wm") != null ) {
+    			
+    			// bf auslesen
+    			if ( xmlElement.getFirstChildElement("wm").getAttribute("at") != null ) {
+    				wmAT = Integer.parseInt(xmlElement.getFirstChildElement("wm")
+    												.getAttributeValue("at"));
+    			}
+    			
+    			// ini auslesen
+    			if ( xmlElement.getFirstChildElement("wm").getAttribute("pa") != null ) {
+    				wmPA = Integer.parseInt(xmlElement.getFirstChildElement("wm")
+    												.getAttributeValue("pa"));
+    			}
+    		}
+    		
+    	} catch (NumberFormatException exc) {
+    		// TODO Bessere Fehlermeldung einbauen
+    		ProgAdmin.logger.severe("Konnte String nicht in int umwandeln: " + exc.toString());
+    	}
     }
     
     /* (non-Javadoc) Methode überschrieben
@@ -70,7 +115,47 @@ public class Schild extends Gegenstand {
      */
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
-    	// TODO implement
-    	return null;
+    	Element tmpElement;
+    	
+    	// typ des Schildes Schreiben
+    	if (typ != null && typ.trim().length() > 0) {
+    		tmpElement = new Element("typ");
+    		tmpElement.appendChild(typ.trim());
+    		xmlElement.appendChild(tmpElement);
+    	}
+    	
+    	// Eigenschaften schreiben
+    	if (bf != KEIN_WERT || ini != KEIN_WERT) {
+    		tmpElement = new Element("eigenschaften");
+    	
+    		// bf schreiben
+    		if (bf != KEIN_WERT) {
+    			tmpElement.addAttribute(new Attribute("bf", Integer.toString(bf)));
+    		}
+    		
+    		// ini schreiben
+    		if (ini != KEIN_WERT) {
+    			tmpElement.addAttribute(new Attribute("ini", Integer.toString(ini)));
+    		}
+    		xmlElement.appendChild(tmpElement);
+    	}
+    	
+    	// Waffen Modis schreiben
+    	if (wmAT != KEIN_WERT || wmPA != KEIN_WERT) {
+    		tmpElement = new Element("wm");
+    	
+    		// bf schreiben
+    		if (wmAT != KEIN_WERT) {
+    			tmpElement.addAttribute(new Attribute("at", Integer.toString(wmAT)));
+    		}
+    		
+    		// ini schreiben
+    		if (wmPA != KEIN_WERT) {
+    			tmpElement.addAttribute(new Attribute("pa", Integer.toString(wmPA)));
+    		}
+    		xmlElement.appendChild(tmpElement);
+    	}
+
+    	return xmlElement;
     }
 }
