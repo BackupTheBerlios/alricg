@@ -7,7 +7,7 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
 -->
-<xsd:schema targetNamespace="http://alricg.die3sphaere.de/" xmlns="http://alricg.die3sphaere.de/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:schema targetNamespace="http://alricg.die3sphaere.de/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://alricg.die3sphaere.de/">
 	<xsd:annotation>
 		<xsd:documentation xml:lang="DE">
 			Schema-file für ALRICG. Bereitstellung von einigen Typen, diese sind Änderbar und werden
@@ -17,6 +17,7 @@
 	<!-- ************************************************************************************************************************** -->
 	<!-- ***********************************                         Simple BasisTypen             ****************************** -->
 	<!--**************************************************************************************************************************** -->
+	<!--
 	<xsd:simpleType name="liturgieHerkunftTyp">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="allgemein"/>
@@ -66,19 +67,21 @@
 			<xsd:enumeration value="sonstiges"/>
 		</xsd:restriction>
 	</xsd:simpleType>
+	-->
+	<!--
 	<xsd:simpleType name="repraesentationTyp">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="gildenmagier"/>
-			<xsd:enumeration value="elf"/>
-			<xsd:enumeration value="druide"/>
-			<xsd:enumeration value="hexe"/>
-			<xsd:enumeration value="geode"/>
-			<xsd:enumeration value="schelm"/>
-			<xsd:enumeration value="scharlatan"/>
+			<xsd:enumeration value="elfen"/>
+			<xsd:enumeration value="druiden"/>
+			<xsd:enumeration value="hexen"/>
+			<xsd:enumeration value="geoden"/>
+			<xsd:enumeration value="schelme"/>
+			<xsd:enumeration value="scharlatane"/>
 			<xsd:enumeration value="borbaradianer"/>
-			<xsd:enumeration value="kristallomant"/>
-			<xsd:enumeration value="alchemist"/>
-			<xsd:enumeration value="derwisch"/>
+			<xsd:enumeration value="kristallomanten"/>
+			<xsd:enumeration value="alchemisten"/>
+			<xsd:enumeration value="derwische"/>
 			<xsd:enumeration value="gjalsker"/>
 			<xsd:enumeration value="darna"/>
 			<xsd:enumeration value="sharisad (tulamidisch)"/>
@@ -88,6 +91,7 @@
 			<xsd:enumeration value="zibilja"/>
 		</xsd:restriction>
 	</xsd:simpleType>
+	-->
 	<xsd:simpleType name="regionVolkTyp">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="DE">
@@ -125,34 +129,34 @@
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="garetien"/>
-			<xsd:enumeration value="horasreich"/>
-			<xsd:enumeration value="albernien"/>
-			<xsd:enumeration value="almada"/>
-			<xsd:enumeration value="andergast"/>
-			<xsd:enumeration value="weiden"/>
-			<xsd:enumeration value="zyklopeninseln"/>
-			<xsd:enumeration value="bornland"/>
-			<xsd:enumeration value="thorwal"/>
-			<xsd:enumeration value="gjalskerland"/>
-			<xsd:enumeration value="fjarninger"/>
-			<xsd:enumeration value="nivensen"/>
-			<xsd:enumeration value="norbarden"/>
-			<xsd:enumeration value="tulamidisch"/>
-			<xsd:enumeration value="arnaien"/>
-			<xsd:enumeration value="ferkina"/>
-			<xsd:enumeration value="trollzacker"/>
-			<xsd:enumeration value="zahori"/>
-			<xsd:enumeration value="waldmenschen"/>
-			<xsd:enumeration value="zwerge"/>
-			<xsd:enumeration value="orks"/>
-			<xsd:enumeration value="goblins"/>
-			<xsd:enumeration value="elfen"/>
-			<xsd:enumeration value="maraskan"/>
-			<xsd:enumeration value="südlicheStädte"/>
-			<xsd:enumeration value="wüsteKhom"/>
-			<xsd:enumeration value="schwarzeLande"/>
-			<xsd:enumeration value="ehernesSchwert"/>
+			<xsd:enumeration value="REG-garetien"/>
+			<xsd:enumeration value="REG-horasreich"/>
+			<xsd:enumeration value="REG-albernien"/>
+			<xsd:enumeration value="REG-almada"/>
+			<xsd:enumeration value="REG-andergast"/>
+			<xsd:enumeration value="REG-weiden"/>
+			<xsd:enumeration value="REG-zyklopeninseln"/>
+			<xsd:enumeration value="REG-bornland"/>
+			<xsd:enumeration value="REG-thorwal"/>
+			<xsd:enumeration value="REG-gjalskerland"/>
+			<xsd:enumeration value="REG-fjarninger"/>
+			<xsd:enumeration value="REG-nivensen"/>
+			<xsd:enumeration value="REG-norbarden"/>
+			<xsd:enumeration value="REG-tulamidisch"/>
+			<xsd:enumeration value="REG-arnaien"/>
+			<xsd:enumeration value="REG-ferkina"/>
+			<xsd:enumeration value="REG-trollzacker"/>
+			<xsd:enumeration value="REG-zahori"/>
+			<xsd:enumeration value="REG-waldmenschen"/>
+			<xsd:enumeration value="REG-zwerge"/>
+			<xsd:enumeration value="REG-orks"/>
+			<xsd:enumeration value="REG-goblins"/>
+			<xsd:enumeration value="REG-elfen"/>
+			<xsd:enumeration value="REG-maraskan"/>
+			<xsd:enumeration value="REG-südlicheStädte"/>
+			<xsd:enumeration value="REG-wüsteKhom"/>
+			<xsd:enumeration value="REG-schwarzeLande"/>
+			<xsd:enumeration value="REG-ehernesSchwert"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 </xsd:schema>
