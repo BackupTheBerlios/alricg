@@ -13,5 +13,5 @@ package org.d3s.alricg.Controller;
  * @author V.Strelow
  * @stereotype singelton
  */
-public class ProgAdim {
+public class ProgAdmin {
 }
