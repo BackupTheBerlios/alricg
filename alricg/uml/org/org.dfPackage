@@ -1,0 +1,43 @@
+package id2k4a5e2yuce5be2yum7ut;
+
+/**
+@version 2.0
+@physicalPackage
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:design#Class#id28qtne2yuce5be2yum7vp.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#org.d3s:oiref> 
+*/
+class reference {
+}/**
+@__ref <oiref:java#Class#org.d3s.alricg.CharElement:oiref><oihard>
+@__modelType reference 
+*/
+class reference1 {
+}/**
+@__ref <oiref:java#Class#org.d3s.alricg.RegelAnmerkung:oiref><oihard>
+@__modelType reference 
+*/
+class reference3 {
+}/**
+@__ref <oiref:java#Class#org.Herkunft:oiref><oihard>
+@__modelType reference 
+*/
+class reference2 {
+}}/**
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options 
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:design#Class#id28qtne2yuce5be2yum7vp.diagram:oiref>=10,10,83,104,1:oigroup> 
+*/
+class __positions {
+}
