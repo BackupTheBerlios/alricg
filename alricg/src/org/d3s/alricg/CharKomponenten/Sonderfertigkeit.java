@@ -7,13 +7,11 @@
 
 package org.d3s.alricg.CharKomponenten;
 
-import org.d3s.alricg.CharKomponenten.Links.Voraussetzung;
-
 /**
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
  * @author V.Strelow
  */
-public class Sonderfertigkeit extends Class1 {
+public class Sonderfertigkeit extends Fertigkeit {
 	private int ap;
 	private String art;
 }

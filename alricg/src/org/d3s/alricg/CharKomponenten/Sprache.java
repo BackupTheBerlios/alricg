@@ -12,8 +12,7 @@ package org.d3s.alricg.CharKomponenten;
  * @author V.Strelow
  */
 public class Sprache {
-	private int kostenKlasse;
-	private int komplaexitaet;
 	private int komplexMutterspr;
-	private int schriftId;
+	private int komplaexitaet;
+	private Schrift[] zugehoerigeSchrift;
 }

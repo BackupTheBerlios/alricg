@@ -8,13 +8,12 @@
 package org.d3s.alricg.CharKomponenten;
 
 import java.util.Hashtable;
-import org.d3s.alricg.CharKomponenten.Links.Voraussetzung;
 
 /**
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
  * @author V.Strelow
  */
-public class VorNachteil extends Class1 {
+public class VorNachteil extends Fertigkeit {
 	private int gp;
 	private int minStufe;
 	private int maxStufe;
@@ -24,4 +23,58 @@ public class VorNachteil extends Class1 {
 	private Hashtable aendertGpVorteil;
 	private Hashtable aendertGpNachteil;
 	private boolean istMehrfachWaehlbar;
+	/**
+	 * @return Liefert das Attribut aendertApSf.
+	 */
+	public Hashtable getAendertApSf() {
+		return aendertApSf;
+	}
+	/**
+	 * @return Liefert das Attribut aendertGpNachteil.
+	 */
+	public Hashtable getAendertGpNachteil() {
+		return aendertGpNachteil;
+	}
+	/**
+	 * @return Liefert das Attribut aendertGpVorteil.
+	 */
+	public Hashtable getAendertGpVorteil() {
+		return aendertGpVorteil;
+	}
+	/**
+	 * @return Liefert das Attribut gp.
+	 */
+	public int getGp() {
+		return gp;
+	}
+	/**
+	 * @return Liefert das Attribut istMehrfachWaehlbar.
+	 */
+	public boolean isIstMehrfachWaehlbar() {
+		return istMehrfachWaehlbar;
+	}
+	/**
+	 * @return Liefert das Attribut maxStufe.
+	 */
+	public int getMaxStufe() {
+		return maxStufe;
+	}
+	/**
+	 * @return Liefert das Attribut minStufe.
+	 */
+	public int getMinStufe() {
+		return minStufe;
+	}
+	/**
+	 * @return Liefert das Attribut verbietetNachteil.
+	 */
+	public Nachteil[] getVerbietetNachteil() {
+		return verbietetNachteil;
+	}
+	/**
+	 * @return Liefert das Attribut verbietetVorteil.
+	 */
+	public Vorteil[] getVerbietetVorteil() {
+		return verbietetVorteil;
+	}
 }

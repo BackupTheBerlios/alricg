@@ -11,7 +11,6 @@ package org.d3s.alricg.CharKomponenten;
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
  * @author V.Strelow
  */
-public class Schrift {
-	private int kostenKlasse;
+public class Schrift extends Faehigkeit {
 	private int komplaexitaet;
 }

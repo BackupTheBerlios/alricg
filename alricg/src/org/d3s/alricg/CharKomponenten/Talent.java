@@ -12,7 +12,7 @@ import org.d3s.alricg.CharKomponenten.Links.Voraussetzung;
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
  * @author V.Strelow
  */
-public class Talent {
+public class Talent extends Faehigkeit {
 	public final static int ART_BASIS = 0;
 	public final static int ART_SPEZIAL = 1;
 	public final static int ART_BERUF = 2;
@@ -25,8 +25,6 @@ public class Talent {
 
 	private int art;
     private int sorte;
-	private int kostenKlasse;
-    private int[] dreiEigenschaften = new int[3];
     private Voraussetzung Voraussetzung;
 
 }

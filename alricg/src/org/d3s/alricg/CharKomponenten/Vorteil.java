@@ -12,5 +12,12 @@ package org.d3s.alricg.CharKomponenten;
  * @author V.Strelow
  */
 public class Vorteil extends VorNachteil {
-	private boolean istGabe;
+	private boolean isGabe;
+	
+	/**
+	 * @return Liefert das Attribut istGabe.
+	 */
+	public boolean isGabe() {
+		return isGabe;
+	}
 }

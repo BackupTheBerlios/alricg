@@ -11,9 +11,7 @@ package org.d3s.alricg.CharKomponenten;
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
  * @author V.Strelow
  */
-public class Zauber {
+public class Zauber extends Faehigkeit {
 	private String[] merkmale;
 	private String verbreitung;
-	private int kostenKlasse;
-	private int[] dreiEigenschaften = new int[3];
 }

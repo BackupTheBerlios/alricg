@@ -11,7 +11,5 @@ package org.d3s.alricg.CharKomponenten;
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
  * @author V.Strelow
  */
-public class Ritual {
-	private int grad;
-	private String herkunft;
+public class Ritual extends Ritus {
 }

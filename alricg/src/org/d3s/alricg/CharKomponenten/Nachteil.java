@@ -12,5 +12,11 @@ package org.d3s.alricg.CharKomponenten;
  * @author V.Strelow
  */
 public class Nachteil extends VorNachteil {
-	private boolean istSchlechteEigen;
+	private boolean isSchlechteEigen;
+	/**
+	 * @return Liefert das Attribut isSchlechteEigen.
+	 */
+	public boolean isSchlechteEigen() {
+		return isSchlechteEigen;
+	}
 }
