@@ -1,7 +1,7 @@
 /*
  * Created 22. Dezember 2004 / 14:23:42
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU licence.
+ * protected an under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
