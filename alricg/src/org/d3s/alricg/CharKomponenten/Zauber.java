@@ -88,6 +88,8 @@ public class Zauber extends Faehigkeit {
     	Element xmlElement = super.writeXmlElement();
     	Element tmpElement;
     	
+    	xmlElement.setLocalName("zauber");
+    	
     	// Schreiben der Merkmale
     	for (int i = 0; i < merkmale.length; i++) {
     		tmpElement = new Element("merkmale");
@@ -96,7 +98,7 @@ public class Zauber extends Faehigkeit {
     	}
     	
     	// Schreiben der Repräsentationen
-    	for (int i = 0; i < merkmale.length; i++) {
+    	for (int i = 0; i < verbreitung.length; i++) {
     		xmlElement.appendChild(verbreitung[i].writeXmlElement());
     	}
     	

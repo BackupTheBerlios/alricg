@@ -105,6 +105,8 @@ public class Gottheit extends CharElement {
     	Element xmlElement = super.writeXmlElement();
     	Element tmpElement;
     	
+    	xmlElement.setLocalName("gottheit");
+    	
     	// Schreiben der KenntnisArt
     	tmpElement = new Element("kenntnisArt");
     	tmpElement.appendChild(kenntnisArt.getXmlValue());

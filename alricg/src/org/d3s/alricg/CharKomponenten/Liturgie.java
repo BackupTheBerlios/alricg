@@ -1,7 +1,7 @@
 /*
  * Created 23. Dezember 2004 / 13:17:17
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -10,7 +10,9 @@ package org.d3s.alricg.CharKomponenten;
 import nu.xom.Element;
 
 /**
- * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
+ * <b>Beschreibung:</b><br>
+ * Steht für eine Liturgie. Verfügt über keine extra Attribute, ist zur Unterscheidung
+ * trotzdem eine eigenständige Klasse.
  * @author V.Strelow
  */
 public class Liturgie extends Ritus {
@@ -28,7 +30,7 @@ public class Liturgie extends Ritus {
      */
     public void loadXmlElement(Element xmlElement) {
     	super.loadXmlElement(xmlElement);
-    	// TODO implement
+    	// Noop!
     }
     
     /* (non-Javadoc) Methode überschrieben
@@ -36,8 +38,10 @@ public class Liturgie extends Ritus {
      */
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
-    	// TODO implement
-    	return null;
+    	
+    	xmlElement.setLocalName("liturgie");
+    	
+    	return xmlElement;
     }
 	
 }

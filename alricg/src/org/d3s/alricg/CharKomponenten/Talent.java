@@ -140,6 +140,8 @@ public class Talent extends Faehigkeit {
     	Element xmlElement = super.writeXmlElement();
     	Element tmpElement;
     	
+    	xmlElement.setLocalName("talent");
+    	
     	// Schreiben der Art & Sorte des Talents
     	tmpElement = new Element("einordnung");
     	tmpElement.addAttribute( new Attribute("art", art.getXmlValue()) );

@@ -40,6 +40,8 @@ public class Tier extends CharElement{
      */
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
+    	
+    	xmlElement.setLocalName("tier");
     	// TODO implement
     	return null;
     }

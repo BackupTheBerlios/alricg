@@ -2,7 +2,7 @@
  * Created on 26.01.2005 / 16:48:15
  *
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GPL licence.
+ * protected and under the GPL licence.
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */

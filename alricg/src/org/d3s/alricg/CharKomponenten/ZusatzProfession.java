@@ -99,7 +99,7 @@ public class ZusatzProfession extends Profession {
     	assert xmlElement.getAttributeValue("zusatzArt").equals("spaeteProf") ||
     			xmlElement.getAttributeValue("zusatzArt").equals("zusatzProf");
     	
-    	if (xmlElement.getAttribute("zusatzArt").equals("spaeteProf")) {
+    	if (xmlElement.getAttributeValue("zusatzArt").equals("spaeteProf")) {
     		zusatzProf = false;
     	} else { // ....equals("zusatzProf")
     		zusatzProf = true;
@@ -111,6 +111,8 @@ public class ZusatzProfession extends Profession {
      */
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
+    	
+    	xmlElement.setLocalName("zusatzProfession");
     	
     	// Schreiben der üblichen Professionen
     	if (professionUeblich != null) {

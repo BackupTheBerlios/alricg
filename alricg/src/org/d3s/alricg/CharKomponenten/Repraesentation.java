@@ -51,6 +51,8 @@ public class Repraesentation extends CharElement {
     	Element xmlElement = super.writeXmlElement();
     	Element tmpElement;
     	
+    	xmlElement.setLocalName("repraesentation");
+    	
     	// Schreiben ob es eine "echte" Repräsentation ist
     	if ( !istEchteRep ) {
     		tmpElement = new Element("istEchteRep");

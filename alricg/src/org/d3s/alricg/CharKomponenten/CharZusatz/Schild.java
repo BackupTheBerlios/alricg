@@ -117,6 +117,8 @@ public class Schild extends Gegenstand {
     	Element xmlElement = super.writeXmlElement();
     	Element tmpElement;
     	
+    	xmlElement.setLocalName("schild");
+    	
     	// typ des Schildes Schreiben
     	if (typ != null && typ.trim().length() > 0) {
     		tmpElement = new Element("typ");

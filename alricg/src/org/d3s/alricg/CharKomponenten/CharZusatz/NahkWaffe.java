@@ -126,6 +126,8 @@ public class NahkWaffe extends Waffe {
     	Element xmlElement = super.writeXmlElement();
     	Element tmpElement;
     	
+    	xmlElement.setLocalName("nkWaffe");
+    	
     	tmpElement = xmlElement.getFirstChildElement("tp");
     	// Schreiben der "Schwelle" für den KK -Zuschlag
     	if (kkAb != KEIN_WERT) {

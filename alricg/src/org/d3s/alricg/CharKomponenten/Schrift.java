@@ -37,7 +37,9 @@ public class Schrift extends SchriftSprache {
      */
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
-    	// Noop!
+    	
+    	xmlElement.setLocalName("schrift");
+    	
     	return xmlElement;
     }
 }

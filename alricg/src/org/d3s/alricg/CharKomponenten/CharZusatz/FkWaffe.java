@@ -90,6 +90,8 @@ public class FkWaffe extends Waffe {
     	Element xmlElement = super.writeXmlElement();
     	Element tmpElement;
     	
+    	xmlElement.setLocalName("fkWaffe");
+    	
     	tmpElement = xmlElement.getFirstChildElement("tp");
     	// Schreiben der "Schwelle" für den KK -Zuschlag durch Reichweite
     	if (reichweiteTpPlus != null) {

@@ -45,6 +45,7 @@ public class Fahrzeug extends Gegenstand {
     public void loadXmlElement(Element xmlElement) {
     	super.loadXmlElement(xmlElement);
 
+    	
     	// Lesen wie das Fahrzeug aussieht
     	if ( xmlElement.getFirstChildElement("aussehen") != null ) {
     		aussehen = xmlElement.getFirstChildElement("aussehen").getValue();
@@ -62,6 +63,8 @@ public class Fahrzeug extends Gegenstand {
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
     	Element tmpElement;
+    	
+    	xmlElement.setLocalName("fahrzeug");
     	
     	// Schreiben wie das Fahrzeug Aussieht
     	if ( aussehen != null && aussehen.trim().length() > 0 ) {

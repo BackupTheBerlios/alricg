@@ -1,7 +1,7 @@
 /*
  * Created 23. Dezember 2004 / 12:52:45
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -60,6 +60,8 @@ public class Nachteil extends VorNachteil {
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
     	Element tmpElement;
+    	
+    	xmlElement.setLocalName("nachteil");
     	
     	if ( isSchlechteEigen ) {
     		tmpElement = new Element("istSchlechteEigen");

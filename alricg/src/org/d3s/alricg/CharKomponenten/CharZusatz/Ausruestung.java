@@ -49,6 +49,8 @@ public class Ausruestung extends Gegenstand {
     public void loadXmlElement(Element xmlElement) {
     	super.loadXmlElement(xmlElement);
 
+    	xmlElement.setLocalName("gegenstand");
+    	
     	// Auslesen ob es sich um einen Behälter handelt
     	if ( xmlElement.getFirstChildElement("istBehaelter") != null ) {
     		assert xmlElement.getFirstChildElement("istBehaelter").getValue().equals("true")
@@ -71,6 +73,8 @@ public class Ausruestung extends Gegenstand {
     public Element writeXmlElement(){
     	Element xmlElement = super.writeXmlElement();
     	Element tmpElement;
+    	
+    	xmlElement.setLocalName("gegenstand");
     	
     	// Schreiben ob es sich um einen Behälter handelt
     	if ( !istBehaelter ) {
