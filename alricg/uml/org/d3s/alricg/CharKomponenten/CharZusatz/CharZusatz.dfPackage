@@ -1,0 +1,75 @@
+package id3d1lwe471a87ie474v8fc;
+
+/**
+@version 2.0
+@physicalPackage
+@__modelType diagram 
+*/
+class diagram {
+/**
+@__ref <oiref:java#Class#org.d3s.alricg.CharKomponenten.CharZusatz.Gegenstand:oiref><oihard>
+@__modelType reference 
+*/
+class reference {
+}/**
+@__ref <oiref:java#Class#org.d3s.alricg.CharKomponenten.CharElement:oiref><oihard>
+@__modelType reference
+@__imported 
+*/
+class reference45 {
+}/**
+@__ref <oiref:java#Class#org.d3s.alricg.CharKomponenten.CharZusatz.Ausruestung:oiref><oihard>
+@__modelType reference 
+*/
+class reference46 {
+}/**
+@__ref <oiref:java#Class#org.d3s.alricg.CharKomponenten.CharZusatz.Waffe:oiref><oihard>
+@__modelType reference 
+*/
+class reference47 {
+}/**
+@__ref <oiref:java#Class#org.d3s.alricg.CharKomponenten.CharZusatz.FkWaffe:oiref><oihard>
+@__modelType reference 
+*/
+class reference48 {
+}/**
+@__ref <oiref:java#Class#org.d3s.alricg.CharKomponenten.CharZusatz.Ruestung:oiref><oihard>
+@__modelType reference 
+*/
+class reference49 {
+}/**
+@__ref <oiref:java#Class#org.d3s.alricg.CharKomponenten.CharZusatz.Tier:oiref><oihard>
+@__modelType reference 
+*/
+class reference50 {
+}/**
+@__ref <oiref:java#Class#org.d3s.alricg.CharKomponenten.CharZusatz.Fahrzeug:oiref><oihard>
+@__modelType reference 
+*/
+class reference51 {
+}}/**
+@__tags
+@shapeType ClassDiagram 
+*/
+class __tags {
+}/**
+@__options 
+*/
+class __options {
+}/**
+@__positions <oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.CharZusatz.Waffe:oiref>=320,460,110,85,0:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.CharZusatz.Fahrzeug:oiref>=790,470,110,70,0:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.CharZusatz.Gegenstand:oiref>=290,290,173,137,0:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.CharZusatz.Ausruestung#org.d3s.alricg.CharKomponenten.CharZusatz.Gegenstand:oiref>=181,460,346,427:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.CharZusatz.Gegenstand#org.d3s.alricg.CharKomponenten.CharElement:oiref>=376,290,376,253:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.CharZusatz.Waffe#org.d3s.alricg.CharKomponenten.CharZusatz.Gegenstand:oiref>=403,460,403,427:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.CharZusatz.Ausruestung:oiref>=50,460,187,111,0:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.CharZusatz.FkWaffe:oiref>=470,460,118,105,0:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.CharZusatz.Ruestung:oiref>=620,460,121,108,0:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.CharElement:oiref>=280,20,200,233,1:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.CharZusatz.Tier:oiref>=920,470,110,100,0:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.CharZusatz.FkWaffe#org.d3s.alricg.CharKomponenten.CharZusatz.Gegenstand:oiref>=529,460,433,427:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.CharZusatz.Ruestung#org.d3s.alricg.CharKomponenten.CharZusatz.Gegenstand:oiref>=680,460,448,427:oigroup>
+*/
+class __positions {
+}
