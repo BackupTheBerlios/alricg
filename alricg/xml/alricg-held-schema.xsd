@@ -23,6 +23,8 @@
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
+	
+<!-- *************************** Allgemeine Daten ***************************** -->	
 	<xsd:complexType name="allgemeineDatenType">
 		<xsd:sequence>
 			<xsd:element name="name" type="xsd:string"/>
@@ -39,6 +41,27 @@
 		</xsd:sequence>
 	</xsd:complexType>
 	
+<!-- ***************************** Talente ******************************* -->
+		<xsd:complexType name="HerkunftTyp">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="DE">
+					zweitKultur - Für "Kind zweier Welten" siehe S.1 124
+					zweitProfession - Für "Breitgefächerte Bildung" S. 124
+				</xsd:documentation>
+			</xsd:annotation>
+			<xsd:sequence>
+				<xsd:element name="rasse" type="xsd:string"/>
+				<xsd:element name="kultur" type="xsd:string"/>
+				<xsd:element name="zweitKultur" type="xsd:string"/>
+				<xsd:element name="profession" type="xsd:string">
+					<xsd:complexType>
+						<xsd:attribute name="abgebrochen" type="xsd:boolean"/>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="zweitProfession" type="xsd:String"/>
+				<xsd:element name="zusatzProfession" type="xsd:String"/>
+			</xsd:sequence>
+		</xsd:complexType>
 <!-- ***************************** Basis Werte ******************************* -->	
 	<xsd:complexType name="basisWerteType">
 		<xsd:sequence>
@@ -69,6 +92,7 @@
 			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
+
 <!-- ***************************** Talente ******************************* -->
 	<xsd:complexType name="talenteType">
 		<xsd:sequence>
@@ -98,7 +122,6 @@
 			<xsd:element name="id" type="xsd:String"/>
 			<xsd:element name="linkId" type="xsd:String" minOccurs="0"/>
 			<xsd:element name="text" type="xsd:String" minOccurs="0"/>
-			<xsd:element name="ap" type="xsd:nonNegativeInteger"/>
 			<xsd:element name="anmerkung" type="xsd:string" minOccurs="0"/>
 		</xsd:sequence>
 	 </xsd:complexType>
@@ -123,11 +146,11 @@
 	 <xsd:complexType name="nachteilType">
 		<xsd:sequence>
 			<xsd:element name="id" type="xsd:String"/>
-			<xsd:element name="stufe" type="xsd:String"/>
+			<xsd:element name="regulärGesenkt" type="xsd:nonNegativeInteger" minOccurs="0"/>
+			<xsd:element name="durchUserGesenkt" type="wertApType" minOccurs="0"/>
 			<xsd:element name="startStufe" type="xsd:String"/>
 			<xsd:element name="linkId" type="xsd:String" minOccurs="0"/>
 			<xsd:element name="text" type="xsd:String" minOccurs="0"/>
-			<xsd:element name="ap" type="xsd:nonNegativeInteger" minOccurs="0"/>
 			<xsd:element name="anmerkung" type="xsd:string" minOccurs="0"/>
 		</xsd:sequence>
 	 </xsd:complexType>
