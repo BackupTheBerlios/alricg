@@ -11,8 +11,7 @@ import org.d3s.alricg.Controller.Library;
 
 /**
  * <b>Beschreibung:</b><br>
- * Hilfsklasse zum besseren Arbeiten mit Eigenschaften. Alle Eigenschaften werden
- * hier auf eine Zahl abgebildet.
+ * Hilfsklasse zum besseren Arbeiten mit Eigenschaften. 
  * 
  * @author V.Strelow
  */
@@ -24,14 +23,20 @@ public enum Eigenschaften {
     FF("Fingerfertigkeit", "FF"),  
     GE("Gewandheit", "GE"), 
     KO("Konstitution", "KO"), 
-    KK("Körperkraft", "KK"), 
-    INI("Initiative", "INI"), 
-    MR("Magieresistens", "MR"), 
+    KK("Körperkraft", "KK"),
+    
+    SO("Sozialstatus", "SO"),
+    MR("Magieresistens", "MR"),
+    
     LEP("Lebenspunkte", "LeP"), 
     ASP("Astralpunkte", "AsP"), 
     AUP("Ausdauerpunkt", "AuP"), 
     KA("Karmaernergie", "KA"), 
-    SO("Sozialstatus", "SO");
+    
+    INI("Initiative", "INI"), 
+    AT("AttackeBasis", "AT"), 
+    PA("ParadeBasis", "PA");
+    
     
     private String name; // Voller Name der Eigenschaft
     private String abk; // Abkürzung der Eigenschaft

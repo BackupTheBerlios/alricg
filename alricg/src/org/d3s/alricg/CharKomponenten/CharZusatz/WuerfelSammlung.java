@@ -8,17 +8,60 @@
  */
 package org.d3s.alricg.CharKomponenten.CharZusatz;
 
+import java.util.Random;
+
 /**
  * <u>Beschreibung:</u><br> 
  * Eine Sammlung von Würfel mit variabler Anzahl und Augen der Würfel,
- * sowie einem Wert der fest hinzuaddiert wird.
+ * sowie einem Wert der fest hinzuaddiert wird. So können würfel-Anweisungen
+ * in der art wie "2W6 + 3W20 - 1W3 + 5" realisiert werden. Es kann hier direkt
+ * ein ergebniss abgerufen werden!
  * @author V. Strelow
  */
 public class WuerfelSammlung {
 	private int festWert;
 	private int[] anzahlWuerfel; // Anzahl der Würfel
 	private int[] augenWuerfel; // Augenzahl beim gleichen Index wie groesseWuerfel
-
+	private static Random ranGenerator;
+	
+	
+	/**
+	 * Konstruktor
+	 * @param festWert Ein fester Wert, der zum Ergebnis gezählt wird (1W6 + -5-)
+	 * @param anzahlWuerfel Die Anzahl der Würfel (-1-W6 + 5), gleicher index 
+	 * 		gehört zusammen
+	 * @param augenWuerfel Die Augen der Würfel (1W-6- + 5), gleicher index 
+	 * 		gehört zusammen
+	 */
+	public WuerfelSammlung(int festWert, int[] anzahlWuerfel, int[] augenWuerfel) {
+		this.festWert = festWert;
+		this.anzahlWuerfel = anzahlWuerfel;
+		this.augenWuerfel = augenWuerfel;
+		
+		// Überwachung das die Parameter nicht null sind
+		assert (anzahlWuerfel != null) && (augenWuerfel != null);
+		
+		if (ranGenerator == null) {
+			ranGenerator = new Random();
+		}
+	}
+	
+	/**
+	 * Addiert je einen Zufallswert pro Würfel und den Festwert. Dies
+	 * ergibt einen gültigen "Würfelwurf".
+	 * @return Liefert einen gültigen, zufälligen Wert wie eine Würfelergebniss
+	 */
+	public int getWuerfelWurf() {
+		int tmpInt = festWert;
+		
+		for (int i1 = 0; i1 < anzahlWuerfel.length; i1++) {
+			for (int i2 = 0; i2 < anzahlWuerfel[i1]; i2++) {
+				tmpInt += 1 + Math.abs(ranGenerator.nextInt()) % augenWuerfel[i1];
+			}
+		}
+		
+		return tmpInt;
+	}
 	
 	/**
 	 * @return Liefert das Attribut anzahlWuerfel.

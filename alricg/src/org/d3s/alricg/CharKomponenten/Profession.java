@@ -19,7 +19,7 @@ import org.d3s.alricg.CharKomponenten.Links.Auswahl;
 public class Profession extends Herkunft {
     
     public enum Art { HANDWERKLICH, KRIEGERISCH, GESELLSCHAFTLICH, WILDNESS, MAGISCH, GEWEIHT, SCHAMANISCH }
-    public enum Aufwand { ZEITAUFW, ZUSATZPROF }
+    public enum Aufwand { ERSTPROF, ZEITAUFW }
     
 	private Aufwand aufwand;
 	private Art art;
@@ -64,6 +64,23 @@ public class Profession extends Herkunft {
 
 	public Auswahl getBesondererBesitz(){ return besondererBesitz; }
 
+    /* (non-Javadoc) Methode überschrieben
+     * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
+     */
+    public void loadXmlElement(Element xmlElement) {
+    	super.loadXmlElement(xmlElement);
+    	// TODO implement
+    }
+    
+    /* (non-Javadoc) Methode überschrieben
+     * @see org.d3s.alricg.CharKomponenten.CharElement#writeXmlElement()
+     */
+    public Element writeXmlElement(){
+    	Element xmlElement = super.writeXmlElement();
+    	// TODO implement
+    	return null;
+    }
+	
 	private static class MagierAkademie {        	
 		private int gilde;
     	private int besondereMerkmale[];
@@ -71,23 +88,5 @@ public class Profession extends Herkunft {
         private boolean drittStudiumMoeglich;
 	}
 
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
-	 */
-	public void loadXmlElement(Element xmlElement) {
-		this.loadXmlElementHerkunft(xmlElement);
-		// TODO Auto-generated method stub
-		
-	}
 
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.CharKomponenten.CharElement#writeXmlElement()
-	 */
-	public Element writeXmlElement() {
-		Element xmlElem = null;
-		
-		this.writeXmlElementHerkunft(xmlElem);
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

@@ -11,6 +11,7 @@ import java.util.Hashtable;
 
 import nu.xom.Element;
 
+import org.d3s.alricg.CharKomponenten.Links.IdLink;
 import org.d3s.alricg.CharKomponenten.Links.Voraussetzung;
 
 /**
@@ -23,8 +24,8 @@ public abstract class VorNachteil extends Fertigkeit {
 	private int proStufe; // Bezieht sich auf GP
 	private int minStufe;
 	private int maxStufe;
-	private Vorteil[] verbietetVorteil;
-	private Nachteil[] verbietetNachteil;
+	private IdLink[] verbietetVorteil; // TODO Generics benutzen
+	private IdLink[] verbietetNachteil; // TODO Generics benutzen
 	private Hashtable aendertApSf;
 	private Hashtable aendertGpVorteil;
 	private Hashtable aendertGpNachteil;
@@ -77,34 +78,30 @@ public abstract class VorNachteil extends Fertigkeit {
 	/**
 	 * @return Liefert das Attribut verbietetNachteil.
 	 */
-	public Nachteil[] getVerbietetNachteil() {
+	public IdLink[] getVerbietetNachteil() {
 		return verbietetNachteil;
 	}
 	/**
 	 * @return Liefert das Attribut verbietetVorteil.
 	 */
-	public Vorteil[] getVerbietetVorteil() {
+	public IdLink[] getVerbietetVorteil() {
 		return verbietetVorteil;
 	}
 	
-    /**
-     * Dient zum initialisieren des Objekts. Ein XML-Elements wird gegeben, daraus
-     * werden alle relevanten Informationen ausgelesen.
-     * @param xmlElement Das Xml-Element mit allen nötigen angaben
+    /* (non-Javadoc) Methode überschrieben
+     * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
      */
-	protected void loadXmlElementVorNachteil(Element xmlElement){
+    public void loadXmlElement(Element xmlElement) {
+    	super.loadXmlElement(xmlElement);
     	// TODO implement
     }
     
-    /**
-     * Dient zur Speicherung (also für den Editor) des Objekts. Alle Angaben werden 
-     * in ein XML Objekt "gemapt" und zugefügt, zu einem 
-     * übergebenen XML-Elemnet
-     * @param xmlElement Das Xml-Element zu dem die Daten hinzugefügt werden
-     * @return Ein Xml-Element mit allen nötigen Angaben.
+    /* (non-Javadoc) Methode überschrieben
+     * @see org.d3s.alricg.CharKomponenten.CharElement#writeXmlElement()
      */
-    protected Element writeXmlElementVorNachteil(Element xmlElement) {
-    	//TODO implement
+    public Element writeXmlElement(){
+    	Element xmlElement = super.writeXmlElement();
+    	// TODO implement
     	return null;
     }
 }

@@ -35,23 +35,20 @@ public class Ausruestung extends Gegenstand {
         return isBehaelter;
     }
     
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
-	 */
-	public void loadXmlElement(Element xmlElement) {
-		this.loadXmlElementGegenstand(xmlElement);
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.CharKomponenten.CharElement#writeXmlElement()
-	 */
-	public Element writeXmlElement() {
-		Element xmlElem = null;
-		
-		this.writeXmlElementGegenstand(xmlElem);
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /* (non-Javadoc) Methode überschrieben
+     * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
+     */
+    public void loadXmlElement(Element xmlElement) {
+    	super.loadXmlElement(xmlElement);
+    	// TODO implement
+    }
+    
+    /* (non-Javadoc) Methode überschrieben
+     * @see org.d3s.alricg.CharKomponenten.CharElement#writeXmlElement()
+     */
+    public Element writeXmlElement(){
+    	Element xmlElement = super.writeXmlElement();
+    	// TODO implement
+    	return null;
+    }
 }

@@ -16,4 +16,5 @@ public class Voraussetzung {
 	private Auswahl talent;
 	private Auswahl zauber;
 	private Auswahl eigenschaft; //inklusive AT, PA, INI
+	
 }

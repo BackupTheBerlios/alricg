@@ -7,9 +7,44 @@
 
 package org.d3s.alricg.CharKomponenten.CharZusatz;
 
+import nu.xom.Element;
+
 /**
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
  * @author V.Strelow
  */
-public class Fahrzeug {
+public class Fahrzeug extends Gegenstand {
+	private String typ; // Der name, z.B. "Kastenwagen"
+	private String aussehen; // Ein allgemeiner Text zur Farbe, Zustand, usw.
+	
+	/**
+	 * @return Liefert das Attribut aussehen.
+	 */
+	public String getAussehen() {
+		return aussehen;
+	}
+	
+	/**
+	 * @return Liefert das Attribut bezeichung.
+	 */
+	public String getTyp() {
+		return typ;
+	}
+	
+    /* (non-Javadoc) Methode überschrieben
+     * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
+     */
+    public void loadXmlElement(Element xmlElement) {
+    	super.loadXmlElement(xmlElement);
+    	// TODO implement
+    }
+    
+    /* (non-Javadoc) Methode überschrieben
+     * @see org.d3s.alricg.CharKomponenten.CharElement#writeXmlElement()
+     */
+    public Element writeXmlElement(){
+    	Element xmlElement = super.writeXmlElement();
+    	// TODO implement
+    	return null;
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Created on 23.01.2005 / 19:47:25
+ * Created on 26.01.2005 / 16:48:15
  *
  * This file is part of the project ALRICG. The file is copyright
  * protected an under the GPL licence.
@@ -10,44 +10,34 @@ package org.d3s.alricg.CharKomponenten.CharZusatz;
 
 import nu.xom.Element;
 
+import org.d3s.alricg.CharKomponenten.CharElement;
+import org.d3s.alricg.CharKomponenten.Eigenschaften;
+import org.d3s.alricg.CharKomponenten.Nachteil;
+import org.d3s.alricg.CharKomponenten.Sonderfertigkeit;
 import org.d3s.alricg.CharKomponenten.Talent;
+import org.d3s.alricg.CharKomponenten.Vorteil;
+import org.d3s.alricg.CharKomponenten.Zauber;
+
 
 /**
  * <u>Beschreibung:</u><br> 
  *
  * @author V. Strelow
  */
-public abstract class Waffe extends Gegenstand {
-	private WuerfelSammlung TP;
-	private int laenge;
-	private int ini;
-	private Talent talent;
+public class DaemonenPakt extends CharElement {
+	private String daemonenName;
+	private int paktzuschlag;
+	private int kosten;
+	private Nachteil[] verbilligteNachteile;
+	private Vorteil[] verbilligteVorteile;
+	private Sonderfertigkeit[] verbilligteSonderf;
+	private Talent[] verbilligteTalente;
+	private Zauber[] verbilligteZauber;
+	private Nachteil[] schlechteEigenschaften;
+	private SchwarzeGabe[] schwarzeGaben;
+	private Eigenschaften[] verbilligteEigenschaften;
 	
 	
-	/**
-	 * @return Liefert das Attribut ini.
-	 */
-	public int getIni() {
-		return ini;
-	}
-	/**
-	 * @return Liefert das Attribut laenge.
-	 */
-	public int getLaenge() {
-		return laenge;
-	}
-	/**
-	 * @return Liefert das Attribut talent.
-	 */
-	public Talent getTalent() {
-		return talent;
-	}
-	/**
-	 * @return Liefert das Attribut tP.
-	 */
-	public WuerfelSammlung getTP() {
-		return TP;
-	}
 	
     /* (non-Javadoc) Methode überschrieben
      * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
@@ -65,5 +55,4 @@ public abstract class Waffe extends Gegenstand {
     	// TODO implement
     	return null;
     }
-	
 }

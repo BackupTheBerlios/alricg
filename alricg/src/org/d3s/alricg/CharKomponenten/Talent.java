@@ -16,8 +16,8 @@ import org.d3s.alricg.CharKomponenten.Links.Voraussetzung;
  */
 public class Talent extends Faehigkeit {
 	
-	public enum Art {BASIS, SPEZIAL, BERUF}
-	public enum Sorte {KAMPF, KOERPER, GESELLSCHAFT, NATUR, WISSEN, HANDWERK}
+	public enum Art {BASIS, SPEZIAL, BERUF }
+	public enum Sorte {KAMPF, KOERPER, GESELLSCHAFT, NATUR, WISSEN, HANDWERK }
 	private String[] spezialisierungen;
 	private Art art;
     private Sorte sorte;
@@ -37,23 +37,20 @@ public class Talent extends Faehigkeit {
 		return sorte;
 	}
 	
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
-	 */
-	public void loadXmlElement(Element xmlElement) {
-		this.loadXmlElementFaehigkeit(xmlElement);
-		// TODO Auto-generated method stub
-	}
-	
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.CharKomponenten.CharElement#writeXmlElement()
-	 */
-	public Element writeXmlElement() {
-		Element xmlElem = null;
-		
-		this.writeXmlElementFaehigkeit(xmlElem);
-		
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /* (non-Javadoc) Methode überschrieben
+     * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
+     */
+    public void loadXmlElement(Element xmlElement) {
+    	super.loadXmlElement(xmlElement);
+    	// TODO implement
+    }
+
+    /* (non-Javadoc) Methode überschrieben
+     * @see org.d3s.alricg.CharKomponenten.CharElement#writeXmlElement()
+     */
+    public Element writeXmlElement(){
+    	Element xmlElement = super.writeXmlElement();
+    	// TODO implement
+    	return null;
+    }
 }

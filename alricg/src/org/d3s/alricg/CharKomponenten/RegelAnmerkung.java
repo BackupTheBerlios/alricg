@@ -43,7 +43,6 @@ public class RegelAnmerkung
      * sonst "false".
      */
 	public boolean hasAnmerkungen() {
-        // TODO impelement
-        return false;
+        return (anmerkungen != null && anmerkungen.length > 0);
 	}
 }

@@ -16,6 +16,7 @@ import nu.xom.Element;
 public class FkWaffe extends Waffe {
 	private int laden;
 	private String reichweite;
+	private String reichweiteTpPlus; // Zusätzliche TP durch Reichweite
 
 	
 	/**
@@ -32,27 +33,27 @@ public class FkWaffe extends Waffe {
 		return reichweite;
 	}
 	
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
+	/**
+	 * @return Liefert das Attribut reichweiteTpPlus.
 	 */
-	public void loadXmlElement(Element xmlElement) {
-		this.loadXmlElementCharElement(xmlElement);
-		this.loadXmlElementGegenstand(xmlElement);
-		this.loadXmlElementWaffe(xmlElement);
-		// TODO Auto-generated method stub
-		
+	public String getReichweiteTpPlus() {
+		return reichweiteTpPlus;
 	}
-
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.CharKomponenten.CharElement#writeXmlElement()
-	 */
-	public Element writeXmlElement() {
-		Element xmlElem = null;
-		
-		this.writeXmlElementCharElement(xmlElem);
-		this.writeXmlElementGegenstand(xmlElem);
-		this.writeXmlElementWaffe(xmlElem);
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
+    /* (non-Javadoc) Methode überschrieben
+     * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
+     */
+    public void loadXmlElement(Element xmlElement) {
+    	super.loadXmlElement(xmlElement);
+    	// TODO implement
+    }
+    
+    /* (non-Javadoc) Methode überschrieben
+     * @see org.d3s.alricg.CharKomponenten.CharElement#writeXmlElement()
+     */
+    public Element writeXmlElement(){
+    	Element xmlElement = super.writeXmlElement();
+    	// TODO implement
+    	return null;
+    }
 }

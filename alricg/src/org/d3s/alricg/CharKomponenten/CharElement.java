@@ -7,7 +7,7 @@
 
 package org.d3s.alricg.CharKomponenten;
 
-import nu.xom.*;
+import nu.xom.Element;
 /**
  * <b>Beschreibung: </b> <br>
  * Dies ist die super-Klasse für alle Charakter-Elemente. Alle Elemente eines
@@ -119,43 +119,31 @@ abstract public class CharElement {
     public String toString() {
         return name;
     }
-    
+        
     /**
      * Dient zum initialisieren des Objekts. Ein XML-Elements wird gegeben, daraus
      * werden alle relevanten Informationen ausgelesen.
+     * Diese Methode wird von jeder Klasse Überschrieben, es wird 
+     * stehts die Methode der super-klasse aufgerufen und dann
+     * die eigenden informationen zusätzlich ausgelesen.
      * @param xmlElement Das Xml-Element mit allen nötigen angaben
      */
-    protected void loadXmlElementCharElement(Element xmlElement){
+    public void loadXmlElement(Element xmlElement) {
     	// TODO implement
     }
     
     /**
      * Dient zur Speicherung (also für den Editor) des Objekts. Alle Angaben werden 
-     * in ein XML Objekt "gemapt" und zugefügt, zu einem 
-     * übergebenen XML-Elemnet
-     * @param xmlElement Das Xml-Element zu dem die Daten hinzugefügt werden
+     * in ein XML Objekt "gemapt".
+     * Diese Methode wird von jeder Klasse Überschrieben, es wird 
+     * stehts die Methode der super-klasse aufgerufen und dann
+     * die eigenden informationen zusätzlich hinzugefügt.
      * @return Ein Xml-Element mit allen nötigen Angaben.
      */
-    protected Element writeXmlElementCharElement(Element xmlElement) {
-    	//TODO implement
+    public Element writeXmlElement(){
+//    	 TODO implement
     	return null;
     }
-    
-    /* *************************************** Abstrakte Methoden ******************************* */
-    
-    /**
-     * Dient zum initialisieren des Objekts. Ein XML-Elements wird gegeben, daraus
-     * werden alle relevanten Informationen ausgelesen.
-     * @param xmlElement Das Xml-Element mit allen nötigen angaben
-     */
-    public abstract void loadXmlElement(Element xmlElement);
-    
-    /**
-     * Dient zur Speicherung (also für den Editor) des Objekts. Alle Angaben werden 
-     * in ein XML Objekt "gemapt".
-     * @return Ein Xml-Element mit allen nötigen Angaben.
-     */
-    public abstract Element writeXmlElement();
     
 
 }

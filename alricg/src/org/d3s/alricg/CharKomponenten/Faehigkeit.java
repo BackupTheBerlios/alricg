@@ -34,25 +34,22 @@ public abstract class Faehigkeit extends CharElement {
 	public KostenKlasse getKostenKlasse() {
 		return kostenKlasse;
 	}
-	
-    /**
-     * Dient zum initialisieren des Objekts. Ein XML-Elements wird gegeben, daraus
-     * werden alle relevanten Informationen ausgelesen.
-     * @param xmlElement Das Xml-Element mit allen nötigen angaben
+
+    /* (non-Javadoc) Methode überschrieben
+     * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
      */
-	protected void loadXmlElementFaehigkeit(Element xmlElement){
+    public void loadXmlElement(Element xmlElement) {
+    	super.loadXmlElement(xmlElement);
     	// TODO implement
     }
     
-    /**
-     * Dient zur Speicherung (also für den Editor) des Objekts. Alle Angaben werden 
-     * in ein XML Objekt "gemapt" und zugefügt, zu einem 
-     * übergebenen XML-Elemnet
-     * @param xmlElement Das Xml-Element zu dem die Daten hinzugefügt werden
-     * @return Ein Xml-Element mit allen nötigen Angaben.
+
+    /* (non-Javadoc) Methode überschrieben
+     * @see org.d3s.alricg.CharKomponenten.CharElement#writeXmlElement()
      */
-    protected Element writeXmlElementFaehigkeit(Element xmlElement) {
-    	//TODO implement
+    public Element writeXmlElement(){
+    	Element xmlElement = super.writeXmlElement();
+    	// TODO implement
     	return null;
     }
 }

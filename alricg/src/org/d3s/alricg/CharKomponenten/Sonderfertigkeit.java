@@ -41,24 +41,21 @@ public class Sonderfertigkeit extends Fertigkeit {
 		return art;
 	}
 
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
-	 */
-	public void loadXmlElement(Element xmlElement) {
-		this.loadXmlElementFertigkeit(xmlElement);
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.CharKomponenten.CharElement#writeXmlElement()
-	 */
-	public Element writeXmlElement() {
-		Element xmlElem = null;
-		
-		this.writeXmlElementFertigkeit(xmlElem);
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /* (non-Javadoc) Methode überschrieben
+     * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
+     */
+    public void loadXmlElement(Element xmlElement) {
+    	super.loadXmlElement(xmlElement);
+    	// TODO implement
+    }
+    
+    /* (non-Javadoc) Methode überschrieben
+     * @see org.d3s.alricg.CharKomponenten.CharElement#writeXmlElement()
+     */
+    public Element writeXmlElement(){
+    	Element xmlElement = super.writeXmlElement();
+    	// TODO implement
+    	return null;
+    }
 
 }

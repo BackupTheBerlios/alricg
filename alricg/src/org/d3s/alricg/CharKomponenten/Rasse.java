@@ -7,8 +7,6 @@
 
 package org.d3s.alricg.CharKomponenten;
 
-import java.util.Random;
-
 import nu.xom.Element;
 
 import org.d3s.alricg.CharKomponenten.CharZusatz.WuerfelSammlung;
@@ -21,16 +19,9 @@ public class Rasse extends Herkunft {
 	private Kultur[] kulturUeblich;
     private String[] haarfarbe = new String[20];
 	private String[] augenfarbe = new String[20];
-	private WuerfelSammlung groesse;
-	private WuerfelSammlung alter;
-	/*
-	private int groesseWert;
-	private int[] groesseWuerfel; // Anzahl der Würfel
-	private int[] groesseAugen; // Augenzahl beim gleichen Index wie groesseWuerfel
-	private int alterWert;
-    private int alterAugen[];
-    private int alterWuerfel[];
-    */
+	private WuerfelSammlung groesseWuerfel;
+	private WuerfelSammlung alterWuerfel;
+
 	private int gewichtModi;
 	private int geschwindigk;
 
@@ -66,41 +57,54 @@ public class Rasse extends Herkunft {
 	}
 	
 	/**
-	 * Berechnet einen einen korrekten Wert für die Grösse. Dies ist Teilweise
-	 * ein Zufalls-Wert, basierend auf groesseWuerfel/ groesseAugen und  groesseWert.
-	 * TODO Korrektheit Testen!
-	 * @return Einen gültigen größe-Wert für diese Rasse
+	 * Berechnet einen einen korrekten Wert für die Grösse. Dies ist ein gültiger
+	 * Zufalls-Wert, basierend auf den angegebenen Werten.
+	 * @return Einen gültigen größe-Wert für diese Rasse.
 	 */
-	public int getGroesseKomplet() {
-		int tmpInt = 0;
-		Random r = new Random();
-		
-		/*for (int i1 = 0; i1 < groesseWuerfel.length; i1++) {
-			for (int i2 = 0; i2 < groesseWuerfel[i1]; i2++) {
-				tmpInt = 1 + Math.abs(r.nextInt()) % groesseAugen[i1];
-			}
-		}
-		
-		return (groesseWert + tmpInt);*/
-		return 0;
+	public int getGroesseZufall() {
+		return groesseWuerfel.getWuerfelWurf();
 	}
 	
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
+	/**
+	 * @return Liefert das Attribut groesseWuerfel.
 	 */
-	public void loadXmlElement(Element xmlElement) {
-		this.loadXmlElementHerkunft(xmlElement);
-		// TODO Auto-generated method stub
+	public WuerfelSammlung getGroesseWuerfel() {
+		return groesseWuerfel;
 	}
-
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.CharKomponenten.CharElement#writeXmlElement()
+	
+	/**
+	 * Berechnet einen einen korrekten Wert für das Alter. Dies ist ein gültiger
+	 * Zufalls-Wert, basierend auf den angegebenen Werten.
+	 * ACHTUNG: Das Alter kann noch durch Vor/Nachteile ("Veteran", usw) o.ä. 
+	 * 		verändert werden! Dies wird hier nicht berücksichtig und ist nur der
+	 * 		reine Grundwert der Rasse.
+	 * @return Einen gültigen alters-Wert für diese Rasse.
 	 */
-	public Element writeXmlElement() {
-		Element xmlElem = null;
-		
-		this.writeXmlElementHerkunft(xmlElem);
-		// TODO Auto-generated method stub
-		return null;
+	public int getAlterZufall() {
+		return alterWuerfel.getWuerfelWurf();
 	}
+	
+	/**
+	 * @return Liefert das Attribut alterWuerfel.
+	 */
+	public WuerfelSammlung getAlterWuerfel() {
+		return alterWuerfel;
+	}
+	
+    /* (non-Javadoc) Methode überschrieben
+     * @see org.d3s.alricg.CharKomponenten.CharElement#loadXmlElement(nu.xom.Element)
+     */
+    public void loadXmlElement(Element xmlElement) {
+    	super.loadXmlElement(xmlElement);
+    	// TODO implement
+    }
+    
+    /* (non-Javadoc) Methode überschrieben
+     * @see org.d3s.alricg.CharKomponenten.CharElement#writeXmlElement()
+     */
+    public Element writeXmlElement(){
+    	Element xmlElement = super.writeXmlElement();
+    	// TODO implement
+    	return null;
+    }
 }
