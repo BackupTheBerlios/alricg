@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by tyr (odin) -->
 <!--
  * Created on 17.12.2004
@@ -8,17 +8,19 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
 -->
-<xsd:schema targetNamespace="http://www.die3sphaere.de/alricg" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.die3sphaere.de/alricg">
+<xsd:schema targetNamespace="http://www.die3sphaere.de/alricg" xmlns="http://www.die3sphaere.de/alricg" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<xsd:annotation>
 		<xsd:documentation xml:lang="DE">
-		Schema-file fuer ALRICG. Alle Daten aus der XML-Datenbasis kï¿½n mit diesem File validiert werden.
+		Schema-file für ALRICG. Alle Daten aus der XML-Datenbasis können mit diesem File validiert werden.
 		
-		kommentar - Anmerkungen, die nur fï¿½wickler gedacht sind
-		beschreibung - Text der fï¿½ Benutzer gedacht ist
+		kommentar - Anmerkungen, die nur für Entwickler gedacht sind
+		beschreibung - Text der für Benutzer gedacht ist
 		benoetigtDateien - Dateien, auf die DIESE Datei zugreift (wird auto. 
 			erstellt)
 		</xsd:documentation>
 	</xsd:annotation>
+	<!-- Einbinden der Basis Typen -->
+	<xsd:include schemaLocation="alricg-basis-schema.xsd"/>
 	<xsd:element name="alricgXML">
 		<xsd:complexType>
 			<xsd:sequence>
@@ -237,7 +239,7 @@
 								<xsd:enumeration value="schamanisch"/>
 							</xsd:restriction>
 						</xsd:simpleType>
-						<!-- in erster Line fï¿½e bessere Anordnung der Elemenet -->
+						<!-- in erster Line für eine bessere Anordnung der Elemenet -->
 					</xsd:element>
 					<xsd:element name="verboteVT" type="idListe" minOccurs="0"/>
 					<xsd:element name="verboteNT" type="idListe" minOccurs="0"/>
@@ -261,12 +263,12 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	<!-- ############################################ Sonderfertigkeit ########################################### -->
-	<!-- sammelbegriffe: ReprÃ¤sentation, Ritualkenntnis, Gabe -->
+	<!-- sammelbegriffe: Repräsentation, Ritualkenntnis, Gabe -->
 	<xsd:complexType name="sondefTyp">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="DE">
 				ap - Kosten in Abenteuerpunkten -> GP = (AP / 50)
-				gp - Falls die GP nicht nach der Formel aus den AP errechnet werden kÃ¶nnen, werde sie hier etxra angegeben! 
+				gp - Falls die GP nicht nach der Formel aus den AP errechnet werden können, werde sie hier etxra angegeben! 
 				permX - Kosten die beim erlernen permanent abgezogen werden!
 			</xsd:documentation>
 		</xsd:annotation>
@@ -289,7 +291,7 @@
 						</xsd:simpleType>
 					</xsd:element>
 					<xsd:element name="voraussetzungen" type="voraussetzungTyp" minOccurs="0" maxOccurs="unbounded">
-						<!-- Es muÝ nur EINE der Voraussetzungen gelten! (So werden die "oders" nachgebildet) -->
+						<!-- Es mußnur EINE der Voraussetzungen gelten! (So werden die "oders" nachgebildet) -->
 					</xsd:element>
 				</xsd:sequence>
 				<xsd:attribute name="ap" type="xsd:nonNegativeInteger" use="required"/>
@@ -316,9 +318,10 @@
 					<xsd:element name="aendertGpVorteil" type="idUndWert" minOccurs="0" maxOccurs="unbounded"/>
 					<xsd:element name="aendertGpNachteil" type="idUndWert" minOccurs="0" maxOccurs="unbounded"/>
 					<xsd:element name="voraussetzungen" type="voraussetzungTyp" minOccurs="0" maxOccurs="unbounded"/>
-					<!-- Es muÃŸ nur EINE der Voraussetzungen gelten! (So werden die "oders" nachgebildet) -->
+					<!-- Es muß nur EINE der Voraussetzungen gelten! (So werden die "oders" nachgebildet) -->
 				</xsd:sequence>
 				<xsd:attribute name="gp" type="xsd:nonNegativeInteger" use="required"/>
+				<xsd:attribute name="proPunkte" type="xsd:nonNegativeInteger" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -341,9 +344,10 @@
 					<xsd:element name="aendertGpVorteil" type="idUndWert" minOccurs="0" maxOccurs="unbounded"/>
 					<xsd:element name="aendertGpNachteil" type="idUndWert" minOccurs="0" maxOccurs="unbounded"/>
 					<xsd:element name="voraussetzungen" type="voraussetzungTyp" minOccurs="0" maxOccurs="unbounded"/>
-					<!-- Es muÃŸ nur EINE der Voraussetzungen gelten! (So werden die "oders" nachgebildet) -->
+					<!-- Es muß nur EINE der Voraussetzungen gelten! (So werden die "oders" nachgebildet) -->
 				</xsd:sequence>
 				<xsd:attribute name="gp" type="xsd:nonPositiveInteger" use="required"/>
+				<xsd:attribute name="proPunkte" type="xsd:nonNegativeInteger" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -376,7 +380,7 @@
 					<xsd:element name="kostenKlasse" type="kostenKlasseTyp"/>
 					<xsd:element name="eigenschaften" type="dreiEigenschaftenTyp"/>
 					<xsd:element name="voraussetzungTalent" type="voraussetzungTyp" minOccurs="0" maxOccurs="unbounded"/>
-					<!-- Es muÃŸ nur EINE der Voraussetzungen gelten! (So werden die "oders" nachgebildet) -->
+					<!-- Es muß nur EINE der Voraussetzungen gelten! (So werden die "oders" nachgebildet) -->
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -436,9 +440,9 @@
 		<xsd:annotation>
 			<xsd:documentation xml:lang="DE">
 				additionsId - Id von gleichartigen Liturgien, diese ist wichtig da
-					bei zusammengehï¿½en Liturgien kosten anderes berechnet werden
+					bei zusammengehörigen Liturgien kosten anderes berechnet werden
 				permanenteKaKosten - Es kann (evtl.) permanente KA kosten, wenn
-					eine Liturgie gelernt wird (NICHT Ausfï¿½)
+					eine Liturgie gelernt wird (NICHT Ausführung)
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
@@ -452,12 +456,12 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	<!-- ############################################ AusrÃ¼stung ########################################### -->
+	<!-- ############################################ Ausrüstung ########################################### -->
 	<xsd:complexType name="ausruestungTyp">
 		<xsd:complexContent>
 			<xsd:extension base="gegenstandTyp">
 				<xsd:sequence>
-					<xsd:element name="haltbarkeit" type="xsd:string"/>
+					<xsd:element name="haltbarkeit" type="xsd:string" minOccurs="0"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -540,12 +544,11 @@
 			<xsd:extension base="gegenstandTyp">
 				<xsd:sequence>
 					<xsd:element name="fuerWaffe" type="xsd:string"/>
-					<xsd:element name="anzahl" type="xsd:nonNegativeInteger"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	<!-- ############################################ RÃ¼stungen ########################################### -->
+	<!-- ############################################ Rüstungen ########################################### -->
 	<xsd:complexType name="ruestungTyp">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="DE">
@@ -583,24 +586,25 @@
 	<xsd:complexType name="gegenstandTyp">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="DE">
-				Grundtype fÃ¼r alle GegenstÃ¤nde wie Waffen, RÃ¼stungen und normaler AusrÃ¼stung!
-				einordnung - Zur besseren Sortierung. Hier kann etwas wie "Pflanze", "Trank", "Kleidung" o.â¬ angegeben werden.
+				Grundtype für alle Gegenstände wie Waffen, Rüstungen und normaler Ausrüstung!
+				einordnung - Zur besseren Sortierung. Hier kann etwas wie "Pflanze", "Trank", "Kleidung" o.ä. angegeben werden.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
-			<xsd:element name="gewicht" type="xsd:nonNegativeInteger"/>
-			<xsd:element name="wert" type="xsd:string"/>
+			<xsd:element name="gewicht" type="xsd:nonNegativeInteger" minOccurs="0"/>
+			<xsd:element name="wert" type="xsd:string" minOccurs="0"/>
 			<xsd:element name="anmerkung" type="xsd:string" minOccurs="0"/>
 		</xsd:sequence>
 		<xsd:attribute name="id" type="xsd:string" use="required"/>
 		<xsd:attribute name="bezeichnung" type="xsd:string" use="required"/>
 		<xsd:attribute name="einordnung" type="xsd:string" use="optional"/>
 	</xsd:complexType>
+<!--**************************************************************************************************************** -->	
 	<xsd:complexType name="faehigkeitTyp">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="DE">
-				Grundtype fuer alle Faehigkeiten (alles was ein Char waehlen kann)
-				- Beschreibung: Allgemeine Beschreibung der Faehigkeit
+				Grundtype fuer alle Faehigkeiten (alles was ein Char wählen kann)
+				- Beschreibung: Allgemeine Beschreibung der Fähigkeit
 				- regelAnmerkung: Eine Sammlung von Anmerkungen zu den Reglen,
 					die das Programm nicht automatisch erledigen kann
 				- sammelbegriff: Oberbegriffe (z.B. Zwerge) zur besseren Sortierung
@@ -634,8 +638,8 @@
 						Grundtype fuer alle Vor-/ Nachteil und SF
 						Falls eine Fertigkeit mehrfach erlangt wird (durch Rasse, Kultur und Prof.):
 						- additionsId: Eine "Familie" von Fertigkeiten, die zueinander 
-							aufaddiert werden z.B. Rï¿½sgewï¿½g I und RG II
-						- additionsWert: z.B. Rï¿½sgewï¿½g I = 1 und RG II = 2. Somit ergibt zwei mal
+							aufaddiert werden z.B. Rüstungsgewöhnung I und RG II
+						- additionsWert: z.B. Rüstungsgewöhnung I = 1 und RG II = 2. Somit ergibt zwei mal
 							RG I --> ein mal RG II (sieht AH S.10)
 					</xsd:documentation>
 				</xsd:annotation>
@@ -653,14 +657,14 @@
 	<xsd:complexType name="herkunftTyp">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="DE">
-				Grundtype fuer Rasse, Kultur, Profession
+				Grundtype für Rasse, Kultur, Profession
 				varianteVon - Diese Herkunft ist eine Variante einer anderen
-				kannGewaehltWerden - Kann die Herkunft nicht gewã§¬t werden,
+				kannGewaehltWerden - Kann die Herkunft nicht gewählt werden,
 					so handelt es sich um einen "Varianten Rumpf", also einen
-					"Vater" von Varianten, der aber selbst nicht wã§¬bar ist.
+					"Vater" von Varianten, der aber selbst nicht w_bar ist.
 					Default: true
-				geschlecht - Diese Herkunft ist nur fï¿½ bestimmtes Geschlecht
-					mï¿½ch
+				geschlecht - Diese Herkunft ist nur für bestimmtes Geschlecht
+					möglich
 					Default: MW (Also beide Geschlechter)
 				zauberNichtZuBegin - Diese Zauber kann diese Profession zwar Prinzipiell
 					Erlernen, aber nicht zu spielbegin.
@@ -751,14 +755,14 @@
 						<xsd:annotation>
 							<xsd:documentation xml:lang="DE">
 								LISTE - In "wert"steht eine Liste von Werten, wobei jeder Wert einer "option" zugewiesen werden
-									muÝ® Es werden soviele optionen gewã§¬t, wie es werte gibt. (Das attribut "anzahl" wird
+									muß Es werden soviele optionen gewählt, wie es werte gibt. (Das attribut "anzahl" wird
 									nicht benutzt)
-								ANZAHL - In "wert" steht eine Zahl, die angibt wieviele der "optionen" gewÃ¤hlt werden mï¿½
-									Jede option kann einen Wert haben (Ã¼ber den "idLinkTyp"). (Das attribut "anzahl" wird
+								ANZAHL - In "wert" steht eine Zahl, die angibt wieviele der "optionen" gewählt werden müssen.
+									Jede option kann einen Wert haben (über den "idLinkTyp"). (Das attribut "anzahl" wird
 									nicht benutzt)
 								VERTEILUNG - Der Wert in "wert" kann auf soviele der Optionen verteilt werden, wie im Attribut 
-									"anzahl" angegeben. D.h. erst werden die Optionen ausgewã§¬t, dann der "wert" beliebig auf 
-									die gewÃ¤hlten optionen verteilt. (Siehe "Elfische Siedlung" S. 37 im AZ) 
+									"anzahl" angegeben. D.h. erst werden die Optionen ausgewählt, dann der "wert" beliebig auf 
+									die gewählten optionen verteilt. (Siehe "Elfische Siedlung" S. 37 im AZ) 
 							</xsd:documentation>
 						</xsd:annotation>
 						<xsd:simpleType>
@@ -813,6 +817,11 @@
 	</xsd:complexType>
 	<!--****************************************************************************************************************** -->
 	<xsd:complexType name="idLinkTyp">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="DE">
+
+			</xsd:documentation>
+		</xsd:annotation>
 		<xsd:attribute name="text" type="xsd:string" use="optional"/>
 		<xsd:attribute name="wert" type="xsd:int" use="optional"/>
 		<xsd:attribute name="leitwert" type="xsd:boolean" use="optional"/>
@@ -820,8 +829,8 @@
 		<xsd:attribute name="id" type="xsd:string" use="required"/>
 		<!-- Verpflichtet der "Praios-Kirche", Vorurteile gegen "Orks" -->
 		<!-- Eitelkeit Stufe 5 -->
-		<!-- FÃ¼r elfische Weltsicht -->
-		<!-- Unbegabt fï¿½linkId -->
+		<!-- Für elfische Weltsicht -->
+		<!-- Unbegabt für linkId -->
 		<!-- normales "Ziel"-->
 	</xsd:complexType>
 	<xsd:complexType name="idListe">
@@ -864,7 +873,7 @@
 	<xsd:simpleType name="liturgieHerkunftTyp">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="allgemein"/>
-			<xsd:enumeration value="zwï¿½ï¿½r"/>
+			<xsd:enumeration value="zw__r"/>
 			<xsd:enumeration value="praios"/>
 			<xsd:enumeration value="rondra"/>
 			<xsd:enumeration value="efferd"/>
@@ -890,7 +899,7 @@
 			<xsd:enumeration value="gravesh"/>
 			<xsd:enumeration value="rikai"/>
 			<xsd:enumeration value="kamaluqs"/>
-			<xsd:enumeration value="himmelswï¿½"/>
+			<xsd:enumeration value="himmelsw_"/>
 			<xsd:enumeration value="sonstiges"/>
 		</xsd:restriction>
 	</xsd:simpleType>
