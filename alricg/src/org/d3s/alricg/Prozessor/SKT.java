@@ -8,6 +8,8 @@
  */
 package org.d3s.alricg.Prozessor;
 
+import org.d3s.alricg.Controller.ProgAdmin;
+
 /**
  * <u>Beschreibung:</u><br> 
  * Die Steigerungs-Kosten-Tabelle, nach der die Kosten für den Kauf von CharElementen bezahlt wird.
@@ -15,6 +17,45 @@ package org.d3s.alricg.Prozessor;
  */
 public class SKT {
     
-    public enum KostenKlasse { A_PLUS, A, B, C, D, E, F, G, H }
+    public enum KostenKlasse { 
+    	A_PLUS ("A+"), 
+    	A("A"), 
+    	B("B"), 
+    	C("C"), 
+    	D("D"), 
+    	E("E"), 
+    	F("F"), 
+    	G("G"), 
+    	H("H"); 
+		private String xmlValue; // XML-Tag des Elements
+		
+		private KostenKlasse(String xmlValue) {
+			this.xmlValue = xmlValue;
+		}
+		
+		public String getXmlValue() {
+			return xmlValue;
+		}	
+    }
+    
+	/**
+	 * Liefert zu einem XML-Tag die entsprechende Enum zurück.
+	 * @param xmlValue Der XML-Tag der KostenKlasse
+	 * @return Die Enum KostenKlasse die zu den xmlValue gehört
+	 */
+	public static KostenKlasse getKostenKlasseByXmlValue(String xmlValue) {
+		KostenKlasse[] kostenArray = KostenKlasse.values();
+		
+		// Suchen des richtigen Elements
+		for (int i = 0; i < kostenArray.length; i++) {
+			if (xmlValue.equals(kostenArray[i].getXmlValue())) {
+				return kostenArray[i]; // Gefunden
+			}
+		}
+		
+		ProgAdmin.logger.severe("XmlValue konnte nicht gefunden werden!");
+		
+		return null;
+	}
     
 }
