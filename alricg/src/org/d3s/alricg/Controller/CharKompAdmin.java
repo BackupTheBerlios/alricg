@@ -22,6 +22,7 @@ import org.d3s.alricg.CharKomponenten.Liturgie;
 import org.d3s.alricg.CharKomponenten.Nachteil;
 import org.d3s.alricg.CharKomponenten.Profession;
 import org.d3s.alricg.CharKomponenten.Rasse;
+import org.d3s.alricg.CharKomponenten.RegionVolk;
 import org.d3s.alricg.CharKomponenten.Ritual;
 import org.d3s.alricg.CharKomponenten.RitusSF;
 import org.d3s.alricg.CharKomponenten.Schrift;
@@ -42,6 +43,7 @@ import org.d3s.alricg.CharKomponenten.CharZusatz.SchwarzeGabe;
 import org.d3s.alricg.CharKomponenten.CharZusatz.Tier;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.ausruestung;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.daemonenPakt;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.eigenschaft;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.fahrzeug;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.gabe;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.kultur;
@@ -109,7 +111,8 @@ public class CharKompAdmin {
 	private HashMap<String, SchwarzeGabe> schwarzeGabeMap = new HashMap<String, SchwarzeGabe>();
 	private HashMap<String, Tier> tierMap = new HashMap<String, Tier>();
 	private HashMap<String, Eigenschaft> eigenschaftMap = new HashMap<String, Eigenschaft>();
-	
+	private HashMap<String, RegionVolk> regionMap = new HashMap<String, RegionVolk>();
+
 	// Die Enums der Komponeten selbst
 	private HashMap<String, CharKomponenten> charKompMap = new HashMap<String, CharKomponenten>();
 
@@ -292,6 +295,12 @@ public class CharKompAdmin {
 					tierMap.put(ids.get(i), new Tier(ids.get(i)));
 				}
 				break;
+			case region:
+				for (int i = 0; i < ids.size(); i++) {
+					keyDoppelt(ids.get(i), regionMap);
+					regionMap.put(ids.get(i), new RegionVolk(ids.get(i)));
+				}
+				break;
 			case eigenschaft:
 				for (int i = 0; i < ids.size(); i++) {
 					keyDoppelt(ids.get(i), eigenschaftMap);
@@ -407,6 +416,7 @@ public class CharKompAdmin {
 			case daemonenPakt:	return daemonenPaktMap;
 			case schwarzeGabe:	return schwarzeGabeMap;
 			case tier:			return tierMap;
+			case region:		return regionMap;
 			case eigenschaft:	return eigenschaftMap;
 			
 //		 >>>>>>>>>>>>>>> DEFAULT			
@@ -482,7 +492,10 @@ public class CharKompAdmin {
 		daemonenPakt("daemonenPakte", "DAE"),
 		schwarzeGabe("schwarzeGaben", "SGA"),
 		tier("tiere", "TIE"),
+		region("regionen", "REG"),
 		eigenschaft("-", "EIG"); // Hat keinen XML Tag, wird durch Source-Code gefüllt
+
+		
 		
 //		Der XML-Tag der Komponente
 		private String xmlTag; // XML-Tag das alle entsprechenden Elemente umschließt
