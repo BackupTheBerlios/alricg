@@ -11,8 +11,27 @@ package org.d3s.alricg.CharKomponenten;
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
  * @author V.Strelow
  */
-public class Sprache {
+public class Sprache extends Faehigkeit {
 	private int komplexMutterspr;
 	private int komplaexitaet;
 	private Schrift[] zugehoerigeSchrift;
+	
+	/**
+	 * @return Liefert das Attribut komplaexitaet.
+	 */
+	public int getKomplaexitaet() {
+		return komplaexitaet;
+	}
+	/**
+	 * @return Liefert das Attribut komplexMutterspr.
+	 */
+	public int getKomplexMutterspr() {
+		return komplexMutterspr;
+	}
+	/**
+	 * @return Liefert das Attribut zugehoerigeSchrift.
+	 */
+	public Schrift[] getZugehoerigeSchrift() {
+		return zugehoerigeSchrift;
+	}
 }

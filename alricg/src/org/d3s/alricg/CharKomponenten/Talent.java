@@ -26,5 +26,25 @@ public class Talent extends Faehigkeit {
 	private int art;
     private int sorte;
     private Voraussetzung Voraussetzung;
+    
+	/**
+	 * @return Liefert das Attribut art.
+	 */
+	public int getArt() {
+		return art;
+	}
+	/**
+	 * @return Liefert das Attribut sorte.
+	 */
+	public int getSorte() {
+		return sorte;
+	}
+	/**
+	 * @return Liefert das Attribut voraussetzung.
+	 */
+	public Voraussetzung getVoraussetzung() {
+		return Voraussetzung;
+	}
+
 
 }

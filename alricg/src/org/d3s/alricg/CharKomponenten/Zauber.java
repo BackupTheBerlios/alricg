@@ -14,4 +14,17 @@ package org.d3s.alricg.CharKomponenten;
 public class Zauber extends Faehigkeit {
 	private String[] merkmale;
 	private String verbreitung;
+	
+	/**
+	 * @return Liefert das Attribut merkmale.
+	 */
+	public String[] getMerkmale() {
+		return merkmale;
+	}
+	/**
+	 * @return Liefert das Attribut verbreitung.
+	 */
+	public String getVerbreitung() {
+		return verbreitung;
+	}
 }

@@ -7,7 +7,6 @@
 
 package org.d3s.alricg.CharKomponenten;
 
-import org.d3s.alricg.CharKomponenten.Links.Auswahl;
 /**
  * <b>Beschreibung:</b><br>
  * Dies ist die super-Klasse für alle Charakter-Elemente.

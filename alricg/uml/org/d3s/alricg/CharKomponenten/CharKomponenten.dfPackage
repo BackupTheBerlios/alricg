@@ -93,7 +93,7 @@ class reference27 {
 */
 class reference12 {
 }/**
-@__ref <oiref:java#Class#org.d3s.alricg.CharKomponenten.Class1:oiref><oihard>
+@__ref <oiref:java#Class#org.d3s.alricg.CharKomponenten.Fertigkeit:oiref><oihard>
 @__modelType reference 
 */
 class reference24 {
@@ -107,6 +107,22 @@ class reference26 {
 @__modelType reference 
 */
 class reference28 {
+}/**
+@__ref <oiref:java#Class#org.d3s.alricg.CharKomponenten.Faehigkeit:oiref><oihard>
+@__modelType reference 
+*/
+class reference14 {
+}/**
+@__ref <oiref:java#Class#org.d3s.alricg.CharKomponenten.Ritus:oiref><oihard>
+@__modelType reference 
+*/
+class reference29 {
+}/**
+@__ref <oiref:design#Class#id4yzqae37x6j7ae37yk0do.diagram:oiref><oihard>
+@__modelType reference
+@__fqn <oiref:#Package#org.d3s.alricg.CharKomponenten.Hilfen:oiref> 
+*/
+class reference30 {
 }}/**
 @__tags
 @shapeType ClassDiagram 
@@ -117,21 +133,82 @@ class __tags {
 */
 class __options {
 }/**
-@__positions <oigroup:<oiref:design#Class#id3eqyke31fr990e31jf8yn.diagram:oiref>=490,3,83,120,1:oigroup>
-<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Kultur:oiref>=479,147,83,82,1:oigroup>
-<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Nachteil:oiref>=20,223,83,82,1:oigroup>
-<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Vorteil:oiref>=580,343,83,82,1:oigroup>
-<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Profession#org.d3s.alricg.CharKomponenten.Herkunft:oiref>=479,298,440,298:oigroup>
-<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Profession:oiref>=479,257,83,82,1:oigroup>
-<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.CharElement:oiref>=10,10,200,194,1:oigroup>
-<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Rasse#org.d3s.alricg.CharKomponenten.Herkunft:oiref>=202,298,240,298:oigroup>
-<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.RegelAnmerkung:oiref>=290,10,183,126,1:oigroup>
-<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Rasse:oiref>=119,257,83,82,1:oigroup>
-<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Herkunft#org.d3s.alricg.CharKomponenten.CharElement:oiref>=240,166,210,166:oigroup>
-<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Herkunft:oiref>=240,148,200,302,1:oigroup>
-<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Kultur#org.d3s.alricg.CharKomponenten.Herkunft:oiref>=479,175,440,175:oigroup>
-<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Eigenschaften:oiref>=8,356,164,347,1:oigroup>
-<oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.CharElement#regelAnmerkung:oiref>=210,73,290,73:oigroup>
+@__positions <oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.CharElement:oiref>=970,10,200,194,1:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Schrift#org.d3s.alricg.CharKomponenten.Faehigkeit:oiref>=724,822,559,404:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Nachteil#org.d3s.alricg.CharKomponenten.VorNachteil:oiref>=1603,1307,1603,1273,1170,1064:oigroup>
+<oigroup:Composite#supplierCardinality#MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Herkunft#verbilligteRituale:oiref>=926,802,26,16,0:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Kultur#professionMoeglich:oiref>=2089,962,1729,962:oigroup>
+<oigroup:Composite#supplierCardinality#MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.VorNachteil#verbietetNachteil:oiref>=1547,1287,26,16,0:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Herkunft#verbilligteRituale:oiref>=1577,752,956,792,956,822:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Fertigkeit#org.d3s.alricg.CharKomponenten.CharElement:oiref>=1255,274,1092,204:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.CharElement#regelAnmerkung:oiref>=1053,204,1053,274:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Profession#org.d3s.alricg.CharKomponenten.Herkunft:oiref>=1613,822,1613,752:oigroup>
+<oigroup:<oiref:design#Class#id3eqyke31fr990e31jf8yn.diagram:oiref>=1947,10,103,136,1:oigroup>
+<oigroup:Composite#supplierCardinality#MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Profession#verbotenNacht:oiref>=1608,1287,26,16,0:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Schrift:oiref>=662,822,125,114,1:oigroup>
+<oigroup:Composite#supplierCardinality#MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Kultur#professionMoeglich:oiref>=1733,942,26,16,0:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Kultur#professionUeblich:oiref>=2089,892,1729,892:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Sonderfertigkeit#org.d3s.alricg.CharKomponenten.Fertigkeit:oiref>=1275,822,1275,477:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Rasse#kulturUeblich:oiref>=2187,1307,2187,1032:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Herkunft#ungeVorteile:oiref>=1631,752,1857,876,1857,1209,1486,1268,1486,1307:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Herkunft#empfNachteile:oiref>=1686,752,2019,907,2019,1207,1710,1307:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Nachteil:oiref>=1542,1307,178,123,1:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.SonderRegel:oiref>=1250,10,129,107,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.VorNachteil#verbietetVorteil:oiref>=1052,1064,1425,1307:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.RegelAnmerkung:oiref>=952,274,183,126,1:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Profession:oiref>=1529,822,200,395,1:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.VorNachteil:oiref>=1013,822,197,242,1:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Vorteil:oiref>=1400,1307,122,123,1:oigroup>
+<oigroup:Composite#supplierCardinality#MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Herkunft#empfVorteil:oiref>=1482,1287,26,16,0:oigroup>
+<oigroup:Composite#supplierCardinality#MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Rasse#kulturUeblich:oiref>=2157,1032,26,16,0:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Zauber#org.d3s.alricg.CharKomponenten.Faehigkeit:oiref>=295,822,490,404:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Eigenschaften:oiref>=1763,10,164,347,1:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Ritual:oiref>=910,822,83,82,1:oigroup>
+<oigroup:Composite#supplierCardinality#MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Profession#verbotenSF:oiref>=1429,919,26,16,0:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Kultur#org.d3s.alricg.CharKomponenten.Herkunft:oiref>=2189,822,1705,752:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Herkunft#empfVorteil:oiref>=1649,752,1911,888,1911,1213,1512,1277,1512,1307:oigroup>
+<oigroup:Composite#supplierCardinality#MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.VorNachteil#verbietetVorteil:oiref>=1365,1287,26,16,0:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.VorNachteil#org.d3s.alricg.CharKomponenten.Fertigkeit:oiref>=1185,822,1185,477:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.CharElement#sonderRegel:oiref>=1170,63,1250,63:oigroup>
+<oigroup:Composite#supplierCardinality#MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Herkunft#verbilligteSonderf:oiref>=1320,802,26,16,0:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Vorteil#org.d3s.alricg.CharKomponenten.VorNachteil:oiref>=1435,1307,1091,1064:oigroup>
+<oigroup:Composite#supplierCardinality#MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Herkunft#empfNachteile:oiref>=1680,1287,26,16,0:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Profession#verbotenVort:oiref>=1583,1217,1461,1262,1461,1307:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.VorNachteil#verbietetNachteil:oiref>=1130,1064,1577,1277,1577,1307:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Faehigkeit#org.d3s.alricg.CharKomponenten.CharElement:oiref>=532,274,997,204:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Talent:oiref>=10,822,200,299,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Herkunft#verbilligteSonderf:oiref>=1595,752,1350,822:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Sonderfertigkeit:oiref>=1230,822,195,235,1:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Herkunft#org.d3s.alricg.CharKomponenten.CharElement:oiref>=1643,274,1131,204:oigroup>
+<oigroup:Composite#supplierCardinality#MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Profession#verbotenVort:oiref>=1431,1287,26,16,0:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Sprache#org.d3s.alricg.CharKomponenten.Faehigkeit:oiref>=508,822,508,404:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Rasse:oiref>=2153,1307,153,242,1:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Fertigkeit:oiref>=1155,274,200,203,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Herkunft#ungeNachteile:oiref>=1667,752,1965,898,1965,1210,1674,1307:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Liturgie#org.d3s.alricg.CharKomponenten.Ritus:oiref>=845,822,845,404:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Profession#verbotenNacht:oiref>=1638,1217,1638,1307:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Talent#org.d3s.alricg.CharKomponenten.Faehigkeit:oiref>=110,822,472,404:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Ritus#org.d3s.alricg.CharKomponenten.CharElement:oiref>=876,274,1025,204:oigroup>
+<oigroup:Composite#supplierCardinality#MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Kultur#professionUeblich:oiref>=1733,872,26,16,0:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Herkunft#verbilligteLiturien:oiref>=1560,752,880,784,880,822:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Rasse#org.d3s.alricg.CharKomponenten.Herkunft:oiref>=2272,1307,2309,1019,2309,812,1724,752:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Profession#verbotenSF:oiref>=1529,939,1425,939:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Faehigkeit:oiref>=455,274,155,130,1:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Ritus:oiref>=820,274,112,130,1:oigroup>
+<oigroup:Composite#supplierCardinality#MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Rasse#kulturMoeglich:oiref>=2208,1032,26,16,0:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Zauber:oiref>=230,822,130,130,1:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Kultur:oiref>=2089,822,200,210,1:oigroup>
+<oigroup:<oiref:java#Extends#org.d3s.alricg.CharKomponenten.Ritual#org.d3s.alricg.CharKomponenten.Ritus:oiref>=920,822,920,404:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Rasse#kulturMoeglich:oiref>=2238,1307,2238,1032:oigroup>
+<oigroup:Composite#supplierCardinality#MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Herkunft#verbilligteLiturien:oiref>=850,802,26,16,0:oigroup>
+<oigroup:Composite#supplierCardinality#MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Herkunft#ungeNachteile:oiref>=1644,1287,26,16,0:oigroup>
+<oigroup:Composite#supplierCardinality#MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Herkunft#ungeVorteile:oiref>=1456,1287,26,16,0:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Herkunft:oiref>=1543,274,200,478,1:oigroup>
+<oigroup:<oiref:design#Class#id4yzqae37x6j7ae37yk0do.diagram:oiref>=2070,10,83,120,1:oigroup>
+<oigroup:MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Sprache#zugehoerigeSchrift:oiref>=558,879,662,879:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Liturgie:oiref>=807,822,83,82,1:oigroup>
+<oigroup:<oiref:java#Class#org.d3s.alricg.CharKomponenten.Sprache:oiref>=380,822,178,146,1:oigroup>
+<oigroup:Composite#supplierCardinality#MemberLink#<oiref:java#Member#org.d3s.alricg.CharKomponenten.Sprache#zugehoerigeSchrift:oiref>=632,859,26,16,0:oigroup>
 */
 class __positions {
 }

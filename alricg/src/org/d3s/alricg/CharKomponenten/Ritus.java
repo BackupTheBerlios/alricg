@@ -8,10 +8,25 @@
 package org.d3s.alricg.CharKomponenten;
 
 /**
- * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
+ * <b>Beschreibung:</b><br>
+ * Fasst Gemeinsamkeiten von Liturgie und Ritual zusammen und 
+ * bildet die Grundlage für diese. 
  * @author V.Strelow
  */
-public class Ritus extends CharElement {
+public abstract class Ritus extends CharElement {
 	private int grad;
 	private String herkunft;
+	
+	/**
+	 * @return Liefert das Attribut grad.
+	 */
+	public int getGrad() {
+		return grad;
+	}
+	/**
+	 * @return Liefert das Attribut herkunft.
+	 */
+	public String getHerkunft() {
+		return herkunft;
+	}
 }

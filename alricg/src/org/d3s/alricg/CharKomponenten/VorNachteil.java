@@ -10,10 +10,12 @@ package org.d3s.alricg.CharKomponenten;
 import java.util.Hashtable;
 
 /**
- * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
+ * <b>Beschreibung:</b><br>
+ * Fast gemeinsamkeiten von Vor- und Nachteilen zusammen und bildet die 
+ * Grundlage für diese.
  * @author V.Strelow
  */
-public class VorNachteil extends Fertigkeit {
+public abstract class VorNachteil extends Fertigkeit {
 	private int gp;
 	private int minStufe;
 	private int maxStufe;

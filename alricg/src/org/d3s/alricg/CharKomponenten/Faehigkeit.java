@@ -11,7 +11,7 @@ package org.d3s.alricg.CharKomponenten;
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
  * @author V.Strelow
  */
-public class Faehigkeit extends CharElement {
+public abstract class Faehigkeit extends CharElement {
 	private int[] dreiEigenschaften = new int[3];
 	private int kostenKlasse;
 	/**

@@ -8,7 +8,8 @@
 package org.d3s.alricg.CharKomponenten;
 
 /**
- * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
+ * <b>Beschreibung:</b><br>
+ * Repräsentiert das Element Vorteil
  * @author V.Strelow
  */
 public class Vorteil extends VorNachteil {

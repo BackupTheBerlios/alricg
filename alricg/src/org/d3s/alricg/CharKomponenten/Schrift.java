@@ -13,4 +13,11 @@ package org.d3s.alricg.CharKomponenten;
  */
 public class Schrift extends Faehigkeit {
 	private int komplaexitaet;
+	
+	/**
+	 * @return Liefert das Attribut komplaexitaet.
+	 */
+	public int getKomplaexitaet() {
+		return komplaexitaet;
+	}
 }

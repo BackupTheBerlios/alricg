@@ -8,10 +8,43 @@
 package org.d3s.alricg.CharKomponenten;
 
 /**
- * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
+ * <b>Beschreibung:</b><br>
+ * Repräsentiert eine Sonderfertigkeit.
  * @author V.Strelow
  */
 public class Sonderfertigkeit extends Fertigkeit {
+	public static int ART_WAFFENLOSKAMPF = 0;
+	public static int ART_BEWAFFNETKAMPF = 1;
+	public static int ART_MAGISCH = 2;
+	public static int ART_GEWEIHT = 3;
+	public static int ART_SCHAMANISCH = 4;
+	public static int ART_SONSTIGE = 5;
+
 	private int ap;
-	private String art;
+	private int art;
+	
+	/**
+	 * @return Liefert das Attribut ap - die Kosten für diese SF in
+	 * Abenteuerpunkten.
+	 */
+	public int getAp() {
+		return ap;
+	}
+	
+	/**
+	 * @return Liefert die Kosten für diese SF in Generierungspunkten 
+	 * (dies entspricht normalerweise (AP/50).
+	 * TODO Überprüfe ob Rechnung immer aufgeht!
+	 */
+	public int getGp() {
+		return (ap/50);
+	}
+	
+	/**
+	 * @return Liefert das Attribut art.
+	 */
+	public int getArt() {
+		return art;
+	}
+
 }
