@@ -5,12 +5,14 @@
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
-package org.d3s.alricg.Held;
+package org.d3s.alricg.held;
 
-import org.d3s.alricg.CharKomponenten.Rasse;
+import java.util.ArrayList;
+
 import org.d3s.alricg.CharKomponenten.Kultur;
 import org.d3s.alricg.CharKomponenten.Profession;
-import java.util.ArrayList;
+import org.d3s.alricg.CharKomponenten.Rasse;
+import org.d3s.alricg.CharKomponenten.Sprache;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -26,5 +28,7 @@ public class Held {
     private ArrayList nachteile;
     private ArrayList vorteile;
     private ArrayList sonderf;
+    
+    private Sprache[] muttersprache; // kann mehrere geben, siehe "Golbin Festumer G"
 
 }

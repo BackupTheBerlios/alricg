@@ -6,7 +6,7 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
-package org.d3s.alricg.Held;
+package org.d3s.alricg.held;
 
 import java.util.HashMap;
 import java.util.Iterator;
