@@ -12,6 +12,7 @@ import nu.xom.Element;
 import nu.xom.Elements;
 
 import org.d3s.alricg.CharKomponenten.Herkunft;
+import org.d3s.alricg.Controller.ProgAdmin;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -42,7 +43,7 @@ public class Auswahl {
 		}
 	}
 	
-	protected VariableAuswahl[] varianteAuswahl;
+	private VariableAuswahl[] varianteAuswahl;
     private Herkunft herkunft; // Das CharElement, von dem die Auswahl kommt
 	protected IdLink[] festeAuswahl; // Die unveränderlichen Werte
 	
@@ -81,15 +82,8 @@ public class Auswahl {
      * @param xmlElement Das Xml-Element mit allen nötigen angaben
      */
     public void loadXmlElement(Element xmlElement) {
-    	Elements tmpElements, tmpOptions;
-    	String tmpString;
-    	String[] tmpStringAR;
-        Modus modus;
-        int[] werte = new int[0]; // Default
-        int anzahl = 0; // Default
-        IdLink[] optionen;
-        IdLink[][] optionensGruppe;
-        
+    	Elements tmpElements;
+
     	// Auslesen der unveränderlichen, "festen" Elemente der Auswahl
     	tmpElements = xmlElement.getChildElements("fest");
     	festeAuswahl = new IdLink[tmpElements.size()];
@@ -99,70 +93,12 @@ public class Auswahl {
     	}
     	
     	// Auslesen der Auswahlmöglichkeiten
-    	tmpElements = xmlElement.getChildElements("modus");
+    	tmpElements = xmlElement.getChildElements("auswahl");
     	varianteAuswahl = new VariableAuswahl[tmpElements.size()];
     	for (int i = 0; i < varianteAuswahl.length; i++) {
-    		tmpString = tmpElements.get(i).getAttributeValue("modus");
-    		
-    		// Überprüfung oder der Modus-Wert gültig ist:
-    		assert tmpString.equals(Modus.LISTE.getXmlWert()) 
-		    		|| tmpString.equals(Modus.ANZAHL.getXmlWert())
-		    		|| tmpString.equals(Modus.VERTEILUNG.getXmlWert());
-    		
-    		// Einlesen des Modus
-    		if (tmpString.equals(Modus.LISTE.getXmlWert())) {
-    			modus = Modus.LISTE;
-    		} else if (tmpString.equals(Modus.ANZAHL.getXmlWert())) {
-    			modus = Modus.ANZAHL;
-    		} else { // ... .equals(Modus.VERTEILUNG.getXmlWert())
-    			modus = Modus.VERTEILUNG;
-    		}
-    		
-    		// Einlesen der Werte / optional
-    		if ( tmpElements.get(i).getAttribute("werte") != null ) {
-    			tmpStringAR = tmpElements.get(i).getAttributeValue("werte")
-    											.split(" ");
-    			werte = new int[tmpStringAR.length];
-    			for (int ii = 0; ii < tmpStringAR.length; ii++){
-    				werte[ii] = Integer.parseInt(tmpStringAR[ii]);
-    			}
-    		}
-    		
-    		// EInlesen des optionalen Feldes Anzahl
-    		if ( tmpElements.get(i).getAttribute("anzahl") != null ) {
-    			anzahl = Integer.parseInt( tmpElements.get(i)
-    							.getAttributeValue("anzahl") );
-    		}
-    		
-    		// Einlesen der Optionen, sollten mind. zwei sein
-    		tmpOptions =  tmpElements.get(i).getChildElements("option");
-    		optionen = new IdLink[tmpOptions.size()];
-    		for (int ii = 0; ii < optionen.length; ii++) {
-    			optionen[ii] = new IdLink(herkunft, this);
-    			optionen[ii].loadXmlElement(tmpOptions.get(ii));
-    		}
-    		
-    		// Einlesen der Optionsgruppen
-    		tmpElements =  tmpElements.get(i).getChildElements("optionsGruppe");
-    		optionensGruppe = new IdLink[tmpElements.size()][];
-    		for (int ii = 0; ii < tmpElements.size(); ii++) {
-        		tmpOptions =  tmpElements.get(i).getChildElements("option");
-        		optionensGruppe[ii] = new IdLink[tmpOptions.size()];
-        		for (int iii = 0; iii < tmpOptions.size(); iii++) {
-        			optionensGruppe[ii][iii] = new IdLink(herkunft, this);
-        			optionensGruppe[ii][iii].loadXmlElement(tmpOptions.get(iii));
-        		}
-    		}
-    		if (optionensGruppe.length == 0) {
-    			optionensGruppe = null;
-    		}
-    		
-    		
-    		// Erzeugen der Varianten Auswahl...
-    		varianteAuswahl[i] = new VariableAuswahl(modus, werte, anzahl, 
-    											optionen, optionensGruppe);
+    		varianteAuswahl[i] = new VariableAuswahl(this);
+    		varianteAuswahl[i].loadXmlElement(tmpElements.get(i));
     	}
-    	
     }
     	
     /**
@@ -172,8 +108,7 @@ public class Auswahl {
      * @return Ein Xml-Element mit allen nötigen Angaben.
      */
     public Element writeXmlElement(String tagName){
-    	Element tmpXmlElemnt, xmlElement = new Element("tagName");
-    	StringBuffer tmpString = new StringBuffer("");
+    	Element xmlElement = new Element(tagName);
     	
 // 		Schreiben der festen Elemente
     	for (int i = 0; i < festeAuswahl.length; i++) {
@@ -182,37 +117,7 @@ public class Auswahl {
     	
 //    	 Schreiben der "variablen" Elemente
     	for (int i = 0; i < varianteAuswahl.length; i++) {
-    		tmpXmlElemnt = new Element("auswahl");
-
-    		// Scheiben der einzelnen Optionen:
-    		for (int ii = 0; ii < varianteAuswahl[i].getOptionen().length; ii++ ){
-    			tmpXmlElemnt.appendChild(varianteAuswahl[i]
-    			                         .getOptionen()[ii].writeXmlElement("option"));
-    		}
-    		
-    		// Schreiben des Attributs "werte"
-    		for (int ii = 0; ii < varianteAuswahl[i].getWerte().length; ii++) {
-    			tmpString.append(Integer.toString(varianteAuswahl[i].getWerte()[ii]));
-    			tmpString.append(" ");
-    		}
-    		if (tmpString.length() > 0) {
-    			tmpXmlElemnt.addAttribute(new Attribute( "werte", 
-    											tmpString.toString().trim() ));
-    		}
-    		
-    		// Schreiben des Attribus "anzahl"
-    		if (varianteAuswahl[i].getAnzahl() != 0) {
-    			tmpXmlElemnt.addAttribute(new Attribute( "anzahl", 
-    								Integer.toString(varianteAuswahl[i].getAnzahl()) ));
-    		}
-    		
-    		// Schreiben des Attributs "modus"
-    		tmpXmlElemnt.addAttribute(new Attribute( "modus",
-    										varianteAuswahl[i].getModus().getXmlWert() ));
-    		
-    		
-    		// Anhängen des Elements:
-    		xmlElement.appendChild(tmpXmlElemnt);
+    		xmlElement.appendChild(varianteAuswahl[i].writeXmlElemnet("auswahl"));
     	}
     	
     	return xmlElement;
@@ -231,45 +136,135 @@ public class Auswahl {
      *  Optionen ausgewählt, dann der "wert" beliebig auf die gewählten optionen
      *  verteilt. (Siehe "Elfische Siedlung" S. 37 im AZ)
 	*/
-	protected class VariableAuswahl {
+	private class VariableAuswahl {
         private Modus modus;
         private int[] werte;
         private int anzahl;
         private IdLink[] optionen;
-        private IdLink[][] optionensGruppe;
+        private IdLink[][] optionsGruppe;
+        private Auswahl auswahl;
         
-		public VariableAuswahl(Modus modus, int[] werte, int anzahl, 
-				IdLink[] optionen, IdLink[][] optionensGruppe) {
-			this.modus = modus;
-			this.werte = werte;
-            this.anzahl = anzahl;
-            this.optionen = optionen;
-            this.optionensGruppe = optionensGruppe;
+		public VariableAuswahl(Auswahl auswahl) {
+			this.auswahl = auswahl;
 		}
 		
 		/**
-		 * @return Liefert das Attribut anzahl.
+		 * Liest alle Daten aus dem xmlElement aus
+		 * @param xmlElement Element mit allen Daten
 		 */
-		public int getAnzahl() {
-			return anzahl;
+		public void loadXmlElement(Element xmlElement) {
+			Elements tmpElements;
+			String tmpString;
+			String[] tmpStringAR;
+			
+    		// Überprüfung oder der Modus-Wert gültig ist:
+			tmpString = xmlElement.getAttributeValue("modus");
+    		assert tmpString.equals(Modus.LISTE.getXmlWert()) 
+		    		|| tmpString.equals(Modus.ANZAHL.getXmlWert())
+		    		|| tmpString.equals(Modus.VERTEILUNG.getXmlWert());
+			
+    		// Einlesen des Modus
+    		if (tmpString.equals(Modus.LISTE.getXmlWert())) {
+    			modus = Modus.LISTE;
+    		} else if (tmpString.equals(Modus.ANZAHL.getXmlWert())) {
+    			modus = Modus.ANZAHL;
+    		} else { // ... .equals(Modus.VERTEILUNG.getXmlWert())
+    			modus = Modus.VERTEILUNG;
+    		}
+	    	
+    		try {
+		    	// Einlesen der Werte / optional
+		    	if ( xmlElement.getAttribute("werte") != null ) {
+		    		tmpStringAR = xmlElement.getAttributeValue("werte").split(" ");
+		    		werte = new int[tmpStringAR.length];
+		    		for (int i = 0; i < tmpStringAR.length; i++){
+		    			werte[i] = Integer.parseInt(tmpStringAR[i]);
+		    		}
+		    	}
+		    		
+		    	// Einlesen des optionalen Feldes Anzahl
+		    	if ( xmlElement.getAttribute("anzahl") != null ) {
+		    		anzahl = Integer.parseInt( xmlElement.getAttributeValue("anzahl") );
+		    	}
+    		} catch (NumberFormatException exc) {
+    			ProgAdmin.logger.severe("Konnte String nicht in int umwandeln: " + exc);
+    		}
+	    		
+    		// Einlesen der Optionen, sollten mind. zwei sein
+    		tmpElements =  xmlElement.getChildElements("option");
+    		optionen = readOptionen(tmpElements);
+	    		
+    		// Einlesen der Optionsgruppen
+    		tmpElements =  xmlElement.getChildElements("optionsGruppe");
+    		optionsGruppe = new IdLink[tmpElements.size()][];
+    		for (int i = 0; i < tmpElements.size(); i++) {
+    			optionsGruppe[i] = readOptionen(tmpElements.get(i).getChildElements("option"));
+    		}
+    		// Falls es keine Optionsgruppen gibt, komplettes Array wieder auf null
+    		if (optionsGruppe.length == 0) {
+    			optionsGruppe = null;
+    		}
 		}
+		
 		/**
-		 * @return Liefert das Attribut modus.
+		 * @return ein xml-Element mit allen Daten dieser Klasse!
 		 */
-		public Modus getModus() {
-			return modus;
+		public Element writeXmlElemnet(String tagName) {
+			Element xmlElement = new Element(tagName);
+			Element tmpElement;
+			StringBuffer tmpString = new StringBuffer();
+			
+	   		// Schreiben der einzelnen Optionen:
+    		for (int i = 0; i < optionen.length; i++ ){
+    			xmlElement.appendChild(optionen[i].writeXmlElement("option"));
+    		}
+    		
+    		// Schreiben der Optionsgruppen:
+    		if (optionsGruppe != null) {
+	    		for (int i = 0; i < optionsGruppe.length; i++ ){
+	    			tmpElement = new Element("optionsGruppe");
+	    			for (int ii = 0; ii < optionsGruppe[i].length; ii++) {
+	    				tmpElement.appendChild(optionsGruppe[i][ii].writeXmlElement("option"));
+	    			}
+	    			xmlElement.appendChild(tmpElement);
+	      		}
+    		}
+    		// Schreiben des Attributs "werte"
+    		for (int i = 0; i < werte.length; i++) {
+    			tmpString.append(Integer.toString(werte[i]));
+    			tmpString.append(" ");
+    		}
+    		if (tmpString.length() > 0) {
+    			xmlElement.addAttribute(new Attribute( "werte", tmpString.toString().trim() ));
+    		}
+    		
+    		// Schreiben des Attribus "anzahl"
+    		if ( anzahl != 0) {
+    			xmlElement.addAttribute(new Attribute( "anzahl", Integer.toString(anzahl) ));
+    		}
+    		
+    		// Schreiben des Attributs "modus"
+    		xmlElement.addAttribute(new Attribute( "modus", modus.getXmlWert() ));
+
+			return xmlElement;
 		}
+	    
 		/**
-		 * @return Liefert das Attribut optionen.
+		 * Hilfsklasse zum einlesen der Optionen
+		 * @param xmlElements Das xml-Element mit den Optionen
+		 * @param auswahl Die Auswahl, zu der diese VariableAuswahl gehört
+		 * @return Die Optionen als LinkIds
 		 */
-		public IdLink[] getOptionen() {
-			return optionen;
-		}
-		/**
-		 * @return Liefert das Attribut werte.
-		 */
-		public int[] getWerte() {
-			return werte;
+		private IdLink[] readOptionen(Elements xmlElements) {
+			IdLink[] tmpOptionen;
+			
+			tmpOptionen = new IdLink[xmlElements.size()];
+    		for (int i = 0; i < tmpOptionen.length; i++) {
+    			tmpOptionen[i] = new IdLink(herkunft, auswahl);
+    			tmpOptionen[i].loadXmlElement(xmlElements.get(i));
+    		}
+    		
+    		return tmpOptionen;
 		}
 	}
 }
