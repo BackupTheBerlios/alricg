@@ -1,7 +1,7 @@
 /*
  * Created 27. Dezember 2004 / 01:38:24
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -12,8 +12,8 @@ import nu.xom.Element;
 
 import org.d3s.alricg.Controller.ProgAdmin;
 import org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten;
-import org.d3s.alricg.Prozessor.SKT;
-import org.d3s.alricg.Prozessor.SKT.KostenKlasse;
+import org.d3s.alricg.prozessor.SKT;
+import org.d3s.alricg.prozessor.SKT.KostenKlasse;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -28,8 +28,16 @@ public abstract class Faehigkeit extends CharElement {
      * @see Klasse org.d3s.alricg.CharKomponenten.Eigenschaften
 	 * @return Liefert die drei Eigenschaften, auf die die Probe abgelegt werden muﬂ.
 	 */
-	public Eigenschaft[] getDreiEigenschaften() {
+	public Eigenschaft[] get3Eigenschaften() {
 		return dreiEigenschaften;
+	}
+	
+	public String get3EigenschaftenString() {
+		return dreiEigenschaften[0].getEigenschaftEnum().getAbk()
+				+ "/" 
+				+ dreiEigenschaften[1].getEigenschaftEnum().getAbk()
+				+ "/"
+				+ dreiEigenschaften[2].getEigenschaftEnum().getAbk();
 	}
 	
     /**
@@ -75,15 +83,15 @@ public abstract class Faehigkeit extends CharElement {
     	tmpElement = new Element("probenWurf");
     	tmpElement.addAttribute(new Attribute(
     			"eigen1",
-    			dreiEigenschaften[0].getEigenschaft().getXmlValue())
+    			dreiEigenschaften[0].getEigenschaftEnum().getXmlValue())
     		);
     	tmpElement.addAttribute(new Attribute(
 				"eigen2",
-				dreiEigenschaften[1].getEigenschaft().getXmlValue())
+				dreiEigenschaften[1].getEigenschaftEnum().getXmlValue())
 			);
     	tmpElement.addAttribute(new Attribute(
 				"eigen3",
-				dreiEigenschaften[2].getEigenschaft().getXmlValue())
+				dreiEigenschaften[2].getEigenschaftEnum().getXmlValue())
 			);
     	xmlElement.appendChild(tmpElement);
     	
