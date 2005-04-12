@@ -6,6 +6,7 @@
 	<library file="libraryGerman.xml" lang="DE"/>
 	<xmlRuleFilesD3S>
 		<readFile>test-alricgSchema-2.xml</readFile>
+		<!-- <readFile>xmlOutputMuster.xml</readFile> -->
 	</xmlRuleFilesD3S>
 	<xmlRuleFilesUser readUserFiles="false"> 
 		<readFile>test.xml</readFile>
