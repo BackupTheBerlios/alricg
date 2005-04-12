@@ -1,7 +1,7 @@
 /*
  * Created 26. Dezember 2004 / 23:10:42
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
@@ -56,7 +56,7 @@ public class Voraussetzung {
     		auswahlVoraussetzung[i] = new IdLinkVoraussetzung[tmpElements2.size()];
     		for (int ii = 0; ii < tmpElements2.size(); ii++) {
     			auswahlVoraussetzung[i][ii] = new IdLinkVoraussetzung(quelle);
-    			auswahlVoraussetzung[i][ii].loadXmlElement(tmpElements2.get(i));
+    			auswahlVoraussetzung[i][ii].loadXmlElement(tmpElements2.get(ii));
     		}
     	}
     }
@@ -67,7 +67,7 @@ public class Voraussetzung {
      * @param tagName Der name des Tags
      * @return Ein Xml-Element mit allen nötigen Angaben.
      */
-    public Element writeXmlElement(String tagName){
+    public Element writeXmlElement(String tagName) {
     	Element xmlElement = new Element(tagName);
     	Element tmpElement;
     	
@@ -79,7 +79,7 @@ public class Voraussetzung {
     	// Alle Elemente der "Auswahl" hinzufügen
     	for (int i = 0; i < auswahlVoraussetzung.length; i++) {
     		tmpElement = new Element("auswahl");
-    		for (int ii = 0; ii < auswahlVoraussetzung.length; ii++) {
+    		for (int ii = 0; ii < auswahlVoraussetzung[i].length; ii++) {
     			tmpElement.appendChild(auswahlVoraussetzung[i][ii].writeXmlElement("option"));
     		}
     		xmlElement.appendChild(tmpElement);
