@@ -2,7 +2,7 @@
  * Created on 21.01.2005 / 02:20:51
  *
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
@@ -25,14 +25,13 @@ import org.d3s.alricg.GUI.Messenger;
  * @stereotype singelton
  */
 public class Library {
-    // Statischer selbstverweis!
-    public static Library self = null;
     
     private static String lang;
     private static HashMap<String, String> shortTxt = new HashMap<String, String>();
     private static HashMap<String, String> middleTxt = new HashMap<String, String>();
     private static HashMap<String, String> longTxt = new HashMap<String, String>();
     private static HashMap<String, String> errorMsgTxt = new HashMap<String, String>();
+    private static HashMap<String, String> toolTipTxt = new HashMap<String, String>();
     
     private Library() {
     	// Noop!
@@ -44,11 +43,7 @@ public class Library {
      * @param langIn Kennung für die Sprache, aus Config-file ("DE"/ "EN")
      */
     public static void initLibrary(Element xmlElement, String langIn) {
-    	boolean s, m, l, e;
-    	
-    	if (self == null) {
-    		self = new Library();
-    	}
+    	boolean flag = true;
     	
     	// Sprache einstellen
     	lang = langIn;
@@ -57,12 +52,13 @@ public class Library {
     	xmlElement = xmlElement.getFirstChildElement("library");
     	
     	// Erzeugung der drei "Rubriken"
-    	s = fillHashtable( xmlElement.getFirstChildElement("short"), shortTxt );
-    	m = fillHashtable( xmlElement.getFirstChildElement("middle"), middleTxt );
-    	l = fillHashtable( xmlElement.getFirstChildElement("long"), longTxt );
-    	e = fillHashtable( xmlElement.getFirstChildElement("errorMsg"), errorMsgTxt );
+    	flag = fillHashtable( xmlElement.getFirstChildElement("short"), shortTxt );
+    	flag = flag & fillHashtable( xmlElement.getFirstChildElement("middle"), middleTxt );
+    	flag = flag & fillHashtable( xmlElement.getFirstChildElement("long"), longTxt );
+    	flag = flag & fillHashtable( xmlElement.getFirstChildElement("errorMsg"), errorMsgTxt );
+    	flag = flag & fillHashtable( xmlElement.getFirstChildElement("toolTip"), toolTipTxt );
     	
-    	if ( !s || !m || !l || !e) { // Wenn mindestens einer der Fälle Fehlerhaft ist
+    	if ( !flag ) { // Wenn mindestens einer der Fälle Fehlerhaft ist
     		ProgAdmin.messenger.showMessage(Messenger.Level.erwartetFehler, 
     				"Es konnten nicht alle Texte geladen werden! \n" 
     				+ "Dies ist für eine Fehlerfreie anzeige jedoch notwendig. \n" 
@@ -147,12 +143,22 @@ public class Library {
     }
     
     /**
-     * Für alle Texte die Fehlermeldungen sind bestehen.
+     * Für alle Texte die Fehlermeldungen sind.
      * @param key Das Schlüsselword zu dem Text
      * @return Den Text zum Schlüsselwort
      */
     public static final String getErrorTxt(String key) {
     	assert errorMsgTxt.get(key) != null;
         return errorMsgTxt.get(key);
+    }
+    
+    /**
+     * Für alle Texte die ToolTips sind.
+     * @param key Das Schlüsselword zu dem Text
+     * @return Den Text zum Schlüsselwort
+     */
+    public static final String getToolTipTxt(String key) {
+    	assert toolTipTxt.get(key) != null;
+        return toolTipTxt.get(key);
     }
 }
