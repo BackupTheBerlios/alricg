@@ -11,7 +11,7 @@ import nu.xom.Attribute;
 import nu.xom.Element;
 
 import org.d3s.alricg.Controller.ProgAdmin;
-import org.d3s.alricg.Prozessor.FormelSammlung;
+import org.d3s.alricg.prozessor.FormelSammlung;
 
 /**
  * <b>Beschreibung:</b><br>

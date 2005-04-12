@@ -9,7 +9,7 @@ package org.d3s.alricg.CharKomponenten;
 
 import nu.xom.Element;
 
-import org.d3s.alricg.Prozessor.SKT.KostenKlasse;
+import org.d3s.alricg.prozessor.SKT.KostenKlasse;
 
 /**
  * <b>Beschreibung:</b><br>

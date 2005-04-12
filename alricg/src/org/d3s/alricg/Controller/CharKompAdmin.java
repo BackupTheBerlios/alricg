@@ -8,6 +8,7 @@
 package org.d3s.alricg.Controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -56,8 +57,8 @@ import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.profession
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.rasse;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.region;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.repraesentation;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.ritual;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.ritLitKenntnis;
+import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.ritual;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.ruestung;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.schild;
 import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.schrift;
@@ -395,6 +396,16 @@ public class CharKompAdmin {
 		}
 		
 		return root;
+	}
+	
+	/**
+	 * Liefert alle CharKomponenten eines gewünschten Typs
+	 * @param charKomp Der gewünschte Typ
+	 * @return Eine Collection mit allen CharKomponenten des gewünschten Typs
+	 */
+	public Collection<? extends CharElement> getCollection(CharKomponenten charKomp) {
+		
+		return getHashMap(charKomp).values();
 	}
 	
 	/**
