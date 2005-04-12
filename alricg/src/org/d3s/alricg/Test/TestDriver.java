@@ -8,14 +8,36 @@
  */
 package org.d3s.alricg.Test;
 
+import java.awt.Color;
+import java.awt.Container;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
 
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.table.TableColumn;
+
+import nu.xom.Builder;
 import nu.xom.Document;
+import nu.xom.Element;
+import nu.xom.Elements;
 import nu.xom.Serializer;
 
+import org.d3s.alricg.CharKomponenten.Talent;
 import org.d3s.alricg.CharKomponenten.CharZusatz.WuerfelSammlung;
+import org.d3s.alricg.Controller.CharKompAdmin;
 import org.d3s.alricg.Controller.ProgAdmin;
+import org.d3s.alricg.GUI.komponenten.table.SortableTable;
+import org.d3s.alricg.GUI.komponenten.table.SortableTableModel;
+import org.d3s.alricg.GUI.komponenten.table.SortableTreeModel;
+import org.d3s.alricg.GUI.komponenten.table.SortableTreeTable;
+import org.d3s.alricg.GUI.komponenten.table.TreeTableModel;
+import org.d3s.alricg.GUI.views.TalentView;
+import org.d3s.alricg.Test.treeTable.JTreeTable;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -23,7 +45,6 @@ import org.d3s.alricg.Controller.ProgAdmin;
  * @author V. Strelow
  */
 public class TestDriver {
-	public enum testEnum { EINS, ZWEI, DREI }
 	ProgAdmin pa;
 	
 	
@@ -34,34 +55,243 @@ public class TestDriver {
 	
 	public TestDriver()  {
 		
-		pa = new ProgAdmin();
+		startAlricg();
+		testSortableTable();
+		
+		
+		//JTableExample te = new JTableExample();
+		//JButtonTableExample bte = new JButtonTableExample();
+		
+		//te.setVisible(true);
+		//bte.setVisible(true);
+		
+		//enumTest();
+		//testTreeTable();
+		
+		//testLoadAndWrite();
+		
+		/*pa = new ProgAdmin();
 		pa.initProgAdmin();
 		
-		xmlWriteTest();
+		xmlWriteTest(null);*/
+		
 		
 		//testFile();
 		//testGeneric();
 		//testGeneric(new Integer(4));
 	}
 	
+	public void startAlricg() {
+		// Programm Starten und Datein einladen
+		pa = new ProgAdmin();
+		pa.initProgAdmin();
+	}
+	
+	public void testSortableTable() {
+		JFrame frame = new JFrame("SortableTableTest");
+		ArrayList<Talent> array;
+		
+		SortableTableModel tableModel = new SortableTableModel(new TalentView(), TalentView.TalentSpalten.values());
+		SortableTreeModel treeModel = new SortableTreeModel(new TalentView(), TalentView.TalentSpalten.values(), "Talente");
+		array = (ArrayList<Talent>) new ArrayList(ProgAdmin.charKompAdmin
+				.getCollection(CharKompAdmin.CharKomponenten.talent));
+		tableModel.setData(array);
+		treeModel.setData(array);
 
-	public void xmlWriteTest() {
+		/*DefaultTableModel dm = new DefaultTableModel() {
+			public void setValueAt(Object aValue, int rowIndex, int columnIndex)  {
+				super.setValueAt(aValue, rowIndex, columnIndex);
+				System.out.println(aValue.toString());
+			}
+			
+		};
+		dm.setDataVector(new Object[][] { 
+					{ "btnFoo", "foo", new Boolean(false), "ruft uta" },
+					{ "btnFoo", "foo", new Boolean(false), "ruft uta" }
+				}, 
+				new Object[] { "Button", "String", "Bool", "String" });
+
+		JTable st = new JTable(dm);*/
+		
+		SortableTreeTable sTree = new SortableTreeTable(treeModel);
+		SortableTable sTable = new SortableTable();
+		sTable.setModel(tableModel);
+		
+		//JTreeTable treeTable = new JTreeTable(treeModel);
+		
+		JScrollPane sp = new JScrollPane(sTree);
+		
+		frame.getContentPane().add(sp);
+		frame.pack();
+		frame.setVisible(true);
+	}
+	
+	public void enumTest() {
+		Art art = Art.basis;
+		System.out.println(((Enum) art).ordinal());
+	}
+	
+	public enum Art {
+		basis("basis"), 
+		spezial("spezial"), 
+		beruf("beruf");
+		private String xmlValue; // XML-Tag des Elements
+		
+		private Art(String xmlValue) {
+			this.xmlValue = xmlValue;
+		}
+		
+		public String getXmlValue() {
+			return xmlValue;
+		}	
+	}
+	
+	public void testTreeTable()  {
+
+		JFrame frame = new JFrame("TreeTableTest");
+
+		Container       cPane = frame.getContentPane();
+		TreeTableModel  model = new TestTreeTableModel();
+
+		JTreeTable treeTable = new JTreeTable(model);
+	        JScrollPane sp = new JScrollPane(treeTable);
+	        sp.getViewport().setBackground(Color.white);
+		cPane.add(sp);
+
+		TableColumn column = treeTable.getColumnModel().getColumn(1);
+		/*JComboBox comboBox = new JComboBox();
+		comboBox.addItem("Snowboarding");
+		comboBox.addItem("Rowing");
+		comboBox.addItem("Chasing toddlers");
+		comboBox.addItem("Speed reading");
+		comboBox.addItem("Teaching high school");
+		comboBox.addItem("None");
+		column.setCellEditor(new DefaultCellEditor(comboBox));*/
+		
+		//column.setCellEditor(new DefaultCellEditor(new JButton("Trara")));
+		
+		
+		frame.pack();
+		frame.setVisible(true);
+	}
+	
+	/**
+	 * Startet das Programm und l‰ﬂt die XML-Dateinen einlesen. Dann werden die
+	 * XML-Dateien rausgeschrieben und die neue Datei mit der original Datei 
+	 * verglichen.
+	 */
+	public void testLoadAndWrite() {
+		File oldFile, newFile;
+		Element configRoot, oldRoot, newRoot;
+
+		// Programm Starten und Datein einladen
+		pa = new ProgAdmin();
+		pa.initProgAdmin();
+		
+		// Daten in Datei Schreiben
+		newFile = new File("ressourcen" + File.separator + "test" 
+									+ File.separator + "xmlOutput.xml");
+		xmlWriteTest(newFile);
+		
+		// XML-Dateien erneut einlesen und vergleichen
+		configRoot = getRootElement(new File(ProgAdmin.DATEI_CONFIG));
+		oldFile = new File(ProgAdmin.PFAD_XML_DATEN_D3S 
+						+ configRoot.getFirstChildElement("xmlRuleFilesD3S")
+									.getFirstChildElement("readFile").getValue()
+							);
+		
+		oldRoot = getRootElement(oldFile);
+		oldRoot.removeChild(oldRoot.getFirstChildElement("preamble"));
+		newRoot = getRootElement(newFile);
+		
+		vergleicheElement(oldRoot, newRoot);
+		
+	}
+	
+	private void vergleicheElement(Element oldRoot, Element newRoot) {
+		int idx = 0;
+		Elements oldElements, newElements;
+		ArrayList<String> arrayList = new ArrayList<String>();
+		
+		// Vergelich der Werte selbst
+		
+		if ( 	oldRoot.getChildCount() == 0 &&
+				!oldRoot.getValue().trim().equals(newRoot.getValue().trim()) ) {
+			
+			
+			writeErrorMessage("Werte sind ungleich: ", oldRoot, newRoot);
+
+			/*System.out.println("Werte sind ungleich: ");
+			System.out.println(oldRoot.getValue());
+			System.out.println(newRoot.getValue());
+			System.out.println("----------------------------");*/
+		}
+		
+		// Vergelich der Attribute / Werte und ob Attribute alle vorhanden
+		if ( oldRoot.getAttributeCount() != newRoot.getAttributeCount() ) {
+			writeErrorMessage("Attribute ist nur einseitig vorhanden: ", oldRoot, newRoot);
+		} else if (oldRoot.getAttributeCount() > 0 ){
+			// Alle Attribute vergleichen
+			for (int i = 0; i < oldRoot.getAttributeCount(); i++) {
+				arrayList.add(oldRoot.getAttribute(i).getValue());
+			}
+			for (int i = 0; i < newRoot.getAttributeCount(); i++) {
+				if ( !arrayList.contains(newRoot.getAttribute(i).getValue()) ) {
+					writeErrorMessage("Werte von Attributen sind ungleich: ", oldRoot, newRoot);
+				}
+			}
+			arrayList.clear();
+		}
+		
+		oldElements = oldRoot.getChildElements();
+		newElements = newRoot.getChildElements();
+		
+		if (oldElements.size() != newElements.size()) {
+			writeErrorMessage("Anzahl Kind-Elemente unterschiedlich: ", oldRoot, newRoot);
+		} else {
+			// Rekursiver aufruf
+			for (int i = 0; i < oldElements.size(); i++) {
+				vergleicheElement(oldElements.get(i), newElements.get(i));
+			}
+		}
+	}
+	
+	private void writeErrorMessage(String mes, Element oldRoot, Element newRoot) {
+		System.out.println(mes);
+		System.out.println(oldRoot.toXML());
+		System.out.println(newRoot.toXML());
+		System.out.println("----------------------------");
+	}
+	
+	/**
+	 * Schreib die im "ProgAdmin.charKompAdmin" enthaltenen Elemente in ein XML File.
+	 * Falls kein File angegeben wird, wird das file auf der Konsole ausgegeben
+	 * @param file Das File in das geschrieben wird, oder "null" f¸r eine ausgabe 
+	 * 		auf die Konsole
+	 */
+	public void xmlWriteTest(File file) {
+		OutputStream oStream = System.out;
+		
 		Document doc = new Document(ProgAdmin.charKompAdmin.writeXML());
 		
+		// Fall kein file angegeben wurde, wie das XML File auf der Konsole
+		// ausgegeben
+		if (file != null) {
+			try {
+				oStream = new FileOutputStream(file);
+			} catch(FileNotFoundException ex) {
+				System.err.println(ex);
+			}
+		}
+		
 	    try {
-	        Serializer serializer = new Serializer(System.out, "ISO-8859-1");
+	        Serializer serializer = new Serializer(oStream, "ISO-8859-1");
 	        serializer.setIndent(4);
-	        serializer.setMaxLength(64);
+	        serializer.setMaxLength(0);
 	        serializer.write(doc);
 	      } catch (IOException ex) {
 	         System.err.println(ex);
 	      }
-	}
-	
-	public void testFile() {
-		File f = new File("ressourcen" + File.separator + "lala.txt");
-		System.out.println(f.exists());
-		
 	}
 	
 	private void testWuerfel() {
@@ -76,17 +306,22 @@ public class TestDriver {
 		
 	}
 	
-	private void testEnum() {
-		/*int[] i = new int[] {0,1,2,3}; 
+	/**
+	 * Lieﬂt ein XML-File ein und gibt das RootElement zur¸ck.
+	 * @param xmlFile Das File das eingelesen werden soll
+	 * @return Das rootElement des XML-Files oder null, falls die Datei nicht geladen 
+	 * werden konnte!
+	 */
+	private Element getRootElement(File xmlFile) {
+		Document doc = null;
 		
+		try {
+			Builder parser = new Builder(); // Auf true setzen f¸r Validierung
+			doc = parser.build(xmlFile);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 		
-		Eigenschaften e = Eigenschaften.MU;
-		
-		//System.out.println(i[Eigenschaften.MU]);
-		
-		switch (e) {
-		case Eigenschaften.MU: System.out.println(""); break;
-		default:
-		}*/
+		return doc.getRootElement();
 	}
 }
