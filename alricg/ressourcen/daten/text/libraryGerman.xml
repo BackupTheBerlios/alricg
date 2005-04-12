@@ -7,11 +7,12 @@
 		You can change the text, but DON'T CHANGE THE KEY-WORD!!
 		The text is identified by the key-word.
 		
-		library-element has 3 under-elements:
+		library-element has 5 under-elements:
 			short - Text has only one word.
 			middle - Text has two or three words.
 			long - Text has more as three words.
 			errorMsg - Error Messeges
+			toolTip - Text for ToolTip messages
 	</preamble>
 	<library>
 		<short> 
@@ -126,9 +127,85 @@
 			<entry key="ParadeBasis">
 				<e lang="DE">Parade-Basis</e>
 			</entry>
+
+<!-- *************** Werte für Talent Enums **********************************	-->
+			<entry key="kampf">
+				<e lang="DE">Kampf</e>
+			</entry>
+			<entry key="koerper">
+				<e lang="DE">Körper</e>
+			</entry>
+			<entry key="gesellschaft">
+				<e lang="DE">Gesellschaft</e>
+			</entry>
+			<entry key="natur">
+				<e lang="DE">Natur</e>
+			</entry>
+			<entry key="wissen">
+				<e lang="DE">Wissen</e>
+			</entry>
+			<entry key="handwerk">
+				<e lang="DE">Handwerk</e>
+			</entry>
+			<entry key="basis">
+				<e lang="DE">Basis</e>
+			</entry>
+			<entry key="spezial">
+				<e lang="DE">Spezial</e>
+			</entry>
+			<entry key="beruf">
+				<e lang="DE">Beruf</e>
+			</entry>
+
+<!-- *************** Überschriften für Tabellen **********************************	-->	
+			<entry key="Sorte">
+				<e lang="DE">Sorte</e>
+			</entry>
+			<entry key="Art">
+				<e lang="DE">Art</e>
+			</entry>
+			<entry key="KostenKlasse">
+				<e lang="DE">KostenKlasse</e>
+			</entry>
+			<entry key="Probe">
+				<e lang="DE">Probe</e>
+			</entry>
+			<entry key="Plus">
+				<e lang="DE">Plus</e>
+			</entry>
+
+<!-- *************** Allgemeine Begriffe **********************************	-->			
+			<entry key="Name">
+				<e lang="DE">Name</e>
+			</entry>
 			
-			<entry key="X">
-				<e lang="DE">X</e>
+<!-- *************** Label für Panel **********************************	-->
+			<entry key="Beschreibung">
+				<e lang="DE">Beschreibung</e>
+			</entry>
+			<entry key="Sonderregel">
+				<e lang="DE">Sonderregel</e>
+			</entry>
+			<entry key="Sammelbegriff">
+				<e lang="DE">Sammelbegriff</e>
+			</entry>
+			<entry key="Regelzusatz">
+				<e lang="DE">Regelzusatz</e>
+			</entry>
+			<entry key="id">
+				<e lang="DE">id</e>
+			</entry>
+			<entry key="Anzeigen">
+				<e lang="DE">Anzeigen</e>
+			</entry>
+			<entry key="Neu">
+				<e lang="DE">Neu</e>
+			</entry>
+			<entry key="x">
+				<e lang="DE">x</e>
+			</entry>
+			<entry key="x">
+				<e lang="DE">x</e>
 			</entry>
 		</short>
 		
@@ -205,6 +282,32 @@
 				<e lang="DE">X</e>
 			</entry>
 		</long>
+		
+		
+		<toolTip>
+			<entry key="TblHeaderName">
+				<e lang="DE">Der Bezeichner dieses Elements</e>
+			</entry>
+			<entry key="TblHeaderTalentSorte">
+				<e lang="DE">Eine Einordnung in welchen Bereich das Talent gehört</e>
+			</entry>
+			<entry key="TblHeaderTalentArt">
+				<e lang="DE">Eine Einordnung in welchen Bereich das Talent gehört</e>
+			</entry>
+			<entry key="TblHeaderKostenklasse">
+				<e lang="DE">Gibt die Spalte in der Steigerungskosten-Tabelle(SKT) an</e>
+			</entry>
+			<entry key="TblHeaderProbe">
+				<e lang="DE">Auf diese Eigenschaften wird die Probe abgelegt</e>
+			</entry>
+			<entry key="TblHeaderPlusButton">
+				<e lang="DE">Fügt ein Element zur Auswahl hinzu</e>
+			</entry>
+			<entry key="TblHeaderMinusButton">
+				<e lang="DE">Entfernt ein Element aus der Tabelle</e>
+			</entry>
+		</toolTip>
+		
 		
 		<errorMsg>
 <!-- **************************** Fehlermeldungen / Anzeige ******************************* -->
