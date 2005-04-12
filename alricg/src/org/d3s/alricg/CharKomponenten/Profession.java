@@ -75,7 +75,7 @@ public class Profession extends Herkunft {
 //	Modis auf LiturgieKenntnis, Geister rufen, usw.; Der Name des Ritus steht mit im Link
 	private Auswahl ritusModis; 
 	
-    private Profession varianteVon;
+   //private Profession varianteVon;
     
 
 	/**

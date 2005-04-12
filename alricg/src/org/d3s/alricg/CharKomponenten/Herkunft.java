@@ -67,6 +67,8 @@ public abstract class Herkunft extends CharElement {
     private Auswahl hauszauber;
     private Auswahl aktivierbareZauber;
     private IdLinkList ZauberNichtBeginn;
+    
+    protected Herkunft varianteVon;
 
     /**
      * Für manche Herkunft ist das Geschlecht wichtig. In dem Fall wird hier das
@@ -196,6 +198,22 @@ public abstract class Herkunft extends CharElement {
 
     public Auswahl getAktivierbareZauber() {
         return aktivierbareZauber;
+    }
+    
+    /**
+     * @return Liefer die "Eltern-Herkunft", von der diese eine Variante ist,
+     * 	oder "null"
+     */
+    public Herkunft getVarianteVon() {
+    	return varianteVon;
+    }
+    
+    /**
+     * @return true: Diese Herkunft ist eine Variante einer anderen Herkunft,
+     * 	sonst false
+     */
+    public boolean isVariante() {
+    	return (varianteVon != null);
     }
     
     /* (non-Javadoc) Methode überschrieben / ruft super Methode auf!

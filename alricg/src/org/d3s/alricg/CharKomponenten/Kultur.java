@@ -32,7 +32,7 @@ public class Kultur extends Herkunft {
     private AuswahlAusruestung ausruestung;
     private RegionVolk regionVolk;
 
-    private Kultur varianteVon; 
+    //private Kultur varianteVon; 
 
 
 	/**
@@ -42,16 +42,6 @@ public class Kultur extends Herkunft {
 	public Kultur(String id) {
 		setId(id);
 	}
-	
-    /**
-     * Wenn diese Herkunft eine Variante von einer anderen ist, so wird dies
-     * hier vermerkt.
-     * 
-     * @return Liefert die "Eltern-Herkunft"
-     */
-    public Kultur getVarianteVon() {
-        return varianteVon;
-    }
     
     /**
      * @return Liefert das Attribut ausruestung.

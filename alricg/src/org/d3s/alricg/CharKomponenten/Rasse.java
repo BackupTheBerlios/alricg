@@ -30,7 +30,7 @@ public class Rasse extends Herkunft {
 	private int gewichtModi;
 	private int geschwindigk = 8;
 	
-    private Rasse varianteVon;
+    //private Rasse varianteVon;
 
 	/**
 	 * Konstruktur; id beginnt mit "RAS-" für Rasse
