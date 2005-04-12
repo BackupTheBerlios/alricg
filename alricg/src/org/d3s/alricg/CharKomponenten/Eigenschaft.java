@@ -34,7 +34,7 @@ public class Eigenschaft extends CharElement {
 	 * @return Liefert die zugehörige EigenschaftEnum / Jede Eigenschaft ist 
 	 * mit einer EigenschaftEnum verbunden.
 	 */
-	public EigenschaftEnum getEigenschaft() {
+	public EigenschaftEnum getEigenschaftEnum() {
 		return eigenschaft;
 	}
 	
