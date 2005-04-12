@@ -117,7 +117,14 @@ abstract public class CharElement implements Comparable<CharElement> {
     public String getSammelBegriff() {
         return sammelBegriff;
     }
-
+    
+    /** 
+     * @return true Dieses Element verfügt über einen Sammelbegriff, 
+     * 			sonst false.
+     */
+    public boolean hasSammelBegriff() {
+    	return (!sammelBegriff.equals(""));
+    }
     /**
      * Falls dieses Element eine besondere Behandlung durch das Programm 
      * benötigt, so besitzt es eine "Sonderregel". Andernfalls liefert die 
