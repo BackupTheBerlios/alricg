@@ -7,12 +7,16 @@
 
 package org.d3s.alricg.CharKomponenten;
 
+import java.util.SortedMap;
+
 import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Elements;
 
 import org.d3s.alricg.CharKomponenten.Links.Voraussetzung;
+import org.d3s.alricg.Controller.Library;
 import org.d3s.alricg.Controller.ProgAdmin;
+
 /**
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
  * @author V.Strelow
@@ -24,14 +28,20 @@ public class Talent extends Faehigkeit {
 		spezial("spezial"), 
 		beruf("beruf");
 		private String xmlValue; // XML-Tag des Elements
+		private String bezeichner; // Name der Angezeigt wird
 		
 		private Art(String xmlValue) {
 			this.xmlValue = xmlValue;
+			bezeichner = Library.getShortTxt(xmlValue);
 		}
 		
 		public String getXmlValue() {
 			return xmlValue;
-		}	
+		}
+		
+		public String toString() {
+			return bezeichner;
+		}
 	}
 	public enum Sorte {
 		kampf("kampf"), 
@@ -41,14 +51,20 @@ public class Talent extends Faehigkeit {
 		wissen("wissen"), 
 		handwerk("handwerk");
 		private String xmlValue; // XML-Tag des Elements
+		private String bezeichner; // Name der Angezeigt wird
 		
 		private Sorte(String xmlValue) {
 			this.xmlValue = xmlValue;
+			bezeichner = Library.getShortTxt(xmlValue);
 		}
 		
 		public String getXmlValue() {
 			return xmlValue;
-		}	
+		}
+		
+		public String toString() {
+			return bezeichner;
+		}
 	}
 	
 	private String[] spezialisierungen;
