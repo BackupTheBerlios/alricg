@@ -58,7 +58,7 @@ abstract public class CharElement implements Comparable<CharElement> {
      * @return Der Text, der ausgegeben wird, wenn das Element nicht für
      * die Anzeige bestimmt ist. Gilt es solch einen Text nicht, dann "null"
      */
-    public String getAnzeigenText() {
+    public String getWirdAngezeigtText() {
         return anzeigenText;
     }
     
@@ -161,10 +161,15 @@ abstract public class CharElement implements Comparable<CharElement> {
     	
 // 		Auslesen der Sonderregel ( min: 0 / max: 1
     	if (xmlElement.getFirstChildElement("sonderregel") != null) {
+    		
+    		// TODO Manager für Sonderregeln einbauen!
+    		/*
     		this.sonderRegel = new SonderRegel(
     				xmlElement.getFirstChildElement("sonderregel").getAttributeValue("id"),
     				xmlElement.getFirstChildElement("sonderregel").getValue().trim()
     			);
+    		*/
+    		
     	}
     	
 // 		Auslesen der "Anzeigen" Elements - Boolean + Text ( min: 0 / max: 1)
