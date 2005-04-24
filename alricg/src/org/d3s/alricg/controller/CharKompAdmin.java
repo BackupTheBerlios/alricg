@@ -5,7 +5,7 @@
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
-package org.d3s.alricg.Controller;
+package org.d3s.alricg.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,63 +15,63 @@ import java.util.logging.Level;
 
 import nu.xom.Element;
 
-import org.d3s.alricg.CharKomponenten.CharElement;
-import org.d3s.alricg.CharKomponenten.Eigenschaft;
-import org.d3s.alricg.CharKomponenten.Gabe;
-import org.d3s.alricg.CharKomponenten.Gottheit;
-import org.d3s.alricg.CharKomponenten.Kultur;
-import org.d3s.alricg.CharKomponenten.Liturgie;
-import org.d3s.alricg.CharKomponenten.LiturgieRitualKenntnis;
-import org.d3s.alricg.CharKomponenten.Nachteil;
-import org.d3s.alricg.CharKomponenten.Profession;
-import org.d3s.alricg.CharKomponenten.Rasse;
-import org.d3s.alricg.CharKomponenten.RegionVolk;
-import org.d3s.alricg.CharKomponenten.Repraesentation;
-import org.d3s.alricg.CharKomponenten.Ritual;
-import org.d3s.alricg.CharKomponenten.Schrift;
-import org.d3s.alricg.CharKomponenten.Sonderfertigkeit;
-import org.d3s.alricg.CharKomponenten.Sprache;
-import org.d3s.alricg.CharKomponenten.Talent;
-import org.d3s.alricg.CharKomponenten.Vorteil;
-import org.d3s.alricg.CharKomponenten.Zauber;
-import org.d3s.alricg.CharKomponenten.ZusatzProfession;
-import org.d3s.alricg.CharKomponenten.CharZusatz.Ausruestung;
-import org.d3s.alricg.CharKomponenten.CharZusatz.DaemonenPakt;
-import org.d3s.alricg.CharKomponenten.CharZusatz.Fahrzeug;
-import org.d3s.alricg.CharKomponenten.CharZusatz.FkWaffe;
-import org.d3s.alricg.CharKomponenten.CharZusatz.NahkWaffe;
-import org.d3s.alricg.CharKomponenten.CharZusatz.Ruestung;
-import org.d3s.alricg.CharKomponenten.CharZusatz.Schild;
-import org.d3s.alricg.CharKomponenten.CharZusatz.SchwarzeGabe;
-import org.d3s.alricg.CharKomponenten.CharZusatz.Tier;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.ausruestung;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.daemonenPakt;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.eigenschaft;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.fahrzeug;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.gabe;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.gottheit;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.kultur;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.liturgie;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.nachteil;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.profession;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.rasse;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.region;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.repraesentation;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.ritLitKenntnis;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.ritual;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.ruestung;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.schild;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.schrift;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.schwarzeGabe;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.sonderfertigkeit;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.sprache;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.talent;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.tier;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.vorteil;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.waffeFk;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.waffeNk;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.zauber;
-import static org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten.zusatzProfession;
+import org.d3s.alricg.charKomponenten.CharElement;
+import org.d3s.alricg.charKomponenten.Eigenschaft;
+import org.d3s.alricg.charKomponenten.Gabe;
+import org.d3s.alricg.charKomponenten.Gottheit;
+import org.d3s.alricg.charKomponenten.Kultur;
+import org.d3s.alricg.charKomponenten.Liturgie;
+import org.d3s.alricg.charKomponenten.LiturgieRitualKenntnis;
+import org.d3s.alricg.charKomponenten.Nachteil;
+import org.d3s.alricg.charKomponenten.Profession;
+import org.d3s.alricg.charKomponenten.Rasse;
+import org.d3s.alricg.charKomponenten.RegionVolk;
+import org.d3s.alricg.charKomponenten.Repraesentation;
+import org.d3s.alricg.charKomponenten.Ritual;
+import org.d3s.alricg.charKomponenten.Schrift;
+import org.d3s.alricg.charKomponenten.Sonderfertigkeit;
+import org.d3s.alricg.charKomponenten.Sprache;
+import org.d3s.alricg.charKomponenten.Talent;
+import org.d3s.alricg.charKomponenten.Vorteil;
+import org.d3s.alricg.charKomponenten.Zauber;
+import org.d3s.alricg.charKomponenten.ZusatzProfession;
+import org.d3s.alricg.charKomponenten.charZusatz.Ausruestung;
+import org.d3s.alricg.charKomponenten.charZusatz.DaemonenPakt;
+import org.d3s.alricg.charKomponenten.charZusatz.Fahrzeug;
+import org.d3s.alricg.charKomponenten.charZusatz.FkWaffe;
+import org.d3s.alricg.charKomponenten.charZusatz.NahkWaffe;
+import org.d3s.alricg.charKomponenten.charZusatz.Ruestung;
+import org.d3s.alricg.charKomponenten.charZusatz.Schild;
+import org.d3s.alricg.charKomponenten.charZusatz.SchwarzeGabe;
+import org.d3s.alricg.charKomponenten.charZusatz.Tier;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.ausruestung;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.daemonenPakt;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.eigenschaft;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.fahrzeug;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.gabe;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.gottheit;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.kultur;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.liturgie;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.nachteil;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.profession;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.rasse;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.region;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.repraesentation;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.ritLitKenntnis;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.ritual;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.ruestung;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.schild;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.schrift;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.schwarzeGabe;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.sonderfertigkeit;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.sprache;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.talent;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.tier;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.vorteil;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.waffeFk;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.waffeNk;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.zauber;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.zusatzProfession;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -122,7 +122,7 @@ public class CharKompAdmin {
 	private HashMap<String, Repraesentation> repraesentMap = new HashMap<String, Repraesentation>();
 	
 	// Die Enums der Komponeten selbst
-	private HashMap<String, CharKomponenten> charKompMap = new HashMap<String, CharKomponenten>();
+	private HashMap<String, CharKomponente> charKompMap = new HashMap<String, CharKomponente>();
 
 	
 	/**
@@ -131,9 +131,9 @@ public class CharKompAdmin {
 	public CharKompAdmin() {
 		// Initialiserung der HashMap für schnellen Zugriff auf Komponenten 
 		// über deren ID
-		for (int i = 0; i < CharKomponenten.values().length; i++) {
-			charKompMap.put(CharKomponenten.values()[i].getPrefix(), 
-							CharKomponenten.values()[i]
+		for (int i = 0; i < CharKomponente.values().length; i++) {
+			charKompMap.put(CharKomponente.values()[i].getPrefix(), 
+							CharKomponente.values()[i]
 							);
 		}
 	}
@@ -145,7 +145,7 @@ public class CharKompAdmin {
 	 * @param ids Eine Liste mit allen IDs der Objekte die angelegt werden sollen
 	 * @param CharKomp Der Typ der CharKomponente
 	 */
-	public void initCharKomponents(ArrayList<String> ids, CharKomponenten charKomp) {
+	public void initCharKomponents(ArrayList<String> ids, CharKomponente charKomp) {
 		
 		switch (charKomp) {
 // >>>>>>>>>>>>>>> Herkunft
@@ -344,7 +344,7 @@ public class CharKompAdmin {
 	 * @return Die gesuchte Charkomponente oder "null", falls zu dem Schlüssel keine 
 	 * CharKomponente gefunden werden kann.
 	 */
-	public CharElement getCharElement(String id, CharKomponenten charKomp) {
+	public CharElement getCharElement(String id, CharKomponente charKomp) {
 		HashMap<String, ? extends CharElement> hashMap;
 		
 		hashMap = getHashMap(charKomp); // Die zugehörige HashMap holen
@@ -363,16 +363,16 @@ public class CharKompAdmin {
 	 * @return "alricgXML" Element mit allen enthaltenen Elementen.
 	 */
 	public Element writeXML() {
-		CharKomponenten[] charKompArray;
+		CharKomponente[] charKompArray;
 		Iterator ite;
 		Element tmpElement = null;
 		
 		Element root = new Element("alricgXML");
-		charKompArray = CharKomponenten.values();
+		charKompArray = CharKomponente.values();
 		
 		// TODO Die preamble noch hinzufügen
 		
-		// Alle CharKomponenten durchgehen 
+		// Alle charKomponenten durchgehen 
 		for (int i = 0; i < charKompArray.length; i++) {
 			
 			if (charKompArray[i] == eigenschaft) {
@@ -399,21 +399,21 @@ public class CharKompAdmin {
 	}
 	
 	/**
-	 * Liefert alle CharKomponenten eines gewünschten Typs
+	 * Liefert alle charKomponenten eines gewünschten Typs
 	 * @param charKomp Der gewünschte Typ
-	 * @return Eine Collection mit allen CharKomponenten des gewünschten Typs
+	 * @return Eine Collection mit allen charKomponenten des gewünschten Typs
 	 */
-	public Collection<? extends CharElement> getCollection(CharKomponenten charKomp) {
+	public Collection<? extends CharElement> getCollection(CharKomponente charKomp) {
 		
 		return getHashMap(charKomp).values();
 	}
 	
 	/**
-	 * Ermöglicht den Zugriff auf die HashMap mit den CharKomponenten.
+	 * Ermöglicht den Zugriff auf die HashMap mit den charKomponenten.
 	 * @param charKomp Die CharKomponente zu der die HashMap zurückgegeben werden soll
 	 * @return HashMap mit allen Elementen zu dieser CharKomponente
 	 */
-	private HashMap<String, ? extends CharElement> getHashMap(CharKomponenten charKomp) {
+	private HashMap<String, ? extends CharElement> getHashMap(CharKomponente charKomp) {
 		
 		switch (charKomp) {
 //		 >>>>>>>>>>>>>>> Herkunft
@@ -485,7 +485,7 @@ public class CharKompAdmin {
 	 * @param id Die ID mit dem Prefix
 	 * @return CharKomponente zu dem Prefix der ID
 	 */
-	public CharKomponenten getCharKompFromId(String id) {
+	public CharKomponente getCharKompFromId(String id) {
 		String prefix = "";
 		
 		try {
@@ -503,7 +503,7 @@ public class CharKompAdmin {
 	 * @param prefix Der prefix 
 	 * @return CharKomponente zu dem Prefix
 	 */
-	public CharKomponenten getCharKompFromPrefix(String prefix) {
+	public CharKomponente getCharKompFromPrefix(String prefix) {
 		assert charKompMap.get(prefix) != null; // Gültigkeitsprüfung
 		
 		return charKompMap.get(prefix);
@@ -517,7 +517,7 @@ public class CharKompAdmin {
 	 * Elemente in ein File geschrieben werden!
 	 * @author V. Strelow
 	 */
-	public enum CharKomponenten {
+	public enum CharKomponente {
 		rasse("rassen" , "RAS"), 
 		kultur("kulturen", "KUL"), 
 		profession("professionen", "PRO"),
@@ -556,7 +556,7 @@ public class CharKompAdmin {
 		 * @param xmlTag XML-Tag des Elements, der alle anderen entrys umschließt
 		 * @param hashMap Enthält alle Elemente die zu dieser CharKomponente gehören
 		 */
-		private CharKomponenten(String xmlTag, String prefix) {
+		private CharKomponente(String xmlTag, String prefix) {
 			this.xmlTag = xmlTag;
 			this.prefix = prefix;
 		}	

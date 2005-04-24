@@ -1,11 +1,11 @@
 /*
  * Created 23. Januar 2005 / 15:26:21
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
-package org.d3s.alricg.Controller;
+package org.d3s.alricg.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,11 +20,11 @@ import nu.xom.Elements;
 import nu.xom.ParsingException;
 import nu.xom.ValidityException;
 
-import org.d3s.alricg.CharKomponenten.CharElement;
-import org.d3s.alricg.CharKomponenten.EigenschaftEnum;
-import org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten;
-import org.d3s.alricg.GUI.Messenger;
-import org.d3s.alricg.GUI.SplashScreen;
+import org.d3s.alricg.gui.Messenger;
+import org.d3s.alricg.gui.SplashScreen;
+import org.d3s.alricg.charKomponenten.CharElement;
+import org.d3s.alricg.charKomponenten.EigenschaftEnum;
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -46,7 +46,8 @@ public class ProgAdmin {
 	public static final String PFAD_LIBRARY = "ressourcen" + File.separator 
 											+ "daten" + File.separator 
 											+ "text" + File.separator;
-	public static final String PFAD_BILDER = "img" + File.separator;
+	public static final String PFAD_BILDER = "ressourcen" + File.separator 
+											+ "img" + File.separator;
 	
 	// Singeltons
 	public static Logger logger; // Für Nachrichten aller Art
@@ -111,7 +112,9 @@ public class ProgAdmin {
 		arrayFiles = getXmlFiles(configRoot); // Files aus Config laden
 		logger.info("Regel-Files aus Config geladen...");
 		initCharKomponents(arrayFiles); // "leere"-CharKomponenten aus Files erstellen
+		logger.info("Charakter-Elemente erstellt...");
 		loadCharKomponents(arrayFiles); // Erzeugte CharKomponenten mit Inhalt füllen
+		logger.info("Charakter-Elemente initiiert...");
 		
 // 		SplashScreen schließen
 		splash.setVisible(false);
@@ -129,10 +132,10 @@ public class ProgAdmin {
 	private void loadCharKomponents(ArrayList<File> arrayFiles) {
 		Elements elementList;
 		Element[] rootElements;
-		CharKompAdmin.CharKomponenten[] charKomps;
+		CharKompAdmin.CharKomponente[] charKomps;
 		CharElement charElem;
 		
-		charKomps = CharKompAdmin.CharKomponenten.values();
+		charKomps = CharKompAdmin.CharKomponente.values();
 		
 		// Files auslesen, hier kann eingelich kein Lade Fehler auftreten,
 		// da alle File bereits durch "loadRegleXML" geladen waren!
@@ -141,7 +144,7 @@ public class ProgAdmin {
 			rootElements[i] = getRootElement(arrayFiles.get(i));
 		}
 		
-		// Erzeuge alle CharElement-Objekte, nur mit ID
+		// Erzeuge alle CharElement-Objekte
 		for (int i = 0; i < charKomps.length; i++) { // Alle CharKomps...
 			
 			for (int ii = 0; ii < rootElements.length; ii++) { // Für alle Files...
@@ -157,7 +160,7 @@ public class ProgAdmin {
 						.getFirstChildElement( charKomps[i].getXmlBoxTag() )
 						.getChildElements(); 
 				
-				// Alle Elemente durchgehen und die Obejkte füllen!
+				// Alle Elemente durchgehen und die Objekte füllen!
 				for (int iii = 0; iii < elementList.size(); iii++) {
 					charElem = charKompAdmin.getCharElement(
 							elementList.get(iii).getAttributeValue("id"),
@@ -324,10 +327,10 @@ public class ProgAdmin {
 	private void initCharKomponents(ArrayList<File> arrayFiles) {
 		Elements elementList;
 		Element[] rootElements;
-		CharKomponenten[] charKomps;
+		CharKomponente[] charKomps;
 		ArrayList<String> idArray;
 		
-		charKomps = CharKompAdmin.CharKomponenten.values();
+		charKomps = CharKompAdmin.CharKomponente.values();
 		idArray = new ArrayList<String>();
 		
 		// Files auslesen, hier kann eingelich kein Lade Fehler auftreten,
@@ -366,7 +369,7 @@ public class ProgAdmin {
 		
 		// Eigenschaften hinzufügen (initialisierung erstellt diese komplett)
 		charKompAdmin.initCharKomponents(EigenschaftEnum.getIdArray(), 
-										CharKomponenten.eigenschaft);
+										CharKomponente.eigenschaft);
 	}
 	
 	

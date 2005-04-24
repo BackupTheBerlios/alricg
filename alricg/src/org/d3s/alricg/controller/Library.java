@@ -6,14 +6,14 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
-package org.d3s.alricg.Controller;
+package org.d3s.alricg.controller;
 
 import java.util.HashMap;
 
 import nu.xom.Element;
 import nu.xom.Elements;
 
-import org.d3s.alricg.GUI.Messenger;
+import org.d3s.alricg.gui.Messenger;
 
 /**
  * <u>Beschreibung:</u><br> 
