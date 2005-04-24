@@ -43,28 +43,24 @@
  * maintenance of any nuclear facility.
  */
 
-package org.d3s.alricg.GUI.komponenten.table;
+package org.d3s.alricg.gui.komponenten.table;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.util.EventObject;
 
-import javax.swing.DefaultCellEditor;
-import javax.swing.Icon;
+import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
-import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeSelectionModel;
@@ -72,10 +68,9 @@ import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 
-
 /**
  * <b>Beschreibung: </b> <br>
- * TODO Beschreibung einfügen
+ * Mischung aus Tree und Table. Wichtig zur Anzeige von Datenmengen aller Art.
  * 
  * @author V.Strelow
  */
@@ -84,7 +79,10 @@ public class SortableTreeTable extends SortableTable {
 	protected TreeTableCellRenderer tree;
 
 	/**
+	 * Es wird ein auf einem TreeModell beruhendes Datenmodell benötigt
+	 * 
 	 * @param model
+	 *            Das Datenmodell der TreeTable
 	 */
 	public SortableTreeTable(SortableTreeModel model) {
 
@@ -214,11 +212,6 @@ public class SortableTreeTable extends SortableTable {
 			TableCellRenderer {
 		/** Last table/tree row asked to renderer. */
 		protected int visibleRow;
-		/**
-		 * Border to draw around the tree, if this is non-null, it will be
-		 * painted.
-		 */
-		protected Border highlightBorder;
 
 		public TreeTableCellRenderer(TreeModel model) {
 			super(model);
@@ -274,11 +267,6 @@ public class SortableTreeTable extends SortableTable {
 		public void paint(Graphics g) {
 			g.translate(0, -visibleRow * getRowHeight());
 			super.paint(g);
-			// Draw the Table border if we have focus.
-			if (highlightBorder != null) {
-				highlightBorder.paintBorder(this, g, 0, visibleRow
-						* getRowHeight(), getWidth(), getRowHeight());
-			}
 		}
 
 		/**
@@ -287,187 +275,70 @@ public class SortableTreeTable extends SortableTable {
 		public Component getTableCellRendererComponent(JTable table,
 				Object value, boolean isSelected, boolean hasFocus, int row,
 				int column) {
-			Color background;
-			Color foreground;
-
-			if (isSelected) {
-				background = table.getSelectionBackground();
-				foreground = table.getSelectionForeground();
-			} else {
-				background = table.getBackground();
-				foreground = table.getForeground();
-			}
-			highlightBorder = null;
-			if (realEditingRow() == row && getEditingColumn() == column) {
-				background = UIManager.getColor("Table.focusCellBackground");
-				foreground = UIManager.getColor("Table.focusCellForeground");
-			} else if (hasFocus) {
-				highlightBorder = UIManager
-						.getBorder("Table.focusCellHighlightBorder");
-				if (isCellEditable(row, column)) {
-					background = UIManager
-							.getColor("Table.focusCellBackground");
-					foreground = UIManager
-							.getColor("Table.focusCellForeground");
-				}
-			}
+			if (isSelected)
+				setBackground(table.getSelectionBackground());
+			else
+				setBackground(table.getBackground());
 
 			visibleRow = row;
-			setBackground(background);
-
-			TreeCellRenderer tcr = getCellRenderer();
-			if (tcr instanceof DefaultTreeCellRenderer) {
-				DefaultTreeCellRenderer dtcr = ((DefaultTreeCellRenderer) tcr);
-				if (isSelected) {
-					dtcr.setTextSelectionColor(foreground);
-					dtcr.setBackgroundSelectionColor(background);
-				} else {
-					dtcr.setTextNonSelectionColor(foreground);
-					dtcr.setBackgroundNonSelectionColor(background);
-				}
-			}
 			return this;
 		}
 	}
 
 	/**
-	 * An editor that can be used to edit the tree column. This extends
-	 * DefaultCellEditor and uses a JTextField (actually, TreeTableTextField) to
-	 * perform the actual editing.
-	 * <p>
-	 * To support editing of the tree column we can not make the tree editable.
-	 * The reason this doesn't work is that you can not use the same component
-	 * for editing and renderering. The table may have the need to paint cells,
-	 * while a cell is being edited. If the same component were used for the
-	 * rendering and editing the component would be moved around, and the
-	 * contents would change. When editing, this is undesirable, the contents of
-	 * the text field must stay the same, including the caret blinking, and
-	 * selections persisting. For this reason the editing is done via a
-	 * TableCellEditor.
-	 * <p>
-	 * Another interesting thing to be aware of is how tree positions its render
-	 * and editor. The render/editor is responsible for drawing the icon
-	 * indicating the type of node (leaf, branch...). The tree is responsible
-	 * for drawing any other indicators, perhaps an additional +/- sign, or
-	 * lines connecting the various nodes. So, the renderer is positioned based
-	 * on depth. On the other hand, table always makes its editor fill the
-	 * contents of the cell. To get the allusion that the table cell editor is
-	 * part of the tree, we don't want the table cell editor to fill the cell
-	 * bounds. We want it to be placed in the same manner as tree places it
-	 * editor, and have table message the tree to paint any decorations the tree
-	 * wants. Then, we would only have to worry about the editing part. The
-	 * approach taken here is to determine where tree would place the editor,
-	 * and to override the <code>reshape</code> method in the JTextField
-	 * component to nudge the textfield to the location tree would place it.
-	 * Since JTreeTable will paint the tree behind the editor everything should
-	 * just work. So, that is what we are doing here. Determining of the icon
-	 * position will only work if the TreeCellRenderer is an instance of
-	 * DefaultTreeCellRenderer. If you need custom TreeCellRenderers, that don't
-	 * descend from DefaultTreeCellRenderer, and you want to support editing in
-	 * JTreeTable, you will have to do something similiar.
+	 * TreeTableCellEditor implementation. Component returned is the JTree.
 	 */
-	public class TreeTableCellEditor extends DefaultCellEditor {
-		public TreeTableCellEditor() {
-			super(new TreeTableTextField());
-		}
-
-		/**
-		 * Overridden to determine an offset that tree would place the editor
-		 * at. The offset is determined from the <code>getRowBounds</code>
-		 * JTree method, and additionally from the icon DefaultTreeCellRenderer
-		 * will use.
-		 * <p>
-		 * The offset is then set on the TreeTableTextField component created in
-		 * the constructor, and returned.
-		 */
+	public class TreeTableCellEditor extends AbstractCellEditor implements
+			TableCellEditor {
 		public Component getTableCellEditorComponent(JTable table,
 				Object value, boolean isSelected, int r, int c) {
-			Component component = super.getTableCellEditorComponent(table,
-					value, isSelected, r, c);
-			JTree t = getTree();
-			boolean rv = t.isRootVisible();
-			int offsetRow = rv ? r : r - 1;
-			Rectangle bounds = t.getRowBounds(offsetRow);
-			int offset = bounds.x;
-			TreeCellRenderer tcr = t.getCellRenderer();
-			if (tcr instanceof DefaultTreeCellRenderer) {
-				Object node = t.getPathForRow(offsetRow).getLastPathComponent();
-				Icon icon;
-				if (t.getModel().isLeaf(node))
-					icon = ((DefaultTreeCellRenderer) tcr).getLeafIcon();
-				else if (tree.isExpanded(offsetRow))
-					icon = ((DefaultTreeCellRenderer) tcr).getOpenIcon();
-				else
-					icon = ((DefaultTreeCellRenderer) tcr).getClosedIcon();
-				if (icon != null) {
-					offset += ((DefaultTreeCellRenderer) tcr).getIconTextGap()
-							+ icon.getIconWidth();
-				}
-			}
-			((TreeTableTextField) getComponent()).offset = offset;
-			return component;
+			return tree;
 		}
 
 		/**
-		 * This is overridden to forward the event to the tree. This will return
-		 * true if the click count >= 3, or the event is null.
+		 * Overridden to return false, and if the event is a mouse event it is
+		 * forwarded to the tree.
+		 * <p>
+		 * The behavior for this is debatable, and should really be offered as a
+		 * property. By returning false, all keyboard actions are implemented in
+		 * terms of the table. By returning true, the tree would get a chance to
+		 * do something with the keyboard events. For the most part this is ok.
+		 * But for certain keys, such as left/right, the tree will
+		 * expand/collapse where as the table focus should really move to a
+		 * different column. Page up/down should also be implemented in terms of
+		 * the table. By returning false this also has the added benefit that
+		 * clicking outside of the bounds of the tree node, but still in the
+		 * tree column will select the row, whereas if this returned true that
+		 * wouldn't be the case.
+		 * <p>
+		 * By returning false we are also enforcing the policy that the tree
+		 * will never be editable (at least by a key sequence).
 		 */
 		public boolean isCellEditable(EventObject e) {
-			
 			if (e instanceof MouseEvent) {
-				MouseEvent me = (MouseEvent) e;
-				// If the modifiers are not 0 (or the left mouse button),
-				// tree may try and toggle the selection, and table
-				// will then try and toggle, resulting in the
-				// selection remaining the same. To avoid this, we
-				// only dispatch when the modifiers are 0 (or the left mouse
-				// button).
-				if (me.getModifiers() == 0
-						|| me.getModifiers() == InputEvent.BUTTON1_MASK) {
-					for (int counter = getColumnCount() - 1; counter >= 0; counter--) {
-						if (getColumnClass(counter) == TreeTableModel.class) {
-							MouseEvent newME = new MouseEvent(
-									SortableTreeTable.this.tree, me.getID(), me
-											.getWhen(), me.getModifiers(), me
-											.getX()
-											- getCellRect(0, counter, true).x,
-									me.getY(), me.getClickCount(), me
-											.isPopupTrigger());
-							SortableTreeTable.this.tree.dispatchEvent(newME);
-							break;
-						}
+				for (int counter = getColumnCount() - 1; counter >= 0; counter--) {
+					if (getColumnClass(counter) == TreeTableModel.class) {
+						MouseEvent me = (MouseEvent) e;
+						MouseEvent newME = new MouseEvent(tree, me.getID(), me
+								.getWhen(), me.getModifiers(), me.getX()
+								- getCellRect(0, counter, true).x, me.getY(),
+								me.getClickCount(), me.isPopupTrigger());
+						tree.dispatchEvent(newME);
+						break;
 					}
 				}
-				/*
-				if (me.getClickCount() >= 3) {
-					return true;
-				}*/
-				return false;
-			}
-			
-			if (e == null) {
-				return true;
 			}
 			return false;
 		}
-	}
-
-	/**
-	 * Component used by TreeTableCellEditor. The only thing this does is to
-	 * override the <code>reshape</code> method, and to ALWAYS make the x
-	 * location be <code>offset</code>.
-	 */
-	static class TreeTableTextField extends JTextField {
-		public int offset;
 
 		/*
 		 * (non-Javadoc) Methode überschrieben
 		 * 
-		 * @see java.awt.Component#setBounds(int, int, int, int)
+		 * @see javax.swing.CellEditor#getCellEditorValue()
 		 */
-		public void setBounds(int x, int y, int w, int h) {
-			int newX = Math.max(x, offset);
-			super.setBounds(newX, y, w - (newX - x), h);
+		public Object getCellEditorValue() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 	}
 
@@ -566,5 +437,4 @@ public class SortableTreeTable extends SortableTable {
 			}
 		}
 	}
-
 }

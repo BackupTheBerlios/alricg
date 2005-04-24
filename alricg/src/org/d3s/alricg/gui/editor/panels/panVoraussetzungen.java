@@ -6,7 +6,7 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
-package org.d3s.alricg.GUI.editor.panels;
+package org.d3s.alricg.gui.editor.panels;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

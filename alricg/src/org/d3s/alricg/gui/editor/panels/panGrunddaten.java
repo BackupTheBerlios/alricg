@@ -6,7 +6,7 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
-package org.d3s.alricg.GUI.editor.panels;
+package org.d3s.alricg.gui.editor.panels;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -23,8 +23,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-import org.d3s.alricg.Controller.Library;
-import org.d3s.alricg.GUI.komponenten.TextFieldList;
+import org.d3s.alricg.gui.komponenten.TextFieldList;
+import org.d3s.alricg.controller.Library;
 /**
  * <u>Beschreibung:</u><br> 
  *

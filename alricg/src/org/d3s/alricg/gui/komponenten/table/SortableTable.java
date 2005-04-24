@@ -4,9 +4,8 @@
  * This file is part of the project ALRICG. The file is copyright
  * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
- *
  */
-package org.d3s.alricg.GUI.komponenten.table;
+package org.d3s.alricg.gui.komponenten.table;
 
 import java.awt.Component;
 import java.awt.Insets;
@@ -16,8 +15,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.AbstractCellEditor;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -25,6 +26,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
+
+import org.d3s.alricg.gui.komponenten.MultiIcon;
+import org.d3s.alricg.gui.views.ViewSchema;
 
 import com.sun.java.swing.plaf.motif.MotifGraphicsUtils;
 
@@ -152,19 +156,30 @@ public class SortableTable extends JTable {
     
     
     /**
+     * Hiermit wird eine Spalte so eingestellt, das sie einen Button anzeigt.
      * @param column Die Spalte die per Button bedient werden soll
      * @param buttonText Der text auf dem Button
-     *
-    public void addEditor(int column, String buttonText) {
+     */
+    public void setColumnButton(int column, String buttonText) {
 		
     	// Der Renderer wird mit einem neuen Button erstellt, der 
     	// den selben Text trägt wie der gegebende Button
-		this.getColumn(column).setCellRenderer(
+		this.getColumn(getColumnName(column)).setCellRenderer(
 				new ButtonRenderer(new JButton(buttonText)));
 		// Der Editor wird mit dem ORIGINAL Button erstellt
-		this.getColumn(column).setCellEditor(
+		this.getColumn(getColumnName(column)).setCellEditor(
 				new ButtonEditor(new JButton(buttonText)));
-    }*/
+    }
+    
+    /**
+     * Hiermit wird eine Spalte so eingestellt, das sie ein oder mehrer Icons 
+     * anzeigt. Dafür muß die Spalte "column" 
+     * @param column Die Spalte die per Button bedient werden soll
+     * @param buttonText Der text auf dem Button
+     */
+    public void setColumnImage(int column) {
+    	this.getColumn(getColumnName(column)).setCellRenderer(new ImageRenderer());
+    }
 }
 
 // *****************************************************************************
@@ -174,15 +189,65 @@ public class SortableTable extends JTable {
  *	Für die Anzeige eines Buttons in einer Tabelle.
  * @author V. Strelow
  */
+class ImageRenderer extends DefaultTableCellRenderer {
+	protected JLabel label;
+	protected MultiIcon multiIcon;
+	
+	/**
+	 * Konstruktor
+	 */
+	public ImageRenderer() {
+		label = new JLabel();
+		multiIcon = new MultiIcon();
+		
+		label.setOpaque(true);
+		label.setIcon(multiIcon);
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see javax.swing.table.TableCellRenderer#getTableCellRendererComponent(javax.swing.JTable, java.lang.Object, boolean, boolean, int, int)
+	 */
+	public Component getTableCellRendererComponent(JTable table, Object value,
+				boolean isSelected, boolean hasFocus, int row, int column) {
+		
+		// Prüfen, ob dort überhaupt ein Bild hin soll
+		if (value instanceof Icon[]) {
+			multiIcon.replaceAll((Icon[]) value);
+			// Wenn nicht wird ein Label eingefügt
+			if (isSelected) {
+				label.setForeground(table.getSelectionForeground());
+				label.setBackground(table.getSelectionBackground());
+			} else {
+				label.setForeground(table.getForeground());
+				label.setBackground(table.getBackground());
+			}
+		} else {
+			return super.getTableCellRendererComponent(table, value, 
+									isSelected, hasFocus, row, column);
+		}
+		
+		return label;
+	}
+}
+
+
+/**
+ * <u>Beschreibung:</u><br> 
+ *	Für die Anzeige eines Buttons in einer Tabelle.
+ * @author V. Strelow
+ */
 class ButtonRenderer implements TableCellRenderer {
-	JButton button;
+	protected JButton button;
+	protected JLabel label;
 	
 	/**
 	 * Konstruktor
 	 */
 	public ButtonRenderer(JButton button) {
 		this.button = button;
+		this.label = new JLabel();
 		
+		label.setOpaque(true);
 		button.setOpaque(true);
 		button.setMargin(new Insets(1,1,1,1));
 	}
@@ -192,6 +257,20 @@ class ButtonRenderer implements TableCellRenderer {
 	 */
 	public Component getTableCellRendererComponent(JTable table, Object value,
 				boolean isSelected, boolean hasFocus, int row, int column) {
+
+		// Prüfen, ob dort überhaupt ein Button hin soll
+		if (!value.equals(ViewSchema.buttonValue)) {
+			// Wenn nicht wird ein Label eingefügt
+			if (isSelected) {
+				label.setForeground(table.getSelectionForeground());
+				label.setBackground(table.getSelectionBackground());
+			} else {
+				label.setForeground(table.getForeground());
+				label.setBackground(table.getBackground());
+			}
+			return label;
+		}
+		
 		if (isSelected) {
 			button.setForeground(table.getSelectionForeground());
 			button.setBackground(table.getSelectionBackground());
@@ -212,13 +291,16 @@ class ButtonRenderer implements TableCellRenderer {
  */
 class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
 	protected JButton button;
+	protected JLabel label;
 	
 	/**
 	 * Konstruktor
 	 */
 	public ButtonEditor(JButton button) {
 		this.button = button;
+		this.label = new JLabel();
 		
+		label.setOpaque(true);
 		button.setOpaque(true);
 		button.setMargin(new Insets(1,1,1,1));
 		
@@ -234,6 +316,20 @@ class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
 	 */
 	public Component getTableCellEditorComponent(JTable table, Object value,
 						boolean isSelected, int row, int column) {
+		
+		// Prüfen, ob dort überhaupt ein Button hin soll
+		if (!value.equals(ViewSchema.buttonValue)) {
+			// Wenn nicht wird ein Label eingefügt
+			if (isSelected) {
+				label.setForeground(table.getSelectionForeground());
+				label.setBackground(table.getSelectionBackground());
+			} else {
+				label.setForeground(table.getForeground());
+				label.setBackground(table.getBackground());
+			}
+			return label;
+		}
+		
 		if (isSelected) {
 			button.setForeground(table.getSelectionForeground());
 			button.setBackground(table.getSelectionBackground());

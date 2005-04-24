@@ -6,7 +6,7 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
-package org.d3s.alricg.GUI.komponenten.table;
+package org.d3s.alricg.gui.komponenten.table;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,9 +16,9 @@ import java.util.HashMap;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.d3s.alricg.CharKomponenten.CharElement;
-import org.d3s.alricg.CharKomponenten.Herkunft;
-import org.d3s.alricg.GUI.views.ViewSchema;
+import org.d3s.alricg.gui.views.ViewSchema;
+import org.d3s.alricg.charKomponenten.CharElement;
+import org.d3s.alricg.charKomponenten.Herkunft;
 
 /**
  * <u>Beschreibung:</u><br>
@@ -33,22 +33,14 @@ import org.d3s.alricg.GUI.views.ViewSchema;
  * @author V. Strelow
  */
 public class SortableTreeModel<E> extends AbstractTreeTableModel {
-	private Enum[] columns;
-	private ViewSchema schema;
-	private boolean[] lastAscSorted;
-	private DefaultMutableTreeNode root;
-	private NodeComparator nodeComp;
+	private Object[] columns; // Die Spalten-Titel
+	private ViewSchema schema; // Spezifische Methoden für Typ <E>
+	private boolean[] lastAscSorted; // Sortierrichtung
+	private DefaultMutableTreeNode root; // Wurzel-Knoten
+	private NodeComparator nodeComp; // Comparator für Nodes
 	
-	public SortableTreeModel(ViewSchema schema, Enum[] columns, String rootText) {
+	public SortableTreeModel(ViewSchema schema, Object[] columns, String rootText) {
 		super(new DefaultMutableTreeNode(rootText));
-		
-		// TEST 
-    	/*((DefaultMutableTreeNode) this.getRoot()).add(new DefaultMutableTreeNode("1"));
-    	((DefaultMutableTreeNode) this.getRoot()).add(new DefaultMutableTreeNode("2"));
-    	((DefaultMutableTreeNode) this.getRoot()).add(new DefaultMutableTreeNode("3"));
-    	((DefaultMutableTreeNode) ((DefaultMutableTreeNode) this.getRoot()).getChildAt(0))
-    		.add(new DefaultMutableTreeNode("1-1"));*/
-		// TEST
     	
 		this.columns = columns;
 		this.schema = schema;
@@ -57,7 +49,6 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 		this.nodeComp = new NodeComparator();
 		
 		Arrays.fill(lastAscSorted, false); // Damit überall ein Wert steht
-		
 	}
 	
 	/**
@@ -69,7 +60,7 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 	}
 	
 	/**
-	 * Ordnet alle übergebenen Elemente nach Enums und fügt sie als Nodes
+	 * Ordnet alle übergebenen Elemente nach den Ordnern und fügt sie als Nodes
 	 * zu dem übergebenen Node hinzu.
 	 * WICHTIG: Diese Methode benutzt "getOrdinalFromElement(CharElement element)" 
 	 * und "getEnums()"!Die Methoden müssen korrekt und passend implementiert sein
@@ -77,10 +68,13 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 	 * @param list Diese Elemente werden geordnete als Nodes sortiert hinzugefügt  
 	 * @param nodeToAdd Zu diesem Node werden die neuen Nodes hinzugefügt
 	 */
-	protected void ordneNachEnum(ArrayList<DefaultMutableTreeNode> list, DefaultMutableTreeNode nodeToAdd) {
-		Enum[] enums = schema.getSortEnums();
+	protected void ordneNachOrdnern(ArrayList<DefaultMutableTreeNode> list, 
+										DefaultMutableTreeNode nodeToAdd) 
+	{
+		Object[] ordner = schema.getSortOrdner();
 		ArrayList<DefaultMutableTreeNode>[] tmpArray;
 		DefaultMutableTreeNode tmpNode;
+		int[] tmpIntArray;
 		
 		// Gibt es überhaupt Elemente zum einordnen?
 		if (list.size() == 0) {
@@ -88,35 +82,39 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 		}
 		
 		// Gibt es überhaupt "Ordner" zu einordnen?
-		if (enums == null) {
-			enums = new Enum[0];
+		if (ordner == null) {
+			ordner = new Object[0];
 			tmpArray = new ArrayList[1];
 			tmpArray[0] = new ArrayList<DefaultMutableTreeNode>(); 
 		} else {
-			tmpArray = new ArrayList[enums.length];
+			tmpArray = new ArrayList[ordner.length];
 		}
 		
-// 		Array von ArrayListen erzeugen, so viele wie es enums gibt
-		for (int i = 0; i < enums.length; i++) {
+// 		Array von ArrayListen erzeugen, so viele wie es Ordner gibt
+		for (int i = 0; i < ordner.length; i++) {
 			tmpArray[i] = new ArrayList<DefaultMutableTreeNode>();
 		}
 		
-//		Jedes Element der list in ein Array einordenen, passend zur enum
+//		Jedes Element der list in ein oder mehrer  Arrays einordenen,
+//		passend zur Ordner
 		for (int i = 0; i < list.size(); i++) {
-			tmpArray[schema.getOrdinalFromElement(list.get(i).getUserObject())]
-			         .add(list.get(i));
+			tmpIntArray = schema.getOrdinalFromElement(list.get(i).getUserObject());
+			
+			for (int ii = 0; ii < tmpIntArray.length; ii++) {
+				tmpArray[tmpIntArray[ii]].add(list.get(i));
+			}
 		}
 		
-//		Für jede enum einen Node anlegen, passende Elemente hinzufügen 
-		for (int i = 0; i < enums.length; i++) {
+//		Für jeden Ordner einen Node anlegen, passende Elemente hinzufügen 
+		for (int i = 0; i < ordner.length; i++) {
 			
-//			 Fall dieser Enum keine Elemente enthalten würde, wird er nicht angelegt
+//			 Fall dieser ordner keine Elemente enthalten würde, wird er nicht angelegt
 			if (tmpArray[i].size() == 0) {
 				continue; 
 			}
 			
 			// "Ordner" erstellen
-			tmpNode = new DefaultMutableTreeNode(enums[i].toString());
+			tmpNode = new DefaultMutableTreeNode(ordner[i].toString());
 			nodeToAdd.add(tmpNode);
 			
 			// Sortiert dieses Array nach Sammelbegriffen
@@ -252,16 +250,19 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 	public void setData(ArrayList<E> elemListe) { 
 		ArrayList<DefaultMutableTreeNode> array;
 		
-		/*  TestDaten
 		array = ordneNachVariante(elemListe);
+		
+		/* TestDaten
+		System.out.println(array.get(1).getUserObject().toString());
+		System.out.println(array.get(2).getUserObject().toString());
+		System.out.println(array.get(3).getUserObject().toString());
+		
 		array.get(1).add(array.get(2));
 		array.get(1).add(array.get(3));
 		array.remove(3);
-		array.remove(2);
-		*/
+		array.remove(2); */
 		
-		array = ordneNachVariante(elemListe);
-		ordneNachEnum(array, root);
+		ordneNachOrdnern(array, root);
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -277,7 +278,7 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 	 * @param col Die Spalte zu der die Enum geliefert wird
 	 * @return Liefert die Enum zu einer Spalte
 	 */
-	public Enum getColumnEnum(int col) {
+	public Object getColumnObject(int col) {
 		return columns[col];
 	}
 	
@@ -396,7 +397,8 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
     	if (column == 0) {
     		return true;
     	}
-    	return false; 
+    	// TEST Edit test
+    	return true; 
    }
 
 	/* (non-Javadoc) Methode überschrieben
@@ -406,7 +408,7 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 		DefaultMutableTreeNode mutNode;
 		
 		mutNode = ((DefaultMutableTreeNode) node);
-		
+				
 		if (mutNode.getUserObject() instanceof String) {
 			// Es ist nur ein Ordner, der zur sortierung dient
 			
@@ -418,8 +420,7 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 			}
 		}
 		
-		return schema.getCellValue(((DefaultMutableTreeNode) node).getUserObject(),
-							columns[column]);
+		return schema.getCellValue(mutNode.getUserObject(), columns[column]);
 	}
 
     /* (non-Javadoc) Methode überschrieben
@@ -430,7 +431,7 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
     		return TreeTableModel.class;
     	}
     	
-    	return String.class;
+    	return super.getColumnClass(column);
     }
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -446,7 +447,7 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 	public int getChildCount(Object node) {
 		return ((DefaultMutableTreeNode) node).getChildCount();
 	}
-
+	
 	/**
 	 * <u>Beschreibung:</u><br> 
 	 * Dient ledeglich als Wapper damit die Objekte in einem DefaultMutableTreeNode 

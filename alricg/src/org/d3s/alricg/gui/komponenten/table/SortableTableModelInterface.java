@@ -6,7 +6,7 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
-package org.d3s.alricg.GUI.komponenten.table;
+package org.d3s.alricg.gui.komponenten.table;
 
 import javax.swing.table.TableModel;
 

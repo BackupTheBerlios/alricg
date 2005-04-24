@@ -6,7 +6,7 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
-package org.d3s.alricg.GUI.views;
+package org.d3s.alricg.gui.views;
 
 /**
  * <u>Beschreibung:</u><br> 

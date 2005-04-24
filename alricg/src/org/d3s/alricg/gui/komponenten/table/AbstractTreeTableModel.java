@@ -1,4 +1,12 @@
 /*
+ * Created on 04.04.2005 / 10:04:35
+ *
+ * This file is part of the project ALRICG. The file is copyright
+ * protected and under the GNU General Public License.
+ * For more information see "http://alricg.die3sphaere.de/".
+ */
+
+/*
  * Copyright 1997-1999 Sun Microsystems, Inc. All Rights Reserved.
  * 
  * Redistribution and use in source and binary forms, with or
@@ -35,7 +43,7 @@
  * intended for use in the design, construction, operation or
  * maintenance of any nuclear facility.
  */
-package org.d3s.alricg.GUI.komponenten.table;
+package org.d3s.alricg.gui.komponenten.table;
 
 import javax.swing.event.EventListenerList;
 import javax.swing.event.TreeModelEvent;

@@ -5,9 +5,11 @@
  * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
-package org.d3s.alricg.GUI.views;
+package org.d3s.alricg.gui.views;
 
 import java.util.Comparator;
+
+import org.d3s.alricg.charKomponenten.CharElement;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -17,10 +19,8 @@ import java.util.Comparator;
  * @author V. Strelow
  */
 public interface ViewSchema {
-	public static final int KEIN_BUTTON = 0;
-	public static final int PLUS_BUTTON = 1;
-	public static final int MINUS_BUTTON = 2;
-	
+	String buttonValue = "button";
+	NamensComparator namensComparator = new NamensComparator();
 	
 	/**
 	 * Wichtig für casting und ob Sammelbegriffe möglich sind
@@ -42,7 +42,7 @@ public interface ViewSchema {
 	 * 		Rasse.gp, Zauber.merkmale, usw.)
 	 * @return Ein Objekt mit dem Entsprechendem Wert
 	 */
-	public Object getCellValue(Object object, Enum column);
+	public Object getCellValue(Object object, Object column);
 	
 	/**
 	 * Um Tablen nach verschiedenen Spalten sortieren zu können, muß für 
@@ -52,7 +52,7 @@ public interface ViewSchema {
 	 * @return Ein Comparator, mit dem Elemente nach der Spalte sortiert werden
 	 * 		können
 	 */
-	public Comparator getComparator(Enum column);
+	public Comparator getComparator(Object column);
 	
 	/**
 	 * Gibt zurück, ob nach einer Spalte sortiert werden kann, also dafür 
@@ -60,7 +60,7 @@ public interface ViewSchema {
 	 * @param column Die Spalte nach der Sortiert werden soll
 	 * @return true: Nach dieser Spalte kann Sortiert werden, sonst false
 	 */
-	public boolean isSortable(Enum column);
+	public boolean isSortable(Object column);
 	
 	/**
 	 * Liefert den ToolTipText für ein Element in der Tabelle
@@ -68,36 +68,70 @@ public interface ViewSchema {
 	 * @param column Die Spalte, über dem der Mauszeiger steht
 	 * @return Liefert den ToolTip Text für das Objekt und die Spalte
 	 */
-	public String getToolTip(Object object, Enum column);
+	public String getToolTip(Object object, Object column);
 	
 	/**
 	 * Liefert den ToolTipText für eine Tabellen Überschrift
 	 * @param column Die Spalte auf dessen Titel der Mauszeiger steht
 	 * @return Der ToolTipText für den Titel dieser Spalte 
 	 */
-	public String getHeaderToolTip(Enum column);
+	public String getHeaderToolTip(Object column);
 	
 	/**
-	 * Wird von "sortiereNachEnum(...)" benutzt. Liefert ein Array von Enums, nach
-	 * denen der Tree sortiert und geordnet werden soll. 
+	 * Wird von "sortiereNachOrdnern(...)" benutzt. Liefert ein Array von Objekten,
+	 * nach denen der Tree sortiert und geordnet werden soll. 
 	 * Die Methode "getOrdinalFromElement(...)" muß mit dieser Methode abgestimmt sein.
 	 * 
-	 * @return Ein Array von Enums nach denen der Tree geordnent wird, oder null
-	 * 		wenn nach NICHT nach Enums geordnet wird
+	 * @return Ein Array von Objekten nach denen der Tree geordnent wird, oder null
+	 * 		wenn nach NICHT geordnet wird
 	 */
-	public Enum[] getSortEnums();
+	public Object[] getSortOrdner();
 	
 	/**
-	 * Wird von "sortiereNachEnum(...)" benutzt. Liefert zu den übergebenen 
-	 * elementen die Ordinal-Zahl des betreffenden enums zurück.
-	 * Die Methode "getEnums()" muß mit dieser Methode abgestimmt sein.
-	 * WICHTIG: Wenn nicht das Enums geordnet werden soll, so gibt diese Methode
+	 * Wird von "sortiereNachOrdnern(...)" benutzt. Liefert zu den übergebenen 
+	 * elementen die Ordinal-Zahl des betreffenden Elements zurück.
+	 * Wichtig ist, das der zurückgelieferte Index mit dem Index der Methode
+	 * "getSortOrdner()" abgestimmt ist.
+	 * WICHTIG: Wenn nicht geordnet werden soll, so gibt diese Methode
 	 * stehts die Zahl "0" zurück.
 	 * 
-	 * @param element Das Element zu dem eine enum herausgesucht werden soll und
+	 * @param element Das Element zu dem eine Ordner herausgesucht werden soll und
 	 * 		dessen ordinal-Zahl zurückgeliefert wird
 	 * @return Die gewünschte ordinal-Zahl des Elements bzw. "0" wenn nicht nach
 	 * 		Elementen geordnet wird.
 	 */
-	public int getOrdinalFromElement(Object element);
+	public int[] getOrdinalFromElement(Object element);
+	
+	/**
+	 * <u>Beschreibung:</u><br> 
+	 * Comparator um Namen von CharElementen in einer TreeTable miteinander 
+	 * vergleichen zu können. Es können sowahl Strings alsauch unterklassen von 
+	 * "CharElement" verglichen werden.
+	 * @author V. Strelow
+	 */
+	public class NamensComparator implements Comparator {
+
+		/* (non-Javadoc) Methode überschrieben
+		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+		 */
+		public int compare(Object arg0, Object arg1) {
+			String str1, str2;
+			
+			if (arg0 instanceof String) {
+				str1 = (String) arg0;
+			} else {
+				str1 = ((CharElement) arg0).getName();
+			}
+			
+			if (arg1 instanceof String) {
+				str2 = (String) arg1;
+			} else {
+				str2 = ((CharElement) arg1).getName();
+			}
+			
+			return str1.compareTo(str2);
+		}
+		
+	}
+
 }

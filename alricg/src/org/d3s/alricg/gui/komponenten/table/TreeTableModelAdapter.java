@@ -43,7 +43,7 @@
  * maintenance of any nuclear facility.
  */
 
-package org.d3s.alricg.GUI.komponenten.table;
+package org.d3s.alricg.gui.komponenten.table;
 
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
@@ -52,9 +52,10 @@ import javax.swing.event.TreeExpansionListener;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
-import org.d3s.alricg.GUI.views.ViewSchema;
+import org.d3s.alricg.gui.views.ViewSchema;
 
 /**
  * This is a wrapper class takes a TreeTableModel and implements 
@@ -164,7 +165,7 @@ public class TreeTableModelAdapter extends AbstractTableModel
 	 * @see org.d3s.alricg.GUI.komponenten.table.SortableTableModelInterface#isSortable(int)
 	 */
 	public boolean isSortable(int column) {
-		return viewSchema.isSortable(treeTableModel.getColumnEnum(column));
+		return viewSchema.isSortable(treeTableModel.getColumnObject(column));
 	}
 
 	/* (non-Javadoc) Methode überschrieben
@@ -186,8 +187,8 @@ public class TreeTableModelAdapter extends AbstractTableModel
 	 */
 	public String getToolTip(int row, int column) {
 		return viewSchema.getToolTip(
-				getValueAt(row, column),
-				treeTableModel.getColumnEnum(column)
+				((DefaultMutableTreeNode) nodeForRow(row)).getUserObject(),
+				treeTableModel.getColumnObject(column)
 			);
 	}
 
@@ -195,7 +196,7 @@ public class TreeTableModelAdapter extends AbstractTableModel
 	 * @see org.d3s.alricg.GUI.komponenten.table.SortableTableModelInterface#getHeaderToolTip(int)
 	 */
 	public String getHeaderToolTip(int column) {
-		return viewSchema.getHeaderToolTip(treeTableModel.getColumnEnum(column));
+		return viewSchema.getHeaderToolTip(treeTableModel.getColumnObject(column));
 	}
 }
 

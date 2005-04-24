@@ -6,20 +6,15 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
-package org.d3s.alricg.GUI.views;
+package org.d3s.alricg.gui.views;
 
 import java.util.Comparator;
 
-import org.d3s.alricg.CharKomponenten.Talent;
-import org.d3s.alricg.Controller.Library;
-import org.d3s.alricg.Controller.ProgAdmin;
-import static org.d3s.alricg.GUI.views.TalentView.TalentSpalten.art;
-import static org.d3s.alricg.GUI.views.TalentView.TalentSpalten.kostenKlasse;
-import static org.d3s.alricg.GUI.views.TalentView.TalentSpalten.minus;
-import static org.d3s.alricg.GUI.views.TalentView.TalentSpalten.name;
-import static org.d3s.alricg.GUI.views.TalentView.TalentSpalten.plus;
-import static org.d3s.alricg.GUI.views.TalentView.TalentSpalten.probe;
-import static org.d3s.alricg.GUI.views.TalentView.TalentSpalten.sorte;
+import org.d3s.alricg.charKomponenten.Talent;
+import org.d3s.alricg.controller.Library;
+import org.d3s.alricg.controller.ProgAdmin;
+
+
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -30,17 +25,17 @@ import static org.d3s.alricg.GUI.views.TalentView.TalentSpalten.sorte;
  */
 public class TalentView implements ViewSchema {
 
-	public enum TalentSpalten {
+	public enum Spalten {
 		name("Name"),
 		sorte("Sorte"),
 		art("Art"),
-		kostenKlasse("KostenKlasse"),
+		kostenKlasse("SKT"),
 		probe("Probe"),
 		plus("+"),
 		minus("-");
 		private String bezeichner; // Name der Angezeigt wird
 		
-		private TalentSpalten(String value) {
+		private Spalten(String value) {
 			if (value.equals("+") || value.equals("-")) {
 				bezeichner = value;
 			} else {
@@ -57,16 +52,16 @@ public class TalentView implements ViewSchema {
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.GUI.views.ViewSchema#getCellValue(java.lang.Object, java.lang.Enum)
 	 */
-	public Object getCellValue(Object object, Enum column) {
+	public Object getCellValue(Object object, Object column) {
 		
-		switch ((TalentSpalten) column) {
+		switch ((Spalten) column) {
 			case name: 	return ((Talent) object).getName();
 			case sorte: return ((Talent) object).getSorte();
 			case art: 	return ((Talent) object).getArt();
 			case kostenKlasse: return ((Talent) object).getKostenKlasse();
 			case probe: return ((Talent) object).get3EigenschaftenString();
-			case plus: 	return "button";
-			case minus: return "button";
+			case plus: 	return ViewSchema.buttonValue;
+			case minus: return ViewSchema.buttonValue;
 		}
 		
 		ProgAdmin.logger.severe("Case-Fall konnte nicht gefunden werden!");
@@ -76,8 +71,8 @@ public class TalentView implements ViewSchema {
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.GUI.views.ViewSchema#getComparator(java.lang.Enum)
 	 */
-	public Comparator< ? > getComparator(Enum column) {
-		switch ((TalentSpalten) column) {
+	public Comparator< ? > getComparator(Object column) {
+		switch ((Spalten) column) {
 		case name: 	return new Comparator() {
 						public int compare(Object arg0, Object arg1) {
 							String str1, str2;
@@ -121,8 +116,8 @@ public class TalentView implements ViewSchema {
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.GUI.views.ViewSchema#isSortable(java.lang.Enum)
 	 */
-	public boolean isSortable(Enum column) {
-		switch ((TalentSpalten) column) {
+	public boolean isSortable(Object column) {
+		switch ((Spalten) column) {
 		case probe: return false;
 		case plus: 	return false;
 		case minus: return false;
@@ -134,16 +129,52 @@ public class TalentView implements ViewSchema {
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.GUI.views.ViewSchema#getToolTip(java.lang.Object, java.lang.Enum)
 	 */
-	public String getToolTip(Object object, Enum column) {
-		// TODO Auto-generated method stub
+	public String getToolTip(Object object, Object column) {
+		
+		switch ((Spalten) column) {
+			case name: 	
+				if (object instanceof Talent) {
+					return Library.getToolTipTxt("TblHeaderName");
+				} else {
+					return Library.getToolTipTxt("TblOrdner");
+				}
+			case art: 	
+				
+				if (object instanceof Talent) {
+					switch (((Talent) object).getArt()) {
+						case basis: return Library.getToolTipTxt("TblTalentArtBasis");
+						case beruf: return Library.getToolTipTxt("TblTalentArtBeruf");
+						case spezial: return Library.getToolTipTxt("TblTalentArtSpezial");
+					}
+				} else {
+					return Library.getToolTipTxt("KeinWert");
+				}
+				
+			case probe:
+				
+				if (object instanceof Talent) {
+					return ((Talent) object).get3Eigenschaften()[0].getName() + " / "
+							+ ((Talent) object).get3Eigenschaften()[1].getName() + " / "
+							+ ((Talent) object).get3Eigenschaften()[2].getName();
+				}else {
+					return Library.getToolTipTxt("KeinWert");
+				}
+				
+			case sorte: return Library.getToolTipTxt("TblHeaderTalentSorte");
+			case kostenKlasse: return Library.getToolTipTxt("TblHeaderKostenklasse");
+			case plus: 	return Library.getToolTipTxt("TblHeaderPlusButton");
+			case minus: return Library.getToolTipTxt("TblHeaderMinusButton");
+		}
+		
+		ProgAdmin.logger.severe("Case-Fall konnte nicht gefunden werden!");
 		return null;
 	}
 
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.GUI.views.ViewSchema#getHeaderToolTip(java.lang.Enum)
 	 */
-	public String getHeaderToolTip(Enum column) {
-		switch ((TalentSpalten) column) {
+	public String getHeaderToolTip(Object column) {
+		switch ((Spalten) column) {
 			case name: 	return Library.getToolTipTxt("TblHeaderName");
 			case sorte: return Library.getToolTipTxt("TblHeaderTalentSorte");
 			case art: 	return Library.getToolTipTxt("TblHeaderTalentArt");
@@ -158,15 +189,17 @@ public class TalentView implements ViewSchema {
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.GUI.views.ViewSchema#getEnums()
 	 */
-	public Enum[] getSortEnums() {
+	public Enum[] getSortOrdner() {
 		return Talent.Sorte.values();
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.GUI.views.ViewSchema#getOrdinalFromElement(org.d3s.alricg.CharKomponenten.CharElement)
 	 */
-	public int getOrdinalFromElement(Object element) {
-		return ((Talent) element).getSorte().ordinal();
+	public int[] getOrdinalFromElement(Object element) {
+		int[] tmp = new int[1];
+		tmp[0] = ((Talent) element).getSorte().ordinal();
+		return tmp;
 	}
 
 	/* (non-Javadoc) Methode überschrieben

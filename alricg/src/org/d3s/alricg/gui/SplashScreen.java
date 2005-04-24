@@ -6,7 +6,7 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
-package org.d3s.alricg.GUI;
+package org.d3s.alricg.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,8 +17,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JWindow;
 
-import org.d3s.alricg.Controller.ProgAdmin;
-import org.d3s.alricg.GUI.Messenger.Nachricht;
+import org.d3s.alricg.gui.Messenger.Nachricht;
+import org.d3s.alricg.controller.ProgAdmin;
 
 /**
  * <u>Beschreibung:</u><br> 

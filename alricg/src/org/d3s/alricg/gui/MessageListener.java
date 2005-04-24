@@ -6,9 +6,9 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
-package org.d3s.alricg.GUI;
+package org.d3s.alricg.gui;
 
-import org.d3s.alricg.GUI.Messenger.Nachricht;
+import org.d3s.alricg.gui.Messenger.Nachricht;
 
 /**
  * <u>Beschreibung:</u><br> 

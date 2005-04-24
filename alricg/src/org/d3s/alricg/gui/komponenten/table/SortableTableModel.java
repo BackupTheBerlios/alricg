@@ -6,7 +6,7 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
-package org.d3s.alricg.GUI.komponenten.table;
+package org.d3s.alricg.gui.komponenten.table;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,7 +14,7 @@ import java.util.Collections;
 
 import javax.swing.table.AbstractTableModel;
 
-import org.d3s.alricg.GUI.views.ViewSchema;
+import org.d3s.alricg.gui.views.ViewSchema;
 
 /**
  * <u>Beschreibung:</u><br> 

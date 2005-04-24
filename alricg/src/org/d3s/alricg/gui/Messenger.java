@@ -6,19 +6,19 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
-package org.d3s.alricg.GUI;
+package org.d3s.alricg.gui;
 
 
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import org.d3s.alricg.Controller.ProgAdmin;
-import static org.d3s.alricg.GUI.Messenger.Level.frage;
-import static org.d3s.alricg.GUI.Messenger.Level.info;
-import static org.d3s.alricg.GUI.Messenger.Level.erwartetFehler;
-import static org.d3s.alricg.GUI.Messenger.Level.unerwartetFehler;
-import static org.d3s.alricg.GUI.Messenger.Level.warnung;
+import static org.d3s.alricg.gui.Messenger.Level.frage;
+import static org.d3s.alricg.gui.Messenger.Level.info;
+import static org.d3s.alricg.gui.Messenger.Level.erwartetFehler;
+import static org.d3s.alricg.gui.Messenger.Level.unerwartetFehler;
+import static org.d3s.alricg.gui.Messenger.Level.warnung;
+import org.d3s.alricg.controller.ProgAdmin;
 /**
  * <u>Beschreibung:</u><br> 
  * Nimmt Nachrichten entgegen und leitet sie an alle "interessierten" Objekte (Listener)
