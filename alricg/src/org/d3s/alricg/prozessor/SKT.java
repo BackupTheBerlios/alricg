@@ -8,7 +8,7 @@
  */
 package org.d3s.alricg.prozessor;
 
-import org.d3s.alricg.Controller.ProgAdmin;
+import org.d3s.alricg.controller.ProgAdmin;
 
 /**
  * <u>Beschreibung:</u><br> 
