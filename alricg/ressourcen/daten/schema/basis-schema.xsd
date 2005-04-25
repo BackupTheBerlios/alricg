@@ -699,6 +699,7 @@
 							</xsd:attribute>
 						</xsd:complexType>
 					</xsd:element>
+					<xsd:element name="probenModi" type="xsd:string" minOccurs="0"/>
 					<xsd:element name="zauberdauer" type="xsd:string"/>
 					<xsd:element name="aspKosten" type="xsd:string"/>
 					<xsd:element name="ziel" type="xsd:string"/>
@@ -1124,6 +1125,7 @@
 				<xsd:sequence>
 					<xsd:element name="istEchteRep" type="xsd:boolean" minOccurs="0"/>
 				</xsd:sequence>
+				<xsd:attribute name="abkuerzung" type="xsd:string" use="required"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
