@@ -157,6 +157,92 @@
 				<e lang="DE">Beruf</e>
 			</entry>
 
+<!-- *************** Enums für Zaubermerkmale*********************************	-->	
+			<entry key="antimagie">
+				<e lang="DE">Antimagie</e>
+			</entry>
+			<entry key="beschwoerung">
+				<e lang="DE">Beschwörung</e>
+			</entry>
+			<entry key="daemonisch">
+				<e lang="DE">Dämonisch</e>
+			</entry>
+			<entry key="eigenschaften">
+				<e lang="DE">Eigenschaften</e>
+			</entry>
+			<entry key="einfluss">
+				<e lang="DE">Einfluss</e>
+			</entry>
+			<entry key="elementar">
+				<e lang="DE">Elementar</e>
+			</entry>
+			<entry key="elementar (feuer)">
+				<e lang="DE">Elementar (Feuer)</e>
+			</entry>
+			<entry key="elementar (wasser)">
+				<e lang="DE">Elementar (Wasser)</e>
+			</entry>
+			<entry key="elementar (luft)">
+				<e lang="DE">Elementar (Luft)</e>
+			</entry>
+			<entry key="elementar (erz)">
+				<e lang="DE">Elementar (Erz)</e>
+			</entry>
+			<entry key="elementar (humus)">
+				<e lang="DE">Elementar (Humus)</e>
+			</entry>
+			<entry key="elementar (eis)">
+				<e lang="DE">Elementar (Eis)</e>
+			</entry>
+			<entry key="form">
+				<e lang="DE">Form</e>
+			</entry>
+			<entry key="geisterwesen">
+				<e lang="DE">Geisterwesen</e>
+			</entry>
+			<entry key="heilung">
+				<e lang="DE">Heilung</e>
+			</entry>
+			<entry key="hellsicht">
+				<e lang="DE">Hellsicht</e>
+			</entry>
+			<entry key="herbeirufung">
+				<e lang="DE">Herbeirufung</e>
+			</entry>
+			<entry key="herrschaft">
+				<e lang="DE">Herrschaft</e>
+			</entry>
+			<entry key="illusion">
+				<e lang="DE">Illusion</e>
+			</entry>
+			<entry key="kraft">
+				<e lang="DE">Kraft</e>
+			</entry>						
+			<entry key="limbus">
+				<e lang="DE">Limbus</e>
+			</entry>
+			<entry key="metamagie">
+				<e lang="DE">Metamagie</e>
+			</entry>
+			<entry key="objekt">
+				<e lang="DE">Objekt</e>
+			</entry>
+			<entry key="schaden">
+				<e lang="DE">Schaden</e>
+			</entry>
+			<entry key="telekinese">
+				<e lang="DE">Telekinese</e>
+			</entry>
+			<entry key="temporal">
+				<e lang="DE">Temporal</e>
+			</entry>
+			<entry key="umwelt">
+				<e lang="DE">Umwelt</e>
+			</entry>
+			<entry key="verstaendigung">
+				<e lang="DE">Verständigung</e>
+			</entry>
+						
 <!-- *************** Überschriften für Tabellen **********************************	-->	
 			<entry key="Sorte">
 				<e lang="DE">Sorte</e>
@@ -164,14 +250,20 @@
 			<entry key="Art">
 				<e lang="DE">Art</e>
 			</entry>
-			<entry key="KostenKlasse">
-				<e lang="DE">KostenKlasse</e>
+			<entry key="SKT">
+				<e lang="DE">SKT</e>
 			</entry>
 			<entry key="Probe">
 				<e lang="DE">Probe</e>
 			</entry>
 			<entry key="Plus">
 				<e lang="DE">Plus</e>
+			</entry>
+			<entry key="Merkmale">
+				<e lang="DE">Merkmale</e>
+			</entry>
+			<entry key="Repraesentation">
+				<e lang="DE">Repr.</e>
 			</entry>
 
 <!-- *************** Allgemeine Begriffe **********************************	-->			
@@ -285,14 +377,37 @@
 		
 		
 		<toolTip>
+		
+<!-- **************************** Allgemeine ToolTips ******************************* -->
+			<entry key="KeinWert">
+				<e lang="DE">Kein Wert vorhanden</e>
+			</entry>
+			<entry key="TblOrdner">
+				<e lang="DE">Verzeichnis zur besseren Ordnung der Elemente</e>
+			</entry>
+			
+<!-- **************************** ToolTips für Talente******************************* -->
+			
+			<entry key="TblTalentArtBasis">
+				<e lang="DE">Basistalente sind bei allen Helden automatisch vorhanden</e>
+			</entry>
+			<entry key="TblTalentArtBeruf">
+				<e lang="DE">Berufstalente müssen bei einem Lehrmeister gelernt werden</e>
+			</entry>
+			<entry key="TblTalentArtSpezial">
+				<e lang="DE">Spezialtalente können durch intensive Beschäftigung gelernt werden</e>
+			</entry>
+		
+		
+<!-- **************************** Tabellen-Überschriften ******************************* -->
 			<entry key="TblHeaderName">
 				<e lang="DE">Der Bezeichner dieses Elements</e>
 			</entry>
 			<entry key="TblHeaderTalentSorte">
-				<e lang="DE">Eine Einordnung in welchen Bereich das Talent gehört</e>
+				<e lang="DE">Eine Einordnung in welchen Bereich das Talent gehört</e>				
 			</entry>
 			<entry key="TblHeaderTalentArt">
-				<e lang="DE">Eine Einordnung in welchen Bereich das Talent gehört</e>
+				<e lang="DE">Eine Einordnung ob es ein Basis-, Spezial- oder Berufstalent ist.</e>
 			</entry>
 			<entry key="TblHeaderKostenklasse">
 				<e lang="DE">Gibt die Spalte in der Steigerungskosten-Tabelle(SKT) an</e>
