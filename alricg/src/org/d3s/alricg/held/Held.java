@@ -1,21 +1,19 @@
 /*
  * Created 23. Januar 2005 / 15:30:43
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
 package org.d3s.alricg.held;
 
-import java.util.ArrayList;
-
-import org.d3s.alricg.CharKomponenten.CharElement;
-import org.d3s.alricg.CharKomponenten.Herkunft;
-import org.d3s.alricg.CharKomponenten.Kultur;
-import org.d3s.alricg.CharKomponenten.Profession;
-import org.d3s.alricg.CharKomponenten.Rasse;
-import org.d3s.alricg.CharKomponenten.Sprache;
-import org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten;
+import org.d3s.alricg.charKomponenten.CharElement;
+import org.d3s.alricg.charKomponenten.Herkunft;
+import org.d3s.alricg.charKomponenten.Kultur;
+import org.d3s.alricg.charKomponenten.Profession;
+import org.d3s.alricg.charKomponenten.Rasse;
+import org.d3s.alricg.charKomponenten.Sprache;
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -23,15 +21,10 @@ import org.d3s.alricg.Controller.CharKompAdmin.CharKomponenten;
  * @author V.Strelow
  */
 public class Held {
+	// Die Herkunft des Helden
 	private Profession profession;
 	private Kultur kultur;
-	private Rasse rasse;
-
-    // Gewählte, OHNE auswahl durch die Herkunft
-    private ArrayList nachteile;
-    private ArrayList vorteile;
-    private ArrayList sonderf;
-    
+	private Rasse rasse;    
     private Sprache[] muttersprache; // kann mehrere geben, siehe "Golbin Festumer G"
 
     
@@ -47,9 +40,9 @@ public class Held {
      * 		hinzugefügt wird, wird diese hier übergeben. Ansonsten "null"
      * @return true - Kann hinzugefügt werden, ansonsten false 
      */
-	public boolean canAddCharElement(
+	public boolean canAddElement(
 				CharElement element, 
-				CharKomponenten komponente, 
+				CharKomponente komponente, 
 				Herkunft herkunf) {
 		// TODO implement, Überlege elegantes Konzept ob eine Meldung abgesetzt
 		// wird!
@@ -65,20 +58,20 @@ public class Held {
      * @param herkunft Falls das Element durch eine Rasse, Kultur, Prof 
      * 		hinzugefügt wird, wird diese hier übergeben. Ansonsten "null"
 	 */
-	public void addCharElement(
+	public void addElement(
 			CharElement element, 
-			CharKomponenten komponente, 
+			CharKomponente komponente, 
 			Herkunft herkunf) {
 		// TODO implement
 	}
 	
 	
-	public boolean canRemoveCharElement(CharElement element, CharKomponenten komponente) {
+	public boolean canRemoveElement(CharElement element, CharKomponente komponente) {
 		// TODO implement
 		return false;
 	}
 	
-	public void removeCharElement(CharElement element, CharKomponenten komponente) {
+	public void removeElement(CharElement element, CharKomponente komponente) {
 		// TODO implement
 	}
 	
@@ -87,7 +80,7 @@ public class Held {
 	 * @param element Das Element welches geprüft wird
 	 * @return Maximal annehmbarer Wert von element
 	 */
-	public int getMaxWertCharElement(CharElement element, CharKomponenten komponente) {
+	public int getMaxWertElement(CharElement element, CharKomponente komponente) {
 //		 TODO implement
 		return 0;
 	}
@@ -97,7 +90,7 @@ public class Held {
 	 * @param element Das Element welches geprüft wird
 	 * @return Minimal annehmbarer Wert von element
 	 */
-	public int getMinWertCharElement(CharElement element, CharKomponenten komponente) {
+	public int getMinWertElement(CharElement element, CharKomponente komponente) {
 //		 TODO implement
 		return 0;		
 	}

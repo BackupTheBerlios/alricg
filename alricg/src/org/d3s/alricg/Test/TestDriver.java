@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.table.TableColumn;
@@ -27,17 +29,18 @@ import nu.xom.Element;
 import nu.xom.Elements;
 import nu.xom.Serializer;
 
-import org.d3s.alricg.CharKomponenten.Talent;
-import org.d3s.alricg.CharKomponenten.CharZusatz.WuerfelSammlung;
-import org.d3s.alricg.Controller.CharKompAdmin;
-import org.d3s.alricg.Controller.ProgAdmin;
-import org.d3s.alricg.GUI.komponenten.table.SortableTable;
-import org.d3s.alricg.GUI.komponenten.table.SortableTableModel;
-import org.d3s.alricg.GUI.komponenten.table.SortableTreeModel;
-import org.d3s.alricg.GUI.komponenten.table.SortableTreeTable;
-import org.d3s.alricg.GUI.komponenten.table.TreeTableModel;
-import org.d3s.alricg.GUI.views.TalentView;
+import org.d3s.alricg.charKomponenten.Talent;
+import org.d3s.alricg.charKomponenten.charZusatz.WuerfelSammlung;
+import org.d3s.alricg.gui.komponenten.table.SortableTable;
+import org.d3s.alricg.gui.komponenten.table.SortableTableModel;
+import org.d3s.alricg.gui.komponenten.table.SortableTreeModel;
+import org.d3s.alricg.gui.komponenten.table.SortableTreeTable;
+import org.d3s.alricg.gui.komponenten.table.TreeTableModel;
+import org.d3s.alricg.gui.views.TalentView;
+import org.d3s.alricg.gui.views.ZauberView;
 import org.d3s.alricg.Test.treeTable.JTreeTable;
+import org.d3s.alricg.controller.CharKompAdmin;
+import org.d3s.alricg.controller.ProgAdmin;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -91,10 +94,10 @@ public class TestDriver {
 		JFrame frame = new JFrame("SortableTableTest");
 		ArrayList<Talent> array;
 		
-		SortableTableModel tableModel = new SortableTableModel(new TalentView(), TalentView.TalentSpalten.values());
-		SortableTreeModel treeModel = new SortableTreeModel(new TalentView(), TalentView.TalentSpalten.values(), "Talente");
+		SortableTableModel tableModel = new SortableTableModel(new TalentView(), TalentView.Spalten.values());
+		SortableTreeModel treeModel = new SortableTreeModel(new ZauberView(), ZauberView.Spalten.values(), "Talente");
 		array = (ArrayList<Talent>) new ArrayList(ProgAdmin.charKompAdmin
-				.getCollection(CharKompAdmin.CharKomponenten.talent));
+				.getCollection(CharKompAdmin.CharKomponente.talent));
 		tableModel.setData(array);
 		treeModel.setData(array);
 
@@ -116,6 +119,21 @@ public class TestDriver {
 		SortableTreeTable sTree = new SortableTreeTable(treeModel);
 		SortableTable sTable = new SortableTable();
 		sTable.setModel(tableModel);
+		
+		TableColumn sportColumn = sTree.getColumnModel().getColumn(2);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.addItem("Snowboarding");
+		comboBox.addItem("Rowing");
+		comboBox.addItem("Chasing toddlers");
+		comboBox.addItem("Speed reading");
+		comboBox.addItem("Teaching high school");
+		comboBox.addItem("None");
+		sportColumn.setCellEditor(new DefaultCellEditor(comboBox));
+		
+		sTree.setColumnImage(4);
+		sTree.setColumnButton(5, "+");
+		sTree.setColumnButton(6, "-");
 		
 		//JTreeTable treeTable = new JTreeTable(treeModel);
 		
@@ -153,12 +171,15 @@ public class TestDriver {
 		Container       cPane = frame.getContentPane();
 		TreeTableModel  model = new TestTreeTableModel();
 
+		
 		JTreeTable treeTable = new JTreeTable(model);
+		
 	        JScrollPane sp = new JScrollPane(treeTable);
 	        sp.getViewport().setBackground(Color.white);
 		cPane.add(sp);
 
 		TableColumn column = treeTable.getColumnModel().getColumn(1);
+		
 		/*JComboBox comboBox = new JComboBox();
 		comboBox.addItem("Snowboarding");
 		comboBox.addItem("Rowing");
