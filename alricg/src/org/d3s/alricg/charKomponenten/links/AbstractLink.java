@@ -1,0 +1,147 @@
+/*
+ * Created on 26.04.2005 / 08:59:04
+ *
+ * This file is part of the project ALRICG. The file is copyright
+ * protected and under the GNU General Public License.
+ * For more information see "http://alricg.die3sphaere.de/".
+ *
+ */
+package org.d3s.alricg.charKomponenten.links;
+
+import org.d3s.alricg.charKomponenten.CharElement;
+
+/**
+ * <u>Beschreibung:</u><br> 
+ * Diese Klasse dient als Bindeglied zwischen zwei (oder mehr) Elementen. Über
+ * diesen "Link" können dann Werte, ein Text oder ein weiteres Element angegeben
+ * werden (z.B. "Eitelkeit 5" oder "Unfähigkeit Schwimmen" oder "Verpflichtungen
+ * gegen Rondrakirche").
+ * Der AbstractLink bildet die Grundlage für "IDLink" und "HeldenLink".
+ *
+ * @author V. Strelow
+ */
+public abstract class AbstractLink {
+	public static int KEIN_WERT = -100;
+	private CharElement zielId; // Das Ziel dieses Links (z.B. eine SF)
+	private CharElement linkId; // Ein in Beziehung stehendes Element (z.B. Unfähigkeit "SCHWERT")
+	private String text = ""; // Ein Text (z.B. Vorurteile gegen "Orks")
+	private int wert = KEIN_WERT; // Wert der Beziehung (z.B. Höhenangst 5) / "-100": es gibt keinen Wert
+	private boolean leitwert = false; // Für Elfen, verändert kosten / Default = false
+	
+	/**
+	 * Gibt zurück ob das Ziel-Element ein Leitwert ist (wichtig für Elfische-
+	 * Weltsicht). 
+	 * @return true - Das Ziel-Element ist ein Leitwert, ansonsten false.
+	 */
+	public boolean isLeitwert() {
+		return leitwert;
+	}
+	
+	/**
+	 * Wenn das Ziel-Element mit einem anderen Element verbunden ist, so kann
+	 * dieses Link-Element hiermit abgerufen werden. 
+	 * Z.B. "Unfähigkeit Schwerter" ("Unfähigkeit" = Ziel, "Schwerter" = link) 
+	 * @return Das Link-Element mit dem das Ziel verbunden ist, oder "null"
+	 * falls es kein Link-Elemnet gibt. 
+	 */
+	public CharElement getLinkId() {
+		return linkId;
+	}
+	
+	/**
+	 * Wenn das Ziel-Element mit einem Text verbunden ist, so kann
+	 * der Text hiermit abgerufen werden.
+	 * Z.B. "Vorurteile gegen Orks" ("Vorurteile gegen" = Ziel, "Orks" = Text)
+	 * @return Den anzuzeigenden Text oder "null", falls es keinen Text gibt.
+	 */
+	public String getText() {
+		return text;
+	}
+	/**
+	 * Wenn das Ziel-Element einen Wert besitzt, so kann der Text Wert 
+	 * hiermit abgerufen werden.
+	 * @return Den Wert der mit der Ziel Id Verbunden ist oder "-100" falls es 
+	 * 		keinen wert gibt. .
+	 */
+	public int getWert() {
+		return wert;
+	}
+	
+	/**
+	 * @return true - Das zugehörige CharElement hat einen Wert, sonst false.
+	 */
+	public boolean hasWert() {
+		if (wert == KEIN_WERT) { // -100 meint, das es keinen Wert gibt
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Jeder IdLink hat ein Ziel, dieses wird über die ZielId abgerufen!
+	 * @return Liefert das Attribut zielId.
+	 */
+	public CharElement getZielId() {
+		return zielId;
+	}
+	
+	/**
+	 * @param leitwert Setzt das Attribut leitwert.
+	 */
+	public void setLeitwert(boolean leitwert) {
+		this.leitwert = leitwert;
+	}
+	/**
+	 * @param linkId Setzt das Attribut linkId.
+	 */
+	public void setLinkId(CharElement linkId) {
+		this.linkId = linkId;
+	}
+	/**
+	 * @param text Setzt das Attribut text.
+	 */
+	public void setText(String text) {
+		this.text = text;
+	}
+	/**
+	 * @param wert Setzt das Attribut wert ("-100" bedeutet, das es keinen Wert gibt).
+	 */
+	public void setWert(int wert) {
+		this.wert = wert;
+	}
+	/**
+	 * @param zielId Setzt das Attribut zielId. (Das Ziel dieses Links, z.B. eine SF)
+	 */
+	public void setZielId(CharElement zielId) {
+		this.zielId = zielId;
+	}
+	
+	/**
+	 * Überprüft ob dieser Link "das selbe Element" meint, wie ein andern Link. Dies ist dann
+	 * der Fall, wenn zielID, linkID und Text gleich sind. (leitwert und wert müssen
+	 * nicht gleich sein).
+	 * Bsp: 
+	 * Prof mit "Schwerter +2(=Wert)" und Rasse mit "Schwerter +3" >> true
+	 * Prof mit "Vorurteil gegen Orks(=Text)" und Rasse mit "Vorurteil gegen Elfen" >> false
+	 * Prof mit "Unfähigkeit Dolche(=linkId)" und Rasse mit "Unfähigkeit Dolche" >> true
+	 * 
+	 * @param link Der zu prüfende link
+	 * @return true - Der übergebene link ist das gleiche Element, ansonsten false 
+	 */
+	public boolean isEqualLink(AbstractLink link) {
+		if ( !zielId.equals(link.getZielId()) ) {
+			return false;
+		} else if ( !text.equals(link.getText()) ) {
+			return false;
+		} else if ( linkId == null && link.getLinkId() != null ) {
+			return false;
+		} else if ( linkId != null && link.getLinkId() == null ) {
+			return false; 
+		} else if ( !linkId.equals(link.getLinkId()) ) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+}

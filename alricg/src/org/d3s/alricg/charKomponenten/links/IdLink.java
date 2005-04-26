@@ -22,18 +22,13 @@ import org.d3s.alricg.held.HeldenLink;
  * diesen "Link" können dann Werte, ein Text oder ein weiteres Element angegeben
  * werden (z.B. "Eitelkeit 5" oder "Unfähigkeit Schwimmen" oder "Verpflichtungen
  * gegen Orden").
- * Ein IdLink hat typischer weise eine Herkunft als Quelle, es kann aber auch eine
- * anderes CharElement sein, z.B. ein Vorteil (Der Vorteil x schließ Voteil y aus).
+ * Ein IdLink hat typischer weise eine Herkunft(Profession, Kultur, Rasse) als Quelle,
+ * es kann aber auch eine anderes CharElement sein, z.B. ein Vorteil 
+ * (Der Vorteil x schließ Voteil y aus).
  * 
  * @author V.Strelow
  */
-public class IdLink {
-	public static int KEIN_WERT = -100; 
-	private CharElement zielId; // Das Ziel dieses Links (z.B. eine SF)
-	private CharElement linkId; // Ein in Beziehung stehendes Element (z.B. Unfähigkeit "SCHWERT")
-	private String text; // Ein Text (z.B. Vorurteile gegen "Orks")
-	private int wert = KEIN_WERT; // Wert der Beziehung (z.B. Höhenangst 5) / "-100": es gibt keinen Wert
-	private boolean leitwert = false; // Für Elfen, verändert kosten / Default = false
+public class IdLink extends AbstractLink{
 	
 	private Auswahl auswahl; // Falls dieser IdLink durch eine Auswahl entstand
 	private CharElement quelle; // Falls dieser IdLink NICHT durch eine Auswahl entstand
@@ -42,35 +37,6 @@ public class IdLink {
 	 * einen Link geben, aber es kann mehrer Helden geben. Vorbereitung für
 	 * Heldenverwaltung! */
 	private ArrayList<HeldenLink> heldenLinks;
-	
-	
-	/*
-	 * Konstruktor
-	 * @param zielId Das Element für das dieser Link gilt.
-	 * @param wert Der Wert der dem Element zugeordnet wird
-	 *
-	public IdLink(CharElement zielId, int wert, CharElement quelle, Auswahl auswahl) {
-		initIdLink(zielId, null, null, wert, false, quelle, auswahl);
-	}
-
-	/**
-	 * Konstruktor
-	 * @param zielId Das Element für das dieser Link gilt.
-	 * @param linkId Das zusätzlich verbundene Element
-	 *
-	public IdLink(CharElement zielId, CharElement linkId, CharElement quelle, Auswahl auswahl) {
-		initIdLink(zielId, linkId, null, -100, false, quelle, auswahl);
-	}
-	
-	/**
-	 * Konstruktor
-	 * @param zielId Das Element für das dieser Link gilt.
-	 * @param text Der dem Element zugehörge Text
-	 *
-	public IdLink(CharElement zielId, String text, CharElement quelle, Auswahl auswahl) {
-		initIdLink(zielId, null, text, -100, false, quelle, auswahl);
-	}
-	*/
 	
 	/**
 	 * Konstruktor, initialisiert das Objekt. Nach der Erstellung sollte mit 
@@ -91,53 +57,7 @@ public class IdLink {
 	public CharElement getQuellElement() {
 		return quelle;
 	}
-	
-	/**
-	 * Gibt zurück ob das Ziel-Element ein Leitwert ist (wichtig für Elfische-
-	 * Weltsicht). 
-	 * @return true - Das Ziel-Element ist ein Leitwert, ansonsten false.
-	 */
-	public boolean isLeitwert() {
-		return leitwert;
-	}
-	
-	/**
-	 * Wenn das Ziel-Element mit einem anderen Element verbunden ist, so kann
-	 * dieses Link-Element hiermit abgerufen werden. 
-	 * Z.B. "Unfähigkeit Schwerter" ("Unfähigkeit" = Ziel, "Schwerter" = link) 
-	 * @return Das Link-Element mit dem das Ziel verbunden ist, oder "null"
-	 * falls es kein Link-Elemnet gibt. 
-	 */
-	public CharElement getLinkId() {
-		return linkId;
-	}
-	
-	/**
-	 * Wenn das Ziel-Element mit einem Text verbunden ist, so kann
-	 * der Text hiermit abgerufen werden.
-	 * Z.B. "Vorurteile gegen Orks" ("Vorurteile gegen" = Ziel, "Orks" = Text)
-	 * @return Den anzuzeigenden Text oder "null", falls es keinen Text gibt.
-	 */
-	public String getText() {
-		return text;
-	}
-	/**
-	 * Wenn das Ziel-Element einen Wert besitzt, so kann der Text Wert 
-	 * hiermit abgerufen werden.
-	 * @return Den Wert der mit der Ziel Id Verbunden ist oder "-100" falls es 
-	 * 		keinen wert gibt. .
-	 */
-	public int getWert() {
-		return wert;
-	}
-	/**
-	 * Jeder IdLink hat ein Ziel, dieses wird über die ZielId abgerufen!
-	 * @return Liefert das Attribut zielId.
-	 */
-	public CharElement getZielId() {
-		return zielId;
-	}
-	
+
 	/**
 	 * Wenn ein Held einen neuen Wert über ein CharElement erhält, so 
 	 * wird dies hiermit auch dem IdLink mitgeteilt und mit dem Held verbunden.
@@ -165,43 +85,14 @@ public class IdLink {
 	}
 	
 	/**
-	 * @param leitwert Setzt das Attribut leitwert.
-	 */
-	public void setLeitwert(boolean leitwert) {
-		this.leitwert = leitwert;
-	}
-	/**
-	 * @param linkId Setzt das Attribut linkId.
-	 */
-	public void setLinkId(CharElement linkId) {
-		this.linkId = linkId;
-	}
-	/**
-	 * @param text Setzt das Attribut text.
-	 */
-	public void setText(String text) {
-		this.text = text;
-	}
-	/**
-	 * @param wert Setzt das Attribut wert ("-100" bedeutet, das es keinen Wert gibt).
-	 */
-	public void setWert(int wert) {
-		this.wert = wert;
-	}
-	/**
-	 * @param zielId Setzt das Attribut zielId. (Das Ziel dieses Links, z.B. eine SF)
-	 */
-	public void setZielId(CharElement zielId) {
-		this.zielId = zielId;
-	}
-	
-	/**
 	 * Initiiert einen simplen IdLink, indem nur die zielId übergeben wird.
 	 * @param id Die zielID des IdLinks.
 	 */
 	public void loadFromId(String id) {
-    	this.zielId = ProgAdmin.charKompAdmin.getCharElement(id, 
-    			ProgAdmin.charKompAdmin.getCharKompFromId(id));
+    	this.setZielId(
+    			ProgAdmin.charKompAdmin.getCharElement(id, 
+    			ProgAdmin.charKompAdmin.getCharKompFromId(id))
+    		);
 	}
 	
 	/**
@@ -213,19 +104,19 @@ public class IdLink {
     	String prefix;
     	
 // 		Auslesen der Ziel ID (einzige, die ein linkId enthalten MUSS 
-    	this.zielId = ProgAdmin.charKompAdmin.getCharElement(
+    	this.setZielId(ProgAdmin.charKompAdmin.getCharElement(
     						xmlElement.getAttributeValue("id"),
     						ProgAdmin.charKompAdmin.
     							getCharKompFromId(xmlElement.getAttributeValue("id"))
-    					);
+    					));
     	
 // 		Auslesen des optionalen Texts
     	if ( xmlElement.getAttribute("text") != null ) {
-    		this.text = xmlElement.getAttributeValue("text").trim();
+    		this.setText(xmlElement.getAttributeValue("text").trim());
     	}
 //    	 Auslesen des optionalen Wertes
     	if ( xmlElement.getAttribute("wert") != null ) {
-    		this.wert = Integer.parseInt(xmlElement.getAttributeValue("wert").trim());
+    		this.setWert( Integer.parseInt(xmlElement.getAttributeValue("wert").trim()) );
     	}
 //   	 Auslesen des optionalen Leitwertes (Default ist false)
     	if ( xmlElement.getAttribute("leitwert") != null ) {
@@ -234,17 +125,18 @@ public class IdLink {
     			   xmlElement.getAttributeValue("leitwert").equals("false");
     		
     		if (xmlElement.getAttributeValue("leitwert").equals("true")) {
-    			this.leitwert = true;
+    			this.setLeitwert(true);
     		} else {
-    			this.leitwert = false;
+    			this.setLeitwert(false);
     		}
     	}
 //  	 Auslesen der optionalen Link-ID
     	if ( xmlElement.getAttribute("linkId") != null ) {
-    		this.linkId = ProgAdmin.charKompAdmin.getCharElement(
+    		this.setLinkId(ProgAdmin.charKompAdmin.getCharElement(
 								xmlElement.getAttributeValue("linkId"),
 								ProgAdmin.charKompAdmin.
-								getCharKompFromId(xmlElement.getAttributeValue("linkId")));
+								getCharKompFromId(xmlElement.getAttributeValue("linkId")))
+							);
     	}
     	
     }
@@ -260,19 +152,19 @@ public class IdLink {
     	xmlElement = new Element(tagName); // Element erstellen
   
     	// Schreiben des einzigen elements, das vorhanden sein MUSS
-    	xmlElement.addAttribute( new Attribute("id", zielId.getId()) );
+    	xmlElement.addAttribute( new Attribute("id", this.getZielId().getId()) );
     	
     	// Schreiben der Optionalen Elemente, sofern vorhanden und nicht Default
-    	if (linkId != null) {
-    		xmlElement.addAttribute( new Attribute("linkId", linkId.getId()) );
+    	if (this.getLinkId() != null) {
+    		xmlElement.addAttribute( new Attribute("linkId", this.getLinkId().getId()) );
     	}
-    	if (text != null) {
-    		xmlElement.addAttribute( new Attribute("text", text) );
+    	if (this.getText().length() > 0) {
+    		xmlElement.addAttribute( new Attribute("text", this.getText()) );
     	}
-    	if (wert != KEIN_WERT) {
-    		xmlElement.addAttribute( new Attribute("wert", Integer.toString(wert)) );
+    	if (this.getWert() != KEIN_WERT) {
+    		xmlElement.addAttribute( new Attribute("wert", Integer.toString(this.getWert())) );
     	}
-    	if (leitwert) { // false ist Default, braucht daher nicht geschrieben zu werden
+    	if (this.isLeitwert()) { // false ist Default, braucht daher nicht geschrieben zu werden
     		xmlElement.addAttribute( new Attribute("leitwert", "true" ) );
     	}
 

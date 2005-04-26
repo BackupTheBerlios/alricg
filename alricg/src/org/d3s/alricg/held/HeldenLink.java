@@ -8,7 +8,7 @@
  */
 package org.d3s.alricg.held;
 
-import org.d3s.alricg.charKomponenten.links.IdLink;
+import org.d3s.alricg.charKomponenten.links.AbstractLink;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -19,26 +19,9 @@ import org.d3s.alricg.charKomponenten.links.IdLink;
  * 
  * @author V. Strelow
  */
-public class HeldenLink {
-	private String zielId; // Das Ziel dieses Links (z.B. eine SF)
-	private String linkId; // Ein in Beziehung stehendes Element (z.B. Unfähigkeit "SCHWERT")
-	private String text; // Ein Text (z.B. Vorurteile gegen "Orks")
-	//private int wert; // Wert der Beziehung (z.B. Höhenangst 5) / "-100": es gibt keinen Wert
-	private boolean leitwert; // Für Elfen, verändert kosten
+public class HeldenLink extends AbstractLink {
 	
-	private int wert = IdLink.KEIN_WERT; // Wert den der User selbst gewählt hat
 	
-	/**
-	 * @return true - Das zugehörige CharElement hat einen Wert, sonst false.
-	 * 
-	 * TODO Überprüfe ob die Bedingung richtig ist!!!
-	 */
-	public boolean hasWert() {
-		if (wert == IdLink.KEIN_WERT) { // -100 meint, das es keinen Wert gibt
-			return false;
-		}
-		return true;
-	}
 	
 	/**
 	 * Errechnet den gesamtwert für diesen Link, bestehent aus dem vom User gewählten 
@@ -50,6 +33,7 @@ public class HeldenLink {
 		//Guard - Gibt es überhaupt einen Wert?
 		if (!hasWert()) return 0;
 
-		return wert;
+		return getWert();
 	}
+
 }
