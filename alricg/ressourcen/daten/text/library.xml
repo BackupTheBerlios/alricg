@@ -2,7 +2,7 @@
 <!-- This file is part of the project ALRICG. -->
 <n:alricgXML xmlns:n="http://alricg.die3sphaere.de/lib/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://alricg.die3sphaere.de/lib/
 ..\schema\library-schema.xsd">
-	<preamble language="DE" version="v0.1" author="V.Strelow">
+	<preamble version="v0.1" author="V.Strelow">
 		The german standard text-library for Alricg-Project. 
 		You can change the text, but DON'T CHANGE THE KEY-WORD!!
 		The text is identified by the key-word.
