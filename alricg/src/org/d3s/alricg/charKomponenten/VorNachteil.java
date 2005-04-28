@@ -28,7 +28,6 @@ public abstract class VorNachteil extends Fertigkeit {
 	private IdLinkList aendertApSf;
 	private IdLinkList aendertGpVorteil;
 	private IdLinkList aendertGpNachteil;
-	private int istMehrfachWaehlbar = 1;
 
 	/**
 	 * @return Liefert das Attribut aendertApSf.
@@ -55,12 +54,7 @@ public abstract class VorNachteil extends Fertigkeit {
 	public int getProStufe() {
 		return proStufe;
 	}
-	/**
-	 * @return Liefert das Attribut istMehrfachWaehlbar.
-	 */
-	public int isIstMehrfachWaehlbar() {
-		return istMehrfachWaehlbar;
-	}
+
 	/**
 	 * @return Liefert das Attribut maxStufe.
 	 */
@@ -86,18 +80,6 @@ public abstract class VorNachteil extends Fertigkeit {
 		return verbietetVorteil;
 	}
 	
-	/**
-	 * @return Liefert das Attribut istMehrfachWaehlbar.
-	 */
-	public int getIstMehrfachWaehlbar() {
-		return istMehrfachWaehlbar;
-	}
-	/**
-	 * @param istMehrfachWaehlbar Setzt das Attribut istMehrfachWaehlbar.
-	 */
-	public void setIstMehrfachWaehlbar(int istMehrfachWaehlbar) {
-		this.istMehrfachWaehlbar = istMehrfachWaehlbar;
-	}
 	/**
 	 * @param aendertApSf Setzt das Attribut aendertApSf.
 	 */
@@ -159,10 +141,10 @@ public abstract class VorNachteil extends Fertigkeit {
     		}
     		
 	    	// Auslesen wie of der Vor/Nachteil wählbar ist
-	    	if ( xmlElement.getFirstChildElement("istMehrfachWaehlbar") != null ) {
+	    	/*if ( xmlElement.getFirstChildElement("istMehrfachWaehlbar") != null ) {
 	    		istMehrfachWaehlbar = Integer.parseInt(xmlElement
 	    						.getFirstChildElement("istMehrfachWaehlbar").getValue());
-	    	}
+	    	}*/
 	    	
 	    	// Auslesen der Stufengrenzen
 	    	if ( xmlElement.getFirstChildElement("stufenGrenzen") != null ) {
@@ -229,11 +211,11 @@ public abstract class VorNachteil extends Fertigkeit {
     	}
     	
     	// Schreiben wie oft der Vor/Nachteil wählbar ist
-    	if ( istMehrfachWaehlbar != 1 ) {
+    	/*if ( istMehrfachWaehlbar != 1 ) {
     		tmpElement = new Element("istMehrfachWaehlbar");
     		tmpElement.appendChild(Integer.toString(istMehrfachWaehlbar));
     		xmlElement.appendChild(tmpElement);
-    	}
+    	}*/
     	
     	//schreiben der Stufengrenzen
     	if ( minStufe != 1 || maxStufe != 1 ) {
