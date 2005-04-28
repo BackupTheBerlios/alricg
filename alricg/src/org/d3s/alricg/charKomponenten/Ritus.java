@@ -8,6 +8,7 @@
 package org.d3s.alricg.charKomponenten;
 
 import nu.xom.Element;
+import nu.xom.Elements;
 
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
@@ -21,7 +22,7 @@ import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 public abstract class Ritus extends CharElement {
 	private int grad;
 	private String additionsId;
-	private Gottheit gottheit;
+	private Gottheit[] gottheit;
 	
 	/**
 	 * @return Liefert das Attribut grad.
@@ -32,7 +33,7 @@ public abstract class Ritus extends CharElement {
 	/**
 	 * @return Liefert das Attribut herkunft.
 	 */
-	public Gottheit getHerkunft() {
+	public Gottheit[] getGottheit() {
 		return gottheit;
 	}
 	
@@ -55,7 +56,7 @@ public abstract class Ritus extends CharElement {
 	/**
 	 * @param gottheit Setzt das Attribut gottheit.
 	 */
-	public void setGottheit(Gottheit gottheit) {
+	public void setGottheit(Gottheit[] gottheit) {
 		this.gottheit = gottheit;
 	}
 	/**
@@ -68,7 +69,10 @@ public abstract class Ritus extends CharElement {
      * @see org.d3s.alricg.charKomponenten.CharElement#loadXmlElement(nu.xom.Element)
      */
     public void loadXmlElement(Element xmlElement) {
+    	Elements tmpElements;
+    	
     	super.loadXmlElement(xmlElement);
+    	
     	
     	// Auslesen des Grades der Liturgie/ Ritual
     	try {
@@ -82,11 +86,15 @@ public abstract class Ritus extends CharElement {
     	// Auslesen der AdditionsId
     	additionsId = xmlElement.getFirstChildElement("additionsId").getValue();
 	
-    	// Auslesen der Gottheit
-    	gottheit = (Gottheit) ProgAdmin.charKompAdmin.getCharElement(
-    			xmlElement.getFirstChildElement("gottheit").getValue(),
-    			CharKomponente.gottheit
-    	);
+    	// Auslesen der Gottheiten
+    	tmpElements = xmlElement.getChildElements("gottheit");
+    	gottheit = new Gottheit[tmpElements.size()];
+    	for (int i = 0; i < tmpElements.size(); i++) {
+    		gottheit[i] = (Gottheit) ProgAdmin.charKompAdmin.getCharElement(
+    					tmpElements.get(i).getValue(),
+    					CharKomponente.gottheit
+    					);
+    	}
 	
     }
     
@@ -108,9 +116,11 @@ public abstract class Ritus extends CharElement {
     	xmlElement.appendChild(tmpElement);
     	
     	// Schreiben der gottheit
-    	tmpElement = new Element("gottheit");
-    	tmpElement.appendChild(gottheit.getId());
-    	xmlElement.appendChild(tmpElement);
+    	for (int i = 0; i < gottheit.length; i++) {
+    		tmpElement = new Element("gottheit");
+    		tmpElement.appendChild(gottheit[i].getId());
+    		xmlElement.appendChild(tmpElement);
+    	}
     	
     	return xmlElement;
     }
