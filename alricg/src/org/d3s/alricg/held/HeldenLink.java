@@ -8,32 +8,23 @@
  */
 package org.d3s.alricg.held;
 
-import org.d3s.alricg.charKomponenten.links.AbstractLink;
+import org.d3s.alricg.charKomponenten.links.Link;
 
 /**
  * <u>Beschreibung:</u><br> 
  * Eine Verbindung zwischen einem Held und einem CharElement, das der Held
  * "besitzt". Z.B. ein Talent oder eine Sonderfertigkeit, die der Held hat.
- * Der Link speichert die Verbindung, den Wert und ggf. die Modifikationen 
- * durch Herkunft.
+ * Der Link speichert die Verbindung, den Wert usw.
  * 
  * @author V. Strelow
  */
-public class HeldenLink extends AbstractLink {
+public class HeldenLink extends Link {
 	
 	
 	
-	/**
-	 * Errechnet den gesamtwert für diesen Link, bestehent aus dem vom User gewählten 
-	 * Wert und dem Wert durch Modifikationen (typischerweise durch Herkunft).
-	 * @return Der Gesamtwert für diesen Link, oder "0" falls es keinen Wert gibt
-	 * @see hasWert()
-	 */
-	public int getWert() {
-		//Guard - Gibt es überhaupt einen Wert?
-		if (!hasWert()) return 0;
-
-		return getWert();
+	
+	public void setUserWert(int wert) {
+		setWert(wert);
 	}
 
 }
