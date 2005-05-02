@@ -71,7 +71,9 @@
 			<entry key="PA">
 				<e lang="DE">PA</e>
 			</entry>		
-			
+			<entry key="FK">
+				<e lang="DE">FK</e>
+			</entry>	
 			
 			<entry key="Mut">
 				<e lang="DE">Mut</e>
@@ -126,6 +128,9 @@
 			</entry>
 			<entry key="ParadeBasis">
 				<e lang="DE">Parade-Basis</e>
+			</entry>
+			<entry key="FernkampfBasis">
+				<e lang="DE">Fernkampf-Basis</e>
 			</entry>
 
 <!-- *************** Werte für Talent Enums **********************************	-->
@@ -368,7 +373,9 @@
 			<entry key="Beschreibung EIG-PA">
 				<e lang="DE">Siehe Buch "DSA-Basis" S.19</e>
 			</entry>
-			
+			<entry key="Beschreibung EIG-FK">
+				<e lang="DE">Siehe Buch "DSA-Basis" S.19</e>
+			</entry>
 			
 			<entry key="X">
 				<e lang="DE">X</e>
