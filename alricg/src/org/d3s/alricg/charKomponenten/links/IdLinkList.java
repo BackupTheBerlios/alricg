@@ -103,7 +103,7 @@ public class IdLinkList {
     	// Schreiben des Attributes
     	for (int i = 0; i < links.length; i++) {
     		
-    		if (links[i].getLinkId() != null 
+    		if (links[i].getZweitZiel() != null 
     				|| links[i].getText() != null
     				|| links[i].getWert() != IdLink.KEIN_WERT
     				|| links[i].isLeitwert() != false) {
@@ -113,7 +113,7 @@ public class IdLinkList {
     			xmlElement.appendChild(tmpElement);
     			
     		} else { // Schreiben in Attribut, nur Id nötig
-    			strBuffer.append(links[i].getZielId().getId());
+    			strBuffer.append(links[i].getZiel().getId());
     			strBuffer.append(" ");
     		}
     	}

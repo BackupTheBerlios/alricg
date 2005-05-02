@@ -7,13 +7,12 @@
 
 package org.d3s.alricg.charKomponenten.links;
 
-import java.util.ArrayList;
-
 import nu.xom.Attribute;
 import nu.xom.Element;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 import org.d3s.alricg.held.HeldenLink;
 
 /**
@@ -28,15 +27,16 @@ import org.d3s.alricg.held.HeldenLink;
  * 
  * @author V.Strelow
  */
-public class IdLink extends AbstractLink{
+public class IdLink extends Link {
 	
 	private Auswahl auswahl; // Falls dieser IdLink durch eine Auswahl entstand
 	private CharElement quelle; // Falls dieser IdLink NICHT durch eine Auswahl entstand
    
-	/* Alle Verbindungen die zu einem Helden Bestehen. Pro Held kann es nur 
-	 * einen Link geben, aber es kann mehrer Helden geben. Vorbereitung für
-	 * Heldenverwaltung! */
-	private ArrayList<HeldenLink> heldenLinks;
+	/* 
+	 * Falls dieser Link im Helden "gespeichtert" ist, wird hier eine Verbindung zwischen 
+	 * Held und Links gehalten
+	 */
+	private HeldenLink heldenLink;
 	
 	/**
 	 * Konstruktor, initialisiert das Objekt. Nach der Erstellung sollte mit 
@@ -57,31 +57,30 @@ public class IdLink extends AbstractLink{
 	public CharElement getQuellElement() {
 		return quelle;
 	}
+	
+	/**
+	 * Liefert das CharElement, welches diesen IdLink "besitzt"
+	 * @return Das CharElement, zu dem der IdLink gehört
+	 */
+	public Auswahl getQuellAuswahl() {
+		return auswahl;
+	}
 
 	/**
 	 * Wenn ein Held einen neuen Wert über ein CharElement erhält, so 
 	 * wird dies hiermit auch dem IdLink mitgeteilt und mit dem Held verbunden.
 	 * @param link Die Verbindung zum Helden
 	 */
-	public void addHeldenLink(HeldenLink link) {
-		if (heldenLinks == null) {
-			heldenLinks = new ArrayList<HeldenLink>(1);
-		}
-		heldenLinks.add(link);
+	public void setHeldenLink(HeldenLink link) {
+		heldenLink = link;
 	}
 	
 	/**
-	 * Wenn ein Held einen Wert über ein CharElement abwählt, so 
-	 * wird dies hiermit auch dem IdLink mitgeteilt und die Verbindung zu Held gelöscht.
-	 * @param link Die zu löschende Verbindung zum Helden
+	 * @param link
+	 * @return 
 	 */
-	public void removeHeldenLink(HeldenLink link) {
-		heldenLinks.remove(link);
-		
-		// Um den Speicher wieder freizugeben, wenn alle Links abgewählt wurde
-		if (heldenLinks.isEmpty()) {
-			heldenLinks = null;
-		}
+	public HeldenLink getHeldenLink() {
+		return heldenLink;
 	}
 	
 	/**
@@ -89,10 +88,7 @@ public class IdLink extends AbstractLink{
 	 * @param id Die zielID des IdLinks.
 	 */
 	public void loadFromId(String id) {
-    	this.setZielId(
-    			ProgAdmin.charKompAdmin.getCharElement(id, 
-    			ProgAdmin.charKompAdmin.getCharKompFromId(id))
-    		);
+    	this.setZielId(	ProgAdmin.charKompAdmin.getCharElement(id) );
 	}
 	
 	/**
@@ -102,14 +98,19 @@ public class IdLink extends AbstractLink{
 	 */
     public void loadXmlElement(Element xmlElement) {
     	String prefix;
+    	CharKomponente tmpKomp;
     	
-// 		Auslesen der Ziel ID (einzige, die ein linkId enthalten MUSS 
-    	this.setZielId(ProgAdmin.charKompAdmin.getCharElement(
-    						xmlElement.getAttributeValue("id"),
-    						ProgAdmin.charKompAdmin.
-    							getCharKompFromId(xmlElement.getAttributeValue("id"))
-    					));
+//		Auslesen des Typs des Ziels, also ob Talent, Zauber, usw. (muß ein Idlink enthalten)
+    	tmpKomp = ProgAdmin.charKompAdmin.getCharKompFromId(xmlElement.getAttributeValue("id"));
     	
+// 		Auslesen des Objectes zur Ziel ID (muß ein Idlink enthalten)
+    	this.setZielId(ProgAdmin.charKompAdmin
+    						.getCharElement(
+    							xmlElement.getAttributeValue("id"), 
+    							tmpKomp
+    						)
+	    				);
+
 // 		Auslesen des optionalen Texts
     	if ( xmlElement.getAttribute("text") != null ) {
     		this.setText(xmlElement.getAttributeValue("text").trim());
@@ -132,11 +133,11 @@ public class IdLink extends AbstractLink{
     	}
 //  	 Auslesen der optionalen Link-ID
     	if ( xmlElement.getAttribute("linkId") != null ) {
-    		this.setLinkId(ProgAdmin.charKompAdmin.getCharElement(
+    		this.setZweitZiel(ProgAdmin.charKompAdmin.getCharElement(
 								xmlElement.getAttributeValue("linkId"),
 								ProgAdmin.charKompAdmin.
-								getCharKompFromId(xmlElement.getAttributeValue("linkId")))
-							);
+								getCharKompFromId(xmlElement.getAttributeValue("linkId"))
+							));
     	}
     	
     }
@@ -152,11 +153,11 @@ public class IdLink extends AbstractLink{
     	xmlElement = new Element(tagName); // Element erstellen
   
     	// Schreiben des einzigen elements, das vorhanden sein MUSS
-    	xmlElement.addAttribute( new Attribute("id", this.getZielId().getId()) );
+    	xmlElement.addAttribute( new Attribute("id", this.getZiel().getId()) );
     	
     	// Schreiben der Optionalen Elemente, sofern vorhanden und nicht Default
-    	if (this.getLinkId() != null) {
-    		xmlElement.addAttribute( new Attribute("linkId", this.getLinkId().getId()) );
+    	if (this.getZweitZiel() != null) {
+    		xmlElement.addAttribute( new Attribute("linkId", this.getZweitZiel().getId()) );
     	}
     	if (this.getText().length() > 0) {
     		xmlElement.addAttribute( new Attribute("text", this.getText()) );
@@ -170,5 +171,5 @@ public class IdLink extends AbstractLink{
 
     	return xmlElement;
     }
-	
+    
 }

@@ -9,7 +9,6 @@
 package org.d3s.alricg.charKomponenten.links;
 
 import org.d3s.alricg.charKomponenten.CharElement;
-import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -23,9 +22,9 @@ import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
  */
 public abstract class Link {
 	public static int KEIN_WERT = -100;
-	private CharElement zielId; // Das Ziel dieses Links (z.B. eine SF)
-	private CharKomponente zielTyp;
-	private CharElement linkId; // Ein in Beziehung stehendes Element (z.B. Unfähigkeit "SCHWERT")
+	private CharElement ziel; // Das Ziel dieses Links (z.B. eine SF)
+	//private CharKomponente zielTyp;
+	private CharElement zweitZiel; // Ein in Beziehung stehendes Element (z.B. Unfähigkeit "SCHWERT")
 	private String text = ""; // Ein Text (z.B. Vorurteile gegen "Orks")
 	private int wert = KEIN_WERT; // Wert der Beziehung (z.B. Höhenangst 5) / "-100": es gibt keinen Wert
 	private boolean leitwert = false; // Für Elfen, verändert kosten / Default = false
@@ -46,8 +45,8 @@ public abstract class Link {
 	 * @return Das Link-Element mit dem das Ziel verbunden ist, oder "null"
 	 * falls es kein Link-Elemnet gibt. 
 	 */
-	public CharElement getLinkId() {
-		return linkId;
+	public CharElement getZweitZiel() {
+		return zweitZiel;
 	}
 	
 	/**
@@ -79,20 +78,37 @@ public abstract class Link {
 		return true;
 	}
 	
+	/** 
+	 * @return true - Der Link hat Text, ansonsten false
+	 */
+	public boolean hasText() {
+		return (text.length() > 0);
+	}
+	
+	/**
+	 * @return true - Der Link hat ein ZweitZiel, ansonsten false
+	 */
+	public boolean hasZweitZiel() {
+		if (zweitZiel == null) { 
+			return false;
+		}
+		return true;
+	}
+	
 	/**
 	 * Jeder IdLink hat ein Ziel, dieses wird über die ZielId abgerufen!
 	 * @return Liefert das Attribut zielId.
 	 */
-	public CharElement getZielId() {
-		return zielId;
+	public CharElement getZiel() {
+		return ziel;
 	}
 	
 	/**
 	 * @return Liefert das Attribut zielKomponete.
-	 */
+	 *
 	public CharKomponente getZielTyp() {
 		return zielTyp;
-	}
+	}*/
 	
 	/**
 	 * @param leitwert Setzt das Attribut leitwert.
@@ -103,8 +119,8 @@ public abstract class Link {
 	/**
 	 * @param linkId Setzt das Attribut linkId.
 	 */
-	public void setLinkId(CharElement linkId) {
-		this.linkId = linkId;
+	public void setZweitZiel(CharElement linkId) {
+		this.zweitZiel = linkId;
 	}
 	/**
 	 * @param text Setzt das Attribut text.
@@ -122,12 +138,13 @@ public abstract class Link {
 	public void setWert(int wert) {
 		this.wert = wert;
 	}
+	
 	/**
 	 * @param zielId Setzt das Attribut zielId. (Das Ziel dieses Links, z.B. eine SF)
 	 */
-	public void setZielId(CharElement zielId, CharKomponente zielKomponete) {
-		this.zielId = zielId;
-		this.zielTyp = zielKomponete;
+	public void setZielId(CharElement zielId)   {//, CharKomponente zielKomponete) {
+		this.ziel = zielId;
+		//this.zielTyp = zielKomponete;
 	}
 	
 	/**
@@ -144,15 +161,15 @@ public abstract class Link {
 	 */
 	public boolean isEqualLink(Link link) {
 		// Prüft ob zielId, text und linkId gleich sind, nur dann "true"
-		if ( !zielId.equals(link.getZielId()) ) {
+		if ( !ziel.equals(link.getZiel()) ) {
 			return false;
 		} else if ( !text.equals(link.getText()) ) {
 			return false;
-		} else if ( linkId == null && link.getLinkId() != null ) {
-			return false;
-		} else if ( linkId != null && link.getLinkId() == null ) {
+		} else if ( zweitZiel == null && link.getZweitZiel() == null ) {
+			return true; 
+		} else if ( zweitZiel == null || link.getZweitZiel() == null ) {
 			return false; 
-		} else if ( !linkId.equals(link.getLinkId()) ) {
+		} else if ( !zweitZiel.equals(link.getZweitZiel()) ) {
 			return false;
 		}
 		
