@@ -30,6 +30,8 @@
 		<maxTalentAktivierung wert="5"/>
 		<maxZauberAktivierungVZ wert="10"/>
 		<maxZauberAktivierungHZ wert="5"/>
+		<maxSchlechtEigenchafWert wert="12"/>
+		<minSchelchtEigenchafWert wert="5"/>
 	</package>
 	<package id="Ullis-Hausregeln">
 		<startGp wert="95"/>
@@ -43,5 +45,7 @@
 		<maxTalentAktivierung wert="10"/>
 		<maxZauberAktivierungVZ wert="15"/>
 		<maxZauberAktivierungHZ wert="10"/>
+		<maxSchlechtEigenchafWert wert="15"/>
+		<minSchelchtEigenchafWert wert="1"/>
 	</package>
 </regelConfig>
