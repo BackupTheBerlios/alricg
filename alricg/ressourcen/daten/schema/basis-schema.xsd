@@ -508,8 +508,6 @@
 	<xsd:complexType name="vorteilTyp">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="DE">
-				istMehrfachWaehlbar - Gibt die Zahl an, wie oft der Vorteil gewählt werden darf. "-1" meint: Beliebig oft
-					Default: 1
 				stufenGrenzen - Default: min 1/ max 1
 				proPunkte - Die Kosten gelten pro "x" Punkte. Default: 1
 			</xsd:documentation>
@@ -517,7 +515,6 @@
 		<xsd:complexContent>
 			<xsd:extension base="fertigkeitTyp">
 				<xsd:sequence>
-					<xsd:element name="istMehrfachWaehlbar" type="xsd:int" minOccurs="0"/>
 					<xsd:element name="stufenGrenzen" minOccurs="0">
 						<xsd:complexType>
 							<xsd:attribute name="minStufe" type="xsd:nonNegativeInteger" use="optional"/>
@@ -550,7 +547,6 @@
 		<xsd:complexContent>
 			<xsd:extension base="fertigkeitTyp">
 				<xsd:sequence>
-					<xsd:element name="istMehrfachWaehlbar" type="xsd:int" minOccurs="0"/>
 					<xsd:element name="stufenGrenzen" minOccurs="0">
 						<xsd:complexType>
 							<xsd:attribute name="minStufe" type="xsd:nonNegativeInteger" use="optional"/>
@@ -1288,6 +1284,8 @@
 							RG I --> ein mal RG II (sieht AH S.10)
 						- hatText: Benötigt diese Fertigkeit noch die angabe eines Textes?
 							Default: false
+						- hatElement: Benötigt diese Fertigkeit noch die angabe eines Textes?
+							Default: false
 						- istWaehlbar: Kann die Fertigkeit normal gewählt werden? Ansonsten kann sie nur über 
 							die Herkunft ODER Dämonenpakte erworben werden.
 							Default: true
@@ -1301,6 +1299,7 @@
 						</xsd:complexType>
 					</xsd:element>
 					<xsd:element name="hatText" type="xsd:boolean" minOccurs="0"/>
+					<xsd:element name="hatElement" type="xsd:boolean" minOccurs="0"/>
 					<xsd:element name="istWaehlbar" type="xsd:boolean" minOccurs="0"/>
 					<xsd:element name="fuerWelcheChars" type="charArtenTyp" maxOccurs="6"/>
 					<xsd:element name="voraussetzungen" type="voraussetzungTyp" minOccurs="0"/>
