@@ -8,6 +8,7 @@
 package org.d3s.alricg.charKomponenten.charZusatz;
 
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 
 import nu.xom.Attribute;
 import nu.xom.Element;
@@ -21,6 +22,13 @@ public class FkWaffe extends Waffe {
 	private int reichweite = KEIN_WERT;
 	private String reichweiteTpPlus; // Zusätzliche TP durch Reichweite
 
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.waffeFk;
+	}
+	
 	/**
 	 * Konstruktur; id beginnt mit "FKW-" für Fernkampf-Waffe
 	 * @param id Systemweit eindeutige id

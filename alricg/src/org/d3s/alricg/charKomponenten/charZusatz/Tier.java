@@ -10,6 +10,7 @@ package org.d3s.alricg.charKomponenten.charZusatz;
 import nu.xom.Element;
 
 import org.d3s.alricg.charKomponenten.CharElement;
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 
 /**
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
@@ -18,6 +19,13 @@ import org.d3s.alricg.charKomponenten.CharElement;
 public class Tier extends CharElement{
 
 	// TODO Die Felder für das Tier anlegen!
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.tier;
+	}
 	
 	/**
 	 * Konstruktur; id beginnt mit "TIE-" für Tier

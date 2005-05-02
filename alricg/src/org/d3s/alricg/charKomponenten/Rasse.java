@@ -32,6 +32,13 @@ public class Rasse extends Herkunft {
 	
     //private Rasse varianteVon;
 
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.rasse;
+	}
+	
 	/**
 	 * Konstruktur; id beginnt mit "RAS-" für Rasse
 	 * @param id Systemweit eindeutige id

@@ -12,6 +12,7 @@ import nu.xom.Attribute;
 import nu.xom.Element;
 
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -24,6 +25,14 @@ public class Schild extends Gegenstand {
 	private int ini = KEIN_WERT; // Bruchfaktor
 	private int wmAT = KEIN_WERT; // Waffenmodifikator / AT
 	private int wmPA = KEIN_WERT; // Waffenmodifikator / PA
+	
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.schild;
+	}
 	
 	/**
 	 * Konstruktur; id beginnt mit "SLD-" für Schild

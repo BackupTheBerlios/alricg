@@ -10,10 +10,10 @@ package org.d3s.alricg.charKomponenten;
 import nu.xom.Attribute;
 import nu.xom.Element;
 
+import org.d3s.alricg.charKomponenten.Werte.Geschlecht;
 import org.d3s.alricg.charKomponenten.links.Auswahl;
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
 import org.d3s.alricg.charKomponenten.links.Voraussetzung;
-import org.d3s.alricg.charKomponenten.Werte.Geschlecht;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 

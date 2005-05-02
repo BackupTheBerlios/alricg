@@ -7,10 +7,11 @@
 
 package org.d3s.alricg.charKomponenten;
 
-import org.d3s.alricg.controller.ProgAdmin;
-
 import nu.xom.Attribute;
 import nu.xom.Element;
+
+import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -21,6 +22,13 @@ import nu.xom.Element;
 public class Gabe extends Faehigkeit {
 	private int minStufe = 1;
 	private int maxStufe = 1;
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.gabe;
+	}
 	
 	/**
 	 * Konstruktur; id beginnt mit "GAB-" für Gabe

@@ -29,6 +29,13 @@ public class Zauber extends Faehigkeit {
 	private String reichweite;
 	private String wirkungsdauer;
 
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.zauber;
+	}
+	
 	/**
 	 * Konstruktur; id beginnt mit "ZAU-" für Zauber
 	 * @param id Systemweit eindeutige id

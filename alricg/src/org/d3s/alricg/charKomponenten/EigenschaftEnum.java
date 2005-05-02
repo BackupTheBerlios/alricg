@@ -36,8 +36,9 @@ public enum EigenschaftEnum {
     KA("Karmaernergie", "KA", "EIG-KA"), 
     
     GS("Geschwindigkeit", "GS", "EIG-GS"),
-    INI("Initiative", 	"INI", "EIG-INI"), 
-    AT("AttackeBasis", 	"AT", "EIG-AT"), 
+    INI("Initiative", 	"INI", "EIG-INI"),
+    FK("FernkampfBasis", "FK", "EIG-FK"),
+    AT("AttackeBasis", 	"AT", "EIG-AT"),
     PA("ParadeBasis", 	"PA", "EIG-PA");
     
     
@@ -55,6 +56,13 @@ public enum EigenschaftEnum {
     	this.id = id;
     }
 
+    /** 
+     * @return Die ID für diese Eigenschaft / gleichZeitig der XmlValue
+     */
+    public String getId() {
+    	return id;
+    }
+    
     /**
      * @return Den vollständigen Namen der Eigenschaft
      */
@@ -63,7 +71,7 @@ public enum EigenschaftEnum {
     }
     
     /**
-     * @return Der XML Wert der Eigenschaft/ leichzeitig die ID
+     * @return Der XML Wert der Eigenschaft/ geichzeitig die ID
      */
     public String getXmlValue() {
     	return id;
@@ -82,6 +90,8 @@ public enum EigenschaftEnum {
     public String toString()  {
         return abk;
     }
+    
+
     
     /**
      * Diese Methode wird vor allem für die initialisierung benötigt!

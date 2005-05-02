@@ -33,7 +33,13 @@ public class Kultur extends Herkunft {
     private RegionVolk regionVolk;
 
     //private Kultur varianteVon; 
-
+    
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.kultur;
+	}
 
 	/**
 	 * Konstruktur; id beginnt mit "KUL-" für Kultur

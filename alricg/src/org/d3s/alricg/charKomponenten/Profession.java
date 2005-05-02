@@ -11,11 +11,11 @@ import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Elements;
 
+import org.d3s.alricg.charKomponenten.Werte.Gilde;
+import org.d3s.alricg.charKomponenten.Werte.MagieMerkmal;
 import org.d3s.alricg.charKomponenten.links.Auswahl;
 import org.d3s.alricg.charKomponenten.links.AuswahlAusruestung;
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
-import org.d3s.alricg.charKomponenten.Werte.Gilde;
-import org.d3s.alricg.charKomponenten.Werte.MagieMerkmal;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 /**
@@ -77,7 +77,13 @@ public class Profession extends Herkunft {
 	
    //private Profession varianteVon;
     
-
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.profession;
+	}
+	
 	/**
 	 * Konstruktur; id beginnt mit "PRO-" für Profession
 	 * @param id Systemweit eindeutige id

@@ -7,6 +7,8 @@
 
 package org.d3s.alricg.charKomponenten;
 
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
+
 import nu.xom.Element;
 
 /**
@@ -16,6 +18,13 @@ import nu.xom.Element;
  */
 public class Schrift extends SchriftSprache {
 
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.schrift;
+	}
+	
 	/**
 	 * Konstruktur; id beginnt mit "SFT-" für Schrift
 	 * @param id Systemweit eindeutige id

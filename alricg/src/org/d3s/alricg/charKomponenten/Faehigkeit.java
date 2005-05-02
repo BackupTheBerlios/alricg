@@ -12,8 +12,8 @@ import nu.xom.Element;
 
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
-import org.d3s.alricg.prozessor.SKT;
-import org.d3s.alricg.prozessor.SKT.KostenKlasse;
+import org.d3s.alricg.prozessor.FormelSammlung;
+import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -78,7 +78,7 @@ public abstract class Faehigkeit extends CharElement {
     			CharKomponente.eigenschaft);
 
     	// Auslesen der KostenKlasse
-    	kostenKlasse = SKT.getKostenKlasseByXmlValue(
+    	kostenKlasse = FormelSammlung.getKostenKlasseByXmlValue(
     			xmlElement.getAttributeValue("kostenKlasse")
     		);
 

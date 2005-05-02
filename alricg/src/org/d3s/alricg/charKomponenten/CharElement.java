@@ -10,6 +10,9 @@ package org.d3s.alricg.charKomponenten;
 import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Elements;
+
+import org.d3s.alricg.charKomponenten.sonderregeln.SonderregelAdapter;
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 /**
  * <b>Beschreibung: </b> <br>
  * Dies ist die super-Klasse für alle Charakter-Elemente. Alle Elemente eines
@@ -24,7 +27,13 @@ abstract public class CharElement implements Comparable<CharElement> {
     private String sammelBegriff = ""; // Zur besseren Sortierung
     private String beschreibung = ""; // text, z.B.  "Siehe MBK S. 10"
     private RegelAnmerkung regelAnmerkung; // Anmerkungen für den User!
-    private Sonderregel sonderregel; // Zu beachtende Sonderreglen
+    private SonderregelAdapter sonderregel; // Zu beachtende Sonderreglen
+
+    /**
+     * @return Die CharKomponente zu der dieses CharElement gehört
+     */
+    public abstract CharKomponente getCharKomponente();
+    
     /**
      * Soll das Element angezeigt werden? Sinnvoll für und VorNachteile die in
      * der Gui anders verwendet werden, wie z.B. Herausragende Eigenschaft.
@@ -85,7 +94,7 @@ abstract public class CharElement implements Comparable<CharElement> {
 	/**
 	 * @param sonderregel Setzt eine Sonderregel für dieses Element.
 	 */
-	public void setSonderregel(Sonderregel sonderRegel) {
+	public void setSonderregel(SonderregelAdapter sonderRegel) {
 		this.sonderregel = sonderRegel;
 	}
 
@@ -169,7 +178,7 @@ abstract public class CharElement implements Comparable<CharElement> {
      * 
      * @return Liefert das Attribut sonderregel.
      */
-    public Sonderregel getSonderregel() {
+    public SonderregelAdapter getSonderregel() {
         return sonderregel;
     }
     
@@ -199,7 +208,7 @@ abstract public class CharElement implements Comparable<CharElement> {
 // 		Auslesen der Sonderregel ( min: 0 / max: 1
     	if (xmlElement.getFirstChildElement("sonderregel") != null) {
     		
-    		// TODO Manager für Sonderregeln einbauen!
+    		// TODO Laden von Sonderregeln einbauen! Am besten mit dynamischen laden der Klasse
     		/*
     		this.sonderRegel = new Sonderregel(
     				xmlElement.getFirstChildElement("sonderregel").getAttributeValue("id"),

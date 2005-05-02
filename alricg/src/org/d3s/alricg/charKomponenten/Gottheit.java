@@ -8,6 +8,8 @@
  */
 package org.d3s.alricg.charKomponenten;
 
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
+
 import nu.xom.Element;
 
 /**
@@ -48,6 +50,13 @@ public class Gottheit extends CharElement {
 
 	private KenntnisArt kenntnisArt;
 	private GottheitArt gottheitArt;
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.gottheit;
+	}
 	
 	/**
 	 * Konstruktur; id beginnt mit "GOT-" für Gottheit

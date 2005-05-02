@@ -9,7 +9,8 @@ package org.d3s.alricg.charKomponenten;
 
 import nu.xom.Element;
 
-import org.d3s.alricg.prozessor.SKT.KostenKlasse;
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
+import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -23,6 +24,14 @@ public class LiturgieRitualKenntnis extends Faehigkeit {
 	private static KostenKlasse LITURGIE_KOSTEN_GENERIERUNG = KostenKlasse.E;
 	private static KostenKlasse LITURGIE_KOSTEN_SPAETER = KostenKlasse.G;
 	private static KostenKlasse RITUAL_KOSTEN = KostenKlasse.E;
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.ritLitKenntnis;
+	}
+	
 	/*
 	public enum Art {
 		liturgie("liturgie"),

@@ -11,6 +11,7 @@ import nu.xom.Attribute;
 import nu.xom.Element;
 
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 
 /**
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
@@ -30,6 +31,13 @@ public class Ruestung extends Gegenstand {
 	private int zoneLb = KEIN_WERT;
 	private int zoneRb = KEIN_WERT;
 	private int zoneGes = KEIN_WERT;
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.ruestung;
+	}
 	
 	/**
 	 * Konstruktur; id beginnt mit "RUE-" für Ruestung

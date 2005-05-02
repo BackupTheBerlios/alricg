@@ -11,6 +11,7 @@ import nu.xom.Attribute;
 import nu.xom.Element;
 
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 import org.d3s.alricg.prozessor.FormelSammlung;
 
 /**
@@ -43,6 +44,13 @@ public class Sonderfertigkeit extends Fertigkeit {
 	private Art art;
 	private int permAsp = 0, permKa = 0, permLep = 0; // Permanente Kosten
 
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.sonderfertigkeit;
+	}
+	
 	/**
 	 * Konstruktur; id beginnt mit "SF-" für Sonderfertigkeit
 	 * @param id Systemweit eindeutige id

@@ -14,6 +14,7 @@ import nu.xom.Elements;
 import org.d3s.alricg.charKomponenten.links.Voraussetzung;
 import org.d3s.alricg.controller.Library;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 
 /**
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
@@ -70,6 +71,14 @@ public class Talent extends Faehigkeit {
     private Sorte sorte;
     private int abWert; // Bezieht sich auf Voraussetzung
     private TalentVoraussetzung voraussetzung;
+    
+    
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.talent;
+	}
     
 	/**
 	 * Konstruktur id; beginnt mit "TAL-" für Talent

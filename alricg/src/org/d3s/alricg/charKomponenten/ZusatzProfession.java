@@ -12,6 +12,7 @@ import nu.xom.Element;
 
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -26,6 +27,13 @@ public class ZusatzProfession extends Profession {
 	private boolean zusatzProf; //ansonsten späteProfession, "spaeteProfession" 
 								//und "zusatzProfession" schließen sich aus!
 	
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.zusatzProfession;
+	}
 	
 	/**
 	 * Konstruktur; id beginnt mit "ZPR-" für ZusatzProfession

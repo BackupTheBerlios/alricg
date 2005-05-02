@@ -7,6 +7,8 @@
 
 package org.d3s.alricg.charKomponenten;
 
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
+
 import nu.xom.Element;
 
 /**
@@ -15,6 +17,13 @@ import nu.xom.Element;
  */
 public class Ritual extends Ritus {
 
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.ritual;
+	}
+	
 	/**
 	 * Konstruktur; id beginnt mit "RIT-" für Ritual
 	 * @param id Systemweit eindeutige id

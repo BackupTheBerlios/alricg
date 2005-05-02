@@ -7,6 +7,8 @@
 
 package org.d3s.alricg.charKomponenten;
 
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
+
 import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Elements;
@@ -22,6 +24,13 @@ public class RegionVolk extends CharElement {
 	private String[] vornamenFrau;
 	private String[] nachnamen;
 	private String[] nachnamenEndung; // Wörter die an den Nachnamen gehangen werden
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.region;
+	}
 	
 	/**
 	 * Konstruktur; id beginnt mit "REG-" für Region

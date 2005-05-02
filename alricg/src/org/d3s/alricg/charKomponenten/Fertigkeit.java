@@ -22,7 +22,8 @@ import org.d3s.alricg.controller.ProgAdmin;
 public abstract class Fertigkeit extends CharElement {
 	private Werte.CharArten[] fuerWelcheChars; // Welche Chars diese Fertigkeit wählen können
 	private Voraussetzung voraussetzung; // Es muß die Voraussetzungen gelten! 
-	private boolean hatText = false; // Gibt es noch einen Beschreibenen Text zu der Fertigkeit?
+	private boolean hasText = false; // Gibt es noch einen Text zu der Fertigkeit? (Vorurteile gegen "Orks")
+	private boolean hasElementAngabe = false; // Gibt es noch ein Element zu dieser Fertigkeit (Unfähigkeit "Schwerter")
 	private boolean isWaehlbar = true; // Nicht wählbare können nur über die Herkunft erlangt werden
 	private String additionsID;  // "Familie" von Fertigkeiten, die aufaddiert werden z.B. Rüstungsgewöhung I und RG II
 	private int additionsWert = KEIN_WERT;	// z.B. Rüstungsgewöhung I = 1 und RG II = 2. Somit ergibt zwei mal	RG I --> ein mal RG II (sieht AH S.10)
@@ -64,8 +65,8 @@ public abstract class Fertigkeit extends CharElement {
 	 * Vorurteile gegen "Orks" oder Verpflichtungen gegenüber "Praioskirche".
 	 * @return true - Die Fertigkeit benötigt noch die Angabe eines Textes, ansonsten "false".
 	 */
-	public boolean isHatText() {
-		return hatText;
+	public boolean hasText() {
+		return hasText;
 	}
 	/**
 	 * Fertigkeiten die "Nicht wählbar" sind können nur über die Herkunft erlangt werden!
@@ -110,8 +111,8 @@ public abstract class Fertigkeit extends CharElement {
 	/**
 	 * @param hatText Setzt das Attribut hatText.
 	 */
-	public void setHatText(boolean hatText) {
-		this.hatText = hatText;
+	public void setHasText(boolean hatText) {
+		this.hasText = hatText;
 	}
 	/**
 	 * @param isWaehlbar Setzt das Attribut isWaehlbar.
@@ -124,6 +125,19 @@ public abstract class Fertigkeit extends CharElement {
 	 */
 	public void setVoraussetzung(Voraussetzung voraussetzung) {
 		this.voraussetzung = voraussetzung;
+	}
+	
+	/**
+	 * @return Liefert das Attribut hasElementAngabe.
+	 */
+	public boolean isElementAngabe() {
+		return hasElementAngabe;
+	}
+	/**
+	 * @param hasElementAngabe Setzt das Attribut hasElementAngabe.
+	 */
+	public void setElementAngabe(boolean hasElementAngabe) {
+		this.hasElementAngabe = hasElementAngabe;
 	}
 	
     /* (non-Javadoc) Methode überschrieben
@@ -155,7 +169,19 @@ public abstract class Fertigkeit extends CharElement {
     			|| xmlElement.getFirstChildElement("hatText").getValue().equals("false");
     		
     		if ( xmlElement.getFirstChildElement("hatText").getValue().equals("true") ) {
-    			hatText = true;
+    			hasText = true;
+    		} // false ist default
+    	}
+    	
+    	// Auslesen, ob diese Fertigkeit noch die Angabe eines Elements benötigt
+    	if ( xmlElement.getFirstChildElement("hatElement") != null ) {
+    		
+    		// Sicherstellen des Wertebereiches
+    		assert xmlElement.getFirstChildElement("hatElement").getValue().equals("true") 
+    			|| xmlElement.getFirstChildElement("hatElement").getValue().equals("false");
+    		
+    		if ( xmlElement.getFirstChildElement("hatElement").getValue().equals("true") ) {
+    			this.hasElementAngabe = true;
     		} // false ist default
     	}
     	
@@ -211,8 +237,15 @@ public abstract class Fertigkeit extends CharElement {
     	}
     	
     	// Schreiben, ob die Fertigkeit einen Text benötigt
-    	if (hatText) {
+    	if (hasText) {
     		tmpElement = new Element("hatText");
+    		tmpElement.appendChild("true");
+    		xmlElement.appendChild(tmpElement);
+    	}
+    	
+    	// Schreiben, ob die Fertigkeit die Angabe eines Elements benötigt
+    	if (hasElementAngabe) {
+    		tmpElement = new Element("hatElement");
     		tmpElement.appendChild("true");
     		xmlElement.appendChild(tmpElement);
     	}

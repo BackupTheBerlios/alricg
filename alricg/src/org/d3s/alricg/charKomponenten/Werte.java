@@ -44,8 +44,8 @@ public class Werte {
 		halbZauberer("halbZauberer"),
 		viertelZauberer("viertelZauberer"),
 		geweiht("geweiht"),
-		borbaradianer("borbaradianer")
-		;
+		borbaradianer("borbaradianer");
+		
 		private String xmlValue; // XML-Tag des Elements
 		
 		private CharArten(String xmlValue) {

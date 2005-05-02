@@ -28,6 +28,13 @@ public class SimpelGegenstand extends Gegenstand {
 	private CharKomponente art;
 	private int anzahl = 1; 
 	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return art;
+	}
+	
 	/**
 	 * Konstruktor
 	 */
@@ -47,18 +54,18 @@ public class SimpelGegenstand extends Gegenstand {
 	public void setAnzahl(int anzahl) {
 		this.anzahl = anzahl;
 	}
-/**
- * @return Liefert das Attribut art.
- */
-public CharKomponente getArt() {
-	return art;
-}
-/**
- * @param art Setzt das Attribut art.
- */
-public void setArt(CharKomponente art) {
-	this.art = art;
-}
+	/**
+	 * @return Liefert das Attribut art.
+	 */
+	public CharKomponente getArt() {
+		return art;
+	}
+	/**
+	 * @param art Setzt das Attribut art.
+	 */
+	public void setArt(CharKomponente art) {
+		this.art = art;
+	}
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.charKomponenten.CharElement#loadXmlElement(nu.xom.Element)
 	 */

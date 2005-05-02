@@ -11,8 +11,8 @@ import nu.xom.Attribute;
 import nu.xom.Element;
 
 import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.prozessor.SKT;
-import org.d3s.alricg.prozessor.SKT.KostenKlasse;
+import org.d3s.alricg.prozessor.FormelSammlung;
+import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -56,7 +56,7 @@ abstract public class SchriftSprache extends CharElement {
     	super.loadXmlElement(xmlElement);
     	
     	// Auslesen der Kostenklasse der Schrift/ Sprache
-    	kostenKlasse = SKT.getKostenKlasseByXmlValue( xmlElement
+    	kostenKlasse = FormelSammlung.getKostenKlasseByXmlValue( xmlElement
     			.getFirstChildElement("daten").getAttributeValue("kostenKlasse") );
     	
     	// Auslesen der Kompläxität der Schrift/ Sprache

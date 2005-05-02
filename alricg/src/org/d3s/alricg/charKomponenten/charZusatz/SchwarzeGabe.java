@@ -13,6 +13,7 @@ import nu.xom.Element;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -24,6 +25,13 @@ public class SchwarzeGabe extends CharElement {
 	private int minStufe = KEIN_WERT;
 	private int maxStufe = KEIN_WERT;
 	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.schwarzeGabe;
+	}
+	
 	/**
 	 * Konstruktur; id beginnt mit "SGA-" für Schwarze-Gabe
 	 * @param id Systemweit eindeutige id
@@ -31,8 +39,6 @@ public class SchwarzeGabe extends CharElement {
 	public SchwarzeGabe(String id) {
 		setId(id);
 	}
-	
-	
 	
 	/**
 	 * @return Liefert das Attribut kosten.

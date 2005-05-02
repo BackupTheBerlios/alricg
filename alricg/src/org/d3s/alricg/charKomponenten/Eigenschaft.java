@@ -10,6 +10,7 @@ package org.d3s.alricg.charKomponenten;
 
 import org.d3s.alricg.controller.Library;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 
 
 /**
@@ -21,6 +22,14 @@ import org.d3s.alricg.controller.ProgAdmin;
  */
 public class Eigenschaft extends CharElement {
 	private EigenschaftEnum eigenschaft;
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.eigenschaft;
+	}
+	
 	
 	/**
 	 * Konstruktur; id beginnt mit "EIG-" für Eigenschaft
@@ -78,4 +87,5 @@ public class Eigenschaft extends CharElement {
 		ProgAdmin.logger.severe("Die ID einer Eigenschaft wurde nicht gefunden!");
 		return null;
 	}
+
 }

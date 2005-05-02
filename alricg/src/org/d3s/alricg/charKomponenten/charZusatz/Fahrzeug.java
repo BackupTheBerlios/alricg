@@ -7,6 +7,8 @@
 
 package org.d3s.alricg.charKomponenten.charZusatz;
 
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
+
 import nu.xom.Element;
 
 /**
@@ -16,6 +18,13 @@ import nu.xom.Element;
 public class Fahrzeug extends Gegenstand {
 	private String typ; // Der name, z.B. "Kastenwagen"
 	private String aussehen; // Ein allgemeiner Text zur Farbe, Zustand, usw.
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.fahrzeug;
+	}
 	
 	/**
 	 * Konstruktur; id beginnt mit "FAH-" für Fahrzeug

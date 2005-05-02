@@ -15,6 +15,7 @@ import nu.xom.Elements;
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 
 
 /**
@@ -35,6 +36,13 @@ public class DaemonenPakt extends CharElement {
 	private IdLinkList schlechteEigenschaften;
 	private IdLinkList schwarzeGaben;
 	private IdLinkList verbilligteEigenschaften;
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.daemonenPakt;
+	}
 	
 	/**
 	 * Konstruktur; id beginnt mit "DAE-" für DaemonenPakt

@@ -21,8 +21,7 @@ import nu.xom.Element;
  * Diese werden durch ein Objekt von RegelAnmerkung repr‰sentiert.
  * @author V.Strelow
  */
-public class RegelAnmerkung
-{
+public class RegelAnmerkung {
     /**
      * REGEL - Etwas was der Benutzer beachten sollte, aber das Programm nicht automatisch machen kann
      * TOD0 - Etwas was der Benutzer beachten sollte, aber nicht muﬂ (z.B. sich einen Titel geben bei dem 

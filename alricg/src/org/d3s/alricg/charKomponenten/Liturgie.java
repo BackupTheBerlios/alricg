@@ -7,6 +7,8 @@
 
 package org.d3s.alricg.charKomponenten;
 
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
+
 import nu.xom.Element;
 
 /**
@@ -23,6 +25,13 @@ public class Liturgie extends Ritus {
 	 */
 	public Liturgie(String id) {
 		setId(id);
+	}
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.liturgie;
 	}
 	
     /* (non-Javadoc) Methode überschrieben

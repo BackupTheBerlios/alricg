@@ -11,6 +11,7 @@ import nu.xom.Attribute;
 import nu.xom.Element;
 
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 
 /**
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
@@ -23,6 +24,13 @@ public class NahkWaffe extends Waffe {
 	private String dk; // Distanzklasse
 	private int wmAT = KEIN_WERT; // Waffenmodifikator / AT
 	private int wmPA = KEIN_WERT; // Waffenmodifikator / PA
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.waffeNk;
+	}
 	
 	/**
 	 * Konstruktur; id beginnt mit "NKW-" für Nahkampf-Waffe

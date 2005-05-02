@@ -8,6 +8,8 @@
  */
 package org.d3s.alricg.charKomponenten;
 
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
+
 import nu.xom.Attribute;
 import nu.xom.Element;
 
@@ -20,6 +22,13 @@ import nu.xom.Element;
 public class Repraesentation extends CharElement {
 	private boolean isEchteRep = true; // "Echte" Repräsentationen sind solche, die im Liber stehen.
 	private String abkuerzung;
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.repraesentation;
+	}
 	
 	/**
 	 * Konstruktur; id beginnt mit "REP-" für Repraesentation

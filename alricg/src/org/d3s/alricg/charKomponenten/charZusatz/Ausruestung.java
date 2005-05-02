@@ -7,6 +7,8 @@
 
 package org.d3s.alricg.charKomponenten.charZusatz;
 
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
+
 import nu.xom.Element;
 
 /**
@@ -20,7 +22,13 @@ public class Ausruestung extends Gegenstand {
     private boolean istBehaelter = false;
 	private String haltbarkeit;
     
-    
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.ausruestung;
+	}
+	
 	/**
 	 * Konstruktur; id beginnt mit "AUS-" für Ausrüstung
 	 * @param id Systemweit eindeutige id

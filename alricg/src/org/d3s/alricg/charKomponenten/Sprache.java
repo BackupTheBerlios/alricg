@@ -12,8 +12,9 @@ import nu.xom.Element;
 
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
 import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.prozessor.SKT;
-import org.d3s.alricg.prozessor.SKT.KostenKlasse;
+import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
+import org.d3s.alricg.prozessor.FormelSammlung;
+import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -25,6 +26,13 @@ public class Sprache extends SchriftSprache {
 	private KostenKlasse kostenNichtMutterSpr;
 	private IdLinkList zugehoerigeSchrift;	
 
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+	 */
+	public CharKomponente getCharKomponente() {
+		return CharKomponente.sprache;
+	}
+	
 	/**
 	 * Konstruktur; id beginnt mit "SPR-" für Sprache
 	 * @param id Systemweit eindeutige id
@@ -78,7 +86,7 @@ public class Sprache extends SchriftSprache {
     	super.loadXmlElement(xmlElement);
     	
     	// Auslesen der Kostenklasse der Sprache
-    		kostenNichtMutterSpr = SKT.getKostenKlasseByXmlValue( xmlElement
+    		kostenNichtMutterSpr = FormelSammlung.getKostenKlasseByXmlValue( xmlElement
     			.getFirstChildElement("nichtMuttersprache").getAttributeValue("kostenKlasse") );
     	
     	// Auslesen der Kompläxität der Sprache
