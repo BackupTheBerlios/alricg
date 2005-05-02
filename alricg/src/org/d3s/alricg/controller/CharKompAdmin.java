@@ -8,7 +8,6 @@
 package org.d3s.alricg.controller;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -64,6 +63,7 @@ import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.schild;
 import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.schrift;
 import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.schwarzeGabe;
 import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.sonderfertigkeit;
+import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.sonderregel;
 import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.sprache;
 import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.talent;
 import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.tier;
@@ -72,6 +72,7 @@ import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.waffeFk;
 import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.waffeNk;
 import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.zauber;
 import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.zusatzProfession;
+import org.d3s.alricg.utils.SimpleList;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -327,7 +328,7 @@ public class CharKompAdmin {
 					eigenschaftMap.put(ids.get(i), new Eigenschaft(ids.get(i)));
 				}
 				break;
-				
+			case sonderregel: break; //Gibt es nicht!
 
 // >>>>>>>>>>>>>>> DEFAULT			
 			default:
@@ -335,6 +336,20 @@ public class CharKompAdmin {
 						"initCharKomponents", "Ein CharKomp wurde nicht gefunden: " 
 						+ charKomp);
 		}
+	}
+	
+	/**
+	 * Liefert eine CharKomponente, die zu einer ID gehört zurück. 
+	 * Wenn die CharKomponente zu der ID bekannt ist, sollte aus performance 
+	 * Gründen "getCharElement(String id, CharKomponente charKomp)" benutzt 
+	 * werden.
+	 * 
+	 * @param id Die ID die gesucht wird
+	 * @return Die gesuchte Charkomponente oder "null", falls zu dem Schlüssel keine 
+	 * CharKomponente gefunden werden kann.
+	 */
+	public CharElement getCharElement(String id) {
+		return getCharElement(id, this.getCharKompFromId(id));
 	}
 	
 	/**
@@ -350,7 +365,6 @@ public class CharKompAdmin {
 		hashMap = getHashMap(charKomp); // Die zugehörige HashMap holen
 		
 		if ( hashMap.get(id) == null ) {
-			// TODO Evtl. noch eine bessere Meldung einbauen!
 			ProgAdmin.logger.warning("Id konnte nicht gefunden werden: " + id);
 		}
 		
@@ -375,7 +389,8 @@ public class CharKompAdmin {
 		// Alle charKomponenten durchgehen 
 		for (int i = 0; i < charKompArray.length; i++) {
 			
-			if (charKompArray[i] == eigenschaft) {
+			if (charKompArray[i] == eigenschaft
+				|| charKompArray[i] == sonderregel) {
 				continue; // Eigenschaften werden nicht geschrieben, daher Abbruch
 			}
 			
@@ -403,9 +418,12 @@ public class CharKompAdmin {
 	 * @param charKomp Der gewünschte Typ
 	 * @return Eine Collection mit allen charKomponenten des gewünschten Typs
 	 */
-	public Collection<? extends CharElement> getCollection(CharKomponente charKomp) {
+	public SimpleList<CharElement> getCollection(CharKomponente charKomp) {
+		SimpleList<CharElement> tmpList = 
+			new SimpleList( getHashMap(charKomp).values());
+		// Warum geht nicht "new SimpleList<CharElement>( getHashMap(charKomp).values())"
 		
-		return getHashMap(charKomp).values();
+		return tmpList;
 	}
 	
 	/**
@@ -545,7 +563,8 @@ public class CharKompAdmin {
 		region("regionen", "REG"),
 		gottheit("gottheiten", "GOT"),
 		repraesentation("repraesentationen", "REP"),
-		eigenschaft("x", "EIG"); // Hat keinen XML Tag, wird durch Source-Code gefüllt
+		eigenschaft("x", "EIG"), // Hat keinen XML Tag, wird durch Source-Code gefüllt
+		sonderregel("x", "SR"); // Hat keinen XML Tag, wird durch Source-Code gefüllt
 		
 //		Der XML-Tag der Komponente
 		private String xmlTag; // XML-Tag das alle entsprechenden Elemente umschließt
@@ -559,7 +578,7 @@ public class CharKompAdmin {
 		private CharKomponente(String xmlTag, String prefix) {
 			this.xmlTag = xmlTag;
 			this.prefix = prefix;
-		}	
+		}
 		
 		/**
 		 * @return Den XML-Tag des Elements. Und zwar der, der alle Elemente
@@ -577,5 +596,6 @@ public class CharKompAdmin {
 			return prefix;
 		}
 
+		
 	}
 }
