@@ -23,8 +23,8 @@ public abstract class VorNachteil extends Fertigkeit {
 	private int proStufe = 1; // Bezieht sich auf GP
 	private int minStufe = 1;
 	private int maxStufe = 1;
-	private IdLinkList verbietetVorteil; 
-	private IdLinkList verbietetNachteil;
+	//private IdLinkList verbietetVorteil; 
+	//private IdLinkList verbietetNachteil;
 	private IdLinkList aendertApSf;
 	private IdLinkList aendertGpVorteil;
 	private IdLinkList aendertGpNachteil;
@@ -67,18 +67,6 @@ public abstract class VorNachteil extends Fertigkeit {
 	public int getMinStufe() {
 		return minStufe;
 	}
-	/**
-	 * @return Liefert das Attribut verbietetNachteil.
-	 */
-	public IdLinkList getVerbietetNachteil() {
-		return verbietetNachteil;
-	}
-	/**
-	 * @return Liefert das Attribut verbietetVorteil.
-	 */
-	public IdLinkList getVerbietetVorteil() {
-		return verbietetVorteil;
-	}
 	
 	/**
 	 * @param aendertApSf Setzt das Attribut aendertApSf.
@@ -116,18 +104,7 @@ public abstract class VorNachteil extends Fertigkeit {
 	public void setProStufe(int proStufe) {
 		this.proStufe = proStufe;
 	}
-	/**
-	 * @param verbietetNachteil Setzt das Attribut verbietetNachteil.
-	 */
-	public void setVerbietetNachteil(IdLinkList verbietetNachteil) {
-		this.verbietetNachteil = verbietetNachteil;
-	}
-	/**
-	 * @param verbietetVorteil Setzt das Attribut verbietetVorteil.
-	 */
-	public void setVerbietetVorteil(IdLinkList verbietetVorteil) {
-		this.verbietetVorteil = verbietetVorteil;
-	}
+
     /* (non-Javadoc) Methode überschrieben
      * @see org.d3s.alricg.charKomponenten.CharElement#loadXmlElement(nu.xom.Element)
      */
@@ -166,6 +143,7 @@ public abstract class VorNachteil extends Fertigkeit {
 			ProgAdmin.logger.severe("Fehler beim Umrechnung von Zahlen: " + exc);
 		}
 		
+		/*
     	// Auslesen welche Vorteile mit diesem Vor/Nachteil verboten sind
     	if ( xmlElement.getFirstChildElement("verbietetVorteil") != null ) {
     		verbietetVorteil = new IdLinkList(this);
@@ -177,6 +155,7 @@ public abstract class VorNachteil extends Fertigkeit {
     		verbietetNachteil = new IdLinkList(this);
     		verbietetNachteil.loadXmlElement(xmlElement.getFirstChildElement("verbietetNachteil"));
     	}
+    	*/
     	
     	// Auslesen bei welchen SF der Vor/Nachteil die Kosten verändert
     	if ( xmlElement.getFirstChildElement("aendertApSf") != null ) {
@@ -230,6 +209,7 @@ public abstract class VorNachteil extends Fertigkeit {
     		xmlElement.appendChild(tmpElement);
     	}
     	
+    	/*
     	// Schreiben welche Vorteile verboten sind
     	if ( verbietetVorteil != null ) {
     		xmlElement.appendChild(verbietetVorteil.writeXmlElement("verbietetVorteil"));
@@ -239,6 +219,7 @@ public abstract class VorNachteil extends Fertigkeit {
     	if ( verbietetNachteil != null ) {
     		xmlElement.appendChild(verbietetNachteil.writeXmlElement("verbietetNachteil"));
     	}
+    	*/
     	
     	// Schreiben welche Kosten von SF sich wie ändern
     	if ( aendertApSf != null ) {

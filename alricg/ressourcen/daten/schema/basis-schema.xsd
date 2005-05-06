@@ -521,8 +521,6 @@
 							<xsd:attribute name="maxStufe" type="xsd:nonNegativeInteger" use="optional"/>
 						</xsd:complexType>
 					</xsd:element>
-					<xsd:element name="verbietetVorteil" type="idListe" minOccurs="0"/>
-					<xsd:element name="verbietetNachteil" type="idListe" minOccurs="0"/>
 					<xsd:element name="aendertApSf" type="idListe" minOccurs="0" maxOccurs="unbounded"/>
 					<xsd:element name="aendertGpVorteil" type="idListe" minOccurs="0" maxOccurs="unbounded"/>
 					<xsd:element name="aendertGpNachteil" type="idListe" minOccurs="0" maxOccurs="unbounded"/>
@@ -553,8 +551,6 @@
 							<xsd:attribute name="maxStufe" type="xsd:nonNegativeInteger" use="optional"/>
 						</xsd:complexType>
 					</xsd:element>
-					<xsd:element name="verbietetVorteil" type="idListe" minOccurs="0"/>
-					<xsd:element name="verbietetNachteil" type="idListe" minOccurs="0"/>
 					<xsd:element name="aendertApSf" type="idListe" minOccurs="0" maxOccurs="unbounded"/>
 					<xsd:element name="aendertGpVorteil" type="idListe" minOccurs="0" maxOccurs="unbounded"/>
 					<xsd:element name="aendertGpNachteil" type="idListe" minOccurs="0" maxOccurs="unbounded"/>
@@ -1538,6 +1534,7 @@
 		</xsd:annotation>
 		<xsd:sequence>
 			<xsd:element name="fest" type="voraussetzungHilfsTyp" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="nichtErlaubt" type="idListe" minOccurs="0"/>
 			<xsd:element name="auswahl" minOccurs="0" maxOccurs="unbounded">
 				<xsd:complexType>
 					<xsd:sequence>

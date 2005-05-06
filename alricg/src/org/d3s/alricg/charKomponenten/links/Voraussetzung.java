@@ -19,6 +19,7 @@ import org.d3s.alricg.charKomponenten.CharElement;
  */
 public class Voraussetzung {
 	private IdLinkVoraussetzung[] festeVoraussetzung; // Die unveränderlichen Werte
+	private IdLinkList nichtErlaubt; // Diese Elemente sind NICHT erlaubt
 	private CharElement quelle; // Das CharElement, das diese Voraussetzung besitzt
 //	 Pro Array muß mindesten eine LinkVoraussetzung erfüllt sein	
 	private IdLinkVoraussetzung[][] auswahlVoraussetzung;
@@ -71,6 +72,12 @@ public class Voraussetzung {
     		festeVoraussetzung[i].loadXmlElement(tmpElements.get(i));
     	}
     	
+		// Auslesen der "nichtErlaubt" Elemente
+		if ( xmlElement.getFirstChildElement("nichtErlaubt") != null ) {
+			nichtErlaubt = new IdLinkList(quelle);
+			nichtErlaubt.loadXmlElement(xmlElement.getFirstChildElement("nichtErlaubt"));
+		}
+    	
     	// Aulesen der "Auswahl", also wo nur eines aus einer Gruppe erfüllt sein muß
     	tmpElements = xmlElement.getChildElements("auswahl");
     	auswahlVoraussetzung = new IdLinkVoraussetzung[tmpElements.size()][];
@@ -98,6 +105,11 @@ public class Voraussetzung {
     	for ( int i = 0; i < festeVoraussetzung.length; i++) {
     		xmlElement.appendChild( festeVoraussetzung[i].writeXmlElement("fest") );
     	}
+    	
+    	// Hinzufügen der "nichtErlaubt" Elemente
+    	if ( this.nichtErlaubt != null ) {
+    		xmlElement.appendChild(nichtErlaubt.writeXmlElement("empfVorteile"));
+    	}   
     	
     	// Alle Elemente der "Auswahl" hinzufügen
     	for (int i = 0; i < auswahlVoraussetzung.length; i++) {
