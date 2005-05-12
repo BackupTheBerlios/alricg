@@ -24,6 +24,7 @@ public abstract class Fertigkeit extends CharElement {
 	private Voraussetzung voraussetzung; // Es muß die Voraussetzungen gelten! 
 	private boolean hasText = false; // Gibt es noch einen Text zu der Fertigkeit? (Vorurteile gegen "Orks")
 	private boolean hasElementAngabe = false; // Gibt es noch ein Element zu dieser Fertigkeit (Unfähigkeit "Schwerter")
+	private String[] textVorschlaege; // Eine Liste Möglicher angaben für den Text
 	private boolean isWaehlbar = true; // Nicht wählbare können nur über die Herkunft erlangt werden
 	private String additionsID;  // "Familie" von Fertigkeiten, die aufaddiert werden z.B. Rüstungsgewöhung I und RG II
 	private int additionsWert = KEIN_WERT;	// z.B. Rüstungsgewöhung I = 1 und RG II = 2. Somit ergibt zwei mal	RG I --> ein mal RG II (sieht AH S.10)
@@ -185,6 +186,16 @@ public abstract class Fertigkeit extends CharElement {
     		} // false ist default
     	}
     	
+    	// Einlesen der vorgeschlagenen Texte
+    	if ( xmlElement.getFirstChildElement("textVorschlaege") != null ) {
+    		tmpElements = xmlElement.getFirstChildElement("textVorschlaege")
+    								.getChildElements("text");
+    		textVorschlaege = new String[tmpElements.size()];
+    		for (int i = 0; i < textVorschlaege.length; i++) {
+    			textVorschlaege[i] =	tmpElements.get(i).getValue();
+    		}
+    	}
+    	
     	// Auslesen, ob normal Wählbar oder nur über Herkunft o.ä. zu bekommen
     	if ( xmlElement.getFirstChildElement("istWaehlbar") != null ) {
     		assert xmlElement.getFirstChildElement("istWaehlbar").getValue().equals("true")
@@ -248,6 +259,17 @@ public abstract class Fertigkeit extends CharElement {
     		tmpElement = new Element("hatElement");
     		tmpElement.appendChild("true");
     		xmlElement.appendChild(tmpElement);
+    	}
+    	
+    	// Schreiben der vorgeschlagenen Texte
+    	if ( textVorschlaege != null ) {
+    		tmpElement = new Element("textVorschlaege");
+    		xmlElement.appendChild(tmpElement);
+    		for (int i = 0; i < textVorschlaege.length; i++) {
+    			tmpElement = new Element("text");
+    			tmpElement.appendChild(textVorschlaege[i]);
+    			xmlElement.getFirstChildElement("textVorschlaege").appendChild(tmpElement);
+    		}
     	}
     	
     	// Schreiben, ob das Element normal wählbar ist
