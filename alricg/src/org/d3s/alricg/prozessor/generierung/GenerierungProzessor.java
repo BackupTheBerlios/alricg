@@ -393,7 +393,7 @@ public class GenerierungProzessor extends HeldProzessor {
 		newLink.setWert(link.getWert());
 		
 		// Ist dieser Link neu oder schon ein entsprechendes Element vorhanden?
-		if ( held.getElementBox(link.getZiel().getCharKomponente()).contians(newLink) ) {
+		if ( held.getElementBox(link.getZiel().getCharKomponente()).contiansEqualLink(newLink) ) {
 			addLinkToElement(newLink);
 		} else {
 			addAsNewElement(newLink);

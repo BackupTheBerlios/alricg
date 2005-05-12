@@ -8,6 +8,8 @@
 package org.d3s.alricg.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -72,7 +74,6 @@ import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.waffeFk;
 import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.waffeNk;
 import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.zauber;
 import static org.d3s.alricg.controller.CharKompAdmin.CharKomponente.zusatzProfession;
-import org.d3s.alricg.utils.SimpleList;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -414,16 +415,14 @@ public class CharKompAdmin {
 	}
 	
 	/**
-	 * Liefert alle charKomponenten eines gewünschten Typs
+	 * Liefert alle charKomponenten eines gewünschten Typs in einer 
+	 * nicht modifizierbaren Collection
 	 * @param charKomp Der gewünschte Typ
-	 * @return Eine Collection mit allen charKomponenten des gewünschten Typs
+	 * @return Eine "unmodifiableCollection" mit allen charKomponenten des 
+	 * 			gewünschten Typs
 	 */
-	public SimpleList<CharElement> getCollection(CharKomponente charKomp) {
-		SimpleList<CharElement> tmpList = 
-			new SimpleList( getHashMap(charKomp).values());
-		// Warum geht nicht "new SimpleList<CharElement>( getHashMap(charKomp).values())"
-		
-		return tmpList;
+	public Collection<CharElement> getUnmodifiableCollection(CharKomponente charKomp) {
+		return Collections.unmodifiableCollection(getHashMap(charKomp).values());
 	}
 	
 	/**

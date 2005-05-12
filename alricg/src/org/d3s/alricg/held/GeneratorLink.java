@@ -8,10 +8,11 @@
 package org.d3s.alricg.held;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.links.IdLink;
-import org.d3s.alricg.utils.SimpleList;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -127,8 +128,8 @@ public class GeneratorLink extends HeldenLink {
      * @return Eine Liste mit allen Links, durch die der Generatorlink modifiziert wird,
      * 	auﬂer dem, was der User selbst gew‰hlt hat!
      */
-    public SimpleList<IdLink> getLinkModiList() {
-    	return new SimpleList<IdLink>(linkModiArray);
+    public List<IdLink> getLinkModiList() {
+    	return Collections.unmodifiableList(linkModiArray);
     }
     
     /**

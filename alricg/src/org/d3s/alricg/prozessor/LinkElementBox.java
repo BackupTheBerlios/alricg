@@ -8,12 +8,14 @@
  */
 package org.d3s.alricg.prozessor;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import org.d3s.alricg.charKomponenten.links.Link;
 import org.d3s.alricg.held.HeldenLink;
-import org.d3s.alricg.utils.SimpleList;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -21,7 +23,8 @@ import org.d3s.alricg.utils.SimpleList;
  * von CharElementen in der Form von Links. So verwaltet die von der 
  * LinkElementBox abgeleitete "TalentBox" alle Talente und bietet Operationen 
  * an, um die Elemente zu verändern.
- * Die "LinkElementBox" Spezifiziert wie von AUSSEN auf Boxen zugegriffen werden kann.
+ * Die "LinkElementBox" Spezifiziert wie von AUSSEN auf Boxen zugegriffen werden kann,
+ * und zwar als UNMODIFIABLE List.
  * Auf die inneren Operationen, die in den Spezialisierten Klassen defniert sind und 
  * mit denen die Box verändert werden kann, kann nicht zugeriffen werden.
  * Der Grund dafür ist, dass alle Verändernden Operationen über den entsprechenden 
@@ -33,17 +36,20 @@ import org.d3s.alricg.utils.SimpleList;
  * 
  * @author V. Strelow
  */
-public abstract class LinkElementBox<E extends HeldenLink> extends SimpleList<E> {
+public abstract class LinkElementBox<E extends HeldenLink> extends AbstractList {
 	protected ArrayList<E> linkArray; // ArryList mit allen Elementen diese Box
 	protected HeldProzessor prozessor; // Der Prozessor
 	
 	/**
-	 * @param liste
+	 * @param liste Die Liste aller verwalteten Elemente
 	 */
 	public LinkElementBox(ArrayList<E> liste) {
-		super(liste);
 		linkArray = liste;
 		// TODO Auto-generated constructor stub
+	}
+	
+	public List<E> getUnmodifiableList() {
+		return Collections.unmodifiableList(linkArray);
 	}
 	
 	/**
@@ -82,7 +88,7 @@ public abstract class LinkElementBox<E extends HeldenLink> extends SimpleList<E>
 	 * 				ansonsten false
 	 * @see org.d3s.alricg.charKomponenten.links.Link#isEqualLink(org.d3s.alricg.charKomponenten.links.Link)
 	 */
-	public boolean contians(Object link) {
+	public boolean contiansEqualLink(Object link) {
 		if ( !(link instanceof Link) ) {
 			return false;
 		}
@@ -93,19 +99,18 @@ public abstract class LinkElementBox<E extends HeldenLink> extends SimpleList<E>
 		return false;
 	}
 	
-
+	
 	/* (non-Javadoc) Methode überschrieben
-	 * @see java.util.Collection#containsAll(java.util.Collection)
+	 * @see java.util.List#get(int)
 	 */
-	public boolean containsAll(Collection< ? > collection) {
-		Object[] objArray = collection.toArray();
+	public E get(int idx) {
+		return linkArray.get(idx);
 		
-		for (int i = 0; i < objArray.length; i++) {
-			if ( !contians(objArray[i]) ) {
-				return false;
-			}
-		}
-
-		return true;
+	}
+	/* (non-Javadoc) Methode überschrieben
+	 * @see java.util.Collection#size()
+	 */
+	public int size() {
+		return linkArray.size();
 	}
 }
