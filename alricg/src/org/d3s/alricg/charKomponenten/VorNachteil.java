@@ -20,7 +20,7 @@ import org.d3s.alricg.controller.ProgAdmin;
  * @author V.Strelow
  */
 public abstract class VorNachteil extends Fertigkeit {
-	private int stufenSchritt = 1; // 
+	private int stufenSchritt = 1; // In welchen Schritten gesteigert werden darf
 	private int kostenProSchritt = 1; // wieviele GP pro Stufe (+ feste GPKosten)
 	private int minStufe = 1;
 	private int maxStufe = 1;

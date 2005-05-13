@@ -509,7 +509,9 @@
 		<xsd:annotation>
 			<xsd:documentation xml:lang="DE">
 				stufenGrenzen - Default: min 1/ max 1
-				proPunkte - Die Kosten gelten pro "x" Punkte. Default: 1
+				kostenProSchritt - Wieviele GP pro Stufe gezahlt werden müssen (Default: 1)
+					Dies gilt ZUSÄTZLICH zu den festen Kosten
+				stufenSchritt - In welchen Schritten kann die Stufe angehoben werden
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
@@ -525,7 +527,8 @@
 					<xsd:element name="aendertGpVorteil" type="idListe" minOccurs="0" maxOccurs="unbounded"/>
 					<xsd:element name="aendertGpNachteil" type="idListe" minOccurs="0" maxOccurs="unbounded"/>
 				</xsd:sequence>
-				<xsd:attribute name="proPunkte" type="xsd:nonNegativeInteger" use="optional"/>
+				<xsd:attribute name="kostenProSchritt" type="xsd:nonNegativeInteger" use="optional"/>
+				<xsd:attribute name="stufenSchritt" type="xsd:nonNegativeInteger" use="optional"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -556,7 +559,8 @@
 					<xsd:element name="aendertGpNachteil" type="idListe" minOccurs="0" maxOccurs="unbounded"/>
 					<xsd:element name="istSchlechteEigen" type="xsd:boolean" minOccurs="0"/>
 				</xsd:sequence>
-				<xsd:attribute name="proPunkte" type="xsd:nonNegativeInteger" use="optional"/>
+				<xsd:attribute name="kostenProSchritt" type="xsd:nonNegativeInteger" use="optional"/>
+				<xsd:attribute name="stufenSchritt" type="xsd:nonNegativeInteger" use="optional"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
