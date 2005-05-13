@@ -20,7 +20,8 @@ import org.d3s.alricg.controller.ProgAdmin;
  * @author V.Strelow
  */
 public abstract class VorNachteil extends Fertigkeit {
-	private int proStufe = 1; // Bezieht sich auf GP
+	private int stufenSchritt = 1; // 
+	private int kostenProSchritt = 1; // wieviele GP pro Stufe (+ feste GPKosten)
 	private int minStufe = 1;
 	private int maxStufe = 1;
 	//private IdLinkList verbietetVorteil; 
@@ -46,13 +47,6 @@ public abstract class VorNachteil extends Fertigkeit {
 	 */
 	public IdLinkList getAendertGpVorteil() {
 		return aendertGpVorteil;
-	}
-
-	/**
-	 * @return Liefert das Attribut proStufe.
-	 */
-	public int getProStufe() {
-		return proStufe;
 	}
 
 	/**
@@ -98,12 +92,6 @@ public abstract class VorNachteil extends Fertigkeit {
 	public void setMinStufe(int minStufe) {
 		this.minStufe = minStufe;
 	}
-	/**
-	 * @param proStufe Setzt das Attribut proStufe.
-	 */
-	public void setProStufe(int proStufe) {
-		this.proStufe = proStufe;
-	}
 
     /* (non-Javadoc) Methode überschrieben
      * @see org.d3s.alricg.charKomponenten.CharElement#loadXmlElement(nu.xom.Element)
@@ -113,8 +101,13 @@ public abstract class VorNachteil extends Fertigkeit {
 		
     	try {
     		// Auslesen pro wie viele Punkte die GP Kosten gelten 
-    		if ( xmlElement.getAttribute("proPunkte") != null ) {
-    			proStufe = Integer.parseInt(xmlElement.getAttributeValue("proPunkte"));
+    		if ( xmlElement.getAttribute("kostenProSchritt") != null ) {
+    			kostenProSchritt = Integer.parseInt(xmlElement.getAttributeValue("kostenProSchritt"));
+    		}
+    		
+    		// Auslesen in welchen Schritten gesteigert werden darf 
+    		if ( xmlElement.getAttribute("stufenSchritt") != null ) {
+    			stufenSchritt = Integer.parseInt(xmlElement.getAttributeValue("stufenSchritt"));
     		}
     		
 	    	// Auslesen wie of der Vor/Nachteil wählbar ist
@@ -184,9 +177,14 @@ public abstract class VorNachteil extends Fertigkeit {
     	Element xmlElement = super.writeXmlElement();
     	Element tmpElement;
     	
-    	// Schreiben pro wieviele Punkte die GP Kosten gelten
-    	if ( proStufe != 1 ) {
-    		xmlElement.addAttribute(new Attribute("proPunkte", Integer.toString(proStufe)));
+    	// Schreiben wieviele GP ein Schritt kostet
+    	if ( kostenProSchritt != 1 ) {
+    		xmlElement.addAttribute(new Attribute("kostenProSchritt", Integer.toString(kostenProSchritt)));
+    	}
+    	
+    	// Schreiben in welchen Schritten gesteigert werden kann
+    	if ( stufenSchritt != 1 ) {
+    		xmlElement.addAttribute(new Attribute("stufenSchritt", Integer.toString(stufenSchritt)));
     	}
     	
     	// Schreiben wie oft der Vor/Nachteil wählbar ist
