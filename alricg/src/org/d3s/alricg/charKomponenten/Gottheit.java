@@ -10,147 +10,89 @@ package org.d3s.alricg.charKomponenten;
 
 import org.d3s.alricg.controller.CharKomponente;
 
-import nu.xom.Element;
-
 /**
- * <u>Beschreibung:</u><br> 
- * Jede Liturgie und jedes Ritual ist einer Gottheit zugeordent. Auch geweihte
- * Sonderfertigkeiten sind mit einer Gottheit verbunden.
+ * <u>Beschreibung:</u><br>
+ * Jede Liturgie und jedes Ritual ist einer Gottheit zugeordent. Auch geweihte Sonderfertigkeiten sind mit einer
+ * Gottheit verbunden.
+ * 
  * @author V. Strelow
  */
 public class Gottheit extends CharElement {
-	
-	public enum KenntnisArt {
-		liturgie("liturgie"),
-		ritual("ritual");
-		private String xmlValue; // XML-Tag des Elements
-		
-		private KenntnisArt(String xmlValue) {
-			this.xmlValue = xmlValue;
-		}
-		
-		public String getXmlValue() {
-			return xmlValue;
-		}
-	}
-	public enum GottheitArt {
-		nichtAlveranisch("nichtAlveranisch"),
-		zwoelfGoettlich("zwoelfGoettlich"),
-		animistisch("animistisch");
-		private String xmlValue; // XML-Tag des Elements
-		
-		private GottheitArt(String xmlValue) {
-			this.xmlValue = xmlValue;
-		}
-		
-		public String getXmlValue() {
-			return xmlValue;
-		}
-	}
 
-	private KenntnisArt kenntnisArt;
-	private GottheitArt gottheitArt;
-	
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
-	 */
-	public CharKomponente getCharKomponente() {
-		return CharKomponente.gottheit;
-	}
-	
-	/**
-	 * Konstruktur; id beginnt mit "GOT-" für Gottheit
-	 * @param id Systemweit eindeutige id
-	 */
-	public Gottheit(String id) {
-		setId(id);
-	}
+    public enum KenntnisArt {
+        liturgie("liturgie"), ritual("ritual");
+        private String value; // IDdes Elements
 
-	/**
-	 * @return Liefert das Attribut gottheitArt.
-	 */
-	public GottheitArt getGottheitArt() {
-		return gottheitArt;
-	}
-	/**
-	 * @param gottheitArt Setzt das Attribut gottheitArt.
-	 */
-	public void setGottheitArt(GottheitArt gottheitArt) {
-		this.gottheitArt = gottheitArt;
-	}
-	/**
-	 * @return Liefert das Attribut kenntnisArt.
-	 */
-	public KenntnisArt getKenntnisArt() {
-		return kenntnisArt;
-	}
-	/**
-	 * @param kenntnisArt Setzt das Attribut kenntnisArt.
-	 */
-	public void setKenntnisArt(KenntnisArt kenntnisArt) {
-		this.kenntnisArt = kenntnisArt;
-	}
-    /* (non-Javadoc) Methode überschrieben
-     * @see org.d3s.alricg.charKomponenten.CharElement#loadXmlElement(nu.xom.Element)
-     */
-    public void loadXmlElement(Element xmlElement) {
-    	super.loadXmlElement(xmlElement);
-    	
- // 	Auslesen der Art der Kenntnis
-    	// Prüfen des Wertebereiches
-    	assert xmlElement.getFirstChildElement("kenntnisArt").getValue().equals(
-						KenntnisArt.liturgie.getXmlValue())
-				|| xmlElement.getFirstChildElement("kenntnisArt").getValue().equals(
-						KenntnisArt.ritual.getXmlValue());
-    	
-    	if ( xmlElement.getFirstChildElement("kenntnisArt").getValue().equals(
-    									KenntnisArt.liturgie.getXmlValue()) ) {
-    		kenntnisArt = KenntnisArt.liturgie;
-    	} else  {
-    		kenntnisArt = KenntnisArt.ritual;
-    	}
-    	
-// 		Auslesen der Art des Gottes/Ritus
-    	// Prüfen des Wertebereiches
-    	assert xmlElement.getFirstChildElement("gottheitArt").getValue().equals(
-    				GottheitArt.zwoelfGoettlich.getXmlValue())
-    			|| xmlElement.getFirstChildElement("gottheitArt").getValue().equals(
-					GottheitArt.nichtAlveranisch.getXmlValue())
-				|| xmlElement.getFirstChildElement("gottheitArt").getValue().equals(
-						GottheitArt.animistisch.getXmlValue());
-    	
-    	if ( xmlElement.getFirstChildElement("gottheitArt").getValue().equals(
-    			GottheitArt.zwoelfGoettlich.getXmlValue()) ) {
-    		gottheitArt = GottheitArt.zwoelfGoettlich;
-		} else if ( xmlElement.getFirstChildElement("gottheitArt").getValue().equals(
-						GottheitArt.nichtAlveranisch.getXmlValue()) ) {
-			gottheitArt = GottheitArt.nichtAlveranisch;
-		} else {
-			gottheitArt = GottheitArt.animistisch;
-		}
-    	
+        private KenntnisArt(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
     }
-    
-    /* (non-Javadoc) Methode überschrieben
-     * @see org.d3s.alricg.charKomponenten.CharElement#writeXmlElement()
+
+    public enum GottheitArt {
+        nichtAlveranisch("nichtAlveranisch"), zwoelfGoettlich("zwoelfGoettlich"), animistisch("animistisch");
+        private String value; // ID des Elements
+
+        private GottheitArt(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
+
+    private KenntnisArt kenntnisArt;
+
+    private GottheitArt gottheitArt;
+
+    /*
+     * (non-Javadoc) Methode überschrieben
+     * 
+     * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
      */
-    public Element writeXmlElement(){
-    	Element xmlElement = super.writeXmlElement();
-    	Element tmpElement;
-    	
-    	xmlElement.setLocalName("gottheit");
-    	
-    	// Schreiben der KenntnisArt
-    	tmpElement = new Element("kenntnisArt");
-    	tmpElement.appendChild(kenntnisArt.getXmlValue());
-    	xmlElement.appendChild(tmpElement);
-    	
-    	// Schreiben der Gottheit
-    	tmpElement = new Element("gottheitArt");
-    	tmpElement.appendChild(gottheitArt.getXmlValue());
-    	xmlElement.appendChild(tmpElement);
-    	
-    	return xmlElement;
+    public CharKomponente getCharKomponente() {
+        return CharKomponente.gottheit;
+    }
+
+    /**
+     * Konstruktur; id beginnt mit "GOT-" für Gottheit
+     * 
+     * @param id Systemweit eindeutige id
+     */
+    public Gottheit(String id) {
+        setId(id);
+    }
+
+    /**
+     * @return Liefert das Attribut gottheitArt.
+     */
+    public GottheitArt getGottheitArt() {
+        return gottheitArt;
+    }
+
+    /**
+     * @param gottheitArt Setzt das Attribut gottheitArt.
+     */
+    public void setGottheitArt(GottheitArt gottheitArt) {
+        this.gottheitArt = gottheitArt;
+    }
+
+    /**
+     * @return Liefert das Attribut kenntnisArt.
+     */
+    public KenntnisArt getKenntnisArt() {
+        return kenntnisArt;
+    }
+
+    /**
+     * @param kenntnisArt Setzt das Attribut kenntnisArt.
+     */
+    public void setKenntnisArt(KenntnisArt kenntnisArt) {
+        this.kenntnisArt = kenntnisArt;
     }
 
 }
