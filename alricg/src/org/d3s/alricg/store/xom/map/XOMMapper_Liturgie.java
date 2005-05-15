@@ -4,7 +4,7 @@ import nu.xom.Element;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 
-public class XOMMapper_Liturgie extends XOMMapper_Ritus implements XOMMapper {
+class XOMMapper_Liturgie extends XOMMapper_Ritus implements XOMMapper {
 
     public void map(Element xmlElement, CharElement charElement) {
         super.map(xmlElement, charElement);
