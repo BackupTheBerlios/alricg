@@ -7,48 +7,31 @@
 
 package org.d3s.alricg.charKomponenten;
 
-import nu.xom.Element;
-
 import org.d3s.alricg.controller.CharKomponente;
 
 /**
- * <b>Beschreibung:</b><br> 
+ * <b>Beschreibung:</b><br>
  * Repräsentiert eine Schrift
+ * 
  * @author V.Strelow
  */
 public class Schrift extends SchriftSprache {
 
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
-	 */
-	public CharKomponente getCharKomponente() {
-		return CharKomponente.schrift;
-	}
-	
-	/**
-	 * Konstruktur; id beginnt mit "SFT-" für Schrift
-	 * @param id Systemweit eindeutige id
-	 */
-	public Schrift(String id) {
-		setId(id);
-	}
-	
-    /* (non-Javadoc) Methode überschrieben
-     * @see org.d3s.alricg.charKomponenten.CharElement#loadXmlElement(nu.xom.Element)
+    /*
+     * (non-Javadoc) Methode überschrieben
+     * 
+     * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
      */
-    public void loadXmlElement(Element xmlElement) {
-    	super.loadXmlElement(xmlElement);
-    	// Noop!
+    public CharKomponente getCharKomponente() {
+        return CharKomponente.schrift;
     }
-    
-    /* (non-Javadoc) Methode überschrieben
-     * @see org.d3s.alricg.charKomponenten.CharElement#writeXmlElement()
+
+    /**
+     * Konstruktur; id beginnt mit "SFT-" für Schrift
+     * 
+     * @param id Systemweit eindeutige id
      */
-    public Element writeXmlElement(){
-    	Element xmlElement = super.writeXmlElement();
-    	
-    	xmlElement.setLocalName("schrift");
-    	
-    	return xmlElement;
+    public Schrift(String id) {
+        setId(id);
     }
 }
