@@ -1,9 +1,7 @@
 package org.d3s.alricg.store.xom.map;
 
 import java.io.File;
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -78,7 +76,7 @@ public class XOMToClientMapper {
     private void initCharKomponents(List<File> arrayFiles, XOMStore charKompAdmin) {
 
         loadCharKomponents(arrayFiles, charKompAdmin, true);
-        
+
         // Eigenschaften hinzufügen (initialisierung erstellt diese komplett)
         charKompAdmin.initCharKomponents(EigenschaftEnum.getIdArray(), CharKomponente.eigenschaft);
     }
@@ -98,9 +96,9 @@ public class XOMToClientMapper {
 
         // Erzeuge alle CharElement-Objekte
 
-            for (int i = 0; i < rootElements.length; i++) { // Für alle Files...
+        for (int i = 0; i < rootElements.length; i++) { // Für alle Files...
 
-                for (int ii = 0; ii < charKomps.length; ii++) { // Alle CharKomps...
+            for (int ii = 0; ii < charKomps.length; ii++) { // Alle CharKomps...
                 final CharKomponente current = charKomps[ii];
                 final Element firstChild = rootElements[i].getFirstChildElement(current.getKategorie());
                 if (firstChild == null) {
@@ -113,7 +111,6 @@ public class XOMToClientMapper {
             }
         }
     }
-    
 
     /**
      * Ließt alle XML-Files ein, die laut Config eingelesen werden sollen. Ließt auch die als im "benoetigtDateien" Tag
@@ -186,7 +183,7 @@ public class XOMToClientMapper {
             }
         }
     }
-    
+
     /**
      * Wird aufgerufen, um zu prüfen ob ein ID Wert doppelt vorkommt! In dem Fall wird eine Warnung ausgegeben, aber
      * nicht verhindert das der alte Wert überschrieben wird!
@@ -200,8 +197,7 @@ public class XOMToClientMapper {
             ProgAdmin.messenger.sendFehler(ProgAdmin.library.getErrorTxt("CharKomponente ID doppelt"));
         }
     }
-    
-    
+
     /**
      * Initialisiert die übergebene CharKomponent und erstellt zu jeder ID das Objekt. Es wird ein sortiertes Array
      * erstellt, wobei die Objekte nur die ID zugewiesen bekommen haben.
@@ -215,11 +211,11 @@ public class XOMToClientMapper {
         // >>>>>>>>>>>>>>> Herkunft
         case rasse:
             Map<String, CharElement> rasseMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); 
-                keyDoppelt(id, rasseMap);
-                rasseMap.put(id, new Rasse(id));
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, rasseMap);
+                    rasseMap.put(id, new Rasse(id));
                 }
             } else {
                 mappy = new XOMMapper_Rasse();
@@ -233,11 +229,12 @@ public class XOMToClientMapper {
             break;
         case kultur:
             Map<String, CharElement> kulturMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  kulturMap);
-                kulturMap.put(id, new Kultur(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, kulturMap);
+                    kulturMap.put(id, new Kultur(id));
+                }
             } else {
                 mappy = new XOMMapper_Kultur();
                 for (int i = 0; i < kategorien.size(); i++) {
@@ -250,11 +247,12 @@ public class XOMToClientMapper {
             break;
         case profession:
             Map<String, CharElement> professionMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  professionMap);
-                professionMap.put(id, new Profession(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, professionMap);
+                    professionMap.put(id, new Profession(id));
+                }
             } else {
                 mappy = new XOMMapper_Profession();
                 for (int i = 0; i < kategorien.size(); i++) {
@@ -267,13 +265,14 @@ public class XOMToClientMapper {
             break;
         case zusatzProfession:
             Map<String, CharElement> zusatzProfMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  zusatzProfMap);
-                zusatzProfMap.put(id, new ZusatzProfession(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, zusatzProfMap);
+                    zusatzProfMap.put(id, new ZusatzProfession(id));
+                }
             } else {
-                mappy = new XOMMapper_ZusatzProf();
+                mappy = new XOMMapper_ZusatzProfession();
                 for (int i = 0; i < kategorien.size(); i++) {
                     final Element child = kategorien.get(i);
                     final String id = child.getAttributeValue("id");
@@ -283,15 +282,15 @@ public class XOMToClientMapper {
             }
             break;
 
-
         // >>>>>>>>>>>>>>> Fertigkeiten & Fähigkeiten
         case vorteil:
             Map<String, CharElement> vorteilMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  vorteilMap);
-                vorteilMap.put(id, new Vorteil(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, vorteilMap);
+                    vorteilMap.put(id, new Vorteil(id));
+                }
             } else {
                 mappy = new XOMMapper_Vorteil();
                 for (int i = 0; i < kategorien.size(); i++) {
@@ -304,11 +303,12 @@ public class XOMToClientMapper {
             break;
         case gabe:
             Map<String, CharElement> gabeMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  gabeMap);
-                gabeMap.put(id, new Gabe(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, gabeMap);
+                    gabeMap.put(id, new Gabe(id));
+                }
             } else {
                 mappy = new XOMMapper_Gabe();
                 for (int i = 0; i < kategorien.size(); i++) {
@@ -321,11 +321,12 @@ public class XOMToClientMapper {
             break;
         case nachteil:
             Map<String, CharElement> nachteilMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  nachteilMap);
-                nachteilMap.put(id, new Nachteil(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, nachteilMap);
+                    nachteilMap.put(id, new Nachteil(id));
+                }
             } else {
                 mappy = new XOMMapper_Nachteil();
                 for (int i = 0; i < kategorien.size(); i++) {
@@ -338,13 +339,14 @@ public class XOMToClientMapper {
             break;
         case sonderfertigkeit:
             Map<String, CharElement> sonderfMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  sonderfMap);
-                sonderfMap.put(id, new Sonderfertigkeit(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, sonderfMap);
+                    sonderfMap.put(id, new Sonderfertigkeit(id));
+                }
             } else {
-                mappy = new XOMMapper_Sonderf();
+                mappy = new XOMMapper_Sonderfertigkeit();
                 for (int i = 0; i < kategorien.size(); i++) {
                     final Element child = kategorien.get(i);
                     final String id = child.getAttributeValue("id");
@@ -355,11 +357,12 @@ public class XOMToClientMapper {
             break;
         case ritLitKenntnis:
             Map<String, CharElement> ritLitKentMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  ritLitKentMap);
-                ritLitKentMap.put(id, new LiturgieRitualKenntnis(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, ritLitKentMap);
+                    ritLitKentMap.put(id, new LiturgieRitualKenntnis(id));
+                }
             } else {
                 mappy = new XOMMapper_LiturgieRitualKenntnis();
                 for (int i = 0; i < kategorien.size(); i++) {
@@ -372,11 +375,12 @@ public class XOMToClientMapper {
             break;
         case talent:
             Map<String, CharElement> talentMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  talentMap);
-                talentMap.put(id, new Talent(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, talentMap);
+                    talentMap.put(id, new Talent(id));
+                }
             } else {
                 mappy = new XOMMapper_Talent();
                 for (int i = 0; i < kategorien.size(); i++) {
@@ -389,11 +393,12 @@ public class XOMToClientMapper {
             break;
         case zauber:
             Map<String, CharElement> zauberMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  zauberMap);
-                zauberMap.put(id, new Zauber(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, zauberMap);
+                    zauberMap.put(id, new Zauber(id));
+                }
             } else {
                 mappy = new XOMMapper_Zauber();
                 for (int i = 0; i < kategorien.size(); i++) {
@@ -408,11 +413,12 @@ public class XOMToClientMapper {
         // >>>>>>>>>>>>>>> Sprachen
         case sprache:
             Map<String, CharElement> spracheMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  spracheMap);
-                spracheMap.put(id, new Sprache(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, spracheMap);
+                    spracheMap.put(id, new Sprache(id));
+                }
             } else {
                 mappy = new XOMMapper_Sprache();
                 for (int i = 0; i < kategorien.size(); i++) {
@@ -425,11 +431,12 @@ public class XOMToClientMapper {
             break;
         case schrift:
             Map<String, CharElement> schriftMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  schriftMap);
-                schriftMap.put(id, new Schrift(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, schriftMap);
+                    schriftMap.put(id, new Schrift(id));
+                }
             } else {
                 mappy = new XOMMapper_Schrift();
                 for (int i = 0; i < kategorien.size(); i++) {
@@ -444,11 +451,12 @@ public class XOMToClientMapper {
         // >>>>>>>>>>>>>>> Götter
         case liturgie:
             Map<String, CharElement> liturgieMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  liturgieMap);
-                liturgieMap.put(id, new Liturgie(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, liturgieMap);
+                    liturgieMap.put(id, new Liturgie(id));
+                }
             } else {
                 mappy = new XOMMapper_Liturgie();
                 for (int i = 0; i < kategorien.size(); i++) {
@@ -461,11 +469,12 @@ public class XOMToClientMapper {
             break;
         case ritual:
             Map<String, CharElement> ritualMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  ritualMap);
-                ritualMap.put(id, new Ritual(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, ritualMap);
+                    ritualMap.put(id, new Ritual(id));
+                }
             } else {
                 mappy = new XOMMapper_Ritual();
                 for (int i = 0; i < kategorien.size(); i++) {
@@ -480,11 +489,12 @@ public class XOMToClientMapper {
         // >>>>>>>>>>>>>>> Ausrüstung
         case ausruestung:
             Map<String, CharElement> ausruestungMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  ausruestungMap);
-                ausruestungMap.put(id, new Ausruestung(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, ausruestungMap);
+                    ausruestungMap.put(id, new Ausruestung(id));
+                }
             } else {
                 mappy = new XOMMapper_Ausruestung();
                 for (int i = 0; i < kategorien.size(); i++) {
@@ -497,11 +507,12 @@ public class XOMToClientMapper {
             break;
         case fahrzeug:
             Map<String, CharElement> fahrzeugMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  fahrzeugMap);
-                fahrzeugMap.put(id, new Fahrzeug(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, fahrzeugMap);
+                    fahrzeugMap.put(id, new Fahrzeug(id));
+                }
             } else {
                 mappy = new XOMMapper_Fahrzeug();
                 for (int i = 0; i < kategorien.size(); i++) {
@@ -514,13 +525,14 @@ public class XOMToClientMapper {
             break;
         case waffeNk:
             Map<String, CharElement> waffeNkMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  waffeNkMap);
-                waffeNkMap.put(id, new NahkWaffe(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, waffeNkMap);
+                    waffeNkMap.put(id, new NahkWaffe(id));
+                }
             } else {
-                mappy = new XOMMapper_WaffeNk();
+                mappy = new XOMMapper_NahkWaffe();
                 for (int i = 0; i < kategorien.size(); i++) {
                     final Element child = kategorien.get(i);
                     final String id = child.getAttributeValue("id");
@@ -531,13 +543,14 @@ public class XOMToClientMapper {
             break;
         case waffeFk:
             Map<String, CharElement> waffeFkMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  waffeFkMap);
-                waffeFkMap.put(id, new FkWaffe(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, waffeFkMap);
+                    waffeFkMap.put(id, new FkWaffe(id));
+                }
             } else {
-                mappy = new XOMMapper_WaffeFk();
+                mappy = new XOMMapper_FkWaffe();
                 for (int i = 0; i < kategorien.size(); i++) {
                     final Element child = kategorien.get(i);
                     final String id = child.getAttributeValue("id");
@@ -548,11 +561,12 @@ public class XOMToClientMapper {
             break;
         case ruestung:
             Map<String, CharElement> ruestungMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  ruestungMap);
-                ruestungMap.put(id, new Ruestung(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, ruestungMap);
+                    ruestungMap.put(id, new Ruestung(id));
+                }
             } else {
                 mappy = new XOMMapper_Ruestung();
                 for (int i = 0; i < kategorien.size(); i++) {
@@ -565,11 +579,12 @@ public class XOMToClientMapper {
             break;
         case schild:
             Map<String, CharElement> schildMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  schildMap);
-                schildMap.put(id, new Schild(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, schildMap);
+                    schildMap.put(id, new Schild(id));
+                }
             } else {
                 mappy = new XOMMapper_Schild();
                 for (int i = 0; i < kategorien.size(); i++) {
@@ -584,11 +599,12 @@ public class XOMToClientMapper {
         // >>>>>>>>>>>>>>> Zusätzliches
         case daemonenPakt:
             Map<String, CharElement> daemonenPaktMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  daemonenPaktMap);
-                daemonenPaktMap.put(id, new DaemonenPakt(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, daemonenPaktMap);
+                    daemonenPaktMap.put(id, new DaemonenPakt(id));
+                }
             } else {
                 mappy = new XOMMapper_DaemonenPakt();
                 for (int i = 0; i < kategorien.size(); i++) {
@@ -601,11 +617,12 @@ public class XOMToClientMapper {
             break;
         case schwarzeGabe:
             Map<String, CharElement> schwarzeGabeMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  schwarzeGabeMap);
-                schwarzeGabeMap.put(id, new SchwarzeGabe(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, schwarzeGabeMap);
+                    schwarzeGabeMap.put(id, new SchwarzeGabe(id));
+                }
             } else {
                 mappy = new XOMMapper_SchwarzeGabe();
                 for (int i = 0; i < kategorien.size(); i++) {
@@ -618,11 +635,12 @@ public class XOMToClientMapper {
             break;
         case tier:
             Map<String, CharElement> tierMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  tierMap);
-                tierMap.put(id, new Tier(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, tierMap);
+                    tierMap.put(id, new Tier(id));
+                }
             } else {
                 mappy = new XOMMapper_Tier();
                 for (int i = 0; i < kategorien.size(); i++) {
@@ -635,13 +653,14 @@ public class XOMToClientMapper {
             break;
         case region:
             Map<String, CharElement> regionMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  regionMap);
-                regionMap.put(id, new RegionVolk(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, regionMap);
+                    regionMap.put(id, new RegionVolk(id));
+                }
             } else {
-                mappy = new XOMMapper_Region();
+                mappy = new XOMMapper_RegionVolk();
                 for (int i = 0; i < kategorien.size(); i++) {
                     final Element child = kategorien.get(i);
                     final String id = child.getAttributeValue("id");
@@ -652,11 +671,12 @@ public class XOMToClientMapper {
             break;
         case gottheit:
             Map<String, CharElement> gottheitMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  gottheitMap);
-                gottheitMap.put(id, new Gottheit(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, gottheitMap);
+                    gottheitMap.put(id, new Gottheit(id));
+                }
             } else {
                 mappy = new XOMMapper_Gottheit();
                 for (int i = 0; i < kategorien.size(); i++) {
@@ -669,11 +689,12 @@ public class XOMToClientMapper {
             break;
         case repraesentation:
             Map<String, CharElement> repraesentMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  repraesentMap);
-                repraesentMap.put(id, new Repraesentation(id));
-            }
+            if (init) {
+                for (int i = 0; i < kategorien.size(); i++) {
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, repraesentMap);
+                    repraesentMap.put(id, new Repraesentation(id));
+                }
             } else {
                 mappy = new XOMMapper_Repraesentation();
                 for (int i = 0; i < kategorien.size(); i++) {
@@ -686,19 +707,21 @@ public class XOMToClientMapper {
             break;
         case eigenschaft:
             Map<String, CharElement> eigenschaftMap;
-            if(init) {
-            for (int i = 0; i < kategorien.size(); i++) {
-                final String id = kategorien.get(i).getAttributeValue("id"); keyDoppelt(id,  eigenschaftMap);
-                eigenschaftMap.put(id, new Eigenschaft(id));
-            }
-            } else {
-                mappy = new XOMMapper_Eigenschaft();
+            if (init) {
                 for (int i = 0; i < kategorien.size(); i++) {
-                    final Element child = kategorien.get(i);
-                    final String id = child.getAttributeValue("id");
-                    final CharElement charEl = eigenschaftMap.get(id);
-                    mappy.map(child, charEl);
+                    final String id = kategorien.get(i).getAttributeValue("id");
+                    keyDoppelt(id, eigenschaftMap);
+                    eigenschaftMap.put(id, new Eigenschaft(id));
                 }
+            } else {
+                // Eigenschaften werden nicht aus XML gelesen.
+                // mappy = new XOMMapper_Eigenschaft();
+                // for (int i = 0; i < kategorien.size(); i++) {
+                // final Element child = kategorien.get(i);
+                // final String id = child.getAttributeValue("id");
+                // final CharElement charEl = eigenschaftMap.get(id);
+                // mappy.map(child, charEl);
+                // }
             }
             break;
         case sonderregel:
@@ -709,4 +732,5 @@ public class XOMToClientMapper {
             ProgAdmin.logger.logp(Level.SEVERE, "CharKompAdmin", "initCharKomponents",
                     "Ein CharKomp wurde nicht gefunden: " + charKomp);
         }
+    }
 }
