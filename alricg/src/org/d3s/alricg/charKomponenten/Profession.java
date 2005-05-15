@@ -16,8 +16,8 @@ import org.d3s.alricg.charKomponenten.Werte.MagieMerkmal;
 import org.d3s.alricg.charKomponenten.links.Auswahl;
 import org.d3s.alricg.charKomponenten.links.AuswahlAusruestung;
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
+import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 /**
  * <b>Beschreibung:</b><br>
  * Repräsentiert eine Profession, speichert alle nötigen Daten.
@@ -293,7 +293,7 @@ public class Profession extends Herkunft {
     	
     	// Auslesen der Geweihten-Werte, sofern vorhanden   	
     	if ( xmlElement.getFirstChildElement("geweiht") != null ) {
-    		geweihtGottheit = (Gottheit) ProgAdmin.charKompAdmin.getCharElement(
+    		geweihtGottheit = (Gottheit) ProgAdmin.data.getCharElement(
     			xmlElement.getFirstChildElement("geweiht").getAttributeValue("gottheitId"),
     			CharKomponente.gottheit
     		);
@@ -347,7 +347,7 @@ public class Profession extends Herkunft {
     	
     	// Lesen der Varaiante (eigentlich von Herkunft)
 		if ( xmlElement.getFirstChildElement("varianteVon") !=  null ) {
-			varianteVon = (Profession) ProgAdmin.charKompAdmin.getCharElement(
+			varianteVon = (Profession) ProgAdmin.data.getCharElement(
 	    			xmlElement.getFirstChildElement("varianteVon").getValue(),
 	    			CharKomponente.profession
 	    		);

@@ -7,9 +7,7 @@
 
 package org.d3s.alricg.charKomponenten;
 
-import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
-
-import nu.xom.Element;
+import org.d3s.alricg.controller.CharKomponente;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -32,23 +30,4 @@ public class Vorteil extends VorNachteil {
 	public Vorteil(String id) {
 		setId(id);
 	}
-	
-    /* (non-Javadoc) Methode überschrieben
-     * @see org.d3s.alricg.charKomponenten.CharElement#loadXmlElement(nu.xom.Element)
-     */
-    public void loadXmlElement(Element xmlElement) {
-    	super.loadXmlElement(xmlElement);
-    	// Noop!
-    }
-    
-    /* (non-Javadoc) Methode überschrieben
-     * @see org.d3s.alricg.charKomponenten.CharElement#writeXmlElement()
-     */
-    public Element writeXmlElement(){
-    	Element xmlElement = super.writeXmlElement();
-    	
-    	xmlElement.setLocalName("vorteil");
-
-    	return xmlElement;
-    }
 }

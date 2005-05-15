@@ -11,8 +11,8 @@ import nu.xom.Attribute;
 import nu.xom.Element;
 
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
+import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 
 /**
  * <b>Beschreibung:</b><br>

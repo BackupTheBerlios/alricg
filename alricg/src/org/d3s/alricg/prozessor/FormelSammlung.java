@@ -34,22 +34,22 @@ public class FormelSammlung {
     	F("F"), 
     	G("G"), 
     	H("H"); 
-		private String xmlValue; // XML-Tag des Elements
+		private String value; // Id des Elements
 		
-		private KostenKlasse(String xmlValue) {
-			this.xmlValue = xmlValue;
+		private KostenKlasse(String value) {
+			this.value = value;
 		}
 		
-		public String getXmlValue() {
-			return xmlValue;
+		public String getValue() {
+			return value;
 		}
 		
 		/**
 		 * Liefert eine KostenKlasse die um einen schritt "nach Rechts" geschoben
 		 * ist, also die KostenKlasse und somit die Kosten um eine Spalte erhöht.
 		 * 
-		 * @param kostenK Die bisherige Kostenklasse
 		 * @return Die um eine Spalte erhöhte Kostenklasse, bzw. das Maximum, 
+		 * @param kostenK Die bisherige Kostenklasse
 		 * 		wenn es nicht höher geht.
 		 */
 		public KostenKlasse plusEineKk() {
@@ -85,15 +85,15 @@ public class FormelSammlung {
     
 	/**
 	 * Liefert zu einem XML-Tag die entsprechende Enum zurück.
-	 * @param xmlValue Der XML-Tag der KostenKlasse
-	 * @return Die Enum KostenKlasse die zu den xmlValue gehört
+	 * @param value Id  der KostenKlasse
+	 * @return Die Enum KostenKlasse die zu value gehört
 	 */
-	public static KostenKlasse getKostenKlasseByXmlValue(String xmlValue) {
+	public static KostenKlasse getKostenKlasseByValue(String value) {
 		KostenKlasse[] kostenArray = KostenKlasse.values();
 		
 		// Suchen des richtigen Elements
 		for (int i = 0; i < kostenArray.length; i++) {
-			if (xmlValue.equals(kostenArray[i].getXmlValue())) {
+			if (value.equals(kostenArray[i].getValue())) {
 				return kostenArray[i]; // Gefunden
 			}
 		}

@@ -7,12 +7,7 @@
 
 package org.d3s.alricg.charKomponenten;
 
-import nu.xom.Attribute;
-import nu.xom.Element;
-
-import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
-import org.d3s.alricg.prozessor.FormelSammlung;
+import org.d3s.alricg.controller.CharKomponente;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -29,14 +24,14 @@ public class Sonderfertigkeit extends Fertigkeit {
 		geweiht("geweiht"), 
 		schamanisch("schamanisch"), 
 		sonstige("sonstige");
-		private String xmlValue; // XML-Tag des Elements
+		private String value; // Value des Elements
 		
-		private Art(String xmlValue) {
-			this.xmlValue = xmlValue;
+		private Art(String value) {
+			this.value = value;
 		}
 		
-		public String getXmlValue() {
-			return xmlValue;
+		public String getValue() {
+			return value;
 		}
 	}
 
@@ -124,93 +119,5 @@ public class Sonderfertigkeit extends Fertigkeit {
 	public void setArt(Art art) {
 		this.art = art;
 	}
-    /* (non-Javadoc) Methode überschrieben
-     * @see org.d3s.alricg.charKomponenten.CharElement#loadXmlElement(nu.xom.Element)
-     */
-    public void loadXmlElement(Element xmlElement) {
-    	super.loadXmlElement(xmlElement);
-    	
-    	try {
-//    		 Auslesen der permanenten AsP Kosten
-    		if ( xmlElement.getFirstChildElement("permAsP") != null ) {
-	    		permAsp = Integer.parseInt(xmlElement
-	    							.getFirstChildElement("permAsP").getValue());
-	    	}
-    		
-    		// Auslesen der permanenten Karmaenergie Kosten
-	    	if ( xmlElement.getFirstChildElement("permKa") != null ) {
-	    		permKa = Integer.parseInt(xmlElement
-	    							.getFirstChildElement("permKa").getValue());
-	    	}
-	    	
-	    	// Auslesen der permanenten Lebensenergie Kosten
-	    	if ( xmlElement.getFirstChildElement("permLeP") != null ) {
-	    		permLep = Integer.parseInt(xmlElement
-	    							.getFirstChildElement("permLeP").getValue());
-	    	}
-	    	
-	    	// Auslesen der AP kosten (nur nötig, falls abweichend von GP x 50)
-	    	if ( xmlElement.getAttribute("ap") != null ) {
-	    		apKosten = Integer.parseInt(xmlElement.getAttributeValue("ap"));
-	    	}
-    	} catch(NumberFormatException exc) {
-    		ProgAdmin.logger.severe("Fehler bei Umwandlung in Zahl: " + exc.toString());
-    	}
-    	
-    	// Auslesen der Art der Sonderfertigkeit
-    	for (int i = 0; i < Art.values().length; i++) {
-    		if (Art.values()[i].getXmlValue().equals(xmlElement
-    							.getFirstChildElement("art").getValue())) 
-    		{
-    				art = Art.values()[i];
-    				break; // Gefunden, abbrechen
-    		}
-    	}
-    }
-    
-    /* (non-Javadoc) Methode überschrieben
-     * @see org.d3s.alricg.charKomponenten.CharElement#writeXmlElement()
-     */
-    public Element writeXmlElement(){
-    	Element xmlElement = super.writeXmlElement();
-    	Element tmpElement;
-    	
-    	xmlElement.setLocalName("sonderf");
-    	
-    	// Hinzufügen der AP-Kosten
-    	if (   apKosten != KEIN_WERT 
-    		&& apKosten != FormelSammlung.berechneSfAp(this.getGpKosten()) ) 
-    	{
-    		xmlElement.addAttribute(new Attribute("ap", Integer.toString(apKosten)));
-    	}
-    	
-    	// Hinzufügen der permanetnen ASP Kosten
-    	if ( permAsp != 0 ) {
-    		tmpElement = new Element("permAsP");
-    		tmpElement.appendChild(Integer.toString(permAsp));
-    		xmlElement.appendChild(tmpElement);
-    	}
-    	
-    	// Hinzufügen der permanetnen Karmaenergie Kosten
-    	if ( permKa != 0 ) {
-    		tmpElement = new Element("permKa");
-    		tmpElement.appendChild(Integer.toString(permKa));
-    		xmlElement.appendChild(tmpElement);
-    	}
-    	
-    	// Hinzufügen der permanetnen Lebensenergie Kosten
-    	if ( permLep != 0 ) {
-    		tmpElement = new Element("permLeP");
-    		tmpElement.appendChild(Integer.toString(permLep));
-    		xmlElement.appendChild(tmpElement);
-    	}
-    	
-    	// Hinzufügen der Art dieser Sonderf
-    	tmpElement = new Element("art");
-    	tmpElement.appendChild(art.getXmlValue());
-    	xmlElement.appendChild(tmpElement);
-    	
-    	return xmlElement;
-    }
 
 }

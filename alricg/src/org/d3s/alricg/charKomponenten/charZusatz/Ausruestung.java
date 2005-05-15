@@ -7,9 +7,7 @@
 
 package org.d3s.alricg.charKomponenten.charZusatz;
 
-import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
-
-import nu.xom.Element;
+import org.d3s.alricg.controller.CharKomponente;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -69,53 +67,4 @@ public class Ausruestung extends Gegenstand {
 	public void setHaltbarkeit(String haltbarkeit) {
 		this.haltbarkeit = haltbarkeit;
 	}
-    /* (non-Javadoc) Methode überschrieben
-     * @see org.d3s.alricg.charKomponenten.CharElement#loadXmlElement(nu.xom.Element)
-     */
-    public void loadXmlElement(Element xmlElement) {
-    	super.loadXmlElement(xmlElement);
-
-    	xmlElement.setLocalName("gegenstand");
-    	
-    	// Auslesen ob es sich um einen Behälter handelt
-    	if ( xmlElement.getFirstChildElement("istBehaelter") != null ) {
-    		assert xmlElement.getFirstChildElement("istBehaelter").getValue().equals("true")
-    			|| xmlElement.getFirstChildElement("istBehaelter").getValue().equals("false");
-    		
-    		if (xmlElement.getFirstChildElement("istBehaelter").getValue().equals("true")) {
-    			istBehaelter = true;
-    		} // false ist Default, muß nicht überprüft werden
-    	}
-    	
-    	// Auslesen der Haltbarkeit
-    	if ( xmlElement.getFirstChildElement("haltbarkeit") != null ) {
-    		haltbarkeit = xmlElement.getFirstChildElement("haltbarkeit").getValue();
-    	}
-    }
-    
-    /* (non-Javadoc) Methode überschrieben
-     * @see org.d3s.alricg.charKomponenten.CharElement#writeXmlElement()
-     */
-    public Element writeXmlElement(){
-    	Element xmlElement = super.writeXmlElement();
-    	Element tmpElement;
-    	
-    	xmlElement.setLocalName("gegenstand");
-    	
-    	// Schreiben ob es sich um einen Behälter handelt
-    	if ( !istBehaelter ) {
-    		tmpElement = new Element("istBehaelter");
-    		tmpElement.appendChild("false");
-    		xmlElement.appendChild(tmpElement);
-    	}
-
-    	// Schreiben der Haltbarkeit
-    	if ( haltbarkeit != null && haltbarkeit.trim().length() > 0 ) {
-    		tmpElement = new Element("haltbarkeit");
-    		tmpElement.appendChild(haltbarkeit);
-    		xmlElement.appendChild(tmpElement);
-    	}
-    	
-    	return xmlElement;
-    }
 }

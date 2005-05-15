@@ -15,7 +15,7 @@ import org.d3s.alricg.charKomponenten.Rasse;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
 import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
+import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.held.Held;
 import org.d3s.alricg.held.HeldenLink;
 
@@ -82,7 +82,7 @@ public abstract class HeldProzessor {
 	public HeldenLink getLinkById(String id, String text, CharElement zweitZiel, CharKomponente komp) {
 		
 		return getLinkByCharElement(
-					ProgAdmin.charKompAdmin.getCharElement(id, komp), 
+					ProgAdmin.data.getCharElement(id, komp), 
 					text, 
 					zweitZiel);
 	}
@@ -103,7 +103,7 @@ public abstract class HeldProzessor {
 	public HeldenLink getLinkById(String id, String text, CharElement zweitZiel) {
 		
 		return getLinkByCharElement(
-					ProgAdmin.charKompAdmin.getCharElement(id), 
+					ProgAdmin.data.getCharElement(id), 
 					text, 
 					zweitZiel);
 	}

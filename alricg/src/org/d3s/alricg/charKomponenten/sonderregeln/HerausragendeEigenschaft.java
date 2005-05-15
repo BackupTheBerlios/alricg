@@ -17,7 +17,7 @@ import org.d3s.alricg.charKomponenten.Rasse;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
 import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
+import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.held.GeneratorLink;
 import org.d3s.alricg.held.HeldenLink;
 import org.d3s.alricg.prozessor.HeldProzessor;
@@ -66,21 +66,21 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 		// Erstellen der wählbaren Eigenschaften
 		if (moeglicheZweitZiele == null) {
 			moeglicheZweitZiele = new CharElement[] {
-					ProgAdmin.charKompAdmin.getCharElement(EigenschaftEnum.MU.getId(), 
+					ProgAdmin.data.getCharElement(EigenschaftEnum.MU.getId(), 
 															CharKomponente.eigenschaft),
-					ProgAdmin.charKompAdmin.getCharElement(EigenschaftEnum.KL.getId(), 
+					ProgAdmin.data.getCharElement(EigenschaftEnum.KL.getId(), 
 															CharKomponente.eigenschaft),
-					ProgAdmin.charKompAdmin.getCharElement(EigenschaftEnum.IN.getId(), 
+					ProgAdmin.data.getCharElement(EigenschaftEnum.IN.getId(), 
 															CharKomponente.eigenschaft),
-					ProgAdmin.charKompAdmin.getCharElement(EigenschaftEnum.CH.getId(), 
+					ProgAdmin.data.getCharElement(EigenschaftEnum.CH.getId(), 
 															CharKomponente.eigenschaft),
-					ProgAdmin.charKompAdmin.getCharElement(EigenschaftEnum.FF.getId(), 
+					ProgAdmin.data.getCharElement(EigenschaftEnum.FF.getId(), 
 															CharKomponente.eigenschaft),
-					ProgAdmin.charKompAdmin.getCharElement(EigenschaftEnum.GE.getId(), 
+					ProgAdmin.data.getCharElement(EigenschaftEnum.GE.getId(), 
 															CharKomponente.eigenschaft),
-					ProgAdmin.charKompAdmin.getCharElement(EigenschaftEnum.KO.getId(), 
+					ProgAdmin.data.getCharElement(EigenschaftEnum.KO.getId(), 
 															CharKomponente.eigenschaft),																
-					ProgAdmin.charKompAdmin.getCharElement(EigenschaftEnum.KK.getId(), 
+					ProgAdmin.data.getCharElement(EigenschaftEnum.KK.getId(), 
 															CharKomponente.eigenschaft),
 			};
 			eigenschArray = new ArrayList<String>();

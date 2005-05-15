@@ -7,13 +7,8 @@
 
 package org.d3s.alricg.charKomponenten;
 
-import nu.xom.Attribute;
-import nu.xom.Element;
-import nu.xom.Elements;
-
 import org.d3s.alricg.charKomponenten.Werte.MagieMerkmal;
-import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
+import org.d3s.alricg.controller.CharKomponente;
 
 /**
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
@@ -156,105 +151,7 @@ public class Zauber extends Faehigkeit {
 	public void setVerbreitung(Verbreitung[] verbreitung) {
 		this.verbreitung = verbreitung;
 	}
-    /* (non-Javadoc) Methode überschrieben
-     * @see org.d3s.alricg.charKomponenten.CharElement#loadXmlElement(nu.xom.Element)
-     */
-    public void loadXmlElement(Element xmlElement) {
-    	super.loadXmlElement(xmlElement);
-    	Elements tmpElements;
-    	
-    	// Auslesen der Merkmale
-    	tmpElements = xmlElement.getChildElements("merkmale");
-    	merkmale = new MagieMerkmal[tmpElements.size()];
-    	for (int i = 0; i < merkmale.length; i++) {
-    		merkmale[i] = Werte.getMagieMerkmalByXmlValue(tmpElements.get(i).getValue());
-    	}
-    	
-    	// Auslesen der repraesentationen
-    	tmpElements = xmlElement.getChildElements("verbreitung");
-    	verbreitung = new Verbreitung[tmpElements.size()];
-    	for (int i = 0; i < verbreitung.length; i++) {
-    		verbreitung[i] = new Verbreitung();
-    		verbreitung[i].loadXmlElement(tmpElements.get(i));
-    	}
-    	
-    	// Auslesen der Modis auf die Probe
-    	if (xmlElement.getFirstChildElement("probenModi") != null) {
-    		probenModi = xmlElement.getFirstChildElement("probenModi").getValue();
-    	}
-    	
-    	// Auslesen der zauberdauer
-    	zauberdauer = xmlElement.getFirstChildElement("zauberdauer").getValue();
-    	
-    	// Auslesen der aspKosten
-    	aspKosten = xmlElement.getFirstChildElement("aspKosten").getValue();
-    	
-    	// Auslesen des ziels
-    	ziel = xmlElement.getFirstChildElement("ziel").getValue();
-    	
-    	// Auslesen der reichweite
-    	reichweite  = xmlElement.getFirstChildElement("reichweite").getValue();
-    	
-    	// Auslesen der Wirkungsdauer
-    	wirkungsdauer = xmlElement.getFirstChildElement("wirkungsdauer").getValue();
-    }
-    
-    /* (non-Javadoc) Methode überschrieben
-     * @see org.d3s.alricg.charKomponenten.CharElement#writeXmlElement()
-     */
-    public Element writeXmlElement(){
-    	Element xmlElement = super.writeXmlElement();
-    	Element tmpElement;
-    	
-    	xmlElement.setLocalName("zauber");
-    	
-    	// Schreiben der Merkmale
-    	for (int i = 0; i < merkmale.length; i++) {
-    		tmpElement = new Element("merkmale");
-    		tmpElement.appendChild(merkmale[i].getXmlValue());
-    		xmlElement.appendChild(tmpElement);
-    	}
-    	
-    	// Schreiben der Repräsentationen
-    	for (int i = 0; i < verbreitung.length; i++) {
-    		xmlElement.appendChild(verbreitung[i].writeXmlElement());
-    	}
-    	
-    	// Schreiben der Modis auf die Probe
-    	if (probenModi.length() > 0) {
-	    	tmpElement = new Element("probenModi");
-	    	tmpElement.appendChild(probenModi);
-	    	xmlElement.appendChild(tmpElement);
-    	}
-    	
-    	// Schreiben der Zauberdauer
-    	tmpElement = new Element("zauberdauer");
-    	tmpElement.appendChild(zauberdauer);
-    	xmlElement.appendChild(tmpElement);
-    	
-    	// Schreiben der Asp Kosten
-    	tmpElement = new Element("aspKosten");
-    	tmpElement.appendChild(aspKosten);
-    	xmlElement.appendChild(tmpElement);
-    	
-    	// Schreiben des Ziels
-    	tmpElement = new Element("ziel");
-    	tmpElement.appendChild(ziel);
-    	xmlElement.appendChild(tmpElement);
-    	
-    	// Schreiben der Reichweite
-    	tmpElement = new Element("reichweite");
-    	tmpElement.appendChild(reichweite);
-    	xmlElement.appendChild(tmpElement);
-    	
-    	// Schreiben der Wirkungsweise
-    	tmpElement = new Element("wirkungsdauer");
-    	tmpElement.appendChild(wirkungsdauer);
-    	xmlElement.appendChild(tmpElement);
-    	
-    	return xmlElement;
-    }
-    
+        
     /**
      * <u>Beschreibung:</u><br> 
      * In welchen Repräsentationen welchen Gruppierungen dieser Zauber bekannt ist.
@@ -278,18 +175,32 @@ public class Zauber extends Faehigkeit {
 			}
 			return bekanntBei;
 		}
+        
+        public void setBekanntBei(Repraesentation newBekanntBei) {
+            bekanntBei = newBekanntBei;
+        }
+        
 		/**
 		 * @return Liefert das Attribut repraesentation.
 		 */
 		public Repraesentation getRepraesentation() {
 			return repraesentation;
 		}
+        
+        public void setRepraesentation(Repraesentation newRepraesentation) {
+            repraesentation = newRepraesentation;
+        }
+        
 		/**
 		 * @return Liefert das Attribut wert.
 		 */
 		public int getWert() {
 			return wert;
 		}
+        
+        public void setWert(int newWert) {
+            wert = newWert;
+        }
 		
 		/**
 		 * @return Den kompleten Text mit den Abkürzungen für die Repräsentationen
@@ -305,54 +216,6 @@ public class Zauber extends Faehigkeit {
 			buffer.append(wert);
 			
 			return buffer;			
-		}
-		
-    	/* (non-Javadoc) Methode überschrieben
-         * @see org.d3s.alricg.charKomponenten.CharElement#loadXmlElement(nu.xom.Element)
-         */
-        public void loadXmlElement(Element xmlElement) {
-        	
-        	// Einlesen des "Bekannt bei" Wertes
-        	if ( xmlElement.getAttribute("bekanntBei") != null ) {
-        		bekanntBei = (Repraesentation) ProgAdmin.charKompAdmin.getCharElement(
-        				xmlElement.getAttributeValue("bekanntBei"),
-        				CharKomponente.repraesentation
-        		);
-        	}
-        	
-        	// Einlesen der Repraesentation
-        	repraesentation = (Repraesentation) ProgAdmin.charKompAdmin.getCharElement(
-    				xmlElement.getAttributeValue("repraesentation"),
-    				CharKomponente.repraesentation
-        	);
-        	
-        	// Einlesen des Wertes
-        	try {
-        		wert = Integer.parseInt(xmlElement.getAttributeValue("wert"));
-        	} catch (NumberFormatException exc) {
-        		ProgAdmin.logger.severe("String konnte nicht in Nummer umgewandelt werden: " 
-        										+ exc.toString());
-        	}
-        }
-        
-        /* (non-Javadoc) Methode überschrieben
-         * @see org.d3s.alricg.charKomponenten.CharElement#writeXmlElement()
-         */
-        public Element writeXmlElement(){
-        	Element xmlElement = new Element("verbreitung");
-        	
-        	// Schreiben des "bekanntBei"
-        	if ( bekanntBei != null && !bekanntBei.equals(repraesentation) ) {
-        		xmlElement.addAttribute(new Attribute("bekanntBei", bekanntBei.getId()));
-        	}
-        	
-        	// Schreiben der Repräsentation
-        	xmlElement.addAttribute(new Attribute("repraesentation", repraesentation.getId()));
-        	
-        	// Schreibe den Wert
-        	xmlElement.addAttribute(new Attribute("wert", Integer.toString(wert)));
-        	
-        	return xmlElement;
-        }
+		}		        
     }
 }

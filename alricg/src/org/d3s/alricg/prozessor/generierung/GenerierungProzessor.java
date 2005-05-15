@@ -16,7 +16,7 @@ import org.d3s.alricg.charKomponenten.Profession;
 import org.d3s.alricg.charKomponenten.Rasse;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
-import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
+import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.held.HeldenLink;
 import org.d3s.alricg.prozessor.HeldProzessor;
 /**

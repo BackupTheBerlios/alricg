@@ -7,9 +7,7 @@
 
 package org.d3s.alricg.charKomponenten;
 
-import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
-
-import nu.xom.Element;
+import org.d3s.alricg.controller.CharKomponente;
 
 /**
  * <b>Beschreibung:</b><br
@@ -46,45 +44,5 @@ public class Nachteil extends VorNachteil {
 	 */
 	public void setSchlechteEigen(boolean isSchlechteEigen) {
 		this.isSchlechteEigen = isSchlechteEigen;
-	}
-	
-    /* (non-Javadoc) Methode überschrieben
-     * @see org.d3s.alricg.charKomponenten.CharElement#loadXmlElement(nu.xom.Element)
-     */
-    public void loadXmlElement(Element xmlElement) {
-    	super.loadXmlElement(xmlElement);
-    	
-    	// Lesen ob es sich um eine schlechte eigenschaft handelt
-    	if ( xmlElement.getFirstChildElement("istSchlechteEigen") != null ) {
-    		
-    		// Prüfen des Wertebereichs
-    		assert xmlElement.getFirstChildElement("istSchlechteEigen")
-    				.getValue().equals("true")
-    				|| xmlElement.getFirstChildElement("istSchlechteEigen")
-    				.getValue().equals("false");
-    		
-    		if (xmlElement.getFirstChildElement("istSchlechteEigen").getValue()
-    				.equals("true") ) {
-    			isSchlechteEigen = true;
-    		}
-    	}
-    }
-    
-    /* (non-Javadoc) Methode überschrieben
-     * @see org.d3s.alricg.charKomponenten.CharElement#writeXmlElement()
-     */
-    public Element writeXmlElement(){
-    	Element xmlElement = super.writeXmlElement();
-    	Element tmpElement;
-    	
-    	xmlElement.setLocalName("nachteil");
-    	
-    	if ( isSchlechteEigen ) {
-    		tmpElement = new Element("istSchlechteEigen");
-    		tmpElement.appendChild("true");
-    		xmlElement.appendChild(tmpElement);
-    	} // false ist Default, braucht nicht angegeben werden
-    	
-    	return xmlElement;
-    }
+	}	
 }

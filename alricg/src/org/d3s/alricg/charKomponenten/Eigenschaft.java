@@ -8,9 +8,8 @@
  */
 package org.d3s.alricg.charKomponenten;
 
-import org.d3s.alricg.controller.Library;
 import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
+import org.d3s.alricg.controller.CharKomponente;
 
 
 /**
@@ -51,7 +50,7 @@ public class Eigenschaft extends CharElement {
 	 * @see org.d3s.alricg.charKomponenten.CharElement#getId()
 	 */
 	public String getId() {
-		return eigenschaft.getXmlValue();
+		return eigenschaft.getValue();
 	}
 
     /* (non-Javadoc) Methode überschrieben
@@ -78,8 +77,8 @@ public class Eigenschaft extends CharElement {
 		EigenschaftEnum[] eigenArray = EigenschaftEnum.values();
 		
 		for (int i = 0; i < eigenArray.length; i++) {
-			if ( eigenArray[i].getXmlValue().equals(id) ) {
-				setBeschreibung(Library.getLongTxt("Beschreibung " + eigenArray[i].getXmlValue()));
+			if ( eigenArray[i].getValue().equals(id) ) {
+				setBeschreibung(ProgAdmin.library.getLongTxt("Beschreibung " + eigenArray[i].getValue()));
 				return eigenArray[i];
 			}
 		}

@@ -11,8 +11,8 @@ package org.d3s.alricg.gui.views;
 import java.util.Comparator;
 
 import org.d3s.alricg.charKomponenten.Talent;
-import org.d3s.alricg.controller.Library;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.store.TextStore;
 
 
 
@@ -39,7 +39,7 @@ public class TalentView implements ViewSchema {
 			if (value.equals("+") || value.equals("-")) {
 				bezeichner = value;
 			} else {
-				bezeichner = Library.getShortTxt(value);
+				bezeichner = ProgAdmin.library.getShortTxt(value);
 			}
 		}
 		
@@ -130,24 +130,24 @@ public class TalentView implements ViewSchema {
 	 * @see org.d3s.alricg.GUI.views.ViewSchema#getToolTip(java.lang.Object, java.lang.Enum)
 	 */
 	public String getToolTip(Object object, Object column) {
-		
+		final TextStore lib = ProgAdmin.library;
 		switch ((Spalten) column) {
 			case name: 	
 				if (object instanceof Talent) {
-					return Library.getToolTipTxt("TblHeaderName");
+					return lib.getToolTipTxt("TblHeaderName");
 				} else {
-					return Library.getToolTipTxt("TblOrdner");
+					return lib.getToolTipTxt("TblOrdner");
 				}
 			case art: 	
 				
 				if (object instanceof Talent) {
 					switch (((Talent) object).getArt()) {
-						case basis: return Library.getToolTipTxt("TblTalentArtBasis");
-						case beruf: return Library.getToolTipTxt("TblTalentArtBeruf");
-						case spezial: return Library.getToolTipTxt("TblTalentArtSpezial");
+						case basis: return lib.getToolTipTxt("TblTalentArtBasis");
+						case beruf: return lib.getToolTipTxt("TblTalentArtBeruf");
+						case spezial: return lib.getToolTipTxt("TblTalentArtSpezial");
 					}
 				} else {
-					return Library.getToolTipTxt("KeinWert");
+					return lib.getToolTipTxt("KeinWert");
 				}
 				
 			case probe:
@@ -157,13 +157,13 @@ public class TalentView implements ViewSchema {
 							+ ((Talent) object).get3Eigenschaften()[1].getName() + " / "
 							+ ((Talent) object).get3Eigenschaften()[2].getName();
 				}else {
-					return Library.getToolTipTxt("KeinWert");
+					return lib.getToolTipTxt("KeinWert");
 				}
 				
-			case sorte: return Library.getToolTipTxt("TblHeaderTalentSorte");
-			case kostenKlasse: return Library.getToolTipTxt("TblHeaderKostenklasse");
-			case plus: 	return Library.getToolTipTxt("TblHeaderPlusButton");
-			case minus: return Library.getToolTipTxt("TblHeaderMinusButton");
+			case sorte: return lib.getToolTipTxt("TblHeaderTalentSorte");
+			case kostenKlasse: return lib.getToolTipTxt("TblHeaderKostenklasse");
+			case plus: 	return lib.getToolTipTxt("TblHeaderPlusButton");
+			case minus: return lib.getToolTipTxt("TblHeaderMinusButton");
 		}
 		
 		ProgAdmin.logger.severe("Case-Fall konnte nicht gefunden werden!");
@@ -174,16 +174,17 @@ public class TalentView implements ViewSchema {
 	 * @see org.d3s.alricg.GUI.views.ViewSchema#getHeaderToolTip(java.lang.Enum)
 	 */
 	public String getHeaderToolTip(Object column) {
+        final TextStore lib = ProgAdmin.library;
 		switch ((Spalten) column) {
-			case name: 	return Library.getToolTipTxt("TblHeaderName");
-			case sorte: return Library.getToolTipTxt("TblHeaderTalentSorte");
-			case art: 	return Library.getToolTipTxt("TblHeaderTalentArt");
-			case kostenKlasse: return Library.getToolTipTxt("TblHeaderKostenklasse");
-			case probe: return Library.getToolTipTxt("TblHeaderProbe");
-			case plus: 	return Library.getToolTipTxt("TblHeaderPlusButton");
-			case minus: 	return Library.getToolTipTxt("TblHeaderMinusButton");
+			case name: 	return lib.getToolTipTxt("TblHeaderName");
+			case sorte: return lib.getToolTipTxt("TblHeaderTalentSorte");
+			case art: 	return lib.getToolTipTxt("TblHeaderTalentArt");
+			case kostenKlasse: return lib.getToolTipTxt("TblHeaderKostenklasse");
+			case probe: return lib.getToolTipTxt("TblHeaderProbe");
+			case plus: 	return lib.getToolTipTxt("TblHeaderPlusButton");
+			case minus: 	return lib.getToolTipTxt("TblHeaderMinusButton");
+            default: return null;
 		}
-		return null;
 	}
 
 	/* (non-Javadoc) Methode überschrieben

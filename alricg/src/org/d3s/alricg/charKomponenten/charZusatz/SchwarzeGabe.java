@@ -13,7 +13,7 @@ import nu.xom.Element;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
+import org.d3s.alricg.controller.CharKomponente;
 
 /**
  * <u>Beschreibung:</u><br> 

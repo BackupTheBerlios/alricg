@@ -23,8 +23,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.gui.komponenten.TextFieldList;
-import org.d3s.alricg.controller.Library;
 /**
  * <u>Beschreibung:</u><br> 
  *
@@ -80,12 +80,12 @@ public class panGrunddaten<CharElement> extends JPanel
 	 * Setzt die Texte der Labels von diesem Panel
 	 */
 	private void initLabelTexte() {
-        lblName.setText(Library.getShortTxt("Name") + ":");
-        lblBeschreibung.setText(Library.getShortTxt("Beschreibung") + ":");
-        lblSonderregel.setText(Library.getShortTxt("Sonderregel") + ":");
-        lblSammelbegriff.setText(Library.getShortTxt("Sammelbegriff") + ":");
-        lblRegelzusatz.setText(Library.getShortTxt("Regelzusatz") + ":");
-        lblId.setText("(" + Library.getShortTxt("id") + ")");
+        lblName.setText(ProgAdmin.library.getShortTxt("Name") + ":");
+        lblBeschreibung.setText(ProgAdmin.library.getShortTxt("Beschreibung") + ":");
+        lblSonderregel.setText(ProgAdmin.library.getShortTxt("Sonderregel") + ":");
+        lblSammelbegriff.setText(ProgAdmin.library.getShortTxt("Sammelbegriff") + ":");
+        lblRegelzusatz.setText(ProgAdmin.library.getShortTxt("Regelzusatz") + ":");
+        lblId.setText("(" + ProgAdmin.library.getShortTxt("id") + ")");
 	}
 	
 	private void initToolTip() {
@@ -123,7 +123,7 @@ public class panGrunddaten<CharElement> extends JPanel
 	private JCheckBox getCbxAnzeigen() {
 		if (cbxAnzeigen == null) {
 			cbxAnzeigen = new JCheckBox();
-			cbxAnzeigen.setText(Library.getShortTxt("Anzeigen"));
+			cbxAnzeigen.setText(ProgAdmin.library.getShortTxt("Anzeigen"));
 			cbxAnzeigen.setSelected(true);
 		}
 		return cbxAnzeigen;
@@ -174,7 +174,7 @@ public class panGrunddaten<CharElement> extends JPanel
 	private JButton getButAddRegelzusatz() {
 		if (butAddRegelzusatz == null) {
 			butAddRegelzusatz = new JButton();
-			butAddRegelzusatz.setText(Library.getShortTxt("Neu"));
+			butAddRegelzusatz.setText(ProgAdmin.library.getShortTxt("Neu"));
 			butAddRegelzusatz.setMargin(new java.awt.Insets(1,4,1,4));
 			butAddRegelzusatz.setPreferredSize(new java.awt.Dimension(36,16));
 			butAddRegelzusatz.setMinimumSize(new java.awt.Dimension(36,16));

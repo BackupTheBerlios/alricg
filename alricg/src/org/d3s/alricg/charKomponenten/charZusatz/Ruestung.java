@@ -7,11 +7,7 @@
 
 package org.d3s.alricg.charKomponenten.charZusatz;
 
-import nu.xom.Attribute;
-import nu.xom.Element;
-
-import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
+import org.d3s.alricg.controller.CharKomponente;
 
 /**
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
@@ -60,77 +56,104 @@ public class Ruestung extends Gegenstand {
 		return gRs;
 	}
 	
-	
-	
-    /* (non-Javadoc) Methode überschrieben
-     * @see org.d3s.alricg.charKomponenten.CharElement#loadXmlElement(nu.xom.Element)
-     */
-    public void loadXmlElement(Element xmlElement) {
-    	super.loadXmlElement(xmlElement);
-    	Element tmpElement;
-    	
-    	try {
-//    		 Auslesen der ZonenRs der Rüstung
-	    	if (xmlElement.getFirstChildElement("zonen") != null) {
-	    		tmpElement = xmlElement.getFirstChildElement("zonen");
-	    		
-	    		zoneKo = Integer.parseInt(tmpElement.getAttributeValue("ko"));
-	    		zoneBr = Integer.parseInt(tmpElement.getAttributeValue("br"));
-	    		zoneRue = Integer.parseInt(tmpElement.getAttributeValue("rue"));
-	    		zoneBa = Integer.parseInt(tmpElement.getAttributeValue("ba"));
-	    		zoneLa = Integer.parseInt(tmpElement.getAttributeValue("la"));
-	    		zoneRa = Integer.parseInt(tmpElement.getAttributeValue("ra"));
-	    		zoneLb = Integer.parseInt(tmpElement.getAttributeValue("lb"));
-	    		zoneRb = Integer.parseInt(tmpElement.getAttributeValue("rb"));
-	    		zoneGes  = Integer.parseInt(tmpElement.getAttributeValue("ges"));
-	    	}
-	    	
-	    	// Auslesen der "normalen" RS und be
-	    	gRs = Integer.parseInt(xmlElement.getFirstChildElement("gRs").getValue());
-	    	gBe = Integer.parseInt(xmlElement.getFirstChildElement("gBe").getValue());
-	    	
-    	} catch(NumberFormatException exc) {
-    		// TODO bessere Fehlermeldung einfügen
-    		ProgAdmin.logger.severe("Konnte Sting nicht in int umwandeln: " + exc.toString());
-    	}
+    public int getZoneBa() {
+        return zoneBa;
     }
     
-    /* (non-Javadoc) Methode überschrieben
-     * @see org.d3s.alricg.charKomponenten.CharElement#writeXmlElement()
-     */
-    public Element writeXmlElement(){
-    	Element xmlElement = super.writeXmlElement();
-    	Element tmpElement;
-    	
-    	xmlElement.setLocalName("ruestung");
-    	
-    	// schreiben der ZonenRs
-    	if (zoneKo != KEIN_WERT) {
-    		tmpElement = new Element("zonen");
-    		
-    		tmpElement.addAttribute(new Attribute("ko", Integer.toString(zoneKo)));
-    		tmpElement.addAttribute(new Attribute("br", Integer.toString(zoneBr)));
-    		tmpElement.addAttribute(new Attribute("rue", Integer.toString(zoneRue)));
-    		tmpElement.addAttribute(new Attribute("ba", Integer.toString(zoneBa)));
-    		tmpElement.addAttribute(new Attribute("la", Integer.toString(zoneLa)));
-    		tmpElement.addAttribute(new Attribute("ra", Integer.toString(zoneRa)));
-    		tmpElement.addAttribute(new Attribute("lb", Integer.toString(zoneLb)));
-    		tmpElement.addAttribute(new Attribute("rb", Integer.toString(zoneRb)));
-    		tmpElement.addAttribute(new Attribute("ges", Integer.toString(zoneGes)));
-    		xmlElement.appendChild(tmpElement);
-    	}
-    	
-    	// schreiben der "normalen" RS
-    	tmpElement = new Element("gRs");
-    	tmpElement.appendChild(Integer.toString(gRs));
-    	xmlElement.appendChild(tmpElement);
-    	
-    	// Schreiben der "normalen" Be
-    	tmpElement = new Element("gBe");
-    	tmpElement.appendChild(Integer.toString(gBe));
-    	xmlElement.appendChild(tmpElement);
-    	
-    	return xmlElement;
+
+    public void setZoneBa(int zoneBa) {
+        this.zoneBa = zoneBa;
     }
+    
+
+    public int getZoneBr() {
+        return zoneBr;
+    }
+    
+
+    public void setZoneBr(int zoneBr) {
+        this.zoneBr = zoneBr;
+    }
+    
+
+    public int getZoneGes() {
+        return zoneGes;
+    }
+    
+
+    public void setZoneGes(int zoneGes) {
+        this.zoneGes = zoneGes;
+    }
+    
+
+    public int getZoneKo() {
+        return zoneKo;
+    }
+    
+
+    public void setZoneKo(int zoneKo) {
+        this.zoneKo = zoneKo;
+    }
+    
+
+    public int getZoneLa() {
+        return zoneLa;
+    }
+    
+
+    public void setZoneLa(int zoneLa) {
+        this.zoneLa = zoneLa;
+    }
+    
+
+    public int getZoneLb() {
+        return zoneLb;
+    }
+    
+
+    public void setZoneLb(int zoneLb) {
+        this.zoneLb = zoneLb;
+    }
+    
+
+    public int getZoneRa() {
+        return zoneRa;
+    }
+    
+
+    public void setZoneRa(int zoneRa) {
+        this.zoneRa = zoneRa;
+    }
+    
+
+    public int getZoneRb() {
+        return zoneRb;
+    }
+    
+
+    public void setZoneRb(int zoneRb) {
+        this.zoneRb = zoneRb;
+    }
+    
+
+    public int getZoneRue() {
+        return zoneRue;
+    }
+    
+
+    public void setZoneRue(int zoneRue) {
+        this.zoneRue = zoneRue;
+    }
+    
+
+    public void setGBe(int be) {
+        gBe = be;
+    }
+    
+
+    public void setGRs(int rs) {
+        gRs = rs;
+    }
+    
 	
 }

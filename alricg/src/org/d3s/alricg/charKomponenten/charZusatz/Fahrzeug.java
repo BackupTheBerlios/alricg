@@ -7,9 +7,7 @@
 
 package org.d3s.alricg.charKomponenten.charZusatz;
 
-import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
-
-import nu.xom.Element;
+import org.d3s.alricg.controller.CharKomponente;
 
 /**
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
@@ -62,47 +60,4 @@ public class Fahrzeug extends Gegenstand {
 	public void setTyp(String typ) {
 		this.typ = typ;
 	}
-    /* (non-Javadoc) Methode überschrieben
-     * @see org.d3s.alricg.charKomponenten.CharElement#loadXmlElement(nu.xom.Element)
-     */
-    public void loadXmlElement(Element xmlElement) {
-    	super.loadXmlElement(xmlElement);
-
-    	
-    	// Lesen wie das Fahrzeug aussieht
-    	if ( xmlElement.getFirstChildElement("aussehen") != null ) {
-    		aussehen = xmlElement.getFirstChildElement("aussehen").getValue();
-    	}
-    	
-    	// Lesen was für ein Fahrzeugtyp das ist
-    	if ( xmlElement.getAttribute("fahrzeugArt") != null ) {
-    		typ = xmlElement.getAttributeValue("fahrzeugArt");
-    	}
-    }
-    
-    /* (non-Javadoc) Methode überschrieben
-     * @see org.d3s.alricg.charKomponenten.CharElement#writeXmlElement()
-     */
-    public Element writeXmlElement(){
-    	Element xmlElement = super.writeXmlElement();
-    	Element tmpElement;
-    	
-    	xmlElement.setLocalName("fahrzeug");
-    	
-    	// Schreiben wie das Fahrzeug Aussieht
-    	if ( aussehen != null && aussehen.trim().length() > 0 ) {
-    		tmpElement = new Element("aussehen");
-    		tmpElement.appendChild(aussehen);
-    		xmlElement.appendChild(tmpElement);
-    	}
-    	
-    	// Schreiben was für ein Typ/ Art das Fahrzeug ist
-    	if ( typ != null && typ.trim().length() > 0 ) {
-    		tmpElement = new Element("fahrzeugArt");
-    		tmpElement.appendChild(typ);
-    		xmlElement.appendChild(tmpElement);
-    	}
-
-    	return xmlElement;
-    }
 }

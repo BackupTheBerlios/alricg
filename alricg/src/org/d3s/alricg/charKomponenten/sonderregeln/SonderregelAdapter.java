@@ -10,7 +10,7 @@ package org.d3s.alricg.charKomponenten.sonderregeln;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.links.Link;
-import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
+import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.held.HeldenLink;
 import org.d3s.alricg.prozessor.HeldProzessor;
 import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;

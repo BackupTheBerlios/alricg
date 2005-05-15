@@ -7,11 +7,7 @@
 
 package org.d3s.alricg.charKomponenten;
 
-import nu.xom.Attribute;
-import nu.xom.Element;
-
-import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
+import org.d3s.alricg.controller.CharKomponente;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -65,57 +61,4 @@ public class Gabe extends Faehigkeit {
 	public void setMinStufe(int minStufe) {
 		this.minStufe = minStufe;
 	}
-	
-    /* (non-Javadoc) Methode überschrieben
-     * @see org.d3s.alricg.charKomponenten.CharElement#loadXmlElement(nu.xom.Element)
-     */
-    public void loadXmlElement(Element xmlElement) {
-    	super.loadXmlElement(xmlElement);
-	    
-    	// Auslesen der Stufengrenzen
-    	try {
-	    	if ( xmlElement.getFirstChildElement("stufenGrenzen") != null ) {
-	    		if ( xmlElement.getFirstChildElement("stufenGrenzen")
-	    				.getAttribute("minStufe") != null ) 
-	    		{
-	    			minStufe = Integer.parseInt(xmlElement.getFirstChildElement("stufenGrenzen")
-		    				.getAttributeValue("minStufe"));
-	    		}
-	    		if ( xmlElement.getFirstChildElement("stufenGrenzen")
-	    				.getAttribute("maxStufe") != null ) 
-	    		{
-	    			maxStufe = Integer.parseInt(xmlElement.getFirstChildElement("stufenGrenzen")
-		    				.getAttributeValue("maxStufe"));
-	    		}
-	    	}
-		} catch (NumberFormatException exc) {
-			// TODO Bessere Fehlermeldung einbauen
-			ProgAdmin.logger.severe("Fehler bei Umrechnung von Zahlen: " + exc);
-		}
-    }
-    
-    /* (non-Javadoc) Methode überschrieben
-     * @see org.d3s.alricg.charKomponenten.CharElement#writeXmlElement()
-     */
-    public Element writeXmlElement(){
-    	Element xmlElement = super.writeXmlElement();
-    	Element tmpElement;
-    	
-    	xmlElement.setLocalName("gabe");
-    	
-    	//schreiben der Stufengrenzen
-    	if ( minStufe != 1 || maxStufe != 1 ) {
-    		tmpElement = new Element("stufenGrenzen");
-    		
-    		if ( minStufe != 1 ) {
-    			tmpElement.addAttribute(new Attribute("minStufe", Integer.toString(minStufe)));
-    		}
-    		if ( maxStufe != 1 ) {
-    			tmpElement.addAttribute(new Attribute("maxStufe", Integer.toString(maxStufe)));
-    		}
-    		xmlElement.appendChild(tmpElement);
-    	}
-    	
-    	return xmlElement;
-    }
 }

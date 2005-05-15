@@ -13,8 +13,8 @@ import nu.xom.Elements;
 
 import org.d3s.alricg.charKomponenten.charZusatz.WuerfelSammlung;
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
+import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 /**
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
  * @author V.Strelow
@@ -178,7 +178,7 @@ public class Rasse extends Herkunft {
     	try {
 	    	// "varianteVon" auslesen
 			if ( xmlElement.getFirstChildElement("varianteVon") !=  null ) {
-				varianteVon = (Rasse) ProgAdmin.charKompAdmin.getCharElement(
+				varianteVon = (Rasse) ProgAdmin.data.getCharElement(
 		    			xmlElement.getFirstChildElement("varianteVon").getValue(),
 		    			CharKomponente.rasse
 		    		);

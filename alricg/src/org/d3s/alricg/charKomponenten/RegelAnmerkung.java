@@ -8,10 +8,7 @@
 package org.d3s.alricg.charKomponenten;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-
-import nu.xom.Attribute;
-import nu.xom.Element;
+import java.util.List;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -31,75 +28,55 @@ public class RegelAnmerkung {
     	regel("regel"), 
     	todo("todo");
     	
-		private String xmlValue; // XML-Tag des Elements
+		private String value;
 		
-		private Modus(String xmlValue) {
-			this.xmlValue = xmlValue;
+		private Modus(String value) {
+			this.value = value;
 		}
 		
-		public String getXmlValue() {
-			return xmlValue;
+		public String getValue() {
+			return value;
 		}
 }
     
-	private String[] anmerkungen; // Array von Anmerkungen, gleicher index bei modus => Zugehörig
-	private Modus[] modus;
+	private List<String> anmerkungen; // Array von Anmerkungen, gleicher index bei modus => Zugehörig
+	private List<Modus> modi;
 
 	/**
 	 * Konstruktor
 	 */
 	public RegelAnmerkung() {
-		anmerkungen = new String[0];
-		modus = new Modus[0];
+		anmerkungen = new ArrayList<String>(0);
+		modi = new ArrayList<Modus>(0);
 	}
 	
 	/**
 	 * Fügt eine weitere Anmerkung hinzu!
 	 * @param anmerkungIn Der Text der Regelanmerkung
-	 * @param modusIn Der Modus, entweder "toDo" oder "regel"
+	 * @param modusIn Der Modus, entweder "todo" oder "regel"
 	 */
 	public void add(String anmerkungIn, String modusIn) {
-		ArrayList<Object> list = new ArrayList<Object>(); // Absichtlicht ohne Typagabe, zur Mehrfachverwendung
 		
 		// Prüfen ob der Modus gültig ist:
-		assert modusIn.equals("regel") || modusIn.equals("toDo");
+		assert modusIn.equals("regel") || modusIn.equals("todo");
 		
 		// Hinzufügen der Anmerkung
-		list.addAll(Arrays.asList(anmerkungen));
-		
-		list.add(anmerkungIn);
-		anmerkungen = (String[]) list.toArray(new String[list.size()]);
+		anmerkungen.add(anmerkungIn);
 		
 		// Hinzufügen des Modus
-		list.clear();
-		list.addAll(Arrays.asList(modus));
-		
 		if (modusIn.equals("regel")) {
-			list.add(Modus.regel);
+			modi.add(Modus.regel);
 		} else { // modusIn.equals("toDo")
-			list.add(Modus.todo);
+			modi.add(Modus.todo);
 		}
-		modus = (Modus[]) list.toArray(new Modus[list.size()]);
 	}
-
-	/**
-	 * Schreibt diese RegelAnmerkung in eine XML Repräsentation zum speichern
-	 * @return Ein xml-Element mit allen angaben
-	 */
-	public Element writeXmlElement() {
-		Element element = new Element("regelAnmerkungen");
-		Element elemRegel;
-		
-		// Einzelne Regel einfügen
-		for (int i = 0; i < anmerkungen.length; i++) {
-			elemRegel = new Element("regel");
-			
-			elemRegel.addAttribute( new Attribute("modus", modus[i].getXmlValue()) );
-			elemRegel.appendChild(anmerkungen[i]);
-			element.appendChild(elemRegel);
-		}
-		
-		return element;
-	}
+    
+    public Modus[] getModi() {
+        return modi.toArray(new Modus[0]);
+    }
+    
+    public String[] getAnmerkungen() {
+        return anmerkungen.toArray(new String[0]);
+    }
 	
 }

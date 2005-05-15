@@ -12,10 +12,8 @@ import java.util.Comparator;
 
 import javax.swing.Icon;
 
-import org.d3s.alricg.charKomponenten.Talent;
 import org.d3s.alricg.charKomponenten.Zauber;
 import org.d3s.alricg.charKomponenten.Werte.MagieMerkmal;
-import org.d3s.alricg.controller.Library;
 import org.d3s.alricg.controller.ProgAdmin;
 
 
@@ -43,7 +41,7 @@ public class ZauberView implements ViewSchema {
 			if (value.equals("+") || value.equals("-")) {
 				bezeichner = value;
 			} else {
-				bezeichner = Library.getShortTxt(value);
+				bezeichner = ProgAdmin.library.getShortTxt(value);
 			}
 		}
 		

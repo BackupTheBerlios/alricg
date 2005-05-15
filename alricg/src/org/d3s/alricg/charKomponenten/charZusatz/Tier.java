@@ -7,10 +7,8 @@
 
 package org.d3s.alricg.charKomponenten.charZusatz;
 
-import nu.xom.Element;
-
 import org.d3s.alricg.charKomponenten.CharElement;
-import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
+import org.d3s.alricg.controller.CharKomponente;
 
 /**
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
@@ -19,6 +17,7 @@ import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 public class Tier extends CharElement{
 
 	// TODO Die Felder für das Tier anlegen!
+    // TODO XOMMapper_Tier anpassen!
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
@@ -34,23 +33,4 @@ public class Tier extends CharElement{
 	public Tier(String id) {
 		setId(id);
 	}
-	
-    /* (non-Javadoc) Methode überschrieben
-     * @see org.d3s.alricg.charKomponenten.CharElement#loadXmlElement(nu.xom.Element)
-     */
-    public void loadXmlElement(Element xmlElement) {
-    	super.loadXmlElement(xmlElement);
-    	// TODO implement
-    }
-    
-    /* (non-Javadoc) Methode überschrieben
-     * @see org.d3s.alricg.charKomponenten.CharElement#writeXmlElement()
-     */
-    public Element writeXmlElement(){
-    	Element xmlElement = super.writeXmlElement();
-    	
-    	xmlElement.setLocalName("tier");
-    	// TODO implement
-    	return null;
-    }
 }

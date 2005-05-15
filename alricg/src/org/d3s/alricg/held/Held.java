@@ -14,7 +14,7 @@ import org.d3s.alricg.charKomponenten.Kultur;
 import org.d3s.alricg.charKomponenten.Profession;
 import org.d3s.alricg.charKomponenten.Rasse;
 import org.d3s.alricg.charKomponenten.Sprache;
-import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
+import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.prozessor.FormelSammlung;
 import org.d3s.alricg.prozessor.HeldProzessor;
 import org.d3s.alricg.prozessor.HeldUtilitis;

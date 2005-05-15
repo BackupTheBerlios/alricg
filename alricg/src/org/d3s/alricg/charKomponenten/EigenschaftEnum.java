@@ -9,7 +9,7 @@ package org.d3s.alricg.charKomponenten;
 
 import java.util.ArrayList;
 
-import org.d3s.alricg.controller.Library;
+import org.d3s.alricg.controller.ProgAdmin;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -51,8 +51,8 @@ public enum EigenschaftEnum {
      * @param abkuerzung Key für Library für die Akkürzung des Namens
      */
     private EigenschaftEnum (String bezeichnung, String abkuerzung, String id) {
-    	name = Library.getShortTxt(bezeichnung);
-    	abk = Library.getShortTxt(abkuerzung);
+    	name = ProgAdmin.library.getShortTxt(bezeichnung);
+    	abk = ProgAdmin.library.getShortTxt(abkuerzung);
     	this.id = id;
     }
 
@@ -71,9 +71,9 @@ public enum EigenschaftEnum {
     }
     
     /**
-     * @return Der XML Wert der Eigenschaft/ geichzeitig die ID
+     * @return Der Wert der Eigenschaft/ geichzeitig die ID
      */
-    public String getXmlValue() {
+    public String getValue() {
     	return id;
     }
     
@@ -103,7 +103,7 @@ public enum EigenschaftEnum {
     	ids = new ArrayList<String>(EigenschaftEnum.values().length);
     	
     	for (int i = 0; i < EigenschaftEnum.values().length; i++) {
-    		ids.add( EigenschaftEnum.values()[i].getXmlValue() );
+    		ids.add(EigenschaftEnum.values()[i].getValue());
     	}
     	
     	return ids;

@@ -12,8 +12,8 @@ import java.util.HashMap;
 import javax.swing.Icon;
 
 import org.d3s.alricg.controller.ImageAdmin;
-import org.d3s.alricg.controller.Library;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.store.TextStore;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -31,7 +31,7 @@ public class Werte {
 		// Elemente in eine HashMap gelegt.
 		for (int i = 0; i < MagieMerkmal.values().length; i++) {
 			magieMerkmale.put(
-					MagieMerkmal.values()[i].getXmlValue(), 
+					MagieMerkmal.values()[i].getValue(), 
 					MagieMerkmal.values()[i]
 				);
 		}
@@ -46,14 +46,14 @@ public class Werte {
 		geweiht("geweiht"),
 		borbaradianer("borbaradianer");
 		
-		private String xmlValue; // XML-Tag des Elements
+		private String value; // ID des Elements
 		
-		private CharArten(String xmlValue) {
-			this.xmlValue = xmlValue;
+		private CharArten(String value) {
+			this.value = value;
 		}
 		
-		public String getXmlValue() {
-			return xmlValue;
+		public String getValue() {
+			return value;
 		}
 		
 	}
@@ -64,14 +64,14 @@ public class Werte {
 		schwarz("schwarz"), 
 		unbekannt("unbekannt"), 
 		keine("keine");
-		private String xmlValue; // XML-Tag des Elements
+		private String value; // IDdes Elements
 		
-		private Gilde(String xmlValue) {
-			this.xmlValue = xmlValue;
+		private Gilde(String value) {
+			this.value = value;
 		}
 		
-		public String getXmlValue() {
-			return xmlValue;
+		public String getValue() {
+			return value;
 		}
 		
 	};
@@ -120,58 +120,58 @@ public class Werte {
 		umwelt("umwelt", ImageAdmin.zauberMerkmalUmwelt),
 		verstaendigung("verstaendigung", ImageAdmin.zauberMerkmalVerstaendigung);
 		
-		private String xmlValue; // XML-Tag des Elements
+		private String value; // ID des Elements
 		private String bezeichner; 
 		private Icon icon;
 		
-		private MagieMerkmal(String xmlValue, Icon icon) {
-			this.xmlValue = xmlValue;
+		private MagieMerkmal(String value, Icon icon) {
+			this.value = value;
 			this.icon = icon;
-			
+			TextStore lib = ProgAdmin.library;
 			switch (this) {
 			case daemonischBlakharaz: bezeichner = 
-				Library.getShortTxt(daemonisch.getXmlValue()) + " (Blakharaz)";
+                lib.getShortTxt(daemonisch.getValue()) + " (Blakharaz)";
 				break;
 			case daemonischBelhalhar: bezeichner = 
-				Library.getShortTxt(daemonisch.getXmlValue()) + " (Belhalhar)";
+                lib.getShortTxt(daemonisch.getValue()) + " (Belhalhar)";
 				break;
 			case daemonischCharyptoroth: bezeichner = 
-				Library.getShortTxt(daemonisch.getXmlValue()) + " (Charyptoroth)";
+                lib.getShortTxt(daemonisch.getValue()) + " (Charyptoroth)";
 				break;
 			case daemonischLolgramoth: bezeichner = 
-				Library.getShortTxt(daemonisch.getXmlValue()) + " (Lolgramoth)";
+                lib.getShortTxt(daemonisch.getValue()) + " (Lolgramoth)";
 				break;
 			case daemonischThargunitoth: bezeichner =
-				Library.getShortTxt(daemonisch.getXmlValue()) + " (Thargunitoth)";
+                lib.getShortTxt(daemonisch.getValue()) + " (Thargunitoth)";
 				break;
 			case daemonischAmazeroth: bezeichner =
-				Library.getShortTxt(daemonisch.getXmlValue()) + " (Amazeroth)";
+                lib.getShortTxt(daemonisch.getValue()) + " (Amazeroth)";
 				break;
 			case daemonischBelshirash: bezeichner = 
-				Library.getShortTxt(daemonisch.getXmlValue()) + " (Belshirash)";
+                lib.getShortTxt(daemonisch.getValue()) + " (Belshirash)";
 				break;
 			case daemonischAsfaloth: bezeichner =
-				Library.getShortTxt(daemonisch.getXmlValue()) + " (Asfaloth)";
+                lib.getShortTxt(daemonisch.getValue()) + " (Asfaloth)";
 				break;
 			case daemonischTasfarelel: bezeichner =
-				Library.getShortTxt(daemonisch.getXmlValue()) + " (Tasfarelel)";
+                lib.getShortTxt(daemonisch.getValue()) + " (Tasfarelel)";
 				break;
 			case daemonischBelzhorash: bezeichner = 
-				Library.getShortTxt(daemonisch.getXmlValue()) + " (Belzhorash)";
+                lib.getShortTxt(daemonisch.getValue()) + " (Belzhorash)";
 				break;
 			case daemonischAgrimoth: bezeichner = 
-				Library.getShortTxt(daemonisch.getXmlValue()) + " (Agrimoth)";
+                lib.getShortTxt(daemonisch.getValue()) + " (Agrimoth)";
 				break;
 			case daemonischBelkelel: bezeichner = 
-				Library.getShortTxt(daemonisch.getXmlValue()) + " (Belkelel)";
+                lib.getShortTxt(daemonisch.getValue()) + " (Belkelel)";
 				break;
-			default: bezeichner = Library.getShortTxt(xmlValue);
+			default: bezeichner =lib.getShortTxt(value);
 			}
 			
 		}
 		
-		public String getXmlValue() {
-			return xmlValue;
+		public String getValue() {
+			return value;
 		}
 		
 		/**
@@ -205,62 +205,60 @@ public class Werte {
 		sharisadZahorisch("sharisad (zahorisch)"),
 		sharisadAranisch("sharisad (aranisch)"),
 		zibilja("zibilja");
-		private String xmlValue; // XML-Tag des Elements
+		private String value; // ID des Elements
 		
-		private MagieRepraesentation(String xmlValue) {
-			this.xmlValue = xmlValue;
+		private MagieRepraesentation(String value) {
+			this.value = value;
 		}
 		
-		public String getXmlValue() {
-			return xmlValue;
+		public String getValue() {
+			return value;
 		}
 	}*/
 	
 	/**
-	 * Liefert zu einem XML-Tag die entsprechende Enum zurück.
-	 * @param xmlValue Der XML-Tag der gilde
-	 * @return Die Enum Gilde die zu den xmlValue gehört
+	 * Liefert zu einem value die entsprechende Enum zurück.
+	 * @param value Die ID der gilde
+	 * @return Die Enum Gilde die zu value gehört
 	 */
-	public static Gilde getGildeByXmlValue(String xmlValue) {
+	public static Gilde getGildeByValue(String value) {
 		Gilde[] gildeArray = Gilde.values();
 		
 		// Suchen des richtigen Elements
 		for (int i = 0; i < gildeArray.length; i++) {
-			if (xmlValue.equals(gildeArray[i].getXmlValue())) {
+			if (value.equals(gildeArray[i].getValue())) {
 				return gildeArray[i]; // Gefunden
 			}
 		}
-		
-		ProgAdmin.logger.severe("XmlValue konnte nicht gefunden werden!");
-		
+		ProgAdmin.logger.severe("value konnte nicht gefunden werden!");
 		return null;
 	}
 	
 	/**
-	 * Liefert zu einem XML-Tag die entsprechende Enum zurück.
-	 * @param xmlValue Der XML-Tag des magieMerkmals
-	 * @return Die Enum MagieMerkmal die zu den xmlValue gehört
+	 * Liefert zu einem valuedie entsprechende Enum zurück.
+	 * @param value Die ID des magieMerkmals
+	 * @return Die Enum MagieMerkmal die zu value gehört
 	 */
-	public static MagieMerkmal getMagieMerkmalByXmlValue(String xmlValue) {
+	public static MagieMerkmal getMagieMerkmalByValue(String value) {
 		
 		// Sicherstellen das auch ein Element gefunden wurde
-		assert magieMerkmale.get(xmlValue) != null;
+		assert magieMerkmale.get(value) != null;
 	
 		// Suchen + zurückliefern des Elements
-		return magieMerkmale.get(xmlValue);
+		return magieMerkmale.get(value);
 	}
 	
 	/**
-	 * Liefert zu einem XML-Tag die entsprechende Enum zurück.
-	 * @param xmlValue Der XML-Tag des CharArten
-	 * @return Die Enum CharArten die zu den xmlValue gehört
+	 * Liefert zu einem value die entsprechende Enum zurück.
+	 * @param value Die ID der CharArten
+	 * @return Die Enum CharArten die zu value gehört
 	 */
-	public static CharArten getCharArtenByXmlValue(String xmlValue) {
+	public static CharArten getCharArtenByValue(String value) {
 		CharArten[] charArtenArray = CharArten.values();
 		
 		// Suchen des richtigen Elements
 		for (int i = 0; i < charArtenArray.length; i++) {
-			if (xmlValue.equals(charArtenArray[i].getXmlValue())) {
+			if (value.equals(charArtenArray[i].getValue())) {
 				return charArtenArray[i]; // Gefunden
 			}
 		}

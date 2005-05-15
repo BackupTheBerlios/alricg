@@ -14,7 +14,7 @@ import org.d3s.alricg.charKomponenten.links.Auswahl;
 import org.d3s.alricg.charKomponenten.links.AuswahlAusruestung;
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
 import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
+import org.d3s.alricg.controller.CharKomponente;
 
 /**
  * <b>Beschreibung: </b> <br>
@@ -161,7 +161,7 @@ public class Kultur extends Herkunft {
     	
     	// Auslesen der Region
     	if ( xmlElement.getFirstChildElement("region") != null ) {
-    		regionVolk = (RegionVolk) ProgAdmin.charKompAdmin.getCharElement(
+    		regionVolk = (RegionVolk) ProgAdmin.data.getCharElement(
     				xmlElement.getFirstChildElement("region").getValue(),
     				CharKomponente.region
     			);
@@ -212,7 +212,7 @@ public class Kultur extends Herkunft {
 		
 		// Auslesen der Variante (gehört nach Schema eigentlich zur Herkunft)
 		if ( xmlElement.getFirstChildElement("varianteVon") !=  null ) {
-			varianteVon = (Kultur) ProgAdmin.charKompAdmin.getCharElement(
+			varianteVon = (Kultur) ProgAdmin.data.getCharElement(
 	    			xmlElement.getFirstChildElement("varianteVon").getValue(),
 	    			CharKomponente.kultur
 	    		);

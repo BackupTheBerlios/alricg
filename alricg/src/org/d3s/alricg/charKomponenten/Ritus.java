@@ -10,8 +10,8 @@ package org.d3s.alricg.charKomponenten;
 import nu.xom.Element;
 import nu.xom.Elements;
 
+import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -90,7 +90,7 @@ public abstract class Ritus extends CharElement {
     	tmpElements = xmlElement.getChildElements("gottheit");
     	gottheit = new Gottheit[tmpElements.size()];
     	for (int i = 0; i < tmpElements.size(); i++) {
-    		gottheit[i] = (Gottheit) ProgAdmin.charKompAdmin.getCharElement(
+    		gottheit[i] = (Gottheit) ProgAdmin.data.getCharElement(
     					tmpElements.get(i).getValue(),
     					CharKomponente.gottheit
     					);

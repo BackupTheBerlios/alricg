@@ -7,9 +7,9 @@
 
 package org.d3s.alricg.charKomponenten;
 
-import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
-
 import nu.xom.Element;
+
+import org.d3s.alricg.controller.CharKomponente;
 
 /**
  * <b>Beschreibung:</b><br> 

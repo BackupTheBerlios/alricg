@@ -15,7 +15,7 @@ import org.d3s.alricg.charKomponenten.links.Auswahl;
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
 import org.d3s.alricg.charKomponenten.links.Voraussetzung;
 import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.controller.CharKompAdmin.CharKomponente;
+import org.d3s.alricg.controller.CharKomponente;
 
 /**
  * <b>Beschreibung: </b> <br>
@@ -608,7 +608,7 @@ public abstract class Herkunft extends CharElement {
     			
     			// Auslesen der Art der Magischen repräsentation
     			if ( tmpElement.getAttribute("repraesentId") != null ) {
-	    			repraesentation = (Repraesentation) ProgAdmin.charKompAdmin
+	    			repraesentation = (Repraesentation) ProgAdmin.data
 	    				.getCharElement(
 	    					tmpElement.getAttributeValue("repraesentId"),
 	    					CharKomponente.repraesentation
