@@ -83,8 +83,7 @@ abstract class XOMMapper_Fertigkeit extends XOMMapper_CharElement implements XOM
         current = xmlElement.getFirstChildElement("voraussetzungen");
         if (current != null) {
             final Voraussetzung voraussetzung = new Voraussetzung(fertigkeit);
-            final XOMMapper_Voraussetzung mappy = new XOMMapper_Voraussetzung();
-            mappy.map(current, voraussetzung);
+            XOMMappingHelper.mapVoraussetzung(current, voraussetzung);
             fertigkeit.setVoraussetzung(voraussetzung);
         }
 
@@ -157,8 +156,7 @@ abstract class XOMMapper_Fertigkeit extends XOMMapper_CharElement implements XOM
         final Voraussetzung voraussetzung = fertigkeit.getVoraussetzung();
         if (voraussetzung != null) {
             final Element e = new Element("voraussetzungen");
-            final XOMMapper_Voraussetzung mappy = new XOMMapper_Voraussetzung();
-            mappy.map(voraussetzung, e);
+            XOMMappingHelper.mapVoraussetzung(voraussetzung, e);
             xmlElement.appendChild(e);
         }
 

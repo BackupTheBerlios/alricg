@@ -13,7 +13,7 @@ import org.d3s.alricg.charKomponenten.links.IdLinkList;
 import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
 
-public class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
+class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
 
     public void map(Element xmlElement, CharElement charElement) {
         super.map(xmlElement, charElement);

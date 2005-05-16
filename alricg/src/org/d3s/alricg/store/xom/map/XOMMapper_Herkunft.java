@@ -57,8 +57,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("eigenschaftModi");
             if (current != null) {
                 final Auswahl eigenschaftModis = new Auswahl(herkunft);
-                XOMMapper_Auswahl mappy = new XOMMapper_Auswahl();
-                mappy.map(current, eigenschaftModis);
+                XOMMappingHelper.mapAuswahl(current, eigenschaftModis);
                 herkunft.setEigenschaftModis(eigenschaftModis);
             }
 
@@ -78,8 +77,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("voraussetzung");
             if (current != null) {
                 final Voraussetzung voraussetzung = new Voraussetzung(herkunft);
-                XOMMapper_Voraussetzung mappy = new XOMMapper_Voraussetzung();
-                mappy.map(current, voraussetzung);
+                XOMMappingHelper.mapVoraussetzung(current, voraussetzung);
                 herkunft.setVoraussetzung(voraussetzung);
             }
 
@@ -87,8 +85,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("vorteile");
             if (current != null) {
                 final Auswahl auswahl = new Auswahl(herkunft);
-                XOMMapper_Auswahl mappy = new XOMMapper_Auswahl();
-                mappy.map(current, auswahl);
+                XOMMappingHelper.mapAuswahl(current, auswahl);
                 herkunft.setVorteileAuswahl(auswahl);
             }
 
@@ -96,8 +93,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("nachteile");
             if (current != null) {
                 final Auswahl auswahl = new Auswahl(herkunft);
-                XOMMapper_Auswahl mappy = new XOMMapper_Auswahl();
-                mappy.map(current, auswahl);
+                XOMMappingHelper.mapAuswahl(current, auswahl);
                 herkunft.setNachteileAuswahl(auswahl);
             }
 
@@ -105,8 +101,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("sonderf");
             if (current != null) {
                 final Auswahl auswahl = new Auswahl(herkunft);
-                XOMMapper_Auswahl mappy = new XOMMapper_Auswahl();
-                mappy.map(current, auswahl);
+                XOMMappingHelper.mapAuswahl(current, auswahl);
                 herkunft.setSfAuswahl(auswahl);
             }
 
@@ -114,8 +109,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("liturgien");
             if (current != null) {
                 final Auswahl auswahl = new Auswahl(herkunft);
-                XOMMapper_Auswahl mappy = new XOMMapper_Auswahl();
-                mappy.map(current, auswahl);
+                XOMMappingHelper.mapAuswahl(current, auswahl);
                 herkunft.setLiturgienAuswahl(auswahl);
             }
 
@@ -123,8 +117,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("goetterRituale");
             if (current != null) {
                 final Auswahl auswahl = new Auswahl(herkunft);
-                XOMMapper_Auswahl mappy = new XOMMapper_Auswahl();
-                mappy.map(current, auswahl);
+                XOMMappingHelper.mapAuswahl(current, auswahl);
                 herkunft.setRitualeAuswahl(auswahl);
             }
 
@@ -204,8 +197,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("talente");
             if (current != null) {
                 final Auswahl auswahl = new Auswahl(herkunft);
-                XOMMapper_Auswahl mappy = new XOMMapper_Auswahl();
-                mappy.map(current, auswahl);
+                XOMMappingHelper.mapAuswahl(current, auswahl);
                 herkunft.setTalente(auswahl);
             }
 
@@ -224,8 +216,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
                 Element e = current.getFirstChildElement("hauszauber");
                 if (e != null) {
                     final Auswahl auswahl = new Auswahl(herkunft);
-                    XOMMapper_Auswahl mappy = new XOMMapper_Auswahl();
-                    mappy.map(e, auswahl);
+                    XOMMappingHelper.mapAuswahl(e, auswahl);
                     herkunft.setHauszauber(auswahl);
                 }
 
@@ -233,8 +224,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
                 e = current.getFirstChildElement("zauber");
                 if (e != null) {
                     final Auswahl auswahl = new Auswahl(herkunft);
-                    XOMMapper_Auswahl mappy = new XOMMapper_Auswahl();
-                    mappy.map(e, auswahl);
+                    XOMMappingHelper.mapAuswahl(e, auswahl);
                     herkunft.setZauber(auswahl);
                 }
 
@@ -242,8 +232,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
                 e = current.getFirstChildElement("aktivierbareZauber");
                 if (e != null) {
                     final Auswahl auswahl = new Auswahl(herkunft);
-                    XOMMapper_Auswahl mappy = new XOMMapper_Auswahl();
-                    mappy.map(e, auswahl);
+                    XOMMappingHelper.mapAuswahl(e, auswahl);
                     herkunft.setAktivierbareZauber(auswahl);
                 }
 
@@ -314,8 +303,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
         Voraussetzung v = herkunft.getVoraussetzung();
         if (v != null) {
             e = new Element("voraussetzung");
-            final XOMMapper_Voraussetzung mappy = new XOMMapper_Voraussetzung();
-            mappy.map(v, e);
+            XOMMappingHelper.mapVoraussetzung(v, e);
             xmlElement.appendChild(e);
         }
 
@@ -412,8 +400,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
     private void map(Auswahl auswahl, String tagname, Element parent) {
         if (auswahl != null) {
             final Element e = new Element(tagname);
-            final XOMMapper_Auswahl mappy = new XOMMapper_Auswahl();
-            mappy.map(auswahl, e);
+            XOMMappingHelper.mapAuswahl(auswahl, e);
             parent.appendChild(e);
         }
     }
