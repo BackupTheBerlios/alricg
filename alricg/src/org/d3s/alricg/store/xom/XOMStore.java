@@ -4,7 +4,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 import nu.xom.Element;
 
@@ -201,12 +203,14 @@ public class XOMStore implements DataStore {
     }
 
     /**
-     * Ermöglicht den Zugriff auf die HashMap mit den charKomponenten.
+     * Ermöglicht den lesenden Zugriff auf die map mit den charKomponenten. Bem.: Durch die Konstruktion
+     * <code>Map<String, ? extends CharElement></code> kann kein Element zu einer <code>map</code> hinzugefügt
+     * werden.
      * 
      * @param charKomp Die CharKomponente zu der die HashMap zurückgegeben werden soll
      * @return HashMap mit allen Elementen zu dieser CharKomponente
      */
-    private Map<String, ? extends CharElement> getMap(CharKomponente charKomp) {
+    public Map<String, ? extends CharElement> getMap(CharKomponente charKomp) {
 
         switch (charKomp) {
         // >>>>>>>>>>>>>>> Herkunft
@@ -314,5 +318,210 @@ public class XOMStore implements DataStore {
         assert charKompMap.get(prefix) != null; // Gültigkeitsprüfung
 
         return charKompMap.get(prefix);
+    }
+
+    public void initCharKomponents(List<String> ids, CharKomponente charKomp) {
+        switch (charKomp) {
+        // >>>>>>>>>>>>>>> Herkunft
+        case rasse:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), rasseMap);
+                rasseMap.put(ids.get(i), new Rasse(ids.get(i)));
+            }
+            break;
+        case kultur:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), kulturMap);
+                kulturMap.put(ids.get(i), new Kultur(ids.get(i)));
+            }
+            break;
+        case profession:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), professionMap);
+                professionMap.put(ids.get(i), new Profession(ids.get(i)));
+            }
+            break;
+        case zusatzProfession:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), zusatzProfMap);
+                zusatzProfMap.put(ids.get(i), new ZusatzProfession(ids.get(i)));
+            }
+            break;
+
+        // >>>>>>>>>>>>>>> Fertigkeiten & Fähigkeiten
+        case vorteil:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), vorteilMap);
+                vorteilMap.put(ids.get(i), new Vorteil(ids.get(i)));
+            }
+            break;
+        case gabe:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), gabeMap);
+                gabeMap.put(ids.get(i), new Gabe(ids.get(i)));
+            }
+            break;
+        case nachteil:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), nachteilMap);
+                nachteilMap.put(ids.get(i), new Nachteil(ids.get(i)));
+            }
+            break;
+        case sonderfertigkeit:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), sonderfMap);
+                sonderfMap.put(ids.get(i), new Sonderfertigkeit(ids.get(i)));
+            }
+            break;
+        case ritLitKenntnis:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), ritLitKentMap);
+                ritLitKentMap.put(ids.get(i), new LiturgieRitualKenntnis(ids.get(i)));
+            }
+            break;
+        case talent:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), talentMap);
+                talentMap.put(ids.get(i), new Talent(ids.get(i)));
+            }
+            break;
+        case zauber:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), zauberMap);
+                zauberMap.put(ids.get(i), new Zauber(ids.get(i)));
+            }
+            break;
+
+        // >>>>>>>>>>>>>>> Sprachen
+        case sprache:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), spracheMap);
+                spracheMap.put(ids.get(i), new Sprache(ids.get(i)));
+            }
+            break;
+        case schrift:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), schriftMap);
+                schriftMap.put(ids.get(i), new Schrift(ids.get(i)));
+            }
+            break;
+
+        // >>>>>>>>>>>>>>> Götter
+        case liturgie:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), liturgieMap);
+                liturgieMap.put(ids.get(i), new Liturgie(ids.get(i)));
+            }
+            break;
+        case ritual:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), ritualMap);
+                ritualMap.put(ids.get(i), new Ritual(ids.get(i)));
+            }
+            break;
+
+        // >>>>>>>>>>>>>>> Ausrüstung
+        case ausruestung:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), ausruestungMap);
+                ausruestungMap.put(ids.get(i), new Ausruestung(ids.get(i)));
+            }
+            break;
+        case fahrzeug:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), fahrzeugMap);
+                fahrzeugMap.put(ids.get(i), new Fahrzeug(ids.get(i)));
+            }
+            break;
+        case waffeNk:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), waffeNkMap);
+                waffeNkMap.put(ids.get(i), new NahkWaffe(ids.get(i)));
+            }
+            break;
+        case waffeFk:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), waffeFkMap);
+                waffeFkMap.put(ids.get(i), new FkWaffe(ids.get(i)));
+            }
+            break;
+        case ruestung:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), ruestungMap);
+                ruestungMap.put(ids.get(i), new Ruestung(ids.get(i)));
+            }
+            break;
+        case schild:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), schildMap);
+                schildMap.put(ids.get(i), new Schild(ids.get(i)));
+            }
+            break;
+
+        // >>>>>>>>>>>>>>> Zusätzliches
+        case daemonenPakt:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), daemonenPaktMap);
+                daemonenPaktMap.put(ids.get(i), new DaemonenPakt(ids.get(i)));
+            }
+            break;
+        case schwarzeGabe:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), schwarzeGabeMap);
+                schwarzeGabeMap.put(ids.get(i), new SchwarzeGabe(ids.get(i)));
+            }
+            break;
+        case tier:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), tierMap);
+                tierMap.put(ids.get(i), new Tier(ids.get(i)));
+            }
+            break;
+        case region:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), regionMap);
+                regionMap.put(ids.get(i), new RegionVolk(ids.get(i)));
+            }
+            break;
+        case gottheit:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), gottheitMap);
+                gottheitMap.put(ids.get(i), new Gottheit(ids.get(i)));
+            }
+            break;
+        case repraesentation:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), repraesentMap);
+                repraesentMap.put(ids.get(i), new Repraesentation(ids.get(i)));
+            }
+            break;
+        case eigenschaft:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), eigenschaftMap);
+                eigenschaftMap.put(ids.get(i), new Eigenschaft(ids.get(i)));
+            }
+            break;
+        case sonderregel:
+            break; // Gibt es nicht!
+
+        // >>>>>>>>>>>>>>> DEFAULT
+        default:
+            ProgAdmin.logger.logp(Level.SEVERE, "CharKompAdmin", "initCharKomponents",
+                    "Ein CharKomp wurde nicht gefunden: " + charKomp);
+        }
+    }
+
+    /**
+     * Wird aufgerufen, um zu prüfen ob ein ID Wert doppelt vorkommt! In dem Fall wird eine Warnung ausgegeben, aber
+     * nicht verhindert das der alte Wert überschrieben wird!
+     * 
+     * @param key Der Key der überprüft werden soll
+     */
+    private void keyDoppelt(String key, Map<String, ? extends CharElement> hash) {
+        if (hash.containsKey(key)) {
+            // Doppelte ID, dadurch wird der alte Wert überschrieben
+            ProgAdmin.logger.warning("Bei der Initialisierung ist eine ID doppelt für die HashMap: " + key);
+            ProgAdmin.messenger.sendFehler(ProgAdmin.library.getErrorTxt("CharKomponente ID doppelt"));
+        }
     }
 }
