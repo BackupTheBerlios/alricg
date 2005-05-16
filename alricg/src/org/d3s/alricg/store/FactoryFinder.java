@@ -1,6 +1,9 @@
 package org.d3s.alricg.store;
 
 import java.lang.reflect.Constructor;
+import java.util.logging.Level;
+
+import org.d3s.alricg.controller.ProgAdmin;
 
 public final class FactoryFinder {
 
@@ -12,11 +15,12 @@ public final class FactoryFinder {
             synchronized (FactoryFinder.class) {
                 try {
                     final Class<?> clazz = Class.forName("org.d3s.alricg.store.xom.XOMFactory");
-                    final Constructor conny = clazz.getConstructor(new Class[0]);
+                    final Constructor<?> conny = clazz.getConstructor(new Class[0]);
                     instance = (DataStoreFactory) conny.newInstance(new Object[0]);
                 } catch (Exception e) {
-
-                    // TODO do some logging!
+                    instance = null;
+                    ProgAdmin.logger.log(Level.SEVERE, "DataStoreFactory instantiation failed!", e);
+                    throw new RuntimeException("DataStoreFactory instantiation failed!", e);
                 }
             }
         }
@@ -26,5 +30,4 @@ public final class FactoryFinder {
     public static final void init() throws ConfigurationException {
         instance.initialize();
     }
-
 }
