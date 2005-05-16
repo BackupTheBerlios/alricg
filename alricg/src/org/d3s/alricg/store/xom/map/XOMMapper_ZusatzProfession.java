@@ -10,7 +10,7 @@ import org.d3s.alricg.charKomponenten.ZusatzProfession;
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
 import org.d3s.alricg.controller.ProgAdmin;
 
-public class XOMMapper_ZusatzProfession extends XOMMapper_Profession implements XOMMapper {
+class XOMMapper_ZusatzProfession extends XOMMapper_Profession implements XOMMapper {
 
     public void map(Element xmlElement, CharElement charElement) {
         super.map(xmlElement, charElement);
