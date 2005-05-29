@@ -63,7 +63,7 @@ public abstract class Herkunft extends CharElement {
     private Auswahl aktivierbareZauber;
     private IdLinkList ZauberNichtBeginn;
     
-    protected Herkunft varianteVon;
+    //protected Herkunft varianteVon;
 
     /**
      * Für manche Herkunft ist das Geschlecht wichtig. In dem Fall wird hier das
@@ -194,25 +194,6 @@ public abstract class Herkunft extends CharElement {
     public Auswahl getAktivierbareZauber() {
         return aktivierbareZauber;
     }
-    
-    /**
-     * @return Liefer die "Eltern-Herkunft", von der diese eine Variante ist,
-     * 	oder "null"
-     */
-    public Herkunft getVarianteVon() {
-    	return varianteVon;
-    }
-    
-    /**
-     * @return true: Diese Herkunft ist eine Variante einer anderen Herkunft,
-     * 	sonst false
-     */
-    public boolean isVariante() {
-    	return (varianteVon != null);
-    }
-    
-    
-    
     
 	/**
 	 * @return Liefert das Attribut eigenschaftModis.
@@ -401,12 +382,7 @@ public abstract class Herkunft extends CharElement {
 	public void setUngeVorteile(IdLinkList ungeVorteile) {
 		this.ungeVorteile = ungeVorteile;
 	}
-	/**
-	 * @param varianteVon Setzt das Attribut varianteVon.
-	 */
-	public void setVarianteVon(Herkunft varianteVon) {
-		this.varianteVon = varianteVon;
-	}
+
 	/**
 	 * @param verbilligteRituale Setzt das Attribut verbilligteRituale.
 	 */

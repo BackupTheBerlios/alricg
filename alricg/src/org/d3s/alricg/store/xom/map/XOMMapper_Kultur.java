@@ -77,13 +77,6 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
             XOMMappingHelper.mapAuswahlAusruestung(current, auswahlA);
             kultur.setAusruestung(auswahlA);
         }
-
-        // Auslesen der Variante (gehört nach Schema eigentlich zur Herkunft)
-        current = xmlElement.getFirstChildElement("varianteVon");
-        if (current != null) {
-            final String v = current.getValue();
-            kultur.setVarianteVon((Kultur) ProgAdmin.data.getCharElement(v, CharKomponente.kultur));
-        }
     }
 
     public void map(CharElement charElement, Element xmlElement) {
@@ -157,16 +150,6 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
             xmlElement.appendChild(e);
         }
 
-        // "varianteVon" schreiben (gehört nach Schema eigentlich zur Herkunft)
-        if (kultur.getVarianteVon() != null) {
-            // hierfür muß die richtige Position bestimmt werden:
-            final int idx = xmlElement.indexOf(xmlElement.getFirstChildElement("gp"));
-            final Element e = new Element("varianteVon");
-            e.appendChild(kultur.getVarianteVon().getId());
-
-            // einfügen nach dem "gp" Element!
-            xmlElement.insertChild(e, idx + 1);
-        }
     }
 
 }

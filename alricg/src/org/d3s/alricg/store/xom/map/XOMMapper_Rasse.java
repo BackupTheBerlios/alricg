@@ -22,11 +22,13 @@ class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
         final Rasse rasse = (Rasse) charElement;
 
         try {
-            // "varianteVon" auslesen
+        	Element current;
+        	
+            /* "varianteVon" auslesen
             Element current = xmlElement.getFirstChildElement("varianteVon");
             if (current != null) {
                 rasse.setVarianteVon((Rasse) ProgAdmin.data.getCharElement(current.getValue(), CharKomponente.rasse));
-            }
+            }*/
 
             // Übliche Kulturen einlesen
             current = xmlElement.getFirstChildElement("kulturUeblich");
@@ -102,7 +104,7 @@ class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
 
         int idx;
 
-        // "varianteVon" schreiben
+        /* "varianteVon" schreiben
         if (rasse.getVarianteVon() != null) {
             // hierfür muß die richtige Position bestimmt werden:
             idx = xmlElement.indexOf(xmlElement.getFirstChildElement("gp"));
@@ -111,7 +113,7 @@ class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
 
             // einfügen nach dem "gp" Element!
             xmlElement.insertChild(e, idx + 1);
-        }
+        }*/
 
         // Übliche Kulturen schreiben
         IdLinkList ids = rasse.getKulturUeblich();

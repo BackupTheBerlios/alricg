@@ -122,12 +122,6 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
             profession.setBesondererBesitz(auswahlA);
         }
 
-        // Lesen der Varaiante (eigentlich von Herkunft)
-        current = xmlElement.getFirstChildElement("varianteVon");
-        if (current != null) {
-            final String val = xmlElement.getFirstChildElement("varianteVon").getValue();
-            profession.setVarianteVon((Profession) ProgAdmin.data.getCharElement(val, CharKomponente.profession));
-        }
     }
 
     public void map(CharElement charElement, Element xmlElement) {
@@ -218,18 +212,6 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
             e = new Element("besondererBesitz");
             XOMMappingHelper.mapAuswahlAusruestung(auswahlA, e);
             xmlElement.appendChild(e);
-        }
-
-        // "varianteVon" schreiben (eigentlich von Herkunft)
-        if (profession.getVarianteVon() != null) {
-
-            // hierfür muß die richtige Position bestimmt werden:
-            final int idx = xmlElement.indexOf(xmlElement.getFirstChildElement("gp"));
-            e = new Element("varianteVon");
-            e.appendChild(profession.getVarianteVon().getId());
-
-            // einfügen nach dem "gp" Element!
-            xmlElement.insertChild(e, idx + 1);
         }
 
     }
