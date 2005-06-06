@@ -62,13 +62,6 @@
 					<xsd:complexType>
 						<xsd:sequence>
 							<xsd:element name="rasse" type="rasseTyp" maxOccurs="unbounded"/>
-							<xsd:element name="varianten" minOccurs="0" maxOccurs="unbounded">
-								<xsd:complexType>
-									<xsd:sequence>
-										<xsd:element name="rasseVariante" type="rasseVarianteTyp" maxOccurs="unbounded"/>
-									</xsd:sequence>
-								</xsd:complexType>
-							</xsd:element>
 						</xsd:sequence>
 					</xsd:complexType>
 				</xsd:element>
@@ -76,13 +69,6 @@
 					<xsd:complexType>
 						<xsd:sequence>
 							<xsd:element name="kultur" type="kulturTyp" maxOccurs="unbounded"/>
-							<xsd:element name="varianten" minOccurs="0" maxOccurs="unbounded">
-								<xsd:complexType>
-									<xsd:sequence>
-										<xsd:element name="kulturVariante" type="kulturVarianteTyp" maxOccurs="unbounded"/>
-									</xsd:sequence>
-								</xsd:complexType>
-							</xsd:element>
 						</xsd:sequence>
 					</xsd:complexType>
 				</xsd:element>
@@ -90,13 +76,6 @@
 					<xsd:complexType>
 						<xsd:sequence>
 							<xsd:element name="profession" type="professionTyp" maxOccurs="unbounded"/>
-							<xsd:element name="varianten" minOccurs="0" maxOccurs="unbounded">
-								<xsd:complexType>
-									<xsd:sequence>
-										<xsd:element name="professionVariante" type="professionVarianteTyp" maxOccurs="unbounded"/>
-									</xsd:sequence>
-								</xsd:complexType>
-							</xsd:element>
 						</xsd:sequence>
 					</xsd:complexType>
 				</xsd:element>
@@ -341,6 +320,13 @@
 							</xsd:sequence>
 						</xsd:complexType>
 					</xsd:element>
+					<xsd:element name="varianten" minOccurs="0">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="variante" type="rasseVarianteTyp" maxOccurs="unbounded"/>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -396,6 +382,13 @@
 					<xsd:element name="sprachen" type="auswahlTyp" minOccurs="0"/>
 					<xsd:element name="schriften" type="auswahlTyp" minOccurs="0"/>
 					<xsd:element name="ausruestung" type="auswahlGegenstandTyp" minOccurs="0"/>
+					<xsd:element name="varianten" minOccurs="0">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="variante" type="kulturVarianteTyp" maxOccurs="unbounded"/>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
 					<!-- Bei Sprachen und schriften sind als ID auch erlaubt: "SPR-mutterspr" und "SFT-muttersprache" -->
 				</xsd:sequence>
 			</xsd:extension>
@@ -407,7 +400,6 @@
 				siehe bei Rasse
 			</xsd:documentation>
 		</xsd:annotation>
-	<!-- ######################################## -->
 		<xsd:complexContent>
 			<xsd:extension base="kulturTyp">
 				<xsd:sequence>
@@ -419,6 +411,7 @@
 				<xsd:attribute name="isAdditionsVariante" type="xsd:boolean" use="optional"/>
 			</xsd:extension>
 		</xsd:complexContent>
+		<!-- ######################################## -->
 	</xsd:complexType>
 	<!-- ########################################## PROFESSION ######################################### -->
 	<xsd:complexType name="professionTyp">
@@ -476,6 +469,13 @@
 					<xsd:element name="schriften" type="auswahlTyp" minOccurs="0"/>
 					<xsd:element name="ausruestung" type="auswahlGegenstandTyp" minOccurs="0"/>
 					<xsd:element name="besondererBesitz" type="auswahlGegenstandTyp" minOccurs="0"/>
+					<xsd:element name="varianten" minOccurs="0">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="variante" type="professionVarianteTyp" maxOccurs="unbounded"/>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
 					<!-- Verbote sind nicht erlaubte Eigenschaften, die als Voraussetzung gelten -->
 				</xsd:sequence>
 				<xsd:attribute name="aufwand" use="optional">
