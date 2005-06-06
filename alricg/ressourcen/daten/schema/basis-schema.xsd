@@ -7,7 +7,7 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
 -->
-<xsd:schema targetNamespace="http://alricg.die3sphaere.de/" xmlns="http://alricg.die3sphaere.de/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:schema targetNamespace="http://alricg.die3sphaere.de/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://alricg.die3sphaere.de/">
 	<xsd:annotation>
 		<xsd:documentation xml:lang="DE">
 			Schema-file für ALRICG. Gibt die Strucktur der Charakter-Elemente vor.
@@ -62,6 +62,13 @@
 					<xsd:complexType>
 						<xsd:sequence>
 							<xsd:element name="rasse" type="rasseTyp" maxOccurs="unbounded"/>
+							<xsd:element name="varianten" minOccurs="0" maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="rasseVariante" type="rasseVarianteTyp" maxOccurs="unbounded"/>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
 						</xsd:sequence>
 					</xsd:complexType>
 				</xsd:element>
@@ -69,6 +76,13 @@
 					<xsd:complexType>
 						<xsd:sequence>
 							<xsd:element name="kultur" type="kulturTyp" maxOccurs="unbounded"/>
+							<xsd:element name="varianten" minOccurs="0" maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="kulturVariante" type="kulturVarianteTyp" maxOccurs="unbounded"/>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
 						</xsd:sequence>
 					</xsd:complexType>
 				</xsd:element>
@@ -76,6 +90,13 @@
 					<xsd:complexType>
 						<xsd:sequence>
 							<xsd:element name="profession" type="professionTyp" maxOccurs="unbounded"/>
+							<xsd:element name="varianten" minOccurs="0" maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="professionVariante" type="professionVarianteTyp" maxOccurs="unbounded"/>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
 						</xsd:sequence>
 					</xsd:complexType>
 				</xsd:element>
@@ -324,6 +345,36 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
+	<!-- ######################################## -->
+	<xsd:complexType name="rasseVarianteTyp">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="DE">
+				varianteVon - Gibt die original-Rasse an. 
+				entferneElement - Gibt die ID von einem Element an, das von der 
+					original-Herkunft entfernd werden soll dieses Element darf in 
+					KEINER Auswahl stehen.
+				entferneXmlTag - Entfernd einen kompletten XML-Tag von der Original-Herkunft
+				isMultibel - true - Diese Variante darf zusätzlich zu anderen Varianten gewählt
+					werden (also mehrere Varianten möglich), ansonsten false. 
+					DEFAULT: false
+				isAdditionsVariante - true - Diese Variante wird zum original "hinzuaddiert",
+						false - Diese Variante enthält alle Angaben der Herkunft und hat keinen
+						bezug zur original Herkunft
+						DEFAULT: true
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="rasseTyp">
+				<xsd:sequence>
+					<xsd:element name="varianteVon"/>
+					<xsd:element name="entferneElement" type="idListe" minOccurs="0"/>
+					<xsd:element name="entferneXmlTag" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:sequence>
+				<xsd:attribute name="isMultibel" type="xsd:boolean" use="optional"/>
+				<xsd:attribute name="isAdditionsVariante" type="xsd:boolean" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
 	<!-- ############################################ KULTUR ########################################### -->
 	<xsd:complexType name="kulturTyp">
 		<xsd:annotation>
@@ -340,13 +391,32 @@
 					<xsd:element name="region" type="xsd:string" minOccurs="0"/>
 					<xsd:element name="professionUeblich" type="idListe" minOccurs="0"/>
 					<xsd:element name="professionMoeglich" type="idListe" minOccurs="0"/>
-					<xsd:element name="muttersprache" type="auswahlTyp"/>
+					<xsd:element name="muttersprache" type="auswahlTyp" minOccurs="0"/>
 					<xsd:element name="zweitsprache" type="auswahlTyp" minOccurs="0"/>
 					<xsd:element name="sprachen" type="auswahlTyp" minOccurs="0"/>
 					<xsd:element name="schriften" type="auswahlTyp" minOccurs="0"/>
 					<xsd:element name="ausruestung" type="auswahlGegenstandTyp" minOccurs="0"/>
 					<!-- Bei Sprachen und schriften sind als ID auch erlaubt: "SPR-mutterspr" und "SFT-muttersprache" -->
 				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="kulturVarianteTyp">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="DE">
+				siehe bei Rasse
+			</xsd:documentation>
+		</xsd:annotation>
+	<!-- ######################################## -->
+		<xsd:complexContent>
+			<xsd:extension base="kulturTyp">
+				<xsd:sequence>
+					<xsd:element name="varianteVon"/>
+					<xsd:element name="entferneElement" type="idListe" minOccurs="0"/>
+					<xsd:element name="entferneXmlTag" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:sequence>
+				<xsd:attribute name="isMultibel" type="xsd:boolean" use="optional"/>
+				<xsd:attribute name="isAdditionsVariante" type="xsd:boolean" use="optional"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -366,7 +436,7 @@
 		<xsd:complexContent>
 			<xsd:extension base="herkunftTyp">
 				<xsd:sequence>
-					<xsd:element name="art">
+					<xsd:element name="art" minOccurs="0">
 						<xsd:simpleType>
 							<xsd:restriction base="xsd:string">
 								<xsd:enumeration value="handwerklich"/>
@@ -404,7 +474,7 @@
 					<xsd:element name="verboteSF" type="idListe" minOccurs="0"/>
 					<xsd:element name="sprachen" type="auswahlTyp" minOccurs="0"/>
 					<xsd:element name="schriften" type="auswahlTyp" minOccurs="0"/>
-					<xsd:element name="ausruestung" type="auswahlGegenstandTyp"/>
+					<xsd:element name="ausruestung" type="auswahlGegenstandTyp" minOccurs="0"/>
 					<xsd:element name="besondererBesitz" type="auswahlGegenstandTyp" minOccurs="0"/>
 					<!-- Verbote sind nicht erlaubte Eigenschaften, die als Voraussetzung gelten -->
 				</xsd:sequence>
@@ -416,6 +486,25 @@
 						</xsd:restriction>
 					</xsd:simpleType>
 				</xsd:attribute>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!-- ######################################## -->
+	<xsd:complexType name="professionVarianteTyp">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="DE">
+				siehe bei Rasse
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="professionTyp">
+				<xsd:sequence>
+					<xsd:element name="varianteVon"/>
+					<xsd:element name="entferneElement" type="idListe" minOccurs="0"/>
+					<xsd:element name="entferneXmlTag" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+				</xsd:sequence>
+				<xsd:attribute name="isMultibel" type="xsd:boolean" use="optional"/>
+				<xsd:attribute name="isAdditionsVariante" type="xsd:boolean" use="optional"/>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -1306,7 +1395,7 @@
 								<xsd:element name="text" type="xsd:string" maxOccurs="unbounded"/>
 							</xsd:sequence>
 						</xsd:complexType>
-					</xsd:element>					
+					</xsd:element>
 					<xsd:element name="istWaehlbar" type="xsd:boolean" minOccurs="0"/>
 					<xsd:element name="fuerWelcheChars" type="charArtenTyp" maxOccurs="6"/>
 					<xsd:element name="voraussetzungen" type="voraussetzungTyp" minOccurs="0"/>
@@ -1320,7 +1409,6 @@
 		<xsd:annotation>
 			<xsd:documentation xml:lang="DE">
 				Grundtype für Rasse, Kultur, Profession
-				varianteVon - Diese Herkunft ist eine Variante einer anderen
 				kannGewaehltWerden - Kann die Herkunft nicht gewählt werden,
 					so handelt es sich um einen "Varianten Rumpf", also einen
 					"Vater" von Varianten, der aber selbst nicht w_bar ist.
@@ -1336,7 +1424,6 @@
 			<xsd:extension base="charElementTyp">
 				<xsd:sequence>
 					<xsd:element name="gp" type="xsd:nonNegativeInteger"/>
-					<xsd:element name="varianteVon" type="xsd:string" minOccurs="0"/>
 					<xsd:element name="kannGewaehltWerden" type="xsd:boolean" minOccurs="0"/>
 					<xsd:element name="geschlecht" minOccurs="0">
 						<xsd:simpleType>
@@ -1381,6 +1468,7 @@
 							<xsd:attribute name="repraesentId" type="xsd:string" use="optional"/>
 						</xsd:complexType>
 					</xsd:element>
+					<!-- <xsd:element name="varianteVon" type="xsd:string" minOccurs="0"/> -->
 					<!--
 					( ist bei EigenschaftModi nun auch Möglich)
 					<xsd:element name="erweiterteEigenschaftModi" minOccurs="0">
@@ -1419,7 +1507,8 @@
 			<xsd:documentation xml:lang="DE">
 				optionsGruppe - Falls es eine Auswahl gibt wie "Entweder X oder (Y und Z)".
 					in diesem Fall können Y und Z zusammen in eine optionsgruppe gesteckt 
-					werden. (Siehe Akademie in Tuzak) 
+					werden. (Siehe Akademie in Tuzak)
+					 - Wird evtl. doch nicht benötigt, Akademie in Tuzak benötigt dies NICHT
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
