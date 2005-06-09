@@ -2,7 +2,7 @@
  * Created on 09.03.2005 / 17:59:33
  *
  * This file is part of the project ALRICG. The file is copyright
- * protected an under the GNU General Public License.
+ * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
@@ -151,36 +151,84 @@ public class FormelSammlung {
 	 * @param MU Mut des Helden
 	 * @param KL Klugheit des Helden
 	 * @param KO Konstitution des Helden
-	 * @return Die resultierende Magieresistenz
+	 * @return Die errechnete Magieresistenz
 	 */
 	public static int berechneMR(int MU, int KL, int KO) {
 		return (int) Math.round( (MU + KL + KO) / 5d );
 	}
 	
+	/**
+	 * Berechnet die Initiative OHNE Modifikatoren
+	 * @param MU Mut 
+	 * @param IN Intuition
+	 * @param GE Gewandheit
+	 * @return Die errechnete Initiative
+	 */
 	public static int berechneINI(int MU, int IN, int GE) {
 		return (int) Math.round( ((MU*2) + IN + GE) / 5d );
 	}
 	
+	/**
+	 * Berechnet den Basis Attackewert OHNE Modifikatoren
+	 * @param MU Mut 
+	 * @param GE Gewandheit
+	 * @param KK Körperkraft
+	 * @return Die errechnete AT Basis
+	 */
 	public static int berechneAtBasis(int MU, int GE, int KK) {
 		return (int) Math.round( (MU + GE + KK) / 5d );
 	}
 	
+	/**
+	 * Berechnet den Basis Paradewert OHNE Modifikatoren
+	 * @param IN Intuition 
+	 * @param GE Gewandheit
+	 * @param KK Körperkraft
+	 * @return Die errechnete PA Basis
+	 */
 	public static int berechnePaBasis(int IN, int GE, int KK) {
 		return (int) Math.round( (IN + GE + KK) / 5d );
 	}
 	
+	/**
+	 * Berechnet den Basis Fernkampfwert OHNE Modifikatoren
+	 * @param IN Intuition 
+	 * @param FF Fingerfertigkeit
+	 * @param KK Körperkraft
+	 * @return Die errechnete FK Basis
+	 */
 	public static int berechneFkBasis(int IN, int FF, int KK) {
 		return (int) Math.round( (IN + FF + KK) / 5d );
 	}
 	
+	/**
+	 * Berechnet den Basis Lebenspunkte OHNE Modifikatoren
+	 * @param KO Konstitution
+	 * @param KK Körperkraft
+	 * @return Die errechneten Lebenspunkte
+	 */
 	public static int berechneLep(int KO, int KK) {
 		return (int) Math.round( ((KO*2) + KK) / 2d );
 	}
 	
+	/**
+	 * Berechnet den Basis Ausdauer OHNE Modifikatoren
+	 * @param MU Mut 
+	 * @param KO Konstitution
+	 * @param GE Gewandheit
+	 * @return Die errechnete Ausdauer
+	 */
 	public static int berechneAup(int MU, int KO, int GE) {
 		return (int) Math.round( (MU + KO + GE) / 2d );
 	}
 	
+	/**
+	 * Berechnet den Basis Astralpunkte OHNE Modifikatoren
+	 * @param MU Mut 
+	 * @param IN Intuition
+	 * @param CH Charisma
+	 * @return Die errechnete Ausdauer
+	 */
 	public static int berechneAsp(int MU, int IN, int CH) {
 		return (int) Math.round( (MU + IN + CH) / 2d );
 	}
