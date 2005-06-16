@@ -26,7 +26,7 @@ public class RegelAnmerkung {
      */
     public enum Modus { 
     	regel("regel"), 
-    	todo("todo");
+    	todo("toDo");
     	
 		private String value;
 		
@@ -58,7 +58,7 @@ public class RegelAnmerkung {
 	public void add(String anmerkungIn, String modusIn) {
 		
 		// Prüfen ob der Modus gültig ist:
-		assert modusIn.equals("regel") || modusIn.equals("todo");
+		assert modusIn.equals(Modus.regel.getValue()) || modusIn.equals(Modus.todo.getValue());
 		
 		// Hinzufügen der Anmerkung
 		anmerkungen.add(anmerkungIn);
