@@ -45,11 +45,39 @@ public final class XOMFactory implements DataStoreFactory {
             final XOMToLibraryMapper mappy = new XOMToLibraryMapper();
             library = mappy.readData(config.getConfig());
         }
+        
+        /*
+         * In zwei Methoden ausgelagert, um das Programm starten zu können
         {
-            // init data
+        	// init data
             final XOMToClientMapper mappy = new XOMToClientMapper();
-            data = mappy.readData(config.getConfig());
+            data = mappy.initData(config.getConfig());
         }
+        */
+        
         initialized = true;
+    }
+    
+    /**
+     * Initialisiert die Daten (=CharElemente). Jedes CharElement wird mit einer 
+     * ID erzeugt, aber nicht mit Daten gefüllt. 
+     * @throws ConfigurationException
+     */
+    public synchronized void initializeData() throws ConfigurationException {
+    	// init data
+        final XOMToClientMapper mappy = new XOMToClientMapper();
+        data = mappy.initData(config.getConfig());
+    }
+    
+    /**
+     * Liest die Daten (=CharElemente) ein, dabei werden alle bereits vorhandenen CharElemente
+     * mit Inhalt gefüllt.
+     * @throws ConfigurationException
+     * @see initializeData()
+     */
+    public synchronized void readData() throws ConfigurationException {
+        // read data
+        final XOMToClientMapper mappy = new XOMToClientMapper();
+        data = mappy.readData(config.getConfig(), (XOMStore) data);
     }
 }

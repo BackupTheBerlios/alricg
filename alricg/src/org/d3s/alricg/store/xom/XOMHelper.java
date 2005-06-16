@@ -33,26 +33,26 @@ public class XOMHelper {
 
         } catch (ValidityException ex) {
             ProgAdmin.logger.severe(ex.getMessage());
-            ProgAdmin.messenger.showMessage(Messenger.Level.erwartetFehler, lib.getErrorTxt("Fehlerhafte Datei") + "\n"
+            ProgAdmin.messenger.showMessage(Messenger.Level.fehler, lib.getErrorTxt("Fehlerhafte Datei") + "\n"
                     + "  " + xmlFile.getName() + "\n" + lib.getErrorTxt("XML Validierungsfehler"));
 
         } catch (ParsingException ex) {
             ProgAdmin.logger.severe(ex.getMessage());
-            ProgAdmin.messenger.showMessage(Messenger.Level.erwartetFehler, lib.getErrorTxt("Fehlerhafte Datei") + "\n"
+            ProgAdmin.messenger.showMessage(Messenger.Level.fehler, lib.getErrorTxt("Fehlerhafte Datei") + "\n"
                     + "  " + xmlFile.getName() + "\n" + lib.getErrorTxt("XML Parsingfehler"));
 
         } catch (IOException ex) {
             if (!xmlFile.exists()) {
                 ProgAdmin.logger.severe(ex.getMessage());
-                ProgAdmin.messenger.showMessage(Messenger.Level.erwartetFehler, lib.getErrorTxt("Fehlerhafte Datei")
+                ProgAdmin.messenger.showMessage(Messenger.Level.fehler, lib.getErrorTxt("Fehlerhafte Datei")
                         + "\n" + "  " + xmlFile.getName() + "\n" + lib.getErrorTxt("Datei existiert nicht Fehler"));
             } else if (!xmlFile.canRead()) {
                 ProgAdmin.logger.severe(ex.getMessage());
-                ProgAdmin.messenger.showMessage(Messenger.Level.erwartetFehler, lib.getErrorTxt("Fehlerhafte Datei")
+                ProgAdmin.messenger.showMessage(Messenger.Level.fehler, lib.getErrorTxt("Fehlerhafte Datei")
                         + "\n" + "  " + xmlFile.getName() + "\n" + lib.getErrorTxt("Datei nicht lesbar Fehler"));
             } else {
                 ProgAdmin.logger.severe(ex.getMessage());
-                ProgAdmin.messenger.showMessage(Messenger.Level.erwartetFehler, lib.getErrorTxt("Fehlerhafte Datei")
+                ProgAdmin.messenger.showMessage(Messenger.Level.fehler, lib.getErrorTxt("Fehlerhafte Datei")
                         + "\n" + "  " + xmlFile.getName() + "\n"
                         + lib.getErrorTxt("Datei nicht lesbar/unbekannt Fehler"));
             }

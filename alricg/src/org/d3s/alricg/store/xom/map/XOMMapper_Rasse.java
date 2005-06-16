@@ -1,5 +1,6 @@
 package org.d3s.alricg.store.xom.map;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 import nu.xom.Attribute;
@@ -7,10 +8,11 @@ import nu.xom.Element;
 import nu.xom.Elements;
 
 import org.d3s.alricg.charKomponenten.CharElement;
+import org.d3s.alricg.charKomponenten.HerkunftVariante;
 import org.d3s.alricg.charKomponenten.Rasse;
+import org.d3s.alricg.charKomponenten.RasseVariante;
 import org.d3s.alricg.charKomponenten.charZusatz.WuerfelSammlung;
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
-import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
 
 class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
@@ -23,12 +25,6 @@ class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
 
         try {
         	Element current;
-        	
-            /* "varianteVon" auslesen
-            Element current = xmlElement.getFirstChildElement("varianteVon");
-            if (current != null) {
-                rasse.setVarianteVon((Rasse) ProgAdmin.data.getCharElement(current.getValue(), CharKomponente.rasse));
-            }*/
 
             // Übliche Kulturen einlesen
             current = xmlElement.getFirstChildElement("kulturUeblich");
@@ -89,10 +85,26 @@ class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
             // Einlesen der Augenfarbe
             current = xmlElement.getFirstChildElement("augenfarbe");
             farbenFromXML(current.getChildElements("farbe"), rasse.getAugenfarbe());
-
+            
+            // Einlesen der Varianten
+            ArrayList<HerkunftVariante> arList = new ArrayList<HerkunftVariante>();
+            current = xmlElement.getFirstChildElement("varianten");
+            if (current != null) {
+            	 Elements varianten = current.getChildElements("variante");
+            	 for (int i = 0; i < varianten.size(); i++) {
+            	 	arList.add( XOMMappingHelper.mapVarianten(
+            	 			varianten.get(i), 
+            	 			ProgAdmin.data.getCharElement(varianten.get(i).getAttributeValue("id")), 
+            	 			rasse,
+            	 			this) );
+            	 }
+            	 rasse.setVarianten(arList.toArray(new RasseVariante[arList.size()]));
+            }
+            
         } catch (NumberFormatException exc) {
             ProgAdmin.logger.log(Level.SEVERE, "String -> int failed", exc);
         }
+        
     }
 
     public void map(CharElement charElement, Element xmlElement) {
@@ -175,6 +187,18 @@ class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
         farbenToXML(e, rasse.getAugenfarbe());
         xmlElement.appendChild(e);
 
+        //Schreiben der Varianten
+        CharElement[] elements = rasse.getVarianten();
+        if (elements != null) {
+        	e = new Element("varianten");
+        	 
+        	for (int i = 0; i < elements.length; i++) {
+        		e.appendChild(XOMMappingHelper.mapVarianten(
+        	 			elements[i], 
+        	 			this));
+        	}
+        	xmlElement.appendChild(e);
+        }
     }
 
     /**

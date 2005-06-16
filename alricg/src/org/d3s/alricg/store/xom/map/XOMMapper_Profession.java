@@ -1,12 +1,16 @@
 package org.d3s.alricg.store.xom.map;
 
+import java.util.ArrayList;
+
 import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Elements;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Gottheit;
+import org.d3s.alricg.charKomponenten.HerkunftVariante;
 import org.d3s.alricg.charKomponenten.Profession;
+import org.d3s.alricg.charKomponenten.ProfessionVariante;
 import org.d3s.alricg.charKomponenten.Werte;
 import org.d3s.alricg.charKomponenten.Profession.Art;
 import org.d3s.alricg.charKomponenten.Profession.Aufwand;
@@ -121,6 +125,21 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
             XOMMappingHelper.mapAuswahlAusruestung(current, auswahlA);
             profession.setBesondererBesitz(auswahlA);
         }
+        
+        // Auslesen der Varianten
+        ArrayList<HerkunftVariante> arList = new ArrayList<HerkunftVariante>();
+        current = xmlElement.getFirstChildElement("varianten");
+        if (current != null) {
+        	 Elements varianten = current.getChildElements("variante");
+        	 for (int i = 0; i < varianten.size(); i++) {
+        	 	arList.add( XOMMappingHelper.mapVarianten(
+        	 			varianten.get(i), 
+        	 			ProgAdmin.data.getCharElement(varianten.get(i).getAttributeValue("id")),
+        	 			profession,
+        	 			this) );
+        	 }
+        	 profession.setVarianten(arList.toArray(new ProfessionVariante[arList.size()]));
+        }
 
     }
 
@@ -132,8 +151,11 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
         xmlElement.setLocalName("profession");
 
         // Schreiben des Attributs "Aufwand", wenn nötig
-        xmlElement.addAttribute(new Attribute("aufwand", profession.getAufwand().getValue()));
-
+        if ( !profession.getAufwand().equals(Profession.Aufwand.normal) ) {
+        	xmlElement.addAttribute(new Attribute("aufwand", 
+        						profession.getAufwand().getValue()));
+        }
+        
         // Schreiben der Art der Profession
         Element e = new Element("art");
         e.appendChild(profession.getArt().getValue());
@@ -213,6 +235,19 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
             XOMMappingHelper.mapAuswahlAusruestung(auswahlA, e);
             xmlElement.appendChild(e);
         }
+        
+        //Schreiben der Varianten
+        CharElement[] elements = profession.getVarianten();
+        if (elements != null) {
+        	e = new Element("varianten");
+        	 
+        	for (int i = 0; i < elements.length; i++) {
+        	 	e.appendChild(XOMMappingHelper.mapVarianten(
+        	 			elements[i], 
+        	 			this));
+        	}
+        	xmlElement.appendChild(e);
+        }
 
     }
 
@@ -268,6 +303,7 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
         if (current != null) {
             makademie.setAnmerkung(current.getValue());
         }
+        
     }
 
     private void mapMagierAkademie(MagierAkademie makadmie, Element xmlElement) {

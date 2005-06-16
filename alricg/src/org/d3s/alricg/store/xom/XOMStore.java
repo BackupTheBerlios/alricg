@@ -15,11 +15,14 @@ import org.d3s.alricg.charKomponenten.Eigenschaft;
 import org.d3s.alricg.charKomponenten.Gabe;
 import org.d3s.alricg.charKomponenten.Gottheit;
 import org.d3s.alricg.charKomponenten.Kultur;
+import org.d3s.alricg.charKomponenten.KulturVariante;
 import org.d3s.alricg.charKomponenten.Liturgie;
 import org.d3s.alricg.charKomponenten.LiturgieRitualKenntnis;
 import org.d3s.alricg.charKomponenten.Nachteil;
 import org.d3s.alricg.charKomponenten.Profession;
+import org.d3s.alricg.charKomponenten.ProfessionVariante;
 import org.d3s.alricg.charKomponenten.Rasse;
+import org.d3s.alricg.charKomponenten.RasseVariante;
 import org.d3s.alricg.charKomponenten.RegionVolk;
 import org.d3s.alricg.charKomponenten.Repraesentation;
 import org.d3s.alricg.charKomponenten.Ritual;
@@ -40,6 +43,38 @@ import org.d3s.alricg.charKomponenten.charZusatz.Schild;
 import org.d3s.alricg.charKomponenten.charZusatz.SchwarzeGabe;
 import org.d3s.alricg.charKomponenten.charZusatz.Tier;
 import org.d3s.alricg.controller.CharKomponente;
+import static org.d3s.alricg.controller.CharKomponente.ausruestung;
+import static org.d3s.alricg.controller.CharKomponente.daemonenPakt;
+import static org.d3s.alricg.controller.CharKomponente.eigenschaft;
+import static org.d3s.alricg.controller.CharKomponente.fahrzeug;
+import static org.d3s.alricg.controller.CharKomponente.gabe;
+import static org.d3s.alricg.controller.CharKomponente.gottheit;
+import static org.d3s.alricg.controller.CharKomponente.kultur;
+import static org.d3s.alricg.controller.CharKomponente.kulturVariante;
+import static org.d3s.alricg.controller.CharKomponente.liturgie;
+import static org.d3s.alricg.controller.CharKomponente.nachteil;
+import static org.d3s.alricg.controller.CharKomponente.profession;
+import static org.d3s.alricg.controller.CharKomponente.professionVariante;
+import static org.d3s.alricg.controller.CharKomponente.rasse;
+import static org.d3s.alricg.controller.CharKomponente.rasseVariante;
+import static org.d3s.alricg.controller.CharKomponente.region;
+import static org.d3s.alricg.controller.CharKomponente.repraesentation;
+import static org.d3s.alricg.controller.CharKomponente.ritLitKenntnis;
+import static org.d3s.alricg.controller.CharKomponente.ritual;
+import static org.d3s.alricg.controller.CharKomponente.ruestung;
+import static org.d3s.alricg.controller.CharKomponente.schild;
+import static org.d3s.alricg.controller.CharKomponente.schrift;
+import static org.d3s.alricg.controller.CharKomponente.schwarzeGabe;
+import static org.d3s.alricg.controller.CharKomponente.sonderfertigkeit;
+import static org.d3s.alricg.controller.CharKomponente.sonderregel;
+import static org.d3s.alricg.controller.CharKomponente.sprache;
+import static org.d3s.alricg.controller.CharKomponente.talent;
+import static org.d3s.alricg.controller.CharKomponente.tier;
+import static org.d3s.alricg.controller.CharKomponente.vorteil;
+import static org.d3s.alricg.controller.CharKomponente.waffeFk;
+import static org.d3s.alricg.controller.CharKomponente.waffeNk;
+import static org.d3s.alricg.controller.CharKomponente.zauber;
+import static org.d3s.alricg.controller.CharKomponente.zusatzProfession;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.store.DataStore;
 
@@ -47,13 +82,13 @@ public class XOMStore implements DataStore {
 
     // Herkunft
     private final Map<String, Rasse> rasseMap = new HashMap<String, Rasse>();
-
     private final Map<String, Kultur> kulturMap = new HashMap<String, Kultur>();
-
     private final Map<String, Profession> professionMap = new HashMap<String, Profession>();
-
+    private final Map<String, RasseVariante> rasseVarianteMap = new HashMap<String, RasseVariante>();
+    private final Map<String, KulturVariante> kulturVarianteMap = new HashMap<String, KulturVariante>();
+    private final Map<String, ProfessionVariante> professionVarianteMap = new HashMap<String, ProfessionVariante>();
     private final Map<String, ZusatzProfession> zusatzProfMap = new HashMap<String, ZusatzProfession>();
-
+    
     // Fertigkeiten & Fähigkeiten
     private final Map<String, Vorteil> vorteilMap = new HashMap<String, Vorteil>();
 
@@ -169,8 +204,12 @@ public class XOMStore implements DataStore {
         // Alle charKomponenten durchgehen
         for (int i = 0; i < charKompArray.length; i++) {
 
-            if (charKompArray[i] == CharKomponente.eigenschaft || charKompArray[i] == CharKomponente.sonderregel) {
-                continue; // Eigenschaften werden nicht geschrieben, daher Abbruch
+            if (charKompArray[i] == CharKomponente.eigenschaft 
+	            	|| charKompArray[i] == CharKomponente.sonderregel
+	            	|| charKompArray[i] == CharKomponente.rasseVariante
+	            	|| charKompArray[i] == CharKomponente.kulturVariante
+	            	|| charKompArray[i] == CharKomponente.professionVariante) {
+                continue; // Diese CharElemente werden nicht (hier) geschrieben, daher Abbruch
             }
 
             ite = getMap(charKompArray[i]).values().iterator(); // Alle Elemente holen
@@ -220,8 +259,14 @@ public class XOMStore implements DataStore {
             return kulturMap;
         case profession:
             return professionMap;
+        case rasseVariante:
+        	return rasseVarianteMap;
+        case kulturVariante:
+        	return kulturVarianteMap;
+        case professionVariante:
+        	return professionVarianteMap;
         case zusatzProfession:
-            return zusatzProfMap;
+            return zusatzProfMap;   
 
         // >>>>>>>>>>>>>>> Fertigkeiten & Fähigkeiten
         case vorteil:
@@ -339,6 +384,24 @@ public class XOMStore implements DataStore {
             for (int i = 0; i < ids.size(); i++) {
                 keyDoppelt(ids.get(i), professionMap);
                 professionMap.put(ids.get(i), new Profession(ids.get(i)));
+            }
+            break;
+        case rasseVariante:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), rasseVarianteMap);
+                rasseVarianteMap.put(ids.get(i), new RasseVariante(ids.get(i)));
+            }
+            break;
+        case kulturVariante:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), kulturVarianteMap);
+                kulturVarianteMap.put(ids.get(i), new KulturVariante(ids.get(i)));
+            }
+            break;
+        case professionVariante:
+            for (int i = 0; i < ids.size(); i++) {
+                keyDoppelt(ids.get(i), professionVarianteMap);
+                professionVarianteMap.put(ids.get(i), new ProfessionVariante(ids.get(i)));
             }
             break;
         case zusatzProfession:

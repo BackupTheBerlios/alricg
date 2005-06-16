@@ -40,7 +40,7 @@ public class XOMToLibraryMapper {
                 ProgAdmin.logger.warning("Library-Entries für die Sprache " + language + " mit den keys '"
                         + messages.toString() + "'" + "konnten nicht gefunden werden.");
 
-                ProgAdmin.messenger.showMessage(Messenger.Level.erwartetFehler,
+                ProgAdmin.messenger.showMessage(Messenger.Level.fehler,
                         "Es konnten nicht alle Texte geladen werden! \n"
                                 + "Dies ist für eine fehlerfreie Anzeige jedoch notwendig. \n"
                                 + "Bitte stellen sie sicher das die 'library' Datei \n"
@@ -54,7 +54,7 @@ public class XOMToLibraryMapper {
             ProgAdmin.logger.log(Level.SEVERE, "Library Datei (" + d3sLibDir + fileName
                     + ") konnte nicht geladen werden. Programm beendet.");
 
-            ProgAdmin.messenger.showMessage(Messenger.Level.erwartetFehler, "Die 'library' Datei \n" + d3sLibDir
+            ProgAdmin.messenger.showMessage(Messenger.Level.fehler, "Die 'library' Datei \n" + d3sLibDir
                     + fileName + "\nkonnte nicht geladen werden! Bitte überprüfen sie ob die Datei \n"
                     + "zugriffsbereit ist und im Orginalzustand vorliegt. \n" + "\n"
                     + "Das Programm kann ohne diese Datei nicht gestartet werden \n" + "und wird wieder geschlossen!");

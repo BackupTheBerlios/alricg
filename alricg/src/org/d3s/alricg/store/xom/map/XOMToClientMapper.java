@@ -11,6 +11,35 @@ import nu.xom.Elements;
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.EigenschaftEnum;
 import org.d3s.alricg.controller.CharKomponente;
+import static org.d3s.alricg.controller.CharKomponente.ausruestung;
+import static org.d3s.alricg.controller.CharKomponente.daemonenPakt;
+import static org.d3s.alricg.controller.CharKomponente.eigenschaft;
+import static org.d3s.alricg.controller.CharKomponente.fahrzeug;
+import static org.d3s.alricg.controller.CharKomponente.gabe;
+import static org.d3s.alricg.controller.CharKomponente.gottheit;
+import static org.d3s.alricg.controller.CharKomponente.kultur;
+import static org.d3s.alricg.controller.CharKomponente.liturgie;
+import static org.d3s.alricg.controller.CharKomponente.nachteil;
+import static org.d3s.alricg.controller.CharKomponente.profession;
+import static org.d3s.alricg.controller.CharKomponente.rasse;
+import static org.d3s.alricg.controller.CharKomponente.region;
+import static org.d3s.alricg.controller.CharKomponente.repraesentation;
+import static org.d3s.alricg.controller.CharKomponente.ritLitKenntnis;
+import static org.d3s.alricg.controller.CharKomponente.ritual;
+import static org.d3s.alricg.controller.CharKomponente.ruestung;
+import static org.d3s.alricg.controller.CharKomponente.schild;
+import static org.d3s.alricg.controller.CharKomponente.schrift;
+import static org.d3s.alricg.controller.CharKomponente.schwarzeGabe;
+import static org.d3s.alricg.controller.CharKomponente.sonderfertigkeit;
+import static org.d3s.alricg.controller.CharKomponente.sonderregel;
+import static org.d3s.alricg.controller.CharKomponente.sprache;
+import static org.d3s.alricg.controller.CharKomponente.talent;
+import static org.d3s.alricg.controller.CharKomponente.tier;
+import static org.d3s.alricg.controller.CharKomponente.vorteil;
+import static org.d3s.alricg.controller.CharKomponente.waffeFk;
+import static org.d3s.alricg.controller.CharKomponente.waffeNk;
+import static org.d3s.alricg.controller.CharKomponente.zauber;
+import static org.d3s.alricg.controller.CharKomponente.zusatzProfession;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.store.Configuration;
 import org.d3s.alricg.store.ConfigurationException;
@@ -21,7 +50,7 @@ import org.d3s.alricg.store.xom.XOMStore;
 
 public class XOMToClientMapper {
 
-    public XOMStore readData(Configuration props) throws ConfigurationException {
+    public XOMStore initData(Configuration props) throws ConfigurationException {
         final XOMStore dataStore = new XOMStore();
         final Element configRoot = XOMHelper.getRootElement(new File(props.getProperty("config.file")));
         final TextStore lib = FactoryFinder.find().getLibrary();
@@ -33,12 +62,25 @@ public class XOMToClientMapper {
         initCharKomponents(files, dataStore);
         ProgAdmin.logger.info("Charakter-Elemente erstellt...");
 
+        /*
         loadCharKomponents(files, dataStore, false);
         ProgAdmin.logger.info("Charakter-Elemente initiiert...");
-
+        */
+        
         return dataStore;
     }
 
+    public XOMStore readData(Configuration props, XOMStore dataStore) throws ConfigurationException {
+        final Element configRoot = XOMHelper.getRootElement(new File(props.getProperty("config.file")));
+ 
+    	final List<File> files = getXmlFiles(props, configRoot);
+    	
+        loadCharKomponents(files, dataStore, false);
+        ProgAdmin.logger.info("Charakter-Elemente initiiert...");
+    	
+    	return dataStore;
+    }
+    
     /**
      * Liest alle Files ein und erzeugt die CharElemente (nur mit ID)
      * 
@@ -48,6 +90,8 @@ public class XOMToClientMapper {
 
         loadCharKomponents(arrayFiles, charKompAdmin, true);
 
+        EigenschaftEnum.getIdArray();
+        
         // Eigenschaften hinzufügen (initialisierung erstellt diese komplett)
         charKompAdmin.initCharKomponents(EigenschaftEnum.getIdArray(), CharKomponente.eigenschaft);
     }
@@ -57,7 +101,8 @@ public class XOMToClientMapper {
      */
     private void loadCharKomponents(List<File> files, XOMStore store, boolean init) {
         final CharKomponente[] charKomps = CharKomponente.values();
-
+        
+        
         // Files auslesen, hier kann eigentlich kein Lade Fehler auftreten,
         // da alle File bereits durch "loadRegleXML" geladen waren!
         final Element[] rootElements = new Element[files.size()];
@@ -70,33 +115,89 @@ public class XOMToClientMapper {
             final CharKomponente current = charKomps[i];
             for (int ii = 0; ii < rootElements.length; ii++) { // Für alle Files...
                 final Element firstChild = rootElements[ii].getFirstChildElement(current.getKategorie());
+                
                 if (firstChild == null) {
-                    continue; // ... wenn nicht, überspringen
+                    continue; // ... wenn kein Element, überspringen
                 }
 
                 // Alle Elemente zu dem CharKomp auslesen
                 final Elements kategorien = firstChild.getChildElements();
+                
+                // Entscheiden ob initialisierung der Elemente oder mapping der Daten
                 if (init) {
-                    final List<String> ids = new ArrayList<String>();
-                    for (int iii = 0; iii < kategorien.size(); iii++) {
-                        ids.add(kategorien.get(iii).getAttributeValue("id"));
-                    }
-                    store.initCharKomponents(ids, current);
+                	initHelpCharKomponents(kategorien, current, store);
                 } else {
-                    final XOMMapper mappy = chooseXOMMapper(current);
-                    if (mappy != null) {
-                        for (int iii = 0; iii < kategorien.size(); iii++) {
-                            final Element child = kategorien.get(iii);
-                            final String id = child.getAttributeValue("id");
-                            final CharElement charEl = store.getCharElement(id, current);
-                            mappy.map(child, charEl);
-                        }
-                    }
+                	mapHelpCharKomponents(kategorien, current, store);
                 }
             }
         }
     }
 
+    /**
+     * Hilfs-Methode für loadCharKomponents. Initialisiert die übergebenen Elemente indem die 
+     * Elemente erzeugt werden und die ID gesetzt wird.
+     * @param kategorien Alle XML-Elemente der Art "current" 
+     * @param current Die Art der übergebenen Elemente
+     * @param store Store in den die Elemente gespeichert werden sollen
+     */
+    private void initHelpCharKomponents(Elements kategorien, CharKomponente current, XOMStore store) {
+    	CharKomponente currentVariante;
+    	
+        final List<String> ids = new ArrayList<String>();
+        for (int iii = 0; iii < kategorien.size(); iii++) {
+            ids.add(kategorien.get(iii).getAttributeValue("id"));
+        }
+        store.initCharKomponents(ids, current);
+        
+        // Setzen der Varianten
+        if (current.equals(CharKomponente.rasse) 
+        		|| current.equals(CharKomponente.kultur)
+        		|| current.equals(CharKomponente.profession)
+        ) {
+        	if (current.equals(CharKomponente.rasse)) {
+        		currentVariante = CharKomponente.rasseVariante;
+        	} else if (current.equals(CharKomponente.kultur)) {
+        		currentVariante = CharKomponente.kulturVariante;
+        	} else {
+        		currentVariante = CharKomponente.professionVariante;
+        	}
+        	
+        	for (int iii = 0; iii < kategorien.size(); iii++) {
+
+                Element tmpElement = kategorien.get(iii).getFirstChildElement("varianten");
+                if (tmpElement != null) {
+                	final Elements varianten = tmpElement.getChildElements("variante");
+                	ids.clear();
+                	for (int iiii = 0; iiii < varianten.size(); iiii++) {
+                	 	ids.add(varianten.get(iiii).getAttributeValue("id"));
+                	 }
+                	 
+                	 store.initCharKomponents(ids, currentVariante);
+                }
+            }
+        }
+    }
+    
+    /**
+     * Hilfs-Methode für loadCharKomponents. Mapped die übergebenen Elemente indem die 
+     * Daten aus den XML-Elemten in die CharElemente gespeichert werden.
+     * @param kategorien Alle XML-Elemente der Art "current" 
+     * @param current Die Art der übergebenen Elemente
+     * @param store Store in den die Elemente gespeichert werden sollen
+     */
+    private void mapHelpCharKomponents(Elements kategorien, CharKomponente current, XOMStore store) {
+        final XOMMapper mappy = chooseXOMMapper(current);
+        if (mappy != null) {
+            for (int iii = 0; iii < kategorien.size(); iii++) {
+                final Element child = kategorien.get(iii);
+                final String id = child.getAttributeValue("id");
+                final CharElement charEl = store.getCharElement(id, current);
+                
+                mappy.map(child, charEl);
+            }
+        }
+    }
+    
     /**
      * Ließt alle XML-Files ein, die laut Config eingelesen werden sollen. Ließt auch die als im "benoetigtDateien" Tag
      * angegeben Dateinen ein.

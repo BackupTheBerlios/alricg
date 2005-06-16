@@ -10,6 +10,7 @@ import nu.xom.Elements;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Herkunft;
+import org.d3s.alricg.charKomponenten.HerkunftVariante;
 import org.d3s.alricg.charKomponenten.charZusatz.SimpelGegenstand;
 import org.d3s.alricg.charKomponenten.links.Auswahl;
 import org.d3s.alricg.charKomponenten.links.AuswahlAusruestung;
@@ -330,6 +331,112 @@ final class XOMMappingHelper {
             XOMMappingHelper.mapHilfsauswahl(variableAuswahl[i], e);
             xmlElement.appendChild(e);
         }
+    }
+
+    /**
+     * Liest eine Variante von Rasse, Kultur oder Profession aus XML ein und schreibt die 
+     * Werte in eine Herkunft.
+     * 
+     * @param xmlElement Quelle - Das XML-Element das ausgelesen wird (wo die Variante enthalten ist)
+     * @param charElement Ziel - Das Element in das die Werte geschrieben werden
+     * @param mapper Der Mapper für die Rasse, Kultur oder Profession
+     * @author vStrelow
+     */
+    public static HerkunftVariante mapVarianten(Element xmlElement, CharElement charElement, 
+    													Herkunft herkunft, XOMMapper mapper) 
+    {
+    	mapper.map(xmlElement, charElement);
+        
+        // my mapping
+        final HerkunftVariante herkunftV = (HerkunftVariante) charElement;
+        
+        // Auslesen der Elemente die von dem "original" entfernd werden sollen
+        Element current = xmlElement.getFirstChildElement("entferneElement");
+        if (current != null) {
+            final IdLinkList ids = new IdLinkList((Herkunft) herkunftV);
+            XOMMappingHelper.mapIdLinkList(current, ids);
+            herkunftV.setEntferneElement(ids);
+        }
+        
+        // Auslesen der XML-Tags die von dem "original" entfernd werden sollen
+        current = xmlElement.getFirstChildElement("entferneXmlTag");
+        if (current != null) {
+        	String[] strAr = current.getValue().split(",");
+        	for (int i = 0; i < strAr.length; i++) {
+        		strAr[i] = strAr[i].trim();
+        	}
+        	herkunftV.setEntferneXmlTag(strAr);
+        }
+        
+        // Auslesen des Attribus "isMultibel"
+        Attribute a = xmlElement.getAttribute("isMultibel");
+        
+        // Sicherstellen, das der Wert gültig ist
+        assert a.getValue().equals("false") || a.getValue().equals("true");
+        herkunftV.setMultibel(a.getValue().equals("true"));
+
+        // Auslesen des Attribus "isAdditionsVariante"
+        a = xmlElement.getAttribute("isAdditionsVariante");
+        
+        // Sicherstellen, das der Wert gültig ist
+        assert a.getValue().equals("false") || a.getValue().equals("true");
+        herkunftV.setAdditionsVariante(a.getValue().equals("true"));
+        
+        // Setzen von welcher Herkunft dies eine Variante ist
+        herkunftV.setVarianteVon(herkunft);
+        
+        return herkunftV;
+    }
+    
+    
+    /**
+     * Liest eine Variante von Rasse, Kultur oder Profession aus einem CharElement aus und
+     * schreibt die Werte in ein XML-Element.
+     * 
+     * @param charElement Quelle - Das Element aus dem die Werte gelesen werden (Die Variante)
+     * @param xmlElement Ziel - Das XML-Element in das geschrieben wird
+     * @param mapper Der Mapper für die Rasse, Kultur oder Profession
+     * @author vStrelow
+     */
+    public static Element mapVarianten(CharElement charElement, XOMMapper mapper) {
+    	Element xmlElement = new Element("variante");
+    	
+    	mapper.map(charElement, xmlElement);
+        StringBuffer strBuffer = new StringBuffer();
+        
+        // my mapping
+        final HerkunftVariante herkunftV = (HerkunftVariante) charElement;
+        xmlElement.setLocalName("variante");
+        
+        // Schreiben der Elemente, die aus dem "original" entfernd werden sollen
+        IdLinkList ids = herkunftV.getEntferneElement();
+        if (ids != null) {
+            final Element e = new Element("entferneElement");
+            XOMMappingHelper.mapIdLinkList(ids, e);
+            xmlElement.appendChild(e);
+        }
+    
+        // Schreiben der XML-Tags die entfernd werden sollen
+        String[] stringAr = herkunftV.getEntferneXmlTag();
+        if (stringAr != null) {
+            final Element e = new Element("entferneXmlTag");
+            for (int i = 0; i < stringAr.length-1; i++) {
+            	strBuffer.append(stringAr[i]).append(",");
+            }
+            xmlElement.appendChild(strBuffer.toString());
+        }
+        
+        // Schreiben ob Multibel, wenn nicht default
+        if ( herkunftV.isMultibel() ) {
+        	xmlElement.addAttribute(new Attribute("isMultibel", "true"));
+        }
+        
+        // Schreiben ob Multibel, wenn nicht default
+        if ( !herkunftV.isAdditionsVariante() ) {
+        	xmlElement.addAttribute(new Attribute("isAdditionsVariante", "false"));
+        }
+        
+        return xmlElement;
     }
 
     private static void mapHilfsauswahl(Element xmlElement, HilfsAuswahl hilfsauswahl, Herkunft herkunft) {

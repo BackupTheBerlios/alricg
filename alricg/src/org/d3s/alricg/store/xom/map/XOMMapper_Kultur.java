@@ -1,9 +1,14 @@
 package org.d3s.alricg.store.xom.map;
 
+import java.util.ArrayList;
+
 import nu.xom.Element;
+import nu.xom.Elements;
 
 import org.d3s.alricg.charKomponenten.CharElement;
+import org.d3s.alricg.charKomponenten.HerkunftVariante;
 import org.d3s.alricg.charKomponenten.Kultur;
+import org.d3s.alricg.charKomponenten.KulturVariante;
 import org.d3s.alricg.charKomponenten.RegionVolk;
 import org.d3s.alricg.charKomponenten.links.Auswahl;
 import org.d3s.alricg.charKomponenten.links.AuswahlAusruestung;
@@ -54,6 +59,14 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
             XOMMappingHelper.mapAuswahl(current, auswahl);
             kultur.setZweitsprache(auswahl);
         }
+        
+        // Auslesen der Lehrsprache
+        current = xmlElement.getFirstChildElement("lehrsprache");
+        if (current != null) {
+            auswahl = new Auswahl(kultur);
+            XOMMappingHelper.mapAuswahl(current, auswahl);
+            kultur.setLehrsprache(auswahl);
+        }
 
         // Auslesen sonstiger Sprachen
         current = xmlElement.getFirstChildElement("sprachen");
@@ -62,7 +75,8 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
             XOMMappingHelper.mapAuswahl(current, auswahl);
             kultur.setSprachen(auswahl);
         }
-        // Auslesen er Schriften
+        
+        // Auslesen der Schriften
         current = xmlElement.getFirstChildElement("schriften");
         if (current != null) {
             auswahl = new Auswahl(kultur);
@@ -77,6 +91,22 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
             XOMMappingHelper.mapAuswahlAusruestung(current, auswahlA);
             kultur.setAusruestung(auswahlA);
         }
+        
+        // Auslesen der Varianten
+        ArrayList<HerkunftVariante> arList = new ArrayList<HerkunftVariante>();
+        current = xmlElement.getFirstChildElement("varianten");
+        if (current != null) {
+        	 Elements varianten = current.getChildElements("variante");
+        	 for (int i = 0; i < varianten.size(); i++) {
+        	 	arList.add( XOMMappingHelper.mapVarianten(
+        	 			varianten.get(i), 
+        	 			ProgAdmin.data.getCharElement(varianten.get(i).getAttributeValue("id")),
+        	 			kultur,
+        	 			this) );
+        	 }
+        	 kultur.setVarianten(arList.toArray(new KulturVariante[arList.size()]));
+        }
+        
     }
 
     public void map(CharElement charElement, Element xmlElement) {
@@ -125,6 +155,14 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
             XOMMappingHelper.mapAuswahl(auswahl, e);
             xmlElement.appendChild(e);
         }
+        
+        // Schreiben der Lehrsprache
+        auswahl = kultur.getLehrsprache();
+        if (auswahl != null) {
+            final Element e = new Element("lehrsprache");
+            XOMMappingHelper.mapAuswahl(auswahl, e);
+            xmlElement.appendChild(e);
+        }
 
         // Schreiben der weiteren Sprachen
         auswahl = kultur.getSprachen();
@@ -142,12 +180,25 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
             xmlElement.appendChild(e);
         }
 
-        // Schreiben der AUsruestung
+        // Schreiben der Ausruestung
         AuswahlAusruestung auswahlA = kultur.getAusruestung();
         if (auswahl != null) {
-            final Element e = new Element("muttersprache");
+            final Element e = new Element("ausruestung");
             XOMMappingHelper.mapAuswahlAusruestung(auswahlA, e);
             xmlElement.appendChild(e);
+        }
+        
+        //Schreiben der Varianten
+        CharElement[] elements = kultur.getVarianten();
+        if (elements != null) {
+        	final Element e = new Element("varianten");
+        	 
+        	for (int i = 0; i < elements.length; i++) {
+        	 	e.appendChild(XOMMappingHelper.mapVarianten(
+        	 			elements[i], 
+        	 			this));
+        	}
+        	xmlElement.appendChild(e);
         }
 
     }
