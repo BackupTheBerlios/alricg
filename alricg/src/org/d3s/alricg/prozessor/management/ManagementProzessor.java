@@ -171,4 +171,19 @@ public class ManagementProzessor extends HeldProzessor {
 		
 	}
 	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.prozessor.HeldProzessor#updateKosten(org.d3s.alricg.held.HeldenLink)
+	 */
+	public void updateKosten(HeldenLink genLink) {
+		// TODO implement
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.prozessor.HeldProzessor#canAddCharElement(org.d3s.alricg.charKomponenten.CharElement)
+	 */
+	protected boolean canAddCharElement(CharElement elem) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 }

@@ -16,6 +16,7 @@ import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.controller.CharKomponente;
+import org.d3s.alricg.gui.MessageListener;
 import org.d3s.alricg.held.Held;
 import org.d3s.alricg.held.HeldenLink;
 
@@ -39,8 +40,17 @@ import org.d3s.alricg.held.HeldenLink;
  * @see org.d3s.alricg.prozessor.generierung.GenerierungProzessor
  */
 public abstract class HeldProzessor {
+	private StringBuffer messageBuf;
+	private MessageListener hintergrundListener;
 	protected Held held;
+	
 
+	
+	public void setHintergrundListener(MessageListener listener) {
+		hintergrundListener = listener;
+	}
+	
+	
 	/**
 	 * @return Der Held der durch diesen Prozessor bearbeitet wird
 	 */
@@ -316,6 +326,26 @@ public abstract class HeldProzessor {
 	 */
 	public abstract void canSetProfession(Profession profession);
 
+	
+	/**
+	 * Diese Methode wird normalerweise automatisch von anderen Methoden aufgerufen.
+	 * Der Sinn für ein Seperates aufrufen liegt vor allem darin, die bei der 
+	 * berechnung entstehenden Meldungen zu erzeugen. (z.B. für ToolTips)
+	 * 
+	 * Berechnet die Kosten die für dieses Element aufgewendet werden müssen neu.
+	 * @param link Der Link zu dem Element, für das die Kosten berechnet werden
+	 */
+	public abstract void updateKosten(HeldenLink genLink);
+	
+	/**
+	 * Prüft ob ein CharElement grundsätzlich zum Helden hinzugefügt werden kann.
+	 * Es werden Dinge überprüft wie: Voraussetzungen erfüllt, Vereinbar mit
+	 * anderen Elementen. Es werden KEINE Kosten überprüft oder Dinge wie
+	 * Stufe und zusätzliche angaben
+	 * 
+	 * @param elem Das CharElement das überprüft wird
+	 */
+	protected abstract boolean canAddCharElement(CharElement elem);
 	
 	// *************************************************************************************
 
