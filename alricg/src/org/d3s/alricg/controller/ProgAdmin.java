@@ -29,18 +29,18 @@ import org.d3s.alricg.store.TextStore;
  */
 public class ProgAdmin {
 
-    // Singeltons
-    public static Logger logger; // Für Nachrichten aller Art
+	// Singeltons
+	public static Logger logger; // Für Nachrichten aller Art
 
-    public static Messenger messenger; // Für Nachrichten die Angezeigt werden sollen
+	public static Messenger messenger; // Für Nachrichten die Angezeigt werden sollen
 
-    public static ConfigStore config;
+	public static ConfigStore config;
 
-    public static TextStore library;
+	public static TextStore library;
 
-    public static DataStore data;
+	public static DataStore data;
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
 
         // Logger & Messenger
         logger = Logger.getLogger("Programm-Logger");
@@ -84,14 +84,16 @@ public class ProgAdmin {
             logger.info("Library geladen...");
             messenger.sendInfo("Library geladen...");
 
-            // CharElemente
+            // CharElemente laden
+            factory.initializeData();
             data = factory.getData();
+            factory.readData();
             logger.info("Daten geladen...");
             messenger.sendInfo("Daten geladen...");
-
+            
         } catch (ConfigurationException ce) {
             logger.log(Level.SEVERE, "Config Datei konnte nicht geladen werden. Programm beendet.", ce);
-            messenger.showMessage(Messenger.Level.erwartetFehler,
+            messenger.showMessage(Messenger.Level.fehler,
                     "Die Config-Datei konnte nicht geladen werden! Bitte überprüfen sie ob die Datei \n"
                             + "zugriffsbereit ist und im Orginalzustand vorliegt. \n" + "\n"
                             + "Das Programm konnte ohne diese Datei nicht gestartet werden \n"
