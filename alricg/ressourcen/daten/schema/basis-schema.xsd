@@ -334,8 +334,7 @@
 	<!-- ######################################## -->
 	<xsd:complexType name="rasseVarianteTyp">
 		<xsd:annotation>
-			<xsd:documentation xml:lang="DE">
-				varianteVon - Gibt die original-Rasse an. 
+			<xsd:documentation xml:lang="DE"> 
 				entferneElement - Gibt die ID von einem Element an, das von der 
 					original-Herkunft entfernd werden soll dieses Element darf in 
 					KEINER Auswahl stehen.
@@ -352,7 +351,6 @@
 		<xsd:complexContent>
 			<xsd:extension base="rasseTyp">
 				<xsd:sequence>
-					<xsd:element name="varianteVon"/>
 					<xsd:element name="entferneElement" type="idListe" minOccurs="0"/>
 					<xsd:element name="entferneXmlTag" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
 				</xsd:sequence>
@@ -379,6 +377,7 @@
 					<xsd:element name="professionMoeglich" type="idListe" minOccurs="0"/>
 					<xsd:element name="muttersprache" type="auswahlTyp" minOccurs="0"/>
 					<xsd:element name="zweitsprache" type="auswahlTyp" minOccurs="0"/>
+					<xsd:element name="lehrsprache" type="auswahlTyp" minOccurs="0"/>
 					<xsd:element name="sprachen" type="auswahlTyp" minOccurs="0"/>
 					<xsd:element name="schriften" type="auswahlTyp" minOccurs="0"/>
 					<xsd:element name="ausruestung" type="auswahlGegenstandTyp" minOccurs="0"/>
@@ -394,6 +393,7 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
+	<!-- ######################################## -->
 	<xsd:complexType name="kulturVarianteTyp">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="DE">
@@ -403,7 +403,6 @@
 		<xsd:complexContent>
 			<xsd:extension base="kulturTyp">
 				<xsd:sequence>
-					<xsd:element name="varianteVon"/>
 					<xsd:element name="entferneElement" type="idListe" minOccurs="0"/>
 					<xsd:element name="entferneXmlTag" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
 				</xsd:sequence>
@@ -411,7 +410,6 @@
 				<xsd:attribute name="isAdditionsVariante" type="xsd:boolean" use="optional"/>
 			</xsd:extension>
 		</xsd:complexContent>
-		<!-- ######################################## -->
 	</xsd:complexType>
 	<!-- ########################################## PROFESSION ######################################### -->
 	<xsd:complexType name="professionTyp">
@@ -499,7 +497,6 @@
 		<xsd:complexContent>
 			<xsd:extension base="professionTyp">
 				<xsd:sequence>
-					<xsd:element name="varianteVon"/>
 					<xsd:element name="entferneElement" type="idListe" minOccurs="0"/>
 					<xsd:element name="entferneXmlTag" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
 				</xsd:sequence>
