@@ -28,7 +28,11 @@ import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
  * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelInterface
  */
 public abstract class SonderregelAdapter extends CharElement implements SonderregelInterface {
-
+	protected HeldProzessor prozessor;
+	
+	protected SonderregelAdapter(HeldProzessor proz) {
+		this.prozessor = proz;
+	}
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
