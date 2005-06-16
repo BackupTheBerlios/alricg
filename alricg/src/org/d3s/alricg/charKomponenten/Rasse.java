@@ -33,12 +33,12 @@ public class Rasse extends Herkunft {
     private int gewichtModi;
 
     private int geschwindigk = 8;
+    
+    private RasseVariante[] varianten;
 
-    // private Rasse varianteVon;
 
     /*
      * (non-Javadoc) Methode überschrieben
-     * 
      * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
      */
     public CharKomponente getCharKomponente() {
@@ -186,4 +186,17 @@ public class Rasse extends Herkunft {
     public void setKulturUeblich(IdLinkList kulturUeblich) {
         this.kulturUeblich = kulturUeblich;
     }
+    
+	/**
+	 * @return Liefert das Attribut varianten.
+	 */
+	public RasseVariante[] getVarianten() {
+		return varianten;
+	}
+	/**
+	 * @param varianten Setzt das Attribut varianten.
+	 */
+	public void setVarianten(RasseVariante[] varianten) {
+		this.varianten = varianten;
+	}
 }

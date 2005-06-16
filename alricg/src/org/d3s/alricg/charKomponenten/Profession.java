@@ -75,7 +75,7 @@ public class Profession extends Herkunft {
 
     private Auswahl ritusModis;
 
-    // private Profession varianteVon;
+    private ProfessionVariante[] varianten;
 
     /*
      * (non-Javadoc) Methode überschrieben
@@ -262,7 +262,19 @@ public class Profession extends Herkunft {
     public void setVerbotenVort(IdLinkList verbotenVort) {
         this.verbotenVort = verbotenVort;
     }
-
+    
+	/**
+	 * @return Liefert das Attribut varianten.
+	 */
+	public ProfessionVariante[] getVarianten() {
+		return varianten;
+	}
+	/**
+	 * @param varianten Setzt das Attribut varianten.
+	 */
+	public void setVarianten(ProfessionVariante[] varianten) {
+		this.varianten = varianten;
+	}
     /**
      * <u>Beschreibung:</u><br>
      * Repräsentiert die üblichen angaben die für eine Magier-Akedemie benötigt werden, wenn diese als Profession
