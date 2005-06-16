@@ -92,6 +92,10 @@ public class GeneratorLink extends HeldenLink {
 		updateWert();
 	}
 	
+	/**
+	 * Entfernd einen Link indem die Quelle des zu entfernenden Links gesucht wird
+	 * @param quelle Die Quelle des Links der entfernd werden soll
+	 */
 	public void removeLinkByQuelle(CharElement quelle) {
 		for (int i = 0; i < linkModiArray.size(); i++) {
 			if ( linkModiArray.get(i).getQuellElement().equals(quelle) ) {
