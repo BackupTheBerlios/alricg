@@ -4,8 +4,8 @@
  * This file is part of the project ALRICG. The file is copyright
  * protected an under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
- *
  */
+
 package org.d3s.alricg.gui;
 
 
@@ -15,8 +15,8 @@ import javax.swing.JOptionPane;
 
 import static org.d3s.alricg.gui.Messenger.Level.frage;
 import static org.d3s.alricg.gui.Messenger.Level.info;
-import static org.d3s.alricg.gui.Messenger.Level.erwartetFehler;
-import static org.d3s.alricg.gui.Messenger.Level.unerwartetFehler;
+import static org.d3s.alricg.gui.Messenger.Level.fehler;
+import static org.d3s.alricg.gui.Messenger.Level.fehlerSchwer;
 import static org.d3s.alricg.gui.Messenger.Level.warnung;
 import org.d3s.alricg.controller.ProgAdmin;
 /**
@@ -28,7 +28,15 @@ import org.d3s.alricg.controller.ProgAdmin;
  * @see org.d3s.alricg.GUI.MessageListener
  */
 public class Messenger {
-	public enum Level { frage, info, warnung, erwartetFehler, unerwartetFehler }
+	
+	public enum Level { 
+		frage, // Es wird eine Eingabe vom Benutzer erwartet (wird evtl. nicht benötigt)
+		info, // Eine Info von Programm (laden von Elementen o.ä.)
+		regeln,
+		warnung, // Etwas ist evtl. fehlerhaft
+		fehler, 
+		fehlerSchwer
+	}
 	
 //	Die maximale Anzahl an Nachrichten die gespeichert wird
 	private final int MAX_NACHRICHTEN = 15; 
@@ -63,11 +71,12 @@ public class Messenger {
 	/**
 	 * Dient dem Absetzen von Nachrichten. Die Nachrichten werden an "interessierte"
 	 * Listener weitergereicht und gespeichert.
+	 * @param titel Der Titel der Nachricht
 	 * @param level Die Art der Meldung
 	 * @param text Die Meldung selbst (sollte zuvor per Library übersetzt sein)
 	 */
-	public void sendMessage(Level level, String text)  {
-		registerMessage(level, text);
+	public void sendMessage(String titel, Level level, String text)  {
+		registerMessage(titel, level, text);
 	}
 	
 	/**
@@ -76,7 +85,7 @@ public class Messenger {
 	 * @param text Die Meldung selbst (sollte zuvor per Library übersetzt sein)
 	 */
 	public void sendFehler(String text) {
-		registerMessage(Level.erwartetFehler, text);
+		registerMessage("Fehler", Level.fehler, text);
 	}
 	
 	/**
@@ -85,7 +94,7 @@ public class Messenger {
 	 * @param text Die Meldung selbst (sollte zuvor per Library übersetzt sein)
 	 */
 	public void sendInfo(String text) {
-		registerMessage(Level.info, text);
+		registerMessage("Information", Level.info, text);
 	}
 	
 	/**
@@ -99,8 +108,6 @@ public class Messenger {
 	public int showMessage(Level level, String text) {
 		int messageType, buttons;
 		String titel;
-		
-		registerMessage(level,text);
 		
 		switch (level) {
 			case frage:
@@ -118,8 +125,8 @@ public class Messenger {
 				messageType = JOptionPane.WARNING_MESSAGE;
 				buttons = JOptionPane.OK_CANCEL_OPTION;
 				break;
-			case erwartetFehler:
-			case unerwartetFehler:
+			case fehler:
+			case fehlerSchwer:
 				titel = "Ein Fehler ist aufgetreten!";
 				messageType = JOptionPane.ERROR_MESSAGE;
 				buttons = JOptionPane.OK_CANCEL_OPTION;
@@ -128,6 +135,8 @@ public class Messenger {
 				ProgAdmin.logger.severe("Nötiger Case Fall ist nicht eingetreten! ");
 				return 0;
 		}
+		
+		registerMessage(titel, level,text);
 		
 		return JOptionPane.showConfirmDialog(null, text, titel, buttons, messageType);
 	}
@@ -142,7 +151,7 @@ public class Messenger {
 	 * @param buttons
 	 * @return
 	 */
-	private void registerMessage(Level level, String text)  {
+	private void registerMessage(String titel, Level level, String text)  {
 
 		Nachricht tempNachricht;
 		
@@ -159,7 +168,7 @@ public class Messenger {
 		}
 		
 		// Werte setzen / Objekt neu füllen "Object-Recycling"
-		tempNachricht.setVaules(level, text);
+		tempNachricht.setVaules(titel, level, text);
 		
 		// Als neusten Eintrag einfügen
 		nachrichtenAL.add(0, tempNachricht);
@@ -169,47 +178,6 @@ public class Messenger {
 			listenerAL.get(i).neueNachricht(tempNachricht);
 		}
 
-	}
-	
-	/**
-	 * <u>Beschreibung:</u><br> 
-	 * Beinhaltet den Inhalt einer Nachricht, um sie zu speichern und
-	 * Weiterzugeben. 
-	 * @author V. Strelow
-	 */
-	class Nachricht {
-		private Level level;
-		private String text;
-		
-		/** Leerer Konstruktor */ 
-		public Nachricht() {
-			// Noop!
-		}
-		
-		/**
-		 * Hiermit können alle Werte der Nachricht gesetzt werden (Sinnvoll 
-		 * für das recycling von Objekten)
-		 * @param level Die "Art" der Nachricht
-		 * @param text Der Text er Nachricht
-		 */
-		public void setVaules(Level level, String text) {
-			this.level = level;
-			this.text  = text;
-		}
-		
-		/**
-		 * @return Liefert das Attribut level.
-		 */
-		public Level getLevel() {
-			return level;
-		}
-		
-		/**
-		 * @return Liefert das Attribut text.
-		 */
-		public String getText() {
-			return text;
-		}
 	}
 
 }

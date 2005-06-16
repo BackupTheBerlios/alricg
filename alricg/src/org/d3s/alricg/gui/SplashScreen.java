@@ -17,7 +17,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JWindow;
 
-import org.d3s.alricg.gui.Messenger.Nachricht;
 import org.d3s.alricg.controller.ProgAdmin;
 
 /**
@@ -46,8 +45,8 @@ public class SplashScreen extends JWindow implements MessageListener {
 			this.lblText.setForeground(Color.black);
 		} else if ( neueNachricht.getLevel().equals(Messenger.Level.warnung) ) {
 			this.lblText.setForeground(Color.orange);
-		} else if ( neueNachricht.getLevel().equals(Messenger.Level.erwartetFehler) ||
-				    neueNachricht.getLevel().equals(Messenger.Level.unerwartetFehler) ) {
+		} else if ( neueNachricht.getLevel().equals(Messenger.Level.fehler) ||
+				    neueNachricht.getLevel().equals(Messenger.Level.fehlerSchwer) ) {
 			this.lblText.setForeground(Color.red);
 		}
 				

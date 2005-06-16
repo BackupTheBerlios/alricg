@@ -8,7 +8,6 @@
  */
 package org.d3s.alricg.gui;
 
-import org.d3s.alricg.gui.Messenger.Nachricht;
 
 /**
  * <u>Beschreibung:</u><br> 
