@@ -10,8 +10,8 @@ import java.util.logging.Level;
 import nu.xom.Element;
 import nu.xom.Elements;
 
+import org.d3s.alricg.controller.Messenger;
 import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.gui.Messenger;
 import org.d3s.alricg.store.Configuration;
 import org.d3s.alricg.store.TextStore;
 import org.d3s.alricg.store.xom.XOMHelper;

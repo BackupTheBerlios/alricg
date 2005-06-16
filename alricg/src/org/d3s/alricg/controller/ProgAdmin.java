@@ -11,7 +11,6 @@ import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.d3s.alricg.gui.Messenger;
 import org.d3s.alricg.gui.SplashScreen;
 import org.d3s.alricg.store.ConfigStore;
 import org.d3s.alricg.store.ConfigurationException;

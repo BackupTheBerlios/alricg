@@ -9,8 +9,8 @@ import nu.xom.Element;
 import nu.xom.ParsingException;
 import nu.xom.ValidityException;
 
+import org.d3s.alricg.controller.Messenger;
 import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.gui.Messenger;
 import org.d3s.alricg.store.FactoryFinder;
 import org.d3s.alricg.store.TextStore;
 

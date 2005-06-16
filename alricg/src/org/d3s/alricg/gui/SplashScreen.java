@@ -17,6 +17,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JWindow;
 
+import org.d3s.alricg.controller.MessageListener;
+import org.d3s.alricg.controller.Messenger;
+import org.d3s.alricg.controller.Nachricht;
 import org.d3s.alricg.controller.ProgAdmin;
 
 /**
