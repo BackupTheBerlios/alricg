@@ -24,6 +24,7 @@ import org.d3s.alricg.prozessor.SonderregelAdmin;
 /**
  * <b>Beschreibung:</b><br>
  * Fast die Daten die einen Helden ausmachen zusammen.
+ * 
  * @author V.Strelow
  */
 public class Held {
@@ -56,7 +57,9 @@ public class Held {
 	private HashMap<EigenschaftEnum, HeldenLink> eigenschaftHash;
 	
 	private Sprache[] muttersprache;  // kann mehrere geben, siehe "Golbin Festumer G"
-
+	private Sprache[] zweitsprache; 
+	private Sprache[] lehrsprache; 
+	
 	private int abenteuerPunkte;
 	private CharLogBuch lnkLogBuch;
 	
