@@ -102,4 +102,20 @@ public class SonderfBoxGen extends AbstractBoxGen {
 		return false;
 	}
 
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.prozessor.generierung.AbstractBoxGen#updateKosten(org.d3s.alricg.held.GeneratorLink)
+	 */
+	protected void updateKosten(GeneratorLink genLink) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.prozessor.generierung.AbstractBoxGen#canAddCharElement(org.d3s.alricg.charKomponenten.CharElement)
+	 */
+	protected boolean canAddCharElement(CharElement elem) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

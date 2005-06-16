@@ -74,6 +74,16 @@ public abstract class AbstractBoxGen extends LinkElementBox<GeneratorLink> {
 	 */ 
 	
 	/**
+	 * Prüft ob ein CharElement grundsätzlich zum Helden hinzugefügt werden kann.
+	 * Es werden Dinge überprüft wie: Voraussetzungen erfüllt, Vereinbar mit
+	 * anderen Elementen. Es werden KEINE Kosten überprüft oder Dinge wie
+	 * Stufe und zusätzliche angaben
+	 * 
+	 * @param elem Das CharElement das überprüft wird
+	 */
+	protected abstract boolean canAddCharElement(CharElement elem);
+	
+	/**
 	 * Prüft ob ein Element vom Helden entfernd werden kann.
 	 * @param link Der Link des Elements, das entfernt werden soll
 	 */
@@ -153,6 +163,15 @@ public abstract class AbstractBoxGen extends LinkElementBox<GeneratorLink> {
 	 * @param link Link des Elements, dass geprüft werden soll
 	 */
 	protected abstract boolean canUpdateZweitZiel(HeldenLink link);
-
+	
+	/**
+	 * Diese Methode wird normalerweise automatisch von anderen Methoden aufgerufen.
+	 * Der Sinn für ein Seperates aufrufen liegt vor allem darin, die bei der 
+	 * berechnung entstehenden Meldungen zu erzeugen. (z.B. für ToolTips)
+	 * 
+	 * Berechnet die Kosten die für dieses Element aufgewendet werden müssen neu.
+	 * @param link Der Link zu dem Element, für das die Kosten berechnet werden
+	 */
+	protected abstract void updateKosten(GeneratorLink genLink);
 	
 }

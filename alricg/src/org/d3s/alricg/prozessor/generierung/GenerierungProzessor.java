@@ -289,6 +289,13 @@ public class GenerierungProzessor extends HeldProzessor {
     	// TODO Kosten neu berechnen!
 	}
 	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.prozessor.HeldProzessor#updateKosten(org.d3s.alricg.held.HeldenLink)
+	 */
+	public void updateKosten(HeldenLink genLink) {
+		// TODO implement
+	}
+	
 // *******************************************************************************************
 // 									HilfsMethoden
 	
@@ -296,7 +303,7 @@ public class GenerierungProzessor extends HeldProzessor {
 	 * Soll dem Nachrichten austausch zwischen Programm - User dienen, damit
 	 * der Benutzer möglichst transparent sehen kann, wann welche Regel zur 
 	 * Anwendung kommt. 
-	 * Noch nicht implimentiert.
+	 * Noch nicht implementiert.
 	 * 
 	 * Bsp. der Idee:
 	 * 		- Es wird geprüft ob ein Talent zu Helden hinzugefügt werden kann, es wird die
@@ -315,19 +322,7 @@ public class GenerierungProzessor extends HeldProzessor {
 	 * etwas geht oder ebend nicht.
 	 * 
 	 */
-	private void startNewPage() {
-		// TODO implement
-	}
-	
-	// Siehe Oben
-	public void writeToPage() {
-		// TODO implement		
-	}
-	
-	// Siehe Oben
-	private void sendPage() {
-		// TODO implement	
-	}
+
 	
 	/**
 	 * Bestimmt die von dem Prozesser verwalteten Kosten neu:
@@ -418,7 +413,6 @@ public class GenerierungProzessor extends HeldProzessor {
 		
 		return ok;
 	}
-
 	
 	/**
 	 * 
@@ -494,6 +488,14 @@ public class GenerierungProzessor extends HeldProzessor {
 			MIN_SCHLECHT_EIGENSCHAFT_WERT = 10;
 		}
 		
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.prozessor.HeldProzessor#canAddCharElement(org.d3s.alricg.charKomponenten.CharElement)
+	 */
+	protected boolean canAddCharElement(CharElement elem) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
 

@@ -66,13 +66,25 @@ public class TalentBoxGen extends AbstractBoxGen {
 		if (tmpLink == null) {
 			// Der Link würde ein neues Element sein
 			
-			// TODO Noch Altivierbar?
+			// TODO Noch Aktivierbar?
 			// TODO Voraussetzungen erfüllt?
+			// TODO Mit anderen Elementen vereinbar?
 		} 
 		
 		if (link.getQuellElement() == null) {
 			Held.heldUtils.erfuelltVoraussetzung(tmpLink);
 		}
+		
+		return true;
+	}
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.prozessor.generierung.AbstractBoxGen#canAddCharElement(org.d3s.alricg.charKomponenten.CharElement)
+	 */
+	protected boolean canAddCharElement(CharElement elem) {
+		
+		// TODO Voraussetzungen erfüllt?
+		// TODO Mit anderen Elementen vereinbar?
 		
 		return true;
 	}
@@ -187,7 +199,7 @@ public class TalentBoxGen extends AbstractBoxGen {
 	 * Berechnet die Kosten die für dieses Element aufgewendet werden müssen neu.
 	 * @param link Der Link zu dem Element, für das die Kosten berechnet werden
 	 */
-	private void updateKosten(GeneratorLink genLink) {
+	protected void updateKosten(GeneratorLink genLink) {
 		Talent tmpTalent;
 		KostenKlasse kKlasse;
 		int kosten;
@@ -210,10 +222,17 @@ public class TalentBoxGen extends AbstractBoxGen {
 				genLink.getWert(), // bis Stufe
 				kKlasse // in dieser Kostenklasse
 		);
+		
 		kosten = prozessor.getHeld().getSonderregelAdmin().changeKosten(kosten, genLink);
 		
 		// Setze die Kosten
 		genLink.setKosten(kosten);
 	}
 
+	/**
+	 * @return Liefert die Anzahl an Talenten die Aktiviert wurden.
+	 */
+	protected int getAktivierteTalente() {
+		return aktivierteTalente;
+	}
 }

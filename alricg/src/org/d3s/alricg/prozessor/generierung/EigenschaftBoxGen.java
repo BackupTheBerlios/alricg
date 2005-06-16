@@ -36,6 +36,8 @@ public class EigenschaftBoxGen extends AbstractBoxGen {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	
 
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.prozessor.generierung.AbstractBoxGen#canRemoveElement(org.d3s.alricg.held.HeldenLink)
@@ -98,6 +100,22 @@ public class EigenschaftBoxGen extends AbstractBoxGen {
 	 * @see org.d3s.alricg.prozessor.generierung.AbstractBoxGen#canUpdateZweitZiel(org.d3s.alricg.held.HeldenLink)
 	 */
 	protected boolean canUpdateZweitZiel(HeldenLink link) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.prozessor.generierung.AbstractBoxGen#updateKosten(org.d3s.alricg.held.GeneratorLink)
+	 */
+	protected void updateKosten(GeneratorLink genLink) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.prozessor.generierung.AbstractBoxGen#canAddCharElement(org.d3s.alricg.charKomponenten.CharElement)
+	 */
+	protected boolean canAddCharElement(CharElement elem) {
 		// TODO Auto-generated method stub
 		return false;
 	}
