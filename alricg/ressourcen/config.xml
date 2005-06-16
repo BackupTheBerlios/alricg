@@ -2,10 +2,10 @@
 <!-- This file is part of the project ALRICG. -->
 <config>
 	<schemas basis="basis-schema.xsd" held="held-schema.xsd" 
-			library="library-schema.xsd" varTypen="varTypen-schema.xsd"/>
+			library="library-schema.xsd"/>
 	<library file="library.xml" lang="DE"/>
 	<xmlRuleFilesD3S>
-		<readFile>test-alricgSchema-2.xml</readFile>
+		<readFile>test-kompletterDatensatz.xml</readFile>
 		<!-- <readFile>xmlOutputMuster.xml</readFile> -->
 	</xmlRuleFilesD3S>
 	<xmlRuleFilesUser readUserFiles="false"> 
