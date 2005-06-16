@@ -23,11 +23,14 @@ public class Kultur extends Herkunft {
     private IdLinkList professionUeblich;
     private Auswahl muttersprache;
     private Auswahl zweitsprache;
+    private Auswahl lehrsprache;
+
     private Auswahl sprachen;
     private Auswahl schriften;
     private AuswahlAusruestung ausruestung;
     private RegionVolk regionVolk;
-
+    private KulturVariante[] varianten;
+    
     //private Kultur varianteVon; 
     
 	/* (non-Javadoc) Methode überschrieben
@@ -95,6 +98,13 @@ public class Kultur extends Herkunft {
     }
     
 	/**
+	 * @return Liefert das Attribut lehrsprache.
+	 */
+	public Auswahl getLehrsprache() {
+		return lehrsprache;
+	}
+    
+	/**
 	 * @return Liefert das Attribut regionVolk.
 	 */
 	public RegionVolk getRegionVolk() {
@@ -118,6 +128,14 @@ public class Kultur extends Herkunft {
 	public void setMuttersprache(Auswahl muttersprache) {
 		this.muttersprache = muttersprache;
 	}
+	
+	/**
+	 * @param lehrsprache Setzt das Attribut lehrsprache.
+	 */
+	public void setLehrsprache(Auswahl lehrsprache) {
+		this.lehrsprache = lehrsprache;
+	}
+	
 	/**
 	 * @param professionMoeglich Setzt das Attribut professionMoeglich.
 	 */
@@ -147,5 +165,17 @@ public class Kultur extends Herkunft {
 	 */
 	public void setZweitsprache(Auswahl zweitsprache) {
 		this.zweitsprache = zweitsprache;
+	}
+	/**
+	 * @return Liefert das Attribut varianten.
+	 */
+	public KulturVariante[] getVarianten() {
+		return varianten;
+	}
+	/**
+	 * @param varianten Setzt das Attribut varianten.
+	 */
+	public void setVarianten(KulturVariante[] varianten) {
+		this.varianten = varianten;
 	}
 }
