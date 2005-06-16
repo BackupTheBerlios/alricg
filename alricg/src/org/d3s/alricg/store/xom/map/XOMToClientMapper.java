@@ -139,9 +139,10 @@ public class XOMToClientMapper {
      * @param kategorien Alle XML-Elemente der Art "current" 
      * @param current Die Art der übergebenen Elemente
      * @param store Store in den die Elemente gespeichert werden sollen
+     * @author V.Strelow
      */
     private void initHelpCharKomponents(Elements kategorien, CharKomponente current, XOMStore store) {
-    	CharKomponente currentVariante;
+    	final CharKomponente currentVariante;
     	
         final List<String> ids = new ArrayList<String>();
         for (int iii = 0; iii < kategorien.size(); iii++) {
@@ -149,33 +150,29 @@ public class XOMToClientMapper {
         }
         store.initCharKomponents(ids, current);
         
-        // Setzen der Varianten
-        if (current.equals(CharKomponente.rasse) 
-        		|| current.equals(CharKomponente.kultur)
-        		|| current.equals(CharKomponente.profession)
-        ) {
-        	if (current.equals(CharKomponente.rasse)) {
-        		currentVariante = CharKomponente.rasseVariante;
-        	} else if (current.equals(CharKomponente.kultur)) {
-        		currentVariante = CharKomponente.kulturVariante;
-        	} else {
-        		currentVariante = CharKomponente.professionVariante;
-        	}
-        	
-        	for (int iii = 0; iii < kategorien.size(); iii++) {
-
-                Element tmpElement = kategorien.get(iii).getFirstChildElement("varianten");
-                if (tmpElement != null) {
-                	final Elements varianten = tmpElement.getChildElements("variante");
-                	ids.clear();
-                	for (int iiii = 0; iiii < varianten.size(); iiii++) {
-                	 	ids.add(varianten.get(iiii).getAttributeValue("id"));
-                	 }
-                	 
-                	 store.initCharKomponents(ids, currentVariante);
-                }
+        // Einlesen der Varianten
+    	if (current.equals(CharKomponente.rasse)) {
+    		currentVariante = CharKomponente.rasseVariante;
+    	} else if (current.equals(CharKomponente.kultur)) {
+    		currentVariante = CharKomponente.kulturVariante;
+    	} else if (current.equals(CharKomponente.profession)){
+    		currentVariante = CharKomponente.professionVariante;
+    	} else {
+    		return; // Keine Varianten, daher return
+    	}
+    	
+    	// Alle Elemente durchgehen, um Varianten auszulsen
+    	for (int iii = 0; iii < kategorien.size(); iii++) {
+            Element tmpElement = kategorien.get(iii).getFirstChildElement("varianten");
+            
+            if (tmpElement != null) {
+            	initHelpCharKomponents( // rekursiver aufruf
+            			tmpElement.getChildElements("variante"), 
+            			currentVariante, 
+            			store);
             }
         }
+        
     }
     
     /**
