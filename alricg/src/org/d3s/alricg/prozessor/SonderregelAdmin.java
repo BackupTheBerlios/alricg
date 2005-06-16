@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.links.Link;
+import org.d3s.alricg.charKomponenten.sonderregeln.BasisSonderregelInterface;
 import org.d3s.alricg.charKomponenten.sonderregeln.SonderregelAdapter;
-import org.d3s.alricg.charKomponenten.sonderregeln.SonderregelInterface;
 import org.d3s.alricg.held.HeldenLink;
 import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
 /**
@@ -23,7 +23,7 @@ import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
  * 
  * @author V.Strelow
  */
-public class SonderregelAdmin implements SonderregelInterface  {
+public class SonderregelAdmin implements BasisSonderregelInterface  {
 	ArrayList<SonderregelAdapter> sonderregeln;
 	
 	/**
@@ -154,30 +154,4 @@ public class SonderregelAdmin implements SonderregelInterface  {
 		return true;
 	}
 	
-	
-// ------------------------ Werden nicht benötigt, nur durch interface  -----------------------	
-	
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelInterface#canAddSelf(org.d3s.alricg.held.box.HeldProzessor, boolean, org.d3s.alricg.charKomponenten.links.Link)
-	 */
-	public boolean canAddSelf(HeldProzessor prozessor, boolean ok, Link srLink) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelInterface#initSonderregel(org.d3s.alricg.held.box.HeldProzessor, org.d3s.alricg.charKomponenten.links.Link)
-	 */
-	public void initSonderregel(HeldProzessor prozessor, Link srLink) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelInterface#finalizeSonderregel(org.d3s.alricg.charKomponenten.links.Link)
-	 */
-	public void finalizeSonderregel(Link srLink) {
-		// TODO Auto-generated method stub
-		
-	}
 }
