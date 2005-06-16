@@ -9,6 +9,7 @@
 package org.d3s.alricg.charKomponenten;
 
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
+import org.d3s.alricg.controller.CharKomponente;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -21,7 +22,7 @@ import org.d3s.alricg.charKomponenten.links.IdLinkList;
  * 
  * @author V. Strelow
  */
-public class RasseVariante extends Rasse {
+public class RasseVariante extends Rasse implements HerkunftVariante {
 	/** Gibt die original-Rasse an.*/
 	private Rasse varianteVon;
 	
@@ -52,6 +53,14 @@ public class RasseVariante extends Rasse {
 		super(id);
 	}
 	
+    /*
+     * (non-Javadoc) Methode überschrieben
+     * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+     */
+    public CharKomponente getCharKomponente() {
+        return CharKomponente.rasseVariante;
+    }
+	
 	/**
 	 * @return Liefert das Attribut entferneElement.
 	 */
@@ -76,6 +85,7 @@ public class RasseVariante extends Rasse {
 	public void setEntferneXmlTag(String[] entferneXmlTag) {
 		this.entferneXmlTag = entferneXmlTag;
 	}
+	
 	/**
 	 * @return Liefert das Attribut isMultibel.
 	 */
@@ -97,8 +107,8 @@ public class RasseVariante extends Rasse {
 	/**
 	 * @param varianteVon Setzt das Attribut varianteVon.
 	 */
-	public void setVarianteVon(Rasse varianteVon) {
-		this.varianteVon = varianteVon;
+	public void setVarianteVon(Herkunft varianteVon) {
+		this.varianteVon = (Rasse) varianteVon;
 	}
 	/**
 	 * @return Liefert das Attribut isAdditionsVariante.

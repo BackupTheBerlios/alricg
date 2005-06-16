@@ -9,6 +9,7 @@
 package org.d3s.alricg.charKomponenten;
 
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
+import org.d3s.alricg.controller.CharKomponente;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -22,7 +23,7 @@ import org.d3s.alricg.charKomponenten.links.IdLinkList;
  * @author V. Strelow
  */
 
-public class ProfessionVariante extends Profession {
+public class ProfessionVariante extends Profession implements HerkunftVariante {
 	/** Gibt die original-Profession an.*/
 	private Profession varianteVon;
 	
@@ -52,6 +53,14 @@ public class ProfessionVariante extends Profession {
 	public ProfessionVariante(String id) {
 		super(id);
 	}
+	
+    /*
+     * (non-Javadoc) Methode überschrieben
+     * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+     */
+    public CharKomponente getCharKomponente() {
+        return CharKomponente.professionVariante;
+    }
 	
 	/**
 	 * @return Liefert das Attribut entferneElement.
@@ -98,7 +107,21 @@ public class ProfessionVariante extends Profession {
 	/**
 	 * @param varianteVon Setzt das Attribut varianteVon.
 	 */
-	public void setVarianteVon(Profession varianteVon) {
-		this.varianteVon = varianteVon;
+	public void setVarianteVon(Herkunft varianteVon) {
+		this.varianteVon = (Profession) varianteVon;
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.HerkunftVariante#isAdditionsVariante()
+	 */
+	public boolean isAdditionsVariante() {
+		return isAdditionsVariante;
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.HerkunftVariante#setAdditionsVariante(boolean)
+	 */
+	public void setAdditionsVariante(boolean isAdditionsVariante) {
+		this.isAdditionsVariante = isAdditionsVariante;
 	}
 }

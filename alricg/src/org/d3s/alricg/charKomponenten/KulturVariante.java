@@ -9,6 +9,7 @@
 package org.d3s.alricg.charKomponenten;
 
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
+import org.d3s.alricg.controller.CharKomponente;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -21,7 +22,7 @@ import org.d3s.alricg.charKomponenten.links.IdLinkList;
  * 
  * @author V. Strelow
  */
-public class KulturVariante extends Kultur {
+public class KulturVariante extends Kultur implements HerkunftVariante {
 	/** Gibt die original-Kultur an.*/
 	private Kultur varianteVon;
 	
@@ -52,6 +53,14 @@ public class KulturVariante extends Kultur {
 	public KulturVariante(String id) {
 		super(id);
 	}
+	
+    /*
+     * (non-Javadoc) Methode überschrieben
+     * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
+     */
+    public CharKomponente getCharKomponente() {
+        return CharKomponente.kulturVariante;
+    }
 	
 	/**
 	 * @return Liefert das Attribut entferneElement.
@@ -98,8 +107,8 @@ public class KulturVariante extends Kultur {
 	/**
 	 * @param varianteVon Setzt das Attribut varianteVon.
 	 */
-	public void setVarianteVon(Kultur varianteVon) {
-		this.varianteVon = varianteVon;
+	public void setVarianteVon(Herkunft varianteVon) {
+		this.varianteVon = (Kultur) varianteVon;
 	}
 	/**
 	 * @return Liefert das Attribut isAdditionsVariante.
