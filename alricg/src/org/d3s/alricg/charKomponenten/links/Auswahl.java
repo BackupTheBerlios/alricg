@@ -113,12 +113,26 @@ public class Auswahl {
         private Modus modus;
         private int[] werte;
         private int anzahl;
+        private int max;
         private IdLink[] optionen;
         private IdLink[][] optionsGruppe;
         private Auswahl auswahl;
         
 		public VariableAuswahl(Auswahl auswahl) {
 			this.auswahl = auswahl;
+		}
+		
+		/**
+		 * @return Liefert das Attribut max.
+		 */
+		public int getMax() {
+			return max;
+		}
+		/**
+		 * @param max Setzt das Attribut max.
+		 */
+		public void setMax(int max) {
+			this.max = max;
 		}
 		
 		/**

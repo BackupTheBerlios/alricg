@@ -1524,18 +1524,20 @@
 					</xsd:sequence>
 					<xsd:attribute name="werte" type="xsd:NMTOKENS" use="optional"/>
 					<xsd:attribute name="anzahl" type="xsd:positiveInteger" use="optional"/>
+					<xsd:attribute name="max" type="xsd:positiveInteger" use="optional"/>
 					<xsd:attribute name="modus" use="required">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="DE">
 								LISTE - In "wert" steht eine Liste von Werten, wobei jeder Wert einer "option" zugewiesen werden
-									muß. Es werden soviele optionen gewählt, wie es werte gibt. (Das attribut "anzahl" wird
-									nicht benutzt)
+									muß. Es werden soviele optionen gewählt, wie es werte gibt. (Das attribut "anzahl" und "max" 
+									wird nicht benutzt)
 								ANZAHL - In "anzahl" steht eine Zahl, die angibt wieviele der "optionen" gewählt werden müssen.
-									Jede option kann einen Wert haben (über den "idLinkTyp"). (Das attribut "wert" wird
+									Jede option kann einen Wert haben (über den "idLinkTyp"). (Das attribut "wert" und "max" wird
 									nicht benutzt)
 								VERTEILUNG - Der Wert in "wert" kann auf soviele der Optionen verteilt werden, wie im Attribut 
 									"anzahl" angegeben. D.h. erst werden die Optionen ausgewählt, dann der "wert" beliebig auf 
-									die gewählten optionen verteilt. (Siehe "Elfische Siedlung" S. 37 im AZ) 
+									die gewählten optionen verteilt. (Siehe "Elfische Siedlung" S. 37 im AZ)
+									In "max" steht wie hoch die Stufe jeder gewählten option sein darf 
 							</xsd:documentation>
 						</xsd:annotation>
 						<xsd:simpleType>

@@ -529,6 +529,12 @@ final class XOMMappingHelper {
             if (xmlElement.getAttribute("anzahl") != null) {
                 variableAuswahl.setAnzahl(Integer.parseInt(xmlElement.getAttributeValue("anzahl")));
             }
+            
+            // Einlesen des Maximalen Wertes / optional
+            if (xmlElement.getAttribute("max") != null) {
+                variableAuswahl.setMax(Integer.parseInt(xmlElement.getAttributeValue("max")));
+            }
+            
         } catch (NumberFormatException exc) {
             ProgAdmin.logger.log(Level.SEVERE, "String -> int failed", exc);
         }
@@ -591,6 +597,12 @@ final class XOMMappingHelper {
         final int anzahl = variableAuswahl.getAnzahl();
         if (anzahl != 0) {
             xmlElement.addAttribute(new Attribute("anzahl", Integer.toString(anzahl)));
+        }
+        
+        // Schreiben des Attribus "max"
+        final int max = variableAuswahl.getMax();
+        if (max != 0) {
+            xmlElement.addAttribute(new Attribute("max", Integer.toString(max)));
         }
 
         // Schreiben des Attributs "modus"
