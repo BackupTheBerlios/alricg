@@ -204,13 +204,13 @@ public class TalentBoxGen extends AbstractBoxGen {
 		KostenKlasse kKlasse;
 		int kosten;
 		
-//		 Der User überhaupt einen Wert gewählt, ansonsten auch keine Kosten
+//		Hat der User überhaupt einen Wert gewählt, ansonsten auch keine Kosten
 		if (genLink.getUserLink() != null) {
 			return;
 		}
 		
 		// Bestimme das Talent
-		tmpTalent = (Talent) genLink.getZweitZiel();
+		tmpTalent = (Talent) genLink.getZiel();
 		
 		// Bestimme die Kostenklasse
 		kKlasse = tmpTalent.getKostenKlasse();
