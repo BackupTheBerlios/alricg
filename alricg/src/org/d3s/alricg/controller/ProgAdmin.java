@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.d3s.alricg.gui.SplashScreen;
+import org.d3s.alricg.prozessor.FormelSammlung;
 import org.d3s.alricg.store.ConfigStore;
 import org.d3s.alricg.store.ConfigurationException;
 import org.d3s.alricg.store.DataStore;
@@ -32,24 +33,46 @@ public class ProgAdmin {
 	public static Logger logger; // Für Nachrichten aller Art
 
 	public static Messenger messenger; // Für Nachrichten die Angezeigt werden sollen
+	
+	public static Notepad notepad;
 
 	public static ConfigStore config;
 
 	public static TextStore library;
 
 	public static DataStore data;
+	
 
+
+	/**
+	 * 
+	 * @param args An der Stelle "0" ist der Parameter "noScreen" möglich, 
+	 * um eine anzeige des Splash-Screen zu unterdrücken (for allem für Test-Zwecke)
+	 */
 	public static void main(String[] args) {
-
+		final boolean showSplash;
+		
+		// Auswerten der Parameter
+		if (args == null  || args.length == 0) {
+			showSplash = true;
+		} else {
+			if (args[0].equals("noScreen")) {
+				showSplash = false;
+			} else {
+				showSplash = true;
+			}
+		}
+		
         // Logger & Messenger
         logger = Logger.getLogger("Programm-Logger");
         logger.setUseParentHandlers(false); // disbale default logger
         logger.addHandler(new ConsoleHandler());
         messenger = new Messenger();
+        notepad = new Notepad();
 
         // SplashScreen
         final SplashScreen splash = new SplashScreen();
-        splash.setVisible(true);
+        splash.setVisible(showSplash);
 
         // init Program
         init();
@@ -75,6 +98,7 @@ public class ProgAdmin {
             // Oder ProgAdmin.messenger direkt verwenden!
             // Config
             config = factory.getConfiguration();
+            FormelSammlung.initFormelSanmmlung();
             logger.info("Configuration geladen...");
             messenger.sendInfo("Configuration geladen...");
 
