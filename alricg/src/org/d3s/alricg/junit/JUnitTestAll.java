@@ -8,11 +8,12 @@
 
 package org.d3s.alricg.junit;
 
-import org.d3s.alricg.junit.controller.NotepadTest;
-
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.junit.controller.NotepadTest;
+import org.d3s.alricg.junit.prozessor.FormelSammlungTest;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -22,14 +23,23 @@ import junit.framework.TestSuite;
 public class JUnitTestAll {
 
 	public static void main(String[] args) {
-		
+
 	}
 
-  public static Test suite() {
-    TestSuite suite = new TestSuite();
-    suite.addTestSuite(NotepadTest.class);
-    
-    return suite;
-  }
+	public static Test suite() {
+		final String[] param = new String[] { "noScreen" };
+		
+		// Starten des Programms
+		ProgAdmin.main(param);
+		
+		// Starten der Test-Suite
+		TestSuite suite = new TestSuite();
+		
+		// Hinzufügen der Test Klassen
+		suite.addTestSuite(NotepadTest.class);
+		suite.addTestSuite(FormelSammlungTest.class);
+	    
+	    return suite;
+	}
   
 }
