@@ -86,11 +86,6 @@ final class XOMMappingHelper {
             }
         }
 
-        // XXX War das zum testen????
-        if (buffy.toString().trim().equals("VOR-String VOR-String VOR-String")) {
-            System.out.println("x");
-        }
-
         // Attribut hinzufügen, falls mindestens ein element vorhanden
         if (buffy.length() > 0) {
             final Attribute a = new Attribute("ids", buffy.toString().trim());
