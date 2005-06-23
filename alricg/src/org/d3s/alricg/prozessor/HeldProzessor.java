@@ -14,9 +14,9 @@ import org.d3s.alricg.charKomponenten.Profession;
 import org.d3s.alricg.charKomponenten.Rasse;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
+import org.d3s.alricg.controller.MessageListener;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.controller.CharKomponente;
-import org.d3s.alricg.gui.MessageListener;
 import org.d3s.alricg.held.Held;
 import org.d3s.alricg.held.HeldenLink;
 
