@@ -23,11 +23,8 @@ import org.d3s.alricg.prozessor.FormelSammlung.Lernmethode;
  */
 public class FormelSammlungTest extends TestCase {
 
-	public static void main(String[] args) {
-	}
-
 	/**
-	 * Teste die original SKT, indem alle Stufen bis 30 Addiert werden und mit der
+	 * Testet die original SKT, indem alle Stufen bis 30 Addiert werden und mit der
 	 * Summen-SKT verglichen werden 
 	 */
 	public void testGetSktWert() {
@@ -54,10 +51,42 @@ public class FormelSammlungTest extends TestCase {
 		assertEquals(13386, h);
 	}
 
-	public void testGetKostenKlasseByValue() {
-		
+	/*
+	 * Testet die Kosten für den Abbau von Nachteilen anhand von 2 Beispielen
+	 */
+	public void testberechneNachteilAbbauen() {
+		assertEquals(
+				700,
+				FormelSammlung.berechneNachteilAbbauen(
+					-7
+				)
+			);
+		assertEquals(
+				500,
+				FormelSammlung.berechneNachteilAbbauen(
+					-5
+				)
+			);	
 	}
-
+	
+	/*
+	 * Testet das senken von schlechten Eigenschaften anhand von 2 Beispielen
+	 */
+	public void testberechneSchEigSenkenKosten() {
+		assertEquals(
+				430,
+				FormelSammlung.berechneSchEigSenkenKosten(
+					7, 5
+				)
+			);
+		assertEquals(
+				1130,
+				FormelSammlung.berechneSchEigSenkenKosten(
+					4, 0
+				)
+			);
+	}
+	
 	/*
 	 * Class under test for int berechneSktKosten(int, int, int, Lernmethode, KostenKlasse, boolean)
 	 * Testet Arten von Berechnungen auf der SKT. 
@@ -155,39 +184,92 @@ public class FormelSammlungTest extends TestCase {
 			);
 	}
 
-	/*
-	 * Class under test for int berechneSktKosten(int, int, KostenKlasse)
-	 */
-	public void testBerechneSktKostenintintKostenKlasse() {
-	}
-
-	public void testBerechneSfAp() {
-	}
-
 	public void testBerechneMR() {
+		assertEquals(
+				7, // 6,6 = 7
+				FormelSammlung.berechneMR(10,11,12)
+			);
+		assertEquals(
+				6, // 6,4 = 6
+				FormelSammlung.berechneMR(10,11,11)
+			);
 	}
 
 	public void testBerechneINI() {
+		assertEquals(
+				9, // 8,6 = 9
+				FormelSammlung.berechneINI(10,11,12)
+			);
+		assertEquals(
+				8, // 8,4 = 8
+				FormelSammlung.berechneINI(10,11,11)
+			);
 	}
 
 	public void testBerechneAtBasis() {
+		assertEquals(
+				7, // 6,6 = 7
+				FormelSammlung.berechneAtBasis(10,11,12)
+			);
+		assertEquals(
+				6, // 6,4 = 8
+				FormelSammlung.berechneAtBasis(10,11,11)
+			);
 	}
 
 	public void testBerechnePaBasis() {
+		assertEquals(
+				7, // 6,6 = 7
+				FormelSammlung.berechnePaBasis(10,11,12)
+			);
+		assertEquals(
+				6, // 6,4 = 8
+				FormelSammlung.berechnePaBasis(10,11,11)
+			);
 	}
 
 	public void testBerechneFkBasis() {
+		assertEquals(
+				7, // 6,6 = 7
+				FormelSammlung.berechneFkBasis(10,11,12)
+			);
+		assertEquals(
+				6, // 6,4 = 8
+				FormelSammlung.berechneFkBasis(10,11,11)
+			);
 	}
 
 	public void testBerechneLep() {
-			
+		assertEquals(
+				16, // 15,5 = 16
+				FormelSammlung.berechneLep(10,11)
+			);
+		assertEquals(
+				15, // 15
+				FormelSammlung.berechneLep(10,10)
+			);
 	}
 
 	public void testBerechneAup() {
+		assertEquals(
+				17, // 16,5 = 17
+				FormelSammlung.berechneAup(10,11,12)
+			);
+		assertEquals(
+				16, // 16
+				FormelSammlung.berechneAup(10,11,11)
+			);
 	}
 
 	public void testBerechneAsp() {
-		
+		assertEquals(
+				17, // 16,5 = 17
+				FormelSammlung.berechneAsp(10,11,12)
+			);
+		assertEquals(
+				16, // 16
+				FormelSammlung.berechneAsp(10,11,11)
+			);
 	}
 
 }

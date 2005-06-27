@@ -17,7 +17,8 @@ import org.d3s.alricg.junit.prozessor.FormelSammlungTest;
 
 /**
  * <u>Beschreibung:</u><br> 
- *
+ * Über diese Klasse werden die TestCases aufgerufen. Her wird das Programm (Alricg) gestartet, 
+ * die TestSuite erstellt und die TestCases hinzugefügt.
  * @author V. Strelow
  */
 public class JUnitTestAll {
@@ -35,7 +36,7 @@ public class JUnitTestAll {
 		// Starten der Test-Suite
 		TestSuite suite = new TestSuite();
 		
-		// Hinzufügen der Test Klassen
+		// Hinzufügen der Test-Klassen
 		suite.addTestSuite(NotepadTest.class);
 		suite.addTestSuite(FormelSammlungTest.class);
 	    

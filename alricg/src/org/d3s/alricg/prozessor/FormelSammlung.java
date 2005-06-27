@@ -121,6 +121,8 @@ public class FormelSammlung {
     	
     }
     
+
+    
 	/**
 	 * Liefert zu einem XML-Tag die entsprechende Enum zurück.
 	 * @param value Id  der KostenKlasse
@@ -157,9 +159,14 @@ public class FormelSammlung {
 	 */
 	public static int berechneSktKosten(int startStufe, int zielStufe, 
 								   int heldenStufe, Lernmethode methode, 
-								   KostenKlasse kKlasse, boolean isTalent) {
+								   KostenKlasse kKlasse, boolean isTalent)  {
 		KostenKlasse tmpKK = kKlasse;
 		int tmpKosten = 0;
+		
+		// Um endlosschleifen zu verhindern:
+		if (startStufe > zielStufe) {
+			throw new ArithmeticException("startStufe muss kleiner sein als die Zielstufe!");
+		}
 		
 		// TODO Texte über library einlesen!
 		
@@ -242,13 +249,42 @@ public class FormelSammlung {
 	
 	/**
 	 * Berechnet die Kosten zum Senken der Schlechten Eigenschaften
-	 * @param startStufe
-	 * @param zielStufe
-	 * @return
+	 * 
+	 * @param startStufe Die momentane Stufe
+	 * @param zielStufe Die Stufe auf die gesenkt werden soll
+	 * @return Die AP Kosten zum senken der startStufe auf zielStufe
 	 */
 	public static int berechneSchEigSenkenKosten(int startStufe, int zielStufe) {
-		// TODO implement
-		return 0;
+		int tmpKosten = 0;
+		
+		if (zielStufe == CharElement.KEIN_WERT) {
+			zielStufe = 0;
+		}
+		
+		// Um endlosschleifen zu verhindern:
+		if (zielStufe > startStufe) {
+			throw new ArithmeticException("startStufe muss größer sein als die Zielstufe!");
+		}
+		
+//		21 minus neue Stufe in Kategorie G
+		while (startStufe > zielStufe) {
+			startStufe--;
+			tmpKosten += getSktWert(KostenKlasse.G, (21 - startStufe));
+		}
+		 
+		return tmpKosten;
+	}
+	
+	/**
+	 * Berechnet die Kosten die Nötig sind um einen Nachteil (keine schlechte 
+	 * Eigenschaft) abzubauen.
+	 * 
+	 * @param gp Die GP die dieser Nachteil kostet (negativ)
+	 * @return Die AP die aufgewendet werden müssen um einen Nachteil mit den kosten
+	 * 		"gp" abzubauen
+	 */
+	public static int berechneNachteilAbbauen(int gp) {
+		return Math.abs(gp) * 100;
 	}
 	
 	/**
