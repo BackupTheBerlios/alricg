@@ -60,7 +60,8 @@ public abstract class Link {
 	}
 	/**
 	 * Wenn das Ziel-Element einen Wert besitzt, so kann der Text Wert 
-	 * hiermit abgerufen werden.
+	 * hiermit abgerufen werden. Liefert stehts den GESAMT-WERT, also
+	 * einschließlich 
 	 * @return Den Wert der mit der Ziel Id Verbunden ist oder "-100" falls es 
 	 * 		keinen wert gibt. .
 	 */
