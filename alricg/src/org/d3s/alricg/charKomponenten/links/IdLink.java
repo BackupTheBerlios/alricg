@@ -9,7 +9,6 @@ package org.d3s.alricg.charKomponenten.links;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.held.HeldenLink;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -28,8 +27,9 @@ public class IdLink extends Link {
 
     /*
      * Falls dieser Link im Helden "gespeichtert" ist, wird hier eine Verbindung zwischen Held und Links gehalten
-     */
+     *
     private HeldenLink heldenLink;
+    */
 
     /**
      * Konstruktor, initialisiert das Objekt. Nach der Erstellung sollte mit "loadFromId()" oder "loadXmlElement()" der
@@ -61,23 +61,23 @@ public class IdLink extends Link {
         return auswahl;
     }
 
-    /**
-     * Wenn ein Held einen neuen Wert über ein CharElement erhält, so wird dies hiermit auch dem IdLink mitgeteilt und
-     * mit dem Held verbunden.
+    /*
+     * Wenn ein Held einen neuen Wert über ein CharElement erhält, so wird dies hiermit auch 
+     * dem IdLink mitgeteilt und mit dem Held verbunden.
      * 
      * @param link Die Verbindung zum Helden
-     */
+     *
     public void setHeldenLink(HeldenLink link) {
         heldenLink = link;
-    }
+    }*/
 
-    /**
+    /*
      * @param link
      * @return
-     */
+     *
     public HeldenLink getHeldenLink() {
         return heldenLink;
-    }
+    }*
 
     /**
      * Initiiert einen simplen IdLink, indem nur die zielId übergeben wird.
