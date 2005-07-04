@@ -34,6 +34,8 @@ public class ProgAdmin {
 
 	public static Messenger messenger; // Für Nachrichten die Angezeigt werden sollen
 	
+	public static HeldenAdmin heldenAdmin; // Verwaltung der Helden
+	
 	public static Notepad notepad;
 
 	public static ConfigStore config;
@@ -67,6 +69,7 @@ public class ProgAdmin {
         logger = Logger.getLogger("Programm-Logger");
         logger.setUseParentHandlers(false); // disbale default logger
         logger.addHandler(new ConsoleHandler());
+        heldenAdmin = new HeldenAdmin();
         messenger = new Messenger();
         notepad = new Notepad();
 
@@ -82,10 +85,12 @@ public class ProgAdmin {
         splash.prepareDispose(); // Vom Messenger abmelden
         splash.dispose();
         System.gc();
+        
+
     }
 
     private static final void init() {
-
+    	
         try {
             // Store factory
             final DataStoreFactory factory = FactoryFinder.find();
