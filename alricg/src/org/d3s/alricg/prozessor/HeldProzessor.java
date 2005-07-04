@@ -8,17 +8,19 @@
  */
 package org.d3s.alricg.prozessor;
 
+import java.util.HashMap;
+
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Kultur;
 import org.d3s.alricg.charKomponenten.Profession;
 import org.d3s.alricg.charKomponenten.Rasse;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
-import org.d3s.alricg.controller.MessageListener;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.held.Held;
 import org.d3s.alricg.held.HeldenLink;
+import org.d3s.alricg.prozessor.generierung.AbstractBoxGen;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -40,16 +42,34 @@ import org.d3s.alricg.held.HeldenLink;
  * @see org.d3s.alricg.prozessor.generierung.GenerierungProzessor
  */
 public abstract class HeldProzessor {
-	private StringBuffer messageBuf;
-	private MessageListener hintergrundListener;
+	protected HashMap<CharKomponente, AbstractBoxGen> boxenHash;
 	protected Held held;
+	private SonderregelAdmin sonderregelAdmin;
 	
-
-	
-	public void setHintergrundListener(MessageListener listener) {
-		hintergrundListener = listener;
+	/**
+	 * Konstruktor.
+	 * @param held Der Held der von diesem Prozessor bearbeitet wird
+	 */
+	public HeldProzessor(Held held) {
+		this.held = held;
+		this.sonderregelAdmin = new SonderregelAdmin();
 	}
 	
+	/**
+	 * Setzt das HashMap mit den CharKomponente-Boxen. Sollte nur zur Initialisierung
+	 * gesetzt werden. 
+	 * @param boxenHash HashMap mit allen CharElementen des Helden 
+	 */
+	public void setBoxenHash(HashMap<CharKomponente, AbstractBoxGen> boxen) {
+		boxenHash = boxen;
+	}
+	
+	/**
+	 * @return Den SonderregelAdmin, der alle Sonderregeln zu diesem Held verwaltet.
+	 */
+	public SonderregelAdmin getSonderregelAdmin() {
+		return sonderregelAdmin;
+	}
 	
 	/**
 	 * @return Der Held der durch diesen Prozessor bearbeitet wird
@@ -154,7 +174,29 @@ public abstract class HeldProzessor {
 	 */
 	public abstract void addCharElement(CharElement ziel, String text, 
 										CharElement zweitZiel, int wert);
-
+	/**
+	 * Dient dem hinzufügen von neuen Elementen. Wird immer dann benötigt  wenn etwas NICHT
+	 * über einen Link hinzugefügt wird. (z.B. Talent Aktivierung, SF Kaufen, 
+	 * usw.).
+	 * 
+	 * @param ziel Das eigentliche Element; kann NICHT null sein
+	 */
+	public void addCharElement(CharElement ziel) {
+		addCharElement(ziel, null, null, Link.KEIN_WERT);
+	}
+	
+	/**
+	 * Dient dem hinzufügen von neuen Elementen. Wird immer dann benötigt  wenn etwas NICHT
+	 * über einen Link hinzugefügt wird. (z.B. Talent Aktivierung, SF Kaufen, 
+	 * usw.)
+	 * 
+	 * @param ziel Das eigentliche Element; kann NICHT null sein
+	 * @param wert Wert zu dem Link (Schwerter "5"); benutze Link.KEIN_WERT wenn ohne Wert!
+	 */
+	public void addCharElement(CharElement ziel, int wert) {
+		addCharElement(ziel, null, null, wert);
+	}
+	
 	/**
 	 * Verändert die Werte eines Elementes des Helden. Dabei konnen verändert werden:
 	 * Der Wert (Stufe), der Text und das ZweitZiel. Es wird keine Prüfung durchgeführt

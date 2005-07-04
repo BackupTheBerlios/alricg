@@ -10,7 +10,6 @@ package org.d3s.alricg.prozessor;
 
 import java.util.AbstractList;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -43,9 +42,9 @@ public abstract class LinkElementBox<E extends HeldenLink> extends AbstractList 
 	/**
 	 * @param liste Die Liste aller verwalteten Elemente
 	 */
-	public LinkElementBox(ArrayList<E> liste) {
+	public LinkElementBox(ArrayList<E> liste, HeldProzessor proz) {
 		linkArray = liste;
-		// TODO Auto-generated constructor stub
+		prozessor = proz;
 	}
 	
 	public List<E> getUnmodifiableList() {

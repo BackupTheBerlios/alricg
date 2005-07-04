@@ -11,23 +11,27 @@ package org.d3s.alricg.prozessor;
 import java.util.HashMap;
 
 import org.d3s.alricg.charKomponenten.CharElement;
+import org.d3s.alricg.controller.Messenger;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.store.ConfigurationException;
 
 /**
- * <u>Beschreibung:</u><br> 
- * 
+ * <u>Beschreibung:</u><br>
+ * Einfache, statische Formel zur Berechnung, sowie Zugriff und Berechnung über die SKT.
  * @author V. Strelow
  */
 public class FormelSammlung {
 	public final static int KEIN_WERT = CharElement.KEIN_WERT;
+	/**
+	 * SKT in einer HashTable. 
+	 * 	skt.get(x)[0] = Aktivierungskosten bei der Generierung
+	 * 	skt.get(x)[31] = Kosten für jede Stufe größer als 30 
+	 */
 	private static HashMap<KostenKlasse, Integer[]> skt = new HashMap<KostenKlasse, Integer[]>();
-	//private static int[] sktPlus = { 50, 100, 150, 200, 250, 375, 500, 1000 }; // [sktSpalte] -> Der Wert bei über 30
- 	private final static int maxSktStufe = 31;
+ 	private final static int maxSktStufe = 31; // Maximale Stufe der SKT
  	
 	/**
 	 * Bildet die Spalten der SKT ab und bietet rudimentäre Operationen.
-	 *
 	 * @author V. Strelow
 	 */
     public enum KostenKlasse { 
@@ -90,11 +94,15 @@ public class FormelSammlung {
     }
     
     public static void initFormelSanmmlung() {
+    	
     	try {
-    		skt = ProgAdmin.config.getSkt();
-    	} catch (ConfigurationException e) {
-    		// TODO Richtige Fehlermeldung einbauen!
-    		System.out.println("Konnte SKT nicht laden!");
+    		skt = ProgAdmin.config.getSkt(); 
+    	} catch (ConfigurationException ex) {
+            ProgAdmin.logger.severe(ex.getMessage());
+            ProgAdmin.messenger.showMessage(Messenger.Level.fehler, 
+            		ProgAdmin.library.getErrorTxt("Fehlerhafte Datei") + "\n" + "  " 
+                    + ProgAdmin.config.getConfig().getProperty("config.file")+ "\n" 
+                    + ProgAdmin.library.getErrorTxt("XML Validierungsfehler"));
     	}
     }
     
@@ -138,7 +146,7 @@ public class FormelSammlung {
 			}
 		}
 		
-		ProgAdmin.logger.severe("XmlValue konnte nicht gefunden werden!");
+		ProgAdmin.logger.severe("XmlValue der SKT konnte nicht gefunden werden!");
 		
 		return null;
 	}
