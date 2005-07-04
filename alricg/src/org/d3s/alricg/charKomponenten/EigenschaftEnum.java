@@ -25,7 +25,7 @@ public enum EigenschaftEnum {
     FF("Fingerfertigkeit", "FF", "EIG-FF"),  
     GE("Gewandheit", 	"GE", "EIG-GE"), 
     KO("Konstitution", 	"KO", "EIG-KO"), 
-    KK("Körperkraft", 	"KK", "EIG-KK"),
+    KK("Koerperkraft", 	"KK", "EIG-KK"),
     
     SO("Sozialstatus",	"SO", "EIG-SO"),
     MR("Magieresistenz", "MR", "EIG-MR"),
