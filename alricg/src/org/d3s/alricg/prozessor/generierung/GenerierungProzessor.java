@@ -7,8 +7,6 @@
 
 package org.d3s.alricg.prozessor.generierung;
 
-import java.util.HashMap;
-
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Herkunft;
 import org.d3s.alricg.charKomponenten.Kultur;
@@ -16,7 +14,7 @@ import org.d3s.alricg.charKomponenten.Profession;
 import org.d3s.alricg.charKomponenten.Rasse;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
-import org.d3s.alricg.controller.CharKomponente;
+import org.d3s.alricg.held.Held;
 import org.d3s.alricg.held.HeldenLink;
 import org.d3s.alricg.prozessor.HeldProzessor;
 /**
@@ -33,9 +31,7 @@ import org.d3s.alricg.prozessor.HeldProzessor;
  */
 public class GenerierungProzessor extends HeldProzessor {
 	public static GenerierungsKonstanten genKonstanten;
-	public static HashMap<CharKomponente, AbstractBoxGen> boxenHash;
-	
-	
+
 	private int aktivierbarTalente; // Anzahl noch aktivierbarer Talente 
 	private int aktivierbarZauber; // Anzahl noch aktivierbarer Zauber
 	private int aktuelleGP; // Anzahl noch verteilbarer GP (kann auch < 0 sein)
@@ -43,12 +39,14 @@ public class GenerierungProzessor extends HeldProzessor {
 	private int aktuelleBonusWissenGP; // Anz. Talent-GP die nur für Wissen/Zauber verwendet 
 										// werden dürfen
 	
-	public GenerierungProzessor() {
+	/**
+	 * Konstruktor.
+	 * @param held Der Held der von diesem Prozessor bearbeitet wird
+	 */
+	public GenerierungProzessor(Held held) {
+		super(held);
+		
 		genKonstanten = new GenerierungsKonstanten();
-		
-		// TODO initialisieren von boxenHash
-		// TODO initialisieren des Helden
-		
 		
 		aktivierbarTalente = genKonstanten.MAX_TALENT_AKTIVIERUNG;
 		aktuelleGP = genKonstanten.VERFUEGBARE_GP;
@@ -56,6 +54,8 @@ public class GenerierungProzessor extends HeldProzessor {
 		aktivierbarZauber = 0; // Bei Initialisierung noch kein Magier!
 		aktuelleBonusWissenGP = 0; // Nur durch SF
 	}
+	
+
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.held.box.HeldProzessor#isGenerierung()
@@ -133,7 +133,7 @@ public class GenerierungProzessor extends HeldProzessor {
 		boxenHash.get(link.getZiel().getCharKomponente())
 									.updateElement(link, stufe, text, zweitZiel);
 				
-		held.getSonderregelAdmin().processUpdateElement(link, stufe, text, zweitZiel);
+		getSonderregelAdmin().processUpdateElement(link, stufe, text, zweitZiel);
 		// TODO Kosten neu berechnen!
 	}
 	
@@ -151,7 +151,7 @@ public class GenerierungProzessor extends HeldProzessor {
     	tmpLink.setWert(wert);
 		
     	ok = boxenHash.get(tmpLink.getZiel().getCharKomponente()).canAddAsNewElement(tmpLink);
-    	ok = held.getSonderregelAdmin().changeCanAddElement(ok, tmpLink);
+    	ok = getSonderregelAdmin().changeCanAddElement(ok, tmpLink);
     	
     	if ( tmpLink.getZiel().getSonderregel() != null) {
     		ok = tmpLink.getZiel().getSonderregel().canAddSelf(this, ok, tmpLink);
@@ -174,7 +174,7 @@ public class GenerierungProzessor extends HeldProzessor {
 		boolean ok;
 		
 		ok = boxenHash.get(element.getZiel().getCharKomponente()).canRemoveElement(element);
-		ok = held.getSonderregelAdmin().changeCanRemoveElemet(ok, element);
+		ok = getSonderregelAdmin().changeCanRemoveElemet(ok, element);
 		
 		return ok;
 	}
@@ -186,7 +186,7 @@ public class GenerierungProzessor extends HeldProzessor {
 		boolean ok;
 		
 		ok = boxenHash.get(link.getZiel().getCharKomponente()).canUpdateWert(link);
-		ok = held.getSonderregelAdmin().changeCanUpdateWert(ok, link);
+		ok = getSonderregelAdmin().changeCanUpdateWert(ok, link);
 		
 		return ok;
 	}
@@ -198,7 +198,7 @@ public class GenerierungProzessor extends HeldProzessor {
 		boolean ok;
 		
 		ok = boxenHash.get(link.getZiel().getCharKomponente()).canUpdateText(link);
-		ok = held.getSonderregelAdmin().changeCanUpdateText(ok, link);
+		ok = getSonderregelAdmin().changeCanUpdateText(ok, link);
 		
 		return ok;
 	}
@@ -210,7 +210,7 @@ public class GenerierungProzessor extends HeldProzessor {
 		boolean ok;
 		
 		ok = boxenHash.get(link.getZiel().getCharKomponente()).canUpdateZweitZiel(link);
-		ok = held.getSonderregelAdmin().changeCanUpdateZweitZiel(ok, link);
+		ok = getSonderregelAdmin().changeCanUpdateZweitZiel(ok, link);
 		
 		return ok;
 	}
@@ -296,34 +296,6 @@ public class GenerierungProzessor extends HeldProzessor {
 		// TODO implement
 	}
 	
-// *******************************************************************************************
-// 									HilfsMethoden
-	
-	/**
-	 * Soll dem Nachrichten austausch zwischen Programm - User dienen, damit
-	 * der Benutzer möglichst transparent sehen kann, wann welche Regel zur 
-	 * Anwendung kommt. 
-	 * Noch nicht implementiert.
-	 * 
-	 * Bsp. der Idee:
-	 * 		- Es wird geprüft ob ein Talent zu Helden hinzugefügt werden kann, es wird die
-	 * 		  Methode "canAddCharElement(..)" aufgerufen.
-	 * 		- In dieser Methode wird vor der Prüfung "startPage()" aufgerufen, das ein neues
-	 * 		  Objekt X erstellt in das Nachrichten geschrieben werden können.  
-	 * 		- Nun wird die Prüfung vor genommen, dabei wird festgestellt das eine Voraussetzung 
-	 * 		  für das Talent fehlt, daher wird mit "writeToPage()" in das Nachrichten Objekt 
-	 * 		  etwas wie "Es fehlt die Voraussetzung Y" geschrieben.
-	 * 		- Durch eine Sonderregel kann das Talent jedoch trotzdem hinzugefügt werden, die 
-	 * 		  Sonderregel Schreibt ebenfalls mit "writeToPage()" etwas wie : 
-	 * 		  "Konnte hinzugefügt werden durch Sonderregel Z"
-	 * 		- Am ende der Methode ""canAddCharElement(..)" wird dann "sendPage()" aufgerufen,
-	 * 		  wodurch das Nachrichten-Objekt an ein GUI Objekt zur anzeige geschickt wird.
-	 * --> Der Benutzer sieht was das Programm gemacht hat und kann nachvollziehen warum 
-	 * etwas geht oder ebend nicht.
-	 * 
-	 */
-
-	
 	/**
 	 * Bestimmt die von dem Prozesser verwalteten Kosten neu:
 	 * 	aktuelleGP, aktuelleTalentGP, aktuelleBonusWissenGP,
@@ -361,11 +333,11 @@ public class GenerierungProzessor extends HeldProzessor {
 		
 		// Falls dieses Element eine Sonderregel besitzt, diese hinzufügen
 		if (link.getZiel().getSonderregel() != null) {
-			held.getSonderregelAdmin().addSonderregel(link.getZiel().getSonderregel(), link);
+			getSonderregelAdmin().addSonderregel(link.getZiel().getSonderregel(), link);
 		}
 
 		// Sonderregeln aufrufen
-		held.getSonderregelAdmin().processAddAsNewElement(link);
+		getSonderregelAdmin().processAddAsNewElement(link);
 		
     	// TODO Kosten neu berechnen!
 	}
@@ -405,13 +377,21 @@ public class GenerierungProzessor extends HeldProzessor {
 		boolean ok;
 		
 		ok = boxenHash.get(link.getZiel().getCharKomponente()).canAddAsNewElement(link);
-		ok = held.getSonderregelAdmin().changeCanAddElement(ok, link);
+		ok = getSonderregelAdmin().changeCanAddElement(ok, link);
 		
 		if ( link.getZiel().getSonderregel() != null) {
 			ok = link.getZiel().getSonderregel().canAddSelf(this, ok, link);
 		}
 		
 		return ok;
+	}
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.prozessor.HeldProzessor#canAddCharElement(org.d3s.alricg.charKomponenten.CharElement)
+	 */
+	protected boolean canAddCharElement(CharElement elem) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	/**
@@ -490,12 +470,6 @@ public class GenerierungProzessor extends HeldProzessor {
 		
 	}
 
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.prozessor.HeldProzessor#canAddCharElement(org.d3s.alricg.charKomponenten.CharElement)
-	 */
-	protected boolean canAddCharElement(CharElement elem) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 }
 
