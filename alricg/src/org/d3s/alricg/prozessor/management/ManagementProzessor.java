@@ -7,14 +7,19 @@
 
 package org.d3s.alricg.prozessor.management;
 
+import java.util.HashMap;
+
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Kultur;
 import org.d3s.alricg.charKomponenten.Profession;
 import org.d3s.alricg.charKomponenten.Rasse;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
+import org.d3s.alricg.controller.CharKomponente;
+import org.d3s.alricg.held.Held;
 import org.d3s.alricg.held.HeldenLink;
 import org.d3s.alricg.prozessor.HeldProzessor;
+import org.d3s.alricg.prozessor.generierung.AbstractBoxGen;
 
 /**
  * <b>Beschreibung:</b><br> 
@@ -28,11 +33,28 @@ import org.d3s.alricg.prozessor.HeldProzessor;
  */
 public class ManagementProzessor extends HeldProzessor {
 	
+	/**
+	 * Konstruktor.
+	 * @param held Der Held der von diesem Prozessor bearbeitet wird
+	 */
+	public ManagementProzessor(Held held) {
+		super(held);
+	}
+	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.held.box.AbstractElementBox#isGenerierung()
 	 */
 	public boolean isGenerierung() {
 		return false;
+	}
+	
+	/**
+	 * Setzt das HashMap mit den CharKomponente-Boxen. Sollte nur zur Initialisierung
+	 * gesetzt werden. 
+	 * @param boxenHash HashMap mit allen CharElementen des Helden 
+	 */
+	public void setBoxenHash(HashMap<CharKomponente, AbstractBoxGen> boxen) {
+		// TODO Auto-generated method stub
 	}
 
 	/* (non-Javadoc) Methode überschrieben
@@ -40,7 +62,6 @@ public class ManagementProzessor extends HeldProzessor {
 	 */
 	public void addCharElement(CharElement ziel, String text, CharElement zweitZiel, int wert) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	/* (non-Javadoc) Methode überschrieben
