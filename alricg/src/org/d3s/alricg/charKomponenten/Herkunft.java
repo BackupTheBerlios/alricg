@@ -64,7 +64,14 @@ public abstract class Herkunft extends CharElement {
     private IdLinkList ZauberNichtBeginn;
     
     //protected Herkunft varianteVon;
-
+    
+    /**
+     * @return true - Diese Herkunft ist Variante einer anderen Herkunft
+     *
+    public boolean isVariante() {
+    	return false;
+    }*/
+    
     /**
      * Für manche Herkunft ist das Geschlecht wichtig. In dem Fall wird hier das
      * Geschlecht angegeben.
