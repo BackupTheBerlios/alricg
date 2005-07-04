@@ -23,12 +23,13 @@ import org.d3s.alricg.store.TextStore;
  * @author V.Strelow
  */
 public class Werte {
-	private static HashMap<String, MagieMerkmal> magieMerkmale = 
-										new HashMap<String, MagieMerkmal>();
+	private final static HashMap<String, MagieMerkmal> magieMerkmale = 
+					new HashMap<String, MagieMerkmal>();
 	
-	static {
+	static  {
 		// Zum besseren auffinden in der Enum MagieMerkmal werden die 
 		// Elemente in eine HashMap gelegt.
+		
 		for (int i = 0; i < MagieMerkmal.values().length; i++) {
 			magieMerkmale.put(
 					MagieMerkmal.values()[i].getValue(), 
@@ -128,44 +129,45 @@ public class Werte {
 			this.value = value;
 			this.icon = icon;
 			TextStore lib = ProgAdmin.library;
-			switch (this) {
-			case daemonischBlakharaz: bezeichner = 
+			
+			switch (this.ordinal()) {
+			case 3: bezeichner = 
                 lib.getShortTxt(daemonisch.getValue()) + " (Blakharaz)";
 				break;
-			case daemonischBelhalhar: bezeichner = 
+			case 4: bezeichner = 
                 lib.getShortTxt(daemonisch.getValue()) + " (Belhalhar)";
 				break;
-			case daemonischCharyptoroth: bezeichner = 
+			case 5: bezeichner = 
                 lib.getShortTxt(daemonisch.getValue()) + " (Charyptoroth)";
 				break;
-			case daemonischLolgramoth: bezeichner = 
+			case 6: bezeichner = 
                 lib.getShortTxt(daemonisch.getValue()) + " (Lolgramoth)";
 				break;
-			case daemonischThargunitoth: bezeichner =
+			case 7: bezeichner =
                 lib.getShortTxt(daemonisch.getValue()) + " (Thargunitoth)";
 				break;
-			case daemonischAmazeroth: bezeichner =
+			case 8: bezeichner =
                 lib.getShortTxt(daemonisch.getValue()) + " (Amazeroth)";
 				break;
-			case daemonischBelshirash: bezeichner = 
+			case 9: bezeichner = 
                 lib.getShortTxt(daemonisch.getValue()) + " (Belshirash)";
 				break;
-			case daemonischAsfaloth: bezeichner =
+			case 10: bezeichner =
                 lib.getShortTxt(daemonisch.getValue()) + " (Asfaloth)";
 				break;
-			case daemonischTasfarelel: bezeichner =
+			case 11: bezeichner =
                 lib.getShortTxt(daemonisch.getValue()) + " (Tasfarelel)";
 				break;
-			case daemonischBelzhorash: bezeichner = 
+			case 12: bezeichner = 
                 lib.getShortTxt(daemonisch.getValue()) + " (Belzhorash)";
 				break;
-			case daemonischAgrimoth: bezeichner = 
+			case 13: bezeichner = 
                 lib.getShortTxt(daemonisch.getValue()) + " (Agrimoth)";
 				break;
-			case daemonischBelkelel: bezeichner = 
+			case 14: bezeichner = 
                 lib.getShortTxt(daemonisch.getValue()) + " (Belkelel)";
 				break;
-			default: bezeichner =lib.getShortTxt(value);
+			default: bezeichner = lib.getShortTxt(value);
 			}
 			
 		}
