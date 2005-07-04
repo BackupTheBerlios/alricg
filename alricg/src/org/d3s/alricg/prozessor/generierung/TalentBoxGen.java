@@ -15,6 +15,7 @@ import org.d3s.alricg.held.GeneratorLink;
 import org.d3s.alricg.held.Held;
 import org.d3s.alricg.held.HeldenLink;
 import org.d3s.alricg.prozessor.FormelSammlung;
+import org.d3s.alricg.prozessor.HeldProzessor;
 import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
 
 /**
@@ -35,7 +36,14 @@ public class TalentBoxGen extends AbstractBoxGen {
 	
 	private int aktivierteTalente;
 	
-
+	/**
+	 * Konstruktor.
+	 * @param proz Der Prozessor mit dem der zugehörige Held bearbeitet wird.
+	 */
+	public TalentBoxGen(HeldProzessor proz) {
+		super(proz);
+	}
+	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.held.box.generierung.AbstractBoxGen#addAsNewElement(org.d3s.alricg.charKomponenten.links.IdLink)
 	 */
@@ -214,7 +222,7 @@ public class TalentBoxGen extends AbstractBoxGen {
 		
 		// Bestimme die Kostenklasse
 		kKlasse = tmpTalent.getKostenKlasse();
-		kKlasse = prozessor.getHeld().getSonderregelAdmin().changeKostenKlasse(kKlasse, genLink);
+		kKlasse = prozessor.getSonderregelAdmin().changeKostenKlasse(kKlasse, genLink);
 		
 		// Errechne die Kosten
 		kosten = FormelSammlung.berechneSktKosten(
@@ -223,7 +231,7 @@ public class TalentBoxGen extends AbstractBoxGen {
 				kKlasse // in dieser Kostenklasse
 		);
 		
-		kosten = prozessor.getHeld().getSonderregelAdmin().changeKosten(kosten, genLink);
+		kosten = prozessor.getSonderregelAdmin().changeKosten(kosten, genLink);
 		
 		// Setze die Kosten
 		genLink.setKosten(kosten);

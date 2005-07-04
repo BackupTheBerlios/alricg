@@ -13,6 +13,7 @@ import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
 import org.d3s.alricg.held.GeneratorLink;
 import org.d3s.alricg.held.HeldenLink;
+import org.d3s.alricg.prozessor.HeldProzessor;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -21,6 +22,14 @@ import org.d3s.alricg.held.HeldenLink;
  */
 public class VorteilBoxGen extends AbstractBoxGen {
 
+	/**
+	 * Konstruktor.
+	 * @param proz Der Prozessor mit dem der zugehörige Held bearbeitet wird.
+	 */
+	public VorteilBoxGen(HeldProzessor proz) {
+		super(proz);
+	}
+	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.prozessor.generierung.AbstractBoxGen#addAsNewElement(org.d3s.alricg.charKomponenten.links.IdLink)
 	 */

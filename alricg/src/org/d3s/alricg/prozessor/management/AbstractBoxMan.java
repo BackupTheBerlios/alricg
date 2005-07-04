@@ -8,6 +8,7 @@
  */
 package org.d3s.alricg.prozessor.management;
 
+import org.d3s.alricg.prozessor.HeldProzessor;
 import org.d3s.alricg.prozessor.LinkElementBox;
 
 /**
@@ -22,10 +23,10 @@ import org.d3s.alricg.prozessor.LinkElementBox;
 public class AbstractBoxMan extends LinkElementBox {
 
 	/**
-	 * @param liste
+	 * @param proz
 	 */
-	public AbstractBoxMan() {
-		super(null);
+	public AbstractBoxMan(HeldProzessor proz) {
+		super(null, proz);
 		// TODO Auto-generated constructor stub
 	}
 

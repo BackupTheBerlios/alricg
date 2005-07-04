@@ -15,6 +15,7 @@ import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
 import org.d3s.alricg.held.GeneratorLink;
 import org.d3s.alricg.held.HeldenLink;
+import org.d3s.alricg.prozessor.HeldProzessor;
 import org.d3s.alricg.prozessor.LinkElementBox;
 
 /**
@@ -38,9 +39,12 @@ import org.d3s.alricg.prozessor.LinkElementBox;
  */
 public abstract class AbstractBoxGen extends LinkElementBox<GeneratorLink> {
 	
-
-	public AbstractBoxGen() {
-		super(new ArrayList<GeneratorLink>());
+	/**
+	 * Konstruktor.
+	 * @param proz Der Prozessor mit dem der zugehörige Held bearbeitet wird.
+	 */
+	public AbstractBoxGen(HeldProzessor proz) {
+		super(new ArrayList<GeneratorLink>(), proz);
 	}
 
 
