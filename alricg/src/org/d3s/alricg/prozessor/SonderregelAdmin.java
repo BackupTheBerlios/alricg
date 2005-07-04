@@ -80,7 +80,7 @@ public class SonderregelAdmin implements BasisSonderregelInterface  {
 	 */
 	public KostenKlasse changeKostenKlasse(KostenKlasse klasse, Link link)  {
 		// TODO implement
-		return null;
+		return klasse;
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -88,7 +88,7 @@ public class SonderregelAdmin implements BasisSonderregelInterface  {
 	 */
 	public int changeKosten(int kosten, Link link) {
 		// TODO implement
-		return 0;
+		return kosten;
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -96,7 +96,7 @@ public class SonderregelAdmin implements BasisSonderregelInterface  {
 	 */
 	public int changeMaxStufe(int maxStufe, Link link) {
 		// TODO implement
-		return 0;
+		return maxStufe;
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -104,7 +104,7 @@ public class SonderregelAdmin implements BasisSonderregelInterface  {
 	 */
 	public int changeMinStufe(int minStufe, Link link) {
 		// TODO implement
-		return 0;
+		return minStufe;
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -112,7 +112,7 @@ public class SonderregelAdmin implements BasisSonderregelInterface  {
 	 */
 	public boolean changeCanAddElement(boolean ok, Link tmpLink) {
 		// TODO implement
-		return true;
+		return ok;
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -120,7 +120,7 @@ public class SonderregelAdmin implements BasisSonderregelInterface  {
 	 */
 	public boolean changeCanRemoveElemet(boolean canRemove, Link link) {
 		// TODO implement
-		return true;
+		return canRemove;
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -135,7 +135,7 @@ public class SonderregelAdmin implements BasisSonderregelInterface  {
 	 */
 	public boolean changeCanUpdateWert(boolean canUpdate, HeldenLink link) {
 		// TODO implement
-		return true;
+		return canUpdate;
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -143,7 +143,7 @@ public class SonderregelAdmin implements BasisSonderregelInterface  {
 	 */
 	public boolean changeCanUpdateText(boolean canUpdate, HeldenLink link) {
 		// TODO implement
-		return true;
+		return canUpdate;
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -151,7 +151,7 @@ public class SonderregelAdmin implements BasisSonderregelInterface  {
 	 */
 	public boolean changeCanUpdateZweitZiel(boolean canUpdate, HeldenLink link) {
 		// TODO implement
-		return true;
+		return canUpdate;
 	}
 	
 }
