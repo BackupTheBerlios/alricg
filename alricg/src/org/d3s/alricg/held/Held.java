@@ -15,11 +15,18 @@ import org.d3s.alricg.charKomponenten.Profession;
 import org.d3s.alricg.charKomponenten.Rasse;
 import org.d3s.alricg.charKomponenten.Sprache;
 import org.d3s.alricg.controller.CharKomponente;
+import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.prozessor.FormelSammlung;
 import org.d3s.alricg.prozessor.HeldProzessor;
 import org.d3s.alricg.prozessor.HeldUtilitis;
 import org.d3s.alricg.prozessor.LinkElementBox;
-import org.d3s.alricg.prozessor.SonderregelAdmin;
+import org.d3s.alricg.prozessor.generierung.AbstractBoxGen;
+import org.d3s.alricg.prozessor.generierung.EigenschaftBoxGen;
+import org.d3s.alricg.prozessor.generierung.NachteilBoxGen;
+import org.d3s.alricg.prozessor.generierung.SonderfBoxGen;
+import org.d3s.alricg.prozessor.generierung.TalentBoxGen;
+import org.d3s.alricg.prozessor.generierung.VorteilBoxGen;
+import org.d3s.alricg.prozessor.generierung.ZauberBoxGen;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -50,7 +57,7 @@ public class Held {
 	private String beschreibung;
 
 	// Alle CharElemente des Helden, nach Komponeten Sortiert
-	private HashMap<CharKomponente, LinkElementBox> boxenHash;
+	private HashMap<CharKomponente, AbstractBoxGen> boxenHash;
 	
 	// Die Eigenschaften, diese sind auch in der "heldKomponetenBoxen"
 	// enthalten, aber wegen ihrer besonderen Bedeutung nochmal hier
@@ -64,38 +71,158 @@ public class Held {
 	private CharLogBuch lnkLogBuch;
 	
 	public static HeldUtilitis heldUtils; 
-	public HeldProzessor heldProzessor; // Prozessor mit dem der Held bearbeitet wird
+	//private HeldProzessor heldProzessor; // Prozessor mit dem der Held bearbeitet wird
 	
+	/**
+	 * Konstruktor. Erzeugt einen neuen Helden, nur mit den Eigenschaften ausgestattet.
+	 */
+	public Held() {
+		heldUtils = new HeldUtilitis();
+	}
 	
-	public void init() {
+	/**
+	 * Initiiert den Helden für das Management des Helden, vor allem werden die Boxen erzeugt
+	 */
+	public void initManagement(HeldProzessor prozessor) {
+		// TODO Boxen für das Management erzeugen
+		
+		initEigenschaften(prozessor);
+		initEigenschaftMap(prozessor);
+		
+	}
+	
+	public HashMap<CharKomponente, AbstractBoxGen> initHashMap() {
+		// Hash erzeugen
+		boxenHash = new HashMap<CharKomponente, AbstractBoxGen>();
+		
+		return boxenHash;
+	}
+	
+	/**
+	 * Initiiert den Helden für die Generierung, vor allem werden die Boxen erzeugt.
+	 * @param Der Prozessor zu diesem Helden
+	 */
+	public void initGenrierung(HeldProzessor prozessor) {
+		
+		// Boxen für die CharElemente erzeugen und platzieren
+		boxenHash.put(CharKomponente.eigenschaft, new EigenschaftBoxGen(prozessor));
+		boxenHash.put(CharKomponente.talent, new TalentBoxGen(prozessor));
+		boxenHash.put(CharKomponente.vorteil, new VorteilBoxGen(prozessor));
+		boxenHash.put(CharKomponente.nachteil, new NachteilBoxGen(prozessor));
+		boxenHash.put(CharKomponente.sonderfertigkeit, new SonderfBoxGen(prozessor));
+		boxenHash.put(CharKomponente.zauber, new ZauberBoxGen(prozessor));
+		// TODO restliche Boxen einbauen
+		
+		// Erzeugt alle Eigenschaften
+		initEigenschaften(prozessor);
+		
+		// Setzt die Eigenschaften in ein zusätzliches Hash für besseren Zugriff
+		initEigenschaftMap(prozessor);
+	}
+	
+	/**
+	 * Erzeugt alle Eigenschaften und fügt sie zum Helden hinzu. Es werden initiale Werte
+	 * gesetzt.
+	 * @param Der Prozessor zu diesem Helden
+	 */ 
+	private void initEigenschaften(HeldProzessor prozessor) {
+		
 		EigenschaftEnum[] enums = EigenschaftEnum.values();
 		
-		// TODO boxenHash füllen!
-		// Die Eigenschaften werden auf einen Wert von "0" initialisiert
+		// Erstmal alle Eigenschaften mit "0" setzen
+		for (int i = 0; i < enums.length; i++) {
+			prozessor.addCharElement(
+				ProgAdmin.data.getCharElement(enums[i].getId(), CharKomponente.eigenschaft),
+				0
+			);
+		}
+		
+		//  Grund-Eigenschaften auf initialwert "8" setzen
+		prozessor.updateElement(
+				prozessor.getLinkById(EigenschaftEnum.MU.getId(), null, null),
+				8,
+				null, null
+		);
+		prozessor.updateElement(
+				prozessor.getLinkById(EigenschaftEnum.CH.getId(), null, null),
+				8,
+				null, null
+		);
+		prozessor.updateElement(
+				prozessor.getLinkById(EigenschaftEnum.FF.getId(), null, null),
+				8,
+				null, null
+		);
+		prozessor.updateElement(
+				prozessor.getLinkById(EigenschaftEnum.GE.getId(), null, null),
+				8,
+				null, null
+		);
+		prozessor.updateElement(
+				prozessor.getLinkById(EigenschaftEnum.IN.getId(), null, null),
+				8,
+				null, null
+		);
+		prozessor.updateElement(
+				prozessor.getLinkById(EigenschaftEnum.KK.getId(), null, null),
+				8,
+				null, null
+		);
+		prozessor.updateElement(
+				prozessor.getLinkById(EigenschaftEnum.KL.getId(), null, null),
+				8,
+				null, null
+		);
+		prozessor.updateElement(
+				prozessor.getLinkById(EigenschaftEnum.KO.getId(), null, null),
+				8,
+				null, null
+		);
+		
+		prozessor.updateElement(
+				prozessor.getLinkById(EigenschaftEnum.SO.getId(), null, null),
+				1,
+				null, null
+		);
+		
+	}
+	
+	/**
+	 * Setzt die Eigenschaften in ein Zusätzliches Hash für besseren Zugriff, da die
+	 * Eigenschaften öfter benötigt werden.
+	 * @param prozessor
+	 */
+	private void initEigenschaftMap(HeldProzessor prozessor) {
+		
+		EigenschaftEnum[] enums = EigenschaftEnum.values();
+		
+		eigenschaftHash = new HashMap<EigenschaftEnum, HeldenLink>();
 		
 		// Da Eigenschaften von größerer Bedeutung sind werden sie ZUSÄTZLICH
 		// direkt in ein Hash gesichert für einfachen Zugriff
 		for (int i = 0; i < enums.length; i++) {
 			eigenschaftHash.put(enums[i], 
-					heldProzessor.getLinkById(enums[i].getId(), null, null)
+					prozessor.getLinkById(enums[i].getId(), null, null)
 			);
-		}		
+		}
 	}
 	
-	
+	/**
+	 * Hiermit kann die Box der CharKomponente "komponente" abgerufen werden. Darüber 
+	 * kann auf alle Elemente zu der Box zugegriffen werden. Eigenschaften (MU, Lep, usw.) 
+	 * können mit dieser Methode nicht abgerufen werden, es wird "null" zurückgeliefert. 
+	 * Hier für ist die Methode "getEigenschaftsWert()" gedacht.
+	 * 
+	 * @param komponente Die gewünschte CharKomponete
+	 * @return Die LinkElementBoxzu die alle CharElemente des Helden der Art "komponente"
+	 *  enthält.
+	 */
 	public LinkElementBox getElementBox(CharKomponente komponente) {
+		// Eigenschaften könne hier NICHT abgerufen werden, da sie errechnet werden
+		//if ( komponente.equals(CharKomponente.eigenschaft) ) return null;
+		
 		return boxenHash.get(komponente);
 	}
-
-	public SonderregelAdmin getSonderregelAdmin() {
-		// TODO implement! 
-		return null;
-	}
-	
-	public HeldProzessor getHeldProzessor() {
-		return heldProzessor;
-	}
-	
 	
 	/**
 	 * Ermöglicht einen einfachen Zugriff auf die Eigenschaften (alle die in 
