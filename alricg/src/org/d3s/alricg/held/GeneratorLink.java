@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.links.IdLink;
+import org.d3s.alricg.controller.ProgAdmin;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -59,7 +60,7 @@ public class GeneratorLink extends HeldenLink {
 		this.setZielId(link.getZiel());
 		this.setText(link.getText());
 		this.setZweitZiel(link.getZweitZiel());
-		this.setWert(link.getWert());
+		super.setWert(link.getWert());
 
 		addLink(link);
 	}
@@ -110,7 +111,7 @@ public class GeneratorLink extends HeldenLink {
      * sich aus dem Kontext)
      */
     public int getKosten() {
-    	return kosten;
+    	return this.kosten;
     }
     
     /**
@@ -167,6 +168,13 @@ public class GeneratorLink extends HeldenLink {
 
     }
     
+	/**
+	 * Kann beim GeneratorLink nicht verwendet werden!
+	 * @param wert Setzt das Attribut wert ("-100" bedeutet, das es keinen Wert gibt).
+	 */
+	public void setWert(int wert) {
+		ProgAdmin.logger.warning("setWert() kann nicht direkt auf einen Generatorlink angewand werden!");
+	}
     
 	/**
 	 * Hiermit wird der Wert des Elements neu gesetzt. Modifikationen
@@ -225,7 +233,7 @@ public class GeneratorLink extends HeldenLink {
 			tmpWert += linkModiArray.get(i).getWert();
     	}
 		
-		this.setWert(tmpWert); // Setzen des neuen Wertes
+		super.setWert(tmpWert); // Setzen des neuen Wertes
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
