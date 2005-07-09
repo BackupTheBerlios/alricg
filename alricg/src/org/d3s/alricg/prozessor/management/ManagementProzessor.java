@@ -206,5 +206,11 @@ public class ManagementProzessor extends HeldProzessor {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public void removeLinkFromElement(IdLink link) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

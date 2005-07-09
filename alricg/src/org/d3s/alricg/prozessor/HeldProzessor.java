@@ -232,6 +232,14 @@ public abstract class HeldProzessor {
 	 * @param element Der Link des Elements welches entfernt werden soll
 	 */
 	public abstract void removeElement(HeldenLink element);
+	
+	/**
+	 * Entfernd einen Link von einem bestehenden Element. Ist vor allem für Sonderregeln 
+	 * gedacht, aber auch bei entfernen von einer Herkunft.
+	 * 
+	 * @param link Der Link, der als Teil eines anderen Elements entfernd werden soll.
+	 */
+	public abstract void removeLinkFromElement(IdLink link);
 
 	/**
 	 * Prüft ob ein Element von Held entfernd werden kann. Dies ist nicht der Fall wenn
@@ -394,7 +402,7 @@ public abstract class HeldProzessor {
 	/**
 	 * Diese Methode ist vor allem für Sonderregel gedacht, bei denen Elemente Modifiziert 
 	 * werden und diese Modifikation per Link zu einem Element hinzugefügt wird.
-	 * Gibt es kein solches element
+	 *
 	 * @param link Der Link der zu einem Element hinzugefügt werden soll.
 	 */
 	public abstract void addLinkToElement(IdLink link);

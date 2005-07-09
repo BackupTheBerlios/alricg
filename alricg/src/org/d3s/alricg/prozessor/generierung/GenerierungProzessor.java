@@ -219,16 +219,24 @@ public class GenerierungProzessor extends HeldProzessor {
 	 * @see org.d3s.alricg.held.box.HeldProzessor#getMaxWert(org.d3s.alricg.charKomponenten.links.Link)
 	 */
 	public int getMaxWert(Link link) {
-		// TODO Auto-generated method stub
-		return 0;
+		int max;
+		
+		max = boxenHash.get(link.getZiel().getCharKomponente()).getMaxWert(link);
+		max = getSonderregelAdmin().changeMaxStufe(max, link);
+		
+		return max;
 	}
 
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.held.box.HeldProzessor#getMinWert(org.d3s.alricg.charKomponenten.links.Link)
 	 */
 	public int getMinWert(Link link) {
-		// TODO Auto-generated method stub
-		return 0;
+		int min;
+		
+		min = boxenHash.get(link.getZiel().getCharKomponente()).getMinWert(link);
+		min = getSonderregelAdmin().changeMinStufe(min, link);
+		
+		return min;
 	}
 	
 	
@@ -314,12 +322,11 @@ public class GenerierungProzessor extends HeldProzessor {
 //		 TODO implement		
 	}
 	
-
-	private boolean removeLink(Link element) {
-		// VORSICHT! Hier muß gewährleistet werden, das auch ohne den Link 
-		// der Held noch "gültig" ist
-		
-		return false;
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.prozessor.HeldProzessor#removeLinkFromElement
+	 */
+	public void removeLinkFromElement(IdLink link) {		
+		boxenHash.get(link.getZiel().getCharKomponente()).removeLinkFromElement(link, true);
 	}
 	
 	/**
@@ -457,9 +464,9 @@ public class GenerierungProzessor extends HeldProzessor {
 			MAX_SCHLECHTE_EIGEN_GP = 10;
 			MAX_NACHTEIL_GP = 10;
 			MAX_GP_EIGENSCHAFTEN = 10;
-			MAX_EIGENSCHAFT_WERT = 10;
-			MIN_EIGENSCHAFT_WERT = 10;
-			MAX_SOZIALSTATUS = 10;
+			MAX_EIGENSCHAFT_WERT = 14;
+			MIN_EIGENSCHAFT_WERT = 8;
+			MAX_SOZIALSTATUS = 12;
 			TALENT_GP_FAKTOR = 10;
 			MAX_TALENT_AKTIVIERUNG = 10;
 			MAX_ZAUBER_AKTIVIERUNG_VZ = 10;

@@ -127,4 +127,14 @@ public class NachteilBoxGen extends AbstractBoxGen {
 		return false;
 	}
 
+	protected @Override void removeElement(HeldenLink element) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	protected @Override void removeLinkFromElement(IdLink link, boolean stufeErhalten) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

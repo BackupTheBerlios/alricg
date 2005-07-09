@@ -145,6 +145,21 @@ public abstract class AbstractBoxGen extends LinkElementBox<GeneratorLink> {
 										String text, CharElement zweitZiel);
 	
 	/**
+	 * Entfernd ein Element von Helden. Hierbei erfolgt keinerlei Prüfung.
+	 * @param element Der Link des Elements welches entfernt werden soll
+	 */
+	protected abstract void removeElement(HeldenLink element);
+	
+	/**
+	 * Entfernd einen Link von einem bestehenden Element. Ist vor allem für Sonderregeln 
+	 * gedacht, aber auch bei entfernen von einer Herkunft.
+	 * 
+	 * @param link Der Link, der als Teil eines anderen Elements entfernd werden soll.
+	 * @param stufeErhalten TODO
+	 */
+	protected abstract void removeLinkFromElement(IdLink link, boolean stufeErhalten);
+	
+	/**
 	 * Wird aufgerufen um zu überprüfen ob der Wert eines Elements geändert werden darf.
 	 * (Wert ist z.B. bei "Schwerter 6" die 6)
 	 * Es geht dabei NICHT um den Wert der Änderung (diese Grenzen werden mit 

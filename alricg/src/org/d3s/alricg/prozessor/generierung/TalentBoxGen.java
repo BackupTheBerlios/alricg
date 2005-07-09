@@ -117,7 +117,7 @@ public class TalentBoxGen extends AbstractBoxGen {
 		if (stufeErhalten) {
 			oldWert = tmpLink.getWert(); // Alten Wert Speichern
 			tmpLink.addLink(link); // Link hinzufügen
-			tmpLink.setUserWert(oldWert); // Versuchen den alten Wert wiederherzustellen
+			tmpLink.setUserGesamtWert(oldWert); // Versuchen den alten Wert wiederherzustellen
 		} else {
 			tmpLink.addLink(link);
 		}
@@ -141,7 +141,7 @@ public class TalentBoxGen extends AbstractBoxGen {
 
 		// Updaten der Stufe
 		if (stufe != Link.KEIN_WERT) {
-			((GeneratorLink) link).setUserWert(stufe);
+			((GeneratorLink) link).setUserGesamtWert(stufe);
 		}
 		
 		// Updaten des Textes
@@ -242,5 +242,15 @@ public class TalentBoxGen extends AbstractBoxGen {
 	 */
 	protected int getAktivierteTalente() {
 		return aktivierteTalente;
+	}
+
+	protected @Override void removeElement(HeldenLink element) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	protected @Override void removeLinkFromElement(IdLink link, boolean stufeErhalten) {
+		// TODO Auto-generated method stub
+		
 	}
 }
