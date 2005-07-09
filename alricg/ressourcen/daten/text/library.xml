@@ -402,6 +402,17 @@
       <entry key="Library Datei geladen">
         <e lang="DE">Library Datei geladen...</e>
         <e lang="EN">Library file loaded</e>
+	  </entry>
+		
+<!-- ************************ Nachrichten für Transparenz *************************** -->		
+	  <entry key="Kosten-Kategorie">
+        <e lang="DE">Kosten-Kategorie: </e>
+      </entry>
+	  <entry key="GP-Kosten">
+        <e lang="DE">GP-Kosten: </e>
+      </entry>
+	  <entry key="Talent-GP-Kosten">
+        <e lang="DE">Talent-GP-Kosten: </e>
       </entry>
       <entry key="X">
         <e lang="DE">X</e>
