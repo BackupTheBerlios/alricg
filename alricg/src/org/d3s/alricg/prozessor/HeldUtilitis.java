@@ -16,7 +16,8 @@ import org.d3s.alricg.held.GeneratorLink;
 
 /**
  * <u>Beschreibung:</u><br> 
- *
+ * Eine Sammlung von Methoden die für mehrer Prozessoren sinnvoll sind und so nicht mehrfach 
+ * implementiert werden müssen.
  * @author V. Strelow
  */
 public class HeldUtilitis {
@@ -27,16 +28,16 @@ public class HeldUtilitis {
 	 * Wenn nicht wird versucht den Wert entsprechend zu setzten. Diese Methode wird
 	 * beim Ändern der Herkunft benötigt.
 	 *  
-	 * @param link
-	 * @param prozessor
+	 * @param link Der Link der überprüft werden soll
+	 * @param prozessor Der Prozessor mit dem der Link überprüft wird
 	 */
 	public void inspectWert(GeneratorLink link, HeldProzessor prozessor) {		
 		// TODO Meldungen einbauen!
 		
 		if ( link.getWert() > prozessor.getMaxWert(link) ) {
-			link.setUserWert(prozessor.getMaxWert(link));
+			link.setUserGesamtWert(prozessor.getMaxWert(link));
 		} else if ( link.getWert() < prozessor.getMinWert(link) ) {
-			link.setUserWert(prozessor.getMinWert(link));
+			link.setUserGesamtWert(prozessor.getMinWert(link));
 		}
 		
 	}
