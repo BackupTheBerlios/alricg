@@ -23,7 +23,15 @@ import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
 
 /**
  * <u>Beschreibung:</u><br> 
- *
+ * Enthält die Logik zum Verarbeiten von Eigenschaften (dazu gehören neben MU, KL, usw. 
+ * auch LEP, ASP, KA, Basis-AT, GS, INI u.ä.). Viele Methoden sind hier leer, da 
+ * Eigenschaften nicht hinzugefügt oder entfernd werden können. Es geht also nur um die
+ * Änderung von Eigenschaften, Min/Max-Werte, hinzufügen/ entfernen von Modis.
+ * 
+ * Verhalten:
+ * - Wird eine Modifikation hinzugefügt, wird versucht die Stufe zu halten
+ * - Wird eine Modifikation entfernd, wird die Stufe neu gesetzt.
+ * 
  * @author V. Strelow
  */
 public class EigenschaftBoxGen extends AbstractBoxGen {
@@ -73,46 +81,241 @@ public class EigenschaftBoxGen extends AbstractBoxGen {
 	 * @see org.d3s.alricg.prozessor.generierung.AbstractBoxGen#addLinkToElement(org.d3s.alricg.charKomponenten.links.IdLink, boolean)
 	 */
 	protected GeneratorLink addLinkToElement(IdLink link, boolean stufeErhalten) {
-		GeneratorLink tmpLink;
-		int oldWert;
+		final GeneratorLink tmpLink;
+		final int tmpInt;
 		
 		tmpLink = getEqualLink(link);
 		
 		if (stufeErhalten) {
-			oldWert = tmpLink.getWert(); // Alten Wert Speichern
+			tmpInt = tmpLink.getWert(); // Alten Wert Speichern
 			tmpLink.addLink(link); // Link hinzufügen
-			tmpLink.setUserWert(oldWert); // Versuchen den alten Wert wiederherzustellen
+			tmpLink.setUserGesamtWert(tmpInt); // Versuchen den alten Wert wiederherzustellen
 		} else {
 			tmpLink.addLink(link);
 		}
 		
-		Held.heldUtils.inspectWert(tmpLink, prozessor);
+		// Überprüfen ob die Stufen OK sind
+		inspectEigenschaftWert(tmpLink);
 		
 		updateKosten(tmpLink); // Kosten Aktualisieren
 		
 		return tmpLink;
 	}
 
+	/**
+	 * Versucht überprüft ob der Wert des Elements "link" innerhalb der möglichen Grenzen ist.
+	 * Wenn nicht wird versucht den Wert entsprechend zu setzten. Diese Methode wird
+	 * beim Ändern der Herkunft benötigt.
+	 *  
+	 * @param link Der Link der überprüft werden soll
+	 * @param prozessor Der Prozessor mit dem der Link überprüft wird
+	 */
+	private void inspectEigenschaftWert(GeneratorLink tmpLink) {
+		final EigenschaftEnum eigen = ((Eigenschaft) tmpLink.getZiel()).getEigenschaftEnum();
+		int tmpInt;
+		
+//		 Werte die sich errechen, müssen anders behandelt werden.
+		tmpInt = 0;
+		if (eigen.equals(EigenschaftEnum.LEP)) {
+			tmpInt = prozessor.getHeld().getEigenschaftsWert(EigenschaftEnum.LEP);
+		} else if (eigen.equals(EigenschaftEnum.ASP)) {
+			tmpInt = prozessor.getHeld().getEigenschaftsWert(EigenschaftEnum.ASP);
+		} else if (eigen.equals(EigenschaftEnum.AUP)) {
+			tmpInt = prozessor.getHeld().getEigenschaftsWert(EigenschaftEnum.AUP);
+		} else if (eigen.equals(EigenschaftEnum.MR)) {
+			tmpInt = prozessor.getHeld().getEigenschaftsWert(EigenschaftEnum.MR);
+		} else if (eigen.equals(EigenschaftEnum.AT)) {
+			tmpInt = prozessor.getHeld().getEigenschaftsWert(EigenschaftEnum.AT);
+		} else if (eigen.equals(EigenschaftEnum.PA)) {
+			tmpInt = prozessor.getHeld().getEigenschaftsWert(EigenschaftEnum.PA);
+		} else if (eigen.equals(EigenschaftEnum.INI)) {
+			tmpInt = prozessor.getHeld().getEigenschaftsWert(EigenschaftEnum.INI);
+		} else if (eigen.equals(EigenschaftEnum.FK)) {
+			tmpInt = prozessor.getHeld().getEigenschaftsWert(EigenschaftEnum.FK);
+		}
+		
+		if (tmpInt > 0) {
+			// Die Errechneten Werte müssen anderes behandelt werden
+			if ( tmpInt > prozessor.getMaxWert(tmpLink) ) {
+				tmpLink.setUserGesamtWert(prozessor.getMaxWert(tmpLink));
+			} else if ( tmpInt < prozessor.getMinWert(tmpLink) ) {
+				tmpLink.setUserGesamtWert(prozessor.getMinWert(tmpLink));
+			}
+		} else {
+			// Nicht errechnete Werte 
+			Held.heldUtils.inspectWert(tmpLink, prozessor);
+		}
+	}
+	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.prozessor.generierung.AbstractBoxGen#getMaxWert(org.d3s.alricg.charKomponenten.links.Link)
 	 */
 	protected int getMaxWert(Link link) {
-		// TODO hier müssen auch die Voraussetzungen (Herkunft, Vorteile usw.) mit 
-		// bedacht werden!!! 
+		// TODO Texte für das Notepad einfügen
 		
-		return 0;
+		final EigenschaftEnum eigen = ((Eigenschaft) link.getZiel()).getEigenschaftEnum();
+		int tmpInt;
+		
+		if ( eigen.equals(EigenschaftEnum.MU)
+				|| eigen.equals(EigenschaftEnum.KL)
+				|| eigen.equals(EigenschaftEnum.IN)
+				|| eigen.equals(EigenschaftEnum.CH)
+				|| eigen.equals(EigenschaftEnum.FF)
+				|| eigen.equals(EigenschaftEnum.GE)
+				|| eigen.equals(EigenschaftEnum.KO)
+				|| eigen.equals(EigenschaftEnum.KK) ) {
+			// Der Maximale Wert plus die Modis aus Herkunft
+			return ((GeneratorLink) link).getWertModis() +
+				GenerierungProzessor.genKonstanten.MAX_EIGENSCHAFT_WERT;
+
+		} else if ( eigen.equals(EigenschaftEnum.SO) ) {
+			
+			return GenerierungProzessor.genKonstanten.MAX_SOZIALSTATUS;
+			
+		} else if ( eigen.equals(EigenschaftEnum.LEP) ) {
+			// Selbst nicht beschränkt, nur die Anzahl die Hinzugekauft werden kann!
+			
+			// tmpInt = Der Wert ger Maximal hinzugekauft werden darf ( = KO /2)
+			tmpInt = Math.round( 
+						prozessor.getLinkById(EigenschaftEnum.KO.getId(), null, null).getWert() / 2
+					);
+			
+			// Der errechnete Wert + die Modis + das Maximum was hinzugekauft werden darf
+			return 
+				FormelSammlung.berechneLep(
+					prozessor.getLinkById(EigenschaftEnum.KO.getId(), null, null).getWert(),
+					prozessor.getLinkById(EigenschaftEnum.KK.getId(), null, null).getWert()
+				) 
+				+ ((GeneratorLink) link).getWertModis()
+				+ tmpInt;
+			
+		} else if ( eigen.equals(EigenschaftEnum.ASP) ) {
+			// Selbst nicht beschränkt, nur die Anzahl die Hinzugekauft werden kann!
+			
+			// tmpInt = Der Wert ger Maximal hinzugekauft werden darf ( = CH x 1,5 )
+			tmpInt = prozessor.getLinkById(EigenschaftEnum.CH.getId(), null, null).getWert();
+			
+			// Der errechnete Wert + die Modis + das Maximum was hinzugekauft werden darf
+			return 
+				FormelSammlung.berechneAsp(
+					prozessor.getLinkById(EigenschaftEnum.MU.getId(), null, null).getWert(),
+					prozessor.getLinkById(EigenschaftEnum.IN.getId(), null, null).getWert(),
+					prozessor.getLinkById(EigenschaftEnum.CH.getId(), null, null).getWert()
+				) 
+				+ ((GeneratorLink) link).getWertModis()
+				+ (int) Math.round( tmpInt * 1.5d );
+			
+		} else if ( eigen.equals(EigenschaftEnum.AUP ) ) {
+			// Selbst nicht beschränkt, nur die Anzahl die Hinzugekauft werden kann!
+			
+			// tmpInt = Der Wert ger Maximal hinzugekauft werden darf ( = KO * 2)
+			tmpInt = prozessor.getLinkById(EigenschaftEnum.KO.getId(), null, null).getWert() * 2;
+			
+			// Der errechnete Wert + die Modis + das Maximum was hinzugekauft werden darf
+			return 
+				FormelSammlung.berechneAup(
+					prozessor.getLinkById(EigenschaftEnum.MU.getId(), null, null).getWert(),
+					prozessor.getLinkById(EigenschaftEnum.KO.getId(), null, null).getWert(),
+					prozessor.getLinkById(EigenschaftEnum.GE.getId(), null, null).getWert()
+				) 
+				+ ((GeneratorLink) link).getWertModis()
+				+ tmpInt;
+		} else if ( eigen.equals(EigenschaftEnum.KA ) ) {
+			// Siehe S. 26 im Aventurische Götterdiener
+			return prozessor.getLinkById(EigenschaftEnum.IN.getId(), null, null).getWert();
+			
+		} else {
+			// Alle anderen Werte können nicht von User gesetzt werden, ein Maximum ist unnötig
+			return 100;
+		}
+		
 	}
 
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.prozessor.generierung.AbstractBoxGen#getMinWert(org.d3s.alricg.charKomponenten.links.Link)
 	 */
 	protected int getMinWert(Link link) {
-		// TODO hier müssen auch die Voraussetzungen (Herkunft, Vorteile usw.) mit 
-		// bedacht werden!!! 
-		return 0;
+		// TODO Texte für das Notepad einfügen
+		
+		final EigenschaftEnum eigen = ((Eigenschaft) link.getZiel()).getEigenschaftEnum();
+		int tmpInt;
+		
+		if ( eigen.equals(EigenschaftEnum.MU)
+				|| eigen.equals(EigenschaftEnum.KL)
+				|| eigen.equals(EigenschaftEnum.IN)
+				|| eigen.equals(EigenschaftEnum.CH)
+				|| eigen.equals(EigenschaftEnum.FF)
+				|| eigen.equals(EigenschaftEnum.GE)
+				|| eigen.equals(EigenschaftEnum.KO)
+				|| eigen.equals(EigenschaftEnum.KK) ) {
+			// Der Maximale Wert plus die Modis aus Herkunft
+			return ((GeneratorLink) link).getWertModis() +
+				GenerierungProzessor.genKonstanten.MIN_EIGENSCHAFT_WERT;
+
+		} else if ( eigen.equals(EigenschaftEnum.SO) ) {
+			
+			return 1;
+			
+		} else if ( eigen.equals(EigenschaftEnum.LEP) ) {
+			// Selbst nicht beschränkt, nur die Anzahl die Hinzugekauft werden kann!
+			
+			// Minimal ist der Wert ohne zukäufe durch den User
+			return 
+				FormelSammlung.berechneLep(
+					prozessor.getLinkById(EigenschaftEnum.KO.getId(), null, null).getWert(),
+					prozessor.getLinkById(EigenschaftEnum.KK.getId(), null, null).getWert()
+				) 
+				+ ((GeneratorLink) link).getWertModis();
+			
+		} else if ( eigen.equals(EigenschaftEnum.ASP) ) {
+			// Selbst nicht beschränkt, nur die Anzahl die Hinzugekauft werden kann!
+			
+			// Minimal ist der Wert ohne zukäufe durch den User
+			return 
+				FormelSammlung.berechneAsp(
+					prozessor.getLinkById(EigenschaftEnum.MU.getId(), null, null).getWert(),
+					prozessor.getLinkById(EigenschaftEnum.IN.getId(), null, null).getWert(),
+					prozessor.getLinkById(EigenschaftEnum.CH.getId(), null, null).getWert()
+				) 
+				+ ((GeneratorLink) link).getWertModis();
+			
+		} else if ( eigen.equals(EigenschaftEnum.AUP ) ) {
+			// Selbst nicht beschränkt, nur die Anzahl die Hinzugekauft werden kann!
+			
+			// Der errechnete Wert + die Modis + das Maximum was hinzugekauft werden darf
+			return 
+				FormelSammlung.berechneAup(
+					prozessor.getLinkById(EigenschaftEnum.MU.getId(), null, null).getWert(),
+					prozessor.getLinkById(EigenschaftEnum.KO.getId(), null, null).getWert(),
+					prozessor.getLinkById(EigenschaftEnum.GE.getId(), null, null).getWert()
+				) 
+				+ ((GeneratorLink) link).getWertModis();
+			
+		} else if ( eigen.equals(EigenschaftEnum.KA ) ) {
+			// Siehe S. 26 im Aventurische Götterdiener
+			return 0;
+			
+		} else {
+			// Alle anderen Werte können nicht von User gesetzt werden, ein Minimum ist unnötig
+			return 0;
+		}
+
 	}
 
-	/* (non-Javadoc) Methode überschrieben
+	/**
+	 * Methode überschrieben
+	 * Ein Element des Helden wird (durch den User) geändert. Es wird hierbei keine
+	 * Prüfung durchgeführt. 
+	 * WICHTIG: Die Stufe ist bei allen Eigenschaften die errechnet werden NICHT die 
+	 * Gesamtstufe, sonder nur die Stufe die sich aus Modis + User gewählter Stufe ergibt.
+	 * 
+	 * @param link Link des Elements, das geändert werden soll
+	 * @param stufe Die neue Stufe oder "KEIN_WERT", wenn die Stufe nicht geändert wird
+	 * @param text Der neue Text oder 'null', wenn der Text nicht geändert wird
+	 * 		(text ist z.B. bei "Vorurteil gegen Orks" der String "Orks")
+	 * @param zweitZiel Das neue zweitZiel oder 'null', wenn dies nicht geändert wird
+	 * 		(ZweitZiel ist z.B. bei "Unfähigkeit für Schwerter" das Talent "Schwerter")
+	 * 
 	 * @see org.d3s.alricg.prozessor.generierung.AbstractBoxGen#updateElement(org.d3s.alricg.held.HeldenLink, int, java.lang.String, org.d3s.alricg.charKomponenten.CharElement)
 	 */
 	protected void updateElement(HeldenLink link, int stufe, String text,
@@ -130,7 +333,7 @@ public class EigenschaftBoxGen extends AbstractBoxGen {
 				|| ((Eigenschaft) link.getZiel()).getEigenschaftEnum().equals(EigenschaftEnum.KA)
 				|| ((Eigenschaft) link.getZiel()).getEigenschaftEnum().equals(EigenschaftEnum.GS)) );
 		
-		link.setUserWert(stufe);
+		((GeneratorLink) link).setUserGesamtWert(stufe);
 		
 		// Kosten neu berechnen
 		updateKosten((GeneratorLink) link);
@@ -179,7 +382,7 @@ public class EigenschaftBoxGen extends AbstractBoxGen {
 	 */
 	protected void updateKosten(GeneratorLink genLink) {
 		final EigenschaftEnum eigen = ((Eigenschaft) genLink.getZiel()).getEigenschaftEnum();
-		int kosten;
+		int kosten = 0;
 		KostenKlasse KK = null;
 		
 		// KostenKlasse festlegen, wenn diese nach SKT berechent wird
@@ -189,6 +392,8 @@ public class EigenschaftBoxGen extends AbstractBoxGen {
 			KK = KostenKlasse.G;
 		} else if (eigen.equals(EigenschaftEnum.AUP)) {
 			KK = KostenKlasse.E;
+		} else if (eigen.equals(EigenschaftEnum.KA)) {
+			KK = KostenKlasse.F;
 		}
 		
 		if (KK != null) {
@@ -204,7 +409,11 @@ public class EigenschaftBoxGen extends AbstractBoxGen {
 			KK = prozessor.getSonderregelAdmin().changeKostenKlasse(KK, genLink);
 			
 			// Kosten berechnen
-			kosten = FormelSammlung.berechneSktKosten(0, genLink.getUserLink().getWert(), KK);
+			if (genLink.getUserLink() != null) {
+				kosten = FormelSammlung.berechneSktKosten(0, genLink.getUserLink().getWert(), KK);
+			} else {
+				kosten = 0;
+			}
 			
 			// Die Kosten als Nachricht absenden
 			ProgAdmin.notepad.addSecondaryMsg(
@@ -224,7 +433,9 @@ public class EigenschaftBoxGen extends AbstractBoxGen {
 			// Berechnung ohne SKT
 			
 			// Die Kosten entsprechen hier dem Gewählten Wert
-			kosten = genLink.getUserLink().getWert();
+			if ( genLink.getUserLink() != null) {
+				kosten = genLink.getUserLink().getWert();
+			}
 			
 			// Die Kosten als Nachricht absenden
 			ProgAdmin.notepad.addSecondaryMsg(
@@ -249,6 +460,43 @@ public class EigenschaftBoxGen extends AbstractBoxGen {
 	protected boolean canAddCharElement(CharElement elem) {
 		// Nach der initialisierung können keine Eigenschaften mehr hinzugefügt werden
 		return false;
+	}
+
+	@Override 
+	protected void removeElement(HeldenLink element) {
+		// Noop!
+		// Eigenschaften können nicht entfernd werden!
+	}
+
+	@Override 
+	protected void removeLinkFromElement(IdLink link, boolean stufeErhalten) {
+		final GeneratorLink genLink;
+		int tmpInt;
+		
+		genLink = this.getEqualLink(link);
+		
+		if (genLink == null) {
+			ProgAdmin.logger.warning("Konnte Link nicht finden beim Entfernen eines Modis");
+		}
+		
+		/*
+		if (stufeErhalten) {
+			tmpInt = genLink.getWert(); // Alten Wert Speichern
+			genLink.removeLink(link); // Link entfernen
+			genLink.setUserGesamtWert(tmpInt); // Versuchen den alten Wert wiederherzustellen
+		} else {
+			genLink.removeLink(link);
+		}
+		*/
+		
+		// Link entfernen
+		genLink.removeLink(link);
+		
+		// Stufe ggf. neu setzen
+		inspectEigenschaftWert(genLink);
+		
+		// Kosten aktualisieren
+		updateKosten(genLink);
 	}
 
 }

@@ -177,6 +177,36 @@ public class GeneratorLink extends HeldenLink {
 	}
     
 	/**
+	 * Hiermit wird der von User "gekaufte" Anteil eines links gesetzt, ohne rücksicht auf
+	 * den Gesamtwert.
+	 * 
+	 * @param wert Der neue Wert der von User 
+	 */
+	public void setUserWert(int wert) {
+		// Guard
+		if (wert == KEIN_WERT) {
+			// Der gewünschte Wert hat "keinen Wert" oder ist kleiner als möglich
+			if (userLink != null) {
+				removeLink(userLink);
+			}
+			return;
+		}
+		
+		if (userLink == null) {
+			// userLink existiert noch nicht und wird neu angelegt 
+			userLink = new IdLink(null, null);
+			userLink.setZielId(this.getZiel());
+			userLink.setText(this.getText());
+			userLink.setZweitZiel(this.getZweitZiel());
+		}
+		
+		// Wert setzen
+		userLink.setWert(wert);
+		
+		updateWert(); // Damit der neue Wert auch übernommen wird
+	}
+	
+	/**
 	 * Hiermit wird der Wert des Elements neu gesetzt. Modifikationen
 	 * durch die Herkunft u.ä. werden NICHT verändert, sondern nur der Teil, der
 	 * durch den User gewählt wird. Falls ein Wert kleiner ist, als der durch die
@@ -184,7 +214,7 @@ public class GeneratorLink extends HeldenLink {
 	 * 
 	 * @param wert Der gewünschte gesamtWert des Elements
 	 */
-	public void setUserWert(int wert) {
+	public void setUserGesamtWert(int wert) {
 		
 		// Guard
 		if (wert == KEIN_WERT || (wert < this.getWertModis()) ) {
