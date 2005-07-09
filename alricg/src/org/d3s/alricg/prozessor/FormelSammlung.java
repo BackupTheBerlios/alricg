@@ -173,7 +173,9 @@ public class FormelSammlung {
 		
 		// Um endlosschleifen zu verhindern:
 		if (startStufe > zielStufe) {
-			throw new ArithmeticException("startStufe muss kleiner sein als die Zielstufe!");
+			throw new ArithmeticException("startStufe (" 
+					+ startStufe + ") muss kleiner sein als die Zielstufe("
+					+ zielStufe + ") !");
 		}
 		
 		// TODO Texte über library einlesen!
@@ -387,7 +389,7 @@ public class FormelSammlung {
 	 * @param MU Mut 
 	 * @param IN Intuition
 	 * @param CH Charisma
-	 * @return Die errechnete Ausdauer
+	 * @return Die errechneten Astralpunkte
 	 */
 	public static int berechneAsp(int MU, int IN, int CH) {
 		return (int) Math.round( (MU + IN + CH) / 2d );
