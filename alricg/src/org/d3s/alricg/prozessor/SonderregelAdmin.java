@@ -7,12 +7,14 @@
 
 package org.d3s.alricg.prozessor;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.links.Link;
 import org.d3s.alricg.charKomponenten.sonderregeln.BasisSonderregelInterface;
 import org.d3s.alricg.charKomponenten.sonderregeln.SonderregelAdapter;
+import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.held.HeldenLink;
 import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
 /**
@@ -24,7 +26,16 @@ import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
  * @author V.Strelow
  */
 public class SonderregelAdmin implements BasisSonderregelInterface  {
-	ArrayList<SonderregelAdapter> sonderregeln;
+	private final HashMap<Link, SonderregelAdapter> sonderRegelMap;
+	private final HeldProzessor prozessor;
+	private Iterator<SonderregelAdapter> iterator;
+	//private ArrayList<SonderregelAdapter> sonderregeln;
+	
+	public SonderregelAdmin(HeldProzessor prozessor) {
+		sonderRegelMap = new HashMap<Link, SonderregelAdapter >();
+		this.prozessor = prozessor;
+	}
+	
 	
 	/**
 	 * Fügt eine Sonderregel zu Admin hinzu. Diese Sonderregel wird nach 
@@ -36,13 +47,61 @@ public class SonderregelAdmin implements BasisSonderregelInterface  {
 	 * @param sRegel Die neue Sonderregel
 	 * @param link Der Link zu dem die Sonderregel gehört
 	 */
-	public void addSonderregel(SonderregelAdapter sRegel, Link link) {
+	public void addSonderregel(Link link) {
 		// TODO implement
 		// Es sollte eine Sortierung vorgenommen werden, damit überprüft werden kann
 		// in welcher Reichenfolge Sonderregeln ausgeführt wurden / werden!
 		// ACHTUNG Es können mehrer Links die gleiche Sonderregel besitzen!
 		
-		// TODO Sonderregel initialisieren!
+		if ( sonderRegelMap.containsKey(link) ) {
+			ProgAdmin.logger.warning("Dieser Link ist bereits im SonderregelAmdin registriert!");
+		}
+		
+		sonderRegelMap.put(link, link.getZiel().createSonderregel() ); // SR zum Admin hinzufügen
+		sonderRegelMap.get(link).initSonderregel(prozessor, link); // SR initialisieren
+	}
+	
+	/**
+	 * @return Liefert die Anzahl der aktiven Sonderregeln des Helden
+	 */
+	public int countSonderregeln() {
+		return sonderRegelMap.size();
+	}
+	
+	/**
+	 * Überprüft ob diese Sonderregel bereits vorhanden ist
+	 * @param id  Die Id der ST die überprüft wird
+	 * @return true - Die SR ist im SR-Admin enthalten, ansonsten false
+	 */
+	public boolean hasSonderregel(String id) {
+		iterator = sonderRegelMap.values().iterator();
+		
+		while (iterator.hasNext()) {
+			if ( id.equals(iterator.next().getId()) ) return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Liefert die aktuelle Sonderegel zurück mit der entsprechenden ID, oder 
+	 * null falls keine entsprechnende SR vorhanden ist
+	 * @param id ID der gesuchten SR
+	 * @return Die SR aus dem SrAdmin mit der entsprechenden ID, oder null
+	 * 		falls es eine solche SR nicht gibt.
+	 */
+	public SonderregelAdapter getSonderregel(String id) {
+		iterator = sonderRegelMap.values().iterator();
+		SonderregelAdapter sondAdapt;
+		
+		while (iterator.hasNext()) {
+			sondAdapt = iterator.next();
+			if ( id.equals(sondAdapt.getId()) ) { 
+				return sondAdapt;
+			}
+		}
+		
+		return null;
 	}
 	
 	/**
@@ -55,31 +114,47 @@ public class SonderregelAdmin implements BasisSonderregelInterface  {
 	 * @param sRegel Die Sonderregel die entfernd wird
 	 * @param link Der Link zu dem die Sonderregel gehört
 	 */
-	public void removeSonderregel(SonderregelAdapter sRegel, Link link) {
-		// TODO implement
+	public void removeSonderregel(Link link) {
+		final SonderregelAdapter sRegel = sonderRegelMap.get(link); 
 		
-		// TODO Sonderregel "finalizeSonderregel(Link)"
+		sonderRegelMap.remove(link); // SR entfernen
+		sRegel.finalizeSonderregel(link); // SR finalizer aufrufen
 	}
 
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelInterface#processAddAsNewElement(org.d3s.alricg.charKomponenten.links.Link)
 	 */
 	public void processAddAsNewElement(Link link) {
-		// TODO implement
+		iterator = sonderRegelMap.values().iterator();
+		
+		// Alle Sonderregeln durchlaufen und entsprechend aufrufen
+		while (iterator.hasNext()) {
+			iterator.next().processAddAsNewElement(link);
+		}
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelInterface#processRemoveElement(org.d3s.alricg.charKomponenten.links.Link)
 	 */
 	public void processRemoveElement(Link link) {
-		// TODO implement
+		iterator = sonderRegelMap.values().iterator();
+		
+		// Alle Sonderregeln durchlaufen und entsprechend aufrufen
+		while (iterator.hasNext()) {
+			iterator.next().processRemoveElement(link);
+		}
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelInterface#changeKostenKlasse(org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse, org.d3s.alricg.charKomponenten.links.Link)
 	 */
 	public KostenKlasse changeKostenKlasse(KostenKlasse klasse, Link link)  {
-		// TODO implement
+		iterator = sonderRegelMap.values().iterator();
+		
+		// Alle Sonderregeln durchlaufen und entsprechend aufrufen
+		while (iterator.hasNext()) {
+			klasse = iterator.next().changeKostenKlasse(klasse, link);
+		}
 		return klasse;
 	}
 	
@@ -87,7 +162,12 @@ public class SonderregelAdmin implements BasisSonderregelInterface  {
 	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelInterface#changeKosten(int, org.d3s.alricg.charKomponenten.links.Link)
 	 */
 	public int changeKosten(int kosten, Link link) {
-		// TODO implement
+		iterator = sonderRegelMap.values().iterator();
+		
+		// Alle Sonderregeln durchlaufen und entsprechend aufrufen
+		while (iterator.hasNext()) {
+			kosten = iterator.next().changeKosten(kosten, link);
+		}
 		return kosten;
 	}
 	
@@ -95,7 +175,12 @@ public class SonderregelAdmin implements BasisSonderregelInterface  {
 	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelInterface#changeMaxStufe(int, org.d3s.alricg.charKomponenten.links.Link)
 	 */
 	public int changeMaxStufe(int maxStufe, Link link) {
-		// TODO implement
+		iterator = sonderRegelMap.values().iterator();
+		
+		// Alle Sonderregeln durchlaufen und entsprechend aufrufen
+		while (iterator.hasNext()) {
+			maxStufe = iterator.next().changeMaxStufe(maxStufe, link);
+		}
 		return maxStufe;
 	}
 	
@@ -103,15 +188,25 @@ public class SonderregelAdmin implements BasisSonderregelInterface  {
 	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelInterface#changeMinStufe(int, org.d3s.alricg.charKomponenten.links.Link)
 	 */
 	public int changeMinStufe(int minStufe, Link link) {
-		// TODO implement
+		iterator = sonderRegelMap.values().iterator();
+		
+		// Alle Sonderregeln durchlaufen und entsprechend aufrufen
+		while (iterator.hasNext()) {
+			minStufe = iterator.next().changeMinStufe(minStufe, link);
+		}
 		return minStufe;
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelInterface#changeCanAddElement(boolean, org.d3s.alricg.charKomponenten.links.Link)
 	 */
-	public boolean changeCanAddElement(boolean ok, Link tmpLink) {
-		// TODO implement
+	public boolean changeCanAddElement(boolean ok, Link link) {
+		iterator = sonderRegelMap.values().iterator();
+		
+		// Alle Sonderregeln durchlaufen und entsprechend aufrufen
+		while (iterator.hasNext()) {
+			ok = iterator.next().changeCanAddElement(ok, link);
+		}
 		return ok;
 	}
 	
@@ -119,7 +214,12 @@ public class SonderregelAdmin implements BasisSonderregelInterface  {
 	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelInterface#changeCanRemoveElemet(boolean, org.d3s.alricg.charKomponenten.links.Link)
 	 */
 	public boolean changeCanRemoveElemet(boolean canRemove, Link link) {
-		// TODO implement
+		iterator = sonderRegelMap.values().iterator();
+		
+		// Alle Sonderregeln durchlaufen und entsprechend aufrufen
+		while (iterator.hasNext()) {
+			canRemove = iterator.next().changeCanRemoveElemet(canRemove, link);
+		}
 		return canRemove;
 	}
 	
@@ -127,14 +227,24 @@ public class SonderregelAdmin implements BasisSonderregelInterface  {
 	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelInterface#processUpdateElement(org.d3s.alricg.held.HeldenLink, int, java.lang.String, org.d3s.alricg.charKomponenten.CharElement)
 	 */
 	public void processUpdateElement(HeldenLink link, int stufe, String text, CharElement zweitZiel) {
-		//TODO implement
+		iterator = sonderRegelMap.values().iterator();
+		
+		// Alle Sonderregeln durchlaufen und entsprechend aufrufen
+		while (iterator.hasNext()) {
+			iterator.next().processUpdateElement(link, stufe, text, zweitZiel);
+		}
 	}
 
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelInterface#changeCanUpdateStufe(boolean, org.d3s.alricg.held.HeldenLink)
 	 */
 	public boolean changeCanUpdateWert(boolean canUpdate, HeldenLink link) {
-		// TODO implement
+		iterator = sonderRegelMap.values().iterator();
+		
+		// Alle Sonderregeln durchlaufen und entsprechend aufrufen
+		while (iterator.hasNext()) {
+			canUpdate = iterator.next().changeCanUpdateWert(canUpdate, link);
+		}
 		return canUpdate;
 	}
 	
@@ -142,7 +252,12 @@ public class SonderregelAdmin implements BasisSonderregelInterface  {
 	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelInterface#changeCanUpdateText(boolean, org.d3s.alricg.held.HeldenLink)
 	 */
 	public boolean changeCanUpdateText(boolean canUpdate, HeldenLink link) {
-		// TODO implement
+		iterator = sonderRegelMap.values().iterator();
+		
+		// Alle Sonderregeln durchlaufen und entsprechend aufrufen
+		while (iterator.hasNext()) {
+			canUpdate = iterator.next().changeCanUpdateText(canUpdate, link);
+		}
 		return canUpdate;
 	}
 	
@@ -150,7 +265,12 @@ public class SonderregelAdmin implements BasisSonderregelInterface  {
 	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelInterface#changeCanUpdateZweitZiel(boolean, org.d3s.alricg.held.HeldenLink)
 	 */
 	public boolean changeCanUpdateZweitZiel(boolean canUpdate, HeldenLink link) {
-		// TODO implement
+		iterator = sonderRegelMap.values().iterator();
+		
+		// Alle Sonderregeln durchlaufen und entsprechend aufrufen
+		while (iterator.hasNext()) {
+			canUpdate = iterator.next().changeCanUpdateZweitZiel(canUpdate, link);
+		}
 		return canUpdate;
 	}
 	
