@@ -15,10 +15,11 @@ import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.junit.controller.NotepadTest;
 import org.d3s.alricg.junit.prozessor.FormelSammlungTest;
 import org.d3s.alricg.junit.prozessor.generierung.EigenschaftBoxGenTest;
+import org.d3s.alricg.junit.sonderregeln.JUnitTestSonderregeln;
 
 /**
  * <u>Beschreibung:</u><br> 
- * Über diese Klasse werden die TestCases aufgerufen. Her wird das Programm (Alricg) gestartet, 
+ * Über diese Klasse werden die TestCases aufgerufen. Hier wird das Programm (Alricg) gestartet, 
  * die TestSuite erstellt und die TestCases hinzugefügt.
  * @author V. Strelow
  */
@@ -40,11 +41,15 @@ public class JUnitTestAll {
 		// Starten der Test-Suite
 		TestSuite suite = new TestSuite();
 		
+		
 		// Hinzufügen der Test-Klassen
 		suite.addTestSuite(NotepadTest.class);
 		suite.addTestSuite(FormelSammlungTest.class);
 		suite.addTestSuite(EigenschaftBoxGenTest.class);
-	    
+		
+		// Hinzufügen aller Sonderregeln
+		suite.addTest(JUnitTestSonderregeln.suite());
+		
 	    return suite;
 	}
 	
