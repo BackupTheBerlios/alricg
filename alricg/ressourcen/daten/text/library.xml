@@ -358,7 +358,15 @@
         <e lang="DE">Name</e>
         <e lang="EN">Name</e>
       </entry>
-      
+	  <entry key="Selbststudium">
+        <e lang="DE">Selbststudium</e>
+      </entry>
+	  <entry key="Stufe">
+        <e lang="DE">Stufe</e>
+      </entry>
+ 	  <entry key="ab Stufe">
+        <e lang="DE">ab Stufe</e>
+      </entry>     
 <!-- *************** Label für Panel ********************************** -->
       <entry key="Beschreibung">
         <e lang="DE">Beschreibung</e>
@@ -414,6 +422,14 @@
 	  <entry key="Talent-GP-Kosten">
         <e lang="DE">Talent-GP-Kosten: </e>
       </entry>
+	  <entry key="Spezielle Erfahrung">
+        <e lang="DE">Spezielle Erfahrung</e>
+      </entry>
+	  <entry key="Sehr guter Lehrmeister">
+        <e lang="DE">Sehr guter Lehrmeister</e>
+      </entry>
+
+		
       <entry key="X">
         <e lang="DE">X</e>
         <e lang="EN">X</e>
