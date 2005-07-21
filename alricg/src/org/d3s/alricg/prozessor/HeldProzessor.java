@@ -16,8 +16,8 @@ import org.d3s.alricg.charKomponenten.Profession;
 import org.d3s.alricg.charKomponenten.Rasse;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
-import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.controller.CharKomponente;
+import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.held.Held;
 import org.d3s.alricg.held.HeldenLink;
 import org.d3s.alricg.prozessor.generierung.AbstractBoxGen;
@@ -43,8 +43,9 @@ import org.d3s.alricg.prozessor.generierung.AbstractBoxGen;
  */
 public abstract class HeldProzessor {
 	protected HashMap<CharKomponente, AbstractBoxGen> boxenHash;
-	protected Held held;
-	private SonderregelAdmin sonderregelAdmin;
+	protected final Held held;
+	private final SonderregelAdmin sonderregelAdmin;
+	private final VoraussetzungenAdmin voraussetzungAdmin;
 	
 	/**
 	 * Konstruktor.
@@ -52,7 +53,8 @@ public abstract class HeldProzessor {
 	 */
 	public HeldProzessor(Held held) {
 		this.held = held;
-		this.sonderregelAdmin = new SonderregelAdmin();
+		this.sonderregelAdmin = new SonderregelAdmin(this);
+		this.voraussetzungAdmin = new VoraussetzungenAdmin(this);
 	}
 	
 	/**
@@ -69,6 +71,13 @@ public abstract class HeldProzessor {
 	 */
 	public SonderregelAdmin getSonderregelAdmin() {
 		return sonderregelAdmin;
+	}
+	
+	/**
+	 * @return Den VoraussetzungenAmdin, der alle Voraussetzungen zu diesem Held verwaltet.
+	 */
+	public VoraussetzungenAdmin getVoraussetzungenAdmin() {
+		return voraussetzungAdmin;
 	}
 	
 	/**

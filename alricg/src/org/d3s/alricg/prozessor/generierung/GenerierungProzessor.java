@@ -151,10 +151,11 @@ public class GenerierungProzessor extends HeldProzessor {
     	tmpLink.setWert(wert);
 		
     	ok = boxenHash.get(tmpLink.getZiel().getCharKomponente()).canAddAsNewElement(tmpLink);
+    	ok = this.getVoraussetzungenAdmin().changeCanAddElement(ok, tmpLink);
     	ok = getSonderregelAdmin().changeCanAddElement(ok, tmpLink);
     	
-    	if ( tmpLink.getZiel().getSonderregel() != null) {
-    		ok = tmpLink.getZiel().getSonderregel().canAddSelf(this, ok, tmpLink);
+    	if ( tmpLink.getZiel().hasSonderregel()) {
+    		ok = tmpLink.getZiel().createSonderregel().canAddSelf(this, ok, tmpLink);
     	}
     	
     	return ok;
@@ -174,6 +175,7 @@ public class GenerierungProzessor extends HeldProzessor {
 		boolean ok;
 		
 		ok = boxenHash.get(element.getZiel().getCharKomponente()).canRemoveElement(element);
+		ok = getVoraussetzungenAdmin().changeCanRemoveElemet(ok, element);
 		ok = getSonderregelAdmin().changeCanRemoveElemet(ok, element);
 		
 		return ok;
@@ -222,6 +224,7 @@ public class GenerierungProzessor extends HeldProzessor {
 		int max;
 		
 		max = boxenHash.get(link.getZiel().getCharKomponente()).getMaxWert(link);
+		max = this.getVoraussetzungenAdmin().changeMaxStufe(max, link);
 		max = getSonderregelAdmin().changeMaxStufe(max, link);
 		
 		return max;
@@ -234,6 +237,7 @@ public class GenerierungProzessor extends HeldProzessor {
 		int min;
 		
 		min = boxenHash.get(link.getZiel().getCharKomponente()).getMinWert(link);
+		min = this.getVoraussetzungenAdmin().changeMinStufe(min, link);
 		min = getSonderregelAdmin().changeMinStufe(min, link);
 		
 		return min;
@@ -339,8 +343,8 @@ public class GenerierungProzessor extends HeldProzessor {
 		boxenHash.get(link.getZiel().getCharKomponente()).addAsNewElement(link);
 		
 		// Falls dieses Element eine Sonderregel besitzt, diese hinzufügen
-		if (link.getZiel().getSonderregel() != null) {
-			getSonderregelAdmin().addSonderregel(link.getZiel().getSonderregel(), link);
+		if (link.getZiel().hasSonderregel()) {
+			getSonderregelAdmin().addSonderregel(link);
 		}
 
 		// Sonderregeln aufrufen
@@ -384,10 +388,11 @@ public class GenerierungProzessor extends HeldProzessor {
 		boolean ok;
 		
 		ok = boxenHash.get(link.getZiel().getCharKomponente()).canAddAsNewElement(link);
+		ok = this.getVoraussetzungenAdmin().changeCanAddElement(ok, link);
 		ok = getSonderregelAdmin().changeCanAddElement(ok, link);
 		
-		if ( link.getZiel().getSonderregel() != null) {
-			ok = link.getZiel().getSonderregel().canAddSelf(this, ok, link);
+		if ( link.getZiel().hasSonderregel() ) {
+			ok = link.getZiel().createSonderregel().canAddSelf(this, ok, link);
 		}
 		
 		return ok;
