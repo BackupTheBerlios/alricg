@@ -30,8 +30,8 @@ import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
 public abstract class SonderregelAdapter extends CharElement implements SonderregelInterface {
 	protected HeldProzessor prozessor;
 	
-	protected SonderregelAdapter(HeldProzessor proz) {
-		this.prozessor = proz;
+	protected SonderregelAdapter() {
+		//this.prozessor = proz;
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -152,5 +152,14 @@ public abstract class SonderregelAdapter extends CharElement implements Sonderre
 	 */
 	public void processUpdateElement(HeldenLink link, int stufe, String text, CharElement zweitZiel) {
 		// Noop!
+	}
+	
+	/**
+	 * Setzt den HeldProzessor
+	 * @param prozessor Der HeldProzessor, mit dem der Held zu dieser Sonderregel 
+	 * 	bearbeitet werden kann.
+	 */
+	protected final void setProzessor(HeldProzessor prozessor) {
+		this.prozessor = prozessor;
 	}
 }
