@@ -42,6 +42,19 @@ public class Notepad {
 	private Nachricht lastMessage; // Speichert die letzte beendete Nachricht
 	private String titel;
 	
+	/**
+	 * 
+	 * <u>Beschreibung:</u><br> 
+	 * Bei manchen Methoden wird die angabe benötigt, welcher Tag aus der 
+	 * Library gemeint ist. Dafür ist diese enum vorhanden.
+	 * @author V. Strelow
+	 */
+	public enum LibTag {
+		shortTag,
+		middleTag,
+		longTag
+	}
+	
 	/* true - Es werden alle Nachrichten gespeichert
 	 * false - Es werden nur die "nicht Hintergrund" Nachrichten gespeichert
 	 */
@@ -66,12 +79,22 @@ public class Notepad {
 	}
 	
 	/**
-	 * Setzt ob auch die per "addHintergrundMessage()" gesendeten Texte zur 
+	 * Setzt ob auch die per "addSecondaryMsg()" gesendeten Texte zur 
 	 * Nachricht hinzugefügt werden sollen.
 	 * @param storeHg
 	 */
 	public void setStoreSecondary(boolean storeSecondary) {
 		storeSecondaryMsg = storeSecondary;
+	}
+	
+	/**
+	 * Liefert zurück ob per "addSecondaryMsg()" gesendeten Texte zur 
+	 * Nachricht hinzugefügt werden.
+	 * @return true Per "addSecondaryMsg()" gesendeten Texte werden hinzugefügt,
+	 * 	ansonsten false.
+	 */
+	public boolean isStoreSecondary() {
+		return storeSecondaryMsg;
 	}
 	
 	/**
@@ -84,8 +107,50 @@ public class Notepad {
 	}
 	
 	/**
-	 * Fügt einen Text der Nachricht hinzu, aber nur wenn "storeHintergrundInfos = true"
-	 * ist.
+	 * Fügt einen Text der Nachricht hinzu, aber nur wenn "storeSecondaryMsg = true"
+	 * ist. Diese Methode ist für typischen Zugriff mittels einer Library gedacht.
+	 * Diese Methode  Performanter als "addSecondaryMsg(String text)", da
+	 * nur auf die Library zugegriffen wird, wenn es nötig ist.
+	 * Er Text wird in der Form zusammengesetzt:
+	 * "*" + "text-durch-key-aus-Library" + "text"
+	 * 
+	 * @param tag Der Tag in Library File, in dem der Text steht
+	 * @param key Das Schlüsselword zu dem Text 
+	 * @param text zusätzlicher Text der hinten angehangen wird (typischer weise eine Zahl)
+	 */
+	public void addSecondaryMsg(LibTag tag, String key, String text) {
+		// Prüfen ob überhaupt eine derartige Nachricht hinzugefügt werden soll
+		if (!storeSecondaryMsg) {
+			return;
+		}
+		
+		messageBuf.append("&#8226; ");
+		
+		// Auswählen der richtigen Library
+		switch (tag) {
+		case shortTag:
+			messageBuf.append(ProgAdmin.library.getShortTxt("Kosten-Kategorie"));
+			break;
+		case middleTag:
+			messageBuf.append(ProgAdmin.library.getMiddleTxt("Kosten-Kategorie"));
+			break;
+		case longTag:
+			messageBuf.append(ProgAdmin.library.getLongTxt("Kosten-Kategorie"));
+			break;
+		default: 
+			ProgAdmin.logger.warning("Der angegebene Library Tag konnte nicht " +
+					"gefunden werden: " + tag);
+		}
+		
+		messageBuf.append(text).append("<br>");
+	}
+	
+	
+	/**
+	 * Fügt einen Text der Nachricht hinzu, aber nur wenn "storeSecondaryMsg = true"
+	 * ist. Fall für den Text auf die Library zugegriffen wir, sollte wenn möglich
+	 * die Methode "addSecondaryMsg(LibTag tag, String key, String text)" benutzt werden,
+	 *  da diese Performanter ist.
 	 * @param text Der text der Hinzugefügt wird
 	 */
 	public void addSecondaryMsg(String text) {
