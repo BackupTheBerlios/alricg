@@ -90,34 +90,15 @@ public class HeldUtilitis {
 	 * 
 	 * @param link Die Voraussetzungen dieses Links werden geprüft
 	 * @return true - Die Voraussetzungen von "link" sind erfüllt, ansonsten false 
-	 */
+	 *
 	public boolean erfuelltVoraussetzung(Link link) {
 		
 		// TODO implement!
 		
 		return true;
-	}
+	}*/
 	
-	/**
-	 * Überprüft ob alle Elemente eines Helden noch ihre Vorraussetzungen erfüllen, OHNE 
-	 * das Element "link".
-	 * - Aufrufbar mit Instanzen aller CharElementen, außer Gegenstände (TODO überprüfen
-	 *  ob weitere einschränkungen gemacht werden können) 
-	 * 
-	 * Bsp.: SF "Defensiver Kampfstil" benötigt "GE 12" und SF "Meisterparade" =>
-	 * 		Hat der Held SF "Defensiver Kampfs." kann der nicht mehr SF "Meisterparade"
-	 * 		aus dem Helden entfernen. 
-	 * 
-	 * @param link Das Element was überprüft wird, ob ohne diese Element der Held noch
-	 * 			alle Voraussetzungen erfüllt
-	 * @return true Der Held erfüllt auch ohne "link" alle Voraussetzungen, ansonsten false 
-	 */
-	public boolean erfuelltVoraussetzungOhne(Link link) {
-		
-		// TODO implement! 
-		
-		return true;
-	}
+
 	
 	/**
 	 * Überprüft ob das Element "link" zu der CharArt paßt, die der Held darstellt.
