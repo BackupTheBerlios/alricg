@@ -96,8 +96,8 @@ abstract class XOMMapper_CharElement implements XOMMapper {
         }
 
         // Sonderregel
-        SonderregelAdapter sonderregel = charElement.getSonderregel();
-        if (sonderregel != null) {
+        if ( charElement.hasSonderregel() ) {
+        	final SonderregelAdapter sonderregel = charElement.createSonderregel();
             final Element e = new Element("sonderregel");
             final Attribute a = new Attribute("id", sonderregel.getId());
             e.addAttribute(a);
