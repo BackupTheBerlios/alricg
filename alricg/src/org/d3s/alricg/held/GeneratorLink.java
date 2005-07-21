@@ -66,7 +66,10 @@ public class GeneratorLink extends HeldenLink {
 	}
 	
 	/**
-	 * Fügt einen Link zu diesem GeneratorLink hinzu. 
+	 * Fügt einen Link zu diesem GeneratorLink hinzu.  Ist die Quelle = null, so
+	 * wird davon ausgegagen das der User Link neu gesetzt wird, ansonsten (quelle != null)
+	 * wird der Link als Modifikation zu diesem Link angesehen.
+	 * 
 	 * @param link Der Link der hinzugefügt werden soll.
 	 */
 	public void addLink(IdLink link) {
