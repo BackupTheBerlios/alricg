@@ -57,12 +57,10 @@ public class ProgAdmin {
 		// Auswerten der Parameter
 		if (args == null  || args.length == 0) {
 			showSplash = true;
+		} else if (args[0].equals("noScreen")) {
+			showSplash = false;
 		} else {
-			if (args[0].equals("noScreen")) {
-				showSplash = false;
-			} else {
-				showSplash = true;
-			}
+			showSplash = true;
 		}
 		
         // Logger & Messenger
@@ -77,7 +75,7 @@ public class ProgAdmin {
         final SplashScreen splash = new SplashScreen();
         splash.setVisible(showSplash);
 
-        // init Program
+        // init Programm
         init();
 
         // Cleanup
@@ -86,7 +84,6 @@ public class ProgAdmin {
         splash.dispose();
         System.gc();
         
-
     }
 
     private static final void init() {
