@@ -12,6 +12,7 @@ import java.util.HashMap;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.controller.Messenger;
+import org.d3s.alricg.controller.Notepad;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.store.ConfigurationException;
 
@@ -178,21 +179,28 @@ public class FormelSammlung {
 					+ zielStufe + ") !");
 		}
 		
-		// TODO Texte über library einlesen!
-		
 		// Änderung der Kostenklasse durch die Lernmethode
 		switch (methode) {
 			case selbstStudium: 
 				tmpKK = tmpKK.plusEineKk(); 
-				ProgAdmin.notepad.addSecondaryMsg("Selbststudium: K+1");
+				ProgAdmin.notepad.addSecondaryMsg(
+						Notepad.LibTag.shortTag,
+						"Selbststudium",
+						": +1");
 				break;
 			case spezielleErfahrung:  
 				tmpKK = tmpKK.minusEineKk(); 
-				ProgAdmin.notepad.addSecondaryMsg("Spezielle Erfahrung: K-1");
+				ProgAdmin.notepad.addSecondaryMsg(
+						Notepad.LibTag.middleTag,
+						"Spezielle Erfahrung",
+						": -1");
 				break;
 			case sehrGuterLehrmeister:
 				tmpKK = tmpKK.minusEineKk(); 
-				ProgAdmin.notepad.addSecondaryMsg("Sehr guter Lehrmeister: K+1");
+				ProgAdmin.notepad.addSecondaryMsg(
+						Notepad.LibTag.middleTag,
+						"Sehr guter Lehrmeister",
+						": +1");
 				break;
 		}
 		
@@ -223,7 +231,11 @@ public class FormelSammlung {
 				// Steigerung der Kategorie bei überschreiben der Stufe 10
 				if (startStufe == 11) {
 					tmpKK = tmpKK.plusEineKk();
-					ProgAdmin.notepad.addSecondaryMsg("Selbststudium + Talent + ab Stufe 11: K+1");
+					ProgAdmin.notepad.addSecondaryMsg(
+							ProgAdmin.library.getShortTxt("Selbststudium") + ", "
+							+ ProgAdmin.library.getShortTxt("Talent") + ", "
+							+ ProgAdmin.library.getShortTxt("ab Stufe") + ", "
+							+ " 11: +1");
 				}
 
 				tmpKosten += getSktWert(tmpKK, startStufe);
