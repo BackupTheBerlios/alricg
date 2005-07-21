@@ -38,7 +38,7 @@ public interface BasisSonderregelInterface {
 
 	/**
 	 * Wird immer aufgerufen, wenn für ein Element die Kostenklasse bestimmt wird
-	 * (Also Talente, Zauber und Gaben)
+	 * (Also Talente, Zauber, Gaben und Eigenschaften)
 	 * @param klasse Die bisher errechnete KostenKlasse
 	 * @param link Der Link von dem die Kostenklasse errechnet werden soll
 	 * @return Die resultierende Kostenklasse
