@@ -9,10 +9,13 @@ package org.d3s.alricg.charKomponenten;
 
 import org.d3s.alricg.charKomponenten.sonderregeln.SonderregelAdapter;
 import org.d3s.alricg.controller.CharKomponente;
+import org.d3s.alricg.controller.ProgAdmin;
 
 /**
  * <b>Beschreibung: </b> <br>
- * Dies ist die super-Klasse für alle Charakter-Elemente. Alle Elemente eines Charakters in Objekte von diesem Typ.
+ * Dies ist die super-Klasse für alle Charakter-Elemente. Alle Elemente eines Charakters in 
+ * Objekte von diesem Typ.
+ * TODO Sonderregel sollten mit hilfe von Reflections geladen werden!
  * 
  * @author V.Strelow
  */
@@ -173,13 +176,44 @@ abstract public class CharElement implements Comparable<CharElement> {
     }
 
     /**
-     * Falls dieses Element eine besondere Behandlung durch das Programm benötigt, so besitzt es eine "Sonderregel".
-     * Andernfalls liefert die Methode "null".
+     * Falls dieses Element eine besondere Behandlung durch das Programm benötigt, so 
+     * besitzt es eine "Sonderregel". Andernfalls liefert die Methode "null".
+     * WICHTIG: Es wird bei jedem Aufruf eine neue Instance der Sonderregel geliefert!
      * 
-     * @return Liefert das Attribut sonderregel.
+     * @return Liefert ein neues Object der Sonderregel, oder null falls es keine 
+     * 		Sonderregel gibt.
      */
-    public SonderregelAdapter getSonderregel() {
-        return sonderregel;
+    public SonderregelAdapter createSonderregel() {
+
+    	// Prüfen ob es überhaupt eine SR gibt
+    	if (sonderregel == null) {
+			return null;
+		}
+		
+    	try {
+    		// Neue Instanz der Sonderregel erzeugen und zurückliefern
+    		return sonderregel.getClass().newInstance();
+    		
+		} catch (InstantiationException e) {
+			ProgAdmin.logger.severe("Sonderregel konnte nicht instantziert werden!" +
+					"\n "+ e.getMessage());
+			
+		} catch (IllegalAccessException e) {
+			ProgAdmin.logger.severe("Sonderregel konnte nicht instantziert werden!" +
+					"\n "+ e.getMessage());
+		}
+		return null;
+    }
+    
+    /** 
+     * @return true - Dieses CharElement verfügt über eine Sonderregel, ansonsten false
+     */
+    public boolean hasSonderregel() {
+    	// Prüfen ob es überhaupt eine SR gibt
+    	if (sonderregel == null) {
+			return false;
+		}
+    	return true;
     }
 
     /**
