@@ -8,16 +8,16 @@
  */
 package org.d3s.alricg.charKomponenten.sonderregeln;
 
-import java.util.ArrayList;
-
 import org.d3s.alricg.charKomponenten.CharElement;
+import org.d3s.alricg.charKomponenten.Eigenschaft;
 import org.d3s.alricg.charKomponenten.EigenschaftEnum;
 import org.d3s.alricg.charKomponenten.Kultur;
+import org.d3s.alricg.charKomponenten.Profession;
 import org.d3s.alricg.charKomponenten.Rasse;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
-import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.controller.CharKomponente;
+import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.held.GeneratorLink;
 import org.d3s.alricg.held.HeldenLink;
 import org.d3s.alricg.prozessor.HeldProzessor;
@@ -29,8 +29,7 @@ import org.d3s.alricg.prozessor.HeldProzessor;
  * 
  * Die Sonderregel ist bei der Entwicklung der Architektur entwickelt worden.
  * 
- * TODO Offender Punkt: Kostenberechnnung. Entweder in XML mit einbauen oder auch
- * 		über die Sonderregel.
+ * Nicht vereinbarkeit mit anderen Sonderregeln wird im zugehörigem CharElement geregeln.
  * 
  * @author V. Strelow
  */
@@ -38,9 +37,10 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 //	Liste aller möglichen Ziele dieser Sonderregel
 	private CharElement[] moeglicheZweitZiele;
 	
+	private Eigenschaft eigen;
 //	 Speicher die Eigenschaften durch diese Sonderregel "herausragend" sind
-	private ArrayList<String> eigenschArray; 
-	private HeldProzessor prozessor;
+	//private ArrayList<String> eigenschArray; 
+	//private HeldProzessor prozessor;
 	
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -83,7 +83,6 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 					ProgAdmin.data.getCharElement(EigenschaftEnum.KK.getId(), 
 															CharKomponente.eigenschaft),
 			};
-			eigenschArray = new ArrayList<String>();
 		}
 
 	}
@@ -109,7 +108,8 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 		element = srlink.getZweitZiel();
 		tmpLink = prozessor.getLinkByCharElement(element, null, null);
 		
-		// Überprüfung ob die Modis durch die Herkunft u.ä. negativ sind
+		// Überprüfung ob die Modis durch die Herkunft u.ä. negativ sind,
+		// dann dürfte diese SR nicht gewählt werden
 		if ( ((GeneratorLink) tmpLink).getWertModis() < 0 ) {
 			return false;
 		}
@@ -126,19 +126,16 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 	 *    Wert in "link" erhöht. 
 	 */
 	public void initSonderregel(HeldProzessor prozessor, Link srLink) {
-		CharElement element;
 		GeneratorLink tmpLink;
 		IdLink modiLink;
 		
 		assert srLink.getZweitZiel() != null;
+		
 		this.prozessor = prozessor;
 		
 		// Auslesen des gewünschten Links
-		element = srLink.getZweitZiel();
-		tmpLink = (GeneratorLink) prozessor.getLinkByCharElement(element, null, null);
-
-		// Diese Element "merken"
-		eigenschArray.add(element.getId());
+		eigen = (Eigenschaft) srLink.getZweitZiel();
+		tmpLink = (GeneratorLink) prozessor.getLinkByCharElement(eigen, null, null);
 		
 		// Link erstellen der die Eigenschaft um den gewünschten Wert erhöht  
 		modiLink = new IdLink(this, null);
@@ -148,7 +145,7 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 		tmpLink.addLink(modiLink);
 		
 		// Eigenschaft auf den Maximalen Wert setzen
-		tmpLink.setUserWert(prozessor.getMaxWert(tmpLink));	
+		tmpLink.setUserGesamtWert(prozessor.getMaxWert(tmpLink));	
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -165,7 +162,7 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 		tmpLink = (GeneratorLink) prozessor.getLinkByCharElement(element, null, null);
 
 		// Suche und entferne den Link aus dem Element
-		eigenschArray.remove(link.getZweitZiel().getId());
+		eigen = null;
 		tmpLink.removeLinkByQuelle(this);
 	}
 	
@@ -182,16 +179,18 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 //			TODO Es darf keine Eigenschaft gesenkt werden, die "Herausragende Eigenschaft" ist
 		} else if (element instanceof Kultur) {
 //			TODO Es darf keine Eigenschaft gesenkt werden, die "Herausragende Eigenschaft" ist
-		}
-
-		return true;
+		} else if (element instanceof Profession) {
+//			TODO Es darf keine Eigenschaft gesenkt werden, die "Herausragende Eigenschaft" ist			
+		} 
+		
+		return ok;
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelInterface#changeMaxStufe(int, org.d3s.alricg.charKomponenten.links.Link)
 	 */
 	public int changeMaxStufe(int maxStufe, Link link) {
-		// TODO implement??? Muß wahrscheinlich nicht Implementiert werden!
+		// Muß wahrscheinlich nicht Implementiert werden!
 		return maxStufe;
 	}
 	
@@ -203,7 +202,7 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 	 */
 	public int changeMinStufe(int minStufe, Link link) {
 		
-		if ( eigenschArray.contains(link.getZiel().getId()) ) {
+		if ( eigen.equals( link.getZiel()) ) {
 			// Der Wert kann nicht mehr gesenkt werden!
 			return prozessor.getMaxWert(link);
 		}
@@ -217,10 +216,10 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 	 */
 	public boolean changeCanUpdateWert(boolean canUpdate, HeldenLink link) {
 		// Die Stufe kann (auf normalem Weg) nicht mehr geändert werden
-		if ( eigenschArray.contains(link.getZiel().getId()) ) {
+		if ( eigen.equals( link.getZiel() ) ) {
 			return false;
 		}
-		return true;
+		return canUpdate;
 	}
 	
 	
