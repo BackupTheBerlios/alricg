@@ -21,8 +21,8 @@ public class Voraussetzung {
     private IdLinkList nichtErlaubt; // Diese Elemente sind NICHT erlaubt
 
     private CharElement quelle; // Das CharElement, das diese Voraussetzung besitzt
+    
     // Pro Array muß mindesten eine LinkVoraussetzung erfüllt sein
-
     private IdLinkVoraussetzung[][] auswahlVoraussetzung;
 
     /**
@@ -63,6 +63,42 @@ public class Voraussetzung {
     }
 
     /**
+     * Liefert alle Voraussetzungen, die Alternativen besitzen
+     * Pro 1 Dimension des Arrays muß mindestens eine Voraussetzung erfüllt sein.
+     * @return Alle Voraussetzungen mit Alternativen.
+     */
+    public IdLinkVoraussetzung[][] getAuswahlVoraussetzung() {
+        return auswahlVoraussetzung;
+    }
+
+    /**
+     * Setzt alle Voraussetzungen, die Alternativen besitzen.
+     * Pro 1 Dimension des Arrays muß mindestens eine Voraussetzung erfüllt sein.
+     * @param auswahlVoraussetzung Alle Voraussetzungen mit Alternativen.
+     */
+    public void setAuswahlVoraussetzung(IdLinkVoraussetzung[][] auswahlVoraussetzung) {
+        this.auswahlVoraussetzung = auswahlVoraussetzung;
+    }
+
+    /**
+     * Liefert die CharElemente, die NICHT erlaubt sind, also der Held nicht 
+     * haben / wählen darf.
+     * @return Eine IdLinkList mit allen Elementen die nicht erlaubt sind
+     */
+    public IdLinkList getNichtErlaubt() {
+        return nichtErlaubt;
+    }
+
+    /**
+     * Setzt die CharElemente, die NICHT erlaubt sind, also der Held nicht 
+     * haben / wählen darf.
+     * @param nichtErlaubt Eine IdLinkList mit allen Elementen die nicht erlaubt sind
+     */
+    public void setNichtErlaubt(IdLinkList nichtErlaubt) {
+        this.nichtErlaubt = nichtErlaubt;
+    }
+    
+    /**
      * <u>Beschreibung:</u><br>
      * Beschreib eine Verbindung zwischen einer Voraussetzung und den Elementen, die vorausgesetzt werden. IdLink wird
      * hierbei erweitert um ein flag, ob ein Grenzwert ein Minimum ist, oder ein Maximum.
@@ -89,22 +125,6 @@ public class Voraussetzung {
         public void setMinimum(boolean isMinimum) {
             this.isMinimum = isMinimum;
         }
-    }
-
-    public IdLinkVoraussetzung[][] getAuswahlVoraussetzung() {
-        return auswahlVoraussetzung;
-    }
-
-    public void setAuswahlVoraussetzung(IdLinkVoraussetzung[][] auswahlVoraussetzung) {
-        this.auswahlVoraussetzung = auswahlVoraussetzung;
-    }
-
-    public IdLinkList getNichtErlaubt() {
-        return nichtErlaubt;
-    }
-
-    public void setNichtErlaubt(IdLinkList nichtErlaubt) {
-        this.nichtErlaubt = nichtErlaubt;
     }
 
 }
