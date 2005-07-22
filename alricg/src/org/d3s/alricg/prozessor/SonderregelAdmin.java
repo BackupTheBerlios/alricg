@@ -69,15 +69,22 @@ public class SonderregelAdmin implements BasisSonderregelInterface  {
 	}
 	
 	/**
-	 * Überprüft ob diese Sonderregel bereits vorhanden ist
-	 * @param id  Die Id der ST die überprüft wird
+	 * Überprüft ob diese Sonderregel bereits vorhanden ist. Text und zweitZiel sind
+	 * bei bestimmten SR nötig, da es diese SR in verschiedenen Varianten gibt 
+	 * (z.B. "Herausragende Eigenschaft" mit "KK" und mit "MU"). Ansonsten 
+	 * können diese Parameter null sein.
+	 * @param id  Die Id der SR die überprüft wird
+	 * @param text Der Text der SR die überprüft wird (kann null sein)
+	 * @param zweitZiel Das ZweitZiel der SR, die überprüft wird (kann null sein)
 	 * @return true - Die SR ist im SR-Admin enthalten, ansonsten false
 	 */
-	public boolean hasSonderregel(String id) {
+	public boolean hasSonderregel(String id, String text, CharElement zweitZiel) {
 		iterator = sonderRegelMap.values().iterator();
 		
 		while (iterator.hasNext()) {
-			if ( id.equals(iterator.next().getId()) ) return true;
+			if ( iterator.next().isSonderregel(id, text, zweitZiel) ) {
+				return true;
+			}
 		}
 		
 		return false;
@@ -85,18 +92,24 @@ public class SonderregelAdmin implements BasisSonderregelInterface  {
 	
 	/**
 	 * Liefert die aktuelle Sonderegel zurück mit der entsprechenden ID, oder 
-	 * null falls keine entsprechnende SR vorhanden ist
+	 * null falls keine entsprechnende SR vorhanden ist. Text und zweitZiel sind
+	 * bei bestimmten SR nötig, da es diese SR in verschiedenen Varianten gibt 
+	 * (z.B. "Herausragende Eigenschaft" mit "KK" und mit "MU"). Ansonsten 
+	 * können diese Parameter null sein.
 	 * @param id ID der gesuchten SR
+	 * @param text Der Text der SR die gesucht wird (kann null sein)
+	 * @param zweitZiel Das ZweitZiel der SR, die gesucht wird (kann null sein)
 	 * @return Die SR aus dem SrAdmin mit der entsprechenden ID, oder null
 	 * 		falls es eine solche SR nicht gibt.
 	 */
-	public SonderregelAdapter getSonderregel(String id) {
+	public SonderregelAdapter getSonderregel(String id, String text, CharElement zweitZiel) {
 		iterator = sonderRegelMap.values().iterator();
 		SonderregelAdapter sondAdapt;
 		
 		while (iterator.hasNext()) {
 			sondAdapt = iterator.next();
-			if ( id.equals(sondAdapt.getId()) ) { 
+			
+			if ( sondAdapt.isSonderregel(id, text, zweitZiel) ) { 
 				return sondAdapt;
 			}
 		}

@@ -8,6 +8,7 @@
  */
 package org.d3s.alricg.charKomponenten.sonderregeln;
 
+import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.links.Link;
 import org.d3s.alricg.prozessor.HeldProzessor;
 
@@ -42,7 +43,7 @@ public interface SonderregelInterface extends BasisSonderregelInterface {
 	 * 		Bei der Sonderregel "Herausragende Eigenschaft" währe dies der Link
 	 * 		mit dem Vorteil "Herausragende Eigenschaft". Aus diesem können evtl.
 	 * 		Wert, Text oder zweitZiel ausgelesen werden
-	 * @return
+	 * @return true - Die SR kann zum Helden hinzugefügt werden, andernfalls false.
 	 */
 	public boolean canAddSelf(HeldProzessor prozessor, boolean ok, Link srLink);
 	
@@ -68,4 +69,16 @@ public interface SonderregelInterface extends BasisSonderregelInterface {
 	public void finalizeSonderregel(Link srLink);
 	// Evtl. Änderungen von Werten sollten hier rückgängig gemacht werden
 	
+	/**
+	 * Ermöglicht das überprüfen, ob es sich um eine bestimmte SR handelt. Neben
+	 * der ID wird außerdem ein Text und ein zweitZiel benötigt, da es verschiedene
+	 * Varianten von SR geben kann. (z.B. "Herausragende Eigenschaft" mit zweitZiel "KK",
+	 * und "Herausr. E." mit zweitZiel "MU")
+	 * @param id Die ID der SR, nach der abgefragt wird.
+	 * @param text Der Text der SR, nach der abgefragt wird (kann null sein)
+	 * @param zweitZiel Das zweitZiel, nach dem abgefragt wird (kann null sein)
+	 * @return true - Diese SR hat die id "id", den text "text" und das zweitZiel "zweitZiel"
+	 * 		false - Diese SR ist NICHT die abgefragte SR
+	 */
+	public boolean isSonderregel(String id, String text, CharElement zweitZiel);
 }

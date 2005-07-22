@@ -114,6 +114,11 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 			return false;
 		}
 		
+		// Die Sonderregel darf nur einmal zu einem ELement existieren
+		if (prozessor.getSonderregelAdmin().hasSonderregel(this.getId(), null, element)) {
+			return false;
+		}
+		
 		return true;
 	}
 	
@@ -223,7 +228,21 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 	}
 	
 	
-// ------------------------------------------------------------------------------
+	
+    /* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelAdapter#isSonderregel(java.lang.String, java.lang.String, org.d3s.alricg.charKomponenten.CharElement)
+	 */
+	@Override
+	public boolean isSonderregel(String id, String text, CharElement zweitZiel) {
+		
+		if ( id.equals(this.getId()) && zweitZiel.equals(eigen)	) {
+			// Die ID und die Eigenschaft stimmen, somit gleiche SR
+			return true;
+		}
+		return false;
+	}
+
+	// ------------------------------------------------------------------------------
 	/**
 	 * Diese Regel ist nicht im Interface enthalten, da sie NUR diese Sonderregel betrifft
 	 * @return Liste der möglichen Zweitziele
@@ -231,4 +250,6 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 	public CharElement[] getMoeglicheZweitZiele() {
 		return moeglicheZweitZiele;
 	}
+
+
 }

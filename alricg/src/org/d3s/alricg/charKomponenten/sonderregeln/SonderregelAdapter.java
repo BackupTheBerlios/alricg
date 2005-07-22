@@ -30,10 +30,6 @@ import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
 public abstract class SonderregelAdapter extends CharElement implements SonderregelInterface {
 	protected HeldProzessor prozessor;
 	
-	protected SonderregelAdapter() {
-		//this.prozessor = proz;
-	}
-	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
 	 */
@@ -152,6 +148,17 @@ public abstract class SonderregelAdapter extends CharElement implements Sonderre
 	 */
 	public void processUpdateElement(HeldenLink link, int stufe, String text, CharElement zweitZiel) {
 		// Noop!
+	}
+	/* (non-Javadoc) Methode überschrieben
+	 * Standart implementation! Bei dieser implementation wird text zum zweitZiel 
+	 * nicht beachtet, was für die meißten Sonderregel zutrifft. 
+	 * Für alle anderen SR MUSS diese Methode überschrieben werden!
+	 * 
+	 * @see org.d3s.alricg.prozessor.sonderregeln.SonderregelInterface#isSonderregel()
+	 */
+	public boolean isSonderregel(String id, String text, CharElement zweitZiel) {
+
+		return id.equals( this.getId() );
 	}
 	
 	/**
