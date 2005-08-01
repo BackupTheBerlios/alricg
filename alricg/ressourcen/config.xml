@@ -27,7 +27,7 @@
 			maxZauberAktivierungHZ - Maximale Anzahl an Zaubern für HALBzauberer die aktiviert werden können
 		
 			skt - Wenn das Attribut "useOriginal" auf "false" steht, wird kann hier eine SKT angegeben werden.
-				Die SKT MUSS im selben format wie "originalSkt" vorliegen, also von z1 - z30 und 
+				Die SKT MUSS im selben format wie "originalSkt" vorliegen, also von z0 - z31 und 
 				jeweils von A - H.
 			
 			Noch nicht vollständig! Nur Generierung bisher berücksichtigt!
