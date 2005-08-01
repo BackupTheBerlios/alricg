@@ -47,6 +47,9 @@ public abstract class LinkElementBox<E extends HeldenLink> extends AbstractList 
 		prozessor = proz;
 	}
 	
+	/**
+	 * @return Eine nicht veränderbare List mit allen enthaltenen Elementen
+	 */
 	public List<E> getUnmodifiableList() {
 		return Collections.unmodifiableList(linkArray);
 	}
@@ -74,9 +77,26 @@ public abstract class LinkElementBox<E extends HeldenLink> extends AbstractList 
 	}
 	
 	/**
-	 * Methode überschrieben
-	 * @see java.util.Collection#containsAll(java.util.Collection)
+	 * Mit dieser Methode kann aus dem zum Helden gehörenden Elementen ein bestimmtes 
+	 * gesucht werden. Dabei ist diese Methode ungenauer, da hier weder Text noch
+	 * ZweitZiel angegeben sind. Es wird lediglich das erste Element mit der passenden
+	 * ID gelieftert. Gibt es mehrer so ist unbestimmt welches geliefert wird.
 	 * 
+	 * @param id Die id zu der das passende Elemente gesucht wird.
+	 * @return Das erste Element mit der id "id" oder "null", falls es kein solches Element
+	 * gibt
+	 */
+	public E getLinkFromId(String id) {
+		for (int i = 0; i < linkArray.size(); i++) {
+			if (linkArray.get(i).getZiel().getId().equals(id)) {
+				return linkArray.get(i);
+			}
+		}
+		
+		return null; // Ein Link mit dieser ID ist nicht enthalten
+	}
+	
+	/**
 	 * Überprüft ob in dieser ElementBox ein gleichartiges Gegenstück zu
 	 * dem Link enthalten ist. 	Die Prüfung ob ein Link "gleichartig" ist, 
 	 * erfolgt mit "Link.isEqualLink(..)".
@@ -87,10 +107,7 @@ public abstract class LinkElementBox<E extends HeldenLink> extends AbstractList 
 	 * 				ansonsten false
 	 * @see org.d3s.alricg.charKomponenten.links.Link#isEqualLink(org.d3s.alricg.charKomponenten.links.Link)
 	 */
-	public boolean contiansEqualLink(Object link) {
-		if ( !(link instanceof Link) ) {
-			return false;
-		}
+	public boolean contiansEqualLink(Link link) {
 		
 		if ( getEqualLink((Link) link) != null ) {
 			return true;
@@ -112,4 +129,11 @@ public abstract class LinkElementBox<E extends HeldenLink> extends AbstractList 
 	public int size() {
 		return linkArray.size();
 	}
+	
+	/**
+	 * Liefert die Gesamt-Kosten für den "besitz" aller dieser Elemente. Ob TalentGp oder
+	 * GP ergibt sich aus dem Kontext!
+	 * @return Die Kosten die für alle diese Elemente entstehen!
+	 */
+	public abstract int getGesamtKosten();
 }
