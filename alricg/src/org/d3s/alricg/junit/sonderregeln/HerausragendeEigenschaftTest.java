@@ -166,8 +166,15 @@ public class HerausragendeEigenschaftTest extends TestCase {
 		assertEquals(8, prozessor.getMinWert(getLink(EigenschaftEnum.KL)));
 		assertEquals(10, getLink(EigenschaftEnum.KL).getWert());
 		
+		// SR kann zum Helden hinzugefügt werden
+		assertEquals(true, herausEigen.canAddSelf(prozessor, true, link));
+		
 		// Sonderregel zum Helden hinzufügen
 		prozessor.getSonderregelAdmin().addSonderregel(link);
+		
+		// SR kann nun nichtmehr zum helden hinzugefügt werden, da schon vorhanden
+		assertEquals(false, herausEigen.canAddSelf(prozessor, true, link));
+		
 		
 		// MaxWert und MinWert sind nun 16; Aktuell 16
 		assertEquals(16, prozessor.getMaxWert(getLink(EigenschaftEnum.KL)));
