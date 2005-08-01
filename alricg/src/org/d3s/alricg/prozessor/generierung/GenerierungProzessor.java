@@ -14,6 +14,7 @@ import org.d3s.alricg.charKomponenten.Profession;
 import org.d3s.alricg.charKomponenten.Rasse;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
+import org.d3s.alricg.held.GeneratorLink;
 import org.d3s.alricg.held.Held;
 import org.d3s.alricg.held.HeldenLink;
 import org.d3s.alricg.prozessor.HeldProzessor;
@@ -134,7 +135,6 @@ public class GenerierungProzessor extends HeldProzessor {
 									.updateElement(link, stufe, text, zweitZiel);
 				
 		getSonderregelAdmin().processUpdateElement(link, stufe, text, zweitZiel);
-		// TODO Kosten neu berechnen!
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -151,7 +151,7 @@ public class GenerierungProzessor extends HeldProzessor {
     	tmpLink.setWert(wert);
 		
     	ok = boxenHash.get(tmpLink.getZiel().getCharKomponente()).canAddAsNewElement(tmpLink);
-    	ok = this.getVoraussetzungenAdmin().changeCanAddElement(ok, tmpLink);
+    	ok = getVoraussetzungenAdmin().changeCanAddElement(ok, tmpLink);
     	ok = getSonderregelAdmin().changeCanAddElement(ok, tmpLink);
     	
     	if ( tmpLink.getZiel().hasSonderregel()) {
@@ -164,8 +164,14 @@ public class GenerierungProzessor extends HeldProzessor {
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.held.box.HeldProzessor#removeElement(org.d3s.alricg.held.HeldenLink)
 	 */
-	public void removeElement(HeldenLink element) {
-		// TODO implement
+	public void removeElement(HeldenLink link) {
+		boxenHash.get(link.getZiel().getCharKomponente()).removeElement(link);
+		getSonderregelAdmin().processRemoveElement(link);
+		
+		// Falls dieses Element eine Sonderregel besitzt, diese hinzufügen
+		if (link.getZiel().hasSonderregel()) {
+			getSonderregelAdmin().removeSonderregel(link);
+		}
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -224,7 +230,7 @@ public class GenerierungProzessor extends HeldProzessor {
 		int max;
 		
 		max = boxenHash.get(link.getZiel().getCharKomponente()).getMaxWert(link);
-		max = this.getVoraussetzungenAdmin().changeMaxStufe(max, link);
+		max = getVoraussetzungenAdmin().changeMaxStufe(max, link);
 		max = getSonderregelAdmin().changeMaxStufe(max, link);
 		
 		return max;
@@ -292,20 +298,38 @@ public class GenerierungProzessor extends HeldProzessor {
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.held.box.HeldProzessor#addLinkToElement(org.d3s.alricg.charKomponenten.links.IdLink)
 	 */
-	public void addLinkToElement(IdLink link) {
+	public void addLink(IdLink link) {
 		// VORSICHT! Hier muß gewährleistet werden das der Held "gültig" bleibt!
 		
-		// Element zur korrekten Box hinzufügen
-		boxenHash.get(link.getZiel().getCharKomponente()).addLinkToElement(link, true);
+		/*
+		IdLink newLink;
 		
-    	// TODO Kosten neu berechnen!
+		// VORSICHT! Hier muß gewährleistet werden das der held "Gültig" bleibt! 
+		
+		// Kopie des Links anlegen
+		newLink = new IdLink(link.getQuellElement(), link.getQuellAuswahl());
+		newLink.setZielId(link.getZiel());
+		newLink.setText(link.getText());
+		newLink.setZweitZiel(link.getZweitZiel());
+		newLink.setLeitwert(link.isLeitwert());
+		newLink.setWert(link.getWert());
+		*/
+		
+		// Ist dieser Link neu oder schon ein entsprechendes Element vorhanden?
+		if ( held.getElementBox(link.getZiel().getCharKomponente()).contiansEqualLink(link) ) {
+			addLinkToElement(link);
+		} else {
+			addAsNewElement(link);
+		}
+		
+		
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.prozessor.HeldProzessor#updateKosten(org.d3s.alricg.held.HeldenLink)
 	 */
-	public void updateKosten(HeldenLink genLink) {
-		// TODO implement
+	public void updateKosten(HeldenLink link) {
+		boxenHash.get(link.getZiel().getCharKomponente()).updateKosten((GeneratorLink) link);
 	}
 	
 	/**
@@ -349,33 +373,15 @@ public class GenerierungProzessor extends HeldProzessor {
 
 		// Sonderregeln aufrufen
 		getSonderregelAdmin().processAddAsNewElement(link);
-		
-    	// TODO Kosten neu berechnen!
 	}
 	
 	/**
 	 * Wird bei dem setzen der Rasse, Kultur usw. genutzt
 	 * @param link Der link der zum Helden hinzugefügt wird
 	 */
-	private void addLink(IdLink link) {
-		IdLink newLink;
-		
-		// VORSICHT! Hier muß gewährleistet werden das der held "Gültig" bleibt! 
-		
-		// Kopie des Links anlegen
-		newLink = new IdLink(link.getQuellElement(), link.getQuellAuswahl());
-		newLink.setZielId(link.getZiel());
-		newLink.setText(link.getText());
-		newLink.setZweitZiel(link.getZweitZiel());
-		newLink.setLeitwert(link.isLeitwert());
-		newLink.setWert(link.getWert());
-		
-		// Ist dieser Link neu oder schon ein entsprechendes Element vorhanden?
-		if ( held.getElementBox(link.getZiel().getCharKomponente()).contiansEqualLink(newLink) ) {
-			addLinkToElement(newLink);
-		} else {
-			addAsNewElement(newLink);
-		}
+	private void addLinkToElement(IdLink link) {
+		// Element zur korrekten Box hinzufügen
+		boxenHash.get(link.getZiel().getCharKomponente()).addLinkToElement(link, true);
 	}
 	
 	/**
@@ -473,7 +479,7 @@ public class GenerierungProzessor extends HeldProzessor {
 			MIN_EIGENSCHAFT_WERT = 8;
 			MAX_SOZIALSTATUS = 12;
 			TALENT_GP_FAKTOR = 10;
-			MAX_TALENT_AKTIVIERUNG = 10;
+			MAX_TALENT_AKTIVIERUNG = 5;
 			MAX_ZAUBER_AKTIVIERUNG_VZ = 10;
 			MAX_ZAUBER_AKTIVIERUNG_HZ = 10;
 			MAX_SCHLECHT_EIGENSCHAFT_WERT = 10;
