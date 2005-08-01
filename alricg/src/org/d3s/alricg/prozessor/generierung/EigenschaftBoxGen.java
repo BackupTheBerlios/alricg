@@ -42,7 +42,9 @@ import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
  * @author V. Strelow
  */
 public class EigenschaftBoxGen extends AbstractBoxGen {
-
+	private int eigenschaftGpKosten = 0;
+	private int eigenschaftTalentGpKosten = 0;
+	
 	/**
 	 * Konstruktor.
 	 * @param proz Der Prozessor mit dem der zugehörige Held bearbeitet wird.
@@ -638,7 +640,11 @@ public class EigenschaftBoxGen extends AbstractBoxGen {
 	protected void updateKosten(GeneratorLink genLink) {
 		final EigenschaftEnum eigen = ((Eigenschaft) genLink.getZiel()).getEigenschaftEnum();
 		int kosten = 0;
+		final int alteKosten;
 		KostenKlasse KK = null;
+		
+		// Alte Kosten merken
+		alteKosten = genLink.getKosten();
 		
 		// KostenKlasse festlegen, wenn diese nach SKT berechent wird
 		if (eigen.equals(EigenschaftEnum.LEP)) {
@@ -710,6 +716,15 @@ public class EigenschaftBoxGen extends AbstractBoxGen {
 		kosten = prozessor.getSonderregelAdmin().changeKosten(kosten, genLink);
 		
 		genLink.setKosten(kosten);
+		
+		if (KK != null) {
+			// TalentGp
+			eigenschaftTalentGpKosten += kosten - alteKosten; // Gesamtkosten setzen
+		} else {
+			// "echte" GP
+			eigenschaftGpKosten += kosten - alteKosten; // Gesamtkosten setzen
+		}
+		
 	}
 
 	/* (non-Javadoc) Methode überschrieben
@@ -755,6 +770,26 @@ public class EigenschaftBoxGen extends AbstractBoxGen {
 		
 		// Kosten aktualisieren
 		updateKosten(genLink);
+	}
+
+	/**
+	 * 
+	 * @return Die Kosten die mit "echten" GP bezahlt werden (Für Eigenschaften, SO)
+	 * @see getGesamtTalentGpKosten()
+	 */
+	public @Override int getGesamtKosten() {
+		return eigenschaftGpKosten;
+	}
+	
+// --------------------------------------------------------------------
+	
+	/**
+	 * Die Kosten für die Talent-GP
+	 * @return Die Kosten die mit Talent GP bezahlt werden (ASP, LEP, AUP)
+	 * @see getGesamtKosten()
+	 */
+	public int getGesamtTalentGpKosten() {
+		return eigenschaftTalentGpKosten;
 	}
 
 }
