@@ -137,4 +137,10 @@ public class NachteilBoxGen extends AbstractBoxGen {
 		
 	}
 
+	@Override
+	public int getGesamtKosten() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

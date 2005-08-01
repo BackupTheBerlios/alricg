@@ -139,4 +139,10 @@ public class SonderfBoxGen extends AbstractBoxGen {
 		
 	}
 
+	@Override
+	public int getGesamtKosten() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

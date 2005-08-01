@@ -20,7 +20,7 @@ import org.d3s.alricg.prozessor.LinkElementBox;
  * 
  * @author V. Strelow
  */
-public class AbstractBoxMan extends LinkElementBox {
+public abstract class AbstractBoxMan extends LinkElementBox {
 
 	/**
 	 * @param proz
