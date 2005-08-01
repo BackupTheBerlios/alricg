@@ -7,10 +7,16 @@
 
 package org.d3s.alricg.prozessor.generierung;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.d3s.alricg.charKomponenten.CharElement;
+import org.d3s.alricg.charKomponenten.Eigenschaft;
 import org.d3s.alricg.charKomponenten.Talent;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
+import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.held.GeneratorLink;
 import org.d3s.alricg.held.Held;
 import org.d3s.alricg.held.HeldenLink;
@@ -24,9 +30,8 @@ import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
  * Charaktererschaffung zu implementieren. Es enthält alle Talente die 
  * ein Held besitzt und bietet Methoden an um diese zu bearbeiten.
  * 
- * Diese Klasse ist bei der Entwicklung der Achitektur Teilweise implementiert worden.
- * 
- * Sie ist jedoch nicht völlig fertig!
+ * BEACHTE:
+ * Um zu repräsentieren das ein Talent aktiviert werden muß, ist dessen Quelle "null".
  * 
  * @author V.Strelow
  */
@@ -34,7 +39,8 @@ public class TalentBoxGen extends AbstractBoxGen {
 	//protected ArrayList<GeneratorLink> linkArray;
 	//protected Held held;
 	
-	private int aktivierteTalente;
+	private ArrayList<Talent> aktivierteTalente = new ArrayList<Talent>();
+	private int talentGpKosten = 0;
 	
 	/**
 	 * Konstruktor.
@@ -48,15 +54,22 @@ public class TalentBoxGen extends AbstractBoxGen {
 	 * @see org.d3s.alricg.held.box.generierung.AbstractBoxGen#addAsNewElement(org.d3s.alricg.charKomponenten.links.IdLink)
 	 */
 	protected GeneratorLink addAsNewElement(IdLink link) {
-		GeneratorLink tmpLink;
+		final GeneratorLink tmpLink;
+		final Talent tmpTalent = (Talent) link.getZiel();
 		
-		if (link.getQuellElement() == null) {
-			aktivierteTalente++; // Wurde vom User aktiviert
+		// Voraussetzungen hinzufügen, falls vorhanden
+		if (tmpTalent.getVoraussetzung() != null) {
+			prozessor.getVoraussetzungenAdmin().addVoraussetzung(
+					tmpTalent.getVoraussetzung()
+				);
 		}
 		
 		//Link wird erstellt und zur List hinzugefügt
 		tmpLink = new GeneratorLink(link);
 		linkArray.add(tmpLink);
+		
+		// Prüfen ob Talent akiviert werden muß
+		pruefeTalentAktivierung(tmpLink);
 		
 		updateKosten(tmpLink); // Kosten Aktualisieren
 		
@@ -70,18 +83,18 @@ public class TalentBoxGen extends AbstractBoxGen {
 	protected boolean canAddAsNewElement(IdLink link) {
 		GeneratorLink tmpLink;
 		
-		tmpLink = getEqualLink(link);
-		if (tmpLink == null) {
-			// Der Link würde ein neues Element sein
-			
-			// TODO Noch Aktivierbar?
-			// TODO Voraussetzungen erfüllt?
-			// TODO Mit anderen Elementen vereinbar?
-		} 
-		
-		if (link.getQuellElement() == null) {
-			Held.heldUtils.erfuelltVoraussetzung(tmpLink);
+		if (link.getQuellElement() == null
+				&& aktivierteTalente.size() >= 
+					GenerierungProzessor.genKonstanten.MAX_TALENT_AKTIVIERUNG)
+		{
+			// Muß aktiviert werden, aber dies ist nicht mehr möglich!
+			return false;
 		}
+		
+		if (contiansEqualLink(link)) {
+			// So ein Element ist schon vorhanden, geht also nicht!
+			return false;
+		} 
 		
 		return true;
 	}
@@ -91,9 +104,8 @@ public class TalentBoxGen extends AbstractBoxGen {
 	 */
 	protected boolean canAddCharElement(CharElement elem) {
 		
-		// TODO Voraussetzungen erfüllt?
-		// TODO Mit anderen Elementen vereinbar?
-		
+		// TODO Wird diese Methode überhaupt noch benötigt?? Denke nein!
+		// Voraussetzungen werden über den VoraussetzungsAdmin geprüft
 		return true;
 	}
 	
@@ -101,8 +113,12 @@ public class TalentBoxGen extends AbstractBoxGen {
 	 * @see org.d3s.alricg.held.box.generierung.AbstractBoxGen#canRemoveElement(org.d3s.alricg.held.HeldenLink)
 	 */
 	protected boolean canRemoveElement(HeldenLink link) {
-		// TODO Auto-generated method stub
-		return false;
+
+		if (((Talent) link.getZiel()).getArt().equals(Talent.Art.basis) ) {
+			return false; // Basis Talente können nicht entfernt werden!
+		}
+		// Voraussetzungen werden über den VoraussetzungsAdmin geprüft
+		return true;
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -114,6 +130,9 @@ public class TalentBoxGen extends AbstractBoxGen {
 		
 		tmpLink = getEqualLink(link);
 		
+		// Das Element muß vorhanden sein!
+		assert tmpLink != null;
+		
 		if (stufeErhalten) {
 			oldWert = tmpLink.getWert(); // Alten Wert Speichern
 			tmpLink.addLink(link); // Link hinzufügen
@@ -123,6 +142,9 @@ public class TalentBoxGen extends AbstractBoxGen {
 		}
 		
 		Held.heldUtils.inspectWert(tmpLink, prozessor);
+		
+		// evtl. den Status als "aktiviertes Talent" entziehen
+		pruefeTalentAktivierung(tmpLink);
 		
 		updateKosten(tmpLink); // Kosten Aktualisieren
 		
@@ -145,34 +167,50 @@ public class TalentBoxGen extends AbstractBoxGen {
 		}
 		
 		// Updaten des Textes
-		// TODO Hier kann noch Verbeserungsbedarf sein.
+		// TODO Hier kann noch Verbeserungsbedarf sein. Kosten für SF?
 		if (text != null) {
 			link.setText(text);
 		}
 		
-		// Updaten des zweitZiels
-		// TODO Hier kann noch Verbeserungsbedarf sein.
-		if (zweitZiel != null) {
-			link.setZweitZiel(zweitZiel);
-		}
+		// ZweitZiel gibt es bei Talenten nicht!
 		
-		updateKosten((GeneratorLink) link); // Kosten Aktualisieren
+		// Talent aktivierung ggf. neu setzen
+		pruefeTalentAktivierung((GeneratorLink) link);
+		
+		updateKosten((GeneratorLink) link); // Kosten aktualisieren
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.held.box.generierung.AbstractBoxGen#getMaxWert(org.d3s.alricg.charKomponenten.links.Link)
 	 */
 	protected int getMaxWert(Link link) {
-		// TODO Auto-generated method stub
-		return 0;
+		final Eigenschaft[] eigenschaftAR;
+		int maxWert = 0;
+		
+		// Die 3 Eigeschaften holen
+		eigenschaftAR = ((Talent) link.getZiel()).get3Eigenschaften();
+		
+		// Höchste Eigenschaft Bestimmen
+		for (int i = 0; i < eigenschaftAR.length; i++) {
+			prozessor.getLinkByCharElement(eigenschaftAR[i], null, null);
+			maxWert = Math.max(maxWert,
+					prozessor.getHeld().getEigenschaftsWert(
+							eigenschaftAR[i].getEigenschaftEnum()
+						)
+				);
+		};
+		
+		// Höchste Eigenschaft +3 / Siehe MFF S. 45
+		return (maxWert + 3);
 	}
 
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.held.box.generierung.AbstractBoxGen#getMinWert(org.d3s.alricg.charKomponenten.links.Link)
 	 */
 	protected int getMinWert(Link link) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		// Der niedrigeste Wert ist stehts "0", es sei den es gibt Modis (auch negativ)
+		return ((GeneratorLink) link).getWertModis();
 	}
 
 
@@ -189,6 +227,7 @@ public class TalentBoxGen extends AbstractBoxGen {
 	 * @see org.d3s.alricg.held.box.generierung.AbstractBoxGen#canUpdateText(org.d3s.alricg.held.HeldenLink)
 	 */
 	protected boolean canUpdateText(HeldenLink link) {
+		// Kann nur geändert werden, wenn schon Text (= Eine SF) besteht!)
 		if (link.hasText()) {
 			return true;
 		}
@@ -200,7 +239,7 @@ public class TalentBoxGen extends AbstractBoxGen {
 	 * @see org.d3s.alricg.held.box.generierung.AbstractBoxGen#canUpdateZweitZiel(org.d3s.alricg.held.HeldenLink)
 	 */
 	protected boolean canUpdateZweitZiel(HeldenLink link) {
-		return false;
+		return false; // Gibt es nicht bei Talenten!
 	}
 	
 	/**
@@ -208,14 +247,13 @@ public class TalentBoxGen extends AbstractBoxGen {
 	 * @param link Der Link zu dem Element, für das die Kosten berechnet werden
 	 */
 	protected void updateKosten(GeneratorLink genLink) {
-		Talent tmpTalent;
+		final Talent tmpTalent;
+		final int alteKosten;
 		KostenKlasse kKlasse;
-		int kosten;
+		int kosten, vonStufe;
 		
-//		Hat der User überhaupt einen Wert gewählt, ansonsten auch keine Kosten
-		if (genLink.getUserLink() != null) {
-			return;
-		}
+		// Alte Kosten merken
+		alteKosten = genLink.getKosten();
 		
 		// Bestimme das Talent
 		tmpTalent = (Talent) genLink.getZiel();
@@ -224,9 +262,18 @@ public class TalentBoxGen extends AbstractBoxGen {
 		kKlasse = tmpTalent.getKostenKlasse();
 		kKlasse = prozessor.getSonderregelAdmin().changeKostenKlasse(kKlasse, genLink);
 		
+		// Aktivieren oder nicht? Bei negativen modis muß das Talent auch aktiviert werden
+		// und die "vonStufe" ist der negative Modi!
+		if ( aktivierteTalente.contains(tmpTalent) 
+				&& genLink.getWertModis() >= 0) {
+			vonStufe = CharElement.KEIN_WERT;
+		} else {
+			vonStufe = genLink.getWertModis();
+		}
+		
 		// Errechne die Kosten
 		kosten = FormelSammlung.berechneSktKosten(
-				genLink.getWertModis(), // von Stufe
+				vonStufe, // von Stufe (KEIN_WERT falls aktiviert)
 				genLink.getWert(), // bis Stufe
 				kKlasse // in dieser Kostenklasse
 		);
@@ -235,22 +282,117 @@ public class TalentBoxGen extends AbstractBoxGen {
 		
 		// Setze die Kosten
 		genLink.setKosten(kosten);
+		
+		// Gesamt-Kosten für alle Talente setzen
+		talentGpKosten += kosten - alteKosten;
 	}
 
-	/**
-	 * @return Liefert die Anzahl an Talenten die Aktiviert wurden.
-	 */
-	protected int getAktivierteTalente() {
-		return aktivierteTalente;
-	}
-
+	
 	protected @Override void removeElement(HeldenLink element) {
-		// TODO Auto-generated method stub
+		final Talent tmpTalent = (Talent) element.getZiel();
 		
+		// evtl. den Status als "aktiviertes Talent" entziehen
+		if ( aktivierteTalente.contains(tmpTalent) ) {
+			aktivierteTalente.remove(tmpTalent);
+		}
+		
+		// Voraussetzungen entfernen, falls vorhanden
+		if (tmpTalent.getVoraussetzung() != null) {
+			prozessor.getVoraussetzungenAdmin().removeVoraussetzung(
+					tmpTalent.getVoraussetzung()
+				);
+		}
+		
+		// Entfernen aus der Liste
+		linkArray.remove(element);
+		
+		// Kosten für dieses Element von den Talent Gesamtkosten abziehen
+		talentGpKosten -= ((GeneratorLink) element).getKosten();
 	}
 
+	
 	protected @Override void removeLinkFromElement(IdLink link, boolean stufeErhalten) {
-		// TODO Auto-generated method stub
+		final GeneratorLink genLink;
+		final List<IdLink> list;
+		int tmpInt;
 		
+		// Generator-Link holen
+		genLink = this.getEqualLink(link);
+		
+		if (genLink == null) {
+			ProgAdmin.logger.warning("Konnte Link nicht finden beim Entfernen eines Modis");
+		}
+		
+		// Link entfernen
+		genLink.removeLink(link);
+		
+		// Stufe ggf. neu setzen
+		Held.heldUtils.inspectWert(genLink, prozessor);
+		
+		// Es gibt keine Modis mehr, der Held hat keine Stufe gewählt,
+		// das Talent wird daher vom Helden entfernd
+		if (genLink.getWert() == 0) {
+			removeElement(genLink);
+			return;
+		}
+
+		// Die aktivierung des Talents ggf. neu setzen.
+		pruefeTalentAktivierung(genLink);
+		
+		// Kosten aktualisieren
+		updateKosten(genLink);
 	}
+	
+	
+	/**
+	 * @return Die Kosten die entstehen, um alle Talente zu bezahlen.
+	 */ @Override
+	public int getGesamtKosten() {
+		return talentGpKosten;
+	}
+	
+// -----------------------------------------------------------------------------------
+	
+	 /**
+	  * Aktiviert ein Talent wenn nötig, ansonsten wird es von 
+	  */
+	private void pruefeTalentAktivierung(GeneratorLink genLink) {
+		/* Das Talent ist genau dann aktiviert, wenn:
+		 * - Es kein Basis Talent ist
+		 * - Es keine Modis gibt
+		 * - Die Modis negativ sind, die Stufe aber >= 0 ist
+		 */ 
+		
+		if ( ((Talent) genLink.getZiel()).getArt().equals(Talent.Art.basis) ) {
+			// Basis Talente können nie aktiviert (und somit auch nicht deaktiviert) werden
+			return;
+		}
+		
+		// Den "aktiviert Status" des Talents setzen
+		aktivierteTalente.remove((Talent) genLink.getZiel());
+		if ( (genLink.getLinkModiList().size() == 0)
+				|| (genLink.getWertModis() < 0 && genLink.getWert() >= 0)  ) 
+		{
+			aktivierteTalente.add((Talent) genLink.getZiel());
+		}
+	}
+	 
+    /**
+	 * @return Liefert die Talente die aktiviert wurden.
+	 */
+	public List<Talent> getAktivierteTalente() {
+		return Collections.unmodifiableList(aktivierteTalente);
+	}
+	
+	/**
+	 * Überprüft ob ein Talent aktiviert wurde!
+	 * @param tal Das Talent das geprüft wird
+	 * @return true - Dieses Talent ist als aktiviert enthalten,
+	 * 		false - Dieses Talent ist NICHT aktiviert (egal ob enthalten oder nicht)
+	 */
+	public boolean isAktiviert(Talent tal) {
+		return aktivierteTalente.contains(tal);
+	}
+
+
 }
