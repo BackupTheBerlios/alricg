@@ -15,6 +15,7 @@ import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.junit.controller.NotepadTest;
 import org.d3s.alricg.junit.prozessor.FormelSammlungTest;
 import org.d3s.alricg.junit.prozessor.generierung.EigenschaftBoxGenTest;
+import org.d3s.alricg.junit.prozessor.generierung.TalentBoxGenTest;
 import org.d3s.alricg.junit.sonderregeln.JUnitTestSonderregeln;
 
 /**
@@ -46,6 +47,7 @@ public class JUnitTestAll {
 		suite.addTestSuite(NotepadTest.class);
 		suite.addTestSuite(FormelSammlungTest.class);
 		suite.addTestSuite(EigenschaftBoxGenTest.class);
+		suite.addTestSuite(TalentBoxGenTest.class);
 		
 		// Hinzufügen aller Sonderregeln
 		suite.addTest(JUnitTestSonderregeln.suite());
