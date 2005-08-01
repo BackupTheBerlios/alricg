@@ -187,7 +187,7 @@ public class ManagementProzessor extends HeldProzessor {
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.held.box.HeldProzessor#addLinkToElement(org.d3s.alricg.charKomponenten.links.IdLink)
 	 */
-	public void addLinkToElement(IdLink link) {
+	public void addLink(IdLink link) {
 		// TODO Auto-generated method stub
 		
 	}
