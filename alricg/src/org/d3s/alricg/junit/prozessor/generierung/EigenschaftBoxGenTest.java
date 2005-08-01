@@ -19,6 +19,7 @@ import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.held.GeneratorLink;
 import org.d3s.alricg.held.Held;
 import org.d3s.alricg.prozessor.HeldProzessor;
+import org.d3s.alricg.prozessor.generierung.EigenschaftBoxGen;
 
 public class EigenschaftBoxGenTest extends TestCase {
 	private Held held;
@@ -138,6 +139,17 @@ public class EigenschaftBoxGenTest extends TestCase {
 				getLink(EigenschaftEnum.ASP).getKosten()
 			);		
 		
+		// MU = 9 / KL = 8 / IN = 12 / GE = 8 / CH = 14 / FF = 8 / KK = 11 / KO = 10
+		// SO = 2 
+		assertEquals(82, // GesamtKosten
+				prozessor.getHeld().getElementBox(CharKomponente.eigenschaft).getGesamtKosten()
+		);
+		
+		// LEP = 306 / ASP = 26 / MR = 0
+		assertEquals(332, // GesamtKosten
+				((EigenschaftBoxGen) prozessor.getHeld()
+						.getElementBox(CharKomponente.eigenschaft)).getGesamtTalentGpKosten()
+		);
 		
 		// Sonstiges:
 		assertEquals( // Sollte nix kosten!
@@ -163,7 +175,7 @@ public class EigenschaftBoxGenTest extends TestCase {
 		link.setZielId(ProgAdmin.data.getCharElement(EigenschaftEnum.MU.getId()));
 		
 		prozessor.updateElement(getLink(EigenschaftEnum.MU), 10, null, null);
-		prozessor.addLinkToElement(link);
+		prozessor.addLink(link);
 		
 		assertEquals( // Max Wert: 14 + 2 = 16
 				16,
@@ -218,6 +230,13 @@ public class EigenschaftBoxGenTest extends TestCase {
 				14,
 				getLink(EigenschaftEnum.MU).getKosten()
 			);
+		
+		// MU = 14 / KL = 8 / IN = 8 / GE = 8 / CH = 8 / FF = 8 / KK = 8 / KO = 8
+		// SO = 1 
+		assertEquals(71, // GesamtKosten
+				prozessor.getHeld().getElementBox(CharKomponente.eigenschaft).getGesamtKosten()
+		);
+		
 	}
 	
 	/*
@@ -235,8 +254,8 @@ public class EigenschaftBoxGenTest extends TestCase {
 		link2.setZielId(ProgAdmin.data.getCharElement(EigenschaftEnum.KL.getId()));
 		
 		prozessor.updateElement(getLink(EigenschaftEnum.KL), 10, null, null);
-		prozessor.addLinkToElement(link);
-		prozessor.addLinkToElement(link2);
+		prozessor.addLink(link);
+		prozessor.addLink(link2);
 		
 		assertEquals( // Max Wert: 14 + 2 + 2 = 18
 				18,
@@ -291,8 +310,13 @@ public class EigenschaftBoxGenTest extends TestCase {
 				getLink(EigenschaftEnum.KL).getKosten()
 			);
 		
+		// MU = 8 / KL = 8 / IN = 8 / GE = 8 / CH = 8 / FF = 8 / KK = 8 / KO = 8 / SO = 1 
+		assertEquals(65, // GesamtKosten
+				prozessor.getHeld().getElementBox(CharKomponente.eigenschaft).getGesamtKosten()
+		);
+		
 		// Wieder hinzufügen des Modis
-		prozessor.addLinkToElement(link2);
+		prozessor.addLink(link2);
 		
 		assertEquals( // Max Wert: 14 + 2 + 2 = 18
 				18,
@@ -318,6 +342,11 @@ public class EigenschaftBoxGenTest extends TestCase {
 				8,
 				getLink(EigenschaftEnum.KL).getKosten()
 			);
+		
+		// MU = 8 / KL = 8 / IN = 8 / GE = 8 / CH = 8 / FF = 8 / KK = 8 / KO = 8 / SO = 1 
+		assertEquals(65, // GesamtKosten
+				prozessor.getHeld().getElementBox(CharKomponente.eigenschaft).getGesamtKosten()
+		);
 	}		
 	
 	/*
@@ -336,7 +365,7 @@ public class EigenschaftBoxGenTest extends TestCase {
 		prozessor.updateElement(getLink(EigenschaftEnum.KK), 11, null, null);
 		prozessor.updateElement(getLink(EigenschaftEnum.LEP), 7, null, null); // = gekauft 3
 		
-		prozessor.addLinkToElement(link);
+		prozessor.addLink(link);
 		
 		assertEquals( //(10 + 10 + 11) / 2 = 16 + 4 + 3 = 23
 				23,
@@ -376,8 +405,8 @@ public class EigenschaftBoxGenTest extends TestCase {
 		prozessor.updateElement(getLink(EigenschaftEnum.CH), 11, null, null);
 		prozessor.updateElement(getLink(EigenschaftEnum.ASP), 5, null, null); // = gekauft 2
 
-		prozessor.addLinkToElement(link);
-		prozessor.addLinkToElement(link2);
+		prozessor.addLink(link);
+		prozessor.addLink(link2);
 		
 		assertEquals( // Max: (10 + 11 + 11) / 2 = 16 + 3 + 17 = 36
 				36,
@@ -403,6 +432,12 @@ public class EigenschaftBoxGenTest extends TestCase {
 				26,
 				getLink(EigenschaftEnum.ASP).getKosten()
 			);
+		
+		// LEP = 0 / ASP = 0 / MR = 0
+		assertEquals(26, // GesamtKosten
+				((EigenschaftBoxGen) prozessor.getHeld()
+						.getElementBox(CharKomponente.eigenschaft)).getGesamtTalentGpKosten()
+		);
 		
 		// Entfernen eines Modis:
 		prozessor.removeLinkFromElement(link2);
@@ -433,7 +468,7 @@ public class EigenschaftBoxGenTest extends TestCase {
 			);
 		
 		// Modi wieder hinzufügen
-		prozessor.addLinkToElement(link2);
+		prozessor.addLink(link2);
 		
 		assertEquals( // Max: (10 + 11 + 11) / 2 = 16 + 3 + 17 = 36
 				36,
@@ -459,6 +494,12 @@ public class EigenschaftBoxGenTest extends TestCase {
 				0,
 				getLink(EigenschaftEnum.ASP).getKosten()
 			);
+		
+		// LEP = 0 / ASP = 0 / MR = 0
+		assertEquals(0, // GesamtKosten
+				((EigenschaftBoxGen) prozessor.getHeld()
+						.getElementBox(CharKomponente.eigenschaft)).getGesamtTalentGpKosten()
+		);
 	}
 
 	public void testNegativ() {
@@ -468,7 +509,7 @@ public class EigenschaftBoxGenTest extends TestCase {
 		link.setZielId(ProgAdmin.data.getCharElement(EigenschaftEnum.MU.getId()));
 		
 		prozessor.updateElement(getLink(EigenschaftEnum.MU), 8, null, null);
-		prozessor.addLinkToElement(link);
+		prozessor.addLink(link);
 		
 		assertEquals( // Max Wert: 14 - 2 = 12
 				12,
