@@ -149,6 +149,20 @@ public abstract class HeldProzessor {
 	
 	/**
 	 * Mit dieser Methode kann aus dem zum Helden gehörenden Elementen ein bestimmtes 
+	 * gesucht werden. Dabei ist diese Methode ungenauer, da hier weder Text noch
+	 * ZweitZiel angegeben sind. Es wird lediglich das erste Element mit der passenden
+	 * ID gelieftert. Gibt es mehrer so ist unbestimmt welches geliefert wird.
+	 * 
+	 * @param id Die id zu der das passende Elemente gesucht wird.
+	 * @return Das erste Element mit der id "id" oder "null", falls es kein solches Element
+	 * gibt
+	 */
+	public HeldenLink getLinkById(String id) {
+		return held.getElementBox(ProgAdmin.data.getCharKompFromId(id)).getLinkFromId(id);
+	}
+	
+	/**
+	 * Mit dieser Methode kann aus dem zum Helden gehörenden Elementen ein bestimmtes 
 	 * gesucht werden. Siehe "getLinkById(id, text, zweitZiel, komp)" für Beispiele.
 	 * 
 	 * @param id Die ID des CharElements, welches als Ziel im gesuchten Link steht.
@@ -414,6 +428,6 @@ public abstract class HeldProzessor {
 	 *
 	 * @param link Der Link der zu einem Element hinzugefügt werden soll.
 	 */
-	public abstract void addLinkToElement(IdLink link);
+	public abstract void addLink(IdLink link);
 	
 }
