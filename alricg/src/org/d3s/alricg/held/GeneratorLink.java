@@ -151,7 +151,6 @@ public class GeneratorLink extends HeldenLink {
     }
     
     /**
-     * 
      * @return Die Stufe ohne die änderungen durch den User, nur die Modifikationen
      */
     public int getWertModis() {
@@ -162,7 +161,7 @@ public class GeneratorLink extends HeldenLink {
     	}
     	
     	// Es gibt keinen vom User gewählten wert, sollt Modis = gesamt-Stufe
-    	if (userLink == null) {
+    	if (userLink == null || userLink.getWert() == KEIN_WERT) {
     		return this.getWert();
     	}
     	
@@ -225,6 +224,7 @@ public class GeneratorLink extends HeldenLink {
 			if (userLink != null) {
 				removeLink(userLink);
 			}
+			updateWert(); // Damit der neue Wert auch übernommen wird
 			return;
 		}
 		

@@ -209,7 +209,7 @@ public class FormelSammlung {
 			tmpKK = KostenKlasse.A;
 		}
 		
-		// Falls es das Talent zuvor nicht gab, ist es KEIN_WERT, zählt aber wie "0"
+		// Falls es ein Talent zuvor nicht gab, ist es KEIN_WERT, zählt aber wie "0"
 		if (startStufe == CharElement.KEIN_WERT) {
 			startStufe = -1;
 		}
@@ -255,7 +255,7 @@ public class FormelSammlung {
 	
 	/**
 	 * Vereinfachte Version von "getSktKosten" für die Generierung. Die Heldenstufe ist
-	 * stehts "1" und die Lernmethode ist stehts "lehrmeister".
+	 * stehts "0" und die Lernmethode ist stehts "lehrmeister".
 	 * 
 	 * @param startStufe Die bisherige Stufe des Elements; KEIN_WERT oder ein negativer 
 	 * 			Wert bedeutet das es nicht aktiviert wurde!
@@ -264,7 +264,7 @@ public class FormelSammlung {
 	 * @return Die AP-Kosten für die Steigerung (inkl. evtl. aktivierung)
 	 */
 	public static int berechneSktKosten(int startStufe, int zielStufe, KostenKlasse kKlasse) {
-		return berechneSktKosten(startStufe, zielStufe, 1, 
+		return berechneSktKosten(startStufe, zielStufe, 0, 
 				Lernmethode.lehrmeister, kKlasse, false);
 		// Es wird Talent einfach angenommen, da es für die Lernmethode "Lehrmeister" egal ist
 	}
