@@ -46,6 +46,7 @@ public class HerausragendeEigenschaftTest extends TestCase {
 		ProgAdmin.heldenAdmin.initHeldGenerierung();
 		held = ProgAdmin.heldenAdmin.getActiveHeld();
 		prozessor = ProgAdmin.heldenAdmin.getActiveProzessor();
+		
 		v = new Vorteil("VOR-jUnit-test");
 		v2 = new Vorteil("VOR-jUnit-test2");
 		r = new Rasse("RAS-jUnit-test");
@@ -142,6 +143,7 @@ public class HerausragendeEigenschaftTest extends TestCase {
 						true, 
 						link)
 		);
+		
 		// MaxWert und MinWert sind normal
 		assertEquals(14, prozessor.getMaxWert(getLink(EigenschaftEnum.KO)));
 		assertEquals(8, prozessor.getMinWert(getLink(EigenschaftEnum.KO)));
@@ -175,7 +177,6 @@ public class HerausragendeEigenschaftTest extends TestCase {
 		// SR kann nun nichtmehr zum helden hinzugefügt werden, da schon vorhanden
 		assertEquals(false, herausEigen.canAddSelf(prozessor, true, link));
 		
-		
 		// MaxWert und MinWert sind nun 16; Aktuell 16
 		assertEquals(16, prozessor.getMaxWert(getLink(EigenschaftEnum.KL)));
 		assertEquals(16, prozessor.getMinWert(getLink(EigenschaftEnum.KL)));
@@ -196,9 +197,6 @@ public class HerausragendeEigenschaftTest extends TestCase {
 		
 		// Es sollte nun keine Sonderregel mehr aktiv sein
 		assertEquals(0, prozessor.getSonderregelAdmin().countSonderregeln());
-		
-		//prozessor.getSonderregelAdmin().
-		//prozessor.getSonderregelAdmin().addSonderregel(link);
 		
 	}
 
