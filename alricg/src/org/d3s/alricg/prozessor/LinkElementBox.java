@@ -30,8 +30,6 @@ import org.d3s.alricg.held.HeldenLink;
  * Prozessor durchgeführt werden sollen. So soll ein "ordenlicher" Ablauf ohne 
  * querschlagende Zugriffe realisiert werden. 
  * 
- * (Bisherige Implementierungen sind "AbstractBoxGen" und "TalentBoxGen" im package
- * generierung)
  * 
  * @author V. Strelow
  */
@@ -129,11 +127,13 @@ public abstract class LinkElementBox<E extends HeldenLink> extends AbstractList 
 	public int size() {
 		return linkArray.size();
 	}
-	
+
 	/**
 	 * Liefert die Gesamt-Kosten für den "besitz" aller dieser Elemente. Ob TalentGp oder
 	 * GP ergibt sich aus dem Kontext!
 	 * @return Die Kosten die für alle diese Elemente entstehen!
 	 */
 	public abstract int getGesamtKosten();
+	
+	
 }
