@@ -23,6 +23,9 @@ public class JUnitTestSonderregeln {
 		
 		//$JUnit-BEGIN$
 		suite.addTestSuite(HerausragendeEigenschaftTest.class);
+		suite.addTestSuite(BegabungFuerTalentTest.class);
+		suite.addTestSuite(StubenhockerTest.class);
+		suite.addTestSuite(BegabungFuerTalentgruppeTest.class);
 		//$JUnit-END$
 		
 		return suite;
