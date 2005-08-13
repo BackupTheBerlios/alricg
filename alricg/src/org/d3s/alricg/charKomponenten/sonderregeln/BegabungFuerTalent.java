@@ -8,9 +8,11 @@
  */
 package org.d3s.alricg.charKomponenten.sonderregeln;
 
+import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Talent;
 import org.d3s.alricg.charKomponenten.links.Link;
 import org.d3s.alricg.controller.CharKomponente;
+import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.prozessor.FormelSammlung;
 import org.d3s.alricg.prozessor.HeldProzessor;
 import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
@@ -18,13 +20,17 @@ import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
 /**
  * <u>Beschreibung:</u><br> 
  * Beschreibt die Sonderregel "Begabung für [Talent]" Siehe AH, Seite 107.
+ * TODO NICHT kumultativ mit "Akademische Ausbildung"! (ersetzt diesen Vorteil)
+ * TODO NICHT wählbar mit einer entsprechenden Unfähigkeit!
+ * TODO Kostenberechnung. Hier oder im Vorteil?
+ * 
+ * Erledigt:
+ * NICHT vereinbar mit "Begabung für TalentGruppe" in derselben Kategorie!
  * 
  * @author V. Strelow
  */
 public class BegabungFuerTalent extends SonderregelAdapter {
 	private static Talent begabtFuer; // Static um alle Klassen zu erreichen
-	private String quelleId;
-	private HeldProzessor prozessor;
 	
 	/**
 	 * Konstruktor
@@ -44,9 +50,14 @@ public class BegabungFuerTalent extends SonderregelAdapter {
 	 */
 	@Override
 	public boolean canAddSelf(HeldProzessor prozessor, boolean ok, Link srLink) {
-
-		if ( !srLink.getZweitZiel().getCharKomponente().equals(CharKomponente.talent) ) {
-//			 Nur Talente
+		final SonderregelAdapter sr;
+		
+		if ( srLink.getZweitZiel() == null)  {
+			// Es wird ein ZweitZiel benötigt!
+			ProgAdmin.logger.warning("Es wird ein ZweitZiel benötigt, es ist jedoch keins angegeben!");
+			return false;
+		} else if ( !srLink.getZweitZiel().getCharKomponente().equals(CharKomponente.talent) ) {
+			//	Nur Talente
 			return false; 
 		} else if (begabtFuer != null) {
 			// Darf nur einmal gewählt werden!
@@ -54,22 +65,22 @@ public class BegabungFuerTalent extends SonderregelAdapter {
 		} else if ( ((Talent) srLink.getZweitZiel()).getKostenKlasse()
 						.equals(FormelSammlung.KostenKlasse.A) ) 
 		{
-//			 Talente mit "A" können nicht genommen werden
+			// Talente mit "A" können nicht gewählt werden
 			return false; 
 		}
 		
-		return ok;
-	}
+		// Prüfen ob "Begabt für Talentgruppe" mit der selben Sorte --> Nicht erlaubt!
+		sr = prozessor.getSonderregelAdmin().getSonderregel("SR-BegabungFuerTalentgruppe", null, null);
 
-	
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelAdapter#changeKosten(int, org.d3s.alricg.charKomponenten.links.Link)
-	 */
-	@Override
-	public int changeKosten(int kosten, Link link) {
+		if (sr != null) {
+			if ( ((BegabungFuerTalentgruppe) sr).getZweitZiel().equals(
+					((Talent) srLink.getZweitZiel()).getSorte()) )
+			{
+				return false;
+			}
+		}
 		
-		// TODO Evtl. hier die Kosten für diese SR implementieren
-		return super.changeKosten(kosten, link);
+		return ok;
 	}
 
 	/* (non-Javadoc) Methode überschrieben
@@ -97,16 +108,14 @@ public class BegabungFuerTalent extends SonderregelAdapter {
 		}
 		
 		begabtFuer = null;
-		quelleId = null;
-		
 	}
 
 	/* (non-Javadoc) Methode überschrieben
+	 * NUR mit gültigem ZweitZiel aufrufen (das ZweitZiel MUSS ein Talent sein)
 	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelAdapter#initSonderregel(org.d3s.alricg.prozessor.HeldProzessor, org.d3s.alricg.charKomponenten.links.Link)
 	 */
 	@Override
 	public void initSonderregel(HeldProzessor prozessor, Link srLink) {
-		quelleId = srLink.getZiel().getId();
 		begabtFuer = (Talent) srLink.getZweitZiel();
 		this.prozessor = prozessor;
 		
@@ -114,6 +123,34 @@ public class BegabungFuerTalent extends SonderregelAdapter {
 		if ( prozessor.getLinkById(begabtFuer.getId()) != null) {
 			prozessor.updateKosten(	prozessor.getLinkById(begabtFuer.getId()) );
 		}
+	}
+
+	/** 
+	 * Wird das Zweitziel angegeben, so wird es auch geprüft (als Talent). Wird es nicht
+	 * angegeben, so wird auch nur die ID überprüft!
+	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelAdapter#isSonderregel(java.lang.String, java.lang.String, org.d3s.alricg.charKomponenten.CharElement)
+	 */
+	@Override
+	public boolean isSonderregel(String id, String text, CharElement zweitZiel) {
+		
+		// Wenn ein zweitziel angebenen ist, so muß dieses auch stimmen
+		if (zweitZiel != null) {
+			if ( !zweitZiel.equals(begabtFuer) ) {
+				return false;
+			}
+		}
+
+		// Ansonsten wird nur die ID überprüft
+		return super.isSonderregel(id, text, zweitZiel);
+	}
+	
+	// ------------------------------------------------------------------------------
+	
+	/**
+	 * @return Die ID des ZweitZiels, also des Elements für das die Begabung gilt
+	 */
+	public Talent getZweitZiel() {
+		return begabtFuer;
 	}
 
 }

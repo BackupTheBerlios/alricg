@@ -16,26 +16,24 @@ import org.d3s.alricg.charKomponenten.Profession;
 import org.d3s.alricg.charKomponenten.Rasse;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
-import org.d3s.alricg.controller.CharKomponente;
-import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.held.GeneratorLink;
 import org.d3s.alricg.held.HeldenLink;
 import org.d3s.alricg.prozessor.HeldProzessor;
 
 /**
  * <u>Beschreibung:</u><br> 
- * Erste Implementierung einer Sonderregel. 
  * Implementiert die Sonderregel des Vorteils "Herausragende Eigenschaft", AH S. 108.
  * 
- * Die Sonderregel ist bei der Entwicklung der Architektur entwickelt worden.
+ * TODO unvereinbar mit "Misserable EIgenschaft"
  * 
- * Nicht vereinbarkeit mit anderen Sonderregeln wird im zugehörigem CharElement geregeln.
+ * Erfüllt:
+ * Stubenhocker ist mit GE, KK, KO unvereinbar!
  * 
  * @author V. Strelow
  */
 public class HerausragendeEigenschaft extends SonderregelAdapter {
 //	Liste aller möglichen Ziele dieser Sonderregel
-	private CharElement[] moeglicheZweitZiele;
+	//private CharElement[] moeglicheZweitZiele;
 	
 	private Eigenschaft eigen;
 //	 Speicher die Eigenschaften durch diese Sonderregel "herausragend" sind
@@ -64,7 +62,7 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 	public HerausragendeEigenschaft() {
 		
 		// Erstellen der wählbaren Eigenschaften
-		if (moeglicheZweitZiele == null) {
+		/*if (moeglicheZweitZiele == null) {
 			moeglicheZweitZiele = new CharElement[] {
 					ProgAdmin.data.getCharElement(EigenschaftEnum.MU.getId(), 
 															CharKomponente.eigenschaft),
@@ -83,7 +81,7 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 					ProgAdmin.data.getCharElement(EigenschaftEnum.KK.getId(), 
 															CharKomponente.eigenschaft),
 			};
-		}
+		}*/
 
 	}
 	
@@ -96,16 +94,11 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 	 *   durch die Herkunft gesenkt wurde.
 	 */
 	public boolean canAddSelf(HeldProzessor prozessor, boolean ok, Link srlink) {
-		CharElement element;
+		Eigenschaft element;
 		Link tmpLink;
 		
-		// Vorhergehende Prüfungen werden NICHT übergangen
-		if (!ok) {
-			return false;
-		}
-		
 		// Auslesen des gewünschten Links
-		element = srlink.getZweitZiel();
+		element = (Eigenschaft) srlink.getZweitZiel();
 		tmpLink = prozessor.getLinkByCharElement(element, null, null);
 		
 		// Überprüfung ob die Modis durch die Herkunft u.ä. negativ sind,
@@ -119,7 +112,17 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 			return false;
 		}
 		
-		return true;
+		// Prüfen ob "Stubenhocker" --> Nicht erlaubt mit KK, KO und GE!
+		if ( element.getEigenschaftEnum().equals(EigenschaftEnum.GE)
+				|| element.getEigenschaftEnum().equals(EigenschaftEnum.KK)
+				|| element.getEigenschaftEnum().equals(EigenschaftEnum.KO)
+		) {
+			if ( prozessor.getSonderregelAdmin().hasSonderregel("SR-Stubenhocker", null, null) ) {
+				return false;
+			}
+		}
+		
+		return ok;
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -150,7 +153,7 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 		tmpLink.addLink(modiLink);
 		
 		// Eigenschaft auf den Maximalen Wert setzen
-		tmpLink.setUserGesamtWert(prozessor.getMaxWert(tmpLink));	
+		tmpLink.setUserGesamtWert(prozessor.getMaxWert(tmpLink));
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -227,8 +230,6 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 		return canUpdate;
 	}
 	
-	
-	
     /* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelAdapter#isSonderregel(java.lang.String, java.lang.String, org.d3s.alricg.charKomponenten.CharElement)
 	 */
@@ -241,15 +242,31 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 		}
 		return false;
 	}
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelAdapter#isForManagement()
+	 */
+	@Override
+	public boolean isForManagement() {
+		// Ist nach der Generierung nicht mehr wichtig!
+		return false;
+	}
 
 	// ------------------------------------------------------------------------------
 	/**
+	 * @return Liefert die Eigenschaft, füe die diese SR gilt
+	 */
+	public Eigenschaft getZweitZiel() {
+		return eigen;
+	}
+	
+	/**
 	 * Diese Regel ist nicht im Interface enthalten, da sie NUR diese Sonderregel betrifft
 	 * @return Liste der möglichen Zweitziele
-	 */
+	 *
 	public CharElement[] getMoeglicheZweitZiele() {
 		return moeglicheZweitZiele;
-	}
+	}*/
 
 
 }

@@ -81,4 +81,17 @@ public interface SonderregelInterface extends BasisSonderregelInterface {
 	 * 		false - Diese SR ist NICHT die abgefragte SR
 	 */
 	public boolean isSonderregel(String id, String text, CharElement zweitZiel);
+	
+	/**
+	 * Liefert zurück ob diese Sonderregel für die Generierung angewendet wird
+	 * @return true - Diese Sonderregel wird zur Generierung angewendet, ansonsten false
+	 */
+	public boolean isForGenerierung();
+	
+	/**
+	 * Liefert zurück ob diese Sonderregel für das Management (nach der Generierung) angewendet wird
+	 * @return true - Diese Sonderregel wird zum Management angewendet, ansonsten false
+	 */
+	public boolean isForManagement();
+	
 }

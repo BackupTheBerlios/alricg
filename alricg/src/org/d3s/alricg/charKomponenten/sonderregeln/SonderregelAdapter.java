@@ -149,6 +149,21 @@ public abstract class SonderregelAdapter extends CharElement implements Sonderre
 	public void processUpdateElement(HeldenLink link, int stufe, String text, CharElement zweitZiel) {
 		// Noop!
 	}
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelInterface#isForGenerierung()
+	 */
+	public boolean isForGenerierung() {
+		return true;
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelInterface#isForManagement()
+	 */
+	public boolean isForManagement() {
+		return true;
+	}
+
 	/* (non-Javadoc) Methode überschrieben
 	 * Standart implementation! Bei dieser implementation wird text zum zweitZiel 
 	 * nicht beachtet, was für die meißten Sonderregel zutrifft. 
@@ -157,7 +172,6 @@ public abstract class SonderregelAdapter extends CharElement implements Sonderre
 	 * @see org.d3s.alricg.prozessor.sonderregeln.SonderregelInterface#isSonderregel()
 	 */
 	public boolean isSonderregel(String id, String text, CharElement zweitZiel) {
-
 		return id.equals( this.getId() );
 	}
 	
