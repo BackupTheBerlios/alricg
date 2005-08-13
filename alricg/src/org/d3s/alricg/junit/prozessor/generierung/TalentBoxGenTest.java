@@ -52,7 +52,7 @@ public class TalentBoxGenTest extends TestCase {
 		held = ProgAdmin.heldenAdmin.getActiveHeld();
 		prozessor = ProgAdmin.heldenAdmin.getActiveProzessor();
 		
-		// Rassen um Testen erzeugen
+		// Rassen erzeugen
 		ras = new Rasse("RAS-test");
 		
 		// Erzeugen der Talente:
@@ -125,7 +125,10 @@ public class TalentBoxGenTest extends TestCase {
 		link3 = null;
 		
 	}
-
+	
+	/**
+	 * Testet ob das "SetUp" richtig funktioniert hat!
+	 */
 	public void testRichtigHinzugefuegt() {
 		
 		link1.setZielId(talent1);
@@ -441,7 +444,7 @@ public class TalentBoxGenTest extends TestCase {
 	}
 	
 	/**
-	 * Liefert den Link zu der Eigenschaft zurück
+	 * Liefert den Link zu dem CharElement zurück
 	 * @param enu Die gewünschte Eigenschaft
 	 * @return Der Link von Prozessor zu der Eigenschaft
 	 */
