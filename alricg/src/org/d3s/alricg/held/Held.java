@@ -18,7 +18,7 @@ import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.prozessor.FormelSammlung;
 import org.d3s.alricg.prozessor.HeldProzessor;
-import org.d3s.alricg.prozessor.HeldUtilitis;
+import org.d3s.alricg.prozessor.HeldUtilities;
 import org.d3s.alricg.prozessor.LinkElementBox;
 import org.d3s.alricg.prozessor.generierung.AbstractBoxGen;
 import org.d3s.alricg.prozessor.generierung.EigenschaftBoxGen;
@@ -70,14 +70,14 @@ public class Held {
 	private int abenteuerPunkte;
 	private CharLogBuch lnkLogBuch;
 	
-	public static HeldUtilitis heldUtils; 
+	//public static HeldUtilitis heldUtils; 
 	//private HeldProzessor heldProzessor; // Prozessor mit dem der Held bearbeitet wird
 	
 	/**
 	 * Konstruktor. Erzeugt einen neuen Helden, nur mit den Eigenschaften ausgestattet.
 	 */
 	public Held() {
-		heldUtils = new HeldUtilitis();
+		//heldUtils = new HeldUtilitis();
 	}
 	
 	/**
@@ -218,7 +218,7 @@ public class Held {
 	 *  enthält.
 	 */
 	public LinkElementBox getElementBox(CharKomponente komponente) {
-		// Eigenschaften könne hier NICHT abgerufen werden, da sie errechnet werden
+		// Eigenschaften können hier NICHT abgerufen werden, da sie errechnet werden
 		//if ( komponente.equals(CharKomponente.eigenschaft) ) return null;
 		
 		return boxenHash.get(komponente);
