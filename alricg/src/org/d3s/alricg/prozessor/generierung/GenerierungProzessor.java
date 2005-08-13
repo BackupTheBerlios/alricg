@@ -390,7 +390,7 @@ public class GenerierungProzessor extends HeldProzessor {
 	 * @param link Der Link, der als Grundlage für das neue Element dienen würde
 	 * @return true - Es ist möglich, ansonsten false
 	 */
-	private boolean canAddLinkAsNewElement(IdLink link) {
+	public boolean canAddLinkAsNewElement(IdLink link) {
 		boolean ok;
 		
 		ok = boxenHash.get(link.getZiel().getCharKomponente()).canAddAsNewElement(link);
