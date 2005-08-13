@@ -13,15 +13,17 @@ import java.util.List;
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Eigenschaft;
 import org.d3s.alricg.charKomponenten.EigenschaftEnum;
+import org.d3s.alricg.charKomponenten.Talent;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
+import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.Notepad;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.held.GeneratorLink;
-import org.d3s.alricg.held.Held;
 import org.d3s.alricg.held.HeldenLink;
 import org.d3s.alricg.prozessor.FormelSammlung;
 import org.d3s.alricg.prozessor.HeldProzessor;
+import org.d3s.alricg.prozessor.HeldUtilities;
 import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
 
 /**
@@ -35,9 +37,9 @@ import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
  * - Wird eine Modifikation hinzugefügt, wird versucht die Stufe zu halten
  * - Wird eine Modifikation entfernd, wird die Stufe neu gesetzt.
  * 
- * TODO Was ist mit Voraussetzungen bei Eigenschaften?? Diese werden momentan 
- * nicht beachtet bei den Min/Max-Werten. Sollten sie beachtet werden?
- * 
+ * TODO Die Voraussetzungen die sich aus Talenten ergeben. Die Max. Stufe eines
+ * Talentes hängt von der Eigenschaft ab, somit kann eine EIgenschaft unter
+ * Umständen nicht gesenkt werden wegen eines Talentes!
  * 
  * @author V. Strelow
  */
@@ -152,7 +154,7 @@ public class EigenschaftBoxGen extends AbstractBoxGen {
 			}
 		} else {
 			// Nicht errechnete Werte 
-			Held.heldUtils.inspectWert(tmpLink, prozessor);
+			HeldUtilities.inspectWert(tmpLink, prozessor);
 		}
 	}
 	
@@ -495,7 +497,8 @@ public class EigenschaftBoxGen extends AbstractBoxGen {
 		// TODO Texte für das Notepad einfügen
 		
 		final EigenschaftEnum eigen = ((Eigenschaft) link.getZiel()).getEigenschaftEnum();
-		int tmpInt;
+		Eigenschaft maxEigensch;
+		int tmpInt, minMoeglicherWert;
 		
 		if ( eigen.equals(EigenschaftEnum.MU)
 				|| eigen.equals(EigenschaftEnum.KL)
@@ -506,8 +509,21 @@ public class EigenschaftBoxGen extends AbstractBoxGen {
 				|| eigen.equals(EigenschaftEnum.KO)
 				|| eigen.equals(EigenschaftEnum.KK) ) {
 			// Der Mininale Wert plus die Modis aus Herkunft
-			return ((GeneratorLink) link).getWertModis() +
-				GenerierungProzessor.genKonstanten.MIN_EIGENSCHAFT_WERT;
+			
+			minMoeglicherWert = ((GeneratorLink) link).getWertModis() +
+					GenerierungProzessor.genKonstanten.MIN_EIGENSCHAFT_WERT;
+
+			// Prüfung des minimalen Wertes durch die Talente
+			minMoeglicherWert = HeldUtilities.getMinEigenschaftWert(
+					((TalentBoxGen) prozessor.getHeld().getElementBox(CharKomponente.talent)).getTalentList(eigen),
+					(Eigenschaft) link.getZiel(),
+					prozessor,
+					minMoeglicherWert
+			);
+			
+			// TODO Prüfung des minimalen Wertes durch die Zauber
+			
+			return minMoeglicherWert;
 
 		} else if ( eigen.equals(EigenschaftEnum.SO) ) {
 			
