@@ -9,19 +9,21 @@ package org.d3s.alricg.prozessor.generierung;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Eigenschaft;
+import org.d3s.alricg.charKomponenten.EigenschaftEnum;
 import org.d3s.alricg.charKomponenten.Talent;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.held.GeneratorLink;
-import org.d3s.alricg.held.Held;
 import org.d3s.alricg.held.HeldenLink;
 import org.d3s.alricg.prozessor.FormelSammlung;
 import org.d3s.alricg.prozessor.HeldProzessor;
+import org.d3s.alricg.prozessor.HeldUtilities;
 import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
 
 /**
@@ -39,7 +41,15 @@ public class TalentBoxGen extends AbstractBoxGen {
 	//protected ArrayList<GeneratorLink> linkArray;
 	//protected Held held;
 	
+	// Speicher alle Talente die aktiviert wurden
 	private ArrayList<Talent> aktivierteTalente = new ArrayList<Talent>();
+	
+	/* Hält alle Talente nach den Eigenschaften sortiert, auf die die Probe
+	 * Abgelegt wird (wichtig für schnellen Zugriff bei berechnung der Min-Werte
+	 * bei Eigenschaften) */ 
+	private HashMap<EigenschaftEnum, ArrayList<HeldenLink>> hashMapNachEigensch;
+	
+	// Die gesamtkosten für alle Talente
 	private int talentGpKosten = 0;
 	
 	/**
@@ -48,6 +58,18 @@ public class TalentBoxGen extends AbstractBoxGen {
 	 */
 	public TalentBoxGen(HeldProzessor proz) {
 		super(proz);
+		
+		// Initialisieren der HashMap
+		hashMapNachEigensch = new HashMap<EigenschaftEnum, ArrayList<HeldenLink>>();
+
+		hashMapNachEigensch.put(EigenschaftEnum.MU, new ArrayList<HeldenLink>());
+		hashMapNachEigensch.put(EigenschaftEnum.KL, new ArrayList<HeldenLink>());
+		hashMapNachEigensch.put(EigenschaftEnum.IN, new ArrayList<HeldenLink>());
+		hashMapNachEigensch.put(EigenschaftEnum.CH, new ArrayList<HeldenLink>());
+		hashMapNachEigensch.put(EigenschaftEnum.FF, new ArrayList<HeldenLink>());
+		hashMapNachEigensch.put(EigenschaftEnum.GE, new ArrayList<HeldenLink>());
+		hashMapNachEigensch.put(EigenschaftEnum.KO, new ArrayList<HeldenLink>());
+		hashMapNachEigensch.put(EigenschaftEnum.KK, new ArrayList<HeldenLink>());
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -67,6 +89,18 @@ public class TalentBoxGen extends AbstractBoxGen {
 		//Link wird erstellt und zur List hinzugefügt
 		tmpLink = new GeneratorLink(link);
 		linkArray.add(tmpLink);
+		
+		// Fügt den Link zu den entsprechenden HashMaps hinzu
+		for (int i = 0; i < tmpTalent.get3Eigenschaften().length; i++) {
+			// Falls das Talente mehrmals auf die selbe Eigenschaft geprobt wird, 
+			// wird es nur einmal hinzugefüght
+			if ( !hashMapNachEigensch.get(tmpTalent.get3Eigenschaften()[i].getEigenschaftEnum())
+							.contains(tmpLink) ) {
+					hashMapNachEigensch.get(tmpTalent.get3Eigenschaften()[i].getEigenschaftEnum())
+								.add(tmpLink);
+				;
+			}
+		}
 		
 		// Prüfen ob Talent akiviert werden muß
 		pruefeTalentAktivierung(tmpLink);
@@ -141,7 +175,7 @@ public class TalentBoxGen extends AbstractBoxGen {
 			tmpLink.addLink(link);
 		}
 		
-		Held.heldUtils.inspectWert(tmpLink, prozessor);
+		HeldUtilities.inspectWert(tmpLink, prozessor);
 		
 		// evtl. den Status als "aktiviertes Talent" entziehen
 		pruefeTalentAktivierung(tmpLink);
@@ -305,6 +339,15 @@ public class TalentBoxGen extends AbstractBoxGen {
 		
 		// Entfernen aus der Liste
 		linkArray.remove(element);
+
+		// Entfernd den Link aus der entsprechenden HashMap
+		for (int i = 0; i < tmpTalent.get3Eigenschaften().length; i++) {
+			if ( hashMapNachEigensch.get(tmpTalent.get3Eigenschaften()[i].getEigenschaftEnum())
+							.contains(element) ) {
+					hashMapNachEigensch.get(tmpTalent.get3Eigenschaften()[i].getEigenschaftEnum())
+							.remove(element);
+			}
+		}
 		
 		// Kosten für dieses Element von den Talent Gesamtkosten abziehen
 		talentGpKosten -= ((GeneratorLink) element).getKosten();
@@ -327,7 +370,7 @@ public class TalentBoxGen extends AbstractBoxGen {
 		genLink.removeLink(link);
 		
 		// Stufe ggf. neu setzen
-		Held.heldUtils.inspectWert(genLink, prozessor);
+		HeldUtilities.inspectWert(genLink, prozessor);
 		
 		// Es gibt keine Modis mehr, der Held hat keine Stufe gewählt,
 		// das Talent wird daher vom Helden entfernd
@@ -393,6 +436,17 @@ public class TalentBoxGen extends AbstractBoxGen {
 	public boolean isAktiviert(Talent tal) {
 		return aktivierteTalente.contains(tal);
 	}
-
-
+	
+	/**
+	 * Liefert alle Links zu Talenten, die in der Probe auf mindesten einmal die 
+	 * gesuchte Eigenschaft geprüft werden. D.h.: In den 3 Eigenschaften der Probe
+	 * ist bei diesen Talenten die gesuchte Eigenschaft enthalten!
+	 * (Ist wichtig für die Bestimmung des Min-Wertes bei Eigenschaften)
+	 * @param eigEnum Die gesuchte Eigenschaft
+	 * @return Alle Talente, die auf die EIgenschaft "eigEnum" geprobt werden
+	 */
+	public List<HeldenLink> getTalentList(EigenschaftEnum eigEnum) {
+		return Collections.unmodifiableList(hashMapNachEigensch.get(eigEnum));
+	}
+		
 }

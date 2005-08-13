@@ -8,7 +8,13 @@
  */
 package org.d3s.alricg.prozessor.generierung;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+
 import org.d3s.alricg.charKomponenten.CharElement;
+import org.d3s.alricg.charKomponenten.EigenschaftEnum;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
 import org.d3s.alricg.held.GeneratorLink;
@@ -21,13 +27,30 @@ import org.d3s.alricg.prozessor.HeldProzessor;
  * @author V. Strelow
  */
 public class ZauberBoxGen extends AbstractBoxGen {
-
+	
+	/* Hält alle Zauber nach den Eigenschaften sortiert, auf die die Probe
+	 * Abgelegt wird (wichtig für schnellen Zugriff bei berechnung der Min-Werte
+	 * bei Eigenschaften) */ 
+	private HashMap<EigenschaftEnum, ArrayList<HeldenLink>> hashMapNachEigensch;
+	
 	/**
 	 * Konstruktor.
 	 * @param proz Der Prozessor mit dem der zugehörige Held bearbeitet wird.
 	 */
 	public ZauberBoxGen(HeldProzessor proz) {
 		super(proz);
+		
+		// Initialisieren der HashMap
+		hashMapNachEigensch = new HashMap<EigenschaftEnum, ArrayList<HeldenLink>>();
+		
+		hashMapNachEigensch.put(EigenschaftEnum.MU, new ArrayList<HeldenLink>());
+		hashMapNachEigensch.put(EigenschaftEnum.KL, new ArrayList<HeldenLink>());
+		hashMapNachEigensch.put(EigenschaftEnum.IN, new ArrayList<HeldenLink>());
+		hashMapNachEigensch.put(EigenschaftEnum.CH, new ArrayList<HeldenLink>());
+		hashMapNachEigensch.put(EigenschaftEnum.FF, new ArrayList<HeldenLink>());
+		hashMapNachEigensch.put(EigenschaftEnum.GE, new ArrayList<HeldenLink>());
+		hashMapNachEigensch.put(EigenschaftEnum.KO, new ArrayList<HeldenLink>());
+		hashMapNachEigensch.put(EigenschaftEnum.KK, new ArrayList<HeldenLink>());
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -35,6 +58,9 @@ public class ZauberBoxGen extends AbstractBoxGen {
 	 */
 	protected GeneratorLink addAsNewElement(IdLink link) {
 		// TODO Auto-generated method stub
+		
+		// TODO Zauber zu der hashMapNachEigensch hinzufügen, siehe Talente
+		
 		return null;
 	}
 
@@ -129,7 +155,7 @@ public class ZauberBoxGen extends AbstractBoxGen {
 
 	protected @Override void removeElement(HeldenLink element) {
 		// TODO Auto-generated method stub
-		
+		// TODO Zauber von der hashMapNachEigensch entfernen, siehe Talente
 	}
 
 	protected @Override void removeLinkFromElement(IdLink link, boolean stufeErhalten) {
@@ -143,4 +169,16 @@ public class ZauberBoxGen extends AbstractBoxGen {
 		return 0;
 	}
 
+
+	/**
+	 * Liefert alle Links zu Zaubern, die in der Probe auf mindesten einmal die 
+	 * gesuchte Eigenschaft geprüft werden. D.h.: In den 3 Eigenschaften der Probe
+	 * ist bei diesen Talenten die gesuchte Eigenschaft enthalten!
+	 * (Ist wichtig für die Bestimmung des Min-Wertes bei Eigenschaften)
+	 * @param eigEnum Die gesuchte Eigenschaft
+	 * @return Alle Zauber, die auf die EIigenschaft "eigEnum" geprobt werden
+	 */
+	public List<HeldenLink> getZauberList(EigenschaftEnum eigEnum) {
+		return Collections.unmodifiableList(hashMapNachEigensch.get(eigEnum));
+	}
 }
