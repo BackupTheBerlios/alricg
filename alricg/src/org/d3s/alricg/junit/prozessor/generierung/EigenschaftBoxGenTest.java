@@ -10,15 +10,19 @@ package org.d3s.alricg.junit.prozessor.generierung;
 
 import junit.framework.TestCase;
 
+import org.d3s.alricg.charKomponenten.CharElement;
+import org.d3s.alricg.charKomponenten.Eigenschaft;
 import org.d3s.alricg.charKomponenten.EigenschaftEnum;
 import org.d3s.alricg.charKomponenten.Kultur;
 import org.d3s.alricg.charKomponenten.Profession;
+import org.d3s.alricg.charKomponenten.Talent;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.held.GeneratorLink;
 import org.d3s.alricg.held.Held;
 import org.d3s.alricg.prozessor.HeldProzessor;
+import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
 import org.d3s.alricg.prozessor.generierung.EigenschaftBoxGen;
 
 public class EigenschaftBoxGenTest extends TestCase {
@@ -70,6 +74,19 @@ public class EigenschaftBoxGenTest extends TestCase {
 				null, 
 				CharKomponente.eigenschaft);
 		
+	}
+	
+	/**
+	 * Liefert den Link zu dem CharElement zurück (für Talente gedacht)
+	 * @param enu Die gewünschte Eigenschaft
+	 * @return Der Link von Prozessor zu der Eigenschaft
+	 */
+	private GeneratorLink getLinkTalent(CharElement elem) {
+		
+		return (GeneratorLink) prozessor.getLinkByCharElement(
+				elem, 
+				null, 
+				null);
 	}
 	
 	/*
@@ -536,6 +553,97 @@ public class EigenschaftBoxGenTest extends TestCase {
 				getLink(EigenschaftEnum.MU).getKosten()
 			);
 		
+	}
+	
+	/**
+	 * Testet die Abhängigkeiten für den Minimalen Wert zwischen Talent und Eigeschaft.
+	 */
+	public void testTalentEigenschaft() {
+		Talent talent1, talent2;
 		
+		// Erzeugen der Talente:
+		// Talent 1:
+		talent1 = new Talent("TAL-test-1");
+		talent1.setDreiEigenschaften(
+				new Eigenschaft[]  {
+						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-MU", CharKomponente.eigenschaft),
+						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-KL", CharKomponente.eigenschaft),
+						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-GE", CharKomponente.eigenschaft)
+				});
+		talent1.setKostenKlasse(KostenKlasse.A);
+		talent1.setArt(Talent.Art.spezial);
+		talent1.setSorte(Talent.Sorte.koerper);
+		talent1.setName("Test Talent 1");
+		
+		// Talent 2:
+		talent2 = new Talent("TAL-test-2");
+		talent2.setDreiEigenschaften(
+				new Eigenschaft[]  {
+						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-KK", CharKomponente.eigenschaft),
+						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-KO", CharKomponente.eigenschaft),
+						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-FF", CharKomponente.eigenschaft)
+				});
+		talent2.setKostenKlasse(KostenKlasse.D);
+		talent2.setArt(Talent.Art.basis);
+		talent2.setSorte(Talent.Sorte.handwerk);
+		talent2.setName("Test Talent 2");
+		
+		// Hinzufügen der Talente
+		prozessor.addCharElement(talent1, 0);
+		prozessor.addCharElement(talent2, 0);
+		
+		// Setzen der Talente
+		prozessor.updateElement(getLinkTalent(talent1), 12, null, null);
+		prozessor.updateElement(getLinkTalent(talent2), 14, null, null);
+		
+		// Setzten der Eigenschaften
+		prozessor.updateElement(getLink(EigenschaftEnum.MU), 8, null, null);
+		prozessor.updateElement(getLink(EigenschaftEnum.KL), 9, null, null);
+		prozessor.updateElement(getLink(EigenschaftEnum.GE), 10, null, null);
+		
+		prozessor.updateElement(getLink(EigenschaftEnum.KK), 9, null, null);
+		prozessor.updateElement(getLink(EigenschaftEnum.KO), 10, null, null);
+		prozessor.updateElement(getLink(EigenschaftEnum.FF), 11, null, null);
+		
+		// Da KL und GE als Grundlage dienen können, keine Beschränkung
+		assertEquals(8, prozessor.getMinWert(getLink(EigenschaftEnum.MU)));
+		assertEquals(8, prozessor.getMinWert(getLink(EigenschaftEnum.KL)));
+		assertEquals(8, prozessor.getMinWert(getLink(EigenschaftEnum.GE)));
+		
+		// Da nur FF als Grundl. dienen kann, ist es beschränkt
+		assertEquals(8, prozessor.getMinWert(getLink(EigenschaftEnum.KK)));
+		assertEquals(8, prozessor.getMinWert(getLink(EigenschaftEnum.KO)));
+		assertEquals(11, prozessor.getMinWert(getLink(EigenschaftEnum.FF)));
+		
+		
+		// Ändern von FF und Talent1
+		prozessor.updateElement(getLinkTalent(talent1), 13, null, null);
+		prozessor.updateElement(getLink(EigenschaftEnum.FF), 14, null, null);
+
+		// Da nur noch GE als Grundl. dienen kann, ist es beschränkt
+		assertEquals(8, prozessor.getMinWert(getLink(EigenschaftEnum.MU)));
+		assertEquals(8, prozessor.getMinWert(getLink(EigenschaftEnum.KL)));
+		assertEquals(10, prozessor.getMinWert(getLink(EigenschaftEnum.GE)));
+		
+		// Da nur FF als Grundl. dienen kann, ist es beschränkt
+		assertEquals(8, prozessor.getMinWert(getLink(EigenschaftEnum.KK)));
+		assertEquals(8, prozessor.getMinWert(getLink(EigenschaftEnum.KO)));
+		assertEquals(11, prozessor.getMinWert(getLink(EigenschaftEnum.FF)));
+		
+		
+		// Ändern von KK und Talent1
+		prozessor.updateElement(getLinkTalent(talent1), 2, null, null);
+		prozessor.updateElement(getLink(EigenschaftEnum.KK), 12, null, null);
+
+		// Da die Talent-Stufe nur 2 ist, keine Beschränkung 
+		assertEquals(8, prozessor.getMinWert(getLink(EigenschaftEnum.MU)));
+		assertEquals(8, prozessor.getMinWert(getLink(EigenschaftEnum.KL)));
+		assertEquals(8, prozessor.getMinWert(getLink(EigenschaftEnum.GE)));
+		
+		// Da nun FF und KK als Grundl. dienen könne, keine Beschränkung!
+		assertEquals(8, prozessor.getMinWert(getLink(EigenschaftEnum.KK)));
+		assertEquals(8, prozessor.getMinWert(getLink(EigenschaftEnum.KO)));
+		assertEquals(8, prozessor.getMinWert(getLink(EigenschaftEnum.FF)));
+
 	}
 }
