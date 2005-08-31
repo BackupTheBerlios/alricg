@@ -16,9 +16,10 @@ import java.util.HashMap;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.d3s.alricg.gui.views.ViewSchema;
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Herkunft;
+import org.d3s.alricg.charKomponenten.HerkunftVariante;
+import org.d3s.alricg.gui.views.ViewSchema;
 
 /**
  * <u>Beschreibung:</u><br>
@@ -33,10 +34,10 @@ import org.d3s.alricg.charKomponenten.Herkunft;
  * @author V. Strelow
  */
 public class SortableTreeModel<E> extends AbstractTreeTableModel {
-	private Object[] columns; // Die Spalten-Titel
-	private ViewSchema schema; // Spezifische Methoden für Typ <E>
+	private final Object[] columns; // Die Spalten-Titel
+	private final ViewSchema schema; // Spezifische Methoden für Typ <E>
+	private final DefaultMutableTreeNode root; // Wurzel-Knoten
 	private boolean[] lastAscSorted; // Sortierrichtung
-	private DefaultMutableTreeNode root; // Wurzel-Knoten
 	private NodeComparator nodeComp; // Comparator für Nodes
 	
 	public SortableTreeModel(ViewSchema schema, Object[] columns, String rootText) {
@@ -192,7 +193,7 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 	 *  
 	 * @param list Die Liste mit Elementen
 	 * @param nodeToAdd Der Node, der als root dient
-	 */
+	 *
 	private ArrayList<DefaultMutableTreeNode> ordneNachVariante(ArrayList<E> list) {
 		Herkunft tmpHerk;
 		HashMap<Herkunft, DefaultMutableTreeNode> tmpHash;
@@ -214,7 +215,7 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 		// Erster Durchlauf: Alle Varianten finden und ins Hash schreiben
 		for (int i = 0; i < list.size(); i++) {
 			tmpHerk = (Herkunft) list.get(i);
-			if (tmpHerk.isVariante()) {
+			if (tmpHerk instanceof HerkunftVariante) {
 				// Hat eine Variante, wird an diesen Knoten hinzugefügt
 				if (!tmpHash.containsKey(tmpHerk.getVarianteVon())) {
 					// VarianteVon ins Hash eintragen & zu node hinzufügen
@@ -242,6 +243,7 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 		
 		return array;
 	}
+	*/
 	
 	/**
 	 * Setzt die Elemente des DatenModells
@@ -250,7 +252,13 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 	public void setData(ArrayList<E> elemListe) { 
 		ArrayList<DefaultMutableTreeNode> array;
 		
-		array = ordneNachVariante(elemListe);
+		// array = ordneNachVariante(elemListe);
+		
+		array = new ArrayList<DefaultMutableTreeNode>(elemListe.size());
+
+		for (int i = 0; i < elemListe.size(); i++) {
+			array.add(new DefaultMutableTreeNode(elemListe.get(i)));
+		}
 		
 		/* TestDaten
 		System.out.println(array.get(1).getUserObject().toString());
@@ -296,7 +304,6 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 	 * @return true: Die Spalte mit der Nummer "column" ist sortierbar, sonst false
 	 */
 	public boolean isSortable(int column) {
-		System.out.println(column);
 		return schema.isSortable(columns[column]);
 	}
 

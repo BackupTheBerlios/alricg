@@ -20,12 +20,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import org.d3s.alricg.charKomponenten.links.Voraussetzung;
+
 /**
  * <u>Beschreibung:</u><br> 
  *
  * @author V. Strelow
  */
-public class panVoraussetzungen<Voraussetzung> extends JPanel 
+public class panVoraussetzungen extends JPanel 
 								implements EditorPaneInterface<Voraussetzung> {
 
 	private JPanel jPanel = null;

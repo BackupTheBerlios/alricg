@@ -11,15 +11,15 @@ import org.d3s.alricg.charKomponenten.CharElement;
 
 /**
  * <b>Beschreibung:</b><br>
- * TODO Beschreibung einfügen
+ * Beschreibt Bedingungen die erfüllt sein müssen, damit ein Element, das diese 
+ * Voraussetzug besitzt, zum Helden hinzugefügt werden kann. Voraussetzungen können
+ * von vielen CharElementen enthalten sein.
  * 
  * @author V.Strelow
  */
 public class Voraussetzung {
     private IdLinkVoraussetzung[] festeVoraussetzung; // Die unveränderlichen Werte
-
     private IdLinkList nichtErlaubt; // Diese Elemente sind NICHT erlaubt
-
     private CharElement quelle; // Das CharElement, das diese Voraussetzung besitzt
     
     // Pro Array muß mindesten eine LinkVoraussetzung erfüllt sein

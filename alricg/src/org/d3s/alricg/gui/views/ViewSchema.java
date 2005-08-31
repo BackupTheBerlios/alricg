@@ -105,7 +105,7 @@ public interface ViewSchema {
 	/**
 	 * <u>Beschreibung:</u><br> 
 	 * Comparator um Namen von CharElementen in einer TreeTable miteinander 
-	 * vergleichen zu können. Es können sowahl Strings alsauch unterklassen von 
+	 * vergleichen zu können. Es können sowahl Strings als auch unterklassen von 
 	 * "CharElement" verglichen werden.
 	 * @author V. Strelow
 	 */

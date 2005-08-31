@@ -34,7 +34,7 @@ public class panGrunddaten<CharElement> extends JPanel
 						implements EditorPaneInterface<CharElement> {
 
 	private JLabel lblName = null;
-	private JTextField txtName = null;
+	private JTextField txtName = null;  //  @jve:decl-index=0:
 	private JLabel lblSonderregel = null;
 	private JLabel lblSammelbegriff = null;
 	private TextFieldList txtSammelbegriff = null;

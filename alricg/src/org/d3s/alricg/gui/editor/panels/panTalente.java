@@ -14,12 +14,14 @@ import java.awt.GridBagLayout;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import org.d3s.alricg.charKomponenten.Talent;
 /**
  * <u>Beschreibung:</u><br> 
  *
  * @author V. Strelow
  */
-public class panTalente<Talent> extends JPanel 
+public class panTalente extends JPanel 
 						implements EditorPaneInterface<Talent> {
 
 	private JLabel lblSorte = null;

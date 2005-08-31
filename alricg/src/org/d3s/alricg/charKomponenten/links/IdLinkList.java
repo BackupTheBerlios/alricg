@@ -27,25 +27,28 @@ public class IdLinkList {
 	public IdLinkList(CharElement quelle) {
 		this.quelle = quelle;
 	}
-		
+	
 	/**
 	 * @return Liefert das Attribut links.
 	 */
 	public IdLink[] getLinks() {
 		return links;
 	}
+	
 	/**
 	 * @param links Setzt das Attribut links.
 	 */
 	public void setLinks(IdLink[] links) {
 		this.links = links;
 	}
+	
 	/**
 	 * @return Liefert das Attribut quelle.
 	 */
 	public CharElement getQuelle() {
 		return quelle;
 	}
+	
 	/**
 	 * @param quelle Setzt das Attribut quelle.
 	 */
