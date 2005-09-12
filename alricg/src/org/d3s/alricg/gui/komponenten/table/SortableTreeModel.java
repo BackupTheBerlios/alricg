@@ -66,10 +66,10 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 	 * WICHTIG: Diese Methode benutzt "getOrdinalFromElement(CharElement element)" 
 	 * und "getEnums()"!Die Methoden müssen korrekt und passend implementiert sein
 	 * 
-	 * @param list Diese Elemente werden geordnete als Nodes sortiert hinzugefügt  
+	 * @param elemListe Diese Elemente werden geordnete als Nodes sortiert hinzugefügt  
 	 * @param nodeToAdd Zu diesem Node werden die neuen Nodes hinzugefügt
 	 */
-	protected void ordneNachOrdnern(ArrayList<DefaultMutableTreeNode> list, 
+	protected void ordneNachOrdnern(ArrayList<E> elemListe,
 										DefaultMutableTreeNode nodeToAdd) 
 	{
 		Object[] ordner = schema.getSortOrdner();
@@ -78,7 +78,7 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 		int[] tmpIntArray;
 		
 		// Gibt es überhaupt Elemente zum einordnen?
-		if (list.size() == 0) {
+		if (elemListe.size() == 0) {
 			return; 
 		}
 		
@@ -96,13 +96,13 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 			tmpArray[i] = new ArrayList<DefaultMutableTreeNode>();
 		}
 		
-//		Jedes Element der list in ein oder mehrer  Arrays einordenen,
+//		Jedes Element der list in ein oder mehrer Arrays einordenen,
 //		passend zur Ordner
-		for (int i = 0; i < list.size(); i++) {
-			tmpIntArray = schema.getOrdinalFromElement(list.get(i).getUserObject());
+		for (int i = 0; i < elemListe.size(); i++) {
+			tmpIntArray = schema.getOrdinalFromElement(elemListe.get(i));
 			
 			for (int ii = 0; ii < tmpIntArray.length; ii++) {
-				tmpArray[tmpIntArray[ii]].add(list.get(i));
+				tmpArray[tmpIntArray[ii]].add(new DefaultMutableTreeNode(elemListe.get(i)));
 			}
 		}
 		
@@ -250,15 +250,18 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 	 * @param elemListe Liste von allem Elementen die die Tabelle anzeigen soll
 	 */
 	public void setData(ArrayList<E> elemListe) { 
-		ArrayList<DefaultMutableTreeNode> array;
+		//ArrayList<DefaultMutableTreeNode> array;
 		
 		// array = ordneNachVariante(elemListe);
 		
+		
+		/*
 		array = new ArrayList<DefaultMutableTreeNode>(elemListe.size());
 
 		for (int i = 0; i < elemListe.size(); i++) {
 			array.add(new DefaultMutableTreeNode(elemListe.get(i)));
 		}
+		*/
 		
 		/* TestDaten
 		System.out.println(array.get(1).getUserObject().toString());
@@ -270,7 +273,7 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 		array.remove(3);
 		array.remove(2); */
 		
-		ordneNachOrdnern(array, root);
+		ordneNachOrdnern(elemListe, root);
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -299,7 +302,8 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 
 
 	/**
-	 * Wir benutzt um Listener anzumelden und Pfeile einzublenden
+	 * Prüft ob eine Spalte sortierbar ist.
+	 * Wird benutzt um Listener anzumelden und Pfeile einzublenden.
 	 * @param column Die Spalte die überprüft werden soll
 	 * @return true: Die Spalte mit der Nummer "column" ist sortierbar, sonst false
 	 */
@@ -401,12 +405,24 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
      * @see org.d3s.alricg.Test.treeTable.TreeTableModel#isCellEditable(java.lang.Object, int)
      */
     public boolean isCellEditable(Object node, int column) {
-    	if (column == 0) {
-    		return true;
-    	}
-    	// TEST Edit test
-    	return true; 
+
+    	return schema.isCellEditable(
+    			((DefaultMutableTreeNode) node).getUserObject(), 
+				columns[column]);
    }
+
+    
+    
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.komponenten.table.AbstractTreeTableModel#setValueAt(java.lang.Object, java.lang.Object, int)
+	 */
+	@Override
+	public void setValueAt(Object aValue, Object node, int column) {
+
+		schema.setCellValue(aValue, 
+				((DefaultMutableTreeNode) node).getUserObject(), 
+				columns[column]);
+	}
 
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.Test.treeTable.TreeTableModel#getValueAt(java.lang.Object, int)

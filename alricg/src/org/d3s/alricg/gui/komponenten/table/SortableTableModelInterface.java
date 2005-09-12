@@ -10,17 +10,37 @@ package org.d3s.alricg.gui.komponenten.table;
 
 import javax.swing.table.TableModel;
 
+import org.d3s.alricg.gui.views.ViewSchema;
+
 /**
  * <u>Beschreibung:</u><br> 
- *
+ * Diese Interfaxe wird von allem Tabellen-Models implementiert, die zu einer 
+ * sortierbaren Tabelle gehören. Es enthält alle über TableModel hinaus 
+ * benötigten Methoden.
  * @author V. Strelow
  */
 public interface SortableTableModelInterface extends TableModel {
 
+	/**
+	 * Prüft ob eine Spalte sortierbar ist.
+	 * Wird benutzt um Listener anzumelden und Pfeile einzublenden.
+	 * @param column Die Spalte die überprüft werden soll
+	 * @return true: Die Spalte mit der Nummer "column" ist sortierbar, sonst false
+	 */
 	public abstract boolean isSortable(int column);
 
+	/**
+	 * Sortiert den gesamten TreeTable nach der übergebenen Spalte
+	 * @param column Die Spalte nach der Sortiert werden soll
+	 */
 	public abstract void sortTableByColumn(int column);
-
+	
+	/**
+	 * Prüft ob die Reihenfolge "umgedreht" ist (sortiert von "A-Z" oder 
+	 * von "Z-A")
+	 * @param column Die Spalte die überprüft werden soll
+	 * @return true: Die Spalte "column" ist "umgedreht" sortiert, ansonsten false
+	 */
 	public abstract boolean isSortColumnDesc(int column);
 
 	/**
@@ -32,5 +52,16 @@ public interface SortableTableModelInterface extends TableModel {
 	 */
 	public abstract String getToolTip(int row, int column);
 
+	/**
+	 * Liefert den ToolTip Text für die Überschrift der Splate "column".
+	 * @param column  Die Spalte des gewünschten ToolTip-Textes
+	 * @return Der ToolTip- Text an der Stelle column
+	 */
 	public abstract String getHeaderToolTip(int column);
+	
+	/**
+	 * liefert das ViewSchema zurück, auf das diese Tabelle aufbaut
+	 * @return Das benutze ViewSchema
+	 */
+	public abstract ViewSchema getViewSchema();
 }

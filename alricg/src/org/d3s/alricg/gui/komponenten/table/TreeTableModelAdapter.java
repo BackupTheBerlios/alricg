@@ -198,6 +198,13 @@ public class TreeTableModelAdapter extends AbstractTableModel
 	public String getHeaderToolTip(int column) {
 		return viewSchema.getHeaderToolTip(treeTableModel.getColumnObject(column));
 	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.komponenten.table.SortableTableModelInterface#getViewSchema()
+	 */
+	public ViewSchema getViewSchema() {
+		return viewSchema;
+	}
 }
 
 

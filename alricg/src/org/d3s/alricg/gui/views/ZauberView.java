@@ -15,6 +15,8 @@ import javax.swing.Icon;
 import org.d3s.alricg.charKomponenten.Zauber;
 import org.d3s.alricg.charKomponenten.Werte.MagieMerkmal;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.gui.views.TalentView.Filter;
+import org.d3s.alricg.gui.views.TalentView.Ordnung;
 
 
 
@@ -26,7 +28,18 @@ import org.d3s.alricg.controller.ProgAdmin;
  * @author V. Strelow
  */
 public class ZauberView implements ViewSchema {
-
+	
+	// Nach was diese Tabelle geordent werden kann
+	public enum Ordnung {
+		merkmal;
+	};
+	
+	// TODO Richtige Filter einbauen
+	// Die Filter dieser Tabelle
+	public enum Filter {
+		keiner;
+	};
+	
 	public enum Spalten {
 		name("Name"),
 		merkmale("Merkmale"),
@@ -75,7 +88,7 @@ public class ZauberView implements ViewSchema {
 				Icon[] icons = new Icon[merkmale.length];
 				
 				for (int i = 0; i < merkmale.length; i++ ) {
-					icons[i] = merkmale[i].getIcon();
+					icons[i] = merkmale[i].getIconKlein();
 				}
 				
 				return icons;
@@ -150,16 +163,50 @@ public class ZauberView implements ViewSchema {
 	 * @see org.d3s.alricg.GUI.views.ViewSchema#getSortOrdner()
 	 */
 	public Object[] getSortOrdner() {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO Nur testweise
+		return MagieMerkmal.values();
 	}
 
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.GUI.views.ViewSchema#getOrdinalFromElement(java.lang.Object)
 	 */
 	public int[] getOrdinalFromElement(Object element) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO Nur testweise
+		int[] tmp = new int[((Zauber) element).getMerkmale().length];
+		
+		for (int i = 0; i < tmp.length; i++) {
+			tmp[i] = ((Zauber) element).getMerkmale()[i].ordinal();
+		}
+		
+		return tmp;
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.views.ViewSchema#setCellValue()
+	 */
+	public void setCellValue(Object newValue, Object object, Object column) {
+		// noop!
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.views.ViewSchema#isCellEditable()
+	 */
+	public boolean isCellEditable(Object object, Object column) {
+		return false;
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.views.ViewSchema#getFilterElem()
+	 */
+	public Enum[] getFilterElem() {
+		return Filter.values();
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.views.ViewSchema#getOrdnungElem()
+	 */
+	public Enum[] getOrdnungElem() {
+		return Ordnung.values();
 	}
 
 }

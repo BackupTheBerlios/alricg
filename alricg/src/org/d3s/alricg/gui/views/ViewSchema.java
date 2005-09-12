@@ -44,6 +44,26 @@ public interface ViewSchema {
 	 */
 	public Object getCellValue(Object object, Object column);
 	
+
+	/**
+	 * Setzt einen Wert neu an einer bestimmten Position der Tabelle.
+	 * @param object Das Objekt welches eigentlich dargestellt wird (Talent,
+	 * 		Rasse, Zauber, Link, usw.)
+	 * @param column Die "Spalte" welche aus diesem Objekt gefragt ist (Talent.sorte,
+	 * 		Rasse.gp, Zauber.merkmale, usw.)
+	 * @param newValue Der Neue Wert an dieser Stelle
+	 */
+	public void setCellValue(Object newValue, Object object, Object column);
+	
+	/**
+	 * Prüft ob eine Tabellen Zelle editiert werden kann.
+	 * @param object Das Objekt welches eigentlich dargestellt wird (Talent,
+	 * 		Rasse, Zauber, Link, usw.)
+	 * @param column Die "Spalte" welche aus diesem Objekt gefragt ist (Talent.sorte,
+	 * 		Rasse.gp, Zauber.merkmale, usw.)
+	 */
+	public boolean isCellEditable(Object object, Object column);
+	
 	/**
 	 * Um Tablen nach verschiedenen Spalten sortieren zu können, muß für 
 	 * jede Spalte ein Comparator verfügbar sein. Dieser Comparator
@@ -76,6 +96,26 @@ public interface ViewSchema {
 	 * @return Der ToolTipText für den Titel dieser Spalte 
 	 */
 	public String getHeaderToolTip(Object column);
+	
+	/**
+	 * Liefert die Elemente nach denen die TreeTable geordnet werden kann 
+	 * (Also nach denen die Elemente der TreeTable in Ordner angeordnet werden).
+	 * Das Element "Keine" gibt es immer, wird jedoch durch das Panel hinzugefügt,
+	 * taucht hier also NICHT auf!
+	 * Beispiel: "Sorte" bei Talenten
+	 * @return Die Elemente zum Ordnen der TreeTable (ohne "Keine")
+	 */
+	public Enum[] getOrdnungElem();
+	
+	/**
+	 * Liefert die Elemente nach denen die TreeTable gefiltert werden kann. 
+	 * Bestimmte Elementen sollen je nach Filter nicht angezeigt werden.
+	 * Das Elemente "Keiner" gibt es immer, es gehört mit zu dem Elementen 
+	 * die hier zurückgeliefert werden!
+	 * Beispiel: "Nur Wählbare"
+	 * @return Die Elemente zum Filtern der TreeTable (mit "Keiner")
+	 */
+	public Enum[] getFilterElem();
 	
 	/**
 	 * Wird von "sortiereNachOrdnern(...)" benutzt. Liefert ein Array von Objekten,

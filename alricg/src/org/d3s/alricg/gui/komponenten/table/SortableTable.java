@@ -50,11 +50,7 @@ public class SortableTable extends JTable {
             .getResource("icons/ScrollUpArrow.gif"));
     private ImageIcon DOWN_ICON = new ImageIcon(MotifGraphicsUtils.class
             .getResource("icons/ScrollDownArrow.gif"));
-
     
-    public SortableTable() {
-    	
-    }
     
     /* (non-Javadoc) Methode überschrieben
 	 * @see javax.swing.JTable#setModel(javax.swing.table.TableModel)
@@ -174,12 +170,21 @@ public class SortableTable extends JTable {
     /**
      * Hiermit wird eine Spalte so eingestellt, das sie ein oder mehrer Icons 
      * anzeigt. Dafür muß die Spalte "column" 
-     * @param column Die Spalte die per Button bedient werden soll
+     * @param column Die Spalte die ein Bild anzeigen soll
      * @param buttonText Der text auf dem Button
      */
     public void setColumnImage(int column) {
     	this.getColumn(getColumnName(column)).setCellRenderer(new ImageRenderer());
     }
+    
+    /**
+     * Liefert das benutze Schema zum Anzeigen der Elemente
+     * @return Das Benutze Schema für die Elemente
+     */
+    public ViewSchema getViewSchema() {
+    	return model.getViewSchema();
+    } 
+    
 }
 
 // *****************************************************************************

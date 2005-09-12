@@ -25,6 +25,18 @@ import org.d3s.alricg.store.TextStore;
  */
 public class TalentView implements ViewSchema {
 
+	// Nach was diese Tabelle geordent werden kann
+	public enum Ordnung {
+		sorte;
+	};
+	
+	// TODO Richtige Filter einbauen
+	// Die Filter dieser Tabelle
+	public enum Filter {
+		keiner;
+	};
+	
+	// Die Namen der Spalten die angezeigt werden sollen
 	public enum Spalten {
 		name("Name"),
 		sorte("Sorte"),
@@ -214,6 +226,34 @@ public class TalentView implements ViewSchema {
 	 * @see org.d3s.alricg.GUI.views.ViewSchema#isHerkunft()
 	 */
 	public boolean isHerkunft() {
+		return false;
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.views.ViewSchema#getFilterElem()
+	 */
+	public Enum[] getFilterElem() {
+		return Filter.values();
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.views.ViewSchema#getOrdnungElem()
+	 */
+	public Enum[] getOrdnungElem() {
+		return Ordnung.values();
+	}
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.views.ViewSchema#setCellValue()
+	 */
+	public void setCellValue(Object newValue, Object object, Object column) {
+		// noop!
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.views.ViewSchema#isCellEditable()
+	 */
+	public boolean isCellEditable(Object object, Object column) {
 		return false;
 	}
 

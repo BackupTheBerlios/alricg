@@ -28,7 +28,7 @@ import org.d3s.alricg.gui.views.ViewSchema;
  * 
  * @author V. Strelow
  */
-public class SortableTableModel<E> extends AbstractTableModel implements SortableTableModelInterface {
+public class SortableTableModel<E> extends AbstractTableModel {
 	private ArrayList<E> dataList = new ArrayList<E>();
 	private Enum[] columns;
 	private ViewSchema schema;
@@ -94,10 +94,18 @@ public class SortableTableModel<E> extends AbstractTableModel implements Sortabl
 	/* (non-Javadoc) Methode überschrieben
 	 * @see javax.swing.table.TableModel#setValueAt(java.lang.Object, int, int)
 	 */
-	public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
+	public void setValueAt(Object aValue, int rowIdx, int colIdx) {
+		schema.setCellValue(aValue, dataList.get(rowIdx), columns[colIdx]);
 	}
  
+	/* (non-Javadoc) Methode überschrieben
+	 * @see javax.swing.table.AbstractTableModel#isCellEditable(int, int)
+	 */
+	@Override
+	public boolean isCellEditable(int rowIdx, int colIdx) {
+		return schema.isCellEditable(dataList.get(rowIdx), columns[colIdx]);
+	}
+
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.GUI.komponenten.table.SortableTableModelInterface#sortTableByColumn(int)
 	 */
@@ -125,6 +133,13 @@ public class SortableTableModel<E> extends AbstractTableModel implements Sortabl
 	 */
 	public boolean isSortColumnDesc(int colIdx) {
 		return !lastAscSorted[colIdx];
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.komponenten.table.SortableTableModelInterface#getViewSchema()
+	 */
+	public ViewSchema getViewSchema() {
+		return schema;
 	}
 	
 }

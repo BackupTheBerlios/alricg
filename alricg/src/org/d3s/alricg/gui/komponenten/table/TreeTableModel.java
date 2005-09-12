@@ -81,7 +81,7 @@ public interface TreeTableModel extends TreeModel
      * at column number <code>column</code>.
      */
     public Object getValueAt(Object node, int column);
-
+    
     /**
      * Indicates whether the the value for node <code>node</code>, 
      * at column number <code>column</code> is editable.
