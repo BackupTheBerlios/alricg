@@ -60,7 +60,8 @@ public class TestDriver {
 		
 		ProgAdmin.main(null);
 		
-		testSortableTable();
+		testSortableTableTalent();
+		//testSortableTableZauber();
 		
 		/*
 		System.out.println(
@@ -107,13 +108,39 @@ public class TestDriver {
 		ProgAdmin.main(null);
 	}
 	
-	public void testSortableTable() {
+	public void testSortableTableZauber() {
+		JFrame frame = new JFrame("SortableTableTest");
+		ArrayList<Talent> array;
+		SortableTreeModel treeModel = new SortableTreeModel(new ZauberView(), ZauberView.Spalten.values(), "Zauber");
+
+		array = (ArrayList<Talent>) new ArrayList(
+				ProgAdmin.data.getUnmodifieableCollection(CharKomponente.zauber)
+			);
+		
+		treeModel.setData(array);
+		
+		SortableTreeTable sTree = new SortableTreeTable(treeModel);
+		
+		sTree.setColumnImage(1);
+		sTree.setColumnButton(5, "+");
+		sTree.setColumnButton(6, "-");
+		
+		//JTreeTable treeTable = new JTreeTable(treeModel);
+		
+		JScrollPane sp = new JScrollPane(sTree);
+		
+		frame.getContentPane().add(sp);
+		frame.pack();
+		frame.setVisible(true);
+
+	}
+	
+	public void testSortableTableTalent() {
 		JFrame frame = new JFrame("SortableTableTest");
 		ArrayList<Talent> array;
 		
 		SortableTableModel tableModel = new SortableTableModel(new TalentView(), TalentView.Spalten.values());
 		SortableTreeModel treeModel = new SortableTreeModel(new TalentView(), TalentView.Spalten.values(), "Talente");
-		//SortableTreeModel treeModel = new SortableTreeModel(new ZauberView(), ZauberView.Spalten.values(), "Zauber");
 		
 		array = (ArrayList<Talent>) new ArrayList(
 					ProgAdmin.data.getUnmodifieableCollection(CharKomponente.talent)
@@ -152,7 +179,7 @@ public class TestDriver {
 		comboBox.addItem("None");
 		sportColumn.setCellEditor(new DefaultCellEditor(comboBox));
 		
-		sTree.setColumnImage(4);
+		//sTree.setColumnImage(4);
 		sTree.setColumnButton(5, "+");
 		sTree.setColumnButton(6, "-");
 		
