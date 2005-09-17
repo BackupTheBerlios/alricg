@@ -14,7 +14,7 @@ import java.util.Collections;
 
 import javax.swing.table.AbstractTableModel;
 
-import org.d3s.alricg.gui.views.ViewSchema;
+import org.d3s.alricg.gui.views.SpaltenSchema;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -31,10 +31,10 @@ import org.d3s.alricg.gui.views.ViewSchema;
 public class SortableTableModel<E> extends AbstractTableModel {
 	private ArrayList<E> dataList = new ArrayList<E>();
 	private Enum[] columns;
-	private ViewSchema schema;
+	private SpaltenSchema schema;
 	private boolean[] lastAscSorted;
 	
-	public SortableTableModel(ViewSchema schema, Enum[] columns) {
+	public SortableTableModel(SpaltenSchema schema, Enum[] columns) {
 		this.columns = columns;
 		this.schema = schema;
 		lastAscSorted = new boolean[columns.length];
@@ -138,7 +138,7 @@ public class SortableTableModel<E> extends AbstractTableModel {
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.gui.komponenten.table.SortableTableModelInterface#getViewSchema()
 	 */
-	public ViewSchema getViewSchema() {
+	public SpaltenSchema getViewSchema() {
 		return schema;
 	}
 	

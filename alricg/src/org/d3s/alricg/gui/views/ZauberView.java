@@ -27,7 +27,7 @@ import org.d3s.alricg.gui.views.TalentView.Ordnung;
  *
  * @author V. Strelow
  */
-public class ZauberView implements ViewSchema {
+public class ZauberView implements SpaltenSchema {
 	
 	// Nach was diese Tabelle geordent werden kann
 	public enum Ordnung {
@@ -95,8 +95,8 @@ public class ZauberView implements ViewSchema {
 			case repraesentation: return ((Zauber) object).getVerbreitungAbkText();
 			case kostenKlasse: return ((Zauber) object).getKostenKlasse();
 			case probe: return ((Zauber) object).get3EigenschaftenString();
-			case plus: 	return ViewSchema.buttonValue;
-			case minus: return ViewSchema.buttonValue;
+			case plus: 	return SpaltenSchema.buttonValue;
+			case minus: return SpaltenSchema.buttonValue;
 		}
 		
 		ProgAdmin.logger.severe("Case-Fall konnte nicht gefunden werden!");

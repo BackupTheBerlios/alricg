@@ -1,5 +1,5 @@
 /*
- * Created on 08.04.2005 / 00:23:01
+ * Created on 15.09.2005 / 17:35:10
  *
  * This file is part of the project ALRICG. The file is copyright
  * protected and under the GNU General Public License.
@@ -7,20 +7,9 @@
  */
 package org.d3s.alricg.gui.views;
 
-import java.util.Comparator;
+import java.util.ArrayList;
 
-import org.d3s.alricg.charKomponenten.CharElement;
-
-/**
- * <u>Beschreibung:</u><br> 
- * Dient den SortableTreeTable und SortableTables als Vorlage für die Darstellung.
- * Alle speziellen Methoden für die Anzeige von Elementen werden in diesen Schemas
- * zusammengefasst.
- * @author V. Strelow
- */
-public interface ViewSchema {
-	String buttonValue = "button";
-	NamensComparator namensComparator = new NamensComparator();
+public interface WorkSchema {
 	
 	/**
 	 * Wichtig für casting und ob Sammelbegriffe möglich sind
@@ -28,11 +17,6 @@ public interface ViewSchema {
 	 */
 	public boolean hasSammelbegriff();
 	
-	/**
-	 * Wichtig für casting und ob Varianten möglich sind
-	 * @return true:Die Elemente dieses Schemas sind Herkunft, sonst false
-	 */
-	public boolean isHerkunft();
 	
 	/**
 	 * Dies ist die eigentliche Methode, mit der Werte abgerufen werden! 
@@ -65,37 +49,12 @@ public interface ViewSchema {
 	public boolean isCellEditable(Object object, Object column);
 	
 	/**
-	 * Um Tablen nach verschiedenen Spalten sortieren zu können, muß für 
-	 * jede Spalte ein Comparator verfügbar sein. Dieser Comparator
-	 * wird hiermit geliefert
-	 * @param column Die Spalte, über die sortiert werden soll
-	 * @return Ein Comparator, mit dem Elemente nach der Spalte sortiert werden
-	 * 		können
-	 */
-	public Comparator getComparator(Object column);
-	
-	/**
-	 * Gibt zurück, ob nach einer Spalte sortiert werden kann, also dafür 
-	 * entsprechende Pfeile angezeigt werden!
-	 * @param column Die Spalte nach der Sortiert werden soll
-	 * @return true: Nach dieser Spalte kann Sortiert werden, sonst false
-	 */
-	public boolean isSortable(Object column);
-	
-	/**
 	 * Liefert den ToolTipText für ein Element in der Tabelle
 	 * @param object Das Object, über dem der Mauszeiger steht
 	 * @param column Die Spalte, über dem der Mauszeiger steht
 	 * @return Liefert den ToolTip Text für das Objekt und die Spalte
 	 */
 	public String getToolTip(Object object, Object column);
-	
-	/**
-	 * Liefert den ToolTipText für eine Tabellen Überschrift
-	 * @param column Die Spalte auf dessen Titel der Mauszeiger steht
-	 * @return Der ToolTipText für den Titel dieser Spalte 
-	 */
-	public String getHeaderToolTip(Object column);
 	
 	/**
 	 * Liefert die Elemente nach denen die TreeTable geordnet werden kann 
@@ -143,35 +102,11 @@ public interface ViewSchema {
 	public int[] getOrdinalFromElement(Object element);
 	
 	/**
-	 * <u>Beschreibung:</u><br> 
-	 * Comparator um Namen von CharElementen in einer TreeTable miteinander 
-	 * vergleichen zu können. Es können sowahl Strings als auch unterklassen von 
-	 * "CharElement" verglichen werden.
-	 * @author V. Strelow
+	 * Nimmt eine Liste von Elementen und sortiert alle nicht zum Filter passenden 
+	 * Elemente aus. Die Übrigen sollen dann angezeigt werden.
+	 * @param aList Liste von Elementen aus der Tabelle
+	 * @return Liste von Elementen die gemäß des aktuellen Filters "bereinigt" wurde
 	 */
-	public class NamensComparator implements Comparator {
-
-		/* (non-Javadoc) Methode überschrieben
-		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-		 */
-		public int compare(Object arg0, Object arg1) {
-			String str1, str2;
-			
-			if (arg0 instanceof String) {
-				str1 = (String) arg0;
-			} else {
-				str1 = ((CharElement) arg0).getName();
-			}
-			
-			if (arg1 instanceof String) {
-				str2 = (String) arg1;
-			} else {
-				str2 = ((CharElement) arg1).getName();
-			}
-			
-			return str1.compareTo(str2);
-		}
-		
-	}
+	public ArrayList doFilterElements(Enum filter, ArrayList aList);
 
 }

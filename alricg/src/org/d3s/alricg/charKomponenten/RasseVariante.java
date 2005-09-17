@@ -79,6 +79,7 @@ public class RasseVariante extends Rasse implements HerkunftVariante {
 	public String[] getEntferneXmlTag() {
 		return entferneXmlTag;
 	}
+	
 	/**
 	 * @param entferneXmlTag Setzt das Attribut entferneXmlTag.
 	 */

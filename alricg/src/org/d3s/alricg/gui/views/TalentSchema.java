@@ -1,5 +1,5 @@
 /*
- * Created on 08.04.2005 / 00:35:21
+ * Created on 15.09.2005 / 15:47:11
  *
  * This file is part of the project ALRICG. The file is copyright
  * protected and under the GNU General Public License.
@@ -8,72 +8,23 @@
  */
 package org.d3s.alricg.gui.views;
 
-import java.util.Comparator;
-
 import org.d3s.alricg.charKomponenten.Talent;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.gui.views.TalentView.Filter;
+import org.d3s.alricg.gui.views.TalentView.Ordnung;
 import org.d3s.alricg.gui.views.talent.TalentSpaltenEnum;
 import org.d3s.alricg.store.TextStore;
 
-
-
 /**
  * <u>Beschreibung:</u><br> 
- * Dient den SortableTreeTable und SortableTables als Vorlage für die Darstellung.
- * Alle speziellen Methoden für die Anzeige von Talenten werden in diesen Schema
- * zusammengefasst.
+ *
  * @author V. Strelow
  */
-public class TalentView implements SpaltenSchema {
+public class TalentSchema {
 
-	// Nach was diese Tabelle geordent werden kann
 	public enum Ordnung {
-		sorte;
-	};
-	
-	// TODO Richtige Filter einbauen
-	// Die Filter dieser Tabelle
-	public enum Filter {
-		keiner;
-	};
-	
-	// Die Namen der Spalten die angezeigt werden sollen
-	/*public enum Spalten {
-		name("Name"),
-		sorte("Sorte"),
-		art("Art"),
-		kostenKlasse("SKT"),
-		probe("Probe"),
-		plus("+"),
-		minus("-");
-		private String bezeichner; // Name der Angezeigt wird
-		
-		private Spalten(String value) {
-			if (value.equals("+") || value.equals("-")) {
-				bezeichner = value;
-			} else {
-				bezeichner = ProgAdmin.library.getShortTxt(value);
-			}
-		}
-		
-		public String toString() {
-			return bezeichner;
-		}
-		
-		public Spalten[] getSpaltenAuswahl() {
-			return null;
-		}
-		
-		public Spalten[] getSpaltenAusgewaehlt() {
-			return null;
-		}
-		
-		public Spalten[] getSpaltenEditor() {
-			return null;
-		}
-		
-	};*/
-
+		bla;
+	}
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.GUI.views.ViewSchema#getCellValue(java.lang.Object, java.lang.Enum)
@@ -93,65 +44,22 @@ public class TalentView implements SpaltenSchema {
 		ProgAdmin.logger.severe("Case-Fall konnte nicht gefunden werden!");
 		return null;
 	}
-
+	
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.GUI.views.ViewSchema#getComparator(java.lang.Enum)
+	 * @see org.d3s.alricg.gui.views.ViewSchema#setCellValue()
 	 */
-	public Comparator< ? > getComparator(Object column) {
-		switch ((TalentSpaltenEnum) column) {
-		case name: 	return new Comparator() {
-						public int compare(Object arg0, Object arg1) {
-							String str1, str2;
-							
-							if (arg0 instanceof String) {
-								str1 = (String) arg0;
-							} else {
-								str1 = ((Talent) arg0).getName();
-							}
-							
-							if (arg1 instanceof String) {
-								str2 = (String) arg1;
-							} else {
-								str2 = ((Talent) arg1).getName();
-							}
-							
-							return str1.compareTo(str2);
-						}
-					};
-		case sorte: return new Comparator<Talent>() {
-						public int compare(Talent arg0, Talent arg1) {
-							return arg0.getSorte().toString().compareTo(arg1.getSorte().toString());
-						}
-					};
-		case art: 	return new Comparator<Talent>() {
-						public int compare(Talent arg0, Talent arg1) {
-							return arg0.getArt().toString().compareTo(arg1.getArt().toString());
-						}
-					};
-		case kostenKlasse: return new Comparator<Talent>() {
-								public int compare(Talent arg0, Talent arg1) {
-									return arg0.getKostenKlasse().toString().compareTo(arg1.getKostenKlasse().toString());
-								}
-							};
-		}
-		
-		ProgAdmin.logger.severe("Case-Fall konnte nicht gefunden werden!");
-		return null;
+	public void setCellValue(Object newValue, Object object, Object column) {
+		// noop!
 	}
 
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.GUI.views.ViewSchema#isSortable(java.lang.Enum)
+	 * @see org.d3s.alricg.gui.views.ViewSchema#isCellEditable()
 	 */
-	public boolean isSortable(Object column) {
-		switch ((TalentSpaltenEnum) column) {
-		case probe: return false;
-		case plus: 	return false;
-		case minus: return false;
-		}
-		
+	public boolean isCellEditable(Object object, Object column) {
 		return true;
 	}
 
+	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.GUI.views.ViewSchema#getToolTip(java.lang.Object, java.lang.Enum)
 	 */
@@ -195,24 +103,7 @@ public class TalentView implements SpaltenSchema {
 		ProgAdmin.logger.severe("Case-Fall konnte nicht gefunden werden!");
 		return null;
 	}
-
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.GUI.views.ViewSchema#getHeaderToolTip(java.lang.Enum)
-	 */
-	public String getHeaderToolTip(Object column) {
-        final TextStore lib = ProgAdmin.library;
-		switch ((TalentSpaltenEnum) column) {
-			case name: 	return lib.getToolTipTxt("TblHeaderName");
-			case sorte: return lib.getToolTipTxt("TblHeaderTalentSorte");
-			case art: 	return lib.getToolTipTxt("TblHeaderTalentArt");
-			case kostenKlasse: return lib.getToolTipTxt("TblHeaderKostenklasse");
-			case probe: return lib.getToolTipTxt("TblHeaderProbe");
-			case plus: 	return lib.getToolTipTxt("TblHeaderPlusButton");
-			case minus: 	return lib.getToolTipTxt("TblHeaderMinusButton");
-            default: return null;
-		}
-	}
-
+	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.GUI.views.ViewSchema#getEnums()
 	 */
@@ -256,19 +147,4 @@ public class TalentView implements SpaltenSchema {
 	public Enum[] getOrdnungElem() {
 		return Ordnung.values();
 	}
-	
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.ViewSchema#setCellValue()
-	 */
-	public void setCellValue(Object newValue, Object object, Object column) {
-		// noop!
-	}
-
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.ViewSchema#isCellEditable()
-	 */
-	public boolean isCellEditable(Object object, Object column) {
-		return true;
-	}
-
 }

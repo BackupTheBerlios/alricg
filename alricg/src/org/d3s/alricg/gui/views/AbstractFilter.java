@@ -13,7 +13,14 @@ package org.d3s.alricg.gui.views;
  *
  * @author V. Strelow
  */
-public abstract class AbstractFilter {
+public class AbstractFilter {
+	
+	public enum Ordnung {
+		bla,
+		bli;
+	}
+	
+	
 	
 	public void filter() {
 		

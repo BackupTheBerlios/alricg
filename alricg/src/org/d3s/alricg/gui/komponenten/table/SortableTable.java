@@ -28,7 +28,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import org.d3s.alricg.gui.komponenten.MultiIcon;
-import org.d3s.alricg.gui.views.ViewSchema;
+import org.d3s.alricg.gui.views.SpaltenSchema;
 
 import com.sun.java.swing.plaf.motif.MotifGraphicsUtils;
 
@@ -181,7 +181,7 @@ public class SortableTable extends JTable {
      * Liefert das benutze Schema zum Anzeigen der Elemente
      * @return Das Benutze Schema für die Elemente
      */
-    public ViewSchema getViewSchema() {
+    public SpaltenSchema getViewSchema() {
     	return model.getViewSchema();
     } 
     
@@ -264,7 +264,7 @@ class ButtonRenderer implements TableCellRenderer {
 				boolean isSelected, boolean hasFocus, int row, int column) {
 
 		// Prüfen, ob dort überhaupt ein Button hin soll
-		if (!value.equals(ViewSchema.buttonValue)) {
+		if (!value.equals(SpaltenSchema.buttonValue)) {
 			// Wenn nicht wird ein Label eingefügt
 			if (isSelected) {
 				label.setForeground(table.getSelectionForeground());
@@ -323,7 +323,7 @@ class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
 						boolean isSelected, int row, int column) {
 		
 		// Prüfen, ob dort überhaupt ein Button hin soll
-		if (!value.equals(ViewSchema.buttonValue)) {
+		if (!value.equals(SpaltenSchema.buttonValue)) {
 			// Wenn nicht wird ein Label eingefügt
 			if (isSelected) {
 				label.setForeground(table.getSelectionForeground());

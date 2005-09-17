@@ -55,7 +55,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
-import org.d3s.alricg.gui.views.ViewSchema;
+import org.d3s.alricg.gui.views.SpaltenSchema;
 
 /**
  * This is a wrapper class takes a TreeTableModel and implements 
@@ -73,7 +73,7 @@ public class TreeTableModelAdapter extends AbstractTableModel
 {
     JTree tree;
     SortableTreeModel treeTableModel;
-    ViewSchema viewSchema;
+    SpaltenSchema viewSchema;
 
     public TreeTableModelAdapter(SortableTreeModel treeTableModel, JTree tree) {
         this.tree = tree;
@@ -202,7 +202,7 @@ public class TreeTableModelAdapter extends AbstractTableModel
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.gui.komponenten.table.SortableTableModelInterface#getViewSchema()
 	 */
-	public ViewSchema getViewSchema() {
+	public SpaltenSchema getViewSchema() {
 		return viewSchema;
 	}
 }

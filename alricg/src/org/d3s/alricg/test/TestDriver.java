@@ -40,6 +40,7 @@ import org.d3s.alricg.gui.komponenten.table.SortableTreeTable;
 import org.d3s.alricg.gui.komponenten.table.TreeTableModel;
 import org.d3s.alricg.gui.views.TalentView;
 import org.d3s.alricg.gui.views.ZauberView;
+import org.d3s.alricg.gui.views.talent.TalentSpaltenEnum;
 import org.d3s.alricg.test.treeTable.JTreeTable;
 
 /**
@@ -139,8 +140,8 @@ public class TestDriver {
 		JFrame frame = new JFrame("SortableTableTest");
 		ArrayList<Talent> array;
 		
-		SortableTableModel tableModel = new SortableTableModel(new TalentView(), TalentView.Spalten.values());
-		SortableTreeModel treeModel = new SortableTreeModel(new TalentView(), TalentView.Spalten.values(), "Talente");
+		SortableTableModel tableModel = new SortableTableModel(new TalentView(), TalentSpaltenEnum.getSpaltenGesamt() );
+		SortableTreeModel treeModel = new SortableTreeModel(new TalentView(), TalentSpaltenEnum.getSpaltenGesamt(), "Talente");
 		
 		array = (ArrayList<Talent>) new ArrayList(
 					ProgAdmin.data.getUnmodifieableCollection(CharKomponente.talent)

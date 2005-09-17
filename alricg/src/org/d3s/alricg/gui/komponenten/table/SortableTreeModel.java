@@ -19,7 +19,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Herkunft;
 import org.d3s.alricg.charKomponenten.HerkunftVariante;
-import org.d3s.alricg.gui.views.ViewSchema;
+import org.d3s.alricg.gui.views.SpaltenSchema;
 
 /**
  * <u>Beschreibung:</u><br>
@@ -35,12 +35,12 @@ import org.d3s.alricg.gui.views.ViewSchema;
  */
 public class SortableTreeModel<E> extends AbstractTreeTableModel {
 	private final Object[] columns; // Die Spalten-Titel
-	private final ViewSchema schema; // Spezifische Methoden für Typ <E>
+	private final SpaltenSchema schema; // Spezifische Methoden für Typ <E>
 	private final DefaultMutableTreeNode root; // Wurzel-Knoten
 	private boolean[] lastAscSorted; // Sortierrichtung
 	private NodeComparator nodeComp; // Comparator für Nodes
 	
-	public SortableTreeModel(ViewSchema schema, Object[] columns, String rootText) {
+	public SortableTreeModel(SpaltenSchema schema, Object[] columns, String rootText) {
 		super(new DefaultMutableTreeNode(rootText));
     	
 		this.columns = columns;
@@ -56,7 +56,7 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 	 * Wird genutzt von dem TreeTableModelAdapter
 	 * @return Das benutze Schema dieses Modells
 	 */
-	public ViewSchema getSchema() {
+	public SpaltenSchema getSchema() {
 		return schema;
 	}
 	
