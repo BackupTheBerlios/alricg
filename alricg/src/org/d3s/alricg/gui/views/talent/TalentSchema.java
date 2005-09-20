@@ -33,7 +33,7 @@ public class TalentSchema implements WorkSchema {
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.GUI.views.ViewSchema#getCellValue(java.lang.Object, java.lang.Enum)
+	 * @see org.d3s.alricg.gui.views.WorkSchema#getCellValue(java.lang.Object, java.lang.Enum)
 	 */
 	public Object getCellValue(Object object, Object column) {
 		
@@ -52,22 +52,25 @@ public class TalentSchema implements WorkSchema {
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.ViewSchema#setCellValue()
+	 * @see org.d3s.alricg.gui.views.WorkSchema#setCellValue()
 	 */
 	public void setCellValue(Object newValue, Object object, Object column) {
 		// noop!
 	}
 
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.ViewSchema#isCellEditable()
+	 * @see org.d3s.alricg.gui.views.WorkSchema#isCellEditable()
 	 */
 	public boolean isCellEditable(Object object, Object column) {
-		return true;
+		if (column.equals(TalentSpalten.Spalten.name)) {
+			return true;
+		}
+		return false;
 	}
 
 	
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.GUI.views.ViewSchema#getToolTip(java.lang.Object, java.lang.Enum)
+	 * @see org.d3s.alricg.gui.views.WorkSchema#getToolTip(java.lang.Object, java.lang.Enum)
 	 */
 	public String getToolTip(Object object, Object column) {
 		final TextStore lib = ProgAdmin.library;
@@ -111,14 +114,14 @@ public class TalentSchema implements WorkSchema {
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.GUI.views.ViewSchema#getEnums()
+	 * @see org.d3s.alricg.gui.views.WorkSchema#getEnums()
 	 */
 	public Enum[] getSortOrdner() {
 		return Talent.Sorte.values();
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.GUI.views.ViewSchema#getOrdinalFromElement(org.d3s.alricg.CharKomponenten.CharElement)
+	 * @see org.d3s.alricg.gui.views.WorkSchema#getOrdinalFromElement(org.d3s.alricg.CharKomponenten.CharElement)
 	 */
 	public int[] getOrdinalFromElement(Object element) {
 		int[] tmp = new int[1];
@@ -127,24 +130,31 @@ public class TalentSchema implements WorkSchema {
 	}
 
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.ViewSchema#getFilterElem()
+	 * @see org.d3s.alricg.gui.views.WorkSchema#getFilterElem()
 	 */
 	public Enum[] getFilterElem() {
 		return Filter.values();
 	}
 
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.ViewSchema#getOrdnungElem()
+	 * @see org.d3s.alricg.gui.views.WorkSchema#getOrdnungElem()
 	 */
 	public Enum[] getOrdnungElem() {
 		return Ordnung.values();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.d3s.alricg.gui.views.WorkSchema#hasSammelbegriff()
+	 */
 	public boolean hasSammelbegriff() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
-
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.d3s.alricg.gui.views.WorkSchema#doFilterElements(java.lang.Enum, java.util.ArrayList)
+	 */
 	public ArrayList doFilterElements(Enum filter, ArrayList aList) {
 		// TODO Auto-generated method stub
 		return null;

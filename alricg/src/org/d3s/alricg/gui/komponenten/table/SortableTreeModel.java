@@ -17,9 +17,9 @@ import java.util.HashMap;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.d3s.alricg.charKomponenten.CharElement;
-import org.d3s.alricg.charKomponenten.Herkunft;
-import org.d3s.alricg.charKomponenten.HerkunftVariante;
 import org.d3s.alricg.gui.views.SpaltenSchema;
+import org.d3s.alricg.gui.views.WorkSchema;
+import org.d3s.alricg.gui.views.SpaltenSchema.SpaltenArt;
 
 /**
  * <u>Beschreibung:</u><br>
@@ -35,16 +35,18 @@ import org.d3s.alricg.gui.views.SpaltenSchema;
  */
 public class SortableTreeModel<E> extends AbstractTreeTableModel {
 	private final Object[] columns; // Die Spalten-Titel
-	private final SpaltenSchema schema; // Spezifische Methoden für Typ <E>
+	private final SpaltenSchema spaSchema; // Spezifische Methoden für die Spalten
+	private final WorkSchema worSchema; // Spezifische Methoden für Typ <E>
 	private final DefaultMutableTreeNode root; // Wurzel-Knoten
 	private boolean[] lastAscSorted; // Sortierrichtung
 	private NodeComparator nodeComp; // Comparator für Nodes
 	
-	public SortableTreeModel(SpaltenSchema schema, Object[] columns, String rootText) {
+	public SortableTreeModel(SpaltenSchema sSchema, WorkSchema wSchema, SpaltenArt art, String rootText) {
 		super(new DefaultMutableTreeNode(rootText));
     	
-		this.columns = columns;
-		this.schema = schema;
+		this.columns = sSchema.getSpalten(art);
+		this.spaSchema = sSchema;
+		this.worSchema = wSchema;
 		this.root = (DefaultMutableTreeNode) this.getRoot();
 		this.lastAscSorted = new boolean[columns.length];
 		this.nodeComp = new NodeComparator();
@@ -56,8 +58,16 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 	 * Wird genutzt von dem TreeTableModelAdapter
 	 * @return Das benutze Schema dieses Modells
 	 */
-	public SpaltenSchema getSchema() {
-		return schema;
+	public SpaltenSchema getSpaltenSchema() {
+		return spaSchema;
+	}
+	
+	/**
+	 * Wird genutzt von dem TreeTableModelAdapter
+	 * @return Das benutze Schema dieses Modells
+	 */
+	public WorkSchema getWorkSchema() {
+		return worSchema;
 	}
 	
 	/**
@@ -72,7 +82,7 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 	protected void ordneNachOrdnern(ArrayList<E> elemListe,
 										DefaultMutableTreeNode nodeToAdd) 
 	{
-		Object[] ordner = schema.getSortOrdner();
+		Object[] ordner = worSchema.getSortOrdner();
 		ArrayList<DefaultMutableTreeNode>[] tmpArray;
 		DefaultMutableTreeNode tmpNode;
 		int[] tmpIntArray;
@@ -99,7 +109,7 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 //		Jedes Element der list in ein oder mehrer Arrays einordenen,
 //		passend zur Ordner
 		for (int i = 0; i < elemListe.size(); i++) {
-			tmpIntArray = schema.getOrdinalFromElement(elemListe.get(i));
+			tmpIntArray = worSchema.getOrdinalFromElement(elemListe.get(i));
 			
 			for (int ii = 0; ii < tmpIntArray.length; ii++) {
 				tmpArray[tmpIntArray[ii]].add(new DefaultMutableTreeNode(elemListe.get(i)));
@@ -140,7 +150,7 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 		DefaultMutableTreeNode tmpNode;
 		
 		// Guard ob diese Ordnung möglich ist (nur bei Herkunft)
-		if (!schema.hasSammelbegriff()) {
+		if (!worSchema.hasSammelbegriff()) {
 			return;
 		}
 		
@@ -308,7 +318,7 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 	 * @return true: Die Spalte mit der Nummer "column" ist sortierbar, sonst false
 	 */
 	public boolean isSortable(int column) {
-		return schema.isSortable(columns[column]);
+		return spaSchema.isSortable(columns[column]);
 	}
 
 	/**
@@ -318,7 +328,7 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 	public void sortTableByColumn(int column) {
 		
 		// Den "echten" Comparator setzen
-		nodeComp.setRealComparator(schema.getComparator(columns[column]));
+		nodeComp.setRealComparator(spaSchema.getComparator(columns[column]));
 		
 		sortHelp ((DefaultMutableTreeNode) root, 
 				nodeComp, 
@@ -406,7 +416,7 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
      */
     public boolean isCellEditable(Object node, int column) {
 
-    	return schema.isCellEditable(
+    	return worSchema.isCellEditable(
     			((DefaultMutableTreeNode) node).getUserObject(), 
 				columns[column]);
    }
@@ -419,7 +429,7 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 	@Override
 	public void setValueAt(Object aValue, Object node, int column) {
 
-		schema.setCellValue(aValue, 
+		worSchema.setCellValue(aValue, 
 				((DefaultMutableTreeNode) node).getUserObject(), 
 				columns[column]);
 	}
@@ -443,7 +453,7 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 			}
 		}
 		
-		return schema.getCellValue(mutNode.getUserObject(), columns[column]);
+		return worSchema.getCellValue(mutNode.getUserObject(), columns[column]);
 	}
 
     /* (non-Javadoc) Methode überschrieben

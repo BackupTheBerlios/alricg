@@ -182,7 +182,7 @@ public class SortableTable extends JTable {
      * @return Das Benutze Schema für die Elemente
      */
     public SpaltenSchema getViewSchema() {
-    	return model.getViewSchema();
+    	return model.getSpaltenSchema();
     } 
     
 }

@@ -20,7 +20,7 @@ import org.d3s.alricg.store.TextStore;
 public class TalentSpalten implements SpaltenSchema {
 	public enum Spalten {
 		name("Name"),
-		stern("-"),
+		stern("*"),
 		stufe("-"),
 		modis("-"),
 		sorte("Sorte"),
@@ -39,7 +39,7 @@ public class TalentSpalten implements SpaltenSchema {
 		 * @param value Der Tag um den bezeichner aus der Library zu laden
 		 */
 		private Spalten(String value) {
-			if (value.equals("+") || value.equals("-")) {
+			if (value.equals("+") || value.equals("-") || value.equals("*")) {
 				bezeichner = value;
 			} else {
 				bezeichner = ProgAdmin.library.getShortTxt(value);
@@ -51,34 +51,41 @@ public class TalentSpalten implements SpaltenSchema {
 		}
 	}
 	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.GUI.views.ViewSchema#getSpalten()
+	 */
 	public Enum[] getSpalten(SpaltenArt art) {
 		
-		if ( art.equals(SpaltenArt.objektDirekt) ) {
+		switch (art) {
+		case objektDirekt:
 			return new Spalten[] {
-					Spalten.name, 
-					Spalten.sorte, 
-					Spalten.art, 
-					Spalten.kostenKlasse, 
-					Spalten.probe, 
-					Spalten.plus, 
-					Spalten.minus};
-		} else if ( art.equals(SpaltenArt.objektLink) ) {
+				Spalten.name, 
+				Spalten.sorte, 
+				Spalten.art, 
+				Spalten.kostenKlasse, 
+				Spalten.probe, 
+				Spalten.plus, 
+				Spalten.minus};
 			
-		} else if ( art.equals(SpaltenArt.editor) ) {
-		
+		case objektLink:
+		case editor:
 		}
 		
 		return null;
 	}
 
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.GUI.views.ViewSchema#initTable()
+	 */
 	public void initTable(SortableTable table, SpaltenArt art) {
 		
-		if ( art.equals(SpaltenArt.objektDirekt) ) {
-
-		} else if ( art.equals(SpaltenArt.objektLink) ) {
+		switch (art) {
+		case objektDirekt:
+			table.setColumnButton(5, "+");
+			table.setColumnButton(6, "-");
 			
-		} else if ( art.equals(SpaltenArt.editor) ) {
-		
+		case objektLink:
+		case editor:
 		}
 		
 	}

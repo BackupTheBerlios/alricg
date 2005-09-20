@@ -56,6 +56,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
 import org.d3s.alricg.gui.views.SpaltenSchema;
+import org.d3s.alricg.gui.views.WorkSchema;
 
 /**
  * This is a wrapper class takes a TreeTableModel and implements 
@@ -71,14 +72,16 @@ import org.d3s.alricg.gui.views.SpaltenSchema;
 public class TreeTableModelAdapter extends AbstractTableModel 
 									implements SortableTableModelInterface 
 {
-    JTree tree;
-    SortableTreeModel treeTableModel;
-    SpaltenSchema viewSchema;
+    private JTree tree;
+    private SortableTreeModel treeTableModel;
+    private SpaltenSchema spaSchema;
+    private WorkSchema worSchema;
 
     public TreeTableModelAdapter(SortableTreeModel treeTableModel, JTree tree) {
         this.tree = tree;
         this.treeTableModel = treeTableModel;
-        this.viewSchema = treeTableModel.getSchema();
+        this.spaSchema = treeTableModel.getSpaltenSchema();
+        this.worSchema = treeTableModel.getWorkSchema();
         
 		tree.addTreeExpansionListener(new TreeExpansionListener() {
 		    // Don't use fireTableRowsInserted() here; the selection model
@@ -165,7 +168,7 @@ public class TreeTableModelAdapter extends AbstractTableModel
 	 * @see org.d3s.alricg.GUI.komponenten.table.SortableTableModelInterface#isSortable(int)
 	 */
 	public boolean isSortable(int column) {
-		return viewSchema.isSortable(treeTableModel.getColumnObject(column));
+		return spaSchema.isSortable(treeTableModel.getColumnObject(column));
 	}
 
 	/* (non-Javadoc) Methode überschrieben
@@ -186,7 +189,7 @@ public class TreeTableModelAdapter extends AbstractTableModel
 	 * @see org.d3s.alricg.GUI.komponenten.table.SortableTableModelInterface#getToolTip(int, int)
 	 */
 	public String getToolTip(int row, int column) {
-		return viewSchema.getToolTip(
+		return worSchema.getToolTip(
 				((DefaultMutableTreeNode) nodeForRow(row)).getUserObject(),
 				treeTableModel.getColumnObject(column)
 			);
@@ -196,14 +199,21 @@ public class TreeTableModelAdapter extends AbstractTableModel
 	 * @see org.d3s.alricg.GUI.komponenten.table.SortableTableModelInterface#getHeaderToolTip(int)
 	 */
 	public String getHeaderToolTip(int column) {
-		return viewSchema.getHeaderToolTip(treeTableModel.getColumnObject(column));
+		return spaSchema.getHeaderToolTip(treeTableModel.getColumnObject(column));
 	}
 
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.gui.komponenten.table.SortableTableModelInterface#getViewSchema()
 	 */
-	public SpaltenSchema getViewSchema() {
-		return viewSchema;
+	public SpaltenSchema getSpaltenSchema() {
+		return spaSchema;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.d3s.alricg.gui.komponenten.table.SortableTableModelInterface#getWorkSchema()
+	 */
+	public WorkSchema getWorkSchema() {
+		return worSchema;
 	}
 }
 

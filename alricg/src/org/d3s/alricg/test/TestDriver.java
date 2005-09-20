@@ -38,9 +38,12 @@ import org.d3s.alricg.gui.komponenten.table.SortableTableModel;
 import org.d3s.alricg.gui.komponenten.table.SortableTreeModel;
 import org.d3s.alricg.gui.komponenten.table.SortableTreeTable;
 import org.d3s.alricg.gui.komponenten.table.TreeTableModel;
-import org.d3s.alricg.gui.views.TalentView;
-import org.d3s.alricg.gui.views.ZauberView;
-import org.d3s.alricg.gui.views.talent.TalentSpaltenEnum;
+import org.d3s.alricg.gui.views.SpaltenSchema;
+import org.d3s.alricg.gui.views.SpaltenSchema.SpaltenArt;
+import org.d3s.alricg.gui.views.talent.TalentSchema;
+import org.d3s.alricg.gui.views.talent.TalentSpalten;
+import org.d3s.alricg.gui.views.zauber.ZauberSchema;
+import org.d3s.alricg.gui.views.zauber.ZauberSpalten;
 import org.d3s.alricg.test.treeTable.JTreeTable;
 
 /**
@@ -112,7 +115,7 @@ public class TestDriver {
 	public void testSortableTableZauber() {
 		JFrame frame = new JFrame("SortableTableTest");
 		ArrayList<Talent> array;
-		SortableTreeModel treeModel = new SortableTreeModel(new ZauberView(), ZauberView.Spalten.values(), "Zauber");
+		SortableTreeModel treeModel = new SortableTreeModel(new ZauberSpalten(), new ZauberSchema(), SpaltenSchema.SpaltenArt.objektDirekt, "Zauber");
 
 		array = (ArrayList<Talent>) new ArrayList(
 				ProgAdmin.data.getUnmodifieableCollection(CharKomponente.zauber)
@@ -140,8 +143,8 @@ public class TestDriver {
 		JFrame frame = new JFrame("SortableTableTest");
 		ArrayList<Talent> array;
 		
-		SortableTableModel tableModel = new SortableTableModel(new TalentView(), TalentSpaltenEnum.getSpaltenGesamt() );
-		SortableTreeModel treeModel = new SortableTreeModel(new TalentView(), TalentSpaltenEnum.getSpaltenGesamt(), "Talente");
+		SortableTableModel tableModel = new SortableTableModel(new TalentSpalten(), new TalentSchema(), SpaltenArt.objektDirekt );
+		SortableTreeModel treeModel = new SortableTreeModel(new TalentSpalten(), new TalentSchema(), SpaltenArt.objektDirekt, "Talente");
 		
 		array = (ArrayList<Talent>) new ArrayList(
 					ProgAdmin.data.getUnmodifieableCollection(CharKomponente.talent)

@@ -15,6 +15,8 @@ import java.util.Collections;
 import javax.swing.table.AbstractTableModel;
 
 import org.d3s.alricg.gui.views.SpaltenSchema;
+import org.d3s.alricg.gui.views.WorkSchema;
+import org.d3s.alricg.gui.views.SpaltenSchema.SpaltenArt;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -31,12 +33,15 @@ import org.d3s.alricg.gui.views.SpaltenSchema;
 public class SortableTableModel<E> extends AbstractTableModel {
 	private ArrayList<E> dataList = new ArrayList<E>();
 	private Enum[] columns;
-	private SpaltenSchema schema;
+	private final SpaltenSchema spaSchema; // Spezifische Methoden für die Spalten
+	private final WorkSchema worSchema; // Spezifische Methoden für Typ <E>
 	private boolean[] lastAscSorted;
 	
-	public SortableTableModel(SpaltenSchema schema, Enum[] columns) {
-		this.columns = columns;
-		this.schema = schema;
+	public SortableTableModel(SpaltenSchema sSchema, WorkSchema wSchema, SpaltenArt art) {
+		
+		this.columns = sSchema.getSpalten(art);
+		this.spaSchema = sSchema;
+		this.worSchema = wSchema;
 		lastAscSorted = new boolean[columns.length];
 		
 		Arrays.fill(lastAscSorted, false); // Damit überall ein Wert steht
@@ -75,27 +80,27 @@ public class SortableTableModel<E> extends AbstractTableModel {
 	 * @see org.d3s.alricg.GUI.komponenten.table.SortableTableModelInterface#getHeaderToolTip(int)
 	 */
 	public String getHeaderToolTip(int colIdx) {
-		return schema.getHeaderToolTip(columns[colIdx]);
+		return spaSchema.getHeaderToolTip(columns[colIdx]);
 	}
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.GUI.komponenten.table.SortableTableModelInterface#getToolTip(int, int)
 	 */
 	public String getToolTip(int rowIdx, int colIdx) {
-		return schema.getToolTip(dataList.get(rowIdx), columns[colIdx]);
+		return worSchema.getToolTip(dataList.get(rowIdx), columns[colIdx]);
 	}
 
 	/* (non-Javadoc) Methode überschrieben
 	 * @see javax.swing.table.TableModel#getValueAt(int, int)
 	 */
 	public Object getValueAt(int rowIdx, int colIdx) {
-		return schema.getCellValue(dataList.get(rowIdx), columns[colIdx]);
+		return worSchema.getCellValue(dataList.get(rowIdx), columns[colIdx]);
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see javax.swing.table.TableModel#setValueAt(java.lang.Object, int, int)
 	 */
 	public void setValueAt(Object aValue, int rowIdx, int colIdx) {
-		schema.setCellValue(aValue, dataList.get(rowIdx), columns[colIdx]);
+		worSchema.setCellValue(aValue, dataList.get(rowIdx), columns[colIdx]);
 	}
  
 	/* (non-Javadoc) Methode überschrieben
@@ -103,14 +108,14 @@ public class SortableTableModel<E> extends AbstractTableModel {
 	 */
 	@Override
 	public boolean isCellEditable(int rowIdx, int colIdx) {
-		return schema.isCellEditable(dataList.get(rowIdx), columns[colIdx]);
+		return worSchema.isCellEditable(dataList.get(rowIdx), columns[colIdx]);
 	}
 
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.GUI.komponenten.table.SortableTableModelInterface#sortTableByColumn(int)
 	 */
 	public void sortTableByColumn(int colIdx) {
-		Collections.sort(dataList, schema.getComparator(columns[colIdx]));
+		Collections.sort(dataList, spaSchema.getComparator(columns[colIdx]));
 		
 		// Somit wird beim zweiten klick die Reihenfolge vertauscht
 		if ( lastAscSorted[colIdx]) {
@@ -125,7 +130,7 @@ public class SortableTableModel<E> extends AbstractTableModel {
 	 * @see org.d3s.alricg.GUI.komponenten.table.SortableTableModelInterface#isSortable(int)
 	 */
 	public boolean isSortable(int colIdx) {
-		return schema.isSortable(columns[colIdx]);
+		return spaSchema.isSortable(columns[colIdx]);
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -139,7 +144,7 @@ public class SortableTableModel<E> extends AbstractTableModel {
 	 * @see org.d3s.alricg.gui.komponenten.table.SortableTableModelInterface#getViewSchema()
 	 */
 	public SpaltenSchema getViewSchema() {
-		return schema;
+		return spaSchema;
 	}
 	
 }
