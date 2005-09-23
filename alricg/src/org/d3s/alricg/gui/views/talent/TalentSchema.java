@@ -65,7 +65,9 @@ public class TalentSchema implements WorkSchema {
 	 * @see org.d3s.alricg.gui.views.WorkSchema#isCellEditable()
 	 */
 	public boolean isCellEditable(Object object, Object column) {
-		if (column.equals(TalentSpalten.Spalten.name)) {
+		if (column.equals(TalentSpalten.Spalten.name)
+				|| column.equals(TalentSpalten.Spalten.minus)
+				|| column.equals(TalentSpalten.Spalten.plus) ) {
 			return true;
 		}
 		return false;

@@ -69,10 +69,10 @@ public class TalentSpalten implements SpaltenSchema {
 		switch (art) {
 		case objektDirekt:
 			return new Spalten[] {
-				Spalten.name,
-				Spalten.stern,
-				Spalten.sorte,
-				Spalten.art, 
+				Spalten.name, // 0
+				Spalten.stern, // 1
+				Spalten.sorte, // 2
+				Spalten.art, // 3
 				Spalten.kostenKlasse, 
 				Spalten.probe, 
 				Spalten.plus, 
@@ -124,11 +124,16 @@ public class TalentSpalten implements SpaltenSchema {
 		switch (art) {
 		case objektDirekt:
 			table.setColumnMultiImage(1); // Für den "stern"
-			table.setColumnButton(5, "+");
-			table.setColumnButton(6, "-");
+			table.setColumnTextImage(4, false); // Für die SKT
+			//table.setColumnButton(5, "+");
+			//table.setColumnButton(6, "-");
 			
 		case objektLinkGen:
+			
 		case editorAuswahl:
+			table.setColumnButton(Spalten.plus.toString(), "+");
+		case editorGewaehlt:
+			table.setColumnButton(Spalten.minus.toString(), "-");
 		}
 		
 	}

@@ -140,13 +140,13 @@ public class SortableTableModel<E> extends AbstractTableModel {
 		return !lastAscSorted[colIdx];
 	}
 
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.komponenten.table.SortableTableModelInterface#getViewSchema()
-	 */
-	public SpaltenSchema getViewSchema() {
+	public SpaltenSchema getSpaltenSchema() {
 		return spaSchema;
 	}
 	
+	public WorkSchema getWorkSchema() {
+		return worSchema;
+	}
 }
 
 

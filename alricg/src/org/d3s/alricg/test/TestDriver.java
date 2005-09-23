@@ -125,9 +125,7 @@ public class TestDriver {
 		
 		SortableTreeTable sTree = new SortableTreeTable(treeModel);
 		
-		sTree.setColumnImage(1);
-		sTree.setColumnButton(5, "+");
-		sTree.setColumnButton(6, "-");
+		treeModel.getSpaltenSchema().initTable(sTree, SpaltenSchema.SpaltenArt.objektDirekt);
 		
 		//JTreeTable treeTable = new JTreeTable(treeModel);
 		
@@ -143,8 +141,8 @@ public class TestDriver {
 		JFrame frame = new JFrame("SortableTableTest");
 		ArrayList<Talent> array;
 		
-		SortableTableModel tableModel = new SortableTableModel(new TalentSpalten(), new TalentSchema(), SpaltenArt.objektDirekt );
-		SortableTreeModel treeModel = new SortableTreeModel(new TalentSpalten(), new TalentSchema(), SpaltenArt.objektDirekt, "Talente");
+		SortableTableModel tableModel = new SortableTableModel(new TalentSpalten(), new TalentSchema(), SpaltenArt.editorGewaehlt );
+		SortableTreeModel treeModel = new SortableTreeModel(new TalentSpalten(), new TalentSchema(), SpaltenArt.editorGewaehlt, "Talente");
 		
 		array = (ArrayList<Talent>) new ArrayList(
 					ProgAdmin.data.getUnmodifieableCollection(CharKomponente.talent)
@@ -172,6 +170,10 @@ public class TestDriver {
 		SortableTable sTable = new SortableTable();
 		sTable.setModel(tableModel);
 		
+		treeModel.getSpaltenSchema().initTable(sTree, SpaltenArt.editorGewaehlt);
+		tableModel.getSpaltenSchema().initTable(sTable, SpaltenArt.editorGewaehlt);
+		
+		/*
 		TableColumn sportColumn = sTree.getColumnModel().getColumn(2);
 		
 		JComboBox comboBox = new JComboBox();
@@ -182,10 +184,11 @@ public class TestDriver {
 		comboBox.addItem("Teaching high school");
 		comboBox.addItem("None");
 		sportColumn.setCellEditor(new DefaultCellEditor(comboBox));
+		*/
 		
 		//sTree.setColumnImage(4);
-		sTree.setColumnButton(5, "+");
-		sTree.setColumnButton(6, "-");
+		//sTree.setColumnButton(5, "+");
+		//sTree.setColumnButton(6, "-");
 		
 		//JTreeTable treeTable = new JTreeTable(treeModel);
 		
