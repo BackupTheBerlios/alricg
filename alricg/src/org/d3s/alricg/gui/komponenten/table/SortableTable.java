@@ -159,7 +159,7 @@ public class SortableTable extends JTable {
     public void setColumnButton(int column, String buttonText) {
 		
     	// Der Renderer wird mit einem neuen Button erstellt, der 
-    	// den selben Text trägt wie der gegebende Button
+    	// den selben Text trägt wie der gegebende Text
 		this.getColumn(getColumnName(column)).setCellRenderer(
 				new ButtonRenderer(new JButton(buttonText)));
 		// Der Editor wird mit dem ORIGINAL Button erstellt
@@ -168,12 +168,23 @@ public class SortableTable extends JTable {
     }
     
     /**
+     * Hiermait wird eine Spalte so eingestellt, das sie einen Text mit 
+     * einem Bild darstellen kann. Es muß 
+     * @param column Die Nummer der Spalte die per Text + Icon dargestellt werden soll
+     * @param isIconVorText true - Erst kommt das Icon, danach der Text, 
+     * 						false - Erst kommt der Text, danach das Icon
+     */
+    public void setColumnTextImage(int column, boolean isIconVorText) {
+		//TODO Implementieren
+	}
+    
+    /**
      * Hiermit wird eine Spalte so eingestellt, das sie ein oder mehrer Icons 
-     * anzeigt. Dafür muß die Spalte "column" 
+     * anzeigt.
      * @param column Die Spalte die ein Bild anzeigen soll
      * @param buttonText Der text auf dem Button
      */
-    public void setColumnImage(int column) {
+    public void setColumnMultiImage(int column) {
     	this.getColumn(getColumnName(column)).setCellRenderer(new ImageRenderer());
     }
     

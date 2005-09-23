@@ -45,8 +45,8 @@ public class ZauberSpalten implements SpaltenSchema {
 	public Enum[] getSpalten(SpaltenArt art) {
 		switch (art) {
 			case objektDirekt:
-			case objektLink:
-			case editor:
+			case objektLinkGen:
+			case editorAuswahl:
 		}
 		
 		return null;
@@ -57,12 +57,12 @@ public class ZauberSpalten implements SpaltenSchema {
 	 */
 	public void initTable(SortableTable table, SpaltenArt art) {
 		if ( art.equals(SpaltenArt.objektDirekt) ) {
-			table.setColumnImage(1);
+			table.setColumnMultiImage(1);
 			table.setColumnButton(5, "+");
 			table.setColumnButton(6, "-");
-		} else if ( art.equals(SpaltenArt.objektLink) ) {
+		} else if ( art.equals(SpaltenArt.objektLinkGen) ) {
 			
-		} else if ( art.equals(SpaltenArt.editor) ) {
+		} else if ( art.equals(SpaltenArt.editorAuswahl) ) {
 		
 		}
 

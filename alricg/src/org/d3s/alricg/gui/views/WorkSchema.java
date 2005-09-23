@@ -9,11 +9,21 @@ package org.d3s.alricg.gui.views;
 
 import java.util.ArrayList;
 
+/**
+ * <u>Beschreibung:</u><br> 
+ * Dient den SortableTreeTable und SortableTables als Vorlage für die Darstellung.
+ * In diesen Schemas werden spezielle Methoden für die Anzeige von Elementen 
+ * zusammengefasst, und zwar nur solche Methoden die von den Elementen in der Tabelle abhängen,
+ * andere Methoden sind in "SpaltenSchema" zu finden.  Da jedes CharElement andere 
+ * Funktionalitäten benötigt, wird für jedesCharElemnt ein Spaltenschema benötigt.
+ * @author V. Strelow
+ */
 public interface WorkSchema {
 	
 	/**
-	 * Wichtig für casting und ob Sammelbegriffe möglich sind
-	 * @return true: Die Elemente dieses Schemas sind CharElemente, sonst false
+	 * Erspart überflüssiges Sortieren.
+	 * @return true: Die Elemente dieses Schemas können auch Sammelbegriffe enthalten,
+	 * 			 sonst false
 	 */
 	public boolean hasSammelbegriff();
 	

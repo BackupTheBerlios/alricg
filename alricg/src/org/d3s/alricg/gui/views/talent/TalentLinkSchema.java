@@ -12,6 +12,14 @@ import java.util.ArrayList;
 
 import org.d3s.alricg.gui.views.WorkSchema;
 
+/**
+ * <u>Beschreibung:</u><br> 
+ * Das Schema für das handling von GeneratorLinks mit Talenten. Die Objekte hier sind Links, 
+ * die als Ziel Talente besitzen. Das Schema wird für ausgewählte Talent bei der Generierung
+ * verwendet.
+ * @see org.d3s.alricg.gui.views.WorkSchema
+ * @author V. Strelow
+ */
 public class TalentLinkSchema implements WorkSchema {
 
 	/*(non-Javadoc)
@@ -19,7 +27,7 @@ public class TalentLinkSchema implements WorkSchema {
 	 */
 	public boolean hasSammelbegriff() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	/* (non-Javadoc)

@@ -17,6 +17,16 @@ import org.d3s.alricg.gui.views.SpaltenSchema;
 import org.d3s.alricg.gui.views.SpaltenSchema.SpaltenArt;
 import org.d3s.alricg.store.TextStore;
 
+/**
+ * 
+ * <u>Beschreibung:</u><br> 
+ * Schema für die Darstellung von Talenten in SortableTables. Hier sind alle Methoden
+ * zusammengefaßt, die NICHT von dem dargestellten Objekt abhängen, sondern nur
+ * von der Objek-Art und der Spalte.
+ * 
+ * @see org.d3s.alricg.gui.views.SpaltenSchema
+ * @author V. Strelow
+ */
 public class TalentSpalten implements SpaltenSchema {
 	public enum Spalten {
 		name("Name"),
@@ -59,16 +69,48 @@ public class TalentSpalten implements SpaltenSchema {
 		switch (art) {
 		case objektDirekt:
 			return new Spalten[] {
+				Spalten.name,
+				Spalten.stern,
+				Spalten.sorte,
+				Spalten.art, 
+				Spalten.kostenKlasse, 
+				Spalten.probe, 
+				Spalten.plus, 
+			};
+			
+		case objektLinkGen:
+			return new Spalten[] {
+				Spalten.name, 
+				Spalten.stufe, 
+				Spalten.modis,
+				Spalten.kostenKlasse, 
+				Spalten.kosten,
+				Spalten.art,
+				Spalten.spezialisierungen,
+				Spalten.auswahl,
+				Spalten.leitTalent,
+				Spalten.minus
+			};
+			
+		case editorAuswahl:
+			return new Spalten[] {
 				Spalten.name, 
 				Spalten.sorte, 
 				Spalten.art, 
 				Spalten.kostenKlasse, 
 				Spalten.probe, 
-				Spalten.plus, 
-				Spalten.minus};
+				Spalten.plus
+			};
+		case editorGewaehlt:
+			return new Spalten[] {
+				Spalten.name, 
+				Spalten.sorte, 
+				Spalten.art, 
+				Spalten.kostenKlasse, 
+				Spalten.probe, 
+				Spalten.minus
+			};
 			
-		case objektLink:
-		case editor:
 		}
 		
 		return null;
@@ -81,11 +123,12 @@ public class TalentSpalten implements SpaltenSchema {
 		
 		switch (art) {
 		case objektDirekt:
+			table.setColumnMultiImage(1); // Für den "stern"
 			table.setColumnButton(5, "+");
 			table.setColumnButton(6, "-");
 			
-		case objektLink:
-		case editor:
+		case objektLinkGen:
+		case editorAuswahl:
 		}
 		
 	}
@@ -136,7 +179,6 @@ public class TalentSpalten implements SpaltenSchema {
 	}
 	
 	// Comperatoren, um Spalten sortieren zu können!
-		
 	private static Comparator compSorte = 
 		new Comparator<Talent>() {
 			public int compare(Talent arg0, Talent arg1) {

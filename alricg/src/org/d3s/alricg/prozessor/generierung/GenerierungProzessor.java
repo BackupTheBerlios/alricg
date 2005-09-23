@@ -467,6 +467,15 @@ public class GenerierungProzessor extends HeldProzessor {
 /**		Minimaler Wert von schlechten Eigenschaften (normal 5) */
 		public final int MIN_SCHLECHT_EIGENSCHAFT_WERT;
 		
+/**		Wie sich der Wert der Muttersprache in abh‰ngigkeit zur KL errechnet (normal -2) */		
+		public final int DIFF_KULGHEIT_MUTTERSPR;
+		
+/**		Wie sich der Wert der Muttersprache in abh‰ngigkeit zur KL errechnet (normal -4) */	
+		public final int DIFF_KULGHEIT_ZWEITSPR;
+		
+/**		Wie groﬂ darf die Different zwischen verteilten Punkten auf AT und PA max. sein (normal 5) */			
+		public final int MAX_DIFF_AT_PA;	
+		
 //		 Der Minimale Wert des Sozialstatus ist "1", auch als variable?
 		
 		public GenerierungsKonstanten() {
@@ -484,6 +493,9 @@ public class GenerierungProzessor extends HeldProzessor {
 			MAX_ZAUBER_AKTIVIERUNG_HZ = 10;
 			MAX_SCHLECHT_EIGENSCHAFT_WERT = 10;
 			MIN_SCHLECHT_EIGENSCHAFT_WERT = 10;
+			DIFF_KULGHEIT_MUTTERSPR = -2;
+			DIFF_KULGHEIT_ZWEITSPR = -4;
+			MAX_DIFF_AT_PA = 5;	
 		}
 		
 	}

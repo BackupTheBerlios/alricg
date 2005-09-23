@@ -19,7 +19,10 @@ import org.d3s.alricg.store.TextStore;
 
 /**
  * <u>Beschreibung:</u><br> 
- *
+ * Das Schema für das handling von Talenten. Die Objekte hier sind direkt Talente, keine Links.
+ * Das Schema wird für die Auswahl von Talenten (Generierung und Management) oder für den 
+ * Editor verwendet.
+ * @see org.d3s.alricg.gui.views.WorkSchema
  * @author V. Strelow
  */
 public class TalentSchema implements WorkSchema {

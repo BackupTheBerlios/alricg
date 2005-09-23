@@ -9,14 +9,18 @@ package org.d3s.alricg.gui.views;
 
 import java.util.Comparator;
 
-import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.gui.komponenten.table.SortableTable;
 
 /**
  * <u>Beschreibung:</u><br> 
  * Dient den SortableTreeTable und SortableTables als Vorlage für die Darstellung.
- * Alle speziellen Methoden für die Anzeige von Elementen werden in diesen Schemas
- * zusammengefasst.
+ * In diesem Schema werden spezielle Methoden für die Anzeige von Elementen  
+ * zusammengefasst, und zwar solche Methoden die nur mit den Spalten der Tabelle, nicht mit
+ * den Elementen in der Tabelle zusammenhängen. Da jedes CharElement andere Spalten benötigt,
+ * wird für jedesCharElemnt ein Spaltenschema benötigt.
+ * In jeder Implementierung des Spaltenschemas wird per Enum angegeben, welche Spalten zu
+ * dem CharElement existieren. Per "getSpalten" werden dann jeweils die passenden 
+ * Spalten geliefert.
  * @author V. Strelow
  */
 public interface SpaltenSchema {
@@ -24,9 +28,20 @@ public interface SpaltenSchema {
 	NamensComparator namensComparator = new NamensComparator();
 	
 	public enum SpaltenArt {
-		objektDirekt, // Wenn die Objekte direkt angezeigt werden z.B. "Talente"
-		objektLink, // Wenn Links mit den Objekten angezeigt werden
-		editor; // Für den Editor (auch direkt Objekte)
+		// Wenn die Objekte direkt angezeigt werden z.B. "Talente"
+		objektDirekt, 
+		
+		// Wenn "GeneratorLinks" mit den Objekten angezeigt werden, für bereist gewählte Links
+		// bei der Generierung
+		objektLinkGen, 
+		
+		// Wenn "HeldenLinks" mit den Objekten angezeigt werden, für bereits gewählte Links
+		// bei dem Management von Helden
+		objektLinkHel, 
+		
+		// Für den Editor (auch objektDirekt, aber mit anderen Spalten)
+		editorAuswahl,
+		editorGewaehlt;
 	}
 	
 	/**
@@ -74,8 +89,10 @@ public interface SpaltenSchema {
 	/**
 	 * <u>Beschreibung:</u><br> 
 	 * Comparator um Namen von CharElementen in einer TreeTable miteinander 
-	 * vergleichen zu können. Es können sowahl Strings als auch unterklassen von 
+	 * vergleichen zu können. Es können sowohl Strings als auch Unterklassen von 
 	 * "CharElement" verglichen werden.
+	 * Vorteil: Es können auch Strings (wie von Ordnern in TreeTable) und CharElemente
+	 * miteinander verglichen werden.
 	 * @author V. Strelow
 	 */
 	public class NamensComparator implements Comparator {
@@ -84,7 +101,10 @@ public interface SpaltenSchema {
 		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 		 */
 		public int compare(Object arg0, Object arg1) {
-			String str1, str2;
+			
+			return arg0.toString().compareTo(arg1.toString());
+			
+			/*String str1, str2;
 			
 			if (arg0 instanceof String) {
 				str1 = (String) arg0;
@@ -98,7 +118,7 @@ public interface SpaltenSchema {
 				str2 = ((CharElement) arg1).getName();
 			}
 			
-			return str1.compareTo(str2);
+			return str1.compareTo(str2);*/
 		}
 		
 	}
