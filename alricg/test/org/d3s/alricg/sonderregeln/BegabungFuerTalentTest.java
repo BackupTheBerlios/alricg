@@ -6,7 +6,7 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
-package org.d3s.alricg.junit.sonderregeln;
+package org.d3s.alricg.sonderregeln;
 
 import junit.framework.TestCase;
 
@@ -20,9 +20,10 @@ import org.d3s.alricg.charKomponenten.sonderregeln.BegabungFuerTalent;
 import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.held.GeneratorLink;
-import org.d3s.alricg.held.Held;
 import org.d3s.alricg.prozessor.HeldProzessor;
 import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
+import org.d3s.alricg.store.DataStore;
+import org.d3s.alricg.store.FactoryFinder;
 
 public class BegabungFuerTalentTest extends TestCase {
 	private Vorteil vorteil;
@@ -30,9 +31,13 @@ public class BegabungFuerTalentTest extends TestCase {
 	private IdLink link1, link2, link3;
 	private Talent talent1, talent2, talent3;
 	private BegabungFuerTalent begabungSR;
+    
+    private DataStore data;
 	
 	protected void setUp() throws Exception {
 		
+        FactoryFinder.init();
+        data = FactoryFinder.find().getData();
 		ProgAdmin.heldenAdmin.initHeldGenerierung();
 		prozessor = ProgAdmin.heldenAdmin.getActiveProzessor();
 		
@@ -48,9 +53,9 @@ public class BegabungFuerTalentTest extends TestCase {
 		talent1 = new Talent("TAL-test-1");
 		talent1.setDreiEigenschaften(
 				new Eigenschaft[]  {
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-MU", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-KL", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-GE", CharKomponente.eigenschaft)
+						(Eigenschaft) data.getCharElement("EIG-MU", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-KL", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-GE", CharKomponente.eigenschaft)
 				});
 		talent1.setKostenKlasse(KostenKlasse.B);
 		talent1.setArt(Talent.Art.spezial);
@@ -61,9 +66,9 @@ public class BegabungFuerTalentTest extends TestCase {
 		talent2 = new Talent("TAL-test-2");
 		talent2.setDreiEigenschaften(
 				new Eigenschaft[]  {
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-KK", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-KO", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-FF", CharKomponente.eigenschaft)
+						(Eigenschaft) data.getCharElement("EIG-KK", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-KO", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-FF", CharKomponente.eigenschaft)
 				});
 		talent2.setKostenKlasse(KostenKlasse.D);
 		talent2.setArt(Talent.Art.basis);
@@ -74,9 +79,9 @@ public class BegabungFuerTalentTest extends TestCase {
 		talent3 = new Talent("TAL-test-3");
 		talent3.setDreiEigenschaften(
 				new Eigenschaft[]  {
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-IN", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-CH", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-FF", CharKomponente.eigenschaft)
+						(Eigenschaft) data.getCharElement("EIG-IN", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-CH", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-FF", CharKomponente.eigenschaft)
 				});
 		talent3.setKostenKlasse(KostenKlasse.H);
 		talent3.setArt(Talent.Art.beruf);

@@ -6,7 +6,7 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
-package org.d3s.alricg.junit.prozessor;
+package org.d3s.alricg.prozessor;
 
 import junit.framework.TestCase;
 

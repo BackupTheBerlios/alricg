@@ -5,7 +5,7 @@
  * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
-package org.d3s.alricg.junit.sonderregeln;
+package org.d3s.alricg.sonderregeln;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -19,7 +19,7 @@ import junit.framework.TestSuite;
 public class JUnitTestSonderregeln {
 
 	public static Test suite() {
-		TestSuite suite = new TestSuite("Test for org.d3s.alricg.junit.sonderregeln");
+		TestSuite suite = new TestSuite("Test for org.d3s.alricg.sonderregeln");
 		
 		//$JUnit-BEGIN$
 		suite.addTestSuite(HerausragendeEigenschaftTest.class);

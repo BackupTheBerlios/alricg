@@ -6,17 +6,17 @@
  * For more information see "http://alricg.die3sphaere.de/".
  */
 
-package org.d3s.alricg.junit;
+package org.d3s.alricg;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.d3s.alricg.controller.NotepadTest;
 import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.junit.controller.NotepadTest;
-import org.d3s.alricg.junit.prozessor.FormelSammlungTest;
-import org.d3s.alricg.junit.prozessor.generierung.EigenschaftBoxGenTest;
-import org.d3s.alricg.junit.prozessor.generierung.TalentBoxGenTest;
-import org.d3s.alricg.junit.sonderregeln.JUnitTestSonderregeln;
+import org.d3s.alricg.prozessor.FormelSammlungTest;
+import org.d3s.alricg.prozessor.generierung.EigenschaftBoxGenTest;
+import org.d3s.alricg.prozessor.generierung.TalentBoxGenTest;
+import org.d3s.alricg.sonderregeln.JUnitTestSonderregeln;
 
 /**
  * <u>Beschreibung:</u><br> 

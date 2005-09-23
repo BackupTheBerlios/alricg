@@ -5,7 +5,7 @@
  * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
-package org.d3s.alricg.junit.sonderregeln;
+package org.d3s.alricg.sonderregeln;
 
 import junit.framework.TestCase;
 
@@ -23,6 +23,8 @@ import org.d3s.alricg.held.GeneratorLink;
 import org.d3s.alricg.prozessor.HeldProzessor;
 import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
 import org.d3s.alricg.prozessor.generierung.GenerierungProzessor;
+import org.d3s.alricg.store.DataStore;
+import org.d3s.alricg.store.FactoryFinder;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -32,17 +34,19 @@ import org.d3s.alricg.prozessor.generierung.GenerierungProzessor;
 public class StubenhockerTest extends TestCase {
 	private Talent talent1, talent2, talent3, talent4, talent5, talent6, 
 				talentBasis1, talentBasis2, talentBasis3;
-	private IdLink link1, link2, link3, link4;
+	private IdLink link1, link2, link3;
 	private Rasse ras;
 	private Nachteil nachteil;
 	private HeldProzessor prozessor;
 	private Stubenhocker stubenSR;
-	
+	private DataStore data;
 	
 	protected void setUp() throws Exception {
 		super.setUp();
 		
 		// Initialisierung des Helden
+        FactoryFinder.init();
+        data = FactoryFinder.find().getData();
 		ProgAdmin.heldenAdmin.initHeldGenerierung();
 		prozessor = ProgAdmin.heldenAdmin.getActiveProzessor();
 		
@@ -61,9 +65,9 @@ public class StubenhockerTest extends TestCase {
 		talent1 = new Talent("TAL-test-1");
 		talent1.setDreiEigenschaften(
 				new Eigenschaft[]  {
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-MU", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-KL", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-GE", CharKomponente.eigenschaft)
+						(Eigenschaft) data.getCharElement("EIG-MU", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-KL", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-GE", CharKomponente.eigenschaft)
 				});
 		talent1.setKostenKlasse(KostenKlasse.A);
 		talent1.setArt(Talent.Art.spezial);
@@ -74,9 +78,9 @@ public class StubenhockerTest extends TestCase {
 		talent2 = new Talent("TAL-test-2");
 		talent2.setDreiEigenschaften(
 				new Eigenschaft[]  {
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-KK", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-KO", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-FF", CharKomponente.eigenschaft)
+						(Eigenschaft) data.getCharElement("EIG-KK", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-KO", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-FF", CharKomponente.eigenschaft)
 				});
 		talent2.setKostenKlasse(KostenKlasse.B);
 		talent2.setArt(Talent.Art.spezial);
@@ -87,9 +91,9 @@ public class StubenhockerTest extends TestCase {
 		talent3 = new Talent("TAL-test-3");
 		talent3.setDreiEigenschaften(
 				new Eigenschaft[]  {
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-IN", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-CH", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-FF", CharKomponente.eigenschaft)
+						(Eigenschaft) data.getCharElement("EIG-IN", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-CH", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-FF", CharKomponente.eigenschaft)
 				});
 		talent3.setKostenKlasse(KostenKlasse.C);
 		talent3.setArt(Talent.Art.beruf);
@@ -100,9 +104,9 @@ public class StubenhockerTest extends TestCase {
 		talent4 = new Talent("TAL-test-4");
 		talent4.setDreiEigenschaften(
 				new Eigenschaft[]  {
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-IN", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-CH", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-FF", CharKomponente.eigenschaft)
+						(Eigenschaft) data.getCharElement("EIG-IN", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-CH", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-FF", CharKomponente.eigenschaft)
 				});
 		talent4.setKostenKlasse(KostenKlasse.D);
 		talent4.setArt(Talent.Art.beruf);
@@ -113,9 +117,9 @@ public class StubenhockerTest extends TestCase {
 		talent5 = new Talent("TAL-test-5");
 		talent5.setDreiEigenschaften(
 				new Eigenschaft[]  {
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-IN", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-CH", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-FF", CharKomponente.eigenschaft)
+						(Eigenschaft) data.getCharElement("EIG-IN", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-CH", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-FF", CharKomponente.eigenschaft)
 				});
 		talent5.setKostenKlasse(KostenKlasse.E);
 		talent5.setArt(Talent.Art.beruf);
@@ -126,9 +130,9 @@ public class StubenhockerTest extends TestCase {
 		talent6 = new Talent("TAL-test-6");
 		talent6.setDreiEigenschaften(
 				new Eigenschaft[]  {
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-IN", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-CH", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-FF", CharKomponente.eigenschaft)
+						(Eigenschaft) data.getCharElement("EIG-IN", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-CH", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-FF", CharKomponente.eigenschaft)
 				});
 		talent6.setKostenKlasse(KostenKlasse.F);
 		talent6.setArt(Talent.Art.beruf);
@@ -139,9 +143,9 @@ public class StubenhockerTest extends TestCase {
 		talentBasis1 = new Talent("TAL-test-basis-1");
 		talentBasis1.setDreiEigenschaften(
 				new Eigenschaft[]  {
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-MU", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-KL", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-GE", CharKomponente.eigenschaft)
+						(Eigenschaft) data.getCharElement("EIG-MU", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-KL", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-GE", CharKomponente.eigenschaft)
 				});
 		talentBasis1.setKostenKlasse(KostenKlasse.A);
 		talentBasis1.setArt(Talent.Art.basis);
@@ -152,9 +156,9 @@ public class StubenhockerTest extends TestCase {
 		talentBasis2 = new Talent("TAL-test-basis-2");
 		talentBasis2.setDreiEigenschaften(
 				new Eigenschaft[]  {
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-MU", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-KL", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-GE", CharKomponente.eigenschaft)
+						(Eigenschaft) data.getCharElement("EIG-MU", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-KL", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-GE", CharKomponente.eigenschaft)
 				});
 		talentBasis2.setKostenKlasse(KostenKlasse.A);
 		talentBasis2.setArt(Talent.Art.basis);
@@ -165,9 +169,9 @@ public class StubenhockerTest extends TestCase {
 		talentBasis3 = new Talent("TAL-test-basis-3");
 		talentBasis3.setDreiEigenschaften(
 				new Eigenschaft[]  {
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-MU", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-KL", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-GE", CharKomponente.eigenschaft)
+						(Eigenschaft) data.getCharElement("EIG-MU", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-KL", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-GE", CharKomponente.eigenschaft)
 				});
 		talentBasis3.setKostenKlasse(KostenKlasse.A);
 		talentBasis3.setArt(Talent.Art.basis);

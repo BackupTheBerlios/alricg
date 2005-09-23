@@ -6,7 +6,7 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
-package org.d3s.alricg.junit.prozessor.generierung;
+package org.d3s.alricg.prozessor.generierung;
 
 import junit.framework.TestCase;
 
@@ -20,10 +20,10 @@ import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.held.GeneratorLink;
 import org.d3s.alricg.held.Held;
-import org.d3s.alricg.held.HeldenLink;
 import org.d3s.alricg.prozessor.HeldProzessor;
 import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
-import org.d3s.alricg.prozessor.generierung.TalentBoxGen;
+import org.d3s.alricg.store.DataStore;
+import org.d3s.alricg.store.FactoryFinder;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -32,11 +32,11 @@ import org.d3s.alricg.prozessor.generierung.TalentBoxGen;
  */
 public class TalentBoxGenTest extends TestCase {
 	private IdLink link1, link2, link3;
-	private HeldenLink heldLink;
 	private Talent talent1, talent2, talent3;
 	private Rasse ras;
 	private Held held;
 	private HeldProzessor prozessor;
+	private DataStore data;
 	
 	public static void main(String[] args) {
 	}
@@ -47,6 +47,8 @@ public class TalentBoxGenTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 	
+        FactoryFinder.init();
+        data = FactoryFinder.find().getData();
 		// Initialisierung des Helden
 		ProgAdmin.heldenAdmin.initHeldGenerierung();
 		held = ProgAdmin.heldenAdmin.getActiveHeld();
@@ -60,9 +62,9 @@ public class TalentBoxGenTest extends TestCase {
 		talent1 = new Talent("TAL-test-1");
 		talent1.setDreiEigenschaften(
 				new Eigenschaft[]  {
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-MU", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-KL", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-GE", CharKomponente.eigenschaft)
+						(Eigenschaft) data.getCharElement("EIG-MU", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-KL", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-GE", CharKomponente.eigenschaft)
 				});
 		talent1.setKostenKlasse(KostenKlasse.A);
 		talent1.setArt(Talent.Art.spezial);
@@ -73,9 +75,9 @@ public class TalentBoxGenTest extends TestCase {
 		talent2 = new Talent("TAL-test-2");
 		talent2.setDreiEigenschaften(
 				new Eigenschaft[]  {
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-KK", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-KO", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-FF", CharKomponente.eigenschaft)
+						(Eigenschaft) data.getCharElement("EIG-KK", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-KO", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-FF", CharKomponente.eigenschaft)
 				});
 		talent2.setKostenKlasse(KostenKlasse.D);
 		talent2.setArt(Talent.Art.basis);
@@ -86,9 +88,9 @@ public class TalentBoxGenTest extends TestCase {
 		talent3 = new Talent("TAL-test-3");
 		talent3.setDreiEigenschaften(
 				new Eigenschaft[]  {
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-IN", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-CH", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-FF", CharKomponente.eigenschaft)
+						(Eigenschaft) data.getCharElement("EIG-IN", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-CH", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-FF", CharKomponente.eigenschaft)
 				});
 		talent3.setKostenKlasse(KostenKlasse.H);
 		talent3.setArt(Talent.Art.beruf);
@@ -375,9 +377,9 @@ public class TalentBoxGenTest extends TestCase {
 		tmpTalent = new Talent("TAL-test-4");
 		tmpTalent.setDreiEigenschaften(
 				new Eigenschaft[]  {
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-MU", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-KL", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-GE", CharKomponente.eigenschaft)
+						(Eigenschaft) data.getCharElement("EIG-MU", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-KL", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-GE", CharKomponente.eigenschaft)
 				});
 		tmpTalent.setKostenKlasse(KostenKlasse.A);
 		tmpTalent.setArt(Talent.Art.spezial);
@@ -396,9 +398,9 @@ public class TalentBoxGenTest extends TestCase {
 		tmpTalent = new Talent("TAL-test-5");
 		tmpTalent.setDreiEigenschaften(
 				new Eigenschaft[]  {
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-MU", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-KL", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-GE", CharKomponente.eigenschaft)
+						(Eigenschaft) data.getCharElement("EIG-MU", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-KL", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-GE", CharKomponente.eigenschaft)
 				});
 		tmpTalent.setKostenKlasse(KostenKlasse.A);
 		tmpTalent.setArt(Talent.Art.spezial);
@@ -411,9 +413,9 @@ public class TalentBoxGenTest extends TestCase {
 		tmpTalent = new Talent("TAL-test-6");
 		tmpTalent.setDreiEigenschaften(
 				new Eigenschaft[]  {
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-MU", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-KL", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-GE", CharKomponente.eigenschaft)
+						(Eigenschaft) data.getCharElement("EIG-MU", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-KL", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-GE", CharKomponente.eigenschaft)
 				});
 		tmpTalent.setKostenKlasse(KostenKlasse.A);
 		tmpTalent.setArt(Talent.Art.spezial);
@@ -429,9 +431,9 @@ public class TalentBoxGenTest extends TestCase {
 		tmpTalent = new Talent("TAL-test-6");
 		tmpTalent.setDreiEigenschaften(
 				new Eigenschaft[]  {
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-MU", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-KL", CharKomponente.eigenschaft),
-						(Eigenschaft) ProgAdmin.data.getCharElement("EIG-GE", CharKomponente.eigenschaft)
+						(Eigenschaft) data.getCharElement("EIG-MU", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-KL", CharKomponente.eigenschaft),
+						(Eigenschaft) data.getCharElement("EIG-GE", CharKomponente.eigenschaft)
 				});
 		tmpTalent.setKostenKlasse(KostenKlasse.A);
 		tmpTalent.setArt(Talent.Art.spezial);

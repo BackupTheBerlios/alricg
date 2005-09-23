@@ -6,11 +6,10 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
-package org.d3s.alricg.junit.sonderregeln;
+package org.d3s.alricg.sonderregeln;
 
 import junit.framework.TestCase;
 
-import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.EigenschaftEnum;
 import org.d3s.alricg.charKomponenten.Rasse;
 import org.d3s.alricg.charKomponenten.Vorteil;
@@ -19,8 +18,9 @@ import org.d3s.alricg.charKomponenten.sonderregeln.HerausragendeEigenschaft;
 import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.held.GeneratorLink;
-import org.d3s.alricg.held.Held;
 import org.d3s.alricg.prozessor.HeldProzessor;
+import org.d3s.alricg.store.DataStore;
+import org.d3s.alricg.store.FactoryFinder;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -28,13 +28,12 @@ import org.d3s.alricg.prozessor.HeldProzessor;
  * @author V. Strelow
  */
 public class HerausragendeEigenschaftTest extends TestCase {
-	private Held held;
 	private HeldProzessor prozessor;
 	private Vorteil v, v2;
 	private Rasse r;
 	private HerausragendeEigenschaft herausEigen;
 	private IdLink link, link2;
-	private GeneratorLink genLink;
+    private DataStore data;
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see junit.framework.TestCase#setUp()
@@ -42,9 +41,11 @@ public class HerausragendeEigenschaftTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		
+	
+        FactoryFinder.init();
+        data = FactoryFinder.find().getData();
+        
 		ProgAdmin.heldenAdmin.initHeldGenerierung();
-		held = ProgAdmin.heldenAdmin.getActiveHeld();
 		prozessor = ProgAdmin.heldenAdmin.getActiveProzessor();
 		
 		v = new Vorteil("VOR-jUnit-test");
@@ -60,7 +61,6 @@ public class HerausragendeEigenschaftTest extends TestCase {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 		
-		held = null;
 		prozessor = null;
 		v = null;
 		link = null;
@@ -92,11 +92,11 @@ public class HerausragendeEigenschaftTest extends TestCase {
 		v.setSonderregel( herausEigen );
 		link = new IdLink(null, null);
 		link.setZielId(v);
-		link.setZweitZiel( ProgAdmin.data.getCharElement(EigenschaftEnum.KO.getId()) );
+		link.setZweitZiel( data.getCharElement(EigenschaftEnum.KO.getId()) );
 		
 		// Simulation einer Rasse mit Modiikation von "-1" auf KO
 		link2 = new IdLink(r, null);
-		link2.setZielId(ProgAdmin.data.getCharElement(EigenschaftEnum.KO.getId()));
+		link2.setZielId(data.getCharElement(EigenschaftEnum.KO.getId()));
 		link2.setWert(-1);
 		
 		// Prüfung durch die SR selbst
@@ -161,7 +161,7 @@ public class HerausragendeEigenschaftTest extends TestCase {
 		link = new IdLink(null, null);
 		link.setZielId(v);
 		link.setWert(2); // Wert 2 -> Also Eigenschaft +2
-		link.setZweitZiel( ProgAdmin.data.getCharElement(EigenschaftEnum.KL.getId()) );
+		link.setZweitZiel( data.getCharElement(EigenschaftEnum.KL.getId()) );
 		
 		// MaxWert und MinWert sind normal; Aktuell 10
 		assertEquals(14, prozessor.getMaxWert(getLink(EigenschaftEnum.KL)));
@@ -212,14 +212,14 @@ public class HerausragendeEigenschaftTest extends TestCase {
 		link = new IdLink(null, null);
 		link.setZielId(v);
 		link.setWert(1); // Wert 1 -> Also Eigenschaft +1
-		link.setZweitZiel( ProgAdmin.data.getCharElement(EigenschaftEnum.MU.getId()) );
+		link.setZweitZiel( data.getCharElement(EigenschaftEnum.MU.getId()) );
 		
 		// Der Link2 der die Sonderregel enthält
 		v2.setSonderregel( herausEigen );
 		link2 = new IdLink(null, null);
 		link2.setZielId(v);
 		link2.setWert(2); // Wert 2 -> Also Eigenschaft 2
-		link2.setZweitZiel( ProgAdmin.data.getCharElement(EigenschaftEnum.FF.getId()) );
+		link2.setZweitZiel(data.getCharElement(EigenschaftEnum.FF.getId()) );
 		
 		// MaxWert und MinWert sind normal
 		assertEquals(14, prozessor.getMaxWert(getLink(EigenschaftEnum.MU)));

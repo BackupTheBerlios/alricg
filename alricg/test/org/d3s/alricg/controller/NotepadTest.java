@@ -5,7 +5,7 @@
  * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
-package org.d3s.alricg.junit.controller;
+package org.d3s.alricg.controller;
 
 import junit.framework.TestCase;
 
