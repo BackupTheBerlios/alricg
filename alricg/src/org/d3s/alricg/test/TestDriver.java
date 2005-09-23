@@ -262,7 +262,7 @@ public class TestDriver {
 
 		// Programm Starten und Datein einladen
 		pa = new ProgAdmin();
-		pa.initProgAdmin();
+		//pa.initProgAdmin();
 		
 		// Daten in Datei Schreiben
 		newFile = new File("ressourcen" + File.separator + "test" 
@@ -270,17 +270,18 @@ public class TestDriver {
 		xmlWriteTest(newFile);
 		
 		// XML-Dateien erneut einlesen und vergleichen
-		configRoot = getRootElement(new File(ProgAdmin.DATEI_CONFIG));
-		oldFile = new File(ProgAdmin.PFAD_XML_DATEN_D3S 
+		//configRoot = getRootElement(new File(ProgAdmin.DATEI_CONFIG));
+		/*oldFile = new File(ProgAdmin.PFAD_XML_DATEN_D3S 
 						+ configRoot.getFirstChildElement("xmlRuleFilesD3S")
 									.getFirstChildElement("readFile").getValue()
 							);
+							*/
 		
-		oldRoot = getRootElement(oldFile);
+		/*oldRoot = getRootElement(oldFile);
 		oldRoot.removeChild(oldRoot.getFirstChildElement("preamble"));
 		newRoot = getRootElement(newFile);
 		
-		vergleicheElement(oldRoot, newRoot);
+		vergleicheElement(oldRoot, newRoot);*/
 		
 	}
 	
@@ -347,7 +348,7 @@ public class TestDriver {
 	 */
 	public void xmlWriteTest(File file) {
 		OutputStream oStream = System.out;
-		
+		/*
 		Document doc = new Document(ProgAdmin.charKompAdmin.writeXML());
 		
 		// Fall kein file angegeben wurde, wie das XML File auf der Konsole
@@ -367,7 +368,7 @@ public class TestDriver {
 	        serializer.write(doc);
 	      } catch (IOException ex) {
 	         System.err.println(ex);
-	      }
+	      }*/
 	}
 	
 	private void testWuerfel() {
