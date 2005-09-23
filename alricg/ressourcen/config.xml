@@ -25,7 +25,10 @@
 			maxTalentAktivierung- Maximale Anzahl an Talenten die aktiviert werden können
 			maxZauberAktivierungVZ- Maximale Anzahl an Zaubern für VOLLzauberer die aktiviert werden können
 			maxZauberAktivierungHZ - Maximale Anzahl an Zaubern für HALBzauberer die aktiviert werden können
-		
+			diffKlugheitMuttersprache - Abhängigkeit der Muttersprache von der Klugheit (KL - diffKlugheitMuttersprache = Talentwert)
+			diffKlugheitZweitsprache - Abhängigkeit der Zweitsprache von der Klugheit (KL - diffKlugheitZweitsprache = Talentwert)
+			maxDiffAT-PA - Maximale Differenz unterschied bei der Verteilung der Talentpunkte auf AT und PA	
+			
 			skt - Wenn das Attribut "useOriginal" auf "false" steht, wird kann hier eine SKT angegeben werden.
 				Die SKT MUSS im selben format wie "originalSkt" vorliegen, also von z0 - z31 und 
 				jeweils von A - H.
@@ -83,6 +86,9 @@
 			<maxZauberAktivierungHZ wert="5"/>
 			<maxSchlechtEigenchafWert wert="12"/>
 			<minSchelchtEigenchafWert wert="5"/>
+			<diffKlugheitMuttersprache wert="-2"/>
+			<diffKlugheitZweitsprache wert="-4"/>
+			<maxDiffAT-PA wert="5"/>		
 			<skt useOriginal="true"/>
 		</package>
 		<package id="Ullis-Hausregeln">
@@ -99,6 +105,9 @@
 			<maxZauberAktivierungHZ wert="10"/>
 			<maxSchlechtEigenchafWert wert="15"/>
 			<minSchelchtEigenchafWert wert="1"/>
+			<diffKlugheitMuttersprache wert="0"/>
+			<diffKlugheitZweitsprache wert="-2"/>
+			<maxDiffAT-PA wert="10"/>	
 			<skt useOriginal="false">
 			</skt>
 		</package>
