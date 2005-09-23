@@ -12,6 +12,7 @@ import org.d3s.alricg.charKomponenten.Talent;
 import org.d3s.alricg.charKomponenten.charZusatz.Waffe;
 import org.d3s.alricg.charKomponenten.charZusatz.WuerfelSammlung;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.store.FactoryFinder;
 
 abstract class XOMMapper_Waffe extends XOMMapper_Gegenstand implements XOMMapper {
 
@@ -71,7 +72,7 @@ abstract class XOMMapper_Waffe extends XOMMapper_Gegenstand implements XOMMapper
         Talent[] talente = new Talent[children.size()];
         for (int i = 0; i < talente.length; i++) {
             final String value = children.get(i).getValue();
-            talente[i] = (Talent) ProgAdmin.data.getCharElement(value, ProgAdmin.data.getCharKompFromId(value));
+            talente[i] = (Talent) FactoryFinder.find().getData().getCharElement(value, FactoryFinder.find().getData().getCharKompFromId(value));
         }
         waffe.setTalent(talente);
     }

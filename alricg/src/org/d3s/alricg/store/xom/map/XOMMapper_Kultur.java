@@ -14,7 +14,7 @@ import org.d3s.alricg.charKomponenten.links.Auswahl;
 import org.d3s.alricg.charKomponenten.links.AuswahlAusruestung;
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
 import org.d3s.alricg.controller.CharKomponente;
-import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.store.FactoryFinder;
 
 class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
 
@@ -27,7 +27,7 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
         // Auslesen der Region
         Element current = xmlElement.getFirstChildElement("region");
         if (current != null) {
-            kultur.setRegionVolk((RegionVolk) ProgAdmin.data.getCharElement(current.getValue(), CharKomponente.region));
+            kultur.setRegionVolk((RegionVolk) FactoryFinder.find().getData().getCharElement(current.getValue(), CharKomponente.region));
         }
 
         // Auslesen der üblichen Professionen
@@ -100,7 +100,7 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
         	 for (int i = 0; i < varianten.size(); i++) {
         	 	arList.add( XOMMappingHelper.mapVarianten(
         	 			varianten.get(i), 
-        	 			ProgAdmin.data.getCharElement(varianten.get(i).getAttributeValue("id")),
+                        FactoryFinder.find().getData().getCharElement(varianten.get(i).getAttributeValue("id")),
         	 			kultur,
         	 			this) );
         	 }

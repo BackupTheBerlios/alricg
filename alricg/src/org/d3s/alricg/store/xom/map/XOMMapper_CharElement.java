@@ -1,3 +1,9 @@
+/*
+ * Created 22. September 2005 / 00:01:02
+ * This file is part of the project ALRICG. The file is copyright
+ * protected and under the GNU General Public License.
+ * For more information see "http://alricg.die3sphaere.de/".
+ */
 package org.d3s.alricg.store.xom.map;
 
 import nu.xom.Attribute;
@@ -15,7 +21,7 @@ abstract class XOMMapper_CharElement implements XOMMapper {
 
         // Auslesen des Namen (minOcc=1; maxOcc=1)
         charElement.setName(xmlElement.getAttributeValue("name"));
-
+        
         // Sonderregel (minOcc=0; maxOcc=1)
         Element child = xmlElement.getFirstChildElement("sonderregel");
         if (child != null) {

@@ -8,6 +8,8 @@
  */
 package org.d3s.alricg.controller;
 
+import org.d3s.alricg.store.FactoryFinder;
+
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -129,13 +131,13 @@ public class Notepad {
 		// Auswählen der richtigen Library
 		switch (tag) {
 		case shortTag:
-			messageBuf.append(ProgAdmin.library.getShortTxt("Kosten-Kategorie"));
+			messageBuf.append(FactoryFinder.find().getLibrary().getShortTxt("Kosten-Kategorie"));
 			break;
 		case middleTag:
-			messageBuf.append(ProgAdmin.library.getMiddleTxt("Kosten-Kategorie"));
+			messageBuf.append(FactoryFinder.find().getLibrary().getMiddleTxt("Kosten-Kategorie"));
 			break;
 		case longTag:
-			messageBuf.append(ProgAdmin.library.getLongTxt("Kosten-Kategorie"));
+			messageBuf.append(FactoryFinder.find().getLibrary().getLongTxt("Kosten-Kategorie"));
 			break;
 		default: 
 			ProgAdmin.logger.warning("Der angegebene Library Tag konnte nicht " +

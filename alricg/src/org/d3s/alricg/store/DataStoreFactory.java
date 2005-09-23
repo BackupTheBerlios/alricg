@@ -4,9 +4,9 @@ public interface DataStoreFactory {
 	
     void initialize() throws ConfigurationException; 
     
-    void initializeData() throws ConfigurationException; 
-    
-    void readData() throws ConfigurationException;
+//    void initializeData() throws ConfigurationException; 
+//    
+//    void readData() throws ConfigurationException;
     
     DataStore getData();
 

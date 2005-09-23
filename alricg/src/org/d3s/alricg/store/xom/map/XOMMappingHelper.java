@@ -23,6 +23,7 @@ import org.d3s.alricg.charKomponenten.links.AuswahlAusruestung.HilfsAuswahl;
 import org.d3s.alricg.charKomponenten.links.Voraussetzung.IdLinkVoraussetzung;
 import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.store.FactoryFinder;
 
 final class XOMMappingHelper {
 
@@ -97,10 +98,10 @@ final class XOMMappingHelper {
 
         // Typs des Ziels (Talent, Zauber, usw.); muﬂ ein Idlink enthalten
         final String idValue = xmlElement.getAttributeValue("id");
-        final CharKomponente charKomp = ProgAdmin.data.getCharKompFromId(idValue);
+        final CharKomponente charKomp = FactoryFinder.find().getData().getCharKompFromId(idValue);
 
         // Ziel ID; muﬂ ein Idlink enthalten
-        idLink.setZielId(ProgAdmin.data.getCharElement(idValue, charKomp));
+        idLink.setZielId(FactoryFinder.find().getData().getCharElement(idValue, charKomp));
 
         // Optionaler Text
         Attribute attribute = xmlElement.getAttribute("text");
@@ -129,7 +130,7 @@ final class XOMMappingHelper {
         attribute = xmlElement.getAttribute("linkId");
         if (attribute != null) {
             final String value = attribute.getValue();
-            idLink.setZweitZiel(ProgAdmin.data.getCharElement(value, ProgAdmin.data.getCharKompFromId(value)));
+            idLink.setZweitZiel(FactoryFinder.find().getData().getCharElement(value, FactoryFinder.find().getData().getCharKompFromId(value)));
         }
 
     }
@@ -414,7 +415,6 @@ final class XOMMappingHelper {
         // Schreiben der XML-Tags die entfernd werden sollen
         String[] stringAr = herkunftV.getEntferneXmlTag();
         if (stringAr != null) {
-            final Element e = new Element("entferneXmlTag");
             for (int i = 0; i < stringAr.length-1; i++) {
             	strBuffer.append(stringAr[i]).append(",");
             }

@@ -7,8 +7,8 @@ import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Eigenschaft;
 import org.d3s.alricg.charKomponenten.Faehigkeit;
 import org.d3s.alricg.controller.CharKomponente;
-import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.prozessor.FormelSammlung;
+import org.d3s.alricg.store.FactoryFinder;
 
 abstract class XOMMapper_Faehigkeit extends XOMMapper_CharElement implements XOMMapper {
 
@@ -20,11 +20,11 @@ abstract class XOMMapper_Faehigkeit extends XOMMapper_CharElement implements XOM
 
         // Auslesen der Eigenschaften, auf die eine Probe abgelegt wird
         final Eigenschaft[] dreiEigenschaften = new Eigenschaft[3];
-        dreiEigenschaften[0] = (Eigenschaft) ProgAdmin.data.getCharElement(xmlElement
+        dreiEigenschaften[0] = (Eigenschaft) FactoryFinder.find().getData().getCharElement(xmlElement
                 .getFirstChildElement("probenWurf").getAttributeValue("eigen1"), CharKomponente.eigenschaft);
-        dreiEigenschaften[1] = (Eigenschaft) ProgAdmin.data.getCharElement(xmlElement
+        dreiEigenschaften[1] = (Eigenschaft) FactoryFinder.find().getData().getCharElement(xmlElement
                 .getFirstChildElement("probenWurf").getAttributeValue("eigen2"), CharKomponente.eigenschaft);
-        dreiEigenschaften[2] = (Eigenschaft) ProgAdmin.data.getCharElement(xmlElement
+        dreiEigenschaften[2] = (Eigenschaft) FactoryFinder.find().getData().getCharElement(xmlElement
                 .getFirstChildElement("probenWurf").getAttributeValue("eigen3"), CharKomponente.eigenschaft);
         faehigkeit.setDreiEigenschaften(dreiEigenschaften);
 

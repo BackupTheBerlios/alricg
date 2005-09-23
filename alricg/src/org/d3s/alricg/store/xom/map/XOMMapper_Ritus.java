@@ -10,6 +10,7 @@ import org.d3s.alricg.charKomponenten.Gottheit;
 import org.d3s.alricg.charKomponenten.Ritus;
 import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.store.FactoryFinder;
 
 abstract class XOMMapper_Ritus extends XOMMapper_CharElement implements XOMMapper {
 
@@ -34,7 +35,7 @@ abstract class XOMMapper_Ritus extends XOMMapper_CharElement implements XOMMappe
         final Gottheit[] gottheit = new Gottheit[children.size()];
         for (int i = 0; i < children.size(); i++) {
             final String val = children.get(i).getValue();
-            gottheit[i] = (Gottheit) ProgAdmin.data.getCharElement(val, CharKomponente.gottheit);
+            gottheit[i] = (Gottheit) FactoryFinder.find().getData().getCharElement(val, CharKomponente.gottheit);
         }
         ritus.setGottheit(gottheit);
     }

@@ -10,6 +10,7 @@ package org.d3s.alricg.charKomponenten;
 
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.controller.CharKomponente;
+import org.d3s.alricg.store.FactoryFinder;
 
 
 /**
@@ -78,7 +79,7 @@ public class Eigenschaft extends CharElement {
 		
 		for (int i = 0; i < eigenArray.length; i++) {
 			if ( eigenArray[i].getValue().equals(id) ) {
-				setBeschreibung(ProgAdmin.library.getLongTxt("Beschreibung " + eigenArray[i].getValue()));
+				setBeschreibung(FactoryFinder.find().getLibrary().getLongTxt("Beschreibung " + eigenArray[i].getValue()));
 				return eigenArray[i];
 			}
 		}

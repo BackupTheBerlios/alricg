@@ -11,6 +11,7 @@ import org.d3s.alricg.charKomponenten.RegionVolk;
 import org.d3s.alricg.charKomponenten.charZusatz.Gegenstand;
 import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.store.FactoryFinder;
 
 class XOMMapper_Gegenstand extends XOMMapper_CharElement implements XOMMapper {
 
@@ -42,7 +43,7 @@ class XOMMapper_Gegenstand extends XOMMapper_CharElement implements XOMMapper {
         final Elements children = xmlElement.getChildElements("erhaeltlichBei");
         final RegionVolk[] erhaeltlichBei = new RegionVolk[children.size()];
         for (int i = 0; i < children.size(); i++) {
-            erhaeltlichBei[i] = (RegionVolk) ProgAdmin.data.getCharElement(children.get(i).getValue(),
+            erhaeltlichBei[i] = (RegionVolk) FactoryFinder.find().getData().getCharElement(children.get(i).getValue(),
                     CharKomponente.region);
         }
         gegenstand.setErhältlichBei(erhaeltlichBei);

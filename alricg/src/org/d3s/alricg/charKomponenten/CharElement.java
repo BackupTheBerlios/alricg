@@ -35,11 +35,6 @@ abstract public class CharElement implements Comparable<CharElement> {
     private SonderregelAdapter sonderregel; // Zu beachtende Sonderreglen
 
     /**
-     * @return Die CharKomponente zu der dieses CharElement gehört
-     */
-    public abstract CharKomponente getCharKomponente();
-
-    /**
      * Soll das Element angezeigt werden? Sinnvoll für und VorNachteile die in der Gui anders verwendet werden, wie z.B.
      * Herausragende Eigenschaft. Diese soll unter den Vorteilen nicht wählbar sein, da sie bei den Eigenschaften
      * berücksichtigt wird. Das Element wird grau dargestellt,will man es wählen erscheint der Text ("Kann nur bei ...
@@ -49,6 +44,12 @@ abstract public class CharElement implements Comparable<CharElement> {
 
     private String anzeigenText = "";
 
+    /**
+     * @return Die CharKomponente zu der dieses CharElement gehört
+     */
+    public abstract CharKomponente getCharKomponente();
+
+    
     public void setAnzeigen(boolean anzeigen) {
         this.anzeigen = anzeigen;
     }

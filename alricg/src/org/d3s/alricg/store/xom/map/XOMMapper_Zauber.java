@@ -14,6 +14,7 @@ import org.d3s.alricg.charKomponenten.Werte.MagieMerkmal;
 import org.d3s.alricg.charKomponenten.Zauber.Verbreitung;
 import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.store.FactoryFinder;
 
 class XOMMapper_Zauber extends XOMMapper_Faehigkeit implements XOMMapper {
 
@@ -128,14 +129,14 @@ class XOMMapper_Zauber extends XOMMapper_Faehigkeit implements XOMMapper {
 
         // Einlesen des "Bekannt bei" Wertes
         if (xmlElement.getAttribute("bekanntBei") != null) {
-            Repraesentation bekanntBei = (Repraesentation) ProgAdmin.data.getCharElement(xmlElement
+            Repraesentation bekanntBei = (Repraesentation) FactoryFinder.find().getData().getCharElement(xmlElement
                     .getAttributeValue("bekanntBei"), CharKomponente.repraesentation);
 
             verbreitung.setBekanntBei(bekanntBei);
         }
 
         // Einlesen der Repraesentation
-        Repraesentation repraesentation = (Repraesentation) ProgAdmin.data.getCharElement(xmlElement
+        Repraesentation repraesentation = (Repraesentation) FactoryFinder.find().getData().getCharElement(xmlElement
                 .getAttributeValue("repraesentation"), CharKomponente.repraesentation);
         verbreitung.setRepraesentation(repraesentation);
 

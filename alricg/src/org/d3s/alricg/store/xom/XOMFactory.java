@@ -16,7 +16,7 @@ public final class XOMFactory implements DataStoreFactory {
     private ConfigStore config;
 
     private DataStore data;
-    
+
     private boolean initialized;
 
     public DataStore getData() {
@@ -35,49 +35,16 @@ public final class XOMFactory implements DataStoreFactory {
         if (initialized) {
             return;
         }
-        {
-            // init config
-            final XOMToConfigMapper mappy = new XOMToConfigMapper();
-            config = mappy.readData();
-        }
-        {
-            // init library
-            final XOMToLibraryMapper mappy = new XOMToLibraryMapper();
-            library = mappy.readData(config.getConfig());
-        }
-        
-        /*
-         * In zwei Methoden ausgelagert, um das Programm starten zu können
-        {
-        	// init data
-            final XOMToClientMapper mappy = new XOMToClientMapper();
-            data = mappy.initData(config.getConfig());
-        }
-        */
-        
+        // init config
+        config = new XOMToConfigMapper().readData();
+
+        // init library
+        library = new XOMToLibraryMapper().readData(config.getConfig());
+
+        //init data
+        data = new XOMStore();
+        new XOMToClientMapper().readData(config.getConfig(), (XOMStore) data);
+
         initialized = true;
-    }
-    
-    /**
-     * Initialisiert die Daten (=CharElemente). Jedes CharElement wird mit einer 
-     * ID erzeugt, aber nicht mit Daten gefüllt. 
-     * @throws ConfigurationException
-     */
-    public synchronized void initializeData() throws ConfigurationException {
-    	// init data
-        final XOMToClientMapper mappy = new XOMToClientMapper();
-        data = mappy.initData(config.getConfig());
-    }
-    
-    /**
-     * Liest die Daten (=CharElemente) ein, dabei werden alle bereits vorhandenen CharElemente
-     * mit Inhalt gefüllt.
-     * @throws ConfigurationException
-     * @see initializeData()
-     */
-    public synchronized void readData() throws ConfigurationException {
-        // read data
-        final XOMToClientMapper mappy = new XOMToClientMapper();
-        data = mappy.readData(config.getConfig(), (XOMStore) data);
     }
 }

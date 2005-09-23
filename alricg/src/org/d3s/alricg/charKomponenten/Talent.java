@@ -9,7 +9,7 @@ package org.d3s.alricg.charKomponenten;
 
 import org.d3s.alricg.charKomponenten.links.Voraussetzung;
 import org.d3s.alricg.controller.CharKomponente;
-import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.store.FactoryFinder;
 
 /**
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
@@ -26,7 +26,7 @@ public class Talent extends Faehigkeit {
 		
 		private Art(String value) {
 			this.value = value;
-			bezeichner = ProgAdmin.library.getShortTxt(value);
+			bezeichner = FactoryFinder.find().getLibrary().getShortTxt(value);
 		}
 		
 		public String getValue() {
@@ -49,7 +49,7 @@ public class Talent extends Faehigkeit {
 		
 		private Sorte(String value) {
 			this.value = value;
-			bezeichner = ProgAdmin.library.getShortTxt(value);
+			bezeichner = FactoryFinder.find().getLibrary().getShortTxt(value);
 		}
 		
 		public String getValue() {

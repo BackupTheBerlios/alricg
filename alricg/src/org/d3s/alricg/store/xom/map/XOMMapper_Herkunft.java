@@ -14,6 +14,7 @@ import org.d3s.alricg.charKomponenten.links.IdLinkList;
 import org.d3s.alricg.charKomponenten.links.Voraussetzung;
 import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.store.FactoryFinder;
 
 abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMapper {
 
@@ -208,7 +209,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
                 // Auslesen der Art der Magischen repräsentation
                 if (current.getAttribute("repraesentId") != null) {
                     String attVal = current.getAttributeValue("repraesentId");
-                    herkunft.setRepraesentation((Repraesentation) ProgAdmin.data.getCharElement(attVal,
+                    herkunft.setRepraesentation((Repraesentation) FactoryFinder.find().getData().getCharElement(attVal,
                             CharKomponente.repraesentation));
                 }
 

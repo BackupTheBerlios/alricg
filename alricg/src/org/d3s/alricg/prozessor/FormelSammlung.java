@@ -14,7 +14,10 @@ import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.controller.Messenger;
 import org.d3s.alricg.controller.Notepad;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.store.ConfigStore;
 import org.d3s.alricg.store.ConfigurationException;
+import org.d3s.alricg.store.FactoryFinder;
+import org.d3s.alricg.store.TextStore;
 
 /**
  * <u>Beschreibung:</u><br>
@@ -95,15 +98,17 @@ public class FormelSammlung {
     }
     
     public static void initFormelSanmmlung() {
-    	
+
+        final TextStore lib = FactoryFinder.find().getLibrary();
+        final ConfigStore config= FactoryFinder.find().getConfiguration();
     	try {
-    		skt = ProgAdmin.config.getSkt(); 
+    		skt = config.getSkt(); 
     	} catch (ConfigurationException ex) {
             ProgAdmin.logger.severe(ex.getMessage());
             ProgAdmin.messenger.showMessage(Messenger.Level.fehler, 
-            		ProgAdmin.library.getErrorTxt("Fehlerhafte Datei") + "\n" + "  " 
-                    + ProgAdmin.config.getConfig().getProperty("config.file")+ "\n" 
-                    + ProgAdmin.library.getErrorTxt("XML Validierungsfehler"));
+            		lib.getErrorTxt("Fehlerhafte Datei") + "\n" + "  " 
+                    + config.getConfig().getProperty("config.file")+ "\n" 
+                    + lib.getErrorTxt("XML Validierungsfehler"));
     	}
     }
     
@@ -230,11 +235,12 @@ public class FormelSammlung {
 				
 				// Steigerung der Kategorie bei überschreiben der Stufe 10
 				if (startStufe == 11) {
+                    final TextStore lib = FactoryFinder.find().getLibrary();
 					tmpKK = tmpKK.plusEineKk();
 					ProgAdmin.notepad.addSecondaryMsg(
-							ProgAdmin.library.getShortTxt("Selbststudium") + ", "
-							+ ProgAdmin.library.getShortTxt("Talent") + ", "
-							+ ProgAdmin.library.getShortTxt("ab Stufe") + ", "
+							lib.getShortTxt("Selbststudium") + ", "
+							+ lib.getShortTxt("Talent") + ", "
+							+ lib.getShortTxt("ab Stufe") + ", "
 							+ " 11: +1");
 				}
 

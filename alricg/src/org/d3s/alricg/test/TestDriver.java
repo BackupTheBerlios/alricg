@@ -44,6 +44,7 @@ import org.d3s.alricg.gui.views.talent.TalentSchema;
 import org.d3s.alricg.gui.views.talent.TalentSpalten;
 import org.d3s.alricg.gui.views.zauber.ZauberSchema;
 import org.d3s.alricg.gui.views.zauber.ZauberSpalten;
+import org.d3s.alricg.store.FactoryFinder;
 import org.d3s.alricg.test.treeTable.JTreeTable;
 
 /**
@@ -118,7 +119,7 @@ public class TestDriver {
 		SortableTreeModel treeModel = new SortableTreeModel(new ZauberSpalten(), new ZauberSchema(), SpaltenSchema.SpaltenArt.objektDirekt, "Zauber");
 
 		array = (ArrayList<Talent>) new ArrayList(
-				ProgAdmin.data.getUnmodifieableCollection(CharKomponente.zauber)
+                FactoryFinder.find().getData().getUnmodifieableCollection(CharKomponente.zauber)
 			);
 		
 		treeModel.setData(array);
@@ -145,7 +146,7 @@ public class TestDriver {
 		SortableTreeModel treeModel = new SortableTreeModel(new TalentSpalten(), new TalentSchema(), SpaltenArt.editorGewaehlt, "Talente");
 		
 		array = (ArrayList<Talent>) new ArrayList(
-					ProgAdmin.data.getUnmodifieableCollection(CharKomponente.talent)
+                FactoryFinder.find().getData().getUnmodifieableCollection(CharKomponente.talent)
 				);
 		
 		tableModel.setData(array);

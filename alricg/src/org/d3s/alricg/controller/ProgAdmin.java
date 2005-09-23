@@ -13,12 +13,8 @@ import java.util.logging.Logger;
 
 import org.d3s.alricg.gui.SplashScreen;
 import org.d3s.alricg.prozessor.FormelSammlung;
-import org.d3s.alricg.store.ConfigStore;
 import org.d3s.alricg.store.ConfigurationException;
-import org.d3s.alricg.store.DataStore;
-import org.d3s.alricg.store.DataStoreFactory;
 import org.d3s.alricg.store.FactoryFinder;
-import org.d3s.alricg.store.TextStore;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -37,13 +33,6 @@ public class ProgAdmin {
 	public static HeldenAdmin heldenAdmin; // Verwaltung der Helden
 	
 	public static Notepad notepad;
-
-	public static ConfigStore config;
-
-	public static TextStore library;
-
-	public static DataStore data;
-	
 
 
 	/**
@@ -82,39 +71,17 @@ public class ProgAdmin {
         splash.setVisible(false);
         splash.prepareDispose(); // Vom Messenger abmelden
         splash.dispose();
-        System.gc();
-        
+        System.gc();   
     }
 
     private static final void init() {
     	
         try {
-            // Store factory
-            final DataStoreFactory factory = FactoryFinder.find();
-            factory.initialize();
+            // Initialize store & factory
+            FactoryFinder.init();
             logger.info("Data Store Factory initialisiert...");
-
-            // TODO Die drei stores sind nicht nötig in der Main Klasse!
-            // sie können diekt über die Factory und den Factoryfinder angesprochen werden!!
-            // Um Nachrichten zu senden könnt ein kleiner EventListener dafür impl. werden.
-            // Oder ProgAdmin.messenger direkt verwenden!
-            // Config
-            config = factory.getConfiguration();
+            
             FormelSammlung.initFormelSanmmlung();
-            logger.info("Configuration geladen...");
-            messenger.sendInfo("Configuration geladen...");
-
-            // Library
-            library = factory.getLibrary();
-            logger.info("Library geladen...");
-            messenger.sendInfo("Library geladen...");
-
-            // CharElemente laden
-            factory.initializeData();
-            data = factory.getData();
-            factory.readData();
-            logger.info("Daten geladen...");
-            messenger.sendInfo("Daten geladen...");
             
         } catch (ConfigurationException ce) {
             logger.log(Level.SEVERE, "Config Datei konnte nicht geladen werden. Programm beendet.", ce);

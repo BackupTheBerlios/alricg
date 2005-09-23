@@ -25,6 +25,8 @@ import javax.swing.border.TitledBorder;
 
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.gui.komponenten.TextFieldList;
+import org.d3s.alricg.store.FactoryFinder;
+import org.d3s.alricg.store.TextStore;
 /**
  * <u>Beschreibung:</u><br> 
  *
@@ -80,12 +82,13 @@ public class panGrunddaten<CharElement> extends JPanel
 	 * Setzt die Texte der Labels von diesem Panel
 	 */
 	private void initLabelTexte() {
-        lblName.setText(ProgAdmin.library.getShortTxt("Name") + ":");
-        lblBeschreibung.setText(ProgAdmin.library.getShortTxt("Beschreibung") + ":");
-        lblSonderregel.setText(ProgAdmin.library.getShortTxt("Sonderregel") + ":");
-        lblSammelbegriff.setText(ProgAdmin.library.getShortTxt("Sammelbegriff") + ":");
-        lblRegelzusatz.setText(ProgAdmin.library.getShortTxt("Regelzusatz") + ":");
-        lblId.setText("(" + ProgAdmin.library.getShortTxt("id") + ")");
+        final TextStore library = FactoryFinder.find().getLibrary();
+        lblName.setText(library.getShortTxt("Name") + ":");
+        lblBeschreibung.setText(library.getShortTxt("Beschreibung") + ":");
+        lblSonderregel.setText(library.getShortTxt("Sonderregel") + ":");
+        lblSammelbegriff.setText(library.getShortTxt("Sammelbegriff") + ":");
+        lblRegelzusatz.setText(library.getShortTxt("Regelzusatz") + ":");
+        lblId.setText("(" + library.getShortTxt("id") + ")");
 	}
 	
 	private void initToolTip() {
@@ -123,7 +126,7 @@ public class panGrunddaten<CharElement> extends JPanel
 	private JCheckBox getCbxAnzeigen() {
 		if (cbxAnzeigen == null) {
 			cbxAnzeigen = new JCheckBox();
-			cbxAnzeigen.setText(ProgAdmin.library.getShortTxt("Anzeigen"));
+			cbxAnzeigen.setText(FactoryFinder.find().getLibrary().getShortTxt("Anzeigen"));
 			cbxAnzeigen.setSelected(true);
 		}
 		return cbxAnzeigen;
@@ -174,7 +177,7 @@ public class panGrunddaten<CharElement> extends JPanel
 	private JButton getButAddRegelzusatz() {
 		if (butAddRegelzusatz == null) {
 			butAddRegelzusatz = new JButton();
-			butAddRegelzusatz.setText(ProgAdmin.library.getShortTxt("Neu"));
+			butAddRegelzusatz.setText(FactoryFinder.find().getLibrary().getShortTxt("Neu"));
 			butAddRegelzusatz.setMargin(new java.awt.Insets(1,4,1,4));
 			butAddRegelzusatz.setPreferredSize(new java.awt.Dimension(36,16));
 			butAddRegelzusatz.setMinimumSize(new java.awt.Dimension(36,16));

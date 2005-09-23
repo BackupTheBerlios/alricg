@@ -9,6 +9,7 @@ import org.d3s.alricg.charKomponenten.Zauber;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.gui.komponenten.table.SortableTable;
 import org.d3s.alricg.gui.views.SpaltenSchema;
+import org.d3s.alricg.store.FactoryFinder;
 
 /**
  * @author Vincent
@@ -30,7 +31,7 @@ public class ZauberSpalten implements SpaltenSchema {
 			if (value.equals("+") || value.equals("-")) {
 				bezeichner = value;
 			} else {
-				bezeichner = ProgAdmin.library.getShortTxt(value);
+				bezeichner = FactoryFinder.find().getLibrary().getShortTxt(value);
 			}
 		}
 		

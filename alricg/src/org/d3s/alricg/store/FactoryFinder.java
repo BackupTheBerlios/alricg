@@ -10,24 +10,35 @@ public final class FactoryFinder {
     private static DataStoreFactory instance;
 
     public static final DataStoreFactory find() {
-
         if (instance == null) {
-            synchronized (FactoryFinder.class) {
-                try {
-                    final Class<?> clazz = Class.forName("org.d3s.alricg.store.xom.XOMFactory");
-                    final Constructor<?> conny = clazz.getConstructor(new Class[0]);
-                    instance = (DataStoreFactory) conny.newInstance(new Object[0]);
-                } catch (Exception e) {
-                    instance = null;
-                    ProgAdmin.logger.log(Level.SEVERE, "DataStoreFactory instantiation failed!", e);
-                    throw new RuntimeException("DataStoreFactory instantiation failed!", e);
-                }
-            }
+            throw new NullPointerException("DataStoreFactory is not initialised!");
         }
         return instance;
     }
 
-    public static final void init() throws ConfigurationException {
-        instance.initialize();
+    public static final DataStoreFactory init() throws ConfigurationException {
+        if (instance != null) {
+            return instance;
+        }
+        
+        synchronized (FactoryFinder.class) {
+            try {
+                final Class<?> clazz = Class.forName("org.d3s.alricg.store.xom.XOMFactory");
+                final Constructor<?> conny = clazz.getConstructor(new Class[0]);
+                instance = (DataStoreFactory) conny.newInstance(new Object[0]);
+            } catch (Exception e) {
+                instance = null;
+                ProgAdmin.logger.log(Level.SEVERE, "DataStoreFactory instantiation failed!", e);
+                throw new ConfigurationException("DataStoreFactory instantiation failed!", e);
+            }
+            instance.initialize();
+            return instance;
+        }
+    }
+
+    static final void reset() {
+        synchronized (FactoryFinder.class) {
+            instance = null;
+        }
     }
 }

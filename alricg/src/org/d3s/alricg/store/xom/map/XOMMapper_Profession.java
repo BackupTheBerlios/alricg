@@ -21,6 +21,7 @@ import org.d3s.alricg.charKomponenten.links.AuswahlAusruestung;
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
 import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.store.FactoryFinder;
 
 class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
 
@@ -63,7 +64,7 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
         current = xmlElement.getFirstChildElement("geweiht");
         if (current != null) {
             final String val = current.getAttributeValue("gottheitId");
-            profession.setGeweihtGottheit((Gottheit) ProgAdmin.data.getCharElement(val, CharKomponente.gottheit));
+            profession.setGeweihtGottheit((Gottheit) FactoryFinder.find().getData().getCharElement(val, CharKomponente.gottheit));
 
             final Auswahl ritusModis = new Auswahl(profession);
             XOMMappingHelper.mapAuswahl(current.getFirstChildElement("modis"), ritusModis);
@@ -134,7 +135,7 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
         	 for (int i = 0; i < varianten.size(); i++) {
         	 	arList.add( XOMMappingHelper.mapVarianten(
         	 			varianten.get(i), 
-        	 			ProgAdmin.data.getCharElement(varianten.get(i).getAttributeValue("id")),
+                        FactoryFinder.find().getData().getCharElement(varianten.get(i).getAttributeValue("id")),
         	 			profession,
         	 			this) );
         	 }

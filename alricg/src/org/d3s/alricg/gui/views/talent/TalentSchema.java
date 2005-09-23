@@ -15,6 +15,7 @@ import org.d3s.alricg.charKomponenten.Talent;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.gui.views.SpaltenSchema;
 import org.d3s.alricg.gui.views.WorkSchema;
+import org.d3s.alricg.store.FactoryFinder;
 import org.d3s.alricg.store.TextStore;
 
 /**
@@ -78,7 +79,7 @@ public class TalentSchema implements WorkSchema {
 	 * @see org.d3s.alricg.gui.views.WorkSchema#getToolTip(java.lang.Object, java.lang.Enum)
 	 */
 	public String getToolTip(Object object, Object column) {
-		final TextStore lib = ProgAdmin.library;
+		final TextStore lib = FactoryFinder.find().getLibrary();
 		switch ((TalentSpalten.Spalten) column) {
 			case name: 	
 				if (object instanceof Talent) {

@@ -16,6 +16,13 @@ import org.d3s.alricg.store.TextStore;
 
 public class XOMHelper {
 
+    public static Element getRootElementNoLog(File xmlFile) throws Exception {
+
+        final Builder parser = new Builder(); // Auf true setzen für Validierung
+        final Document doc = parser.build(xmlFile);
+        return doc.getRootElement();
+    }
+
     /**
      * Ließt ein XML-File ein und gibt das RootElement zurück.
      * 
@@ -27,37 +34,35 @@ public class XOMHelper {
         TextStore lib = null;
         try {
             lib = FactoryFinder.find().getLibrary();
-            final Builder parser = new Builder(); // Auf true setzen für Validierung
+            final Builder parser = new Builder();// Auf true setzen für Validierung
             final Document doc = parser.build(xmlFile);
             return doc.getRootElement();
 
         } catch (ValidityException ex) {
             ProgAdmin.logger.severe(ex.getMessage());
-            ProgAdmin.messenger.showMessage(Messenger.Level.fehler, lib.getErrorTxt("Fehlerhafte Datei") + "\n"
-                    + "  " + xmlFile.getName() + "\n" + lib.getErrorTxt("XML Validierungsfehler"));
+            ProgAdmin.messenger.showMessage(Messenger.Level.fehler, lib.getErrorTxt("Fehlerhafte Datei") + "\n" + "  "
+                    + xmlFile.getName() + "\n" + lib.getErrorTxt("XML Validierungsfehler"));
 
         } catch (ParsingException ex) {
             ProgAdmin.logger.severe(ex.getMessage());
-            ProgAdmin.messenger.showMessage(Messenger.Level.fehler, lib.getErrorTxt("Fehlerhafte Datei") + "\n"
-                    + "  " + xmlFile.getName() + "\n" + lib.getErrorTxt("XML Parsingfehler"));
+            ProgAdmin.messenger.showMessage(Messenger.Level.fehler, lib.getErrorTxt("Fehlerhafte Datei") + "\n" + "  "
+                    + xmlFile.getName() + "\n" + lib.getErrorTxt("XML Parsingfehler"));
 
         } catch (IOException ex) {
             if (!xmlFile.exists()) {
                 ProgAdmin.logger.severe(ex.getMessage());
-                ProgAdmin.messenger.showMessage(Messenger.Level.fehler, lib.getErrorTxt("Fehlerhafte Datei")
-                        + "\n" + "  " + xmlFile.getName() + "\n" + lib.getErrorTxt("Datei existiert nicht Fehler"));
+                ProgAdmin.messenger.showMessage(Messenger.Level.fehler, lib.getErrorTxt("Fehlerhafte Datei") + "\n"
+                        + "  " + xmlFile.getName() + "\n" + lib.getErrorTxt("Datei existiert nicht Fehler"));
             } else if (!xmlFile.canRead()) {
                 ProgAdmin.logger.severe(ex.getMessage());
-                ProgAdmin.messenger.showMessage(Messenger.Level.fehler, lib.getErrorTxt("Fehlerhafte Datei")
-                        + "\n" + "  " + xmlFile.getName() + "\n" + lib.getErrorTxt("Datei nicht lesbar Fehler"));
+                ProgAdmin.messenger.showMessage(Messenger.Level.fehler, lib.getErrorTxt("Fehlerhafte Datei") + "\n"
+                        + "  " + xmlFile.getName() + "\n" + lib.getErrorTxt("Datei nicht lesbar Fehler"));
             } else {
                 ProgAdmin.logger.severe(ex.getMessage());
-                ProgAdmin.messenger.showMessage(Messenger.Level.fehler, lib.getErrorTxt("Fehlerhafte Datei")
-                        + "\n" + "  " + xmlFile.getName() + "\n"
-                        + lib.getErrorTxt("Datei nicht lesbar/unbekannt Fehler"));
+                ProgAdmin.messenger.showMessage(Messenger.Level.fehler, lib.getErrorTxt("Fehlerhafte Datei") + "\n"
+                        + "  " + xmlFile.getName() + "\n" + lib.getErrorTxt("Datei nicht lesbar/unbekannt Fehler"));
             }
         }
-
         return null;
     }
 }

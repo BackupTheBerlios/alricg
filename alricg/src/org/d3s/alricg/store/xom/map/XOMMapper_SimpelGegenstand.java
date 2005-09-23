@@ -9,6 +9,7 @@ import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.charZusatz.SimpelGegenstand;
 import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.store.FactoryFinder;
 
 class XOMMapper_SimpelGegenstand extends XOMMapper_Gegenstand implements XOMMapper {
 
@@ -32,7 +33,7 @@ class XOMMapper_SimpelGegenstand extends XOMMapper_Gegenstand implements XOMMapp
 
         // Art (minOcc=1; maxOcc=1)
         String art = xmlElement.getAttributeValue("art");
-        simpleDing.setArt(ProgAdmin.data.getCharKompFromPrefix(art));
+        simpleDing.setArt(FactoryFinder.find().getData().getCharKompFromPrefix(art));
 
     }
     

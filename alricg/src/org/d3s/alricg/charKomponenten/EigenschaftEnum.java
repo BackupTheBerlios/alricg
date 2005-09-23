@@ -9,7 +9,7 @@ package org.d3s.alricg.charKomponenten;
 
 import java.util.ArrayList;
 
-import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.store.FactoryFinder;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -51,8 +51,8 @@ public enum EigenschaftEnum {
      * @param abkuerzung Key für Library für die Akkürzung des Namens
      */
     private EigenschaftEnum (String bezeichnung, String abkuerzung, String id) {
-    	name = ProgAdmin.library.getShortTxt(bezeichnung);
-    	abk = ProgAdmin.library.getShortTxt(abkuerzung);
+    	name = FactoryFinder.find().getLibrary().getShortTxt(bezeichnung);
+    	abk = FactoryFinder.find().getLibrary().getShortTxt(abkuerzung);
     	this.id = id;
     }
 

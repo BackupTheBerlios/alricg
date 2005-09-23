@@ -76,19 +76,28 @@ import static org.d3s.alricg.controller.CharKomponente.waffeNk;
 import static org.d3s.alricg.controller.CharKomponente.zauber;
 import static org.d3s.alricg.controller.CharKomponente.zusatzProfession;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.store.ConfigStore;
 import org.d3s.alricg.store.DataStore;
+import org.d3s.alricg.store.FactoryFinder;
+import org.d3s.alricg.store.TextStore;
 
 public class XOMStore implements DataStore {
 
     // Herkunft
     private final Map<String, Rasse> rasseMap = new HashMap<String, Rasse>();
+
     private final Map<String, Kultur> kulturMap = new HashMap<String, Kultur>();
+
     private final Map<String, Profession> professionMap = new HashMap<String, Profession>();
+
     private final Map<String, RasseVariante> rasseVarianteMap = new HashMap<String, RasseVariante>();
+
     private final Map<String, KulturVariante> kulturVarianteMap = new HashMap<String, KulturVariante>();
+
     private final Map<String, ProfessionVariante> professionVarianteMap = new HashMap<String, ProfessionVariante>();
+
     private final Map<String, ZusatzProfession> zusatzProfMap = new HashMap<String, ZusatzProfession>();
-    
+
     // Fertigkeiten & Fähigkeiten
     private final Map<String, Vorteil> vorteilMap = new HashMap<String, Vorteil>();
 
@@ -204,11 +213,10 @@ public class XOMStore implements DataStore {
         // Alle charKomponenten durchgehen
         for (int i = 0; i < charKompArray.length; i++) {
 
-            if (charKompArray[i] == CharKomponente.eigenschaft 
-	            	|| charKompArray[i] == CharKomponente.sonderregel
-	            	|| charKompArray[i] == CharKomponente.rasseVariante
-	            	|| charKompArray[i] == CharKomponente.kulturVariante
-	            	|| charKompArray[i] == CharKomponente.professionVariante) {
+            if (charKompArray[i] == CharKomponente.eigenschaft || charKompArray[i] == CharKomponente.sonderregel
+                    || charKompArray[i] == CharKomponente.rasseVariante
+                    || charKompArray[i] == CharKomponente.kulturVariante
+                    || charKompArray[i] == CharKomponente.professionVariante) {
                 continue; // Diese CharElemente werden nicht (hier) geschrieben, daher Abbruch
             }
 
@@ -260,13 +268,13 @@ public class XOMStore implements DataStore {
         case profession:
             return professionMap;
         case rasseVariante:
-        	return rasseVarianteMap;
+            return rasseVarianteMap;
         case kulturVariante:
-        	return kulturVarianteMap;
+            return kulturVarianteMap;
         case professionVariante:
-        	return professionVarianteMap;
+            return professionVarianteMap;
         case zusatzProfession:
-            return zusatzProfMap;   
+            return zusatzProfMap;
 
         // >>>>>>>>>>>>>>> Fertigkeiten & Fähigkeiten
         case vorteil:
@@ -584,7 +592,7 @@ public class XOMStore implements DataStore {
         if (hash.containsKey(key)) {
             // Doppelte ID, dadurch wird der alte Wert überschrieben
             ProgAdmin.logger.warning("Bei der Initialisierung ist eine ID doppelt für die HashMap: " + key);
-            ProgAdmin.messenger.sendFehler(ProgAdmin.library.getErrorTxt("CharKomponente ID doppelt"));
+            ProgAdmin.messenger.sendFehler(FactoryFinder.find().getLibrary().getErrorTxt("CharKomponente ID doppelt"));
         }
     }
 }

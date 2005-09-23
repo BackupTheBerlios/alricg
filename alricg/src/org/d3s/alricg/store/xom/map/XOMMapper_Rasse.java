@@ -14,6 +14,7 @@ import org.d3s.alricg.charKomponenten.RasseVariante;
 import org.d3s.alricg.charKomponenten.charZusatz.WuerfelSammlung;
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.store.FactoryFinder;
 
 class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
 
@@ -24,7 +25,7 @@ class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
         final Rasse rasse = (Rasse) charElement;
 
         try {
-        	Element current;
+            Element current;
 
             // Übliche Kulturen einlesen
             current = xmlElement.getFirstChildElement("kulturUeblich");
@@ -85,26 +86,23 @@ class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
             // Einlesen der Augenfarbe
             current = xmlElement.getFirstChildElement("augenfarbe");
             farbenFromXML(current.getChildElements("farbe"), rasse.getAugenfarbe());
-            
+
             // Einlesen der Varianten
             ArrayList<HerkunftVariante> arList = new ArrayList<HerkunftVariante>();
             current = xmlElement.getFirstChildElement("varianten");
             if (current != null) {
-            	 Elements varianten = current.getChildElements("variante");
-            	 for (int i = 0; i < varianten.size(); i++) {
-            	 	arList.add( XOMMappingHelper.mapVarianten(
-            	 			varianten.get(i), 
-            	 			ProgAdmin.data.getCharElement(varianten.get(i).getAttributeValue("id")), 
-            	 			rasse,
-            	 			this) );
-            	 }
-            	 rasse.setVarianten(arList.toArray(new RasseVariante[arList.size()]));
+                Elements varianten = current.getChildElements("variante");
+                for (int i = 0; i < varianten.size(); i++) {
+                    arList.add(XOMMappingHelper.mapVarianten(varianten.get(i), FactoryFinder.find().getData()
+                            .getCharElement(varianten.get(i).getAttributeValue("id")), rasse, this));
+                }
+                rasse.setVarianten(arList.toArray(new RasseVariante[arList.size()]));
             }
-            
+
         } catch (NumberFormatException exc) {
             ProgAdmin.logger.log(Level.SEVERE, "String -> int failed", exc);
         }
-        
+
     }
 
     public void map(CharElement charElement, Element xmlElement) {
@@ -114,18 +112,12 @@ class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
         final Rasse rasse = (Rasse) charElement;
         xmlElement.setLocalName("rasse");
 
-        int idx;
-
-        /* "varianteVon" schreiben
-        if (rasse.getVarianteVon() != null) {
-            // hierfür muß die richtige Position bestimmt werden:
-            idx = xmlElement.indexOf(xmlElement.getFirstChildElement("gp"));
-            final Element e = new Element("varianteVon");
-            e.appendChild(rasse.getVarianteVon().getId());
-
-            // einfügen nach dem "gp" Element!
-            xmlElement.insertChild(e, idx + 1);
-        }*/
+        /*
+         * "varianteVon" schreiben if (rasse.getVarianteVon() != null) { // hierfür muß die richtige Position bestimmt
+         * werden: idx = xmlElement.indexOf(xmlElement.getFirstChildElement("gp")); final Element e = new
+         * Element("varianteVon"); e.appendChild(rasse.getVarianteVon().getId()); // einfügen nach dem "gp" Element!
+         * xmlElement.insertChild(e, idx + 1); }
+         */
 
         // Übliche Kulturen schreiben
         IdLinkList ids = rasse.getKulturUeblich();
@@ -187,17 +179,15 @@ class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
         farbenToXML(e, rasse.getAugenfarbe());
         xmlElement.appendChild(e);
 
-        //Schreiben der Varianten
+        // Schreiben der Varianten
         CharElement[] elements = rasse.getVarianten();
         if (elements != null) {
-        	e = new Element("varianten");
-        	 
-        	for (int i = 0; i < elements.length; i++) {
-        		e.appendChild(XOMMappingHelper.mapVarianten(
-        	 			elements[i], 
-        	 			this));
-        	}
-        	xmlElement.appendChild(e);
+            e = new Element("varianten");
+
+            for (int i = 0; i < elements.length; i++) {
+                e.appendChild(XOMMappingHelper.mapVarianten(elements[i], this));
+            }
+            xmlElement.appendChild(e);
         }
     }
 

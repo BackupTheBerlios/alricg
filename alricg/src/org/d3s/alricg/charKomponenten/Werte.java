@@ -13,6 +13,7 @@ import javax.swing.Icon;
 
 import org.d3s.alricg.controller.ImageAdmin;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.store.FactoryFinder;
 import org.d3s.alricg.store.TextStore;
 
 /**
@@ -131,7 +132,7 @@ public class Werte {
 			this.icon16 = icon16;
 			this.icon24 = icon24;
 			
-			TextStore lib = ProgAdmin.library;
+			TextStore lib = FactoryFinder.find().getLibrary();
 			
 			switch (this.ordinal()) {
 			case 3: bezeichner = 

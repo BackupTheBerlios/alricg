@@ -15,10 +15,8 @@ import org.d3s.alricg.charKomponenten.Profession;
 import org.d3s.alricg.charKomponenten.Rasse;
 import org.d3s.alricg.charKomponenten.Sprache;
 import org.d3s.alricg.controller.CharKomponente;
-import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.prozessor.FormelSammlung;
 import org.d3s.alricg.prozessor.HeldProzessor;
-import org.d3s.alricg.prozessor.HeldUtilities;
 import org.d3s.alricg.prozessor.LinkElementBox;
 import org.d3s.alricg.prozessor.generierung.AbstractBoxGen;
 import org.d3s.alricg.prozessor.generierung.EigenschaftBoxGen;
@@ -27,6 +25,7 @@ import org.d3s.alricg.prozessor.generierung.SonderfBoxGen;
 import org.d3s.alricg.prozessor.generierung.TalentBoxGen;
 import org.d3s.alricg.prozessor.generierung.VorteilBoxGen;
 import org.d3s.alricg.prozessor.generierung.ZauberBoxGen;
+import org.d3s.alricg.store.FactoryFinder;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -132,7 +131,7 @@ public class Held {
 		// Erstmal alle Eigenschaften mit "0" setzen
 		for (int i = 0; i < enums.length; i++) {
 			prozessor.addCharElement(
-				ProgAdmin.data.getCharElement(enums[i].getId(), CharKomponente.eigenschaft),
+				FactoryFinder.find().getData().getCharElement(enums[i].getId(), CharKomponente.eigenschaft),
 				0
 			);
 		}
