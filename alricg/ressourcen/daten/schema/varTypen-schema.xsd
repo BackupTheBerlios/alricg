@@ -27,6 +27,8 @@
 			<xsd:enumeration value="efferd"/>
 			<xsd:enumeration value="travia"/>
 			<xsd:enumeration value="boron"/>
+			<xsd:enumeration value="boron - punin"/>
+			<xsd:enumeration value="boron - alanfa"/>
 			<xsd:enumeration value="hesinde"/>
 			<xsd:enumeration value="firun"/>
 			<xsd:enumeration value="tsa"/>
@@ -42,6 +44,7 @@
 			<xsd:enumeration value="swafnir"/>
 			<xsd:enumeration value="angrosch"/>
 			<xsd:enumeration value="h'szint"/>
+			<xsd:enumeration value="h'ragna"/>
 			<xsd:enumeration value="zsahh"/>
 			<xsd:enumeration value="tairach"/>
 			<xsd:enumeration value="gravesh"/>
