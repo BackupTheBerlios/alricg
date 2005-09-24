@@ -240,4 +240,9 @@ abstract public class CharElement implements Comparable<CharElement> {
         return id.compareTo(ce.getId());
     }
 
+
+    public SonderregelAdapter getSonderregel() {
+        return sonderregel;
+    }
+
 }

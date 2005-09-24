@@ -9,7 +9,11 @@
 
 package org.d3s.alricg.store;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.lang.reflect.Constructor;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 
 import org.d3s.alricg.controller.ProgAdmin;
@@ -69,7 +73,13 @@ public final class FactoryFinder {
 
         synchronized (FactoryFinder.class) {
             try {
-                final Class<?> clazz = Class.forName("org.d3s.alricg.store.xom.XOMFactory");
+                final File config = new File("ressourcen/StoreFactoryFinder.properties");
+                String classname = "org.d3s.alricg.store.xom.XOMFactory";
+                if (config.exists() && config.canRead()) {
+                    ResourceBundle rb = new PropertyResourceBundle(new FileInputStream(config));
+                    classname = rb.getString("data.store.factory.impl");
+                }
+                final Class<?> clazz = Class.forName(classname);
                 final Constructor<?> conny = clazz.getConstructor(new Class[0]);
                 factoryInstance = (DataStoreFactory) conny.newInstance(new Object[0]);
             } catch (Exception e) {

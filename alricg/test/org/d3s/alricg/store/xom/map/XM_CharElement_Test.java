@@ -11,6 +11,7 @@ import nu.xom.Attribute;
 import nu.xom.Element;
 
 import org.d3s.alricg.charKomponenten.CharElement;
+import org.d3s.alricg.charKomponenten.RegelAnmerkung;
 import org.d3s.alricg.controller.CharKomponente;
 
 public class XM_CharElement_Test extends TestCase {
@@ -39,14 +40,14 @@ public class XM_CharElement_Test extends TestCase {
         xom.appendChild(aChild);
 
         String beschreibung = "Siehe MBK S. 10";
-        Element child = new Element("beschreibung");
-        child.appendChild(beschreibung);
-        xom.appendChild(child);
+        Element bChild = new Element("beschreibung");
+        bChild.appendChild(beschreibung);
+        xom.appendChild(bChild);
 
         String sammelBegriff = "Rammelbegriff!";
-        child = new Element("sammelbegriff");
-        child.appendChild(sammelBegriff);
-        xom.appendChild(child);
+        Element cChild = new Element("sammelbegriff");
+        cChild.appendChild(sammelBegriff);
+        xom.appendChild(cChild);
 
         CharElement charElement = new CharElementBase();
         mappy.map(xom, charElement);
@@ -100,14 +101,99 @@ public class XM_CharElement_Test extends TestCase {
         assertEquals("Anzeigen Text falsch", "", charElement.getAnzeigenText());
         assertEquals("Beschreibung falsch", beschreibung, charElement.getBeschreibung());
         assertEquals("Sammelbegriff falsch", sammelBegriff, charElement.getSammelBegriff());
+        
+        xom.removeChild(bChild);
+        charElement = new CharElementBase();
+        mappy.map(xom, charElement);
+        assertEquals("Name falsch", name, charElement.getName());
+        assertTrue("Anzeigen falsch", charElement.isAnzeigen());
+        assertEquals("Anzeigen Text falsch", "", charElement.getAnzeigenText());
+        assertEquals("Beschreibung falsch", "", charElement.getBeschreibung());
+        assertEquals("Sammelbegriff falsch", sammelBegriff, charElement.getSammelBegriff());
+
+        xom.removeChild(cChild);
+        charElement = new CharElementBase();
+        mappy.map(xom, charElement);
+        assertEquals("Name falsch", name, charElement.getName());
+        assertTrue("Anzeigen falsch", charElement.isAnzeigen());
+        assertEquals("Anzeigen Text falsch", "", charElement.getAnzeigenText());
+        assertEquals("Beschreibung falsch", "", charElement.getBeschreibung());
+        assertEquals("Sammelbegriff falsch", "", charElement.getSammelBegriff());
     }
 
     public void testMapFromXMLRegelAnmerkungen() {
-        // TODO Implement!
+        final Element xom = new Element("CharElementBase");
+        xom.addAttribute(new Attribute("name", "ElementName"));
+
+        final Element child = new Element("regelAnmerkungen");
+        xom.appendChild(child);
+
+        final String[] texte = { "RegelAnmerkung: Regel 1", "RegelAnmerkung: toDo 1", "RegelAnmerkung: Regel 2",
+                "RegelAnmerkung: toDo 2" };
+
+        final RegelAnmerkung.Modus[] modi = { RegelAnmerkung.Modus.regel, RegelAnmerkung.Modus.todo,
+                RegelAnmerkung.Modus.regel, RegelAnmerkung.Modus.todo };
+
+        Element grandChild = new Element("regel");
+        grandChild.addAttribute(new Attribute("modus", "regel"));
+        grandChild.appendChild(texte[0]);
+        child.appendChild(grandChild);
+
+        grandChild = new Element("regel");
+        grandChild.addAttribute(new Attribute("modus", "toDo"));
+        grandChild.appendChild(texte[1]);
+        child.appendChild(grandChild);
+
+        grandChild = new Element("regel");
+        grandChild.addAttribute(new Attribute("modus", "regel"));
+        grandChild.appendChild(texte[2]);
+        child.appendChild(grandChild);
+
+        grandChild = new Element("regel");
+        grandChild.addAttribute(new Attribute("modus", "toDo"));
+        grandChild.appendChild(texte[3]);
+        child.appendChild(grandChild);
+
+        CharElement charElement = new CharElementBase();
+        mappy.map(xom, charElement);
+        RegelAnmerkung ra = charElement.getRegelAnmerkung();
+        assertEquals("Anmerkungszahl falsch", 4, ra.getAnmerkungen().length);
+        assertEquals("Modizahl falsch", 4, ra.getModi().length);
+        for (int i = 0; i < ra.getAnmerkungen().length; i++) {
+            assertEquals("Text falsch", texte[i], ra.getAnmerkungen()[i]);
+            assertEquals("Modus falsch", modi[i], ra.getModi()[i]);
+        }
+
+        grandChild = new Element("regel");
+        grandChild.addAttribute(new Attribute("modus", "FIGGARO"));
+        grandChild.appendChild(texte[1]);
+        child.appendChild(grandChild);
+        try {
+            charElement = new CharElementBase();
+            mappy.map(xom, charElement);
+
+        } catch (Throwable t) {
+            assertTrue("AssertionException expected", t instanceof AssertionError);
+        }
+
     }
 
     public void testMapFromXMLSonderregeln() {
-        // TODO Implement!
+        // Sonderregeln werden z.Zt. nicht gemappt!
+        // => Teste auch das, dmits einen Fehler gibt, falls es doch mal impl. wird.
+
+        final Element xom = new Element("CharElementBase");
+        xom.addAttribute(new Attribute("name", "ElementName"));
+
+        final Element child = new Element("sonderregel");
+        child.addAttribute(new Attribute("id", "eineKomischeID"));
+        xom.appendChild(child);
+
+        final CharElement charElement = new CharElementBase();
+        mappy.map(xom, charElement);
+        assertNull("SonderregelMapping wird noch nicht getestet. Please implement ASAP!", charElement.getSonderregel());
+        assertFalse("SonderregelMapping wird noch nicht getestet. Please implement ASAP!", charElement.hasSonderregel());
+
     }
 
     public void testMapToXML() {
@@ -130,7 +216,5 @@ public class XM_CharElement_Test extends TestCase {
         public CharKomponente getCharKomponente() {
             return null;
         }
-
     }
-
 }
