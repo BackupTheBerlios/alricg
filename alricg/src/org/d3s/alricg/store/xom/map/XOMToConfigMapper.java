@@ -40,12 +40,12 @@ public class XOMToConfigMapper {
 
             // Mapping
             final Properties result = new Properties();
-            result.put(ConfigStore.Key.config_file, CONFIG_FILE);
-            result.put(ConfigStore.Key.d3s_schema_path, D3S_SCHEMA_PATH);
-            result.put(ConfigStore.Key.d3s_library_path, D3S_LIBRARY_PATH);
-            result.put(ConfigStore.Key.d3s_img_path, D3S_IMG_PATH);
-            result.put(ConfigStore.Key.d3s_data_path, D3S_DATA_PATH);
-            result.put(ConfigStore.Key.user_data_path, USER_DATA_PATH);
+            result.setProperty(ConfigStore.Key.config_file.toString(), CONFIG_FILE);
+            result.setProperty(ConfigStore.Key.d3s_schema_path.toString(), D3S_SCHEMA_PATH);
+            result.setProperty(ConfigStore.Key.d3s_library_path.toString(), D3S_LIBRARY_PATH);
+            result.setProperty(ConfigStore.Key.d3s_img_path.toString(), D3S_IMG_PATH);
+            result.setProperty(ConfigStore.Key.d3s_data_path.toString(), D3S_DATA_PATH);
+            result.setProperty(ConfigStore.Key.user_data_path.toString(), USER_DATA_PATH);
 
             // Laden des richtigen packages
             final Element regelConfig = configRoot.getFirstChildElement("regelConfig");
@@ -56,7 +56,7 @@ public class XOMToConfigMapper {
             try {
                 for (int i = 0; i < elements.size(); i++) {
                     final Element child = elements.get(i);
-                    
+
                     // Wenn es sich um das gesuchte package handelt....
                     if (child.getAttributeValue("id").equals(pack)) {
 
@@ -64,7 +64,9 @@ public class XOMToConfigMapper {
                         if (skt == null || skt.getAttributeValue("useOriginal").equals("true")) {
 
                             // Die SKT ist "original" und wird hier eingelesen
-                            result.put(XOMConfigStore.SKT_KEY, loadSkt(regelConfig.getFirstChildElement("originalSkt")));
+                            result
+                                    .put(XOMConfigStore.SKT_KEY, loadSkt(regelConfig
+                                            .getFirstChildElement("originalSkt")));
                             break;
                         } else {
 
