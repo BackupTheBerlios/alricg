@@ -12,6 +12,7 @@ import nu.xom.Elements;
 
 import org.d3s.alricg.controller.Messenger;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.store.ConfigStore;
 import org.d3s.alricg.store.Configuration;
 import org.d3s.alricg.store.ConfigurationException;
 import org.d3s.alricg.store.TextStore;
@@ -23,8 +24,8 @@ public class XOMToLibraryMapper {
     public TextStore readData(Configuration props) throws ConfigurationException {
 
         try {
-            final Element configRoot = XOMHelper.getRootElementNoLog(new File(props.getProperty("config.file")));
-            final String d3sLibDir = props.getProperty("d3s.library.path");
+            final Element configRoot = XOMHelper.getRootElementNoLog(new File(props.getProperty(ConfigStore.Key.config_file)));
+            final String d3sLibDir = props.getProperty(ConfigStore.Key.d3s_library_path);
             final String fileName = configRoot.getFirstChildElement("library").getAttribute("file").getValue();
             final Element element = XOMHelper.getRootElementNoLog(new File(d3sLibDir, fileName));
             final String language = configRoot.getFirstChildElement("library").getAttributeValue("lang");

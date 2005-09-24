@@ -1,3 +1,12 @@
+/*
+ * Created on 20.06.2005 / 13:14:15
+ *
+ * This file is part of the project ALRICG. The file is copyright
+ * protected and under the GNU General Public License.
+ * For more information see "http://alricg.die3sphaere.de/".
+ *
+ */
+
 package org.d3s.alricg.store.xom;
 
 import java.util.Collection;
@@ -79,6 +88,7 @@ import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.store.ConfigStore;
 import org.d3s.alricg.store.DataStore;
 import org.d3s.alricg.store.FactoryFinder;
+import org.d3s.alricg.store.KeyExistsException;
 import org.d3s.alricg.store.TextStore;
 
 public class XOMStore implements DataStore {
@@ -158,33 +168,18 @@ public class XOMStore implements DataStore {
      * Privater Konstruktor - wird nur über initCharKompAdmin() aufgerufen!
      */
     public XOMStore() {
-        // Initialiserung der HashMap für schnellen Zugriff auf Komponenten
-        // über deren ID
+        // Initialiserung der HashMap für schnellen Zugriff auf Komponenten über deren ID
         for (int i = 0; i < CharKomponente.values().length; i++) {
             charKompMap.put(CharKomponente.values()[i].getPrefix(), CharKomponente.values()[i]);
         }
     }
 
-    /**
-     * Liefert eine CharKomponente, die zu einer ID gehört zurück. Wenn die CharKomponente zu der ID bekannt ist, sollte
-     * aus performance Gründen "getCharElement(String id, CharKomponente charKomp)" benutzt werden.
-     * 
-     * @param id Die ID die gesucht wird
-     * @return Die gesuchte Charkomponente oder "null", falls zu dem Schlüssel keine CharKomponente gefunden werden
-     *         kann.
-     */
+    // @see org.d3s.alricg.store.DataStore#getCharElement(java.lang.String)
     public CharElement getCharElement(String id) {
         return getCharElement(id, this.getCharKompFromId(id));
     }
 
-    /**
-     * Liefert eine CharKomponente, die zu einer ID gehört zurück.
-     * 
-     * @param id Die ID die gesucht wird
-     * @param charKomp Die art der Charkomponente
-     * @return Die gesuchte Charkomponente oder "null", falls zu dem Schlüssel keine CharKomponente gefunden werden
-     *         kann.
-     */
+    // @see org.d3s.alricg.store.DataStore#getCharElement(java.lang.String, org.d3s.alricg.controller.CharKomponente)
     public CharElement getCharElement(String id, CharKomponente charKomp) {
         final Map<String, ? extends CharElement> map = getMap(charKomp); // Die zugehörige HashMap holen
         if (map.get(id) == null) {
@@ -193,66 +188,37 @@ public class XOMStore implements DataStore {
         return map.get(id);
     }
 
-    /**
-     * Schreibt alle enthaltenen Charakter-Elemente in ein einziges root element, dieses ist ein Element mit einem
-     * "alricgXML"-Tag.
-     * 
-     * @return "alricgXML" Element mit allen enthaltenen Elementen.
-     */
-    public Element writeXML() {
-        // TODO muss noch ganz anders gemaccht werden
-        CharKomponente[] charKompArray;
-        Iterator ite;
-        Element tmpElement = null;
+    // @see org.d3s.alricg.store.DataStore#getCharKompFromId(java.lang.String)
+    public CharKomponente getCharKompFromId(String id) {
+        String prefix = "";
 
-        Element root = new Element("alricgXML");
-        charKompArray = CharKomponente.values();
-
-        // TODO Die preamble noch hinzufügen
-
-        // Alle charKomponenten durchgehen
-        for (int i = 0; i < charKompArray.length; i++) {
-
-            if (charKompArray[i] == CharKomponente.eigenschaft || charKompArray[i] == CharKomponente.sonderregel
-                    || charKompArray[i] == CharKomponente.rasseVariante
-                    || charKompArray[i] == CharKomponente.kulturVariante
-                    || charKompArray[i] == CharKomponente.professionVariante) {
-                continue; // Diese CharElemente werden nicht (hier) geschrieben, daher Abbruch
-            }
-
-            ite = getMap(charKompArray[i]).values().iterator(); // Alle Elemente holen
-
-            // Das "Box" Element hinzufügen, wenn es Unterelemente gibt
-            if (ite.hasNext()) {
-                tmpElement = new Element(charKompArray[i].getKategorie());
-                root.appendChild(tmpElement);
-            }
-
-            // Alle Elemente der CharKomponente durchgehen
-            while (ite.hasNext()) {
-                Element testElement = ((CharElement) ite.next()).writeXmlElement();
-
-                tmpElement.appendChild(testElement);
-            }
+        try {
+            prefix = id.split("-")[0]; // Spaltet den Prefix von der ID ab
+        } catch (ArrayIndexOutOfBoundsException e) {
+            ProgAdmin.logger.severe("prefix falsch aufgebaut! \n" + e.toString());
         }
 
-        return root;
+        return getCharKompFromPrefix(prefix);
     }
 
-    /**
-     * Liefert alle charKomponenten eines gewünschten Typs
-     * 
-     * @param charKomp Der gewünschte Typ
-     * @return Eine Collection mit allen charKomponenten des gewünschten Typs
-     */
+    // @see org.d3s.alricg.store.DataStore#getCharKompFromPrefix(java.lang.String)
+    public CharKomponente getCharKompFromPrefix(String prefix) {
+        assert charKompMap.get(prefix) != null; // Gültigkeitsprüfung
+
+        return charKompMap.get(prefix);
+    }
+
+    // @see org.d3s.alricg.store.DataStore#getUnmodifieableCollection(org.d3s.alricg.controller.CharKomponente)
     public Collection<CharElement> getUnmodifieableCollection(CharKomponente charKomp) {
         return Collections.unmodifiableCollection(getMap(charKomp).values());
     }
 
     /**
-     * Ermöglicht den lesenden Zugriff auf die map mit den charKomponenten. Bem.: Durch die Konstruktion
-     * <code>Map<String, ? extends CharElement></code> kann kein Element zu einer <code>map</code> hinzugefügt
-     * werden.
+     * Ermöglicht den lesenden Zugriff auf die Map mit den charKomponenten.
+     * <p>
+     * Bemerkung: Durch die Konstruktion <code>Map<String, ? extends CharElement></code> kann kein Element zu einer
+     * <code>map</code> hinzugefügt werden.
+     * </p>
      * 
      * @param charKomp Die CharKomponente zu der die HashMap zurückgegeben werden soll
      * @return HashMap mit allen Elementen zu dieser CharKomponente
@@ -343,37 +309,25 @@ public class XOMStore implements DataStore {
     }
 
     /**
-     * Erlaubt einen Zurgiff auf eine bestimmt charKomponente anhand der ID, bzw. des Prefixes aus der ID. (Z.B.
-     * "RAS-Zwerg") "RAS" ist das Prefix, das für alle Rassen-Ids gilt.
+     * Initialisiert die zu <code>charKomp</code> gehörende <code>Map</code> mit "leeren" aber vom Typ korrekten
+     * <code>CharElement</code>en; die <code>keys</code> sind die Einträge in <code>ids</code>.
      * 
-     * @param id Die ID mit dem Prefix
-     * @return CharKomponente zu dem Prefix der ID
-     */
-    public CharKomponente getCharKompFromId(String id) {
-        String prefix = "";
-
-        try {
-            prefix = id.split("-")[0]; // Spaltet den Prefix von der ID ab
-        } catch (ArrayIndexOutOfBoundsException e) {
-            ProgAdmin.logger.severe("prefix falsch aufgebaut! \n" + e.toString());
-        }
-
-        return getCharKompFromPrefix(prefix);
-    }
-
-    /**
-     * Erlaubt einen Zurgiff auf eine bestimmt charKomponente anhand der ID, bzw. des Prefixes einer ID.
+     * <p>
+     * Ein solches Vorgehen ist nötig, da <code>CharElement</code>e auf andere <code>CharElement</code>e verweisen
+     * können.<br/>
      * 
-     * @param prefix Der prefix
-     * @return CharKomponente zu dem Prefix
+     * <pre>
+     *    Seien A, B CharElemente und es verweise A auf B (z.B. Modifikation: B + 3).
+     *    Existiert B bei Anlage von A und der entsprechenden Modifikation noch nicht, sind Fehler im Programm nur eine Frage der Zeit. 
+     *    Als prominentes Beispiel sei die NullPointerException genannt.
+     * </pre>
+     * 
+     * </p>
+     * 
+     * @param ids Eine Liste mit ids, die zu einer Charakterkomponente hinzugefügt werden sollen.
+     * @param charKomp Die Charakterkomponente zu der neue Elemente hinzugefügt werden sollen.
      */
-    public CharKomponente getCharKompFromPrefix(String prefix) {
-        assert charKompMap.get(prefix) != null; // Gültigkeitsprüfung
-
-        return charKompMap.get(prefix);
-    }
-
-    public void initCharKomponents(List<String> ids, CharKomponente charKomp) {
+    public void initCharKomponents(List<String> ids, CharKomponente charKomp) throws KeyExistsException {
         switch (charKomp) {
         // >>>>>>>>>>>>>>> Herkunft
         case rasse:
@@ -583,16 +537,71 @@ public class XOMStore implements DataStore {
     }
 
     /**
+     * Schreibt alle enthaltenen Charakter-Elemente in ein einziges root element, dieses ist ein Element mit einem
+     * "alricgXML"-Tag.
+     * 
+     * Weitere Anforderungen:
+     * <ul>
+     * <li> Speichern in 1 File ist möglich.</li>
+     * <li> Speichern in verschiedene Files ist möglich.</li>
+     * <li> Jedes Element kann in ein anderes Files an der richtigen Stelle gespeichert werden.</li>
+     * </ul>
+     * 
+     * @return "alricgXML" Element mit allen enthaltenen Elementen.
+     */
+    public Element writeXML() {
+        // TODO muss noch ganz anders gemaccht werden
+        CharKomponente[] charKompArray;
+        Iterator ite;
+        Element tmpElement = null;
+
+        Element root = new Element("alricgXML");
+        charKompArray = CharKomponente.values();
+
+        // TODO Die preamble noch hinzufügen
+
+        // Alle charKomponenten durchgehen
+        for (int i = 0; i < charKompArray.length; i++) {
+
+            if (charKompArray[i] == CharKomponente.eigenschaft || charKompArray[i] == CharKomponente.sonderregel
+                    || charKompArray[i] == CharKomponente.rasseVariante
+                    || charKompArray[i] == CharKomponente.kulturVariante
+                    || charKompArray[i] == CharKomponente.professionVariante) {
+                continue; // Diese CharElemente werden nicht (hier) geschrieben, daher Abbruch
+            }
+
+            ite = getMap(charKompArray[i]).values().iterator(); // Alle Elemente holen
+
+            // Das "Box" Element hinzufügen, wenn es Unterelemente gibt
+            if (ite.hasNext()) {
+                tmpElement = new Element(charKompArray[i].getKategorie());
+
+                root.appendChild(tmpElement);
+            }
+
+            // Alle Elemente der CharKomponente durchgehen
+            while (ite.hasNext()) {
+                Element testElement = ((CharElement) ite.next()).writeXmlElement();
+
+                tmpElement.appendChild(testElement);
+            }
+        }
+
+        return root;
+    }
+
+    /**
      * Wird aufgerufen, um zu prüfen ob ein ID Wert doppelt vorkommt! In dem Fall wird eine Warnung ausgegeben, aber
      * nicht verhindert das der alte Wert überschrieben wird!
      * 
      * @param key Der Key der überprüft werden soll
      */
-    private void keyDoppelt(String key, Map<String, ? extends CharElement> hash) {
+    private void keyDoppelt(String key, Map<String, ? extends CharElement> hash) throws KeyExistsException {
         if (hash.containsKey(key)) {
             // Doppelte ID, dadurch wird der alte Wert überschrieben
             ProgAdmin.logger.warning("Bei der Initialisierung ist eine ID doppelt für die HashMap: " + key);
             ProgAdmin.messenger.sendFehler(FactoryFinder.find().getLibrary().getErrorTxt("CharKomponente ID doppelt"));
+            throw new KeyExistsException("Der Schlüssel " + key + " wird bereits verwendet");
         }
     }
 }

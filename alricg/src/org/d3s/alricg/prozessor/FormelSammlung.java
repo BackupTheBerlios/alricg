@@ -107,7 +107,7 @@ public class FormelSammlung {
             ProgAdmin.logger.severe(ex.getMessage());
             ProgAdmin.messenger.showMessage(Messenger.Level.fehler, 
             		lib.getErrorTxt("Fehlerhafte Datei") + "\n" + "  " 
-                    + config.getConfig().getProperty("config.file")+ "\n" 
+                    + config.getConfig().getProperty(ConfigStore.Key.config_file)+ "\n" 
                     + lib.getErrorTxt("XML Validierungsfehler"));
     	}
     }

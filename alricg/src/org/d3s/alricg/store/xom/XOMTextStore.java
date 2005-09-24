@@ -1,3 +1,12 @@
+/*
+ * Created on 20.06.2005 / 13:14:15
+ *
+ * This file is part of the project ALRICG. The file is copyright
+ * protected and under the GNU General Public License.
+ * For more information see "http://alricg.die3sphaere.de/".
+ *
+ */
+
 package org.d3s.alricg.store.xom;
 
 import java.util.HashMap;
@@ -23,6 +32,15 @@ public class XOMTextStore implements TextStore {
 
     }
 
+    /**
+     * Erzeugt eine neue Instanz mit den angebenenen Tabellen
+     * @param language Die Sprache
+     * @param shortT kurze Texte
+     * @param middleT mitellange Texte
+     * @param longT lange Texte
+     * @param errT Fehlertexte
+     * @param ttT ToolTips
+     */
     public XOMTextStore(String language, Map<String, String> shortT,
             Map<String, String> middleT, Map<String, String> longT, Map<String, String> errT, Map<String, String> ttT) {
 
@@ -34,56 +52,31 @@ public class XOMTextStore implements TextStore {
         toolTipTxt = ttT;
     }
 
-    /**
-     * Für alle Texte die aus genau EINEM Wort bestehen.
-     * 
-     * @param key Das Schlüsselword zu dem Text
-     * @return Den Text zum Schlüsselwort
-     */
+    // @see org.d3s.alricg.store.TextStore#getShortTxt(java.lang.String)
     public String getShortTxt(String key) {
         assert shortTxt.get(key) != null;
         return shortTxt.get(key);
     }
 
-    /**
-     * Für alle Texte die aus ZWEI bis DREI Worten bestehen.
-     * 
-     * @param key Das Schlüsselword zu dem Text
-     * @return Den Text zum Schlüsselwort
-     */
+    // @see org.d3s.alricg.store.TextStore#getMiddleTxt(java.lang.String)
     public String getMiddleTxt(String key) {
         assert middleTxt.get(key) != null;
         return middleTxt.get(key);
     }
 
-    /**
-     * Für alle Texte die aus MEHR ALS DREI Worten bestehen.
-     * 
-     * @param key Das Schlüsselword zu dem Text
-     * @return Den Text zum Schlüsselwort
-     */
+    // @see org.d3s.alricg.store.TextStore#getLongTxt(java.lang.String)
     public String getLongTxt(String key) {
         assert longTxt.get(key) != null;
         return longTxt.get(key);
     }
 
-    /**
-     * Für alle Texte die Fehlermeldungen sind.
-     * 
-     * @param key Das Schlüsselword zu dem Text
-     * @return Den Text zum Schlüsselwort
-     */
+    // @see org.d3s.alricg.store.TextStore#getErrorTxt(java.lang.String)
     public String getErrorTxt(String key) {
         assert errorMsgTxt.get(key) != null;
         return errorMsgTxt.get(key);
     }
 
-    /**
-     * Für alle Texte die ToolTips sind.
-     * 
-     * @param key Das Schlüsselword zu dem Text
-     * @return Den Text zum Schlüsselwort
-     */
+    // @see org.d3s.alricg.store.TextStore#getToolTipTxt(java.lang.String)
     public String getToolTipTxt(String key) {
         assert toolTipTxt.get(key) != null;
         return toolTipTxt.get(key);

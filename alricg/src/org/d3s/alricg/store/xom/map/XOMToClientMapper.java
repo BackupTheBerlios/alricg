@@ -18,9 +18,11 @@ import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.EigenschaftEnum;
 import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.store.ConfigStore;
 import org.d3s.alricg.store.Configuration;
 import org.d3s.alricg.store.ConfigurationException;
 import org.d3s.alricg.store.FactoryFinder;
+import org.d3s.alricg.store.KeyExistsException;
 import org.d3s.alricg.store.TextStore;
 import org.d3s.alricg.store.xom.XOMHelper;
 import org.d3s.alricg.store.xom.XOMStore;
@@ -29,7 +31,8 @@ public class XOMToClientMapper {
 
     public void readData(Configuration props, XOMStore dataStore) throws ConfigurationException {
         try {
-            final Element configRoot = XOMHelper.getRootElement(new File(props.getProperty("config.file")));
+            final Element configRoot = XOMHelper
+                    .getRootElement(new File(props.getProperty(ConfigStore.Key.config_file)));
             final TextStore lib = FactoryFinder.find().getLibrary();
 
             ProgAdmin.messenger.sendInfo(lib.getLongTxt("Regel-Dateien werden geladen"));
@@ -52,20 +55,19 @@ public class XOMToClientMapper {
      * 
      * @param arrayFiles Eine ArrayList mit allen Dateien die Eingelesen werden
      */
-    private void initCharKomponents(List<File> arrayFiles, XOMStore charKompAdmin) {
+    private void initCharKomponents(List<File> arrayFiles, XOMStore charKompAdmin) throws KeyExistsException {
 
         loadCharKomponents(arrayFiles, charKompAdmin, true);
 
         List<String> ids = EigenschaftEnum.getIdArray();
 
-        // Eigenschaften hinzufügen (initialisierung erstellt diese komplett)
         charKompAdmin.initCharKomponents(ids, CharKomponente.eigenschaft);
     }
 
     /**
      * Alle "leeren" CharKomponenten durchgehen und die Komponenten füllen!
      */
-    private void loadCharKomponents(List<File> files, XOMStore store, boolean init) {
+    private void loadCharKomponents(List<File> files, XOMStore store, boolean init) throws KeyExistsException {
         final CharKomponente[] charKomps = CharKomponente.values();
 
         // Files auslesen, hier kann eigentlich kein Lade Fehler auftreten,
@@ -107,7 +109,7 @@ public class XOMToClientMapper {
      * @param store Store in den die Elemente gespeichert werden sollen
      * @author V.Strelow
      */
-    private void initHelpCharKomponents(Elements kategorien, CharKomponente current, XOMStore store) {
+    private void initHelpCharKomponents(Elements kategorien, CharKomponente current, XOMStore store) throws KeyExistsException {
         final CharKomponente currentVariante;
 
         final List<String> ids = new ArrayList<String>();
@@ -168,8 +170,8 @@ public class XOMToClientMapper {
      * @return Eine ArrayList mir allen Files die eingelesen werden sollen (inklusive dem "benoetigtDateien"-Tag
      */
     private List<File> getXmlFiles(Configuration props, Element configRoot) {
-        final File d3sDataDir = new File(props.getProperty("d3s.data.path"));
-        final File d3sUserDir = new File(props.getProperty("user.data.path"));
+        final File d3sDataDir = new File(props.getProperty(ConfigStore.Key.d3s_data_path));
+        final File d3sUserDir = new File(props.getProperty(ConfigStore.Key.user_data_path));
         final List<File> arrayFiles = new ArrayList<File>();
 
         // Lese die Pfade zu den XML-Files mit Komponten ein
@@ -201,8 +203,8 @@ public class XOMToClientMapper {
      * @param file Das File das ggf. hinzugefügt werden soll mit "benötigtenDateien".
      */
     private void loadRegelFile(Configuration props, List<File> arrayFiles, File file) {
-        final File d3sDataDir = new File(props.getProperty("d3s.data.path"));
-        final File d3sUserDir = new File(props.getProperty("user.data.path"));
+        final File d3sDataDir = new File(props.getProperty(ConfigStore.Key.d3s_data_path));
+        final File d3sUserDir = new File(props.getProperty(ConfigStore.Key.user_data_path));
 
         // Wenn das File schon enthalten ist --> return
         if (arrayFiles.contains(file))

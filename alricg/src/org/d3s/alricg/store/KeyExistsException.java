@@ -10,48 +10,51 @@
 package org.d3s.alricg.store;
 
 /**
- * Kapselt Ausnahmen, die während der Konfigurationsphase oder durch fehlerhafte Konfiguration von alricg auftreten
- * können.
+ * Diese Ausnahme zeigt an, dass im DataStore ein Schlüssel mehrfach verwendet wird.
  * 
  * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
  */
-public class ConfigurationException extends Exception {
+public class KeyExistsException extends Exception {
 
-    private static final long serialVersionUID = -1469348845404562863L;
+    private static final long serialVersionUID = 7504444038267831753L;
 
     /**
-     * Erzeugt eine neue <code>ConfigurationException</code>
+     * Erzeugt eine neue <code>KeyExistsException</code>
+     * 
      * @see Exception
      */
-    public ConfigurationException() {
+    public KeyExistsException() {
         super();
     }
 
     /**
-     * Erzeugt eine neue <code>ConfigurationException</code>
+     * Erzeugt eine neue <code>KeyExistsException</code>
+     * 
      * @see Exception
      * @param msg Die Nachricht, die mit dieser Ausnahme angezeigt werden soll.
      */
-    public ConfigurationException(String msg) {
+    public KeyExistsException(String msg) {
         super(msg);
     }
 
     /**
-     * Erzeugt eine neue <code>ConfigurationException</code> durch "unhüllen" einer anderen.
+     * Erzeugt eine neue <code>KeyExistsException</code> durch "unhüllen" einer anderen.
+     * 
      * @see Exception
      * @param t Die zu umhüllende Ausnahme
      */
-    public ConfigurationException(Throwable t) {
+    public KeyExistsException(Throwable t) {
         super(t);
     }
 
     /**
-     * Erzeugt eine neue <code>ConfigurationException</code>
+     * Erzeugt eine neue <code>KeyExistsException</code>
+     * 
      * @see Exception
      * @param msg Die Nachricht, die mit dieser Ausnahme angezeigt werden soll.
      * @param t Die zu umhüllende Ausnahme
      */
-    public ConfigurationException(String msg, Throwable t) {
+    public KeyExistsException(String msg, Throwable t) {
         super(msg, t);
     }
 }
