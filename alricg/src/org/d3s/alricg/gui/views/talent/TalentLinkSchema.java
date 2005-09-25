@@ -9,96 +9,245 @@
 package org.d3s.alricg.gui.views.talent;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
-import org.d3s.alricg.gui.views.WorkSchema;
+import org.d3s.alricg.charKomponenten.CharElement;
+import org.d3s.alricg.charKomponenten.Talent;
+import org.d3s.alricg.charKomponenten.links.IdLink;
+import org.d3s.alricg.charKomponenten.links.Link;
+import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.gui.views.ComparatorCollection;
+import org.d3s.alricg.gui.views.ObjectSchema;
+import org.d3s.alricg.gui.views.talent.TalentSpalten.Spalten;
+import org.d3s.alricg.held.GeneratorLink;
+import org.d3s.alricg.held.HeldenLink;
+import org.d3s.alricg.prozessor.HeldProzessor;
 
 /**
  * <u>Beschreibung:</u><br> 
  * Das Schema für das handling von GeneratorLinks mit Talenten. Die Objekte hier sind Links, 
  * die als Ziel Talente besitzen. Das Schema wird für ausgewählte Talent bei der Generierung
  * verwendet.
- * @see org.d3s.alricg.gui.views.WorkSchema
+ * @see org.d3s.alricg.gui.views.ObjectSchema
  * @author V. Strelow
  */
-public class TalentLinkSchema implements WorkSchema {
-
+public class TalentLinkSchema implements ObjectSchema {
+	HeldProzessor prozessor;
+	
+	public enum Ordnung {
+		bla;
+	}
+	
+	public enum Filter {
+		bla;
+	}
+	
+	public TalentLinkSchema() {
+		prozessor = ProgAdmin.heldenAdmin.getActiveProzessor();
+	}
+	
 	/*(non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.WorkSchema#hasSammelbegriff()
+	 * @see org.d3s.alricg.gui.views.ObjectSchema#hasSammelbegriff()
 	 */
 	public boolean hasSammelbegriff() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.WorkSchema#getCellValue(java.lang.Object, java.lang.Object)
+	 * @see org.d3s.alricg.gui.views.ObjectSchema#getCellValue(java.lang.Object, java.lang.Object)
 	 */
 	public Object getCellValue(Object object, Object column) {
-		// TODO Auto-generated method stub
-		return null;
+		final List<IdLink> list;
+		StringBuffer tmpString = new StringBuffer("");
+		
+		switch ((TalentSpalten.Spalten) column) {
+			case stufe: return ((Link) object).getWert();
+			
+			case modis:
+				list = ((GeneratorLink) object).getLinkModiList();
+				
+				// Falls keine Modis existieren
+				if (list.size() == 0) return "";
+				
+				// Anhängen aller Modis
+				for (int i = 0; i < list.size(); i++) {
+					if (list.get(i).getWert() > 0) {
+						tmpString.append("+");
+					}
+					tmpString.append(list.get(i).getWert());
+					tmpString.append("/ ");
+				}
+				
+				// Löschen der letzen Trennzeiche ("/ ")
+				tmpString.delete(tmpString.length() - 3, tmpString.length() - 1);
+				return tmpString.toString();
+				
+			case kosten: return ((HeldenLink) object).getKosten();
+			case spezialisierungen: return ((Link) object).getText();
+			case auswahl: 
+				list = ((GeneratorLink) object).getLinkModiList();
+				
+				// Falls keine Auswahlen existieren
+				if (list.size() == 0) return "";
+				
+				// Anhängen aller Modis
+				// TODO Bessere Anzeige. Im Moment wird nur die Herkunft angezeigt aus dem Enum
+				for (int i = 0; i < list.size(); i++) {
+					if (list.get(i).getQuellAuswahl() == null) continue;
+
+					tmpString.append(list.get(i).getQuellAuswahl().getHerkunft()
+												.getCharKomponente().toString());
+					tmpString.append(", ");
+				}
+				
+				// Löschen der letzen Trennzeichen (", ")
+				if (tmpString.length() > 0 ) {
+					tmpString.delete(tmpString.length() - 3, tmpString.length() - 1);
+				}
+				return tmpString.toString();
+				
+			case leitTalent: return ((Link) object).isLeitwert();
+			
+			default: // Aufrufen des Schemas für direkte Objekte
+				return TalentSchema.getInstance().getCellValue(((Link) object).getZiel(), column);
+		}
 	}
 
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.WorkSchema#setCellValue(java.lang.Object, java.lang.Object, java.lang.Object)
+	 * @see org.d3s.alricg.gui.views.ObjectSchema#setCellValue(java.lang.Object, java.lang.Object, java.lang.Object)
 	 */
 	public void setCellValue(Object newValue, Object object, Object column) {
-		// TODO Auto-generated method stub
+		
+		switch ((TalentSpalten.Spalten) column) {
+			case stufe: prozessor.updateElement(
+							(HeldenLink) object, 
+							(Integer) newValue, 
+							null, 
+							null);
+			
+			case spezialisierungen: prozessor.updateElement(
+							(HeldenLink) object, 
+							CharElement.KEIN_WERT, 
+							newValue.toString(), 
+							null);
+			default:
+				ProgAdmin.logger.warning("Case-Fall konnte nicht gefunden werden!");
+		}
 		
 	}
+	
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.WorkSchema#isCellEditable(java.lang.Object, java.lang.Object)
+	 * @see org.d3s.alricg.gui.views.ObjectSchema#isCellEditable(java.lang.Object, java.lang.Object)
 	 */
 	public boolean isCellEditable(Object object, Object column) {
-		// TODO Auto-generated method stub
+		if (column.equals(TalentSpalten.Spalten.name)
+				|| column.equals(TalentSpalten.Spalten.minus)
+				|| column.equals(TalentSpalten.Spalten.plus)) {
+			// diese müssen immer True sein, damit die Navigation funktioniert
+			return true;
+		}
+		
+		// Diese können im Normalfall editiert werden
+		if ( object instanceof HeldenLink ) {
+			switch ((TalentSpalten.Spalten) column) {
+				case stufe: return prozessor.canUpdateStufe((HeldenLink) object);
+				case spezialisierungen:	return prozessor.canUpdateText((HeldenLink) object);
+			}
+		}
+		
 		return false;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.WorkSchema#getToolTip(java.lang.Object, java.lang.Object)
+	 * @see org.d3s.alricg.gui.views.ObjectSchema#getToolTip(java.lang.Object, java.lang.Object)
 	 */
 	public String getToolTip(Object object, Object column) {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO implement
+		
+		switch ((TalentSpalten.Spalten) column) {
+			case stufe: 
+			
+			case modis:
+				
+			case kosten: 
+			case spezialisierungen: 
+			case auswahl: 			
+			case leitTalent: 
+			
+			default: // Aufrufen des Schemas für direkte Objekte
+				return TalentSchema.getInstance().getToolTip(((Link) object).getZiel(), column);
+		}
+
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.WorkSchema#getOrdnungElem()
+	 * @see org.d3s.alricg.gui.views.ObjectSchema#getOrdnungElem()
 	 */
 	public Enum[] getOrdnungElem() {
 		// TODO Auto-generated method stub
-		return null;
+		return Ordnung.values();
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.WorkSchema#getFilterElem()
+	 * @see org.d3s.alricg.gui.views.ObjectSchema#getFilterElem()
 	 */
 	public Enum[] getFilterElem() {
 		// TODO Auto-generated method stub
-		return null;
+		return Filter.values();
 	}
 
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.WorkSchema#getSortOrdner()
+	 * @see org.d3s.alricg.gui.views.ObjectSchema#getSortOrdner()
 	 */
 	public Object[] getSortOrdner() {
-		// TODO Auto-generated method stub
-		return null;
+		return Talent.Sorte.values();
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.WorkSchema#getOrdinalFromElement(java.lang.Object)
+	 * @see org.d3s.alricg.gui.views.ObjectSchema#getOrdinalFromElement(java.lang.Object)
 	 */
 	public int[] getOrdinalFromElement(Object element) {
-		// TODO Auto-generated method stub
-		return null;
+		int[] tmp = new int[1];
+		tmp[0] = ((Talent) ((Link) element).getZiel()).getSorte().ordinal();
+		return tmp;
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.WorkSchema#doFilterElements(java.lang.Enum, java.util.ArrayList)
+	 * @see org.d3s.alricg.gui.views.ObjectSchema#doFilterElements(java.lang.Enum, java.util.ArrayList)
 	 */
 	public ArrayList doFilterElements(Enum filter, ArrayList aList) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	public Comparator getComparator(Object column) {
+		Comparator tmpCpm;
+		
+		switch ((Spalten) column) {
+		case stufe: return ComparatorCollection.compLinkWert;
+		case kosten: return ComparatorCollection.compLinkKosten;
+		case spezialisierungen: return ComparatorCollection.compLinkText;
+		case leitTalent: return compLeittalent;
+		}
+		
+		// Erstellung eines Wrappers für Links, mit den "standart" Comparatoren
+		return new ComparatorCollection.ComparatorWrapper( TalentSchema.getInstance().getComparator(column) );
+	}
+
+	/**
+	 * Um zwei Links zu vergleichen. Vergeleicht wird der Leitwert
+	 */
+	public static Comparator compLeittalent = 	
+		new Comparator<Link>() {
+			public int compare(Link arg0, Link arg1) {
+				if (arg0.isLeitwert() ==  arg1.isLeitwert()) {
+					return 0;
+				} else if (arg0.isLeitwert()) {
+					return 1;
+				} else {
+					return -1;
+				}
+			}
+		};
 }
