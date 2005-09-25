@@ -8,6 +8,7 @@
 package org.d3s.alricg.gui.views;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -18,7 +19,8 @@ import java.util.ArrayList;
  * Funktionalitäten benötigt, wird für jedesCharElemnt ein Spaltenschema benötigt.
  * @author V. Strelow
  */
-public interface WorkSchema {
+public interface ObjectSchema {
+	
 	
 	/**
 	 * Erspart überflüssiges Sortieren.
@@ -27,6 +29,15 @@ public interface WorkSchema {
 	 */
 	public boolean hasSammelbegriff();
 	
+	/**
+	 * Um Tablen nach verschiedenen Spalten sortieren zu können, muß für 
+	 * jede Spalte ein Comparator verfügbar sein. Dieser Comparator
+	 * wird hiermit geliefert
+	 * @param column Die Spalte, über die sortiert werden soll
+	 * @return Ein Comparator, mit dem Elemente nach der Spalte sortiert werden
+	 * 		können
+	 */
+	public Comparator getComparator(Object column);
 	
 	/**
 	 * Dies ist die eigentliche Methode, mit der Werte abgerufen werden! 
@@ -118,5 +129,7 @@ public interface WorkSchema {
 	 * @return Liste von Elementen die gemäß des aktuellen Filters "bereinigt" wurde
 	 */
 	public ArrayList doFilterElements(Enum filter, ArrayList aList);
+	
+
 
 }
