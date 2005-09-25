@@ -20,7 +20,13 @@ import org.d3s.alricg.charKomponenten.links.Link;
  */
 public class HeldenLink extends Link {
 	
-	
+    /**
+     * @return Die aktuellen kosten für dieses Element (Od GP oder TalentGP ergibt 
+     * sich aus dem Kontext)
+     */
+    public int getKosten() {
+    	return 0;
+    }
 	
 	
 	public void setUserWert(int wert) {
