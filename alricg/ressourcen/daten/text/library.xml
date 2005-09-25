@@ -352,6 +352,17 @@
         <e lang="DE">Repr.</e>
         <e lang="EN">Representation</e>
       </entry>
+      <entry key="Spez.">
+      	<!-- Abkürzung für Für Spezialisierung -->
+        <e lang="DE">Spez.</e>
+      </entry>
+      <entry key="Auswahl">
+        <e lang="DE">Auswahl</e>
+      </entry>
+      <entry key="L.T.">
+        <e lang="DE">L.T.</e>
+      </entry>
+      
 
 <!-- *************** Allgemeine Begriffe ********************************** -->     
       <entry key="Name">
@@ -366,7 +377,15 @@
       </entry>
  	  <entry key="ab Stufe">
         <e lang="DE">ab Stufe</e>
-      </entry>     
+      </entry>
+      <entry key="Modis">
+        <e lang="DE">Modis</e>
+      </entry>
+      <entry key="Kosten">
+        <e lang="DE">Kosten</e>
+      </entry>
+      
+      
 <!-- *************** Label für Panel ********************************** -->
       <entry key="Beschreibung">
         <e lang="DE">Beschreibung</e>
@@ -582,6 +601,30 @@
         <e lang="DE">Entfernt ein Element aus der Tabelle</e>
         <e lang="EN">Removes an element from the table</e>
       </entry>
+      <entry key="TblHeaderStern">
+        <e lang="DE">??</e>
+      </entry>
+      <entry key="TblHeaderStufe">
+        <e lang="DE">Die Gesamt-Stufe des Elements</e>
+      </entry>
+      <entry key="TblHeaderModis">
+        <e lang="DE">Modifikationen auf dieses Element durch Rasse, Kultur, Profession oder Sonderregeln</e>
+      </entry>
+      <entry key="TblHeaderKosten">
+        <e lang="DE">Die GP-Kosten die das Elemenet verursacht.</e>
+      </entry>
+      <entry key="TblHeaderSpezi">
+        <e lang="DE">Die Spezialisierungen zu dem Talent</e>
+      </entry>
+      <entry key="TblHeaderAuswahl">
+        <e lang="DE">Welche Auswahl durch Rasse, Kultur oder Profession dieses Element verändern kann</e>
+      </entry>  
+      <entry key="TblHeaderLeittalent">
+        <e lang="DE">(Nur für Elfen) Ein Hacken bedeutet das dieses Talent Leittalent ist</e>
+      </entry>  
+      <entry key="x">
+        <e lang="DE"></e>
+      </entry>  
     </toolTip>
     
     
