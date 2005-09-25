@@ -168,8 +168,8 @@ public class SortableTable extends JTable {
      * @param isIconVorText true - Erst kommt das Icon (=links), danach der Text, 
      * 						false - Erst kommt der Text (=links), danach das Icon
      */
-    public void setColumnTextImage(int column, boolean isIconLinks) {
-    	this.getColumn(getColumnName(column)).setCellRenderer(new ImageTextRenderer(isIconLinks));
+    public void setColumnTextImage(String colName, boolean isIconLinks) {
+    	this.getColumn(colName).setCellRenderer(new ImageTextRenderer(isIconLinks));
 	}
     
     /**
@@ -178,8 +178,8 @@ public class SortableTable extends JTable {
      * @param column Die Spalte die ein Bild anzeigen soll
      * @param buttonText Der text auf dem Button
      */
-    public void setColumnMultiImage(int column) {
-    	this.getColumn(getColumnName(column)).setCellRenderer(new ImageRenderer());
+    public void setColumnMultiImage(String colName) {
+    	this.getColumn(colName).setCellRenderer(new ImageRenderer());
     }
     
     /**

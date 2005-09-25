@@ -25,7 +25,7 @@ import org.d3s.alricg.gui.komponenten.table.SortableTable;
  */
 public interface SpaltenSchema {
 	String buttonValue = "button";
-	NamensComparator namensComparator = new NamensComparator();
+
 	
 	public enum SpaltenArt {
 		// Wenn die Objekte direkt angezeigt werden z.B. "Talente"
@@ -60,17 +60,7 @@ public interface SpaltenSchema {
 	 * @param art Die Art der darzustellenden Spalten
 	 */
 	public void initTable(SortableTable table, SpaltenArt art);
-	
-	/**
-	 * Um Tablen nach verschiedenen Spalten sortieren zu können, muß für 
-	 * jede Spalte ein Comparator verfügbar sein. Dieser Comparator
-	 * wird hiermit geliefert
-	 * @param column Die Spalte, über die sortiert werden soll
-	 * @return Ein Comparator, mit dem Elemente nach der Spalte sortiert werden
-	 * 		können
-	 */
-	public Comparator getComparator(Object column);
-	
+		
 	/**
 	 * Gibt zurück, ob nach einer Spalte sortiert werden kann, also dafür 
 	 * entsprechende Pfeile angezeigt werden!
@@ -86,41 +76,6 @@ public interface SpaltenSchema {
 	 */
 	public String getHeaderToolTip(Object column);
 	
-	/**
-	 * <u>Beschreibung:</u><br> 
-	 * Comparator um Namen von CharElementen in einer TreeTable miteinander 
-	 * vergleichen zu können. Es können sowohl Strings als auch Unterklassen von 
-	 * "CharElement" verglichen werden.
-	 * Vorteil: Es können auch Strings (wie von Ordnern in TreeTable) und CharElemente
-	 * miteinander verglichen werden.
-	 * @author V. Strelow
-	 */
-	public class NamensComparator implements Comparator {
 
-		/* (non-Javadoc) Methode überschrieben
-		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-		 */
-		public int compare(Object arg0, Object arg1) {
-			
-			return arg0.toString().compareTo(arg1.toString());
-			
-			/*String str1, str2;
-			
-			if (arg0 instanceof String) {
-				str1 = (String) arg0;
-			} else {
-				str1 = ((CharElement) arg0).getName();
-			}
-			
-			if (arg1 instanceof String) {
-				str2 = (String) arg1;
-			} else {
-				str2 = ((CharElement) arg1).getName();
-			}
-			
-			return str1.compareTo(str2);*/
-		}
-		
-	}
 
 }

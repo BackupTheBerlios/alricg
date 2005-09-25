@@ -20,6 +20,13 @@ public class ImageTextObject {
 	
 	/**
 	 * Konstruktor
+	 */
+	public ImageTextObject() {
+		
+	}
+	
+	/**
+	 * Konstruktor
 	 * @param text Der Text
 	 * @param icon Das Icon zu dem Text, kann auch "null" sein.
 	 */

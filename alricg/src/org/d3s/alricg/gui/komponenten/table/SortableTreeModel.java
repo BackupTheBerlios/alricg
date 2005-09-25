@@ -18,7 +18,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.gui.views.SpaltenSchema;
-import org.d3s.alricg.gui.views.WorkSchema;
+import org.d3s.alricg.gui.views.ObjectSchema;
 import org.d3s.alricg.gui.views.SpaltenSchema.SpaltenArt;
 
 /**
@@ -36,12 +36,12 @@ import org.d3s.alricg.gui.views.SpaltenSchema.SpaltenArt;
 public class SortableTreeModel<E> extends AbstractTreeTableModel {
 	private final Object[] columns; // Die Spalten-Titel
 	private final SpaltenSchema spaSchema; // Spezifische Methoden für die Spalten
-	private final WorkSchema worSchema; // Spezifische Methoden für Typ <E>
+	private final ObjectSchema worSchema; // Spezifische Methoden für Typ <E>
 	private final DefaultMutableTreeNode root; // Wurzel-Knoten
 	private boolean[] lastAscSorted; // Sortierrichtung
 	private NodeComparator nodeComp; // Comparator für Nodes
 	
-	public SortableTreeModel(SpaltenSchema sSchema, WorkSchema wSchema, SpaltenArt art, String rootText) {
+	public SortableTreeModel(SpaltenSchema sSchema, ObjectSchema wSchema, SpaltenArt art, String rootText) {
 		super(new DefaultMutableTreeNode(rootText));
     	
 		this.columns = sSchema.getSpalten(art);
@@ -66,7 +66,7 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 	 * Wird genutzt von dem TreeTableModelAdapter
 	 * @return Das benutze Schema dieses Modells
 	 */
-	public WorkSchema getWorkSchema() {
+	public ObjectSchema getWorkSchema() {
 		return worSchema;
 	}
 	
@@ -328,7 +328,7 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 	public void sortTableByColumn(int column) {
 		
 		// Den "echten" Comparator setzen
-		nodeComp.setRealComparator(spaSchema.getComparator(columns[column]));
+		nodeComp.setRealComparator(worSchema.getComparator(columns[column]));
 		
 		sortHelp ((DefaultMutableTreeNode) root, 
 				nodeComp, 

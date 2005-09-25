@@ -15,7 +15,7 @@ import java.util.Collections;
 import javax.swing.table.AbstractTableModel;
 
 import org.d3s.alricg.gui.views.SpaltenSchema;
-import org.d3s.alricg.gui.views.WorkSchema;
+import org.d3s.alricg.gui.views.ObjectSchema;
 import org.d3s.alricg.gui.views.SpaltenSchema.SpaltenArt;
 
 /**
@@ -34,10 +34,10 @@ public class SortableTableModel<E> extends AbstractTableModel {
 	private ArrayList<E> dataList = new ArrayList<E>();
 	private Enum[] columns;
 	private final SpaltenSchema spaSchema; // Spezifische Methoden für die Spalten
-	private final WorkSchema worSchema; // Spezifische Methoden für Typ <E>
+	private final ObjectSchema worSchema; // Spezifische Methoden für Typ <E>
 	private boolean[] lastAscSorted;
 	
-	public SortableTableModel(SpaltenSchema sSchema, WorkSchema wSchema, SpaltenArt art) {
+	public SortableTableModel(SpaltenSchema sSchema, ObjectSchema wSchema, SpaltenArt art) {
 		
 		this.columns = sSchema.getSpalten(art);
 		this.spaSchema = sSchema;
@@ -115,7 +115,7 @@ public class SortableTableModel<E> extends AbstractTableModel {
 	 * @see org.d3s.alricg.GUI.komponenten.table.SortableTableModelInterface#sortTableByColumn(int)
 	 */
 	public void sortTableByColumn(int colIdx) {
-		Collections.sort(dataList, spaSchema.getComparator(columns[colIdx]));
+		Collections.sort(dataList, worSchema.getComparator(columns[colIdx]));
 		
 		// Somit wird beim zweiten klick die Reihenfolge vertauscht
 		if ( lastAscSorted[colIdx]) {
@@ -144,7 +144,7 @@ public class SortableTableModel<E> extends AbstractTableModel {
 		return spaSchema;
 	}
 	
-	public WorkSchema getWorkSchema() {
+	public ObjectSchema getWorkSchema() {
 		return worSchema;
 	}
 }

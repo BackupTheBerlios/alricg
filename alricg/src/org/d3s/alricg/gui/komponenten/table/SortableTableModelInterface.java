@@ -11,7 +11,7 @@ package org.d3s.alricg.gui.komponenten.table;
 import javax.swing.table.TableModel;
 
 import org.d3s.alricg.gui.views.SpaltenSchema;
-import org.d3s.alricg.gui.views.WorkSchema;
+import org.d3s.alricg.gui.views.ObjectSchema;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -68,7 +68,7 @@ public interface SortableTableModelInterface extends TableModel {
 	
 	/**
 	 * liefert das ViewSchema zurück, auf das diese Tabelle aufbaut
-	 * @return Das benutze WorkSchema
+	 * @return Das benutze ObjectSchema
 	 */
-	public abstract WorkSchema getWorkSchema();
+	public abstract ObjectSchema getWorkSchema();
 }
