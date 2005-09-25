@@ -18,9 +18,18 @@ import javax.swing.ImageIcon;
 public class ImageAdmin {
     private static final String MERKMAL_PFAD = "ressourcen/img/zauberMerkmale/";
 
-    public static ImageIcon test;
-
+    
+    
+    public static ImageIcon pfeileGruen3;
+    public static ImageIcon pfeileGruen2;
+    public static ImageIcon pfeileGruen1;
+    public static ImageIcon pfeileRot3;
+    public static ImageIcon pfeileRot2;
+    public static ImageIcon pfeileRot1;
+    
+    
     // Icons für die Zaubermerkmale
+    // 16x16
     public static ImageIcon zauberMerkmalAntimagie;
     public static ImageIcon zauberMerkmalBeschwoerung = new ImageIcon(MERKMAL_PFAD + "beschwoerung16.png");
     public static ImageIcon zauberMerkmalDaemonisch = new ImageIcon(MERKMAL_PFAD + "daemonisch16.png");
@@ -50,6 +59,7 @@ public class ImageAdmin {
     public static ImageIcon zauberMerkmalUmwelt = new ImageIcon(MERKMAL_PFAD + "umwelt16.png");
     public static ImageIcon zauberMerkmalVerstaendigung;
 
+    // 24x24
     public static ImageIcon zauberMerkmalAntimagie24;
     public static ImageIcon zauberMerkmalBeschwoerung24 = new ImageIcon(MERKMAL_PFAD + "beschwoerung24.png");
     public static ImageIcon zauberMerkmalDaemonisch24 = new ImageIcon(MERKMAL_PFAD + "daemonisch24.png");
