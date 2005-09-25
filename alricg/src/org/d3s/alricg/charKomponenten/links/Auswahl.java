@@ -67,9 +67,11 @@ public class Auswahl {
 		return herkunft;
 	}
 	
+	/*
 	public void addVarianteAuswahl(Modus modus, int[] werte, int anzahl, IdLink[] optionen) {
 		// TODO Implement
 	}
+	*/
 	
 	/**
 	 * @return Liefert das Attribut varianteAuswahl.
