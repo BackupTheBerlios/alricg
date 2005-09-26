@@ -9,10 +9,10 @@ package org.d3s.alricg.store;
 
 import java.util.logging.Logger;
 
-import org.d3s.alricg.MessengerMock;
-import org.d3s.alricg.controller.ProgAdmin;
-
 import junit.framework.TestCase;
+
+import org.d3s.alricg.controller.MessengerMock;
+import org.d3s.alricg.controller.ProgAdmin;
 
 public class FactoryFinderTest extends TestCase {
 
@@ -23,11 +23,11 @@ public class FactoryFinderTest extends TestCase {
     public FactoryFinderTest(String name) {
         super(name);
     }
-    
+
     protected void setUp() throws Exception {
-        super.setUp();    
+        super.setUp();
         ProgAdmin.messenger = new MessengerMock();
-        ProgAdmin.logger = Logger.getLogger("Programm-Logger");
+        ProgAdmin.logger = Logger.getLogger(FactoryFinderTest.class.getName());
         FactoryFinder.reset();
     }
 
@@ -41,10 +41,10 @@ public class FactoryFinderTest extends TestCase {
             fail("NullPointerException expected.");
         } catch (Throwable t) {
             assertTrue("Unexpected error instance.", t instanceof NullPointerException);
-            assertEquals("Unexpected error message.","DataStoreFactory is not initialised!", t.getMessage());            
+            assertEquals("Unexpected error message.", "DataStoreFactory is not initialised!", t.getMessage());
         }
     }
-    
+
     public void testInitAndFind() {
         try {
             FactoryFinder.init();
@@ -54,7 +54,7 @@ public class FactoryFinderTest extends TestCase {
             assertNotNull(FactoryFinder.find().getData());
         } catch (Throwable t) {
             assertTrue("Unexpected error instance.", t instanceof ConfigurationException);
-            assertEquals("Unexpected error message.","DataStoreFactory instantiation failed!", t.getMessage());
+            assertEquals("Unexpected error message.", "DataStoreFactory instantiation failed!", t.getMessage());
             fail("No exception expected.");
         }
     }
@@ -72,7 +72,7 @@ public class FactoryFinderTest extends TestCase {
             fail("NullPointerException expected.");
         } catch (Throwable t) {
             assertTrue("Unexpected error instance.", t instanceof NullPointerException);
-            assertEquals("Unexpected error message.","DataStoreFactory is not initialised!", t.getMessage());            
+            assertEquals("Unexpected error message.", "DataStoreFactory is not initialised!", t.getMessage());
         }
 
     }
