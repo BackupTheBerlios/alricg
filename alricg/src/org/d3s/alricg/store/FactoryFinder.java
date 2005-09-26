@@ -63,20 +63,20 @@ public final class FactoryFinder {
      * Initialisiert die zu verwendende <code>DataStoreFactory</code>, sofern das noch nicht geschehen ist und gibt
      * sie zurück.
      * 
+     * @param factoryFile Die Datei aus der die <code>DataStoreFactory</code> Implementierung gelesen werden soll.
      * @return Die zu verwendende <code>DataStoreFactory</code>.
      * @throws ConfigurationException Falls während der Initialisierung der Facotry ein Fehler auftritt.
      */
-    public static final DataStoreFactory init() throws ConfigurationException {
+    public static final DataStoreFactory init(File factoryFile) throws ConfigurationException {
         if (factoryInstance != null) {
             return factoryInstance;
         }
 
         synchronized (FactoryFinder.class) {
             try {
-                final File config = new File("ressourcen/StoreFactoryFinder.properties");
                 String classname = "org.d3s.alricg.store.xom.XOMFactory";
-                if (config.exists() && config.canRead()) {
-                    ResourceBundle rb = new PropertyResourceBundle(new FileInputStream(config));
+                if (factoryFile.exists() && factoryFile.canRead()) {
+                    ResourceBundle rb = new PropertyResourceBundle(new FileInputStream(factoryFile));
                     classname = rb.getString("data.store.factory.impl");
                 }
                 final Class<?> clazz = Class.forName(classname);
@@ -90,6 +90,18 @@ public final class FactoryFinder {
             factoryInstance.initialize();
             return factoryInstance;
         }
+
+    }
+
+    /**
+     * Initialisiert die zu verwendende <code>DataStoreFactory</code>, sofern das noch nicht geschehen ist und gibt
+     * sie zurück.
+     * 
+     * @return Die zu verwendende <code>DataStoreFactory</code>.
+     * @throws ConfigurationException Falls während der Initialisierung der Facotry ein Fehler auftritt.
+     */
+    public static final DataStoreFactory init() throws ConfigurationException {
+        return init(new File("ressourcen/StoreFactoryFinder.properties"));
     }
 
     /**
