@@ -8,6 +8,7 @@ import org.d3s.alricg.charKomponenten.Eigenschaft;
 import org.d3s.alricg.charKomponenten.Faehigkeit;
 import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.prozessor.FormelSammlung;
+import org.d3s.alricg.store.DataStore;
 import org.d3s.alricg.store.FactoryFinder;
 
 abstract class XOMMapper_Faehigkeit extends XOMMapper_CharElement implements XOMMapper {
@@ -19,14 +20,13 @@ abstract class XOMMapper_Faehigkeit extends XOMMapper_CharElement implements XOM
         final Faehigkeit faehigkeit = (Faehigkeit) charElement;
 
         // Auslesen der Eigenschaften, auf die eine Probe abgelegt wird
-        final Eigenschaft[] dreiEigenschaften = new Eigenschaft[3];
-        dreiEigenschaften[0] = (Eigenschaft) FactoryFinder.find().getData().getCharElement(xmlElement
-                .getFirstChildElement("probenWurf").getAttributeValue("eigen1"), CharKomponente.eigenschaft);
-        dreiEigenschaften[1] = (Eigenschaft) FactoryFinder.find().getData().getCharElement(xmlElement
-                .getFirstChildElement("probenWurf").getAttributeValue("eigen2"), CharKomponente.eigenschaft);
-        dreiEigenschaften[2] = (Eigenschaft) FactoryFinder.find().getData().getCharElement(xmlElement
-                .getFirstChildElement("probenWurf").getAttributeValue("eigen3"), CharKomponente.eigenschaft);
-        faehigkeit.setDreiEigenschaften(dreiEigenschaften);
+        final Element wurf = xmlElement.getFirstChildElement("probenWurf");
+        final DataStore data = FactoryFinder.find().getData();
+        final Eigenschaft[] dreiE = new Eigenschaft[3];
+        dreiE[0] = (Eigenschaft) data.getCharElement(wurf.getAttributeValue("eigen1"), CharKomponente.eigenschaft);
+        dreiE[1] = (Eigenschaft) data.getCharElement(wurf.getAttributeValue("eigen2"), CharKomponente.eigenschaft);
+        dreiE[2] = (Eigenschaft) data.getCharElement(wurf.getAttributeValue("eigen3"), CharKomponente.eigenschaft);
+        faehigkeit.setDreiEigenschaften(dreiE);
 
         // Auslesen der KostenKlasse
         faehigkeit.setKostenKlasse(FormelSammlung.getKostenKlasseByValue(xmlElement.getAttributeValue("kostenKlasse")));
