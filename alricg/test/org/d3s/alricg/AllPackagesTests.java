@@ -7,6 +7,8 @@
  */
 package org.d3s.alricg;
 
+import org.d3s.alricg.controller.ProgAdmin;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -19,15 +21,20 @@ import junit.framework.TestSuite;
 public class AllPackagesTests extends TestCase {
     
     public static Test suite() {
+        
+        // Starten des Programms
+        ProgAdmin.main(new String[] { "noScreen" });
+        ProgAdmin.heldenAdmin.initHeldGenerierung();
+        
         TestSuite testSuite = new TestSuite("All Tests for Alricg");
-        testSuite.addTestSuite(org.d3s.alricg.AllTests.class);
-        testSuite.addTestSuite(org.d3s.alricg.controller.AllTests.class);
-        testSuite.addTestSuite(org.d3s.alricg.prozessor.AllTests.class);
-        testSuite.addTestSuite(org.d3s.alricg.prozessor.generierung.AllTests.class);
-        testSuite.addTestSuite(org.d3s.alricg.sonderregeln.AllTests.class);
-        testSuite.addTestSuite(org.d3s.alricg.store.AllTests.class);
-        testSuite.addTestSuite(org.d3s.alricg.store.xom.AllTests.class);
-        testSuite.addTestSuite(org.d3s.alricg.store.xom.map.AllTests.class);
+        testSuite.addTest(org.d3s.alricg.AllTests.suite());
+        testSuite.addTest(org.d3s.alricg.controller.AllTests.suite());
+        testSuite.addTest(org.d3s.alricg.prozessor.AllTests.suite());
+        testSuite.addTest(org.d3s.alricg.prozessor.generierung.AllTests.suite());
+        testSuite.addTest(org.d3s.alricg.sonderregeln.AllTests.suite());
+        testSuite.addTest(org.d3s.alricg.store.AllTests.suite());
+        testSuite.addTest(org.d3s.alricg.store.xom.AllTests.suite());
+        testSuite.addTest(org.d3s.alricg.store.xom.map.AllTests.suite());
         return testSuite;
     }
 }
