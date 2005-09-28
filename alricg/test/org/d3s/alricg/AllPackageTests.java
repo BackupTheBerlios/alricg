@@ -18,7 +18,7 @@ import junit.framework.TestSuite;
  * 
  * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
  */
-public class AllPackagesTests extends TestCase {
+public class AllPackageTests extends TestCase {
     
     public static Test suite() {
         
