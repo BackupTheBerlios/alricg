@@ -22,6 +22,11 @@ import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
 import org.d3s.alricg.store.FactoryFinder;
 
+/**
+ * Tests für XOMMapper_Faehigkeit
+ * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ *
+ */
 public class XM_Faehigkeit_Test extends TestCase {
 
     private XOMMapper mappy;
@@ -63,6 +68,11 @@ public class XM_Faehigkeit_Test extends TestCase {
         // TODO Implement!
     }
 
+    /**
+     * Konkrete "do-nothing-special" Impl. der abtrakten Superklasse XOMMapper_Faehigkeit
+     * 
+     * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+     */
     private class XOMMapper_FaehigkeitBase extends XOMMapper_Faehigkeit {
         public void map(Element xmlElement, CharElement charElement) {
             super.map(xmlElement, charElement);
@@ -73,6 +83,11 @@ public class XM_Faehigkeit_Test extends TestCase {
         }
     }
 
+    /**
+     * Konkrete "do-nothing-special" Impl. der abtrakten Superklasse Faehigkeit
+     * 
+     * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+     */
     private class FaehigkeitBase extends Faehigkeit {
         public CharKomponente getCharKomponente() {
             return null;

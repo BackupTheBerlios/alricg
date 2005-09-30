@@ -14,6 +14,7 @@ import org.d3s.alricg.store.DataStoreFactory;
 import org.d3s.alricg.store.TextStore;
 
 /**
+ * Mock-Object für die XOMFactory
  * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
  *
  */

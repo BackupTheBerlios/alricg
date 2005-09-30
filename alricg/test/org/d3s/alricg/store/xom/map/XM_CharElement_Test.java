@@ -14,6 +14,11 @@ import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.RegelAnmerkung;
 import org.d3s.alricg.controller.CharKomponente;
 
+/**
+ * Tests für XOMMapper_CharElement
+ * 
+ * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ */
 public class XM_CharElement_Test extends TestCase {
 
     private XOMMapper mappy;
@@ -101,7 +106,7 @@ public class XM_CharElement_Test extends TestCase {
         assertEquals("Anzeigen Text falsch", "", charElement.getAnzeigenText());
         assertEquals("Beschreibung falsch", beschreibung, charElement.getBeschreibung());
         assertEquals("Sammelbegriff falsch", sammelBegriff, charElement.getSammelBegriff());
-        
+
         xom.removeChild(bChild);
         charElement = new CharElementBase();
         mappy.map(xom, charElement);
@@ -200,6 +205,11 @@ public class XM_CharElement_Test extends TestCase {
         // TODO Implement!
     }
 
+    /**
+     * Konkrete "do-nothing-special" Impl. der abtrakten Superklasse XOMMapper_CharElement
+     * 
+     * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+     */
     private class XOMMapper_CharElementBase extends XOMMapper_CharElement {
 
         public void map(Element xmlElement, CharElement charElement) {
@@ -211,6 +221,11 @@ public class XM_CharElement_Test extends TestCase {
         }
     }
 
+    /**
+     * Konkrete "do-nothing-special" Impl. der abtrakten Superklasse CharElement
+     * 
+     * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+     */
     private class CharElementBase extends CharElement {
 
         public CharKomponente getCharKomponente() {

@@ -14,6 +14,11 @@ import junit.framework.TestCase;
 import org.d3s.alricg.controller.MessengerMock;
 import org.d3s.alricg.controller.ProgAdmin;
 
+/**
+ * Tests für den FactoryFinder.
+ * 
+ * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ */
 public class FactoryFinderTest extends TestCase {
 
     public FactoryFinderTest() {
