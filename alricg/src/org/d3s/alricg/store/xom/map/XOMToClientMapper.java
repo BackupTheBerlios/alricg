@@ -4,6 +4,7 @@
  * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
  */
+
 package org.d3s.alricg.store.xom.map;
 
 import java.io.File;
