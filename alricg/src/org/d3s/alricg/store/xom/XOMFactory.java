@@ -26,24 +26,16 @@ import org.d3s.alricg.store.xom.map.XOMToLibraryMapper;
  */
 public final class XOMFactory implements DataStoreFactory {
 
-    /**
-     * Lokalisierte Texte.
-     */
+    /** Lokalisierte Texte. */
     private TextStore library;
 
-    /**
-     * alricg-Konfiguration.
-     */
+    /** alricg-Konfiguration. */
     private ConfigStore config;
 
-    /**
-     * Alle Regeln zur Charaktererschaffung.
-     */
+    /** Alle Regeln zur Charaktererschaffung. */
     private DataStore data;
 
-    /**
-     * Initialisierungsstatus der Factory.
-     */
+    /** Initialisierungsstatus der Factory. */
     private boolean initialized;
 
     // @see org.d3s.alricg.store.DataStoreFactory#getData()

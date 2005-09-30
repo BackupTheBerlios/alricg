@@ -23,8 +23,20 @@ import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.store.FactoryFinder;
 import org.d3s.alricg.store.TextStore;
 
+/**
+ * HelperKlasse zur Vernwendung des xom-Frameworks.
+ * 
+ * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ */
 public class XOMHelper {
 
+    /**
+     * Ließt ein XML-File ein und gibt das RootElement zurück. Fehler werden nicht geloggt und nicht gemeldet.
+     * 
+     * @see #getRootElement(File)
+     * @param xmlFile Das File das eingelesen werden soll
+     * @return Das rootElement des XML-Files oder null, falls die Datei nicht geladen werden konnte!
+     */
     public static Element getRootElementNoLog(File xmlFile) throws Exception {
 
         final Builder parser = new Builder(); // Auf true setzen für Validierung

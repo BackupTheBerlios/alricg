@@ -17,12 +17,24 @@ import org.d3s.alricg.store.ConfigStore;
 import org.d3s.alricg.store.Configuration;
 import org.d3s.alricg.store.ConfigurationException;
 
+/**
+ * <code>ConfigStore</code> auf Basis des XOM-Frameworks
+ * 
+ * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ */
 public class XOMConfigStore implements ConfigStore {
-    
+
+    /** Key in der Konfiguration für die Steigerungskostentabelle */
     public static final String SKT_KEY = "alricg.internal.skt";
-    
+
+    /** Speichert die konfigurationsrelevanten Einstellungen */
     private final Properties props;
 
+    /**
+     * Erzeugt einen neuen <code>XOMConfigStore</code>
+     * 
+     * @param props Die konfigurationsrelevanten Einstellungen
+     */
     public XOMConfigStore(Properties props) {
         this.props = props;
     }
@@ -34,6 +46,6 @@ public class XOMConfigStore implements ConfigStore {
 
     // @see org.d3s.alricg.store.ConfigStore#getSkt()
     public HashMap<KostenKlasse, Integer[]> getSkt() throws ConfigurationException {
-        return (HashMap<KostenKlasse, Integer[]>) props.get(SKT_KEY);        
+        return (HashMap<KostenKlasse, Integer[]>) props.get(SKT_KEY);
     }
 }

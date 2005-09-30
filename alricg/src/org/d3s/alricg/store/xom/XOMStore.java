@@ -52,120 +52,116 @@ import org.d3s.alricg.charKomponenten.charZusatz.Schild;
 import org.d3s.alricg.charKomponenten.charZusatz.SchwarzeGabe;
 import org.d3s.alricg.charKomponenten.charZusatz.Tier;
 import org.d3s.alricg.controller.CharKomponente;
-import static org.d3s.alricg.controller.CharKomponente.ausruestung;
-import static org.d3s.alricg.controller.CharKomponente.daemonenPakt;
-import static org.d3s.alricg.controller.CharKomponente.eigenschaft;
-import static org.d3s.alricg.controller.CharKomponente.fahrzeug;
-import static org.d3s.alricg.controller.CharKomponente.gabe;
-import static org.d3s.alricg.controller.CharKomponente.gottheit;
-import static org.d3s.alricg.controller.CharKomponente.kultur;
-import static org.d3s.alricg.controller.CharKomponente.kulturVariante;
-import static org.d3s.alricg.controller.CharKomponente.liturgie;
-import static org.d3s.alricg.controller.CharKomponente.nachteil;
-import static org.d3s.alricg.controller.CharKomponente.profession;
-import static org.d3s.alricg.controller.CharKomponente.professionVariante;
-import static org.d3s.alricg.controller.CharKomponente.rasse;
-import static org.d3s.alricg.controller.CharKomponente.rasseVariante;
-import static org.d3s.alricg.controller.CharKomponente.region;
-import static org.d3s.alricg.controller.CharKomponente.repraesentation;
-import static org.d3s.alricg.controller.CharKomponente.ritLitKenntnis;
-import static org.d3s.alricg.controller.CharKomponente.ritual;
-import static org.d3s.alricg.controller.CharKomponente.ruestung;
-import static org.d3s.alricg.controller.CharKomponente.schild;
-import static org.d3s.alricg.controller.CharKomponente.schrift;
-import static org.d3s.alricg.controller.CharKomponente.schwarzeGabe;
-import static org.d3s.alricg.controller.CharKomponente.sonderfertigkeit;
-import static org.d3s.alricg.controller.CharKomponente.sonderregel;
-import static org.d3s.alricg.controller.CharKomponente.sprache;
-import static org.d3s.alricg.controller.CharKomponente.talent;
-import static org.d3s.alricg.controller.CharKomponente.tier;
-import static org.d3s.alricg.controller.CharKomponente.vorteil;
-import static org.d3s.alricg.controller.CharKomponente.waffeFk;
-import static org.d3s.alricg.controller.CharKomponente.waffeNk;
-import static org.d3s.alricg.controller.CharKomponente.zauber;
-import static org.d3s.alricg.controller.CharKomponente.zusatzProfession;
 import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.store.ConfigStore;
 import org.d3s.alricg.store.DataStore;
 import org.d3s.alricg.store.FactoryFinder;
 import org.d3s.alricg.store.KeyExistsException;
-import org.d3s.alricg.store.TextStore;
 
+/**
+ * <code>DataStore</code> auf Basis des XOM-Frameworks
+ * 
+ * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ */
 public class XOMStore implements DataStore {
 
-    // Herkunft
+    /** Rassen */
     private final Map<String, Rasse> rasseMap = new HashMap<String, Rasse>();
 
+    /** Kulturen */
     private final Map<String, Kultur> kulturMap = new HashMap<String, Kultur>();
 
+    /** Professionen */
     private final Map<String, Profession> professionMap = new HashMap<String, Profession>();
 
+    /** Rasse-Varianten */
     private final Map<String, RasseVariante> rasseVarianteMap = new HashMap<String, RasseVariante>();
 
+    /** Kultur-Varianten */
     private final Map<String, KulturVariante> kulturVarianteMap = new HashMap<String, KulturVariante>();
 
+    /** Professions-Varianten */
     private final Map<String, ProfessionVariante> professionVarianteMap = new HashMap<String, ProfessionVariante>();
 
+    /** Zusätzliche Professionen */
     private final Map<String, ZusatzProfession> zusatzProfMap = new HashMap<String, ZusatzProfession>();
 
-    // Fertigkeiten & Fähigkeiten
+    /** Vorteile */
     private final Map<String, Vorteil> vorteilMap = new HashMap<String, Vorteil>();
 
+    /** Gaben */
     private final Map<String, Gabe> gabeMap = new HashMap<String, Gabe>();
 
+    /** Nachteile */
     private final Map<String, Nachteil> nachteilMap = new HashMap<String, Nachteil>();
 
+    /** Sonderfertigkeiten */
     private final Map<String, Sonderfertigkeit> sonderfMap = new HashMap<String, Sonderfertigkeit>();
 
+    /** Ritual- und Liturgiekenntnisse */
     private final Map<String, LiturgieRitualKenntnis> ritLitKentMap = new HashMap<String, LiturgieRitualKenntnis>();
 
+    /** Talente */
     private final Map<String, Talent> talentMap = new HashMap<String, Talent>();
 
+    /** Zauber */
     private final Map<String, Zauber> zauberMap = new HashMap<String, Zauber>();
 
-    // Sprache
+    /** Schriften */
     private final Map<String, Schrift> schriftMap = new HashMap<String, Schrift>();
 
+    /** Sprachen */
     private final Map<String, Sprache> spracheMap = new HashMap<String, Sprache>();
 
-    // Götter & Kulte
+    /** Liturgieb */
     private final Map<String, Liturgie> liturgieMap = new HashMap<String, Liturgie>();
 
+    /** Rituale */
     private final Map<String, Ritual> ritualMap = new HashMap<String, Ritual>();
 
-    // Ausrüstung
+    /** Ausrüstung */
     private final Map<String, Ausruestung> ausruestungMap = new HashMap<String, Ausruestung>();
 
+    /** Fahrzeuge */
     private final Map<String, Fahrzeug> fahrzeugMap = new HashMap<String, Fahrzeug>();
 
+    /** Nahkampfwaffen */
     private final Map<String, NahkWaffe> waffeNkMap = new HashMap<String, NahkWaffe>();
 
+    /** Fernkampfwaffen */
     private final Map<String, FkWaffe> waffeFkMap = new HashMap<String, FkWaffe>();
 
+    /** Rüstunge */
     private final Map<String, Ruestung> ruestungMap = new HashMap<String, Ruestung>();
 
+    /** Schilde */
     private final Map<String, Schild> schildMap = new HashMap<String, Schild>();
 
-    // Zusätzliches
+    /** Dämeonenpakte */
     private final Map<String, DaemonenPakt> daemonenPaktMap = new HashMap<String, DaemonenPakt>();
 
+    /** Schwarze Gaben */
     private final Map<String, SchwarzeGabe> schwarzeGabeMap = new HashMap<String, SchwarzeGabe>();
 
+    /** Tiere */
     private final Map<String, Tier> tierMap = new HashMap<String, Tier>();
 
+    /** Eigenschaften */
     private final Map<String, Eigenschaft> eigenschaftMap = new HashMap<String, Eigenschaft>();
 
+    /** Regionen */
     private final Map<String, RegionVolk> regionMap = new HashMap<String, RegionVolk>();
 
+    /** Götter */
     private final Map<String, Gottheit> gottheitMap = new HashMap<String, Gottheit>();
 
+    /** Repräsentationen */
     private final Map<String, Repraesentation> repraesentMap = new HashMap<String, Repraesentation>();
 
-    // Die Enums der Komponeten selbst
+    /** Charakterkomponenten */
     private final Map<String, CharKomponente> charKompMap = new HashMap<String, CharKomponente>();
 
     /**
-     * Privater Konstruktor - wird nur über initCharKompAdmin() aufgerufen!
+     * Erzeugt einen neuen <code>XOMStore</code>.
      */
     public XOMStore() {
         // Initialiserung der HashMap für schnellen Zugriff auf Komponenten über deren ID
@@ -311,15 +307,14 @@ public class XOMStore implements DataStore {
     /**
      * Initialisiert die zu <code>charKomp</code> gehörende <code>Map</code> mit "leeren" aber vom Typ korrekten
      * <code>CharElement</code>en; die <code>keys</code> sind die Einträge in <code>ids</code>.
-     * 
      * <p>
      * Ein solches Vorgehen ist nötig, da <code>CharElement</code>e auf andere <code>CharElement</code>e verweisen
      * können.<br/>
      * 
      * <pre>
-     *    Seien A, B CharElemente und es verweise A auf B (z.B. Modifikation: B + 3).
-     *    Existiert B bei Anlage von A und der entsprechenden Modifikation noch nicht, sind Fehler im Programm nur eine Frage der Zeit. 
-     *    Als prominentes Beispiel sei die NullPointerException genannt.
+     *       Seien A, B CharElemente und es verweise A auf B (z.B. Modifikation: B + 3).
+     *       Existiert B bei Anlage von A und der entsprechenden Modifikation noch nicht, sind Fehler im Programm nur eine Frage der Zeit. 
+     *       Als prominentes Beispiel sei die NullPointerException genannt.
      * </pre>
      * 
      * </p>
@@ -538,9 +533,7 @@ public class XOMStore implements DataStore {
 
     /**
      * Schreibt alle enthaltenen Charakter-Elemente in ein einziges root element, dieses ist ein Element mit einem
-     * "alricgXML"-Tag.
-     * 
-     * Weitere Anforderungen:
+     * "alricgXML"-Tag. Weitere Anforderungen:
      * <ul>
      * <li> Speichern in 1 File ist möglich.</li>
      * <li> Speichern in verschiedene Files ist möglich.</li>
@@ -591,8 +584,8 @@ public class XOMStore implements DataStore {
     }
 
     /**
-     * Wird aufgerufen, um zu prüfen ob ein ID Wert doppelt vorkommt! In dem Fall wird eine Warnung ausgegeben, aber
-     * nicht verhindert das der alte Wert überschrieben wird!
+     * Prüft ob ein ID Wert doppelt vorkommt! In dem Fall wird eine Warnung ausgegeben, aber nicht verhindert das der
+     * alte Wert überschrieben wird!
      * 
      * @param key Der Key der überprüft werden soll
      */

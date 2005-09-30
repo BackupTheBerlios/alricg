@@ -14,23 +14,30 @@ import java.util.Map;
 
 import org.d3s.alricg.store.TextStore;
 
+/**
+ * <code>TextStore</code> auf Basis des XOM-Frameworks
+ * 
+ * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ */
 public class XOMTextStore implements TextStore {
 
+    /** Sprache */
     private String lang;
 
+    /** Kurze Texte */
     private Map<String, String> shortTxt = new HashMap<String, String>();
 
+    /** Mittellange Texte */
     private Map<String, String> middleTxt = new HashMap<String, String>();
 
+    /** Lange Texte */
     private Map<String, String> longTxt = new HashMap<String, String>();
 
+    /** Fehlertexte */
     private Map<String, String> errorMsgTxt = new HashMap<String, String>();
 
+    /** Tooltiptexte */
     private Map<String, String> toolTipTxt = new HashMap<String, String>();
-
-    private XOMTextStore() {
-
-    }
 
     /**
      * Erzeugt eine neue Instanz mit den angebenenen Tabellen
