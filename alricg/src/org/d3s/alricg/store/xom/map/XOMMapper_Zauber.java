@@ -25,8 +25,16 @@ import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.store.FactoryFinder;
 
+/**
+ * <code>XOMMapper</code> für einen <code>Zauber</code>.
+ * 
+ * @see org.d3s.alricg.store.xom.map.XOMMapper
+ * @see org.d3s.alricg.charKomponenten.Zauber
+ * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ */
 class XOMMapper_Zauber extends XOMMapper_Faehigkeit implements XOMMapper {
 
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
         super.map(xmlElement, charElement);
 
@@ -77,6 +85,7 @@ class XOMMapper_Zauber extends XOMMapper_Faehigkeit implements XOMMapper {
         zauber.setWirkungsdauer(current.getValue());
     }
 
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement, nu.xom.Element)
     public void map(CharElement charElement, Element xmlElement) {
         super.map(charElement, xmlElement);
 
@@ -134,6 +143,12 @@ class XOMMapper_Zauber extends XOMMapper_Faehigkeit implements XOMMapper {
         xmlElement.appendChild(e);
     }
 
+    /**
+     * Befüllt die Zauber-Verbreitung mit den Daten des xom-Elements
+     * 
+     * @param xmlElement Das xml-Element mit den Daten
+     * @param verbreitung Die zu befüllende Verbreitung eines Zaubers
+     */
     private void mapVerbreitung(Element xmlElement, Verbreitung verbreitung) {
 
         // Einlesen des "Bekannt bei" Wertes
@@ -157,6 +172,12 @@ class XOMMapper_Zauber extends XOMMapper_Faehigkeit implements XOMMapper {
         }
     }
 
+    /**
+     * Befüllt ein xml-Element mit den Daten einer Zauber-Verbreitung
+     * 
+     * @param verbreitung Die Verbreitung eines Zaubers
+     * @param xmlElement Das zu befüllende xml-Element
+     */
     private void mapVerbreitung(Verbreitung verbreitung, Element xmlElement) {
 
         // Schreiben des "bekanntBei"

@@ -18,8 +18,16 @@ import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Gabe;
 import org.d3s.alricg.controller.ProgAdmin;
 
+/**
+ * <code>XOMMapper</code> für eine <code>Gabe</code>.
+ * 
+ * @see org.d3s.alricg.store.xom.map.XOMMapper
+ * @see org.d3s.alricg.charKomponenten.Gabe
+ * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ */
 class XOMMapper_Gabe extends XOMMapper_Faehigkeit implements XOMMapper {
 
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
         super.map(xmlElement, charElement);
 
@@ -45,6 +53,7 @@ class XOMMapper_Gabe extends XOMMapper_Faehigkeit implements XOMMapper {
 
     }
 
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement, nu.xom.Element)
     public void map(CharElement charElement, Element xmlElement) {
         super.map(charElement, xmlElement);
         

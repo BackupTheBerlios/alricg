@@ -15,7 +15,6 @@ import nu.xom.Element;
 import nu.xom.Elements;
 
 import org.d3s.alricg.charKomponenten.CharElement;
-import org.d3s.alricg.charKomponenten.HerkunftVariante;
 import org.d3s.alricg.charKomponenten.Kultur;
 import org.d3s.alricg.charKomponenten.KulturVariante;
 import org.d3s.alricg.charKomponenten.RegionVolk;
@@ -25,8 +24,16 @@ import org.d3s.alricg.charKomponenten.links.IdLinkList;
 import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.store.FactoryFinder;
 
+/**
+ * <code>XOMMapper</code> für eine <code>Kultur</code>.
+ * 
+ * @see org.d3s.alricg.store.xom.map.XOMMapper
+ * @see org.d3s.alricg.charKomponenten.Kultur
+ * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ */
 class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
 
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
         super.map(xmlElement, charElement);
 
@@ -36,7 +43,8 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
         // Auslesen der Region
         Element current = xmlElement.getFirstChildElement("region");
         if (current != null) {
-            kultur.setRegionVolk((RegionVolk) FactoryFinder.find().getData().getCharElement(current.getValue(), CharKomponente.region));
+            kultur.setRegionVolk((RegionVolk) FactoryFinder.find().getData().getCharElement(current.getValue(),
+                    CharKomponente.region));
         }
 
         // Auslesen der üblichen Professionen
@@ -68,7 +76,7 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
             XOMMappingHelper.mapAuswahl(current, auswahl);
             kultur.setZweitsprache(auswahl);
         }
-        
+
         // Auslesen der Lehrsprache
         current = xmlElement.getFirstChildElement("lehrsprache");
         if (current != null) {
@@ -84,7 +92,7 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
             XOMMappingHelper.mapAuswahl(current, auswahl);
             kultur.setSprachen(auswahl);
         }
-        
+
         // Auslesen der Schriften
         current = xmlElement.getFirstChildElement("schriften");
         if (current != null) {
@@ -100,24 +108,24 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
             XOMMappingHelper.mapAuswahlAusruestung(current, auswahlA);
             kultur.setAusruestung(auswahlA);
         }
-        
+
         // Auslesen der Varianten
-        ArrayList<HerkunftVariante> arList = new ArrayList<HerkunftVariante>();
+        ArrayList<KulturVariante> arList = new ArrayList<KulturVariante>();
         current = xmlElement.getFirstChildElement("varianten");
         if (current != null) {
-        	 Elements varianten = current.getChildElements("variante");
-        	 for (int i = 0; i < varianten.size(); i++) {
-        	 	arList.add( XOMMappingHelper.mapVarianten(
-        	 			varianten.get(i), 
-                        FactoryFinder.find().getData().getCharElement(varianten.get(i).getAttributeValue("id")),
-        	 			kultur,
-        	 			this) );
-        	 }
-        	 kultur.setVarianten(arList.toArray(new KulturVariante[arList.size()]));
+            Elements varianten = current.getChildElements("variante");
+            for (int i = 0; i < varianten.size(); i++) {
+                final KulturVariante variante = (KulturVariante) FactoryFinder.find().getData().getCharElement(
+                        varianten.get(i).getAttributeValue("id"));
+                XOMMappingHelper.mapVarianten(varianten.get(i), variante, kultur, this);
+                arList.add(variante);
+            }
+            kultur.setVarianten(arList.toArray(new KulturVariante[arList.size()]));
         }
-        
+
     }
 
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement, nu.xom.Element)
     public void map(CharElement charElement, Element xmlElement) {
         super.map(charElement, xmlElement);
 
@@ -164,7 +172,7 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
             XOMMappingHelper.mapAuswahl(auswahl, e);
             xmlElement.appendChild(e);
         }
-        
+
         // Schreiben der Lehrsprache
         auswahl = kultur.getLehrsprache();
         if (auswahl != null) {
@@ -196,18 +204,18 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
             XOMMappingHelper.mapAuswahlAusruestung(auswahlA, e);
             xmlElement.appendChild(e);
         }
-        
-        //Schreiben der Varianten
-        CharElement[] elements = kultur.getVarianten();
-        if (elements != null) {
-        	final Element e = new Element("varianten");
-        	 
-        	for (int i = 0; i < elements.length; i++) {
-        	 	e.appendChild(XOMMappingHelper.mapVarianten(
-        	 			elements[i], 
-        	 			this));
-        	}
-        	xmlElement.appendChild(e);
+
+        // Schreiben der Varianten
+        KulturVariante[] varianten = kultur.getVarianten();
+        if (varianten != null) {
+            final Element e = new Element("varianten");
+
+            for (int i = 0; i < varianten.length; i++) {
+                final Element variante = new Element("variante");
+                XOMMappingHelper.mapVarianten(varianten[i], variante, this);
+                e.appendChild(variante);
+            }
+            xmlElement.appendChild(e);
         }
 
     }

@@ -16,8 +16,16 @@ import org.d3s.alricg.charKomponenten.Gottheit;
 import org.d3s.alricg.charKomponenten.Gottheit.GottheitArt;
 import org.d3s.alricg.charKomponenten.Gottheit.KenntnisArt;
 
+/**
+ * <code>XOMMapper</code> für eine <code>Gottheit</code>.
+ * 
+ * @see org.d3s.alricg.store.xom.map.XOMMapper
+ * @see org.d3s.alricg.charKomponenten.Gottheit
+ * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ */
 class XOMMapper_Gottheit extends XOMMapper_CharElement implements XOMMapper {
 
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
         super.map(xmlElement, charElement);
 
@@ -52,6 +60,7 @@ class XOMMapper_Gottheit extends XOMMapper_CharElement implements XOMMapper {
         }
     }
 
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement, nu.xom.Element)
     public void map(CharElement charElement, Element xmlElement) {
         super.map(charElement, xmlElement);
 

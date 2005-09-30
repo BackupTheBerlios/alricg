@@ -23,8 +23,16 @@ import org.d3s.alricg.charKomponenten.charZusatz.WuerfelSammlung;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.store.FactoryFinder;
 
+/**
+ * Abstrakter <code>XOMMapper</code> für eine <code>Waffe</code>.
+ * 
+ * @see org.d3s.alricg.store.xom.map.XOMMapper
+ * @see org.d3s.alricg.charKomponenten.charZusatz.Waffe
+ * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ */
 abstract class XOMMapper_Waffe extends XOMMapper_Gegenstand implements XOMMapper {
 
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
 
         super.map(xmlElement, charElement);
@@ -86,6 +94,7 @@ abstract class XOMMapper_Waffe extends XOMMapper_Gegenstand implements XOMMapper
         waffe.setTalent(talente);
     }
 
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement, nu.xom.Element)
     public void map(CharElement charElement, Element xmlElement) {
         super.map(charElement, xmlElement);
 

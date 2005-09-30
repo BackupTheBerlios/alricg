@@ -34,75 +34,123 @@ import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.store.FactoryFinder;
 
+/**
+ * Hilfklasse für das Mapping von und nach xml.
+ * 
+ * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ */
 final class XOMMappingHelper {
 
-    private XOMMappingHelper() {
+    /**
+     * Bildet eine Auswahl in ein xml-Element ab.
+     * 
+     * @param auswahl Die Auswahl, die ausgelesen werden soll.
+     * @param xmlElement Das xml-Element, das geschrieben werden soll.
+     */
+    public static void mapAuswahl(Auswahl auswahl, Element xmlElement) {
 
-    }
-
-    public static void mapIdLinkList(Element xmlElement, IdLinkList idLinkList) {
-        final List<IdLink> links = new ArrayList<IdLink>();
-
-        // Auslesen der Tags
-        Attribute a = xmlElement.getAttribute("ids");
-        if (a != null) {
-            String[] ids = a.getValue().split(" ");
-
-            // Einlesen der IdLinks aus dem Attribut
-            for (int i = 0; i < ids.length; i++) {
-                final IdLink link = new IdLink(idLinkList.getQuelle(), null);
-                link.loadFromId(ids[i]);
-                links.add(link);
-            }
-
+        // Schreiben der festen Elemente
+        final IdLink[] festeAuswahl = auswahl.getFesteAuswahl();
+        for (int i = 0; i < festeAuswahl.length; i++) {
+            final Element e = new Element("fest");
+            XOMMappingHelper.mapIdLink(festeAuswahl[i], e);
+            xmlElement.appendChild(e);
         }
 
-        // Einlesen der IdLinks mit weiteren Eigenschaften
-        final Elements children = xmlElement.getChildElements("linkId");
-        for (int i = 0; i < children.size(); i++) {
-            final IdLink link = new IdLink(idLinkList.getQuelle(), null);
-            mapIdLink(children.get(i), link);
-            links.add(link);
-        }
-        idLinkList.setLinks(links.toArray(new IdLink[0]));
-    }
-
-    public static void mapIdLinkList(IdLinkList idLinkList, Element xmlElement) {
-
-        if (idLinkList == null)
-            return;
-
-        final StringBuffer buffy = new StringBuffer();
-
-        // Schreiben des Attributes
-        IdLink[] links = idLinkList.getLinks();
-        if (links == null)
-            return;
-
-        for (int i = 0; i < links.length; i++) {
-
-            if (links[i].getZweitZiel() != null || links[i].getText() != null || links[i].getWert() != IdLink.KEIN_WERT
-                    || links[i].isLeitwert() != false) {
-
-                // Schreiben in Option, zusätzliche Angaben nötig
-
-                final Element e = new Element("linkId");
-                mapIdLink(links[i], e);
-                xmlElement.appendChild(e);
-
-            } else { // Schreiben in Attribut, nur Id nötig
-                buffy.append(links[i].getZiel().getId());
-                buffy.append(" ");
-            }
-        }
-
-        // Attribut hinzufügen, falls mindestens ein element vorhanden
-        if (buffy.length() > 0) {
-            final Attribute a = new Attribute("ids", buffy.toString().trim());
-            xmlElement.addAttribute(a);
+        // Schreiben der "variablen" Elemente
+        final VariableAuswahl[] varianteAuswahl = auswahl.getVarianteAuswahl();
+        for (int i = 0; i < varianteAuswahl.length; i++) {
+            final Element e = new Element("auswahl");
+            XOMMappingHelper.mapVariableAuswahl(varianteAuswahl[i], e);
+            xmlElement.appendChild(e);
         }
     }
 
+    /**
+     * Bildet ein xml-Element in eine Auswahl ab.
+     * 
+     * @param xmlElement Das xml-Element mit den Wahlmöglichkeiten.
+     * @param auwahll Die Auswahl, der verändert werden soll.
+     */
+    public static void mapAuswahl(Element xmlElement, Auswahl auswahl) {
+
+        // Auslesen der unveränderlichen, "festen" Elemente der Auswahl
+        Elements children = xmlElement.getChildElements("fest");
+        final IdLink[] festeAuswahl = new IdLink[children.size()];
+        for (int i = 0; i < festeAuswahl.length; i++) {
+            festeAuswahl[i] = new IdLink(auswahl.getHerkunft(), auswahl);
+            XOMMappingHelper.mapIdLink(children.get(i), festeAuswahl[i]);
+        }
+        auswahl.setFesteAuswahl(festeAuswahl);
+
+        // Auslesen der Auswahlmöglichkeiten
+        children = xmlElement.getChildElements("auswahl");
+        final VariableAuswahl[] varianteAuswahl = new VariableAuswahl[children.size()];
+        for (int i = 0; i < varianteAuswahl.length; i++) {
+            varianteAuswahl[i] = auswahl.new VariableAuswahl(auswahl);
+            XOMMappingHelper.mapVariableAuswahl(children.get(i), varianteAuswahl[i]);
+        }
+        auswahl.setVarianteAuswahl(varianteAuswahl);
+    }
+
+    /**
+     * Bildet eine AuwahlAusruestung in ein xml-Element ab.
+     * 
+     * @param ausruestung Die AuswahlAusruestung, die ausgelesen werden soll.
+     * @param xmlElement Das xml-Element, das geschrieben werden soll.
+     */
+    public static void mapAuswahlAusruestung(AuswahlAusruestung ausruestung, Element xmlElement) {
+
+        // Schreiben der "festen" Elemente
+        HilfsAuswahl festeAuswahl = ausruestung.getFesteAuswahl();
+        if (festeAuswahl != null) {
+            final Element e = new Element("fest");
+            XOMMappingHelper.mapHilfsauswahl(festeAuswahl, e);
+            xmlElement.appendChild(e);
+        }
+
+        // Schreiben der "wählbaren" Elemente
+        HilfsAuswahl[] variableAuswahl = ausruestung.getVariableAuswahl();
+        for (int i = 0; i < variableAuswahl.length; i++) {
+            Element e = new Element("auswahl");
+            XOMMappingHelper.mapHilfsauswahl(variableAuswahl[i], e);
+            xmlElement.appendChild(e);
+        }
+    }
+
+    /**
+     * Bildet ein xml-Element in eine AuswahlAusruestung ab.
+     * 
+     * @param xmlElement Das xml-Element mit den Ausrüstungs-Wahlmöglichkeiten.
+     * @param ausruestung Die AuswahlAusruestung , der verändert werden soll.
+     */
+    public static void mapAuswahlAusruestung(Element xmlElement, AuswahlAusruestung ausruestung) {
+
+        // Auslesen der festen Gegenstände
+        Element current = xmlElement.getFirstChildElement("fest");
+        if (current != null) {
+            final HilfsAuswahl festeAuswahl = ausruestung.new HilfsAuswahl();
+            XOMMappingHelper.mapHilfsauswahl(current, festeAuswahl, ausruestung.getHerkunft());
+            ausruestung.setFesteAuswahl(festeAuswahl);
+        }
+
+        // Auslesen der Auswahl
+        final Elements children = xmlElement.getChildElements("auswahl");
+        HilfsAuswahl[] variableAuswahl = new HilfsAuswahl[children.size()];
+        for (int i = 0; i < variableAuswahl.length; i++) {
+            variableAuswahl[i] = ausruestung.new HilfsAuswahl();
+            XOMMappingHelper.mapHilfsauswahl(children.get(i), variableAuswahl[i], ausruestung.getHerkunft());
+        }
+        ausruestung.setVariableAuswahl(variableAuswahl);
+
+    }
+
+    /**
+     * Bildet das Attribut "id" eines xml-Elements in einen Link ab
+     * 
+     * @param xmlElement Ein xml-Element mit "id" Attribut.
+     * @param idLink Der Link, der verändert werden soll.
+     */
     public static void mapIdLink(Element xmlElement, IdLink idLink) {
 
         // Typs des Ziels (Talent, Zauber, usw.); muß ein Idlink enthalten
@@ -139,11 +187,18 @@ final class XOMMappingHelper {
         attribute = xmlElement.getAttribute("linkId");
         if (attribute != null) {
             final String value = attribute.getValue();
-            idLink.setZweitZiel(FactoryFinder.find().getData().getCharElement(value, FactoryFinder.find().getData().getCharKompFromId(value)));
+            idLink.setZweitZiel(FactoryFinder.find().getData().getCharElement(value,
+                    FactoryFinder.find().getData().getCharKompFromId(value)));
         }
 
     }
 
+    /**
+     * Bildet einen Link im "id"-Attribut eines xml-Elements ab.
+     * 
+     * @param idLink Der Link, der ausgelesen werden soll.
+     * @param xmlElement Das xml-Element, dessen "id"-Attribut gesetzt werden soll.
+     */
     public static void mapIdLink(IdLink idLink, Element xmlElement) {
 
         // MUSS: id
@@ -171,6 +226,87 @@ final class XOMMappingHelper {
         xmlElement.addAttribute(new Attribute("leitwert", Boolean.toString(idLink.isLeitwert())));
     }
 
+    /**
+     * Bildet das Attribut "ids" eines xml-Elements in eine Liste ab.
+     * 
+     * @param xmlElement Ein xml-Element mit "ids" Attribut.
+     * @param idLinkList Die Liste, wozu neue links hinzugefügt werden sollen.
+     */
+    public static void mapIdLinkList(Element xmlElement, IdLinkList idLinkList) {
+        final List<IdLink> links = new ArrayList<IdLink>();
+
+        // Auslesen der Tags
+        Attribute a = xmlElement.getAttribute("ids");
+        if (a != null) {
+            String[] ids = a.getValue().split(" ");
+
+            // Einlesen der IdLinks aus dem Attribut
+            for (int i = 0; i < ids.length; i++) {
+                final IdLink link = new IdLink(idLinkList.getQuelle(), null);
+                link.loadFromId(ids[i]);
+                links.add(link);
+            }
+
+        }
+
+        // Einlesen der IdLinks mit weiteren Eigenschaften
+        final Elements children = xmlElement.getChildElements("linkId");
+        for (int i = 0; i < children.size(); i++) {
+            final IdLink link = new IdLink(idLinkList.getQuelle(), null);
+            mapIdLink(children.get(i), link);
+            links.add(link);
+        }
+        idLinkList.setLinks(links.toArray(new IdLink[0]));
+    }
+
+    /**
+     * Bildet eine Link-Liste in das Attribut "ids" eines xml-Elements ab.
+     * 
+     * @param idLinkList Die Liste, deren Elemente ausgelesen werden sollen.
+     * @param xmlElement Das xml-Element, dessen "ids" Attribut gesetzt werden soll.
+     */
+    public static void mapIdLinkList(IdLinkList idLinkList, Element xmlElement) {
+
+        if (idLinkList == null)
+            return;
+
+        final StringBuffer buffy = new StringBuffer();
+
+        // Schreiben des Attributes
+        IdLink[] links = idLinkList.getLinks();
+        if (links == null)
+            return;
+
+        for (int i = 0; i < links.length; i++) {
+
+            if (links[i].getZweitZiel() != null || links[i].getText() != null || links[i].getWert() != IdLink.KEIN_WERT
+                    || links[i].isLeitwert() != false) {
+
+                // Schreiben in Option, zusätzliche Angaben nötig
+
+                final Element e = new Element("linkId");
+                mapIdLink(links[i], e);
+                xmlElement.appendChild(e);
+
+            } else { // Schreiben in Attribut, nur Id nötig
+                buffy.append(links[i].getZiel().getId());
+                buffy.append(" ");
+            }
+        }
+
+        // Attribut hinzufügen, falls mindestens ein element vorhanden
+        if (buffy.length() > 0) {
+            final Attribute a = new Attribute("ids", buffy.toString().trim());
+            xmlElement.addAttribute(a);
+        }
+    }
+
+    /**
+     * Bildet ein xml-Element in eine Link-Voraussetzung ab.
+     * 
+     * @param xmlElement Das xml-Element mit den Link-Voraussetzungen.
+     * @param idLinkV Die Link-Voraussetzung, der verändert werden soll.
+     */
     public static void mapIdLinkVoraussetzung(Element xmlElement, IdLinkVoraussetzung idLinkV) {
         mapIdLink(xmlElement, idLinkV);
 
@@ -187,6 +323,12 @@ final class XOMMappingHelper {
         idLinkV.setMinimum(a.getValue().equalsIgnoreCase("max"));
     }
 
+    /**
+     * Bildet eine Link-Voraussetzung in ein xml-Element ab.
+     * 
+     * @param idLinkV Die Link-Voraussetzung, die ausgelesen werden soll.
+     * @param xmlElement Das xml-Element, das geschrieben werden soll.
+     */
     public static void mapIdLinkVoraussetzung(IdLinkVoraussetzung idLinkV, Element xmlElement) {
         mapIdLink(idLinkV, xmlElement);
 
@@ -194,6 +336,104 @@ final class XOMMappingHelper {
         xmlElement.addAttribute(new Attribute("wertGrenze", idLinkV.isMinimum() ? "min" : "max"));
     }
 
+    /**
+     * Bildet ein xml-Element in eine Rasse-, Kultur- oder Profession-Variante einer Herkunft ab.
+     * 
+     * @param xmlElement Das xml-Element worin die Daten der Variante entahlten sind.
+     * @param herkunftV Die Variante, die verändert werden soll.
+     * @param mapper Der zu verwendende Mapper für Rasse, Kultur oder Profession
+     */
+    public static void mapVarianten(Element xmlElement, HerkunftVariante herkunftV, Herkunft herkunft,
+            XOMMapper mapper) {
+        mapper.map(xmlElement, (CharElement) herkunftV);
+
+        // my mapping
+
+        // Auslesen der Elemente die von dem "original" entfernd werden sollen
+        Element current = xmlElement.getFirstChildElement("entferneElement");
+        if (current != null) {
+            final IdLinkList ids = new IdLinkList((Herkunft) herkunftV);
+            XOMMappingHelper.mapIdLinkList(current, ids);
+            herkunftV.setEntferneElement(ids);
+        }
+
+        // Auslesen der XML-Tags die von dem "original" entfernd werden sollen
+        current = xmlElement.getFirstChildElement("entferneXmlTag");
+        if (current != null) {
+            String[] strAr = current.getValue().split(",");
+            for (int i = 0; i < strAr.length; i++) {
+                strAr[i] = strAr[i].trim();
+            }
+            herkunftV.setEntferneXmlTag(strAr);
+        }
+
+        // Auslesen des Attribus "isMultibel"
+        Attribute a = xmlElement.getAttribute("isMultibel");
+
+        // Sicherstellen, das der Wert gültig ist
+        assert a.getValue().equals("false") || a.getValue().equals("true");
+        herkunftV.setMultibel(a.getValue().equals("true"));
+
+        // Auslesen des Attribus "isAdditionsVariante"
+        a = xmlElement.getAttribute("isAdditionsVariante");
+
+        // Sicherstellen, das der Wert gültig ist
+        assert a.getValue().equals("false") || a.getValue().equals("true");
+        herkunftV.setAdditionsVariante(a.getValue().equals("true"));
+
+        // Setzen von welcher Herkunft dies eine Variante ist
+        herkunftV.setVarianteVon(herkunft);
+    }
+
+    /**
+     * Bildet eine eine Rasse-, Kultur- oder Profession-Variante in ein xml-Element ab.
+     * 
+     * @param herkunftV Die Variante, die ausgelesen werden soll.
+     * @param xmlElement Das xml-Element, das geschrieben werden soll.
+     * @param mapper Der zu verwendende Mapper für Rasse, Kultur oder Profession
+     */
+    public static void mapVarianten(HerkunftVariante herkunftV, Element xmlElement, XOMMapper mapper) {
+
+        mapper.map((CharElement) herkunftV, xmlElement);
+        StringBuffer strBuffer = new StringBuffer();
+
+        // my mapping
+        xmlElement.setLocalName("variante");
+
+        // Schreiben der Elemente, die aus dem "original" entfernd werden sollen
+        IdLinkList ids = herkunftV.getEntferneElement();
+        if (ids != null) {
+            final Element e = new Element("entferneElement");
+            XOMMappingHelper.mapIdLinkList(ids, e);
+            xmlElement.appendChild(e);
+        }
+
+        // Schreiben der XML-Tags die entfernd werden sollen
+        String[] stringAr = herkunftV.getEntferneXmlTag();
+        if (stringAr != null) {
+            for (int i = 0; i < stringAr.length - 1; i++) {
+                strBuffer.append(stringAr[i]).append(",");
+            }
+            xmlElement.appendChild(strBuffer.toString());
+        }
+
+        // Schreiben ob Multibel, wenn nicht default
+        if (herkunftV.isMultibel()) {
+            xmlElement.addAttribute(new Attribute("isMultibel", "true"));
+        }
+
+        // Schreiben ob Multibel, wenn nicht default
+        if (!herkunftV.isAdditionsVariante()) {
+            xmlElement.addAttribute(new Attribute("isAdditionsVariante", "false"));
+        }
+    }
+
+    /**
+     * Bildet ein xml-Element in eine Voraussetzung ab.
+     * 
+     * @param xmlElement Das xml-Element mit den Voraussetzungen.
+     * @param voraussetzung Die Voraussetzung, der verändert werden soll.
+     */
     public static void mapVoraussetzung(Element xmlElement, Voraussetzung voraussetzung) {
 
         // Auslesen der "festen" Elemente
@@ -227,6 +467,12 @@ final class XOMMappingHelper {
         voraussetzung.setAuswahlVoraussetzung(auswahlVoraussetzung);
     }
 
+    /**
+     * Bildet eine Voraussetzung in ein xml-Element ab.
+     * 
+     * @param voraussetzung Die Voraussetzung, die ausgelesen werden soll.
+     * @param xmlElement Das xml-Element, das geschrieben werden soll.
+     */
     public static void mapVoraussetzung(Voraussetzung voraussetzung, Element xmlElement) {
 
         // Alle "festen" Elemente hinzufügen
@@ -258,191 +504,13 @@ final class XOMMappingHelper {
         }
     }
 
-    public static void mapAuswahl(Element xmlElement, Auswahl auswahl) {
-
-        // Auslesen der unveränderlichen, "festen" Elemente der Auswahl
-        Elements children = xmlElement.getChildElements("fest");
-        final IdLink[] festeAuswahl = new IdLink[children.size()];
-        for (int i = 0; i < festeAuswahl.length; i++) {
-            festeAuswahl[i] = new IdLink(auswahl.getHerkunft(), auswahl);
-            XOMMappingHelper.mapIdLink(children.get(i), festeAuswahl[i]);
-        }
-        auswahl.setFesteAuswahl(festeAuswahl);
-
-        // Auslesen der Auswahlmöglichkeiten
-        children = xmlElement.getChildElements("auswahl");
-        final VariableAuswahl[] varianteAuswahl = new VariableAuswahl[children.size()];
-        for (int i = 0; i < varianteAuswahl.length; i++) {
-            varianteAuswahl[i] = auswahl.new VariableAuswahl(auswahl);
-            XOMMappingHelper.mapVariableAuswahl(children.get(i), varianteAuswahl[i]);
-        }
-        auswahl.setVarianteAuswahl(varianteAuswahl);
-    }
-
-    public static void mapAuswahl(Auswahl auswahl, Element xmlElement) {
-
-        // Schreiben der festen Elemente
-        final IdLink[] festeAuswahl = auswahl.getFesteAuswahl();
-        for (int i = 0; i < festeAuswahl.length; i++) {
-            final Element e = new Element("fest");
-            XOMMappingHelper.mapIdLink(festeAuswahl[i], e);
-            xmlElement.appendChild(e);
-        }
-
-        // Schreiben der "variablen" Elemente
-        final VariableAuswahl[] varianteAuswahl = auswahl.getVarianteAuswahl();
-        for (int i = 0; i < varianteAuswahl.length; i++) {
-            final Element e = new Element("auswahl");
-            XOMMappingHelper.mapVariableAuswahl(varianteAuswahl[i], e);
-            xmlElement.appendChild(e);
-        }
-    }
-
-    public static void mapAuswahlAusruestung(Element xmlElement, AuswahlAusruestung ausruestung) {
-
-        // Auslesen der festen Gegenstände
-        Element current = xmlElement.getFirstChildElement("fest");
-        if (current != null) {
-            final HilfsAuswahl festeAuswahl = ausruestung.new HilfsAuswahl();
-            XOMMappingHelper.mapHilfsauswahl(current, festeAuswahl, ausruestung.getHerkunft());
-            ausruestung.setFesteAuswahl(festeAuswahl);
-        }
-
-        // Auslesen der Auswahl
-        final Elements children = xmlElement.getChildElements("auswahl");
-        HilfsAuswahl[] variableAuswahl = new HilfsAuswahl[children.size()];
-        for (int i = 0; i < variableAuswahl.length; i++) {
-            variableAuswahl[i] = ausruestung.new HilfsAuswahl();
-            XOMMappingHelper.mapHilfsauswahl(children.get(i), variableAuswahl[i], ausruestung.getHerkunft());
-        }
-        ausruestung.setVariableAuswahl(variableAuswahl);
-
-    }
-
-    public static void mapAuswahlAusruestung(AuswahlAusruestung ausruestung, Element xmlElement) {
-
-        // Schreiben der "festen" Elemente
-        HilfsAuswahl festeAuswahl = ausruestung.getFesteAuswahl();
-        if (festeAuswahl != null) {
-            final Element e = new Element("fest");
-            XOMMappingHelper.mapHilfsauswahl(festeAuswahl, e);
-            xmlElement.appendChild(e);
-        }
-
-        // Schreiben der "wählbaren" Elemente
-        HilfsAuswahl[] variableAuswahl = ausruestung.getVariableAuswahl();
-        for (int i = 0; i < variableAuswahl.length; i++) {
-            Element e = new Element("auswahl");
-            XOMMappingHelper.mapHilfsauswahl(variableAuswahl[i], e);
-            xmlElement.appendChild(e);
-        }
-    }
-
     /**
-     * Liest eine Variante von Rasse, Kultur oder Profession aus XML ein und schreibt die 
-     * Werte in eine Herkunft.
+     * Bildet ein xml-Element in eine Hilfsauswahl ab und verknüpft diese mit herkunft.
      * 
-     * @param xmlElement Quelle - Das XML-Element das ausgelesen wird (wo die Variante enthalten ist)
-     * @param charElement Ziel - Das Element in das die Werte geschrieben werden
-     * @param mapper Der Mapper für die Rasse, Kultur oder Profession
-     * @author vStrelow
+     * @param xmlElement Das xml-Element mit den Daten der hilfsauswahl.
+     * @param hilfsauswahl Die HilfsAuswahl, die verändert werden soll.
+     * @param herkunft Die Herkunft mit der die Links der Auwahl verknüft werden sollen
      */
-    public static HerkunftVariante mapVarianten(Element xmlElement, CharElement charElement, 
-    													Herkunft herkunft, XOMMapper mapper) 
-    {
-    	mapper.map(xmlElement, charElement);
-        
-        // my mapping
-        final HerkunftVariante herkunftV = (HerkunftVariante) charElement;
-        
-        // Auslesen der Elemente die von dem "original" entfernd werden sollen
-        Element current = xmlElement.getFirstChildElement("entferneElement");
-        if (current != null) {
-            final IdLinkList ids = new IdLinkList((Herkunft) herkunftV);
-            XOMMappingHelper.mapIdLinkList(current, ids);
-            herkunftV.setEntferneElement(ids);
-        }
-        
-        // Auslesen der XML-Tags die von dem "original" entfernd werden sollen
-        current = xmlElement.getFirstChildElement("entferneXmlTag");
-        if (current != null) {
-        	String[] strAr = current.getValue().split(",");
-        	for (int i = 0; i < strAr.length; i++) {
-        		strAr[i] = strAr[i].trim();
-        	}
-        	herkunftV.setEntferneXmlTag(strAr);
-        }
-        
-        // Auslesen des Attribus "isMultibel"
-        Attribute a = xmlElement.getAttribute("isMultibel");
-        
-        // Sicherstellen, das der Wert gültig ist
-        assert a.getValue().equals("false") || a.getValue().equals("true");
-        herkunftV.setMultibel(a.getValue().equals("true"));
-
-        // Auslesen des Attribus "isAdditionsVariante"
-        a = xmlElement.getAttribute("isAdditionsVariante");
-        
-        // Sicherstellen, das der Wert gültig ist
-        assert a.getValue().equals("false") || a.getValue().equals("true");
-        herkunftV.setAdditionsVariante(a.getValue().equals("true"));
-        
-        // Setzen von welcher Herkunft dies eine Variante ist
-        herkunftV.setVarianteVon(herkunft);
-        
-        return herkunftV;
-    }
-    
-    
-    /**
-     * Liest eine Variante von Rasse, Kultur oder Profession aus einem CharElement aus und
-     * schreibt die Werte in ein XML-Element.
-     * 
-     * @param charElement Quelle - Das Element aus dem die Werte gelesen werden (Die Variante)
-     * @param xmlElement Ziel - Das XML-Element in das geschrieben wird
-     * @param mapper Der Mapper für die Rasse, Kultur oder Profession
-     * @author vStrelow
-     */
-    public static Element mapVarianten(CharElement charElement, XOMMapper mapper) {
-    	Element xmlElement = new Element("variante");
-    	
-    	mapper.map(charElement, xmlElement);
-        StringBuffer strBuffer = new StringBuffer();
-        
-        // my mapping
-        final HerkunftVariante herkunftV = (HerkunftVariante) charElement;
-        xmlElement.setLocalName("variante");
-        
-        // Schreiben der Elemente, die aus dem "original" entfernd werden sollen
-        IdLinkList ids = herkunftV.getEntferneElement();
-        if (ids != null) {
-            final Element e = new Element("entferneElement");
-            XOMMappingHelper.mapIdLinkList(ids, e);
-            xmlElement.appendChild(e);
-        }
-    
-        // Schreiben der XML-Tags die entfernd werden sollen
-        String[] stringAr = herkunftV.getEntferneXmlTag();
-        if (stringAr != null) {
-            for (int i = 0; i < stringAr.length-1; i++) {
-            	strBuffer.append(stringAr[i]).append(",");
-            }
-            xmlElement.appendChild(strBuffer.toString());
-        }
-        
-        // Schreiben ob Multibel, wenn nicht default
-        if ( herkunftV.isMultibel() ) {
-        	xmlElement.addAttribute(new Attribute("isMultibel", "true"));
-        }
-        
-        // Schreiben ob Multibel, wenn nicht default
-        if ( !herkunftV.isAdditionsVariante() ) {
-        	xmlElement.addAttribute(new Attribute("isAdditionsVariante", "false"));
-        }
-        
-        return xmlElement;
-    }
-
     private static void mapHilfsauswahl(Element xmlElement, HilfsAuswahl hilfsauswahl, Herkunft herkunft) {
 
         // Die Anzahl auslesen, falls angegeben?
@@ -476,6 +544,12 @@ final class XOMMappingHelper {
         hilfsauswahl.setSimpGegenstand(simpGegenstand);
     }
 
+    /**
+     * Bildet eine HilfsAuswahl in ein xml-Element ab.
+     * 
+     * @param hilfsauswahl Die Hilfsauswahl, die ausgelesen werden soll.
+     * @param xmlElement Das xml-Element, das geschrieben werden soll.
+     */
     private static void mapHilfsauswahl(HilfsAuswahl hilfsauswahl, Element xmlElement) {
 
         // Schreiben der Anzahl
@@ -502,6 +576,12 @@ final class XOMMappingHelper {
         }
     }
 
+    /**
+     * Bildet ein xml-Element in eine VariableAuswahl ab.
+     * 
+     * @param xmlElement Das xml-Element mit der variablen Auswahl.
+     * @param variableAuswahl Die VariableAuswahl, der verändert werden soll.
+     */
     private static void mapVariableAuswahl(Element xmlElement, VariableAuswahl variableAuswahl) {
 
         // Überprüfung oder der Modus-Wert gültig ist:
@@ -533,12 +613,12 @@ final class XOMMappingHelper {
             if (xmlElement.getAttribute("anzahl") != null) {
                 variableAuswahl.setAnzahl(Integer.parseInt(xmlElement.getAttributeValue("anzahl")));
             }
-            
+
             // Einlesen des Maximalen Wertes / optional
             if (xmlElement.getAttribute("max") != null) {
                 variableAuswahl.setMax(Integer.parseInt(xmlElement.getAttributeValue("max")));
             }
-            
+
         } catch (NumberFormatException exc) {
             ProgAdmin.logger.log(Level.SEVERE, "String -> int failed", exc);
         }
@@ -562,6 +642,12 @@ final class XOMMappingHelper {
         variableAuswahl.setOptionsGruppe(optionsGruppe);
     }
 
+    /**
+     * Bildet eine VariableAuswahl in ein xml-Element ab.
+     * 
+     * @param variableAuswahl Die VariableAuswahl, die ausgelesen werden soll.
+     * @param xmlElement Das xml-Element, das geschrieben werden soll.
+     */
     private static void mapVariableAuswahl(VariableAuswahl variableAuswahl, Element xmlElement) {
 
         // Schreiben der einzelnen Optionen:
@@ -602,7 +688,7 @@ final class XOMMappingHelper {
         if (anzahl != 0) {
             xmlElement.addAttribute(new Attribute("anzahl", Integer.toString(anzahl)));
         }
-        
+
         // Schreiben des Attribus "max"
         final int max = variableAuswahl.getMax();
         if (max != 0) {
@@ -613,6 +699,13 @@ final class XOMMappingHelper {
         xmlElement.addAttribute(new Attribute("modus", variableAuswahl.getModus().getValue()));
     }
 
+    /**
+     * Bildet ein xml-Element unter Berücksichtigung der variablen Auswahl in eine Liste von Links ab.
+     * 
+     * @param xmlElements Das xml-Element mit den ID-Verknüpfungen.
+     * @param va Die zu berücksichtigende VariableAuswahl
+     * @return Ein Array, der die ID-Links des xml-Elements enthält
+     */
     private static IdLink[] readOptionen(Elements xmlElements, VariableAuswahl va) {
         final IdLink[] optionen = new IdLink[xmlElements.size()];
         for (int i = 0; i < optionen.length; i++) {
@@ -622,4 +715,10 @@ final class XOMMappingHelper {
         return optionen;
     }
 
+    /**
+     * Erzeugt eine neue Helper-Instanz. <code>private</code>, da nur statische Methoden vorhanden sind.
+     */
+    private XOMMappingHelper() {
+
+    }
 }

@@ -13,8 +13,16 @@ import nu.xom.Element;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 
+/**
+ * <code>XOMMapper</code> für ein <code>Ritual</code>.
+ * 
+ * @see org.d3s.alricg.store.xom.map.XOMMapper
+ * @see org.d3s.alricg.charKomponenten.Ritual
+ * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ */
 class XOMMapper_Ritual extends XOMMapper_Ritus implements XOMMapper {
 
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
         super.map(xmlElement, charElement);
 
@@ -22,6 +30,7 @@ class XOMMapper_Ritual extends XOMMapper_Ritus implements XOMMapper {
         // nothing to do ...
     }
 
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement, nu.xom.Element)
     public void map(CharElement charElement, Element xmlElement) {
         super.map(charElement, xmlElement);
 

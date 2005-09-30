@@ -25,8 +25,16 @@ import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.store.FactoryFinder;
 
+/**
+ * Abstarkter <code>XOMMapper</code> für eine <code>Herkunft</code>.
+ * 
+ * @see org.d3s.alricg.store.xom.map.XOMMapper
+ * @see org.d3s.alricg.charKomponenten.Herkunft
+ * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ */
 abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMapper {
 
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
         super.map(xmlElement, charElement);
 
@@ -261,6 +269,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
 
     }
 
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement, nu.xom.Element)
     public void map(CharElement charElement, Element xmlElement) {
         super.map(charElement, xmlElement);
 
@@ -407,6 +416,12 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
         }
     }
 
+    /** 
+     * Fügt <code>auswahl</code> unter <code>tagname</code> zu <code>parent</code> hinzu.
+     * @param auswahl Die hinzuzufügenden  Wahlmöglichkeiten.
+     * @param tagname Die Bezeichnung des xml-Elements.
+     * @param parent Das xml-Element worunter die Auswahl hinzugefügt werden soll.
+     */
     private void map(Auswahl auswahl, String tagname, Element parent) {
         if (auswahl != null) {
             final Element e = new Element(tagname);
@@ -414,7 +429,13 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             parent.appendChild(e);
         }
     }
-
+    
+    /** 
+     * Fügt <code>ids</code> unter <code>tagname</code> zu <code>parent</code> hinzu.
+     * @param ids Die hinzuzufügenden <code>CharElement</code>-IDs.
+     * @param tagname Die Bezeichnung des xml-Elements.
+     * @param parent Das xml-Element worunter die link-Liste hinzugefügt werden soll.
+     */
     private void map(IdLinkList ids, String tagname, Element parent) {
         if (ids != null) {
             final Element e = new Element(tagname);

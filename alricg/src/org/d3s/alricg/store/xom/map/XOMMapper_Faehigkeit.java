@@ -20,8 +20,16 @@ import org.d3s.alricg.prozessor.FormelSammlung;
 import org.d3s.alricg.store.DataStore;
 import org.d3s.alricg.store.FactoryFinder;
 
+/**
+ * Abstarkter <code>XOMMapper</code> für eine <code>Faehigkeit</code>.
+ * 
+ * @see org.d3s.alricg.store.xom.map.XOMMapper
+ * @see org.d3s.alricg.charKomponenten.Faehigkeit
+ * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ */
 abstract class XOMMapper_Faehigkeit extends XOMMapper_CharElement implements XOMMapper {
 
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
         super.map(xmlElement, charElement);
 
@@ -42,6 +50,7 @@ abstract class XOMMapper_Faehigkeit extends XOMMapper_CharElement implements XOM
 
     }
 
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement, nu.xom.Element)
     public void map(CharElement charElement, Element xmlElement) {
         super.map(charElement, xmlElement);
 

@@ -28,12 +28,26 @@ import org.d3s.alricg.store.TextStore;
 import org.d3s.alricg.store.xom.XOMHelper;
 import org.d3s.alricg.store.xom.XOMTextStore;
 
+/**
+ * Mapper für lokalisierbare Texte.
+ * 
+ * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ */
 public class XOMToLibraryMapper {
 
+    /**
+     * Initialisiert einen neuen <code>TextStore</code> auf Basis der Daten in <code>props</code> und gibt ihn
+     * zurück.
+     * 
+     * @param props Die Konfiguration mit den benötigten Einstellungen
+     * @return Ein neuer <code>TextStore</code>
+     * @throws ConfigurationException Falls die Konfiguration fehlerhaft ist.
+     */
     public TextStore readData(Configuration props) throws ConfigurationException {
 
         try {
-            final Element configRoot = XOMHelper.getRootElementNoLog(new File(props.getProperty(ConfigStore.Key.config_file)));
+            final Element configRoot = XOMHelper.getRootElementNoLog(new File(props
+                    .getProperty(ConfigStore.Key.config_file)));
             final String d3sLibDir = props.getProperty(ConfigStore.Key.d3s_library_path);
             final String fileName = configRoot.getFirstChildElement("library").getAttribute("file").getValue();
             final Element element = XOMHelper.getRootElementNoLog(new File(d3sLibDir, fileName));
@@ -81,6 +95,16 @@ public class XOMToLibraryMapper {
         }
     }
 
+    /**
+     * Liest die Texte einer Sprache aus eine xml-Element und gibt diese als <code>Map</code> zurück. Mögliche
+     * Benachrichtigungen an den Aufrufer werden in <code>msg</code> gespeichert und können von diesem nach Ende der
+     * Methode weiterverarbeitet werden.
+     * 
+     * @param language Die gewünschte Sprache
+     * @param xmlElement Das xml-Element mit den Texten
+     * @param msg Eine Liste mit Nachrichten für den Anwender.
+     * @return Eine Tabelle mit den Texten in der gewünschten Sprache.
+     */
     private Map<String, String> read(String language, Element xmlElement, List<String> msg) {
         final Map<String, String> result = new HashMap<String, String>();
         final Elements xmlChildren = xmlElement.getChildElements();

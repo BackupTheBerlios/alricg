@@ -13,19 +13,26 @@ import nu.xom.Element;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 
+/**
+ * Interface für das Mapping eines (xom-xml) <code>Element</code> in ein <code>CharElement</code> und zurück.
+ * 
+ * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ */
 interface XOMMapper {
 
-    /** 
-     * Maps from the <code>xom</code> to the <code>CharElement</code> model
-     * @param xmlElement
-     * @param charElement
+    /**
+     * Bildet die Daten des xom-Modells in Instanzen der <code>CharElement</code>-Hierarchie ab.
+     * Wird auch als Vorwärtsmapping bezeichnet.
+     * @param xmlElement Das in ein <code>CharElement</code> abzubildende <code>Element</code>.
+     * @param charElement Das zu befüllende <code>CharElement</code>.
      */
     void map(Element xmlElement, CharElement charElement);
 
     /**
-     * Maps from the <code>CharElement</code> to the <code>xom</code> model.
-     * @param charElement
-     * @param xmlElement
+     * Bildet die Daten einer Instanz der <code>CharElement</code>-Hierarchie in eine entsprechende Struktur des xom-Modells ab. 
+     * Wird auch als Rückwärtsmapping bezeichnet.
+     * @param charElement Das in ein <code>Element</code> abzubildende <code>CharElement</code>.
+     * @param xmlElement Das zu befüllende <code>Element</code>.
      */
     void map(CharElement charElement, Element xmlElement);
 }

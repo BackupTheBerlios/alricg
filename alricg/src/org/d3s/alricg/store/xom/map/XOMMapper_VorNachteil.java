@@ -19,8 +19,16 @@ import org.d3s.alricg.charKomponenten.VorNachteil;
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
 import org.d3s.alricg.controller.ProgAdmin;
 
+/**
+ * Abstrakter <code>XOMMapper</code> für einen <code>VorNachteil</code>.
+ * 
+ * @see org.d3s.alricg.store.xom.map.XOMMapper
+ * @see org.d3s.alricg.charKomponenten.VorNachteil
+ * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ */
 abstract class XOMMapper_VorNachteil extends XOMMapper_Fertigkeit implements XOMMapper {
 
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
         super.map(xmlElement, charElement);
 
@@ -92,6 +100,7 @@ abstract class XOMMapper_VorNachteil extends XOMMapper_Fertigkeit implements XOM
         }
     }
 
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement, nu.xom.Element)
     public void map(CharElement charElement, Element xmlElement) {
         super.map(charElement, xmlElement);
 

@@ -15,8 +15,16 @@ import nu.xom.Element;
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.charZusatz.Fahrzeug;
 
+/**
+ * <code>XOMMapper</code> für ein <code>Fahrzeug</code>.
+ * 
+ * @see org.d3s.alricg.store.xom.map.XOMMapper
+ * @see org.d3s.alricg.charKomponenten.charZusatz.Fahrzeug
+ * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ */
 class XOMMapper_Fahrzeug extends XOMMapper_Gegenstand implements XOMMapper {
 
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
 
         super.map(xmlElement, charElement);
@@ -37,6 +45,7 @@ class XOMMapper_Fahrzeug extends XOMMapper_Gegenstand implements XOMMapper {
         }
     }
 
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement, nu.xom.Element)
     public void map(CharElement charElement, Element xmlElement) {
         
         super.map(charElement, xmlElement);

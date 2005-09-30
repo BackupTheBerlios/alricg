@@ -23,20 +23,37 @@ import org.d3s.alricg.store.ConfigurationException;
 import org.d3s.alricg.store.xom.XOMConfigStore;
 import org.d3s.alricg.store.xom.XOMHelper;
 
+/**
+ * Mapper für Konfigurationsdaten.
+ * 
+ * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ */
 public class XOMToConfigMapper {
 
+    /** Pfad und Name der Konfigurationsdatei */
     private static final String CONFIG_FILE = "ressourcen/config.xml";
 
+    /** Pfad zu den xml-Schemata */
     private static final String D3S_SCHEMA_PATH = "ressourcen/daten/schema/";
 
+    /** Pfad zu den lokalisierten Texten */
     private static final String D3S_LIBRARY_PATH = "ressourcen/daten/text/";
 
+    /** Pfad zu den Bildchen */
     private static final String D3S_IMG_PATH = "ressourcen/img/";
 
+    /** Pfad zu den "original" Daten */
     private static final String D3S_DATA_PATH = "ressourcen/daten/basisDaten/";
 
+    /** Pfad zu den "anwenderspezifischen" Daten */
     private static final String USER_DATA_PATH = "ressourcen/userDaten/";
 
+    /**
+     * Liest die Daten der Konfigurationsdatei und gibt einen neuen <code>ConfigStore</code> zurück
+     * 
+     * @return Ein <code>ConfigStore</code> mit den Daten der Konfigurationsdatei.
+     * @throws ConfigurationException
+     */
     public ConfigStore readData() throws ConfigurationException {
 
         try {
@@ -97,12 +114,12 @@ public class XOMToConfigMapper {
     }
 
     /**
-     * Liest die SKT aus dem XML-Element aus. Die SKT MUSS in erwarteter Form vorliegen (siehe tag (originalSkt)!
+     * Liest die SKT aus dem xml-Element aus. Die SKT MUSS in erwarteter Form vorliegen (siehe tag (originalSkt)!
      * 
-     * @param element Das XML-Element mit der SKT
+     * @param element Das xml-Element mit der SKT
      * @return Eine HashMap mit der SKT
-     * @throws NumberFormatException - Wenn die Zahlen nicht umgewandelt werden können NullPointerException - Wenn nicht
-     *             30 Elemente Vorhanden sind
+     * @throws NumberFormatException Wenn die Zahlen nicht umgewandelt werden können
+     * @throws NullPointerException Wenn nicht 30 Elemente Vorhanden sind
      * @author V.Strelow
      */
     private HashMap<KostenKlasse, Integer[]> loadSkt(Element element) throws NumberFormatException,

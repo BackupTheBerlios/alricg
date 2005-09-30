@@ -17,7 +17,6 @@ import nu.xom.Element;
 import nu.xom.Elements;
 
 import org.d3s.alricg.charKomponenten.CharElement;
-import org.d3s.alricg.charKomponenten.HerkunftVariante;
 import org.d3s.alricg.charKomponenten.Rasse;
 import org.d3s.alricg.charKomponenten.RasseVariante;
 import org.d3s.alricg.charKomponenten.charZusatz.WuerfelSammlung;
@@ -25,8 +24,16 @@ import org.d3s.alricg.charKomponenten.links.IdLinkList;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.store.FactoryFinder;
 
+/**
+ * <code>XOMMapper</code> für eine <code>Rasse</code>.
+ * 
+ * @see org.d3s.alricg.store.xom.map.XOMMapper
+ * @see org.d3s.alricg.charKomponenten.Rasse
+ * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ */
 class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
 
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
         super.map(xmlElement, charElement);
 
@@ -97,13 +104,15 @@ class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
             farbenFromXML(current.getChildElements("farbe"), rasse.getAugenfarbe());
 
             // Einlesen der Varianten
-            ArrayList<HerkunftVariante> arList = new ArrayList<HerkunftVariante>();
+            ArrayList<RasseVariante> arList = new ArrayList<RasseVariante>();
             current = xmlElement.getFirstChildElement("varianten");
             if (current != null) {
                 Elements varianten = current.getChildElements("variante");
                 for (int i = 0; i < varianten.size(); i++) {
-                    arList.add(XOMMappingHelper.mapVarianten(varianten.get(i), FactoryFinder.find().getData()
-                            .getCharElement(varianten.get(i).getAttributeValue("id")), rasse, this));
+                    final RasseVariante variante = (RasseVariante) FactoryFinder.find().getData().getCharElement(
+                            varianten.get(i).getAttributeValue("id"));
+                    XOMMappingHelper.mapVarianten(varianten.get(i), variante, rasse, this);
+                    arList.add(variante);
                 }
                 rasse.setVarianten(arList.toArray(new RasseVariante[arList.size()]));
             }
@@ -114,6 +123,7 @@ class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
 
     }
 
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement, nu.xom.Element)
     public void map(CharElement charElement, Element xmlElement) {
         super.map(charElement, xmlElement);
 
@@ -189,19 +199,21 @@ class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
         xmlElement.appendChild(e);
 
         // Schreiben der Varianten
-        CharElement[] elements = rasse.getVarianten();
-        if (elements != null) {
+        RasseVariante[] varianten = rasse.getVarianten();
+        if (varianten != null) {
             e = new Element("varianten");
 
-            for (int i = 0; i < elements.length; i++) {
-                e.appendChild(XOMMappingHelper.mapVarianten(elements[i], this));
+            for (int i = 0; i < varianten.length; i++) {
+                final Element variante = new Element("variante");
+                XOMMappingHelper.mapVarianten(varianten[i], variante, this);
+                e.appendChild(variante);
             }
             xmlElement.appendChild(e);
         }
     }
 
     /**
-     * Zum auslesen der Farben (Maximal 20)
+     * Liest die Farben (maximal 20) aus xml-Elementen
      * 
      * @param elements Die xml-elemente mit den angaben
      * @param array Das Array, in das die Farb-Angaben geschrieben werden
@@ -223,9 +235,9 @@ class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
     }
 
     /**
-     * Zum schreiben der Farben nach XML
+     * Schreibt die Farben in ein xml-Element
      * 
-     * @param xmlElement Als Xml-Element, zu dem geschrieben wird.
+     * @param xmlElement Als xml-Element, zu dem geschrieben wird.
      * @param array Das array mit allen Farben (max 20) als Array
      */
     private void farbenToXML(Element xmlElement, String[] array) {

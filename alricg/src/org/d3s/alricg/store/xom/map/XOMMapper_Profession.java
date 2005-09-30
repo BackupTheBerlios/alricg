@@ -17,7 +17,6 @@ import nu.xom.Elements;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Gottheit;
-import org.d3s.alricg.charKomponenten.HerkunftVariante;
 import org.d3s.alricg.charKomponenten.Profession;
 import org.d3s.alricg.charKomponenten.ProfessionVariante;
 import org.d3s.alricg.charKomponenten.Werte;
@@ -32,9 +31,17 @@ import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.store.FactoryFinder;
 
+/**
+ * <code>XOMMapper</code> für eine <code>Profession</code>.
+ * 
+ * @see org.d3s.alricg.store.xom.map.XOMMapper
+ * @see org.d3s.alricg.charKomponenten.Profession
+ * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ */
 class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
 
-    public void map(Element xmlElement, CharElement charElement) {
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
+public void map(Element xmlElement, CharElement charElement) {
         super.map(xmlElement, charElement);
 
         // my mapping
@@ -73,7 +80,8 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
         current = xmlElement.getFirstChildElement("geweiht");
         if (current != null) {
             final String val = current.getAttributeValue("gottheitId");
-            profession.setGeweihtGottheit((Gottheit) FactoryFinder.find().getData().getCharElement(val, CharKomponente.gottheit));
+            profession.setGeweihtGottheit((Gottheit) FactoryFinder.find().getData().getCharElement(val,
+                    CharKomponente.gottheit));
 
             final Auswahl ritusModis = new Auswahl(profession);
             XOMMappingHelper.mapAuswahl(current.getFirstChildElement("modis"), ritusModis);
@@ -135,24 +143,23 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
             XOMMappingHelper.mapAuswahlAusruestung(current, auswahlA);
             profession.setBesondererBesitz(auswahlA);
         }
-        
+
         // Auslesen der Varianten
-        ArrayList<HerkunftVariante> arList = new ArrayList<HerkunftVariante>();
+        ArrayList<ProfessionVariante> arList = new ArrayList<ProfessionVariante>();
         current = xmlElement.getFirstChildElement("varianten");
         if (current != null) {
-        	 Elements varianten = current.getChildElements("variante");
-        	 for (int i = 0; i < varianten.size(); i++) {
-        	 	arList.add( XOMMappingHelper.mapVarianten(
-        	 			varianten.get(i), 
-                        FactoryFinder.find().getData().getCharElement(varianten.get(i).getAttributeValue("id")),
-        	 			profession,
-        	 			this) );
-        	 }
-        	 profession.setVarianten(arList.toArray(new ProfessionVariante[arList.size()]));
+            Elements varianten = current.getChildElements("variante");
+            for (int i = 0; i < varianten.size(); i++) {
+                final ProfessionVariante variante = (ProfessionVariante) FactoryFinder.find().getData().getCharElement(
+                        varianten.get(i).getAttributeValue("id"));
+                XOMMappingHelper.mapVarianten(varianten.get(i), variante, profession, this);
+                arList.add(variante);
+            }
+            profession.setVarianten(arList.toArray(new ProfessionVariante[arList.size()]));
         }
 
     }
-
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement, nu.xom.Element)
     public void map(CharElement charElement, Element xmlElement) {
         super.map(charElement, xmlElement);
 
@@ -161,11 +168,10 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
         xmlElement.setLocalName("profession");
 
         // Schreiben des Attributs "Aufwand", wenn nötig
-        if ( !profession.getAufwand().equals(Profession.Aufwand.normal) ) {
-        	xmlElement.addAttribute(new Attribute("aufwand", 
-        						profession.getAufwand().getValue()));
+        if (!profession.getAufwand().equals(Profession.Aufwand.normal)) {
+            xmlElement.addAttribute(new Attribute("aufwand", profession.getAufwand().getValue()));
         }
-        
+
         // Schreiben der Art der Profession
         Element e = new Element("art");
         e.appendChild(profession.getArt().getValue());
@@ -245,26 +251,26 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
             XOMMappingHelper.mapAuswahlAusruestung(auswahlA, e);
             xmlElement.appendChild(e);
         }
-        
-        //Schreiben der Varianten
-        CharElement[] elements = profession.getVarianten();
-        if (elements != null) {
-        	e = new Element("varianten");
-        	 
-        	for (int i = 0; i < elements.length; i++) {
-        	 	e.appendChild(XOMMappingHelper.mapVarianten(
-        	 			elements[i], 
-        	 			this));
-        	}
-        	xmlElement.appendChild(e);
+
+        // Schreiben der Varianten
+        ProfessionVariante[] varianten = profession.getVarianten();
+        if (varianten != null) {
+            e = new Element("varianten");
+
+            for (int i = 0; i < varianten.length; i++) {
+                final Element variante = new Element("variante");
+                XOMMappingHelper.mapVarianten(varianten[i], variante, this);
+                e.appendChild(variante);
+            }
+            xmlElement.appendChild(e);
         }
 
     }
 
     /**
-     * Liefert zu einem XML-Tag die entsprechende Enum der Prof-Art zurück.
+     * Liefert zu einem xml-Tag die entsprechende Enum der Prof-Art zurück.
      * 
-     * @param xmlValue Der XML-Tag art aus dem Element Profession
+     * @param xmlValue Der xml-Tag art aus dem Element Profession
      * @return Die Enum Art die zu den xmlTag gehört
      */
     private Art getArtByValue(String value) {
@@ -280,6 +286,12 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
         return null;
     }
 
+    /**
+     * Befüllt eine Magierakademie (aus der CharElement-Hierarchie) mit den Daten des xom-Elements
+     * 
+     * @param xmlElement Das xml-Element mit den Daten
+     * @param makademie Die zu befüllende Akademie
+     */
     private void mapMagierAkademie(Element xmlElement, MagierAkademie makademie) {
 
         // Auslesen der Gildenzugehörigkeit
@@ -313,9 +325,15 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
         if (current != null) {
             makademie.setAnmerkung(current.getValue());
         }
-        
+
     }
 
+    /**
+     * Befüllt ein xml-Element mit den Daten einer Magierakademie (aus der CharElement-Hierarchie)
+     * 
+     * @param makadmie Das CharElement mit den Daten
+     * @param xmlElement Das zu befüllende xml-Element
+     */
     private void mapMagierAkademie(MagierAkademie makadmie, Element xmlElement) {
 
         // Schreiben der Gilde

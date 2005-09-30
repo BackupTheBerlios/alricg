@@ -19,8 +19,16 @@ import org.d3s.alricg.charKomponenten.charZusatz.DaemonenPakt;
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
 import org.d3s.alricg.controller.ProgAdmin;
 
+/**
+ * <code>XOMMapper</code> für einen <code>Daemonenpakt</code>.
+ * 
+ * @see org.d3s.alricg.store.xom.map.XOMMapper
+ * @see org.d3s.alricg.charKomponenten.charZusatz.DaemonenPakt
+ * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ */
 class XOMMapper_DaemonenPakt extends XOMMapper_CharElement implements XOMMapper {
 
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
 
         // super mapping
@@ -87,6 +95,7 @@ class XOMMapper_DaemonenPakt extends XOMMapper_CharElement implements XOMMapper 
         pakt.setSchwarzeGaben(idLinks);
     }
 
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement, nu.xom.Element)
     public void map(CharElement charElement, Element xmlElement) {
 
         // super mapping
@@ -147,6 +156,12 @@ class XOMMapper_DaemonenPakt extends XOMMapper_CharElement implements XOMMapper 
         xmlElement.appendChild(e);
     }
 
+    /**
+     * Erstellt die Liste eine Liste mit besonderen/veränderten Eigenschaften und Kosten.
+     * @param child Das <code>Element</code>, das die Art der Veränderungen beschreibt.
+     * @param pakt Der Pakt, der die Eigenschaften und Kosten beeinflusst.
+     * @return
+     */
     private IdLinkList mapChild(Element child, DaemonenPakt pakt) {
         IdLinkList result = null;
         if (child != null) {
