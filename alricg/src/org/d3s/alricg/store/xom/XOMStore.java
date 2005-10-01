@@ -159,6 +159,9 @@ public class XOMStore implements DataStore {
 
     /** Charakterkomponenten */
     private final Map<String, CharKomponente> charKompMap = new HashMap<String, CharKomponente>();
+    
+    /** Enthält den Ursprung jedes einzelnen Elements */
+    private final Map<String, List<String>> origin = new HashMap<String, List<String>>();
 
     /**
      * Erzeugt einen neuen <code>XOMStore</code>.
@@ -529,9 +532,28 @@ public class XOMStore implements DataStore {
         default:
             ProgAdmin.logger.logp(Level.SEVERE, "CharKompAdmin", "initCharKomponents",
                     "Ein CharKomp wurde nicht gefunden: " + charKomp);
-        }
+        }        
     }
 
+    /**
+     * Fügt alle Elemente von <code>ids</code> mit dem Wert von <code>canonicalPath</code> zu <code>origin</code> hinzu.
+     * @param ids
+     * @param canonicalPath
+     */
+    public void addOrigins(List<String> ids, String canonicalPath) {
+        
+        if (canonicalPath == null) {
+            return;
+        }
+        
+        List<String> value = origin.get(canonicalPath);
+        if (value == null) {
+            origin.put(canonicalPath, ids);
+        } else {
+            value.addAll(ids);
+        }
+    }
+    
     /**
      * Schreibt alle enthaltenen Charakter-Elemente in ein einziges root element, dieses ist ein Element mit einem
      * "alricgXML"-Tag. Weitere Anforderungen:
@@ -584,6 +606,13 @@ public class XOMStore implements DataStore {
         return root;
     }
 
+    /**
+     * @return origin
+     */
+    public Map<String, List<String>> getOrigin() {
+        return origin;
+    }
+    
     /**
      * Prüft ob ein ID Wert doppelt vorkommt! In dem Fall wird eine Warnung ausgegeben, aber nicht verhindert das der
      * alte Wert überschrieben wird!

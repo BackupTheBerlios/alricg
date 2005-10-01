@@ -46,4 +46,10 @@ public class XOMFactoryMock implements AbstractStoreFactory {
         System.out.println("getLib");
         return x.getLibrary();
     }
+
+    // @see org.d3s.alricg.store.AbstractStoreFactory#storeData()
+    public void storeData() throws ConfigurationException {
+        System.out.println("storeData");
+        x.storeData();
+    }
 }
