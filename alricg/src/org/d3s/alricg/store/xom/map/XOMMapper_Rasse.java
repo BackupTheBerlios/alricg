@@ -47,7 +47,7 @@ class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
             current = xmlElement.getFirstChildElement("kulturUeblich");
             if (current != null) {
                 final IdLinkList kulturUeblich = new IdLinkList(rasse);
-                XOMMappingHelper.mapIdLinkList(current, kulturUeblich);
+                XOMMappingHelper.instance().mapIdLinkList(current, kulturUeblich);
                 rasse.setKulturUeblich(kulturUeblich);
             }
 
@@ -55,7 +55,7 @@ class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
             current = xmlElement.getFirstChildElement("kulturMoeglich");
             if (current != null) {
                 final IdLinkList kulturMoeglich = new IdLinkList(rasse);
-                XOMMappingHelper.mapIdLinkList(current, kulturMoeglich);
+                XOMMappingHelper.instance().mapIdLinkList(current, kulturMoeglich);
                 rasse.setKulturMoeglich(kulturMoeglich);
             }
 
@@ -111,7 +111,7 @@ class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
                 for (int i = 0; i < varianten.size(); i++) {
                     final RasseVariante variante = (RasseVariante) FactoryFinder.find().getData().getCharElement(
                             varianten.get(i).getAttributeValue("id"));
-                    XOMMappingHelper.mapVarianten(varianten.get(i), variante, rasse, this);
+                    XOMMappingHelper.instance().mapVarianten(varianten.get(i), variante, rasse, this);
                     arList.add(variante);
                 }
                 rasse.setVarianten(arList.toArray(new RasseVariante[arList.size()]));
@@ -142,7 +142,7 @@ class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
         IdLinkList ids = rasse.getKulturUeblich();
         if (ids != null) {
             final Element e = new Element("kulturUeblich");
-            XOMMappingHelper.mapIdLinkList(ids, e);
+            XOMMappingHelper.instance().mapIdLinkList(ids, e);
             xmlElement.appendChild(e);
         }
 
@@ -150,7 +150,7 @@ class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
         ids = rasse.getKulturMoeglich();
         if (ids != null) {
             final Element e = new Element("kulturMoeglich");
-            XOMMappingHelper.mapIdLinkList(ids, e);
+            XOMMappingHelper.instance().mapIdLinkList(ids, e);
             xmlElement.appendChild(e);
         }
 
@@ -205,7 +205,7 @@ class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
 
             for (int i = 0; i < varianten.length; i++) {
                 final Element variante = new Element("variante");
-                XOMMappingHelper.mapVarianten(varianten[i], variante, this);
+                XOMMappingHelper.instance().mapVarianten(varianten[i], variante, this);
                 e.appendChild(variante);
             }
             xmlElement.appendChild(e);

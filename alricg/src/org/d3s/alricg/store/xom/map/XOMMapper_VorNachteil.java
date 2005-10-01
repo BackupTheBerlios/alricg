@@ -79,7 +79,7 @@ abstract class XOMMapper_VorNachteil extends XOMMapper_Fertigkeit implements XOM
         Element current = xmlElement.getFirstChildElement("aendertApSf");
         if (current != null) {
             final IdLinkList aendertApSf = new IdLinkList(vorNachteil);
-            XOMMappingHelper.mapIdLinkList(current, aendertApSf);
+            XOMMappingHelper.instance().mapIdLinkList(current, aendertApSf);
             vorNachteil.setAendertApSf(aendertApSf);
         }
 
@@ -87,7 +87,7 @@ abstract class XOMMapper_VorNachteil extends XOMMapper_Fertigkeit implements XOM
         current = xmlElement.getFirstChildElement("aendertGpVorteil");
         if (current != null) {
             final IdLinkList aendertGpVorteil = new IdLinkList(vorNachteil);
-            XOMMappingHelper.mapIdLinkList(current, aendertGpVorteil);
+            XOMMappingHelper.instance().mapIdLinkList(current, aendertGpVorteil);
             vorNachteil.setAendertGpVorteil(aendertGpVorteil);
         }
 
@@ -95,7 +95,7 @@ abstract class XOMMapper_VorNachteil extends XOMMapper_Fertigkeit implements XOM
         current = xmlElement.getFirstChildElement("aendertGpNachteil");
         if (current != null) {
             final IdLinkList aendertGpNachteil = new IdLinkList(vorNachteil);
-            XOMMappingHelper.mapIdLinkList(current, aendertGpNachteil);
+            XOMMappingHelper.instance().mapIdLinkList(current, aendertGpNachteil);
             vorNachteil.setAendertGpNachteil(aendertGpNachteil);
         }
     }
@@ -151,7 +151,7 @@ abstract class XOMMapper_VorNachteil extends XOMMapper_Fertigkeit implements XOM
         final IdLinkList aendertApSf = vorNachteil.getAendertApSf();
         if (aendertApSf != null) {
             final Element e = new Element("aendertApSf");
-            XOMMappingHelper.mapIdLinkList(aendertApSf, e);
+            XOMMappingHelper.instance().mapIdLinkList(aendertApSf, e);
             xmlElement.appendChild(e);
         }
 
@@ -159,7 +159,7 @@ abstract class XOMMapper_VorNachteil extends XOMMapper_Fertigkeit implements XOM
         final IdLinkList aendertGpVorteil = vorNachteil.getAendertGpVorteil();
         if (aendertGpVorteil != null) {
             final Element e = new Element("aendertGpVorteil");
-            XOMMappingHelper.mapIdLinkList(aendertGpVorteil, e);
+            XOMMappingHelper.instance().mapIdLinkList(aendertGpVorteil, e);
             xmlElement.appendChild(e);
         }
 
@@ -167,7 +167,7 @@ abstract class XOMMapper_VorNachteil extends XOMMapper_Fertigkeit implements XOM
         final IdLinkList aendertGpNachteil = vorNachteil.getAendertGpNachteil();
         if (aendertGpNachteil != null) {
             final Element e = new Element("aendertGpNachteil");
-            XOMMappingHelper.mapIdLinkList(aendertGpNachteil, e);
+            XOMMappingHelper.instance().mapIdLinkList(aendertGpNachteil, e);
             xmlElement.appendChild(e);
         }
     }

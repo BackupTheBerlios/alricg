@@ -87,7 +87,7 @@ class XOMMapper_Talent extends XOMMapper_Faehigkeit implements XOMMapper {
                 try {
                     final int abWert = Integer.parseInt(current.getAttributeValue("abWert"));
                     final TalentVoraussetzung voraussetzung = talent.new TalentVoraussetzung(talent, abWert);
-                    XOMMappingHelper.mapVoraussetzung(current, voraussetzung);
+                    XOMMappingHelper.instance().mapVoraussetzung(current, voraussetzung);
                 } catch (NumberFormatException exc) {
                     ProgAdmin.logger.log(Level.SEVERE, "String -> int failed!", exc);
                 }
@@ -126,7 +126,7 @@ class XOMMapper_Talent extends XOMMapper_Faehigkeit implements XOMMapper {
         TalentVoraussetzung voraussetzung = talent.getVoraussetzung();
         if (voraussetzung != null) {
             e = new Element("voraussetzungTalent");
-            XOMMappingHelper.mapVoraussetzung(voraussetzung, e);
+            XOMMappingHelper.instance().mapVoraussetzung(voraussetzung, e);
 
             // Schreiben ab wann die Voraussetzung gilt
             int abWert = voraussetzung.getAbWert();

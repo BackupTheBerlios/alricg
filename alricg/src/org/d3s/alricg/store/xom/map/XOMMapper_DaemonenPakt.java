@@ -117,42 +117,42 @@ class XOMMapper_DaemonenPakt extends XOMMapper_CharElement implements XOMMapper 
 
         // Verbilligte Eigenschaften
         e = new Element("verbilligteEigenschaften");
-        XOMMappingHelper.mapIdLinkList(pakt.getVerbilligteEigenschaften(), e);
+        XOMMappingHelper.instance().mapIdLinkList(pakt.getVerbilligteEigenschaften(), e);
         xmlElement.appendChild(e);
 
         // Verbilligte Vorteile
         e = new Element("verbilligteVorteile");
-        XOMMappingHelper.mapIdLinkList(pakt.getVerbilligteVorteile(), e);
+        XOMMappingHelper.instance().mapIdLinkList(pakt.getVerbilligteVorteile(), e);
         xmlElement.appendChild(e);
 
         // Verbilligte Sonderfertigkeiten
         e = new Element("verbilligteSonderf");
-        XOMMappingHelper.mapIdLinkList(pakt.getVerbilligteSonderf(), e);
+        XOMMappingHelper.instance().mapIdLinkList(pakt.getVerbilligteSonderf(), e);
         xmlElement.appendChild(e);
 
         // Verbilligte Talente
         e = new Element("verbilligteTalente");
-        XOMMappingHelper.mapIdLinkList(pakt.getVerbilligteTalente(), e);
+        XOMMappingHelper.instance().mapIdLinkList(pakt.getVerbilligteTalente(), e);
         xmlElement.appendChild(e);
 
         // Verbilligte Zauber
         e = new Element("verbilligteZauber");
-        XOMMappingHelper.mapIdLinkList(pakt.getVerbilligteEigenschaften(), e);
+        XOMMappingHelper.instance().mapIdLinkList(pakt.getVerbilligteEigenschaften(), e);
         xmlElement.appendChild(e);
 
         // Zaubermerkmale
         e = new Element("zauberMerkmal");
-        XOMMappingHelper.mapIdLinkList(pakt.getZauberMerkmal(), e);
+        XOMMappingHelper.instance().mapIdLinkList(pakt.getZauberMerkmal(), e);
         xmlElement.appendChild(e);
 
         // Schlechten Eigenschaften
         e = new Element("schlechteEigenschaften");
-        XOMMappingHelper.mapIdLinkList(pakt.getSchlechteEigenschaften(), e);
+        XOMMappingHelper.instance().mapIdLinkList(pakt.getSchlechteEigenschaften(), e);
         xmlElement.appendChild(e);
 
         // schwarze Gaben
         e = new Element("schwarzeGaben");
-        XOMMappingHelper.mapIdLinkList(pakt.getSchwarzeGaben(), e);
+        XOMMappingHelper.instance().mapIdLinkList(pakt.getSchwarzeGaben(), e);
         xmlElement.appendChild(e);
     }
 
@@ -166,7 +166,7 @@ class XOMMapper_DaemonenPakt extends XOMMapper_CharElement implements XOMMapper 
         IdLinkList result = null;
         if (child != null) {
             result = new IdLinkList(pakt);
-            XOMMappingHelper.mapIdLinkList(child, result);
+            XOMMappingHelper.instance().mapIdLinkList(child, result);
         }
         return result;
     }

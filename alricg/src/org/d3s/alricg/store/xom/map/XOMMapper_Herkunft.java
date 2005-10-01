@@ -75,7 +75,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("eigenschaftModi");
             if (current != null) {
                 final Auswahl eigenschaftModis = new Auswahl(herkunft);
-                XOMMappingHelper.mapAuswahl(current, eigenschaftModis);
+                XOMMappingHelper.instance().mapAuswahl(current, eigenschaftModis);
                 herkunft.setEigenschaftModis(eigenschaftModis);
             }
 
@@ -95,7 +95,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("voraussetzung");
             if (current != null) {
                 final Voraussetzung voraussetzung = new Voraussetzung(herkunft);
-                XOMMappingHelper.mapVoraussetzung(current, voraussetzung);
+                XOMMappingHelper.instance().mapVoraussetzung(current, voraussetzung);
                 herkunft.setVoraussetzung(voraussetzung);
             }
 
@@ -103,7 +103,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("vorteile");
             if (current != null) {
                 final Auswahl auswahl = new Auswahl(herkunft);
-                XOMMappingHelper.mapAuswahl(current, auswahl);
+                XOMMappingHelper.instance().mapAuswahl(current, auswahl);
                 herkunft.setVorteileAuswahl(auswahl);
             }
 
@@ -111,7 +111,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("nachteile");
             if (current != null) {
                 final Auswahl auswahl = new Auswahl(herkunft);
-                XOMMappingHelper.mapAuswahl(current, auswahl);
+                XOMMappingHelper.instance().mapAuswahl(current, auswahl);
                 herkunft.setNachteileAuswahl(auswahl);
             }
 
@@ -119,7 +119,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("sonderf");
             if (current != null) {
                 final Auswahl auswahl = new Auswahl(herkunft);
-                XOMMappingHelper.mapAuswahl(current, auswahl);
+                XOMMappingHelper.instance().mapAuswahl(current, auswahl);
                 herkunft.setSfAuswahl(auswahl);
             }
 
@@ -127,7 +127,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("liturgien");
             if (current != null) {
                 final Auswahl auswahl = new Auswahl(herkunft);
-                XOMMappingHelper.mapAuswahl(current, auswahl);
+                XOMMappingHelper.instance().mapAuswahl(current, auswahl);
                 herkunft.setLiturgienAuswahl(auswahl);
             }
 
@@ -135,7 +135,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("goetterRituale");
             if (current != null) {
                 final Auswahl auswahl = new Auswahl(herkunft);
-                XOMMappingHelper.mapAuswahl(current, auswahl);
+                XOMMappingHelper.instance().mapAuswahl(current, auswahl);
                 herkunft.setRitualeAuswahl(auswahl);
             }
 
@@ -143,7 +143,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("empfVorteile");
             if (current != null) {
                 final IdLinkList auswahl = new IdLinkList(herkunft);
-                XOMMappingHelper.mapIdLinkList(current, auswahl);
+                XOMMappingHelper.instance().mapIdLinkList(current, auswahl);
                 herkunft.setEmpfVorteile(auswahl);
             }
 
@@ -151,7 +151,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("empfNachteile");
             if (current != null) {
                 final IdLinkList auswahl = new IdLinkList(herkunft);
-                XOMMappingHelper.mapIdLinkList(current, auswahl);
+                XOMMappingHelper.instance().mapIdLinkList(current, auswahl);
                 herkunft.setEmpfNachteile(auswahl);
             }
 
@@ -159,7 +159,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("ungeVorteile");
             if (current != null) {
                 final IdLinkList auswahl = new IdLinkList(herkunft);
-                XOMMappingHelper.mapIdLinkList(current, auswahl);
+                XOMMappingHelper.instance().mapIdLinkList(current, auswahl);
                 herkunft.setUngeVorteile(auswahl);
             }
 
@@ -167,7 +167,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("ungeNachteile");
             if (current != null) {
                 final IdLinkList auswahl = new IdLinkList(herkunft);
-                XOMMappingHelper.mapIdLinkList(current, auswahl);
+                XOMMappingHelper.instance().mapIdLinkList(current, auswahl);
                 herkunft.setUngeNachteile(auswahl);
             }
 
@@ -175,7 +175,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("verbilligteVorteile");
             if (current != null) {
                 final IdLinkList auswahl = new IdLinkList(herkunft);
-                XOMMappingHelper.mapIdLinkList(current, auswahl);
+                XOMMappingHelper.instance().mapIdLinkList(current, auswahl);
                 herkunft.setVerbilligteVort(auswahl);
             }
 
@@ -183,7 +183,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("verbilligteNachteile");
             if (current != null) {
                 final IdLinkList auswahl = new IdLinkList(herkunft);
-                XOMMappingHelper.mapIdLinkList(current, auswahl);
+                XOMMappingHelper.instance().mapIdLinkList(current, auswahl);
                 herkunft.setVerbilligteNacht(auswahl);
             }
 
@@ -191,7 +191,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("verbilligteSonderf");
             if (current != null) {
                 final IdLinkList auswahl = new IdLinkList(herkunft);
-                XOMMappingHelper.mapIdLinkList(current, auswahl);
+                XOMMappingHelper.instance().mapIdLinkList(current, auswahl);
                 herkunft.setVerbilligteSonderf(auswahl);
             }
 
@@ -199,7 +199,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("verbilligteLiturgien");
             if (current != null) {
                 final IdLinkList auswahl = new IdLinkList(herkunft);
-                XOMMappingHelper.mapIdLinkList(current, auswahl);
+                XOMMappingHelper.instance().mapIdLinkList(current, auswahl);
                 herkunft.setVerbilligteLiturgien(auswahl);
             }
 
@@ -207,7 +207,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("verbilligteRituale");
             if (current != null) {
                 final IdLinkList auswahl = new IdLinkList(herkunft);
-                XOMMappingHelper.mapIdLinkList(current, auswahl);
+                XOMMappingHelper.instance().mapIdLinkList(current, auswahl);
                 herkunft.setVerbilligteRituale(auswahl);
             }
 
@@ -215,7 +215,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             current = xmlElement.getFirstChildElement("talente");
             if (current != null) {
                 final Auswahl auswahl = new Auswahl(herkunft);
-                XOMMappingHelper.mapAuswahl(current, auswahl);
+                XOMMappingHelper.instance().mapAuswahl(current, auswahl);
                 herkunft.setTalente(auswahl);
             }
 
@@ -234,7 +234,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
                 Element e = current.getFirstChildElement("hauszauber");
                 if (e != null) {
                     final Auswahl auswahl = new Auswahl(herkunft);
-                    XOMMappingHelper.mapAuswahl(e, auswahl);
+                    XOMMappingHelper.instance().mapAuswahl(e, auswahl);
                     herkunft.setHauszauber(auswahl);
                 }
 
@@ -242,7 +242,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
                 e = current.getFirstChildElement("zauber");
                 if (e != null) {
                     final Auswahl auswahl = new Auswahl(herkunft);
-                    XOMMappingHelper.mapAuswahl(e, auswahl);
+                    XOMMappingHelper.instance().mapAuswahl(e, auswahl);
                     herkunft.setZauber(auswahl);
                 }
 
@@ -250,7 +250,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
                 e = current.getFirstChildElement("aktivierbareZauber");
                 if (e != null) {
                     final Auswahl auswahl = new Auswahl(herkunft);
-                    XOMMappingHelper.mapAuswahl(e, auswahl);
+                    XOMMappingHelper.instance().mapAuswahl(e, auswahl);
                     herkunft.setAktivierbareZauber(auswahl);
                 }
 
@@ -258,7 +258,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
                 e = current.getFirstChildElement("zauberNichtZuBegin");
                 if (e != null) {
                     final IdLinkList auswahl = new IdLinkList(herkunft);
-                    XOMMappingHelper.mapIdLinkList(e, auswahl);
+                    XOMMappingHelper.instance().mapIdLinkList(e, auswahl);
                     herkunft.setZauberNichtBeginn(auswahl);
                 }
             }
@@ -322,7 +322,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
         Voraussetzung v = herkunft.getVoraussetzung();
         if (v != null) {
             e = new Element("voraussetzung");
-            XOMMappingHelper.mapVoraussetzung(v, e);
+            XOMMappingHelper.instance().mapVoraussetzung(v, e);
             xmlElement.appendChild(e);
         }
 
@@ -425,7 +425,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
     private void map(Auswahl auswahl, String tagname, Element parent) {
         if (auswahl != null) {
             final Element e = new Element(tagname);
-            XOMMappingHelper.mapAuswahl(auswahl, e);
+            XOMMappingHelper.instance().mapAuswahl(auswahl, e);
             parent.appendChild(e);
         }
     }
@@ -439,7 +439,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
     private void map(IdLinkList ids, String tagname, Element parent) {
         if (ids != null) {
             final Element e = new Element(tagname);
-            XOMMappingHelper.mapIdLinkList(ids, e);
+            XOMMappingHelper.instance().mapIdLinkList(ids, e);
             parent.appendChild(e);
         }
 

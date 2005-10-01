@@ -52,7 +52,7 @@ class XOMMapper_Sprache extends XOMMapper_SchriftSprache implements XOMMapper {
         current = xmlElement.getFirstChildElement("schriften");
         if (current != null) {
             final IdLinkList zugehoerigeSchrift = new IdLinkList(sprache);
-            XOMMappingHelper.mapIdLinkList(current, zugehoerigeSchrift);
+            XOMMappingHelper.instance().mapIdLinkList(current, zugehoerigeSchrift);
             sprache.setZugehoerigeSchrift(zugehoerigeSchrift);
         }
     }
@@ -79,7 +79,7 @@ class XOMMapper_Sprache extends XOMMapper_SchriftSprache implements XOMMapper {
         final IdLinkList zugehoerigeSchrift = sprache.getZugehoerigeSchrift();
         if (zugehoerigeSchrift != null) {
             e = new Element("schriften");
-            XOMMappingHelper.mapIdLinkList(zugehoerigeSchrift, e);
+            XOMMappingHelper.instance().mapIdLinkList(zugehoerigeSchrift, e);
             xmlElement.appendChild(e);
         }
 

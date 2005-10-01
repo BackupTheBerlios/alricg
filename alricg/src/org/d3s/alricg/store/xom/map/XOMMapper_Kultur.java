@@ -51,7 +51,7 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
         current = xmlElement.getFirstChildElement("professionUeblich");
         if (current != null) {
             final IdLinkList ids = new IdLinkList(kultur);
-            XOMMappingHelper.mapIdLinkList(current, ids);
+            XOMMappingHelper.instance().mapIdLinkList(current, ids);
             kultur.setProfessionUeblich(ids);
         }
 
@@ -59,21 +59,21 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
         current = xmlElement.getFirstChildElement("professionMoeglich");
         if (current != null) {
             final IdLinkList ids = new IdLinkList(kultur);
-            XOMMappingHelper.mapIdLinkList(current, ids);
+            XOMMappingHelper.instance().mapIdLinkList(current, ids);
             kultur.setProfessionMoeglich(ids);
         }
 
         // Auslesen der Muttersprache
         current = xmlElement.getFirstChildElement("muttersprache");
         Auswahl auswahl = new Auswahl(kultur);
-        XOMMappingHelper.mapAuswahl(current, auswahl);
+        XOMMappingHelper.instance().mapAuswahl(current, auswahl);
         kultur.setMuttersprache(auswahl);
 
         // Auslesen der Zweitsprache
         current = xmlElement.getFirstChildElement("zweitsprache");
         if (current != null) {
             auswahl = new Auswahl(kultur);
-            XOMMappingHelper.mapAuswahl(current, auswahl);
+            XOMMappingHelper.instance().mapAuswahl(current, auswahl);
             kultur.setZweitsprache(auswahl);
         }
 
@@ -81,7 +81,7 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
         current = xmlElement.getFirstChildElement("lehrsprache");
         if (current != null) {
             auswahl = new Auswahl(kultur);
-            XOMMappingHelper.mapAuswahl(current, auswahl);
+            XOMMappingHelper.instance().mapAuswahl(current, auswahl);
             kultur.setLehrsprache(auswahl);
         }
 
@@ -89,7 +89,7 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
         current = xmlElement.getFirstChildElement("sprachen");
         if (current != null) {
             auswahl = new Auswahl(kultur);
-            XOMMappingHelper.mapAuswahl(current, auswahl);
+            XOMMappingHelper.instance().mapAuswahl(current, auswahl);
             kultur.setSprachen(auswahl);
         }
 
@@ -97,7 +97,7 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
         current = xmlElement.getFirstChildElement("schriften");
         if (current != null) {
             auswahl = new Auswahl(kultur);
-            XOMMappingHelper.mapAuswahl(current, auswahl);
+            XOMMappingHelper.instance().mapAuswahl(current, auswahl);
             kultur.setSchriften(auswahl);
         }
 
@@ -105,7 +105,7 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
         current = xmlElement.getFirstChildElement("ausruestung");
         if (current != null) {
             AuswahlAusruestung auswahlA = new AuswahlAusruestung(kultur);
-            XOMMappingHelper.mapAuswahlAusruestung(current, auswahlA);
+            XOMMappingHelper.instance().mapAuswahlAusruestung(current, auswahlA);
             kultur.setAusruestung(auswahlA);
         }
 
@@ -117,7 +117,7 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
             for (int i = 0; i < varianten.size(); i++) {
                 final KulturVariante variante = (KulturVariante) FactoryFinder.find().getData().getCharElement(
                         varianten.get(i).getAttributeValue("id"));
-                XOMMappingHelper.mapVarianten(varianten.get(i), variante, kultur, this);
+                XOMMappingHelper.instance().mapVarianten(varianten.get(i), variante, kultur, this);
                 arList.add(variante);
             }
             kultur.setVarianten(arList.toArray(new KulturVariante[arList.size()]));
@@ -145,7 +145,7 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
         IdLinkList ids = kultur.getProfessionUeblich();
         if (ids != null) {
             final Element e = new Element("professionUeblich");
-            XOMMappingHelper.mapIdLinkList(ids, e);
+            XOMMappingHelper.instance().mapIdLinkList(ids, e);
             xmlElement.appendChild(e);
         }
 
@@ -153,7 +153,7 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
         ids = kultur.getProfessionMoeglich();
         if (ids != null) {
             final Element e = new Element("professionMoeglich");
-            XOMMappingHelper.mapIdLinkList(ids, e);
+            XOMMappingHelper.instance().mapIdLinkList(ids, e);
             xmlElement.appendChild(e);
         }
 
@@ -161,7 +161,7 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
         Auswahl auswahl = kultur.getMuttersprache();
         if (auswahl != null) {
             final Element e = new Element("muttersprache");
-            XOMMappingHelper.mapAuswahl(auswahl, e);
+            XOMMappingHelper.instance().mapAuswahl(auswahl, e);
             xmlElement.appendChild(e);
         }
 
@@ -169,7 +169,7 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
         auswahl = kultur.getZweitsprache();
         if (auswahl != null) {
             final Element e = new Element("zweitsprache");
-            XOMMappingHelper.mapAuswahl(auswahl, e);
+            XOMMappingHelper.instance().mapAuswahl(auswahl, e);
             xmlElement.appendChild(e);
         }
 
@@ -177,7 +177,7 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
         auswahl = kultur.getLehrsprache();
         if (auswahl != null) {
             final Element e = new Element("lehrsprache");
-            XOMMappingHelper.mapAuswahl(auswahl, e);
+            XOMMappingHelper.instance().mapAuswahl(auswahl, e);
             xmlElement.appendChild(e);
         }
 
@@ -185,7 +185,7 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
         auswahl = kultur.getSprachen();
         if (auswahl != null) {
             final Element e = new Element("sprachen");
-            XOMMappingHelper.mapAuswahl(auswahl, e);
+            XOMMappingHelper.instance().mapAuswahl(auswahl, e);
             xmlElement.appendChild(e);
         }
 
@@ -193,7 +193,7 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
         auswahl = kultur.getSchriften();
         if (auswahl != null) {
             final Element e = new Element("schriften");
-            XOMMappingHelper.mapAuswahl(auswahl, e);
+            XOMMappingHelper.instance().mapAuswahl(auswahl, e);
             xmlElement.appendChild(e);
         }
 
@@ -201,7 +201,7 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
         AuswahlAusruestung auswahlA = kultur.getAusruestung();
         if (auswahl != null) {
             final Element e = new Element("ausruestung");
-            XOMMappingHelper.mapAuswahlAusruestung(auswahlA, e);
+            XOMMappingHelper.instance().mapAuswahlAusruestung(auswahlA, e);
             xmlElement.appendChild(e);
         }
 
@@ -212,7 +212,7 @@ class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
 
             for (int i = 0; i < varianten.length; i++) {
                 final Element variante = new Element("variante");
-                XOMMappingHelper.mapVarianten(varianten[i], variante, this);
+                XOMMappingHelper.instance().mapVarianten(varianten[i], variante, this);
                 e.appendChild(variante);
             }
             xmlElement.appendChild(e);

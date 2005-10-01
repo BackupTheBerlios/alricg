@@ -39,7 +39,7 @@ class XOMMapper_ZusatzProfession extends XOMMapper_Profession implements XOMMapp
         Element current = xmlElement.getFirstChildElement("professionUeblich");
         if (current != null) {
             final IdLinkList professionUeblich = new IdLinkList(zusatzProfession);
-            XOMMappingHelper.mapIdLinkList(current, professionUeblich);
+            XOMMappingHelper.instance().mapIdLinkList(current, professionUeblich);
             zusatzProfession.setProfessionUeblich(professionUeblich);
         }
 
@@ -47,7 +47,7 @@ class XOMMapper_ZusatzProfession extends XOMMapper_Profession implements XOMMapp
         current = xmlElement.getFirstChildElement("professionMoeglich");
         if (current != null) {
             final IdLinkList professionMoeglich = new IdLinkList(zusatzProfession);
-            XOMMappingHelper.mapIdLinkList(current, professionMoeglich);
+            XOMMappingHelper.instance().mapIdLinkList(current, professionMoeglich);
             zusatzProfession.setProfessionMoeglich(professionMoeglich);
         }
 
@@ -82,7 +82,7 @@ class XOMMapper_ZusatzProfession extends XOMMapper_Profession implements XOMMapp
         IdLinkList ids = zusatzProfession.getProfessionUeblich();
         if (ids != null) {
             Element e = new Element("professionUeblich");
-            XOMMappingHelper.mapIdLinkList(ids, e);
+            XOMMappingHelper.instance().mapIdLinkList(ids, e);
             xmlElement.appendChild(e);
         }
 
@@ -90,7 +90,7 @@ class XOMMapper_ZusatzProfession extends XOMMapper_Profession implements XOMMapp
         ids = zusatzProfession.getProfessionMoeglich();
         if (ids != null) {
             Element e = new Element("professionMoeglich");
-            XOMMappingHelper.mapIdLinkList(ids, e);
+            XOMMappingHelper.instance().mapIdLinkList(ids, e);
             xmlElement.appendChild(e);
         }
 

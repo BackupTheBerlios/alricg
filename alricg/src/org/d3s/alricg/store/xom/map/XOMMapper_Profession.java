@@ -84,7 +84,7 @@ public void map(Element xmlElement, CharElement charElement) {
                     CharKomponente.gottheit));
 
             final Auswahl ritusModis = new Auswahl(profession);
-            XOMMappingHelper.mapAuswahl(current.getFirstChildElement("modis"), ritusModis);
+            XOMMappingHelper.instance().mapAuswahl(current.getFirstChildElement("modis"), ritusModis);
             profession.setRitusModis(ritusModis);
         }
 
@@ -92,7 +92,7 @@ public void map(Element xmlElement, CharElement charElement) {
         current = xmlElement.getFirstChildElement("verboteVT");
         if (current != null) {
             final IdLinkList ids = new IdLinkList(profession);
-            XOMMappingHelper.mapIdLinkList(current, ids);
+            XOMMappingHelper.instance().mapIdLinkList(current, ids);
             profession.setVerbotenVort(ids);
         }
 
@@ -100,7 +100,7 @@ public void map(Element xmlElement, CharElement charElement) {
         current = xmlElement.getFirstChildElement("verboteNT");
         if (current != null) {
             final IdLinkList ids = new IdLinkList(profession);
-            XOMMappingHelper.mapIdLinkList(current, ids);
+            XOMMappingHelper.instance().mapIdLinkList(current, ids);
             profession.setVerbotenNacht(ids);
         }
 
@@ -108,7 +108,7 @@ public void map(Element xmlElement, CharElement charElement) {
         current = xmlElement.getFirstChildElement("verboteSF");
         if (current != null) {
             final IdLinkList ids = new IdLinkList(profession);
-            XOMMappingHelper.mapIdLinkList(current, ids);
+            XOMMappingHelper.instance().mapIdLinkList(current, ids);
             profession.setVerbotenSF(ids);
         }
 
@@ -116,7 +116,7 @@ public void map(Element xmlElement, CharElement charElement) {
         current = xmlElement.getFirstChildElement("sprachen");
         if (current != null) {
             final Auswahl auswahl = new Auswahl(profession);
-            XOMMappingHelper.mapAuswahl(current, auswahl);
+            XOMMappingHelper.instance().mapAuswahl(current, auswahl);
             profession.setSprachen(auswahl);
         }
 
@@ -124,7 +124,7 @@ public void map(Element xmlElement, CharElement charElement) {
         current = xmlElement.getFirstChildElement("schriften");
         if (current != null) {
             final Auswahl auswahl = new Auswahl(profession);
-            XOMMappingHelper.mapAuswahl(current, auswahl);
+            XOMMappingHelper.instance().mapAuswahl(current, auswahl);
             profession.setSchriften(auswahl);
         }
 
@@ -132,7 +132,7 @@ public void map(Element xmlElement, CharElement charElement) {
         current = xmlElement.getFirstChildElement("ausruestung");
         if (current != null) {
             final AuswahlAusruestung auswahlA = new AuswahlAusruestung(profession);
-            XOMMappingHelper.mapAuswahlAusruestung(current, auswahlA);
+            XOMMappingHelper.instance().mapAuswahlAusruestung(current, auswahlA);
             profession.setAusruestung(auswahlA);
         }
 
@@ -140,7 +140,7 @@ public void map(Element xmlElement, CharElement charElement) {
         current = xmlElement.getFirstChildElement("besondererBesitz");
         if (current != null) {
             final AuswahlAusruestung auswahlA = new AuswahlAusruestung(profession);
-            XOMMappingHelper.mapAuswahlAusruestung(current, auswahlA);
+            XOMMappingHelper.instance().mapAuswahlAusruestung(current, auswahlA);
             profession.setBesondererBesitz(auswahlA);
         }
 
@@ -152,7 +152,7 @@ public void map(Element xmlElement, CharElement charElement) {
             for (int i = 0; i < varianten.size(); i++) {
                 final ProfessionVariante variante = (ProfessionVariante) FactoryFinder.find().getData().getCharElement(
                         varianten.get(i).getAttributeValue("id"));
-                XOMMappingHelper.mapVarianten(varianten.get(i), variante, profession, this);
+                XOMMappingHelper.instance().mapVarianten(varianten.get(i), variante, profession, this);
                 arList.add(variante);
             }
             profession.setVarianten(arList.toArray(new ProfessionVariante[arList.size()]));
@@ -191,7 +191,7 @@ public void map(Element xmlElement, CharElement charElement) {
             e = new Element("geweiht");
             e.addAttribute(new Attribute("gottheitId", geweihtGottheit.getId()));
             final Element ee = new Element("modis");
-            XOMMappingHelper.mapAuswahl(profession.getRitusModis(), ee);
+            XOMMappingHelper.instance().mapAuswahl(profession.getRitusModis(), ee);
             e.appendChild(ee);
             xmlElement.appendChild(e);
         }
@@ -200,7 +200,7 @@ public void map(Element xmlElement, CharElement charElement) {
         IdLinkList ids = profession.getVerbotenVort();
         if (ids != null) {
             e = new Element("verboteVT");
-            XOMMappingHelper.mapIdLinkList(ids, e);
+            XOMMappingHelper.instance().mapIdLinkList(ids, e);
             xmlElement.appendChild(e);
         }
 
@@ -208,7 +208,7 @@ public void map(Element xmlElement, CharElement charElement) {
         ids = profession.getVerbotenNacht();
         if (ids != null) {
             e = new Element("verboteNT");
-            XOMMappingHelper.mapIdLinkList(ids, e);
+            XOMMappingHelper.instance().mapIdLinkList(ids, e);
             xmlElement.appendChild(e);
         }
 
@@ -216,7 +216,7 @@ public void map(Element xmlElement, CharElement charElement) {
         ids = profession.getVerbotenSF();
         if (ids != null) {
             e = new Element("verboteSF");
-            XOMMappingHelper.mapIdLinkList(ids, e);
+            XOMMappingHelper.instance().mapIdLinkList(ids, e);
             xmlElement.appendChild(e);
         }
 
@@ -224,7 +224,7 @@ public void map(Element xmlElement, CharElement charElement) {
         Auswahl auswahl = profession.getSprachen();
         if (auswahl != null) {
             e = new Element("sprachen");
-            XOMMappingHelper.mapAuswahl(auswahl, e);
+            XOMMappingHelper.instance().mapAuswahl(auswahl, e);
             xmlElement.appendChild(e);
         }
 
@@ -232,7 +232,7 @@ public void map(Element xmlElement, CharElement charElement) {
         auswahl = profession.getSchriften();
         if (auswahl != null) {
             e = new Element("schriften");
-            XOMMappingHelper.mapAuswahl(auswahl, e);
+            XOMMappingHelper.instance().mapAuswahl(auswahl, e);
             xmlElement.appendChild(e);
         }
 
@@ -240,7 +240,7 @@ public void map(Element xmlElement, CharElement charElement) {
         AuswahlAusruestung auswahlA = profession.getAusruestung();
         if (auswahl != null) {
             e = new Element("ausruestung");
-            XOMMappingHelper.mapAuswahlAusruestung(auswahlA, e);
+            XOMMappingHelper.instance().mapAuswahlAusruestung(auswahlA, e);
             xmlElement.appendChild(e);
         }
 
@@ -248,7 +248,7 @@ public void map(Element xmlElement, CharElement charElement) {
         auswahlA = profession.getBesondererBesitz();
         if (auswahl != null) {
             e = new Element("besondererBesitz");
-            XOMMappingHelper.mapAuswahlAusruestung(auswahlA, e);
+            XOMMappingHelper.instance().mapAuswahlAusruestung(auswahlA, e);
             xmlElement.appendChild(e);
         }
 
@@ -259,7 +259,7 @@ public void map(Element xmlElement, CharElement charElement) {
 
             for (int i = 0; i < varianten.length; i++) {
                 final Element variante = new Element("variante");
-                XOMMappingHelper.mapVarianten(varianten[i], variante, this);
+                XOMMappingHelper.instance().mapVarianten(varianten[i], variante, this);
                 e.appendChild(variante);
             }
             xmlElement.appendChild(e);
