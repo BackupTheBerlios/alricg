@@ -22,10 +22,10 @@ package org.d3s.alricg.store;
  * 
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-public interface DataStoreFactory {
+public interface AbstractStoreFactory {
 
     /**
-     * Initialisiert die <code>DataStoreFactory</code>.
+     * Initialisiert die <code>AbstractStoreFactory</code>.
      * 
      * @throws ConfigurationException Falls ein Fehler während der Initialisierung auftritt.
      */

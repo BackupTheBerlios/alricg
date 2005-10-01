@@ -12,18 +12,18 @@ package org.d3s.alricg.store.xom;
 import org.d3s.alricg.store.ConfigStore;
 import org.d3s.alricg.store.ConfigurationException;
 import org.d3s.alricg.store.DataStore;
-import org.d3s.alricg.store.DataStoreFactory;
+import org.d3s.alricg.store.AbstractStoreFactory;
 import org.d3s.alricg.store.TextStore;
 import org.d3s.alricg.store.xom.map.XOMToClientMapper;
 import org.d3s.alricg.store.xom.map.XOMToConfigMapper;
 import org.d3s.alricg.store.xom.map.XOMToLibraryMapper;
 
 /**
- * <code>DataStoreFactory</code> auf Basis des xom-Frameworks.
+ * <code>AbstractStoreFactory</code> auf Basis des xom-Frameworks.
  * 
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-public final class XOMFactory implements DataStoreFactory {
+public final class XOMFactory implements AbstractStoreFactory {
 
     /** Lokalisierte Texte. */
     private TextStore library;
@@ -37,22 +37,22 @@ public final class XOMFactory implements DataStoreFactory {
     /** Initialisierungsstatus der Factory. */
     private boolean initialized;
 
-    // @see org.d3s.alricg.store.DataStoreFactory#getData()
+    // @see org.d3s.alricg.store.AbstractStoreFactory#getData()
     public DataStore getData() {
         return data;
     }
 
-    // @see org.d3s.alricg.store.DataStoreFactory#getConfiguration()
+    // @see org.d3s.alricg.store.AbstractStoreFactory#getConfiguration()
     public ConfigStore getConfiguration() {
         return config;
     }
 
-    // @see org.d3s.alricg.store.DataStoreFactory#getLibrary()
+    // @see org.d3s.alricg.store.AbstractStoreFactory#getLibrary()
     public TextStore getLibrary() {
         return library;
     }
 
-    // @see org.d3s.alricg.store.DataStoreFactory#initialize()
+    // @see org.d3s.alricg.store.AbstractStoreFactory#initialize()
     public synchronized void initialize() throws ConfigurationException {
         if (initialized) {
             return;

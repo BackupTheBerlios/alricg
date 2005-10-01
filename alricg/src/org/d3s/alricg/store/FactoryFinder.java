@@ -19,18 +19,18 @@ import java.util.logging.Level;
 import org.d3s.alricg.controller.ProgAdmin;
 
 /**
- * Eine Finderklasse zur Auswahl der konkreten <code>DataStoreFactory</code>.
+ * Eine Finderklasse zur Auswahl der konkreten <code>AbstractStoreFactory</code>.
  * <p>
  * Der <code>FactoryFinder</code> wählt anhand einer Konfigurationsdatei aus, welche konkrete
- * <code>DataStoreFactory</code> verwendet werden soll. <br>
+ * <code>AbstractStoreFactory</code> verwendet werden soll. <br>
  * <h4>Verwendung</h4>
  * 
  * <pre>
- * DataStoreFactory factory = FactoryFinder.init(); // initialisiert den FactoryFinder und gibt die konkrete Factory zurück.
+ * AbstractStoreFactory factory = FactoryFinder.init(); // initialisiert den FactoryFinder und gibt die konkrete Factory zurück.
  * 
  * //... do something ...
  * 
- * DataStoreFactory factorz = FactoryFinder.find(); // gibt die konkrete Factory zurück.
+ * AbstractStoreFactory factorz = FactoryFinder.find(); // gibt die konkrete Factory zurück.
  * </pre>
  * 
  * Die <code>init</code>-Methode muss ausgeführt werden, bevor die <code>find</code>-Methode zum ersten Mal
@@ -43,7 +43,7 @@ import org.d3s.alricg.controller.ProgAdmin;
  * <li>data.store.factory.default</li>
  * </ol>
  * Der Eintrag zum erstne gefundenen Schlüssel, wird als Klassenname interpretiert und versucht über Reflection zu
- * laden. Die Klasse muss das Interface {@link org.d3s.alricg.store.DataStoreFactory} implementieren.
+ * laden. Die Klasse muss das Interface {@link org.d3s.alricg.store.AbstractStoreFactory} implementieren.
  * </p>
  *      
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
@@ -51,32 +51,32 @@ import org.d3s.alricg.controller.ProgAdmin;
 public final class FactoryFinder {
 
     /**
-     * Die zu verwendende <code>DataStoreFactory</code>.
+     * Die zu verwendende <code>AbstractStoreFactory</code>.
      */
-    private static DataStoreFactory factoryInstance;
+    private static AbstractStoreFactory factoryInstance;
 
     /**
      * Gibt die Factory zurück.
      * 
-     * @return Die zu verwendende <code>DataStoreFactory</code>.
+     * @return Die zu verwendende <code>AbstractStoreFactory</code>.
      * @throws NullPointerException Falls <code>factoryInstance==null</code> ist.
      */
-    public static final DataStoreFactory find() {
+    public static final AbstractStoreFactory find() {
         if (factoryInstance != null) {
             return factoryInstance;
         }
-        throw new NullPointerException("DataStoreFactory is not initialised!");
+        throw new NullPointerException("AbstractStoreFactory is not initialised!");
     }
 
     /**
-     * Initialisiert die zu verwendende <code>DataStoreFactory</code>, sofern das noch nicht geschehen ist und gibt
+     * Initialisiert die zu verwendende <code>AbstractStoreFactory</code>, sofern das noch nicht geschehen ist und gibt
      * sie zurück.
      * 
-     * @param factoryFile Die Datei aus der die <code>DataStoreFactory</code> Implementierung gelesen werden soll.
-     * @return Die zu verwendende <code>DataStoreFactory</code>.
+     * @param factoryFile Die Datei aus der die <code>AbstractStoreFactory</code> Implementierung gelesen werden soll.
+     * @return Die zu verwendende <code>AbstractStoreFactory</code>.
      * @throws ConfigurationException Falls während der Initialisierung der Facotry ein Fehler auftritt.
      */
-    public static final DataStoreFactory init(File factoryFile) throws ConfigurationException {
+    public static final AbstractStoreFactory init(File factoryFile) throws ConfigurationException {
         if (factoryInstance != null) {
             return factoryInstance;
         }
@@ -94,11 +94,11 @@ public final class FactoryFinder {
                 }
                 final Class<?> clazz = Class.forName(classname);
                 final Constructor<?> conny = clazz.getConstructor(new Class[0]);
-                factoryInstance = (DataStoreFactory) conny.newInstance(new Object[0]);
+                factoryInstance = (AbstractStoreFactory) conny.newInstance(new Object[0]);
             } catch (Exception e) {
                 factoryInstance = null;
-                ProgAdmin.logger.log(Level.SEVERE, "DataStoreFactory instantiation failed!", e);
-                throw new ConfigurationException("DataStoreFactory instantiation failed!", e);
+                ProgAdmin.logger.log(Level.SEVERE, "AbstractStoreFactory instantiation failed!", e);
+                throw new ConfigurationException("AbstractStoreFactory instantiation failed!", e);
             }
             factoryInstance.initialize();
             return factoryInstance;
@@ -107,19 +107,19 @@ public final class FactoryFinder {
     }
 
     /**
-     * Initialisiert die zu verwendende <code>DataStoreFactory</code>, sofern das noch nicht geschehen ist und gibt
+     * Initialisiert die zu verwendende <code>AbstractStoreFactory</code>, sofern das noch nicht geschehen ist und gibt
      * sie zurück.
      * 
      * @see #init(File)
-     * @return Die zu verwendende <code>DataStoreFactory</code>.
+     * @return Die zu verwendende <code>AbstractStoreFactory</code>.
      * @throws ConfigurationException Falls während der Initialisierung der Facotry ein Fehler auftritt.
      */
-    public static final DataStoreFactory init() throws ConfigurationException {
+    public static final AbstractStoreFactory init() throws ConfigurationException {
         return init(new File("ressourcen/factory.properties"));
     }
 
     /**
-     * Setzt die zu verwendende <code>DataStoreFactory</code> auf <code>null</code>.
+     * Setzt die zu verwendende <code>AbstractStoreFactory</code> auf <code>null</code>.
      */
     static final void reset() {
         synchronized (FactoryFinder.class) {

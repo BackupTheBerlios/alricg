@@ -46,7 +46,7 @@ public class FactoryFinderTest extends TestCase {
             fail("NullPointerException expected.");
         } catch (Throwable t) {
             assertTrue("Unexpected error instance.", t instanceof NullPointerException);
-            assertEquals("Unexpected error message.", "DataStoreFactory is not initialised!", t.getMessage());
+            assertEquals("Unexpected error message.", "AbstractStoreFactory is not initialised!", t.getMessage());
         }
     }
 
@@ -59,7 +59,7 @@ public class FactoryFinderTest extends TestCase {
             assertNotNull(FactoryFinder.find().getData());
         } catch (Throwable t) {
             assertTrue("Unexpected error instance.", t instanceof ConfigurationException);
-            assertEquals("Unexpected error message.", "DataStoreFactory instantiation failed!", t.getMessage());
+            assertEquals("Unexpected error message.", "AbstractStoreFactory instantiation failed!", t.getMessage());
             fail("No exception expected.");
         }
     }
@@ -77,7 +77,7 @@ public class FactoryFinderTest extends TestCase {
             fail("NullPointerException expected.");
         } catch (Throwable t) {
             assertTrue("Unexpected error instance.", t instanceof NullPointerException);
-            assertEquals("Unexpected error message.", "DataStoreFactory is not initialised!", t.getMessage());
+            assertEquals("Unexpected error message.", "AbstractStoreFactory is not initialised!", t.getMessage());
         }
 
     }
