@@ -8,9 +8,9 @@
 package org.d3s.alricg.store.xom.map;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 import nu.xom.Element;
 import nu.xom.Elements;
@@ -33,7 +33,7 @@ import org.d3s.alricg.store.xom.XOMStore;
  * 
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-public class XOMToClientMapper {
+public class XOMToDataMapper {
 
     /**
      * Befüllt einen neuen <code>dataStore</code> auf Basis der Einstellungen in <code>props</code>.
@@ -61,131 +61,6 @@ public class XOMToClientMapper {
         } catch (Exception e) {
             throw new ConfigurationException(e);
         }
-    }
-
-    /**
-     * Wählt den korrekten <code>XOMMapper</code> zu einer <code>CharKomponente</code>.
-     * 
-     * @param charKomp Die Komponente wozu ein passender <code>XOMMapper</code> gesucht wird.
-     * @return Der passende Mapper, oder <code>null</code>, falls kein passender gefunden werden konnte.
-     */
-    private XOMMapper chooseXOMMapper(CharKomponente charKomp) {
-        XOMMapper mappy = null;
-        switch (charKomp) {
-        // >>>>>>>>>>>>>>> Herkunft
-        case rasse:
-            mappy = new XOMMapper_Rasse();
-            break;
-        case kultur:
-            mappy = new XOMMapper_Kultur();
-            break;
-        case profession:
-            mappy = new XOMMapper_Profession();
-            break;
-        case zusatzProfession:
-            mappy = new XOMMapper_ZusatzProfession();
-            break;
-
-        // >>>>>>>>>>>>>>> Fertigkeiten & Fähigkeiten
-        case vorteil:
-            mappy = new XOMMapper_Vorteil();
-            break;
-        case gabe:
-            mappy = new XOMMapper_Gabe();
-            break;
-        case nachteil:
-            mappy = new XOMMapper_Nachteil();
-            break;
-        case sonderfertigkeit:
-            mappy = new XOMMapper_Sonderfertigkeit();
-            break;
-        case ritLitKenntnis:
-            mappy = new XOMMapper_LiturgieRitualKenntnis();
-            break;
-        case talent:
-            mappy = new XOMMapper_Talent();
-            break;
-        case zauber:
-            mappy = new XOMMapper_Zauber();
-            break;
-
-        // >>>>>>>>>>>>>>> Sprachen
-        case sprache:
-            mappy = new XOMMapper_Sprache();
-            break;
-        case schrift:
-            mappy = new XOMMapper_Schrift();
-            break;
-
-        // >>>>>>>>>>>>>>> Götter
-        case liturgie:
-            mappy = new XOMMapper_Liturgie();
-            break;
-        case ritual:
-            mappy = new XOMMapper_Ritual();
-            break;
-
-        // >>>>>>>>>>>>>>> Ausrüstung
-        case ausruestung:
-            mappy = new XOMMapper_Ausruestung();
-            break;
-        case fahrzeug:
-            mappy = new XOMMapper_Fahrzeug();
-            break;
-        case waffeNk:
-            mappy = new XOMMapper_NahkWaffe();
-            break;
-        case waffeFk:
-            mappy = new XOMMapper_FkWaffe();
-            break;
-        case ruestung:
-            mappy = new XOMMapper_Ruestung();
-            break;
-        case schild:
-            mappy = new XOMMapper_Schild();
-            break;
-
-        // >>>>>>>>>>>>>>> Zusätzliches
-        case daemonenPakt:
-            mappy = new XOMMapper_DaemonenPakt();
-            break;
-        case schwarzeGabe:
-            mappy = new XOMMapper_SchwarzeGabe();
-            break;
-        case tier:
-            mappy = new XOMMapper_Tier();
-            break;
-        case region:
-            mappy = new XOMMapper_RegionVolk();
-            break;
-        case gottheit:
-            mappy = new XOMMapper_Gottheit();
-            break;
-        case repraesentation:
-            mappy = new XOMMapper_Repraesentation();
-            break;
-        case eigenschaft:
-            mappy = null;
-            // Eigenschaften werden nicht aus XML gelesen.
-            // mappy = new XOMMapper_Eigenschaft();
-            // for (int i = 0; i < kategorien.size(); i++) {
-            // final Element child = kategorien.get(i);
-            // final String id = child.getAttributeValue("id");
-            // final CharElement charEl = eigenschaftMap.get(id);
-            // mappy.map(child, charEl);
-            // }
-            break;
-        case sonderregel:
-            mappy = null;
-            break; // Gibt es nicht!
-
-        // >>>>>>>>>>>>>>> DEFAULT
-        default:
-            mappy = null;
-            ProgAdmin.logger.logp(Level.SEVERE, "CharKompAdmin", "initCharKomponents",
-                    "Ein CharKomp wurde nicht gefunden: " + charKomp);
-        }
-        return mappy;
     }
 
     /**
@@ -225,7 +100,8 @@ public class XOMToClientMapper {
      * 
      * @param arrayFiles Eine ArrayList mit allen Dateien die Eingelesen werden
      */
-    private void initCharKomponents(List<File> arrayFiles, XOMStore charKompAdmin) throws KeyExistsException {
+    private void initCharKomponents(List<File> arrayFiles, XOMStore charKompAdmin) throws KeyExistsException,
+            ConfigurationException {
 
         loadCharKomponents(arrayFiles, charKompAdmin, true);
 
@@ -241,8 +117,8 @@ public class XOMToClientMapper {
      * @param current Die Art der übergebenen Elemente
      * @param store Store in den die Elemente gespeichert werden sollen
      */
-    private void initHelpCharKomponents(Elements kategorien, CharKomponente current, XOMStore store)
-            throws KeyExistsException {
+    private void initHelpCharKomponents(Elements kategorien, CharKomponente current, XOMStore store,
+            String canonicalPath) throws KeyExistsException {
         final CharKomponente currentVariante;
 
         final List<String> ids = new ArrayList<String>();
@@ -250,6 +126,7 @@ public class XOMToClientMapper {
             ids.add(kategorien.get(iii).getAttributeValue("id"));
         }
         store.initCharKomponents(ids, current);
+        store.addOrigins(ids, canonicalPath);
 
         // Einlesen der Varianten
         if (current.equals(CharKomponente.rasse)) {
@@ -268,7 +145,7 @@ public class XOMToClientMapper {
 
             if (tmpElement != null) {
                 initHelpCharKomponents( // rekursiver aufruf
-                        tmpElement.getChildElements("variante"), currentVariante, store);
+                        tmpElement.getChildElements("variante"), currentVariante, store, canonicalPath);
             }
         }
 
@@ -277,7 +154,8 @@ public class XOMToClientMapper {
     /**
      * Befüllt die "leeren" CharKomponenten mit Daten.
      */
-    private void loadCharKomponents(List<File> files, XOMStore store, boolean init) throws KeyExistsException {
+    private void loadCharKomponents(List<File> files, XOMStore store, boolean init) throws KeyExistsException,
+            ConfigurationException {
         final CharKomponente[] charKomps = CharKomponente.values();
 
         // Files auslesen, hier kann eigentlich kein Lade Fehler auftreten,
@@ -302,7 +180,11 @@ public class XOMToClientMapper {
 
                 // Entscheiden ob initialisierung der Elemente oder mapping der Daten
                 if (init) {
-                    initHelpCharKomponents(kategorien, current, store);
+                    try {
+                        initHelpCharKomponents(kategorien, current, store, files.get(ii).getCanonicalPath());
+                    } catch (IOException ioe) {
+                        throw new ConfigurationException("A file does not exist", ioe);
+                    }
                 } else {
                     mapHelpCharKomponents(kategorien, current, store);
                 }
@@ -357,7 +239,7 @@ public class XOMToClientMapper {
      * @param store Store in den die Elemente gespeichert werden sollen
      */
     private void mapHelpCharKomponents(Elements kategorien, CharKomponente current, XOMStore store) {
-        final XOMMapper mappy = chooseXOMMapper(current);
+        final XOMMapper mappy = XOMMappingHelper.instance().chooseXOMMapper(current);
         if (mappy != null) {
             for (int iii = 0; iii < kategorien.size(); iii++) {
                 final Element child = kategorien.get(iii);
