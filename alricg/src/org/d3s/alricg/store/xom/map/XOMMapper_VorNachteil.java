@@ -24,7 +24,7 @@ import org.d3s.alricg.controller.ProgAdmin;
  * 
  * @see org.d3s.alricg.store.xom.map.XOMMapper
  * @see org.d3s.alricg.charKomponenten.VorNachteil
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 abstract class XOMMapper_VorNachteil extends XOMMapper_Fertigkeit implements XOMMapper {
 

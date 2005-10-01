@@ -24,7 +24,7 @@ import org.d3s.alricg.controller.ProgAdmin;
  * 
  * @see org.d3s.alricg.store.xom.map.XOMMapper
  * @see org.d3s.alricg.charKomponenten.charZusatz.DaemonenPakt
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 class XOMMapper_DaemonenPakt extends XOMMapper_CharElement implements XOMMapper {
 
@@ -157,10 +157,10 @@ class XOMMapper_DaemonenPakt extends XOMMapper_CharElement implements XOMMapper 
     }
 
     /**
-     * Erstellt die Liste eine Liste mit besonderen/veränderten Eigenschaften und Kosten.
+     * Erstellt eine Liste mit besonderen/veränderten Eigenschaften und Kosten.
      * @param child Das <code>Element</code>, das die Art der Veränderungen beschreibt.
      * @param pakt Der Pakt, der die Eigenschaften und Kosten beeinflusst.
-     * @return
+     * @return Link-Liste mit besonderen/veränderten Eigenschaften und Kosten.
      */
     private IdLinkList mapChild(Element child, DaemonenPakt pakt) {
         IdLinkList result = null;

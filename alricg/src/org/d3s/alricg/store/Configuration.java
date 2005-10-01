@@ -15,7 +15,7 @@ import java.util.Properties;
  * Konfiguration von alricg. Properties können nur unter einem der in <code>d3s.alricg.store.ConfigStore.Key</code> definierten Schlüssel abgelegt werden. 
  * 
  * @see org.d3s.alricg.store.ConfigStore.Key
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 public class Configuration {
 

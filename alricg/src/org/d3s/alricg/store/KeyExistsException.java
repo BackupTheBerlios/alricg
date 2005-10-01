@@ -10,9 +10,9 @@
 package org.d3s.alricg.store;
 
 /**
- * Diese Ausnahme zeigt an, dass im DataStore ein Schlüssel mehrfach verwendet wird.
+ * Zeigt an, dass im DataStore ein Schlüssel mehrfach verwendet wird.
  * 
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 public class KeyExistsException extends Exception {
 
@@ -38,7 +38,7 @@ public class KeyExistsException extends Exception {
     }
 
     /**
-     * Erzeugt eine neue <code>KeyExistsException</code> durch "unhüllen" einer anderen.
+     * Erzeugt eine neue <code>KeyExistsException</code> durch "umhüllen" einer anderen.
      * 
      * @see Exception
      * @param t Die zu umhüllende Ausnahme

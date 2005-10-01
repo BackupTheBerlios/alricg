@@ -23,7 +23,7 @@ import org.d3s.alricg.controller.ProgAdmin;
  * 
  * @see org.d3s.alricg.store.xom.map.XOMMapper
  * @see org.d3s.alricg.charKomponenten.charZusatz.Ruestung
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 class XOMMapper_Ruestung extends XOMMapper_Gegenstand implements XOMMapper {
 

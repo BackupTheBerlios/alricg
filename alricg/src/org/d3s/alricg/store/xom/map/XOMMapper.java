@@ -14,9 +14,9 @@ import nu.xom.Element;
 import org.d3s.alricg.charKomponenten.CharElement;
 
 /**
- * Interface für das Mapping eines (xom-xml) <code>Element</code> in ein <code>CharElement</code> und zurück.
+ * Mapping eines (xom-xml) <code>Element</code> in ein <code>CharElement</code> und zurück.
  * 
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 interface XOMMapper {
 

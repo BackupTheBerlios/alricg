@@ -20,7 +20,7 @@ import org.d3s.alricg.charKomponenten.charZusatz.Fahrzeug;
  * 
  * @see org.d3s.alricg.store.xom.map.XOMMapper
  * @see org.d3s.alricg.charKomponenten.charZusatz.Fahrzeug
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 class XOMMapper_Fahrzeug extends XOMMapper_Gegenstand implements XOMMapper {
 

@@ -26,7 +26,7 @@ import org.d3s.alricg.store.xom.XOMHelper;
 /**
  * Mapper für Konfigurationsdaten.
  * 
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 public class XOMToConfigMapper {
 
@@ -120,7 +120,6 @@ public class XOMToConfigMapper {
      * @return Eine HashMap mit der SKT
      * @throws NumberFormatException Wenn die Zahlen nicht umgewandelt werden können
      * @throws NullPointerException Wenn nicht 30 Elemente Vorhanden sind
-     * @author V.Strelow
      */
     private HashMap<KostenKlasse, Integer[]> loadSkt(Element element) throws NumberFormatException,
             NullPointerException {

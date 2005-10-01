@@ -23,7 +23,7 @@ import org.d3s.alricg.controller.ProgAdmin;
  * 
  * @see org.d3s.alricg.store.xom.map.XOMMapper
  * @see org.d3s.alricg.charKomponenten.charZusatz.Schild
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 class XOMMapper_Schild extends XOMMapper_Gegenstand implements XOMMapper {
 

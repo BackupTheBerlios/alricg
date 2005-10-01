@@ -15,9 +15,9 @@ import java.util.Map;
 import org.d3s.alricg.store.TextStore;
 
 /**
- * <code>TextStore</code> auf Basis des XOM-Frameworks
+ * <code>TextStore</code> auf Basis des xom-Frameworks
  * 
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 public class XOMTextStore implements TextStore {
 

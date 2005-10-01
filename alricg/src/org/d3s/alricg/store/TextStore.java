@@ -12,7 +12,7 @@ package org.d3s.alricg.store;
 /**
  * Abstraktion lokalisierbarer Texte von alricg.
  * 
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 public interface TextStore {
 

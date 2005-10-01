@@ -24,7 +24,7 @@ import org.d3s.alricg.prozessor.FormelSammlung;
  * 
  * @see org.d3s.alricg.store.xom.map.XOMMapper
  * @see org.d3s.alricg.charKomponenten.SchriftSprache
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */ 
 abstract class XOMMapper_SchriftSprache extends XOMMapper_CharElement implements XOMMapper {
 

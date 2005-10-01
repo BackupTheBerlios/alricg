@@ -58,9 +58,9 @@ import org.d3s.alricg.store.FactoryFinder;
 import org.d3s.alricg.store.KeyExistsException;
 
 /**
- * <code>DataStore</code> auf Basis des XOM-Frameworks
+ * <code>DataStore</code> auf Basis des xom-Frameworks
  * 
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 public class XOMStore implements DataStore {
 
@@ -212,7 +212,7 @@ public class XOMStore implements DataStore {
     /**
      * Ermöglicht den lesenden Zugriff auf die Map mit den charKomponenten.
      * <p>
-     * Bemerkung: Durch die Konstruktion <code>Map<String, ? extends CharElement></code> kann kein Element zu einer
+     * Bemerkung: Durch die Konstruktion <code>Map&lt;String, ? extends CharElement&gt;</code> kann kein Element zu einer
      * <code>map</code> hinzugefügt werden.
      * </p>
      * 
@@ -313,7 +313,8 @@ public class XOMStore implements DataStore {
      * 
      * <pre>
      *       Seien A, B CharElemente und es verweise A auf B (z.B. Modifikation: B + 3).
-     *       Existiert B bei Anlage von A und der entsprechenden Modifikation noch nicht, sind Fehler im Programm nur eine Frage der Zeit. 
+     *       Existiert B bei Anlage von A und der entsprechenden Modifikation noch nicht, 
+     *       so sind Fehler im Programm nur eine Frage der Zeit. 
      *       Als prominentes Beispiel sei die NullPointerException genannt.
      * </pre>
      * 

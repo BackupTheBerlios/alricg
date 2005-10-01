@@ -26,11 +26,11 @@ import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.store.FactoryFinder;
 
 /**
- * Abstarkter <code>XOMMapper</code> für eine <code>Herkunft</code>.
+ * Abstrakter <code>XOMMapper</code> für eine <code>Herkunft</code>.
  * 
  * @see org.d3s.alricg.store.xom.map.XOMMapper
  * @see org.d3s.alricg.charKomponenten.Herkunft
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMapper {
 

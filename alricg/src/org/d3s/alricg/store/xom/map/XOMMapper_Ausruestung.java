@@ -19,7 +19,7 @@ import org.d3s.alricg.charKomponenten.charZusatz.Ausruestung;
  * 
  * @see org.d3s.alricg.store.xom.map.XOMMapper
  * @see org.d3s.alricg.charKomponenten.charZusatz.Ausruestung
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 class XOMMapper_Ausruestung extends XOMMapper_Gegenstand implements XOMMapper {
 

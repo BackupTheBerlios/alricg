@@ -23,11 +23,11 @@ import org.d3s.alricg.charKomponenten.links.Voraussetzung;
 import org.d3s.alricg.controller.ProgAdmin;
 
 /**
- * Abstarkter <code>XOMMapper</code> für eine <code>Fertigkeit</code>.
+ * Abstrakter <code>XOMMapper</code> für eine <code>Fertigkeit</code>.
  * 
  * @see org.d3s.alricg.store.xom.map.XOMMapper
  * @see org.d3s.alricg.charKomponenten.Fertigkeit
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 abstract class XOMMapper_Fertigkeit extends XOMMapper_CharElement implements XOMMapper {
 

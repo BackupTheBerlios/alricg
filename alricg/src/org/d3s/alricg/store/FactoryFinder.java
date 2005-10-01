@@ -19,11 +19,11 @@ import java.util.logging.Level;
 import org.d3s.alricg.controller.ProgAdmin;
 
 /**
- * Eine Factory zur Auswahl der konkreten <code>DataStoreFactory</code>.
+ * Eine Finderklasse zur Auswahl der konkreten <code>DataStoreFactory</code>.
  * <p>
  * Der <code>FactoryFinder</code> wählt anhand einer Konfigurationsdatei aus, welche konkrete
  * <code>DataStoreFactory</code> verwendet werden soll. <br>
- * Verwendung:
+ * <h4>Verwendung</h4>
  * 
  * <pre>
  * DataStoreFactory factory = FactoryFinder.init(); // initialisiert den FactoryFinder und gibt die konkrete Factory zurück.
@@ -35,9 +35,18 @@ import org.d3s.alricg.controller.ProgAdmin;
  * 
  * Die <code>init</code>-Methode muss ausgeführt werden, bevor die <code>find</code>-Methode zum ersten Mal
  * aufgerufen wird.
+ * <h4>Initialisierung</h4>
+ * Der <code>FactoryFinder</code> sucht in der Datei <code>ressourcen/factory.properties</code>, in der angegebenen
+ * Reihenfolge, nach folgenden Schlüsseln:
+ * <ol>
+ * <li>data.store.factory.impl</li>
+ * <li>data.store.factory.default</li>
+ * </ol>
+ * Der Eintrag zum erstne gefundenen Schlüssel, wird als Klassenname interpretiert und versucht über Reflection zu
+ * laden. Die Klasse muss das Interface {@link org.d3s.alricg.store.DataStoreFactory} implementieren.
  * </p>
- * 
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ *      
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 public final class FactoryFinder {
 
@@ -77,7 +86,11 @@ public final class FactoryFinder {
                 String classname = "org.d3s.alricg.store.xom.XOMFactory";
                 if (factoryFile.exists() && factoryFile.canRead()) {
                     ResourceBundle rb = new PropertyResourceBundle(new FileInputStream(factoryFile));
-                    classname = rb.getString("data.store.factory.impl");
+                    try {
+                        classname = rb.getString("data.store.factory.impl");
+                    } catch (NullPointerException npe) {
+                        classname = rb.getString("data.store.factory.default");
+                    }
                 }
                 final Class<?> clazz = Class.forName(classname);
                 final Constructor<?> conny = clazz.getConstructor(new Class[0]);
@@ -97,11 +110,12 @@ public final class FactoryFinder {
      * Initialisiert die zu verwendende <code>DataStoreFactory</code>, sofern das noch nicht geschehen ist und gibt
      * sie zurück.
      * 
+     * @see #init(File)
      * @return Die zu verwendende <code>DataStoreFactory</code>.
      * @throws ConfigurationException Falls während der Initialisierung der Facotry ein Fehler auftritt.
      */
     public static final DataStoreFactory init() throws ConfigurationException {
-        return init(new File("ressourcen/StoreFactoryFinder.properties"));
+        return init(new File("ressourcen/factory.properties"));
     }
 
     /**

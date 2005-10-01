@@ -19,10 +19,9 @@ import org.d3s.alricg.store.xom.map.XOMToConfigMapper;
 import org.d3s.alricg.store.xom.map.XOMToLibraryMapper;
 
 /**
- * Implementierung der <code>DataStoreFactory</code>. Die Implementierung basiert auf xml Dateien und dem
- * xml-Framework xom.
+ * <code>DataStoreFactory</code> auf Basis des xom-Frameworks.
  * 
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 public final class XOMFactory implements DataStoreFactory {
 

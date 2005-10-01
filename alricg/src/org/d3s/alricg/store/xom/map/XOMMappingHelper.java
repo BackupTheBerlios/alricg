@@ -37,7 +37,7 @@ import org.d3s.alricg.store.FactoryFinder;
 /**
  * Hilfklasse für das Mapping von und nach xml.
  * 
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 final class XOMMappingHelper {
 
@@ -70,7 +70,7 @@ final class XOMMappingHelper {
      * Bildet ein xml-Element in eine Auswahl ab.
      * 
      * @param xmlElement Das xml-Element mit den Wahlmöglichkeiten.
-     * @param auwahll Die Auswahl, der verändert werden soll.
+     * @param auswahl Die Auswahl, der verändert werden soll.
      */
     public static void mapAuswahl(Element xmlElement, Auswahl auswahl) {
 

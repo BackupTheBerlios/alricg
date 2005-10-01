@@ -36,7 +36,7 @@ import org.d3s.alricg.store.FactoryFinder;
  * 
  * @see org.d3s.alricg.store.xom.map.XOMMapper
  * @see org.d3s.alricg.charKomponenten.Profession
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
 
@@ -270,7 +270,7 @@ public void map(Element xmlElement, CharElement charElement) {
     /**
      * Liefert zu einem xml-Tag die entsprechende Enum der Prof-Art zurück.
      * 
-     * @param xmlValue Der xml-Tag art aus dem Element Profession
+     * @param value Der xml-Tag art aus dem Element Profession
      * @return Die Enum Art die zu den xmlTag gehört
      */
     private Art getArtByValue(String value) {

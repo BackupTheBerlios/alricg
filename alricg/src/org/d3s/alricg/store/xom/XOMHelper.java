@@ -24,14 +24,21 @@ import org.d3s.alricg.store.FactoryFinder;
 import org.d3s.alricg.store.TextStore;
 
 /**
- * HelperKlasse zur Vernwendung des xom-Frameworks.
+ * Helperklasse für das xom-Frameworks.
  * 
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 public class XOMHelper {
 
     /**
-     * Ließt ein XML-File ein und gibt das RootElement zurück. Fehler werden nicht geloggt und nicht gemeldet.
+     * Privater Konstruktor, da nur Helper-Stereotyp.
+     */
+    private XOMHelper() {
+
+    }
+
+    /**
+     * Liest ein XML-File ein und gibt das RootElement zurück. Fehler werden nicht geloggt und nicht gemeldet.
      * 
      * @see #getRootElement(File)
      * @param xmlFile Das File das eingelesen werden soll
@@ -45,7 +52,7 @@ public class XOMHelper {
     }
 
     /**
-     * Ließt ein XML-File ein und gibt das RootElement zurück.
+     * Liest ein XML-File ein und gibt das RootElement zurück.
      * 
      * @param xmlFile Das File das eingelesen werden soll
      * @return Das rootElement des XML-Files oder null, falls die Datei nicht geladen werden konnte!

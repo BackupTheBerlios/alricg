@@ -21,7 +21,7 @@ import org.d3s.alricg.charKomponenten.RegionVolk;
  * 
  * @see org.d3s.alricg.store.xom.map.XOMMapper
  * @see org.d3s.alricg.charKomponenten.RegionVolk
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 class XOMMapper_RegionVolk extends XOMMapper_CharElement implements XOMMapper {
 

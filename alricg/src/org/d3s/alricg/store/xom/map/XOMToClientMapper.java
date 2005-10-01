@@ -31,7 +31,7 @@ import org.d3s.alricg.store.xom.XOMStore;
 /**
  * Mapper für die <code>CharElemente</code>.
  * 
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 public class XOMToClientMapper {
 
@@ -240,7 +240,6 @@ public class XOMToClientMapper {
      * @param kategorien Alle XML-Elemente der Art "current"
      * @param current Die Art der übergebenen Elemente
      * @param store Store in den die Elemente gespeichert werden sollen
-     * @author V.Strelow
      */
     private void initHelpCharKomponents(Elements kategorien, CharKomponente current, XOMStore store)
             throws KeyExistsException {

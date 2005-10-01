@@ -21,7 +21,7 @@ import org.d3s.alricg.charKomponenten.Gottheit.KenntnisArt;
  * 
  * @see org.d3s.alricg.store.xom.map.XOMMapper
  * @see org.d3s.alricg.charKomponenten.Gottheit
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 class XOMMapper_Gottheit extends XOMMapper_CharElement implements XOMMapper {
 

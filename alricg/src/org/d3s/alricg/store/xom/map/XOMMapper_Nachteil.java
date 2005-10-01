@@ -19,7 +19,7 @@ import org.d3s.alricg.charKomponenten.Nachteil;
  * 
  * @see org.d3s.alricg.store.xom.map.XOMMapper
  * @see org.d3s.alricg.charKomponenten.Nachteil
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 class XOMMapper_Nachteil extends XOMMapper_VorNachteil implements XOMMapper {
 

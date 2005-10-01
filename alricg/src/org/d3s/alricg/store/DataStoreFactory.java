@@ -10,16 +10,17 @@
 package org.d3s.alricg.store;
 
 /**
- * Die <code>DataStoreFactory</code> kapselt den Zugriff auf die diversen, von alricg benötigten persistenten Daten.
+ * Abstract Factory für die Initialisierung und den Zugriff auf die von alricg benötigten persistenten Daten.
  * <p>
  * Es gibt 3 Klassen von Stores in alricg:
  * <ul>
  * <li>DataStore: Regeln.</li>
  * <li>ConfigStore: Konfiguration, v.a. für interne Daten.</li>
  * <li>TextStore: lokalisierbare Texte.</li>
+ * </ul>
  * </p>
  * 
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 public interface DataStoreFactory {
 

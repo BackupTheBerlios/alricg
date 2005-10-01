@@ -26,7 +26,7 @@ import org.d3s.alricg.store.FactoryFinder;
  * 
  * @see org.d3s.alricg.store.xom.map.XOMMapper
  * @see org.d3s.alricg.charKomponenten.Ritus
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 abstract class XOMMapper_Ritus extends XOMMapper_CharElement implements XOMMapper {
 

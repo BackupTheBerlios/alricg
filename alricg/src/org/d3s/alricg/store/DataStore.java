@@ -17,10 +17,10 @@ import org.d3s.alricg.controller.CharKomponente;
 /**
  * Abstraktion der Regeldatenhaltung von alricg. 
  * <p>
- * Zum gegenwärtigen Zeitpunkt (September 2005) ist noch keine Möglcihkeit vorhanden Daten zu speichern. Ein Manko, das es schnellstmöglich zu beheben gilt.
+ * Zum gegenwärtigen Zeitpunkt (September 2005) ist noch keine Möglichkeit vorhanden Daten zu speichern. Ein Manko, das es schnellstmöglich zu beheben gilt.
  * </p>
  * 
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 public interface DataStore {
 

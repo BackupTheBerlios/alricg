@@ -10,10 +10,10 @@
 package org.d3s.alricg.store;
 
 /**
- * Kapselt Ausnahmen, die während der Konfigurationsphase oder durch fehlerhafte Konfiguration von alricg auftreten
- * können.
+ * Zeigt an, dass während der Konfigurationsphase oder durch fehlerhafte Konfiguration von alricg ein Fehler aufgetreten
+ * ist.
  * 
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 public class ConfigurationException extends Exception {
 
@@ -21,6 +21,7 @@ public class ConfigurationException extends Exception {
 
     /**
      * Erzeugt eine neue <code>ConfigurationException</code>
+     * 
      * @see Exception
      */
     public ConfigurationException() {
@@ -29,6 +30,7 @@ public class ConfigurationException extends Exception {
 
     /**
      * Erzeugt eine neue <code>ConfigurationException</code>
+     * 
      * @see Exception
      * @param msg Die Nachricht, die mit dieser Ausnahme angezeigt werden soll.
      */
@@ -37,7 +39,8 @@ public class ConfigurationException extends Exception {
     }
 
     /**
-     * Erzeugt eine neue <code>ConfigurationException</code> durch "unhüllen" einer anderen.
+     * Erzeugt eine neue <code>ConfigurationException</code> durch "umhüllen" einer anderen.
+     * 
      * @see Exception
      * @param t Die zu umhüllende Ausnahme
      */
@@ -47,6 +50,7 @@ public class ConfigurationException extends Exception {
 
     /**
      * Erzeugt eine neue <code>ConfigurationException</code>
+     * 
      * @see Exception
      * @param msg Die Nachricht, die mit dieser Ausnahme angezeigt werden soll.
      * @param t Die zu umhüllende Ausnahme

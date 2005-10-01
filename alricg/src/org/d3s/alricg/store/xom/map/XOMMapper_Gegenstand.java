@@ -27,7 +27,7 @@ import org.d3s.alricg.store.FactoryFinder;
  * 
  * @see org.d3s.alricg.store.xom.map.XOMMapper
  * @see org.d3s.alricg.charKomponenten.charZusatz.Gegenstand
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 
 class XOMMapper_Gegenstand extends XOMMapper_CharElement implements XOMMapper {

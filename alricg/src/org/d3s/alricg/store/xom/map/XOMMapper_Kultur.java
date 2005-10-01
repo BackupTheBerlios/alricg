@@ -29,7 +29,7 @@ import org.d3s.alricg.store.FactoryFinder;
  * 
  * @see org.d3s.alricg.store.xom.map.XOMMapper
  * @see org.d3s.alricg.charKomponenten.Kultur
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 class XOMMapper_Kultur extends XOMMapper_Herkunft implements XOMMapper {
 

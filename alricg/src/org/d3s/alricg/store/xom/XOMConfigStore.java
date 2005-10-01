@@ -10,6 +10,7 @@
 package org.d3s.alricg.store.xom;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
@@ -18,9 +19,9 @@ import org.d3s.alricg.store.Configuration;
 import org.d3s.alricg.store.ConfigurationException;
 
 /**
- * <code>ConfigStore</code> auf Basis des XOM-Frameworks
+ * <code>ConfigStore</code> auf Basis des xom-Frameworks
  * 
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 public class XOMConfigStore implements ConfigStore {
 
@@ -45,7 +46,7 @@ public class XOMConfigStore implements ConfigStore {
     }
 
     // @see org.d3s.alricg.store.ConfigStore#getSkt()
-    public HashMap<KostenKlasse, Integer[]> getSkt() throws ConfigurationException {
+    public Map<KostenKlasse, Integer[]> getSkt() throws ConfigurationException {
         return (HashMap<KostenKlasse, Integer[]>) props.get(SKT_KEY);
     }
 }

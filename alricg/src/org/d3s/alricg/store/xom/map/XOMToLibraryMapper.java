@@ -31,7 +31,7 @@ import org.d3s.alricg.store.xom.XOMTextStore;
 /**
  * Mapper für lokalisierbare Texte.
  * 
- * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+ * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 public class XOMToLibraryMapper {
 
