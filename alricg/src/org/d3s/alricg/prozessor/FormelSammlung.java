@@ -9,6 +9,7 @@
 package org.d3s.alricg.prozessor;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.controller.Messenger;
@@ -31,7 +32,7 @@ public class FormelSammlung {
 	 * 	skt.get(x)[0] = Aktivierungskosten bei der Generierung
 	 * 	skt.get(x)[31] = Kosten für jede Stufe größer als 30 
 	 */
-	private static HashMap<KostenKlasse, Integer[]> skt = new HashMap<KostenKlasse, Integer[]>();
+	private static Map<KostenKlasse, Integer[]> skt = new HashMap<KostenKlasse, Integer[]>();
  	private final static int maxSktStufe = 31; // Maximale Stufe der SKT
  	
 	/**
