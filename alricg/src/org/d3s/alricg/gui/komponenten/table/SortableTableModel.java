@@ -15,7 +15,7 @@ import java.util.Collections;
 import javax.swing.table.AbstractTableModel;
 
 import org.d3s.alricg.gui.views.SpaltenSchema;
-import org.d3s.alricg.gui.views.ObjectSchema;
+import org.d3s.alricg.gui.views.ZeilenSchema;
 import org.d3s.alricg.gui.views.SpaltenSchema.SpaltenArt;
 
 /**
@@ -30,14 +30,15 @@ import org.d3s.alricg.gui.views.SpaltenSchema.SpaltenArt;
  * 
  * @author V. Strelow
  */
-public class SortableTableModel<E> extends AbstractTableModel {
+public class SortableTableModel<E> extends AbstractTableModel 
+								implements SortableTableModelInterface {
 	private ArrayList<E> dataList = new ArrayList<E>();
 	private Enum[] columns;
 	private final SpaltenSchema spaSchema; // Spezifische Methoden für die Spalten
-	private final ObjectSchema worSchema; // Spezifische Methoden für Typ <E>
+	private final ZeilenSchema worSchema; // Spezifische Methoden für Typ <E>
 	private boolean[] lastAscSorted;
 	
-	public SortableTableModel(SpaltenSchema sSchema, ObjectSchema wSchema, SpaltenArt art) {
+	public SortableTableModel(SpaltenSchema sSchema, ZeilenSchema wSchema, SpaltenArt art) {
 		
 		this.columns = sSchema.getSpalten(art);
 		this.spaSchema = sSchema;
@@ -144,7 +145,7 @@ public class SortableTableModel<E> extends AbstractTableModel {
 		return spaSchema;
 	}
 	
-	public ObjectSchema getWorkSchema() {
+	public ZeilenSchema getZeilenSchema() {
 		return worSchema;
 	}
 }

@@ -17,7 +17,7 @@ import org.d3s.alricg.held.HeldenLink;
  * Eine Sammlung von Comaratoren für den Vergelich von Tabellen-Elementen. Die Hier
  * aufgeführten Comparatoren werden für die Tabellen von mehreren CharElementen benutzt.
  * (Comparatoren die nur für ein CharElement benutzt werden, werde bei dem entsprechenden 
- * ObjectSchema angegeben)
+ * ZeilenSchema angegeben)
  * @author Vincent
  */
 public interface ComparatorCollection {

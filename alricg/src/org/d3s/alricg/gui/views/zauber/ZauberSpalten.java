@@ -8,12 +8,13 @@ import java.util.Comparator;
 import org.d3s.alricg.charKomponenten.Zauber;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.gui.komponenten.table.SortableTable;
+import org.d3s.alricg.gui.views.ComparatorCollection;
 import org.d3s.alricg.gui.views.SpaltenSchema;
 import org.d3s.alricg.store.FactoryFinder;
 
 /**
+ * 
  * @author Vincent
- *
  */
 public class ZauberSpalten implements SpaltenSchema {
 
@@ -75,7 +76,7 @@ public class ZauberSpalten implements SpaltenSchema {
 	 */
 	public Comparator getComparator(Object column) {
 		switch ((Spalten) column) {
-		case name: 	return namensComparator;
+		case name: 	return ComparatorCollection.compNamensComparator;
 		case merkmale: return new Comparator<Zauber>() {
 						public int compare(Zauber arg0, Zauber arg1) {
 							return (arg0.getMerkmale().length - arg1.getMerkmale().length);

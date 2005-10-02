@@ -182,12 +182,12 @@ public class SortableTable extends JTable {
     	this.getColumn(colName).setCellRenderer(new ImageRenderer());
     }
     
-    /**
+    /*
      * Liefert das benutze Schema zum Anzeigen der Elemente
      * @return Das Benutze Schema für die Elemente
-     */
+     *
     public SpaltenSchema getViewSchema() {
     	return model.getSpaltenSchema();
-    } 
+    } */
     
 }

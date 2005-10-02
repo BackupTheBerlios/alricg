@@ -19,7 +19,7 @@ import org.d3s.alricg.controller.ImageAdmin;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.gui.komponenten.table.renderer.ImageTextObject;
 import org.d3s.alricg.gui.views.ComparatorCollection;
-import org.d3s.alricg.gui.views.ObjectSchema;
+import org.d3s.alricg.gui.views.ZeilenSchema;
 import org.d3s.alricg.gui.views.SpaltenSchema;
 import org.d3s.alricg.gui.views.talent.TalentSpalten.Spalten;
 import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
@@ -31,10 +31,10 @@ import org.d3s.alricg.store.TextStore;
  * Das Schema für das handling von Talenten. Die Objekte hier sind direkt Talente, keine Links.
  * Das Schema wird für die Auswahl von Talenten (Generierung und Management) oder für den 
  * Editor verwendet.
- * @see org.d3s.alricg.gui.views.ObjectSchema
+ * @see org.d3s.alricg.gui.views.ZeilenSchema
  * @author V. Strelow
  */
-public class TalentSchema implements ObjectSchema {
+public class TalentSchema implements ZeilenSchema {
 	private static TalentSchema self; // Statischer selbst verweis
 	
 	// Arbeistobjekte, um Parameter zu übergeben. Aus performancegründen 
@@ -43,11 +43,18 @@ public class TalentSchema implements ObjectSchema {
 	private final static Link tmpLink = new IdLink(null, null);
 	
 	public enum Ordnung {
-		bla;
+		sorte;
 	}
 	
 	public enum Filter {
-		bla;
+		keiner,
+		nurWaehlbar,
+		nurVerbilligt;
+		private String bezeichner;
+		
+		public String toString() {
+			return bezeichner;
+		}
 	}
 	
 	/**
@@ -71,7 +78,7 @@ public class TalentSchema implements ObjectSchema {
 	
 	
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#getCellValue(java.lang.Object, java.lang.Enum)
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getCellValue(java.lang.Object, java.lang.Enum)
 	 */
 	public Object getCellValue(Object object, Object column) {
 		KostenKlasse tmpKK;
@@ -151,14 +158,14 @@ public class TalentSchema implements ObjectSchema {
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#setCellValue()
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#setCellValue()
 	 */
 	public void setCellValue(Object newValue, Object object, Object column) {
 		// noop!
 	}
 
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#isCellEditable()
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#isCellEditable()
 	 */
 	public boolean isCellEditable(Object object, Object column) {
 		if (column.equals(TalentSpalten.Spalten.name)
@@ -172,7 +179,7 @@ public class TalentSchema implements ObjectSchema {
 
 	
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#getToolTip(java.lang.Object, java.lang.Enum)
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getToolTip(java.lang.Object, java.lang.Enum)
 	 */
 	public String getToolTip(Object object, Object column) {
 		final TextStore lib = FactoryFinder.find().getLibrary();
@@ -217,14 +224,14 @@ public class TalentSchema implements ObjectSchema {
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#getEnums()
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getEnums()
 	 */
 	public Enum[] getSortOrdner() {
 		return Talent.Sorte.values();
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#getOrdinalFromElement(org.d3s.alricg.CharKomponenten.CharElement)
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getOrdinalFromElement(org.d3s.alricg.CharKomponenten.CharElement)
 	 */
 	public int[] getOrdinalFromElement(Object element) {
 		int[] tmp = new int[1];
@@ -233,14 +240,14 @@ public class TalentSchema implements ObjectSchema {
 	}
 
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#getFilterElem()
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getFilterElem()
 	 */
 	public Enum[] getFilterElem() {
 		return Filter.values();
 	}
 
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#getOrdnungElem()
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getOrdnungElem()
 	 */
 	public Enum[] getOrdnungElem() {
 		return Ordnung.values();
@@ -248,7 +255,7 @@ public class TalentSchema implements ObjectSchema {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#hasSammelbegriff()
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#hasSammelbegriff()
 	 */
 	public boolean hasSammelbegriff() {
 		return true;
@@ -256,7 +263,7 @@ public class TalentSchema implements ObjectSchema {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#doFilterElements(java.lang.Enum, java.util.ArrayList)
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#doFilterElements(java.lang.Enum, java.util.ArrayList)
 	 */
 	public ArrayList doFilterElements(Enum filter, ArrayList aList) {
 		// TODO Auto-generated method stub

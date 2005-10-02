@@ -18,21 +18,23 @@ import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.gui.views.ComparatorCollection;
-import org.d3s.alricg.gui.views.ObjectSchema;
+import org.d3s.alricg.gui.views.ZeilenSchema;
 import org.d3s.alricg.gui.views.talent.TalentSpalten.Spalten;
 import org.d3s.alricg.held.GeneratorLink;
 import org.d3s.alricg.held.HeldenLink;
 import org.d3s.alricg.prozessor.HeldProzessor;
+import org.d3s.alricg.store.FactoryFinder;
+import org.d3s.alricg.store.TextStore;
 
 /**
  * <u>Beschreibung:</u><br> 
  * Das Schema für das handling von GeneratorLinks mit Talenten. Die Objekte hier sind Links, 
  * die als Ziel Talente besitzen. Das Schema wird für ausgewählte Talent bei der Generierung
  * verwendet.
- * @see org.d3s.alricg.gui.views.ObjectSchema
+ * @see org.d3s.alricg.gui.views.ZeilenSchema
  * @author V. Strelow
  */
-public class TalentLinkSchema implements ObjectSchema {
+public class TalentLinkSchema implements ZeilenSchema {
 	HeldProzessor prozessor;
 	
 	public enum Ordnung {
@@ -48,14 +50,14 @@ public class TalentLinkSchema implements ObjectSchema {
 	}
 	
 	/*(non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#hasSammelbegriff()
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#hasSammelbegriff()
 	 */
 	public boolean hasSammelbegriff() {
 		return true;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#getCellValue(java.lang.Object, java.lang.Object)
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getCellValue(java.lang.Object, java.lang.Object)
 	 */
 	public Object getCellValue(Object object, Object column) {
 		final List<IdLink> list;
@@ -115,7 +117,7 @@ public class TalentLinkSchema implements ObjectSchema {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#setCellValue(java.lang.Object, java.lang.Object, java.lang.Object)
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#setCellValue(java.lang.Object, java.lang.Object, java.lang.Object)
 	 */
 	public void setCellValue(Object newValue, Object object, Object column) {
 		
@@ -138,7 +140,7 @@ public class TalentLinkSchema implements ObjectSchema {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#isCellEditable(java.lang.Object, java.lang.Object)
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#isCellEditable(java.lang.Object, java.lang.Object)
 	 */
 	public boolean isCellEditable(Object object, Object column) {
 		if (column.equals(TalentSpalten.Spalten.name)
@@ -160,20 +162,54 @@ public class TalentLinkSchema implements ObjectSchema {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#getToolTip(java.lang.Object, java.lang.Object)
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getToolTip(java.lang.Object, java.lang.Object)
 	 */
 	public String getToolTip(Object object, Object column) {
-		// TODO implement
+		final List<IdLink> list;
+		final StringBuffer tmpString = new StringBuffer();
+		final TextStore lib = FactoryFinder.find().getLibrary();
 		
 		switch ((TalentSpalten.Spalten) column) {
-			case stufe: 
-			
-			case modis:
+			case stufe: // TODO Soll die Berechnung zeigen!
+				return "todo";
 				
-			case kosten: 
-			case spezialisierungen: 
-			case auswahl: 			
-			case leitTalent: 
+			case modis: 
+				list = ((GeneratorLink) object).getLinkModiList();
+				
+				// Falls keine Modis existieren
+				if (list.size() == 0) return lib.getToolTipTxt("TblTalentModisKeine");
+				
+				// Anhängen aller Modis
+				for (int i = 0; i < list.size(); i++) {
+					tmpString.append(
+							list.get(i).getQuellElement().getCharKomponente().getBezeichnung()
+					);
+					tmpString.append(": ");
+					tmpString.append(list.get(i).getWert());
+					tmpString.append("/ ");
+				}
+				
+				// Löschen der letzen Trennzeiche ("/ ")
+				tmpString.delete(tmpString.length() - 3, tmpString.length() - 1);
+				return tmpString.toString();
+				
+			case kosten: // TODO Soll die Berechnung zeigen!
+				return "todo";
+				
+			case spezialisierungen:
+				if (((Link) object).getText().length() == 0) {
+					return lib.getToolTipTxt("TblTalentSpeziKeine");
+				} else {
+					return lib.getToolTipTxt("TblTalentSpezi");
+				}
+				
+			case auswahl: // TODO implementieren
+			case leitTalent:
+				if (((Link) object).isLeitwert()) {
+					return lib.getToolTipTxt("TblTalentLeitwertTrue");
+				} else {
+					return lib.getToolTipTxt("TblTalentLeitwertFalse");
+				}
 			
 			default: // Aufrufen des Schemas für direkte Objekte
 				return TalentSchema.getInstance().getToolTip(((Link) object).getZiel(), column);
@@ -182,7 +218,7 @@ public class TalentLinkSchema implements ObjectSchema {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#getOrdnungElem()
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getOrdnungElem()
 	 */
 	public Enum[] getOrdnungElem() {
 		// TODO Auto-generated method stub
@@ -190,7 +226,7 @@ public class TalentLinkSchema implements ObjectSchema {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#getFilterElem()
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getFilterElem()
 	 */
 	public Enum[] getFilterElem() {
 		// TODO Auto-generated method stub
@@ -198,14 +234,14 @@ public class TalentLinkSchema implements ObjectSchema {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#getSortOrdner()
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getSortOrdner()
 	 */
 	public Object[] getSortOrdner() {
 		return Talent.Sorte.values();
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#getOrdinalFromElement(java.lang.Object)
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getOrdinalFromElement(java.lang.Object)
 	 */
 	public int[] getOrdinalFromElement(Object element) {
 		int[] tmp = new int[1];
@@ -214,7 +250,7 @@ public class TalentLinkSchema implements ObjectSchema {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#doFilterElements(java.lang.Enum, java.util.ArrayList)
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#doFilterElements(java.lang.Enum, java.util.ArrayList)
 	 */
 	public ArrayList doFilterElements(Enum filter, ArrayList aList) {
 		// TODO Auto-generated method stub

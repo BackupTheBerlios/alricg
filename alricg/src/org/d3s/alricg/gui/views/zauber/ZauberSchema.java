@@ -11,7 +11,7 @@ import org.d3s.alricg.charKomponenten.Zauber;
 import org.d3s.alricg.charKomponenten.Werte.MagieMerkmal;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.gui.views.SpaltenSchema;
-import org.d3s.alricg.gui.views.ObjectSchema;
+import org.d3s.alricg.gui.views.ZeilenSchema;
 import org.d3s.alricg.gui.views.talent.TalentSpalten;
 import org.d3s.alricg.gui.views.zauber.ZauberSpalten.Spalten;
 
@@ -19,7 +19,7 @@ import org.d3s.alricg.gui.views.zauber.ZauberSpalten.Spalten;
  * @author Vincent
  *
  */
-public class ZauberSchema implements ObjectSchema {
+public class ZauberSchema implements ZeilenSchema {
 
 	// Nach was diese Tabelle geordent werden kann
 	public enum Ordnung {
@@ -33,14 +33,14 @@ public class ZauberSchema implements ObjectSchema {
 	};
 	
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#hasSammelbegriff()
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#hasSammelbegriff()
 	 */
 	public boolean hasSammelbegriff() {
 		return true;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#getCellValue(java.lang.Object, java.lang.Object)
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getCellValue(java.lang.Object, java.lang.Object)
 	 */
 	public Object getCellValue(Object object, Object column) {
 		switch ((Spalten) column) {
@@ -66,14 +66,14 @@ public class ZauberSchema implements ObjectSchema {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#setCellValue(java.lang.Object, java.lang.Object, java.lang.Object)
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#setCellValue(java.lang.Object, java.lang.Object, java.lang.Object)
 	 */
 	public void setCellValue(Object newValue, Object object, Object column) {
 		// noop!
 	}
 
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#isCellEditable(java.lang.Object, java.lang.Object)
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#isCellEditable(java.lang.Object, java.lang.Object)
 	 */
 	public boolean isCellEditable(Object object, Object column) {
 		if (column.equals(TalentSpalten.Spalten.name)) {
@@ -83,7 +83,7 @@ public class ZauberSchema implements ObjectSchema {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#getToolTip(java.lang.Object, java.lang.Object)
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getToolTip(java.lang.Object, java.lang.Object)
 	 */
 	public String getToolTip(Object object, Object column) {
 		// TODO Auto-generated method stub
@@ -91,21 +91,21 @@ public class ZauberSchema implements ObjectSchema {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#getOrdnungElem()
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getOrdnungElem()
 	 */
 	public Enum[] getOrdnungElem() {
 		return Ordnung.values();
 	}
 
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#getFilterElem()
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getFilterElem()
 	 */
 	public Enum[] getFilterElem() {
 		return Filter.values();
 	}
 
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#getSortOrdner()
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getSortOrdner()
 	 */
 	public Object[] getSortOrdner() {
 		// TODO Nur testweise
@@ -113,7 +113,7 @@ public class ZauberSchema implements ObjectSchema {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#getOrdinalFromElement(java.lang.Object)
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getOrdinalFromElement(java.lang.Object)
 	 */
 	public int[] getOrdinalFromElement(Object element) {
 		// TODO Nur testweise
@@ -127,7 +127,7 @@ public class ZauberSchema implements ObjectSchema {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.ObjectSchema#doFilterElements(java.lang.Enum, java.util.ArrayList)
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#doFilterElements(java.lang.Enum, java.util.ArrayList)
 	 */
 	public ArrayList doFilterElements(Enum filter, ArrayList aList) {
 		// TODO Auto-generated method stub

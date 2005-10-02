@@ -19,7 +19,7 @@ import java.util.Comparator;
  * Funktionalitäten benötigt, wird für jedesCharElemnt ein Spaltenschema benötigt.
  * @author V. Strelow
  */
-public interface ObjectSchema {
+public interface ZeilenSchema {
 	
 	
 	/**
