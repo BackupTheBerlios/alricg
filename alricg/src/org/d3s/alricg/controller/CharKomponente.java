@@ -1,5 +1,7 @@
 package org.d3s.alricg.controller;
 
+import org.d3s.alricg.store.FactoryFinder;
+
 /**
  * <u>Beschreibung:</u><br>
  * Eine Konstante für alle Charakter Komponenten die vorkommen können. Die einzehnen Konstanten 
@@ -20,12 +22,14 @@ public enum CharKomponente {
     "repraesentationen", "REP"), eigenschaft("x", "EIG"), sonderregel("x", "SR");
 
     private String kategorie; // Kategorie
-
+    private String bezeichung; // Name der CharKomponente
     private String prefix; // Prefix der ID aller entsprechenden Elemente
 
     private CharKomponente(String kategorie, String prefix) {
         this.kategorie = kategorie;
         this.prefix = prefix;
+        
+        bezeichung = FactoryFinder.find().getLibrary().getShortTxt(prefix);
     }
 
     public String getKategorie() {
@@ -35,5 +39,11 @@ public enum CharKomponente {
     public String getPrefix() {
         return prefix;
     }
-
+    
+    /**
+     * @return Den Namen der CharKomponente so wie er angezeigt werden kann
+     */
+    public String getBezeichnung() {
+    	return bezeichung;
+    }
 }
