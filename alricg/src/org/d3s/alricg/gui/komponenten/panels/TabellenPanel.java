@@ -6,7 +6,7 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
-package org.d3s.alricg.gui.panels;
+package org.d3s.alricg.gui.komponenten.panels;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
