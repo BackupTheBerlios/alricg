@@ -8,26 +8,17 @@
  */
 package org.d3s.alricg.test;
 
-import java.awt.Color;
-import java.awt.Container;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
-import javax.swing.DefaultCellEditor;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import javax.swing.table.TableColumn;
 
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
-import nu.xom.Serializer;
 
 import org.d3s.alricg.charKomponenten.Talent;
 import org.d3s.alricg.charKomponenten.charZusatz.WuerfelSammlung;
@@ -37,7 +28,6 @@ import org.d3s.alricg.gui.komponenten.table.SortableTable;
 import org.d3s.alricg.gui.komponenten.table.SortableTableModel;
 import org.d3s.alricg.gui.komponenten.table.SortableTreeModel;
 import org.d3s.alricg.gui.komponenten.table.SortableTreeTable;
-import org.d3s.alricg.gui.komponenten.table.TreeTableModel;
 import org.d3s.alricg.gui.views.SpaltenSchema;
 import org.d3s.alricg.gui.views.SpaltenSchema.SpaltenArt;
 import org.d3s.alricg.gui.views.talent.TalentSchema;
@@ -45,7 +35,6 @@ import org.d3s.alricg.gui.views.talent.TalentSpalten;
 import org.d3s.alricg.gui.views.zauber.ZauberSchema;
 import org.d3s.alricg.gui.views.zauber.ZauberSpalten;
 import org.d3s.alricg.store.FactoryFinder;
-import org.d3s.alricg.test.treeTable.JTreeTable;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -126,6 +115,10 @@ public class TestDriver {
 		
 		SortableTreeTable sTree = new SortableTreeTable(treeModel);
 		
+		//sTree.setColumnMultiImage(1);
+		//sTree.setColumnButton(5, "+");
+		//sTree.setColumnButton(6, "-");
+		//treeModel.getSpaltenSchema().initTable(sTree, SpaltenSchema.SpaltenArt.objektDirekt);
 		treeModel.getSpaltenSchema().initTable(sTree, SpaltenSchema.SpaltenArt.objektDirekt);
 		
 		//JTreeTable treeTable = new JTreeTable(treeModel);
@@ -218,38 +211,6 @@ public class TestDriver {
 		public String getXmlValue() {
 			return xmlValue;
 		}	
-	}
-	
-	public void testTreeTable()  {
-
-		JFrame frame = new JFrame("TreeTableTest");
-
-		Container       cPane = frame.getContentPane();
-		TreeTableModel  model = new TestTreeTableModel();
-
-		
-		JTreeTable treeTable = new JTreeTable(model);
-		
-	        JScrollPane sp = new JScrollPane(treeTable);
-	        sp.getViewport().setBackground(Color.white);
-		cPane.add(sp);
-
-		TableColumn column = treeTable.getColumnModel().getColumn(1);
-		
-		/*JComboBox comboBox = new JComboBox();
-		comboBox.addItem("Snowboarding");
-		comboBox.addItem("Rowing");
-		comboBox.addItem("Chasing toddlers");
-		comboBox.addItem("Speed reading");
-		comboBox.addItem("Teaching high school");
-		comboBox.addItem("None");
-		column.setCellEditor(new DefaultCellEditor(comboBox));*/
-		
-		//column.setCellEditor(new DefaultCellEditor(new JButton("Trara")));
-		
-		
-		frame.pack();
-		frame.setVisible(true);
 	}
 	
 	/**
