@@ -36,7 +36,6 @@ import org.d3s.alricg.store.FactoryFinder;
  * @see org.d3s.alricg.prozessor.generierung.GenerierungProzessor
  */
 public abstract class HeldProzessor {
-    protected HashMap<CharKomponente, AbstractBoxGen> boxenHash;
 
     protected final Held held;
 
@@ -60,9 +59,7 @@ public abstract class HeldProzessor {
      * 
      * @param boxenHash HashMap mit allen CharElementen des Helden
      */
-    public void setBoxenHash(HashMap<CharKomponente, AbstractBoxGen> boxen) {
-        boxenHash = boxen;
-    }
+    public abstract void setBoxenHash(HashMap<CharKomponente, ? extends LinkElementBox> boxen);
 
     /**
      * @return Den SonderregelAdmin, der alle Sonderregeln zu diesem Held verwaltet.

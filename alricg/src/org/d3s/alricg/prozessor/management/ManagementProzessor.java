@@ -19,6 +19,7 @@ import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.held.Held;
 import org.d3s.alricg.held.HeldenLink;
 import org.d3s.alricg.prozessor.HeldProzessor;
+import org.d3s.alricg.prozessor.LinkElementBox;
 import org.d3s.alricg.prozessor.generierung.AbstractBoxGen;
 
 /**
@@ -53,7 +54,7 @@ public class ManagementProzessor extends HeldProzessor {
 	 * gesetzt werden. 
 	 * @param boxenHash HashMap mit allen CharElementen des Helden 
 	 */
-	public void setBoxenHash(HashMap<CharKomponente, AbstractBoxGen> boxen) {
+	public void setBoxenHash(HashMap<CharKomponente, ? extends LinkElementBox> boxen) {
 		// TODO Auto-generated method stub
 	}
 

@@ -7,6 +7,8 @@
 
 package org.d3s.alricg.prozessor.generierung;
 
+import java.util.HashMap;
+
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Herkunft;
 import org.d3s.alricg.charKomponenten.Kultur;
@@ -14,10 +16,13 @@ import org.d3s.alricg.charKomponenten.Profession;
 import org.d3s.alricg.charKomponenten.Rasse;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
+import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.held.GeneratorLink;
 import org.d3s.alricg.held.Held;
 import org.d3s.alricg.held.HeldenLink;
+import org.d3s.alricg.prozessor.AuswahlAdmin;
 import org.d3s.alricg.prozessor.HeldProzessor;
+import org.d3s.alricg.prozessor.LinkElementBox;
 /**
  * <b>Beschreibung:</b><br>
  * Diese Klasse ist für die Bearbeitung eines Helden bei der Generierung zuständig 
@@ -32,6 +37,8 @@ import org.d3s.alricg.prozessor.HeldProzessor;
  */
 public class GenerierungProzessor extends HeldProzessor {
 	public static GenerierungsKonstanten genKonstanten;
+	protected HashMap<CharKomponente, AbstractBoxGen> boxenHash;
+	protected AuswahlAdmin auswahlAdmin;
 
 	private int aktivierbarTalente; // Anzahl noch aktivierbarer Talente 
 	private int aktivierbarZauber; // Anzahl noch aktivierbarer Zauber
@@ -39,6 +46,15 @@ public class GenerierungProzessor extends HeldProzessor {
 	private int aktuelleTalentGP; // Anzahl noch verteilbarer Talent-GP (kann auch < 0 sein)
 	private int aktuelleBonusWissenGP; // Anz. Talent-GP die nur für Wissen/Zauber verwendet 
 										// werden dürfen
+	
+    /**
+     * Setzt das HashMap mit den CharKomponente-Boxen. Sollte nur zur Initialisierung gesetzt werden.
+     * 
+     * @param boxenHash HashMap mit allen CharElementen des Helden
+     */
+    public void setBoxenHash(HashMap<CharKomponente, ? extends LinkElementBox> boxen) {
+        boxenHash = (HashMap<CharKomponente, AbstractBoxGen>) boxen;
+    }
 	
 	/**
 	 * Konstruktor.
@@ -48,6 +64,7 @@ public class GenerierungProzessor extends HeldProzessor {
 		super(held);
 		
 		genKonstanten = new GenerierungsKonstanten();
+		auswahlAdmin = new AuswahlAdmin(this);
 		
 		aktivierbarTalente = genKonstanten.MAX_TALENT_AKTIVIERUNG;
 		aktuelleGP = genKonstanten.VERFUEGBARE_GP;
