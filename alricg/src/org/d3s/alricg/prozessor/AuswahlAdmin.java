@@ -12,6 +12,7 @@ import org.d3s.alricg.charKomponenten.Herkunft;
 import org.d3s.alricg.charKomponenten.Kultur;
 import org.d3s.alricg.charKomponenten.Profession;
 import org.d3s.alricg.charKomponenten.Rasse;
+import org.d3s.alricg.prozessor.generierung.GenerierungProzessor;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -21,11 +22,17 @@ import org.d3s.alricg.charKomponenten.Rasse;
  * 	
  * @author V. Strelow
  */
-public class AuswahAdmin {
+public class AuswahlAdmin {
+	private GenerierungProzessor prozessor;
+	
 	/*
 	 * TODO Hier fehlen noch viele Methoden zu auswählen, zurückliefern, 
 	 * und bearbeiten der wählbaren Optionen.  
 	 */
+	
+	public AuswahlAdmin(GenerierungProzessor proz) {
+		prozessor = proz;
+	}
 	
 	/**
 	 * Liest alle Auswahlen aus dieser Rasse aus und fügt sie der Klasse hinzu. 
