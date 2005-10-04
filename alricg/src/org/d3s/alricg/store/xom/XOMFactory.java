@@ -9,14 +9,13 @@
 
 package org.d3s.alricg.store.xom;
 
+import org.d3s.alricg.store.AbstractStoreFactory;
 import org.d3s.alricg.store.ConfigStore;
 import org.d3s.alricg.store.ConfigurationException;
 import org.d3s.alricg.store.DataStore;
-import org.d3s.alricg.store.AbstractStoreFactory;
 import org.d3s.alricg.store.TextStore;
-import org.d3s.alricg.store.xom.map.DataToXOMMapper;
-import org.d3s.alricg.store.xom.map.XOMToDataMapper;
 import org.d3s.alricg.store.xom.map.XOMToConfigMapper;
+import org.d3s.alricg.store.xom.map.XOMToDataMapper;
 import org.d3s.alricg.store.xom.map.XOMToLibraryMapper;
 
 /**
@@ -69,10 +68,5 @@ public final class XOMFactory implements AbstractStoreFactory {
         new XOMToDataMapper().readData(config.getConfig(), (XOMStore) data);
 
         initialized = true;
-    }
-
-    // @see org.d3s.alricg.store.AbstractStoreFactory#storeData()
-    public void storeData() throws ConfigurationException {
-        new DataToXOMMapper().storeData(config.getConfig(), (XOMStore) data);
     }
 }

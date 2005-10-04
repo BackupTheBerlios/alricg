@@ -78,4 +78,10 @@ public interface DataStore {
      *         Elemente gefunden werden konnten.
      */
     Collection<CharElement> getUnmodifieableCollection(CharKomponente charKomp);
+
+    /**
+     * Persistiert die Charakter-Elemente.
+     * @throws ConfigurationException Falls die Konfiguration der Factory fehlerhaft ist.
+     */
+    void storeData() throws ConfigurationException;
 }

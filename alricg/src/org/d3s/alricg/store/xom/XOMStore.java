@@ -9,15 +9,21 @@
 
 package org.d3s.alricg.store.xom;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.Writer;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import nu.xom.Document;
 import nu.xom.Element;
 
 import org.d3s.alricg.charKomponenten.CharElement;
@@ -54,9 +60,11 @@ import org.d3s.alricg.charKomponenten.charZusatz.SchwarzeGabe;
 import org.d3s.alricg.charKomponenten.charZusatz.Tier;
 import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.store.ConfigurationException;
 import org.d3s.alricg.store.DataStore;
 import org.d3s.alricg.store.FactoryFinder;
 import org.d3s.alricg.store.KeyExistsException;
+import org.d3s.alricg.store.xom.map.DataToXOMMapper;
 
 /**
  * <code>DataStore</code> auf Basis des xom-Frameworks
@@ -64,75 +72,69 @@ import org.d3s.alricg.store.KeyExistsException;
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 public class XOMStore implements DataStore {
-    
+
     /** <code>XOMStore</code>'s logger */
     private static final Logger LOG = Logger.getLogger(XOMStore.class.getName());
-
-    /** Rassen */
-    private final Map<String, Rasse> rasseMap = new HashMap<String, Rasse>();
-
-    /** Kulturen */
-    private final Map<String, Kultur> kulturMap = new HashMap<String, Kultur>();
-
-    /** Professionen */
-    private final Map<String, Profession> professionMap = new HashMap<String, Profession>();
-
-    /** Rasse-Varianten */
-    private final Map<String, RasseVariante> rasseVarianteMap = new HashMap<String, RasseVariante>();
-
-    /** Kultur-Varianten */
-    private final Map<String, KulturVariante> kulturVarianteMap = new HashMap<String, KulturVariante>();
-
-    /** Professions-Varianten */
-    private final Map<String, ProfessionVariante> professionVarianteMap = new HashMap<String, ProfessionVariante>();
-
-    /** Zusätzliche Professionen */
-    private final Map<String, ZusatzProfession> zusatzProfMap = new HashMap<String, ZusatzProfession>();
-
-    /** Vorteile */
-    private final Map<String, Vorteil> vorteilMap = new HashMap<String, Vorteil>();
-
-    /** Gaben */
-    private final Map<String, Gabe> gabeMap = new HashMap<String, Gabe>();
-
-    /** Nachteile */
-    private final Map<String, Nachteil> nachteilMap = new HashMap<String, Nachteil>();
-
-    /** Sonderfertigkeiten */
-    private final Map<String, Sonderfertigkeit> sonderfMap = new HashMap<String, Sonderfertigkeit>();
-
-    /** Ritual- und Liturgiekenntnisse */
-    private final Map<String, LiturgieRitualKenntnis> ritLitKentMap = new HashMap<String, LiturgieRitualKenntnis>();
-
-    /** Talente */
-    private final Map<String, Talent> talentMap = new HashMap<String, Talent>();
-
-    /** Zauber */
-    private final Map<String, Zauber> zauberMap = new HashMap<String, Zauber>();
-
-    /** Schriften */
-    private final Map<String, Schrift> schriftMap = new HashMap<String, Schrift>();
-
-    /** Sprachen */
-    private final Map<String, Sprache> spracheMap = new HashMap<String, Sprache>();
-
-    /** Liturgieb */
-    private final Map<String, Liturgie> liturgieMap = new HashMap<String, Liturgie>();
-
-    /** Rituale */
-    private final Map<String, Ritual> ritualMap = new HashMap<String, Ritual>();
 
     /** Ausrüstung */
     private final Map<String, Ausruestung> ausruestungMap = new HashMap<String, Ausruestung>();
 
+    /** Charakterkomponenten */
+    private final Map<String, CharKomponente> charKompMap = new HashMap<String, CharKomponente>();
+
+    /** Dämeonenpakte */
+    private final Map<String, DaemonenPakt> daemonenPaktMap = new HashMap<String, DaemonenPakt>();
+
+    /** Eigenschaften */
+    private final Map<String, Eigenschaft> eigenschaftMap = new HashMap<String, Eigenschaft>();
+
     /** Fahrzeuge */
     private final Map<String, Fahrzeug> fahrzeugMap = new HashMap<String, Fahrzeug>();
 
-    /** Nahkampfwaffen */
-    private final Map<String, NahkWaffe> waffeNkMap = new HashMap<String, NahkWaffe>();
+    /** Gaben */
+    private final Map<String, Gabe> gabeMap = new HashMap<String, Gabe>();
 
-    /** Fernkampfwaffen */
-    private final Map<String, FkWaffe> waffeFkMap = new HashMap<String, FkWaffe>();
+    /** Götter */
+    private final Map<String, Gottheit> gottheitMap = new HashMap<String, Gottheit>();
+
+    /** Kulturen */
+    private final Map<String, Kultur> kulturMap = new HashMap<String, Kultur>();
+
+    /** Kultur-Varianten */
+    private final Map<String, KulturVariante> kulturVarianteMap = new HashMap<String, KulturVariante>();
+
+    /** Liturgieb */
+    private final Map<String, Liturgie> liturgieMap = new HashMap<String, Liturgie>();
+
+    /** Nachteile */
+    private final Map<String, Nachteil> nachteilMap = new HashMap<String, Nachteil>();
+
+    /** Enthält den Ursprung jedes einzelnen Elements */
+    private final Map<String, List<String>> origin = new HashMap<String, List<String>>();
+
+    /** Professionen */
+    private final Map<String, Profession> professionMap = new HashMap<String, Profession>();
+
+    /** Professions-Varianten */
+    private final Map<String, ProfessionVariante> professionVarianteMap = new HashMap<String, ProfessionVariante>();
+
+    /** Rassen */
+    private final Map<String, Rasse> rasseMap = new HashMap<String, Rasse>();
+
+    /** Rasse-Varianten */
+    private final Map<String, RasseVariante> rasseVarianteMap = new HashMap<String, RasseVariante>();
+
+    /** Regionen */
+    private final Map<String, RegionVolk> regionMap = new HashMap<String, RegionVolk>();
+
+    /** Repräsentationen */
+    private final Map<String, Repraesentation> repraesentMap = new HashMap<String, Repraesentation>();
+
+    /** Ritual- und Liturgiekenntnisse */
+    private final Map<String, LiturgieRitualKenntnis> ritLitKentMap = new HashMap<String, LiturgieRitualKenntnis>();
+
+    /** Rituale */
+    private final Map<String, Ritual> ritualMap = new HashMap<String, Ritual>();
 
     /** Rüstunge */
     private final Map<String, Ruestung> ruestungMap = new HashMap<String, Ruestung>();
@@ -140,32 +142,38 @@ public class XOMStore implements DataStore {
     /** Schilde */
     private final Map<String, Schild> schildMap = new HashMap<String, Schild>();
 
-    /** Dämeonenpakte */
-    private final Map<String, DaemonenPakt> daemonenPaktMap = new HashMap<String, DaemonenPakt>();
+    /** Schriften */
+    private final Map<String, Schrift> schriftMap = new HashMap<String, Schrift>();
 
     /** Schwarze Gaben */
     private final Map<String, SchwarzeGabe> schwarzeGabeMap = new HashMap<String, SchwarzeGabe>();
 
+    /** Sonderfertigkeiten */
+    private final Map<String, Sonderfertigkeit> sonderfMap = new HashMap<String, Sonderfertigkeit>();
+
+    /** Sprachen */
+    private final Map<String, Sprache> spracheMap = new HashMap<String, Sprache>();
+
+    /** Talente */
+    private final Map<String, Talent> talentMap = new HashMap<String, Talent>();
+
     /** Tiere */
     private final Map<String, Tier> tierMap = new HashMap<String, Tier>();
 
-    /** Eigenschaften */
-    private final Map<String, Eigenschaft> eigenschaftMap = new HashMap<String, Eigenschaft>();
+    /** Vorteile */
+    private final Map<String, Vorteil> vorteilMap = new HashMap<String, Vorteil>();
 
-    /** Regionen */
-    private final Map<String, RegionVolk> regionMap = new HashMap<String, RegionVolk>();
+    /** Fernkampfwaffen */
+    private final Map<String, FkWaffe> waffeFkMap = new HashMap<String, FkWaffe>();
 
-    /** Götter */
-    private final Map<String, Gottheit> gottheitMap = new HashMap<String, Gottheit>();
+    /** Nahkampfwaffen */
+    private final Map<String, NahkWaffe> waffeNkMap = new HashMap<String, NahkWaffe>();
 
-    /** Repräsentationen */
-    private final Map<String, Repraesentation> repraesentMap = new HashMap<String, Repraesentation>();
+    /** Zauber */
+    private final Map<String, Zauber> zauberMap = new HashMap<String, Zauber>();
 
-    /** Charakterkomponenten */
-    private final Map<String, CharKomponente> charKompMap = new HashMap<String, CharKomponente>();
-    
-    /** Enthält den Ursprung jedes einzelnen Elements */
-    private final Map<String, List<String>> origin = new HashMap<String, List<String>>();
+    /** Zusätzliche Professionen */
+    private final Map<String, ZusatzProfession> zusatzProfMap = new HashMap<String, ZusatzProfession>();
 
     /**
      * Erzeugt einen neuen <code>XOMStore</code>.
@@ -174,6 +182,27 @@ public class XOMStore implements DataStore {
         // Initialiserung der HashMap für schnellen Zugriff auf Komponenten über deren ID
         for (int i = 0; i < CharKomponente.values().length; i++) {
             charKompMap.put(CharKomponente.values()[i].getPrefix(), CharKomponente.values()[i]);
+        }
+    }
+
+    /**
+     * Fügt alle Elemente von <code>ids</code> mit dem Wert von <code>canonicalPath</code> zu <code>origin</code>
+     * hinzu.
+     * 
+     * @param ids
+     * @param canonicalPath
+     */
+    public void addOrigins(List<String> ids, String canonicalPath) {
+
+        if (canonicalPath == null) {
+            return;
+        }
+
+        List<String> value = origin.get(canonicalPath);
+        if (value == null) {
+            origin.put(canonicalPath, ids);
+        } else {
+            value.addAll(ids);
         }
     }
 
@@ -211,16 +240,11 @@ public class XOMStore implements DataStore {
         return charKompMap.get(prefix);
     }
 
-    // @see org.d3s.alricg.store.DataStore#getUnmodifieableCollection(org.d3s.alricg.controller.CharKomponente)
-    public Collection<CharElement> getUnmodifieableCollection(CharKomponente charKomp) {
-        return Collections.unmodifiableCollection(getMap(charKomp).values());
-    }
-
     /**
      * Ermöglicht den lesenden Zugriff auf die Map mit den charKomponenten.
      * <p>
-     * Bemerkung: Durch die Konstruktion <code>Map&lt;String, ? extends CharElement&gt;</code> kann kein Element zu einer
-     * <code>map</code> hinzugefügt werden.
+     * Bemerkung: Durch die Konstruktion <code>Map&lt;String, ? extends CharElement&gt;</code> kann kein Element zu
+     * einer <code>map</code> hinzugefügt werden.
      * </p>
      * 
      * @param charKomp Die CharKomponente zu der die HashMap zurückgegeben werden soll
@@ -312,6 +336,18 @@ public class XOMStore implements DataStore {
     }
 
     /**
+     * @return origin
+     */
+    public Map<String, List<String>> getOrigin() {
+        return origin;
+    }
+
+    // @see org.d3s.alricg.store.DataStore#getUnmodifieableCollection(org.d3s.alricg.controller.CharKomponente)
+    public Collection<CharElement> getUnmodifieableCollection(CharKomponente charKomp) {
+        return Collections.unmodifiableCollection(getMap(charKomp).values());
+    }
+
+    /**
      * Initialisiert die zu <code>charKomp</code> gehörende <code>Map</code> mit "leeren" aber vom Typ korrekten
      * <code>CharElement</code>en; die <code>keys</code> sind die Einträge in <code>ids</code>.
      * <p>
@@ -319,10 +355,10 @@ public class XOMStore implements DataStore {
      * können.<br/>
      * 
      * <pre>
-     *       Seien A, B CharElemente und es verweise A auf B (z.B. Modifikation: B + 3).
-     *       Existiert B bei Anlage von A und der entsprechenden Modifikation noch nicht, 
-     *       so sind Fehler im Programm nur eine Frage der Zeit. 
-     *       Als prominentes Beispiel sei die NullPointerException genannt.
+     *              Seien A, B CharElemente und es verweise A auf B (z.B. Modifikation: B + 3).
+     *              Existiert B bei Anlage von A und der entsprechenden Modifikation noch nicht, 
+     *              so sind Fehler im Programm nur eine Frage der Zeit. 
+     *              Als prominentes Beispiel sei die NullPointerException genannt.
      * </pre>
      * 
      * </p>
@@ -534,89 +570,41 @@ public class XOMStore implements DataStore {
 
         // >>>>>>>>>>>>>>> DEFAULT
         default:
-            LOG.logp(Level.SEVERE, "CharKompAdmin", "initCharKomponents",
-                    "Ein CharKomp wurde nicht gefunden: " + charKomp);
-        }        
-    }
-
-    /**
-     * Fügt alle Elemente von <code>ids</code> mit dem Wert von <code>canonicalPath</code> zu <code>origin</code> hinzu.
-     * @param ids
-     * @param canonicalPath
-     */
-    public void addOrigins(List<String> ids, String canonicalPath) {
-        
-        if (canonicalPath == null) {
-            return;
-        }
-        
-        List<String> value = origin.get(canonicalPath);
-        if (value == null) {
-            origin.put(canonicalPath, ids);
-        } else {
-            value.addAll(ids);
+            LOG.logp(Level.SEVERE, "CharKompAdmin", "initCharKomponents", "Ein CharKomp wurde nicht gefunden: "
+                    + charKomp);
         }
     }
-    
-    /**
-     * Schreibt alle enthaltenen Charakter-Elemente in ein einziges root element, dieses ist ein Element mit einem
-     * "alricgXML"-Tag. Weitere Anforderungen:
-     * <ul>
-     * <li> Speichern in 1 File ist möglich.</li>
-     * <li> Speichern in verschiedene Files ist möglich.</li>
-     * <li> Jedes Element kann in ein anderes Files an der richtigen Stelle gespeichert werden.</li>
-     * </ul>
-     * 
-     * @return "alricgXML" Element mit allen enthaltenen Elementen.
-     */
-    public Element writeXML() {
-        // TODO muss noch ganz anders gemaccht werden
-        CharKomponente[] charKompArray;
-        Iterator ite;
-        Element tmpElement = null;
 
-        Element root = new Element("alricgXML");
-        charKompArray = CharKomponente.values();
+    // @see org.d3s.alricg.store.AbstractStoreFactory#storeData()
+    public void storeData() throws ConfigurationException {
+        try {
 
-        // TODO Die preamble noch hinzufügen
+            // Menge von files, die geschrieben werden sollen, holen.
+            final Set<String> fileNames = origin.keySet();
+            for (Iterator<String> i = fileNames.iterator(); i.hasNext();) {
+                final String fileName = i.next();
 
-        // Alle charKomponenten durchgehen
-        for (int i = 0; i < charKompArray.length; i++) {
+                // Die Liste mit ids holen, die in das File geschrieben werden sollen.
+                final List<String> ids = origin.get(fileName);
+                final Element xom = new DataToXOMMapper().transformData(ids, this);
 
-            if (charKompArray[i] == CharKomponente.eigenschaft || charKompArray[i] == CharKomponente.sonderregel
-                    || charKompArray[i] == CharKomponente.rasseVariante
-                    || charKompArray[i] == CharKomponente.kulturVariante
-                    || charKompArray[i] == CharKomponente.professionVariante) {
-                continue; // Diese CharElemente werden nicht (hier) geschrieben, daher Abbruch
+                // xom ins file schreiben
+                File output = new File(fileName);
+                if (output.exists()) {
+                    output.renameTo(new File(fileName + ".old")); // REVISIT [msturzen] Sollte delete sein. Nach
+                    // erfolgreichem test!
+                    output = new File(fileName);
+                }
+                final Writer writer = new BufferedWriter(new FileWriter(output));
+                writer.write(new Document(xom).toXML());
+                writer.flush();
+                writer.close();
             }
-
-            ite = getMap(charKompArray[i]).values().iterator(); // Alle Elemente holen
-
-            // Das "Box" Element hinzufügen, wenn es Unterelemente gibt
-            if (ite.hasNext()) {
-                tmpElement = new Element(charKompArray[i].getKategorie());
-
-                root.appendChild(tmpElement);
-            }
-
-            // Alle Elemente der CharKomponente durchgehen
-            while (ite.hasNext()) {
-                Element testElement = ((CharElement) ite.next()).writeXmlElement();
-
-                tmpElement.appendChild(testElement);
-            }
+        } catch (Exception e) {
+            throw new ConfigurationException(e);
         }
-
-        return root;
     }
 
-    /**
-     * @return origin
-     */
-    public Map<String, List<String>> getOrigin() {
-        return origin;
-    }
-    
     /**
      * Prüft ob ein ID Wert doppelt vorkommt! In dem Fall wird eine Warnung ausgegeben, aber nicht verhindert das der
      * alte Wert überschrieben wird!

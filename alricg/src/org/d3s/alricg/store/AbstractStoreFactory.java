@@ -51,10 +51,4 @@ public interface AbstractStoreFactory {
      * @return Der zur Factory gehörige <code>TextStore</code>.
      */
     TextStore getLibrary();
-    
-    /**
-     * Persistiert die Daten des <code>DataStore</code>.
-     * @throws ConfigurationException Falls die Konfiguration der Factory fehlerhaft ist.
-     */
-    void storeData() throws ConfigurationException;
 }
