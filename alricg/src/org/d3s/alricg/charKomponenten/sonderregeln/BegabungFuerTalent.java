@@ -8,11 +8,12 @@
  */
 package org.d3s.alricg.charKomponenten.sonderregeln;
 
+import java.util.logging.Logger;
+
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Talent;
 import org.d3s.alricg.charKomponenten.links.Link;
 import org.d3s.alricg.controller.CharKomponente;
-import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.prozessor.FormelSammlung;
 import org.d3s.alricg.prozessor.HeldProzessor;
 import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
@@ -30,6 +31,10 @@ import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
  * @author V. Strelow
  */
 public class BegabungFuerTalent extends SonderregelAdapter {
+    
+    /** <code>BegabungFuerTalent</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(BegabungFuerTalent.class.getName());
+    
 	private static Talent begabtFuer; // Static um alle Klassen zu erreichen
 	
 	/**
@@ -54,7 +59,7 @@ public class BegabungFuerTalent extends SonderregelAdapter {
 		
 		if ( srLink.getZweitZiel() == null)  {
 			// Es wird ein ZweitZiel benötigt!
-			ProgAdmin.logger.warning("Es wird ein ZweitZiel benötigt, es ist jedoch keins angegeben!");
+			LOG.warning("Es wird ein ZweitZiel benötigt, es ist jedoch keins angegeben!");
 			return false;
 		} else if ( !srLink.getZweitZiel().getCharKomponente().equals(CharKomponente.talent) ) {
 			//	Nur Talente

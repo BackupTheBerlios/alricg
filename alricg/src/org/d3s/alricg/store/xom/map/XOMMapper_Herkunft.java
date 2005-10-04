@@ -10,6 +10,7 @@
 package org.d3s.alricg.store.xom.map;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import nu.xom.Attribute;
 import nu.xom.Element;
@@ -22,7 +23,6 @@ import org.d3s.alricg.charKomponenten.links.Auswahl;
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
 import org.d3s.alricg.charKomponenten.links.Voraussetzung;
 import org.d3s.alricg.controller.CharKomponente;
-import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.store.FactoryFinder;
 
 /**
@@ -33,6 +33,9 @@ import org.d3s.alricg.store.FactoryFinder;
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMapper {
+
+    /** <code>XOMMapper_Herkunft</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(XOMMapper_Herkunft.class.getName());
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
@@ -264,7 +267,7 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             }
 
         } catch (NumberFormatException ex) {
-            ProgAdmin.logger.log(Level.SEVERE, "String -> int failed", ex);
+            LOG.log(Level.SEVERE, "String -> int failed", ex);
         }
 
     }
@@ -416,9 +419,10 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
         }
     }
 
-    /** 
+    /**
      * Fügt <code>auswahl</code> unter <code>tagname</code> zu <code>parent</code> hinzu.
-     * @param auswahl Die hinzuzufügenden  Wahlmöglichkeiten.
+     * 
+     * @param auswahl Die hinzuzufügenden Wahlmöglichkeiten.
      * @param tagname Die Bezeichnung des xml-Elements.
      * @param parent Das xml-Element worunter die Auswahl hinzugefügt werden soll.
      */
@@ -429,9 +433,10 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             parent.appendChild(e);
         }
     }
-    
-    /** 
+
+    /**
      * Fügt <code>ids</code> unter <code>tagname</code> zu <code>parent</code> hinzu.
+     * 
      * @param ids Die hinzuzufügenden <code>CharElement</code>-IDs.
      * @param tagname Die Bezeichnung des xml-Elements.
      * @param parent Das xml-Element worunter die link-Liste hinzugefügt werden soll.

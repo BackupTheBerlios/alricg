@@ -10,13 +10,13 @@
 package org.d3s.alricg.store.xom.map;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import nu.xom.Attribute;
 import nu.xom.Element;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Gabe;
-import org.d3s.alricg.controller.ProgAdmin;
 
 /**
  * <code>XOMMapper</code> für eine <code>Gabe</code>.
@@ -26,6 +26,9 @@ import org.d3s.alricg.controller.ProgAdmin;
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 class XOMMapper_Gabe extends XOMMapper_Faehigkeit implements XOMMapper {
+
+    /** <code>XOMMapper_Gabe</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(XOMMapper_Gabe.class.getName());
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
@@ -39,7 +42,7 @@ class XOMMapper_Gabe extends XOMMapper_Faehigkeit implements XOMMapper {
         try {
             if (current != null) {
                 Attribute a = current.getAttribute("minStufe");
-                if ( a!= null) {
+                if (a != null) {
                     gabe.setMinStufe(Integer.parseInt(a.getValue()));
                 }
                 a = current.getAttribute("maxStufe");
@@ -48,7 +51,7 @@ class XOMMapper_Gabe extends XOMMapper_Faehigkeit implements XOMMapper {
                 }
             }
         } catch (NumberFormatException exc) {
-            ProgAdmin.logger.log(Level.SEVERE, "String -> int failed", exc);
+            LOG.log(Level.SEVERE, "String -> int failed", exc);
         }
 
     }
@@ -56,21 +59,21 @@ class XOMMapper_Gabe extends XOMMapper_Faehigkeit implements XOMMapper {
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement, nu.xom.Element)
     public void map(CharElement charElement, Element xmlElement) {
         super.map(charElement, xmlElement);
-        
+
         // my mapping
         final Gabe gabe = (Gabe) charElement;
         xmlElement.setLocalName("gabe");
-        
-        //schreiben der Stufengrenzen
+
+        // schreiben der Stufengrenzen
         final int minStufe = gabe.getMinStufe();
         final int maxStufe = gabe.getMaxStufe();
-        if ( minStufe != 1 || maxStufe != 1 ) {
+        if (minStufe != 1 || maxStufe != 1) {
             final Element e = new Element("stufenGrenzen");
-            
-            if ( minStufe != 1 ) {
+
+            if (minStufe != 1) {
                 e.addAttribute(new Attribute("minStufe", Integer.toString(minStufe)));
             }
-            if ( maxStufe != 1 ) {
+            if (maxStufe != 1) {
                 e.addAttribute(new Attribute("maxStufe", Integer.toString(maxStufe)));
             }
             xmlElement.appendChild(e);

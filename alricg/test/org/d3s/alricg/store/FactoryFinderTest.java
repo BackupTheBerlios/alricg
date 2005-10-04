@@ -7,8 +7,6 @@
 
 package org.d3s.alricg.store;
 
-import java.util.logging.Logger;
-
 import junit.framework.TestCase;
 
 import org.d3s.alricg.controller.MessengerMock;
@@ -32,7 +30,6 @@ public class FactoryFinderTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         ProgAdmin.messenger = new MessengerMock();
-        ProgAdmin.logger = Logger.getLogger(FactoryFinderTest.class.getName());
         FactoryFinder.reset();
     }
 

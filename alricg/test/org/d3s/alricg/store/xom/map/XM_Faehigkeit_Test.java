@@ -7,7 +7,6 @@
 package org.d3s.alricg.store.xom.map;
 
 import java.io.File;
-import java.util.logging.Logger;
 
 import junit.framework.TestCase;
 import nu.xom.Attribute;
@@ -24,8 +23,8 @@ import org.d3s.alricg.store.FactoryFinder;
 
 /**
  * Tests für XOMMapper_Faehigkeit
+ * 
  * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
- *
  */
 public class XM_Faehigkeit_Test extends TestCase {
 
@@ -37,7 +36,6 @@ public class XM_Faehigkeit_Test extends TestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        ProgAdmin.logger = Logger.getLogger(XM_Faehigkeit_Test.class.getName());
         ProgAdmin.messenger = new MessengerMock();
 
         FactoryFinder.init(new File("test/org/d3s/alricg/store/StoreFactoryFinder.properties"));
@@ -63,7 +61,7 @@ public class XM_Faehigkeit_Test extends TestCase {
         assertEquals("KostenKlasse falsch", KostenKlasse.A, f.getKostenKlasse());
         assertEquals("KostenKlasse falsch", "A", f.getKostenKlasse().getValue());
     }
-    
+
     public void testMapToXML() {
         // TODO Implement!
     }

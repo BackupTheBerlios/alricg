@@ -10,10 +10,10 @@ package org.d3s.alricg.held;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.links.IdLink;
-import org.d3s.alricg.controller.ProgAdmin;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -30,6 +30,10 @@ import org.d3s.alricg.controller.ProgAdmin;
  * @author V.Strelow
  */
 public class GeneratorLink extends HeldenLink {
+    
+    /** <code>GeneratorLink</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(GeneratorLink.class.getName());
+    
 	/* Überlegungen:
 	 * - Es kann durch eine Herkunft auch mehrmalig ein Link hinzugefügt werden (z.B. regulär und
 	 * 	durch eine Auswahl nochmals)
@@ -175,7 +179,7 @@ public class GeneratorLink extends HeldenLink {
 	 * @param wert Setzt das Attribut wert ("-100" bedeutet, das es keinen Wert gibt).
 	 */
 	public void setWert(int wert) {
-		ProgAdmin.logger.warning("setWert() kann nicht direkt auf einen Generatorlink angewand werden!");
+		LOG.warning("setWert() kann nicht direkt auf einen Generatorlink angewand werden!");
 	}
     
 	/**

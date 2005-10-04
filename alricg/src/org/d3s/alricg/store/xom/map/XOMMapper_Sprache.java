@@ -10,6 +10,7 @@
 package org.d3s.alricg.store.xom.map;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import nu.xom.Attribute;
 import nu.xom.Element;
@@ -17,7 +18,6 @@ import nu.xom.Element;
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Sprache;
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
-import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.prozessor.FormelSammlung;
 
 /**
@@ -28,6 +28,9 @@ import org.d3s.alricg.prozessor.FormelSammlung;
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 class XOMMapper_Sprache extends XOMMapper_SchriftSprache implements XOMMapper {
+
+    /** <code>XOMMapper_Sprache</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(XOMMapper_Sprache.class.getName());
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
@@ -45,7 +48,7 @@ class XOMMapper_Sprache extends XOMMapper_SchriftSprache implements XOMMapper {
         try {
             sprache.setKomplexNichtMutterSpr(Integer.parseInt(current.getAttributeValue("komplexitaet")));
         } catch (NumberFormatException exc) {
-            ProgAdmin.logger.log(Level.SEVERE, "String -> int failed", exc);
+            LOG.log(Level.SEVERE, "String -> int failed", exc);
         }
 
         // Auslesen der dazugehörigen Schrift(en)

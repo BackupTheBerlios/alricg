@@ -10,6 +10,7 @@
 package org.d3s.alricg.store.xom.map;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import nu.xom.Attribute;
 import nu.xom.Element;
@@ -28,7 +29,6 @@ import org.d3s.alricg.charKomponenten.links.Auswahl;
 import org.d3s.alricg.charKomponenten.links.AuswahlAusruestung;
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
 import org.d3s.alricg.controller.CharKomponente;
-import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.store.FactoryFinder;
 
 /**
@@ -40,8 +40,11 @@ import org.d3s.alricg.store.FactoryFinder;
  */
 class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
 
+    /** <code>XOMMapper_Profession</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(XOMMapper_Profession.class.getName());
+
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
-public void map(Element xmlElement, CharElement charElement) {
+    public void map(Element xmlElement, CharElement charElement) {
         super.map(xmlElement, charElement);
 
         // my mapping
@@ -159,6 +162,7 @@ public void map(Element xmlElement, CharElement charElement) {
         }
 
     }
+
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement, nu.xom.Element)
     public void map(CharElement charElement, Element xmlElement) {
         super.map(charElement, xmlElement);
@@ -282,7 +286,7 @@ public void map(Element xmlElement, CharElement charElement) {
                 return artArray[i]; // Gefunden
             }
         }
-        ProgAdmin.logger.severe("XmlValue konnte nicht gefunden werden!");
+        LOG.severe("XmlValue konnte nicht gefunden werden!");
         return null;
     }
 

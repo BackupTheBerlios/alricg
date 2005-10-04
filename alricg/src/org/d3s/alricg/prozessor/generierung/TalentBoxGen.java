@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Eigenschaft;
@@ -18,7 +19,6 @@ import org.d3s.alricg.charKomponenten.EigenschaftEnum;
 import org.d3s.alricg.charKomponenten.Talent;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
-import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.held.GeneratorLink;
 import org.d3s.alricg.held.HeldenLink;
 import org.d3s.alricg.prozessor.FormelSammlung;
@@ -38,6 +38,10 @@ import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
  * @author V.Strelow
  */
 public class TalentBoxGen extends AbstractBoxGen {
+    
+    /** <code>TalentBoxGen</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(TalentBoxGen.class.getName());
+    
 	//protected ArrayList<GeneratorLink> linkArray;
 	//protected Held held;
 	
@@ -363,7 +367,7 @@ public class TalentBoxGen extends AbstractBoxGen {
 		genLink = this.getEqualLink(link);
 		
 		if (genLink == null) {
-			ProgAdmin.logger.warning("Konnte Link nicht finden beim Entfernen eines Modis");
+			LOG.warning("Konnte Link nicht finden beim Entfernen eines Modis");
 		}
 		
 		// Link entfernen

@@ -10,14 +10,9 @@ package org.d3s.alricg.controller;
 
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
-
-import static org.d3s.alricg.controller.Messenger.Level.fehler;
-import static org.d3s.alricg.controller.Messenger.Level.fehlerSchwer;
-import static org.d3s.alricg.controller.Messenger.Level.frage;
-import static org.d3s.alricg.controller.Messenger.Level.info;
-import static org.d3s.alricg.controller.Messenger.Level.warnung;
 /**
  * <u>Beschreibung:</u><br> 
  * Nimmt Nachrichten entgegen und leitet sie an alle "interessierten" Objekte (Listener)
@@ -28,6 +23,8 @@ import static org.d3s.alricg.controller.Messenger.Level.warnung;
  */
 public class Messenger {
 	
+    private static final Logger LOG = Logger.getLogger(Messenger.class.getName());
+    
 	public enum Level { 
 		frage, // Es wird eine Eingabe vom Benutzer erwartet (wird evtl. nicht benötigt)
 		info, // Eine Info von Programm (laden von Elementen o.ä.)
@@ -131,7 +128,7 @@ public class Messenger {
 				buttons = JOptionPane.OK_CANCEL_OPTION;
 				break;
 			default:
-				ProgAdmin.logger.severe("Nötiger Case Fall ist nicht eingetreten! ");
+				LOG.severe("Nötiger Case Fall ist nicht eingetreten! ");
 				return 0;
 		}
 		

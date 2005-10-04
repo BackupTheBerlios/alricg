@@ -10,6 +10,7 @@
 package org.d3s.alricg.store.xom.map;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import nu.xom.Element;
 import nu.xom.Elements;
@@ -18,7 +19,6 @@ import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Gottheit;
 import org.d3s.alricg.charKomponenten.Ritus;
 import org.d3s.alricg.controller.CharKomponente;
-import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.store.FactoryFinder;
 
 /**
@@ -29,6 +29,9 @@ import org.d3s.alricg.store.FactoryFinder;
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 abstract class XOMMapper_Ritus extends XOMMapper_CharElement implements XOMMapper {
+
+    /** <code>XOMMapper_Ritus</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(XOMMapper_Ritus.class.getName());
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
@@ -41,7 +44,7 @@ abstract class XOMMapper_Ritus extends XOMMapper_CharElement implements XOMMappe
         try {
             ritus.setGrad(Integer.parseInt(xmlElement.getFirstChildElement("grad").getValue()));
         } catch (NumberFormatException exc) {
-            ProgAdmin.logger.log(Level.SEVERE, "String -> int failed", exc);
+            LOG.log(Level.SEVERE, "String -> int failed", exc);
         }
 
         // Auslesen der AdditionsId
@@ -68,12 +71,12 @@ abstract class XOMMapper_Ritus extends XOMMapper_CharElement implements XOMMappe
         Element e = new Element("grad");
         e.appendChild(Integer.toString(ritus.getGrad()));
         xmlElement.appendChild(e);
-        
+
         // Schreiben der AdditionsID
         e = new Element("additionsId");
         e.appendChild(ritus.getAdditionsId());
         xmlElement.appendChild(e);
-        
+
         // Schreiben der gottheit
         final Gottheit[] gottheit = ritus.getGottheit();
         for (int i = 0; i < gottheit.length; i++) {

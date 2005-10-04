@@ -9,12 +9,12 @@
 package org.d3s.alricg.charKomponenten.sonderregeln;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Talent;
 import org.d3s.alricg.charKomponenten.links.Link;
 import org.d3s.alricg.controller.CharKomponente;
-import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.held.GeneratorLink;
 import org.d3s.alricg.prozessor.FormelSammlung;
 import org.d3s.alricg.prozessor.HeldProzessor;
@@ -34,6 +34,10 @@ import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
  * @author V. Strelow
  */
 public class BegabungFuerTalentgruppe extends SonderregelAdapter {
+    
+    /** <code>BegabungFuerTalentgruppe</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(BegabungFuerTalentgruppe.class.getName());
+    
 	private static Talent.Sorte sorte;
 	
 	public BegabungFuerTalentgruppe() {
@@ -135,7 +139,7 @@ public class BegabungFuerTalentgruppe extends SonderregelAdapter {
 		}
 		
 		if (sorte == null) {
-			ProgAdmin.logger.severe("Konnte in SR nicht die erwartete Talent-Sorte finden!");
+			LOG.severe("Konnte in SR nicht die erwartete Talent-Sorte finden!");
 		}
 		
 		// Alle Kosten der Talente updaten

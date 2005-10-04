@@ -10,13 +10,13 @@
 package org.d3s.alricg.store.xom.map;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import nu.xom.Attribute;
 import nu.xom.Element;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.charZusatz.Ruestung;
-import org.d3s.alricg.controller.ProgAdmin;
 
 /**
  * <code>XOMMapper</code> für eine <code>Ruestung</code>.
@@ -26,6 +26,9 @@ import org.d3s.alricg.controller.ProgAdmin;
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 class XOMMapper_Ruestung extends XOMMapper_Gegenstand implements XOMMapper {
+
+    /** <code>XOMMapper_Ruestung</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(XOMMapper_Ruestung.class.getName());
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement, nu.xom.Element)
     public void map(CharElement charElement, Element xmlElement) {
@@ -54,7 +57,7 @@ class XOMMapper_Ruestung extends XOMMapper_Gegenstand implements XOMMapper {
             ruestung.setGBe(Integer.parseInt(xmlElement.getFirstChildElement("gBe").getValue()));
 
         } catch (NumberFormatException nfe) {
-            ProgAdmin.logger.log(Level.SEVERE, "String -> int failed", nfe);
+            LOG.log(Level.SEVERE, "String -> int failed", nfe);
         }
 
     }

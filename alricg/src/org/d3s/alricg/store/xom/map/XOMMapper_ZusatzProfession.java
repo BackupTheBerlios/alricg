@@ -10,6 +10,7 @@
 package org.d3s.alricg.store.xom.map;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import nu.xom.Attribute;
 import nu.xom.Element;
@@ -17,7 +18,6 @@ import nu.xom.Element;
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.ZusatzProfession;
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
-import org.d3s.alricg.controller.ProgAdmin;
 
 /**
  * <code>XOMMapper</code> für eine <code>ZusatzProfession</code>.
@@ -27,6 +27,9 @@ import org.d3s.alricg.controller.ProgAdmin;
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 class XOMMapper_ZusatzProfession extends XOMMapper_Profession implements XOMMapper {
+
+    /** <code>XOMMapper_ZusatzProfession</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(XOMMapper_ZusatzProfession.class.getName());
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
@@ -56,7 +59,7 @@ class XOMMapper_ZusatzProfession extends XOMMapper_Profession implements XOMMapp
             try {
                 zusatzProfession.setApKosten(Integer.parseInt(xmlElement.getAttributeValue("apKosten")));
             } catch (NumberFormatException ex) {
-                ProgAdmin.logger.log(Level.SEVERE, "String -> int failed", ex);
+                LOG.log(Level.SEVERE, "String -> int failed", ex);
             }
         } else {
             zusatzProfession.setApKosten(CharElement.KEIN_WERT);

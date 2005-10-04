@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import nu.xom.Element;
 import nu.xom.Elements;
@@ -35,6 +36,9 @@ import org.d3s.alricg.store.xom.XOMStore;
  */
 public class XOMToDataMapper {
 
+    /** <code>XOMToDataMapper</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(XOMToDataMapper.class.getName());
+
     /**
      * Befüllt einen neuen <code>dataStore</code> auf Basis der Einstellungen in <code>props</code>.
      * 
@@ -50,13 +54,13 @@ public class XOMToDataMapper {
 
             ProgAdmin.messenger.sendInfo(lib.getLongTxt("Regel-Dateien werden geladen"));
             final List<File> files = getXmlFiles(props, configRoot);
-            ProgAdmin.logger.info("Regel-Files aus Config geladen...");
+            LOG.info("Regel-Files aus Config geladen...");
 
             initCharKomponents(files, dataStore);
-            ProgAdmin.logger.info("Charakter-Elemente erstellt...");
+            LOG.info("Charakter-Elemente erstellt...");
 
             loadCharKomponents(files, dataStore, false);
-            ProgAdmin.logger.info("Charakter-Elemente initiiert...");
+            LOG.info("Charakter-Elemente initiiert...");
 
         } catch (Exception e) {
             throw new ConfigurationException(e);

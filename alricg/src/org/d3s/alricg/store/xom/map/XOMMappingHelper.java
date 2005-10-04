@@ -12,6 +12,7 @@ package org.d3s.alricg.store.xom.map;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import nu.xom.Attribute;
 import nu.xom.Element;
@@ -31,7 +32,6 @@ import org.d3s.alricg.charKomponenten.links.Auswahl.VariableAuswahl;
 import org.d3s.alricg.charKomponenten.links.AuswahlAusruestung.HilfsAuswahl;
 import org.d3s.alricg.charKomponenten.links.Voraussetzung.IdLinkVoraussetzung;
 import org.d3s.alricg.controller.CharKomponente;
-import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.store.FactoryFinder;
 
 /**
@@ -41,8 +41,13 @@ import org.d3s.alricg.store.FactoryFinder;
  */
 final class XOMMappingHelper {
     
+    /** Die Singleton-Instanz */
     private static final XOMMappingHelper instance = new XOMMappingHelper();
     
+    /** <code>XOMMappingHelper</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(XOMMappingHelper.class.getName());
+    
+    /** Gitb die Singleton-Instanz zurück */
     public static XOMMappingHelper instance() {
         return instance;
     }
@@ -166,7 +171,7 @@ final class XOMMappingHelper {
         // >>>>>>>>>>>>>>> DEFAULT
         default:
             mappy = null;
-            ProgAdmin.logger.logp(Level.SEVERE, "CharKompAdmin", "initCharKomponents",
+            LOG.logp(Level.SEVERE, "CharKompAdmin", "initCharKomponents",
                     "Ein CharKomp wurde nicht gefunden: " + charKomp);
         }
         return mappy;
@@ -649,7 +654,7 @@ final class XOMMappingHelper {
             try {
                 hilfsauswahl.setAnzahl(Integer.parseInt(xmlElement.getAttributeValue("anzahl")));
             } catch (NumberFormatException exc) {
-                ProgAdmin.logger.log(Level.SEVERE, "String -> umwandeln failed", exc);
+                LOG.log(Level.SEVERE, "String -> umwandeln failed", exc);
             }
         }
 
@@ -751,7 +756,7 @@ final class XOMMappingHelper {
             }
 
         } catch (NumberFormatException exc) {
-            ProgAdmin.logger.log(Level.SEVERE, "String -> int failed", exc);
+            LOG.log(Level.SEVERE, "String -> int failed", exc);
         }
 
         // Einlesen der Optionen, sollten mind. zwei sein

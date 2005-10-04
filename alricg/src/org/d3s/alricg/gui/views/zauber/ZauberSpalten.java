@@ -4,9 +4,9 @@
 package org.d3s.alricg.gui.views.zauber;
 
 import java.util.Comparator;
+import java.util.logging.Logger;
 
 import org.d3s.alricg.charKomponenten.Zauber;
-import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.gui.komponenten.table.SortableTable;
 import org.d3s.alricg.gui.views.ComparatorCollection;
 import org.d3s.alricg.gui.views.SpaltenSchema;
@@ -17,6 +17,9 @@ import org.d3s.alricg.store.FactoryFinder;
  * @author Vincent
  */
 public class ZauberSpalten implements SpaltenSchema {
+    
+    /** <code>ZauberSpalten</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(ZauberSpalten.class.getName());
 
 	public enum Spalten {
 		name("Name"),
@@ -94,7 +97,7 @@ public class ZauberSpalten implements SpaltenSchema {
 					};
 		}
 		
-		ProgAdmin.logger.severe("Case-Fall konnte nicht gefunden werden!");
+		LOG.severe("Case-Fall konnte nicht gefunden werden!");
 		return null;
 	}
 

@@ -29,7 +29,7 @@ abstract class XOMMapper_CharElement implements XOMMapper {
 
         // Auslesen des Namen (minOcc=1; maxOcc=1)
         charElement.setName(xmlElement.getAttributeValue("name"));
-        
+
         // Sonderregel (minOcc=0; maxOcc=1)
         Element child = xmlElement.getFirstChildElement("sonderregel");
         if (child != null) {
@@ -111,8 +111,8 @@ abstract class XOMMapper_CharElement implements XOMMapper {
         }
 
         // Sonderregel
-        if ( charElement.hasSonderregel() ) {
-        	final SonderregelAdapter sonderregel = charElement.createSonderregel();
+        if (charElement.hasSonderregel()) {
+            final SonderregelAdapter sonderregel = charElement.createSonderregel();
             final Element e = new Element("sonderregel");
             final Attribute a = new Attribute("id", sonderregel.getId());
             e.addAttribute(a);

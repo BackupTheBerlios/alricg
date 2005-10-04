@@ -26,7 +26,7 @@ import org.d3s.alricg.store.FactoryFinder;
 public class ProgAdmin {
 
 	// Singeltons
-	public static Logger logger; // Für Nachrichten aller Art
+	private static final Logger LOG = Logger.getLogger(ProgAdmin.class.getName()); // Für Nachrichten aller Art
 
 	public static Messenger messenger; // Für Nachrichten die Angezeigt werden sollen
 	
@@ -53,9 +53,8 @@ public class ProgAdmin {
 		}
 		
         // Logger & Messenger
-        logger = Logger.getLogger("Programm-Logger");
-        logger.setUseParentHandlers(false); // disbale default logger
-        logger.addHandler(new ConsoleHandler());
+        LOG.setUseParentHandlers(false); // disbale default logger
+        LOG.addHandler(new ConsoleHandler());
         heldenAdmin = new HeldenAdmin();
         messenger = new Messenger();
         notepad = new Notepad();
@@ -79,12 +78,12 @@ public class ProgAdmin {
         try {
             // Initialize store & factory
             FactoryFinder.init();
-            logger.info("Data Store Factory initialisiert...");
+            LOG.info("Data Store Factory initialisiert...");
             
             FormelSammlung.initFormelSanmmlung();
             
         } catch (ConfigurationException ce) {
-            logger.log(Level.SEVERE, "Config Datei konnte nicht geladen werden. Programm beendet.", ce);
+            LOG.log(Level.SEVERE, "Config Datei konnte nicht geladen werden. Programm beendet.", ce);
             messenger.showMessage(Messenger.Level.fehler,
                     "Die Config-Datei konnte nicht geladen werden! Bitte überprüfen sie ob die Datei \n"
                             + "zugriffsbereit ist und im Orginalzustand vorliegt. \n" + "\n"

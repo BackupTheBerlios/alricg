@@ -8,16 +8,14 @@
  */
 package org.d3s.alricg.prozessor;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.d3s.alricg.charKomponenten.Eigenschaft;
-import org.d3s.alricg.charKomponenten.EigenschaftEnum;
 import org.d3s.alricg.charKomponenten.Faehigkeit;
 import org.d3s.alricg.charKomponenten.Fertigkeit;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
-import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.held.GeneratorLink;
 import org.d3s.alricg.held.HeldenLink;
 
@@ -28,6 +26,9 @@ import org.d3s.alricg.held.HeldenLink;
  * @author V. Strelow
  */
 public class HeldUtilities {
+    
+    /** <code>HeldUtilities</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(HeldUtilities.class.getName());
 	
 	/**
 	 * Versucht überprüft ob der Wert des Elements "link" innerhalb der möglichen Grenzen ist.
@@ -73,7 +74,7 @@ public class HeldUtilities {
 				return false;
 			}
 		} else {
-			ProgAdmin.logger.warning("Diese Methode ist nur von Instanzen von Fertigkeit nutzbar," 
+			LOG.warning("Diese Methode ist nur von Instanzen von Fertigkeit nutzbar," 
 					+ " wurde jedoch von einer anderen Instanz aufgerufen! Klasse: " 
 					+ link.getZiel().getClass().toString());
 		}

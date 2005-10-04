@@ -10,6 +10,7 @@
 package org.d3s.alricg.store.xom.map;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import nu.xom.Attribute;
 import nu.xom.Element;
@@ -17,7 +18,6 @@ import nu.xom.Element;
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.charZusatz.DaemonenPakt;
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
-import org.d3s.alricg.controller.ProgAdmin;
 
 /**
  * <code>XOMMapper</code> für einen <code>Daemonenpakt</code>.
@@ -27,6 +27,9 @@ import org.d3s.alricg.controller.ProgAdmin;
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 class XOMMapper_DaemonenPakt extends XOMMapper_CharElement implements XOMMapper {
+
+    /** <code>XOMMapper_DaemonenPakt</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(XOMMapper_DaemonenPakt.class.getName());
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
@@ -51,7 +54,7 @@ class XOMMapper_DaemonenPakt extends XOMMapper_CharElement implements XOMMapper 
             intVal = Integer.parseInt(child.getAttributeValue("kosten"));
             pakt.setKosten(intVal);
         } catch (NumberFormatException e) {
-            ProgAdmin.logger.log(Level.SEVERE, "String -> int failed " + intVal, e);
+            LOG.log(Level.SEVERE, "String -> int failed " + intVal, e);
         }
 
         // Verbilligte Eigenschaften
@@ -158,6 +161,7 @@ class XOMMapper_DaemonenPakt extends XOMMapper_CharElement implements XOMMapper 
 
     /**
      * Erstellt eine Liste mit besonderen/veränderten Eigenschaften und Kosten.
+     * 
      * @param child Das <code>Element</code>, das die Art der Veränderungen beschreibt.
      * @param pakt Der Pakt, der die Eigenschaften und Kosten beeinflusst.
      * @return Link-Liste mit besonderen/veränderten Eigenschaften und Kosten.

@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import nu.xom.Element;
 
@@ -63,6 +64,9 @@ import org.d3s.alricg.store.KeyExistsException;
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 public class XOMStore implements DataStore {
+    
+    /** <code>XOMStore</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(XOMStore.class.getName());
 
     /** Rassen */
     private final Map<String, Rasse> rasseMap = new HashMap<String, Rasse>();
@@ -182,7 +186,7 @@ public class XOMStore implements DataStore {
     public CharElement getCharElement(String id, CharKomponente charKomp) {
         final Map<String, ? extends CharElement> map = getMap(charKomp); // Die zugehörige HashMap holen
         if (map.get(id) == null) {
-            ProgAdmin.logger.warning("Id konnte nicht gefunden werden: " + id);
+            LOG.warning("Id konnte nicht gefunden werden: " + id);
         }
         return map.get(id);
     }
@@ -194,7 +198,7 @@ public class XOMStore implements DataStore {
         try {
             prefix = id.split("-")[0]; // Spaltet den Prefix von der ID ab
         } catch (ArrayIndexOutOfBoundsException e) {
-            ProgAdmin.logger.severe("prefix falsch aufgebaut! \n" + e.toString());
+            LOG.severe("prefix falsch aufgebaut! \n" + e.toString());
         }
 
         return getCharKompFromPrefix(prefix);
@@ -301,7 +305,7 @@ public class XOMStore implements DataStore {
 
         // >>>>>>>>>>>>>>> DEFAULT
         default:
-            ProgAdmin.logger.severe("Ein CharKomp wurde nicht gefunden: " + charKomp);
+            LOG.severe("Ein CharKomp wurde nicht gefunden: " + charKomp);
         }
 
         return null;
@@ -530,7 +534,7 @@ public class XOMStore implements DataStore {
 
         // >>>>>>>>>>>>>>> DEFAULT
         default:
-            ProgAdmin.logger.logp(Level.SEVERE, "CharKompAdmin", "initCharKomponents",
+            LOG.logp(Level.SEVERE, "CharKompAdmin", "initCharKomponents",
                     "Ein CharKomp wurde nicht gefunden: " + charKomp);
         }        
     }
@@ -622,7 +626,7 @@ public class XOMStore implements DataStore {
     private void keyDoppelt(String key, Map<String, ? extends CharElement> hash) throws KeyExistsException {
         if (hash.containsKey(key)) {
             // Doppelte ID, dadurch wird der alte Wert überschrieben
-            ProgAdmin.logger.warning("Bei der Initialisierung ist eine ID doppelt für die HashMap: " + key);
+            LOG.warning("Bei der Initialisierung ist eine ID doppelt für die HashMap: " + key);
             ProgAdmin.messenger.sendFehler(FactoryFinder.find().getLibrary().getErrorTxt("CharKomponente ID doppelt"));
             throw new KeyExistsException("Der Schlüssel " + key + " wird bereits verwendet");
         }

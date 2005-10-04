@@ -10,6 +10,7 @@
 package org.d3s.alricg.store.xom.map;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import nu.xom.Attribute;
 import nu.xom.Element;
@@ -19,7 +20,6 @@ import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.RegionVolk;
 import org.d3s.alricg.charKomponenten.charZusatz.Gegenstand;
 import org.d3s.alricg.controller.CharKomponente;
-import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.store.FactoryFinder;
 
 /**
@@ -31,6 +31,9 @@ import org.d3s.alricg.store.FactoryFinder;
  */
 
 class XOMMapper_Gegenstand extends XOMMapper_CharElement implements XOMMapper {
+
+    /** <code>XOMMapper_Gegenstand</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(XOMMapper_Gegenstand.class.getName());
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
@@ -54,7 +57,7 @@ class XOMMapper_Gegenstand extends XOMMapper_CharElement implements XOMMapper {
                 gegenstand.setWert(Integer.parseInt(child.getValue()));
             }
         } catch (NumberFormatException e) {
-            ProgAdmin.logger.log(Level.SEVERE, "String -> int failed " + child.getValue(), e);
+            LOG.log(Level.SEVERE, "String -> int failed " + child.getValue(), e);
         }
 
         // Erhältlich bei (minOcc=1; maxOcc=unbounded)

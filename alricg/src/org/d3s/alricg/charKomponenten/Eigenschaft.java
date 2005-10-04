@@ -8,7 +8,8 @@
  */
 package org.d3s.alricg.charKomponenten;
 
-import org.d3s.alricg.controller.ProgAdmin;
+import java.util.logging.Logger;
+
 import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.store.FactoryFinder;
 
@@ -21,6 +22,10 @@ import org.d3s.alricg.store.FactoryFinder;
  * @author V. Strelow
  */
 public class Eigenschaft extends CharElement {
+    
+    /** <code>Eigenschaft</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(Eigenschaft.class.getName());
+    
 	private EigenschaftEnum eigenschaft;
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -84,7 +89,7 @@ public class Eigenschaft extends CharElement {
 			}
 		}
 		
-		ProgAdmin.logger.severe("Die ID einer Eigenschaft wurde nicht gefunden!");
+		LOG.severe("Die ID einer Eigenschaft wurde nicht gefunden!");
 		return null;
 	}
 

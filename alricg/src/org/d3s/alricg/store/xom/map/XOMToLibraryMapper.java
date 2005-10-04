@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import nu.xom.Element;
 import nu.xom.Elements;
@@ -34,6 +35,9 @@ import org.d3s.alricg.store.xom.XOMTextStore;
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 public class XOMToLibraryMapper {
+
+    /** <code>XOMToLibraryMapper</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(XOMToLibraryMapper.class.getName());
 
     /**
      * Initialisiert einen neuen <code>TextStore</code> auf Basis der Daten in <code>props</code> und gibt ihn
@@ -63,7 +67,7 @@ public class XOMToLibraryMapper {
                 final Map<String, String> t = read(language, xmlElement.getFirstChildElement("toolTip"), messages);
 
                 if (!messages.isEmpty()) {
-                    ProgAdmin.logger.warning("Library-Entries für die Sprache " + language + " mit den keys '"
+                    LOG.warning("Library-Entries für die Sprache " + language + " mit den keys '"
                             + messages.toString() + "'" + "konnten nicht gefunden werden.");
 
                     ProgAdmin.messenger.showMessage(Messenger.Level.fehler,
@@ -79,7 +83,7 @@ public class XOMToLibraryMapper {
             } else {
 
                 // Fehler ist aufgetreten, Programm wird geschlossen!
-                ProgAdmin.logger.log(Level.SEVERE, "Library Datei (" + d3sLibDir + fileName
+                LOG.log(Level.SEVERE, "Library Datei (" + d3sLibDir + fileName
                         + ") konnte nicht geladen werden. Programm beendet.");
 
                 ProgAdmin.messenger.showMessage(Messenger.Level.fehler, "Die 'library' Datei \n" + d3sLibDir + fileName

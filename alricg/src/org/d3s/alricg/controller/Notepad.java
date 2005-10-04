@@ -8,6 +8,8 @@
  */
 package org.d3s.alricg.controller;
 
+import java.util.logging.Logger;
+
 import org.d3s.alricg.store.FactoryFinder;
 
 
@@ -40,6 +42,9 @@ import org.d3s.alricg.store.FactoryFinder;
  * @author V. Strelow
  */
 public class Notepad {
+    
+    private static final Logger LOG = Logger.getLogger(Notepad.class.getName());
+    
 	private StringBuilder messageBuf; // Sammelt die Texte
 	private Nachricht lastMessage; // Speichert die letzte beendete Nachricht
 	private String titel;
@@ -140,7 +145,7 @@ public class Notepad {
 			messageBuf.append(FactoryFinder.find().getLibrary().getLongTxt("Kosten-Kategorie"));
 			break;
 		default: 
-			ProgAdmin.logger.warning("Der angegebene Library Tag konnte nicht " +
+			LOG.warning("Der angegebene Library Tag konnte nicht " +
 					"gefunden werden: " + tag);
 		}
 		

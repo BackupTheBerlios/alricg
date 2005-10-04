@@ -11,6 +11,7 @@ package org.d3s.alricg.store.xom.map;
 
 import java.util.ArrayList;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import nu.xom.Attribute;
 import nu.xom.Element;
@@ -21,7 +22,6 @@ import org.d3s.alricg.charKomponenten.Rasse;
 import org.d3s.alricg.charKomponenten.RasseVariante;
 import org.d3s.alricg.charKomponenten.charZusatz.WuerfelSammlung;
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
-import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.store.FactoryFinder;
 
 /**
@@ -32,6 +32,9 @@ import org.d3s.alricg.store.FactoryFinder;
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
+
+    /** <code>XOMMapper_Rasse</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(XOMMapper_Rasse.class.getName());
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
@@ -118,7 +121,7 @@ class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
             }
 
         } catch (NumberFormatException exc) {
-            ProgAdmin.logger.log(Level.SEVERE, "String -> int failed", exc);
+            LOG.log(Level.SEVERE, "String -> int failed", exc);
         }
 
     }
@@ -230,7 +233,7 @@ class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
         }
 
         if (idx < 20) {
-            ProgAdmin.logger.warning("Index zu klein: Sollwert von 20 wurde nicht erreicht!");
+            LOG.warning("Index zu klein: Sollwert von 20 wurde nicht erreicht!");
         }
     }
 

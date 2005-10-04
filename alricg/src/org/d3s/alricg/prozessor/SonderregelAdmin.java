@@ -9,12 +9,12 @@ package org.d3s.alricg.prozessor;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.logging.Logger;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.links.Link;
 import org.d3s.alricg.charKomponenten.sonderregeln.BasisSonderregelInterface;
 import org.d3s.alricg.charKomponenten.sonderregeln.SonderregelAdapter;
-import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.held.HeldenLink;
 import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
 /**
@@ -26,6 +26,10 @@ import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
  * @author V.Strelow
  */
 public class SonderregelAdmin implements BasisSonderregelInterface  {
+    
+    /** <code>SonderregelAdmin</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(SonderregelAdmin.class.getName());
+    
 	private final HashMap<Link, SonderregelAdapter> sonderRegelMap;
 	private final HeldProzessor prozessor;
 	private Iterator<SonderregelAdapter> iterator;
@@ -54,7 +58,7 @@ public class SonderregelAdmin implements BasisSonderregelInterface  {
 		// ACHTUNG Es können mehrer Links die gleiche Sonderregel besitzen!
 		
 		if ( sonderRegelMap.containsKey(link) ) {
-			ProgAdmin.logger.warning("Dieser Link ist bereits im SonderregelAmdin registriert!");
+			LOG.warning("Dieser Link ist bereits im SonderregelAmdin registriert!");
 		}
 		
 		sonderRegelMap.put(link, link.getZiel().createSonderregel() ); // SR zum Admin hinzufügen

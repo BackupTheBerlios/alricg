@@ -10,6 +10,7 @@ package org.d3s.alricg.prozessor;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.controller.Messenger;
@@ -26,6 +27,10 @@ import org.d3s.alricg.store.TextStore;
  * @author V. Strelow
  */
 public class FormelSammlung {
+    
+    /** <code>FormelSammlung</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(FormelSammlung.class.getName());
+    
 	public final static int KEIN_WERT = CharElement.KEIN_WERT;
 	/**
 	 * SKT in einer HashTable. 
@@ -105,7 +110,7 @@ public class FormelSammlung {
     	try {
     		skt = config.getSkt(); 
     	} catch (ConfigurationException ex) {
-            ProgAdmin.logger.severe(ex.getMessage());
+            LOG.severe(ex.getMessage());
             ProgAdmin.messenger.showMessage(Messenger.Level.fehler, 
             		lib.getErrorTxt("Fehlerhafte Datei") + "\n" + "  " 
                     + config.getConfig().getProperty(ConfigStore.Key.config_file)+ "\n" 
@@ -153,7 +158,7 @@ public class FormelSammlung {
 			}
 		}
 		
-		ProgAdmin.logger.severe("XmlValue der SKT konnte nicht gefunden werden!");
+		LOG.severe("XmlValue der SKT konnte nicht gefunden werden!");
 		
 		return null;
 	}

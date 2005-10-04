@@ -11,6 +11,7 @@ package org.d3s.alricg.gui.views.talent;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Talent;
@@ -35,6 +36,10 @@ import org.d3s.alricg.store.TextStore;
  * @author V. Strelow
  */
 public class TalentLinkSchema implements ZeilenSchema {
+    
+    /** <code>TalentLinkSchema</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(TalentLinkSchema.class.getName());
+    
 	HeldProzessor prozessor;
 	
 	public enum Ordnung {
@@ -134,7 +139,7 @@ public class TalentLinkSchema implements ZeilenSchema {
 							newValue.toString(), 
 							null);
 			default:
-				ProgAdmin.logger.warning("Case-Fall konnte nicht gefunden werden!");
+				LOG.warning("Case-Fall konnte nicht gefunden werden!");
 		}
 		
 	}

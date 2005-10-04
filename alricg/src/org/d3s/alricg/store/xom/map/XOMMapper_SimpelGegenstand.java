@@ -10,6 +10,7 @@
 package org.d3s.alricg.store.xom.map;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import nu.xom.Attribute;
 import nu.xom.Element;
@@ -17,7 +18,6 @@ import nu.xom.Element;
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.charZusatz.SimpelGegenstand;
 import org.d3s.alricg.controller.CharKomponente;
-import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.store.FactoryFinder;
 
 /**
@@ -28,6 +28,9 @@ import org.d3s.alricg.store.FactoryFinder;
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 class XOMMapper_SimpelGegenstand extends XOMMapper_Gegenstand implements XOMMapper {
+
+    /** <code>XOMMapper_SimpelGegenstand</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(XOMMapper_SimpelGegenstand.class.getName());
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
@@ -44,7 +47,7 @@ class XOMMapper_SimpelGegenstand extends XOMMapper_Gegenstand implements XOMMapp
             try {
                 simpleDing.setAnzahl(Integer.parseInt(attribute.getValue()));
             } catch (NumberFormatException e) {
-                ProgAdmin.logger.log(Level.SEVERE, "String -> int failed " + attribute.getValue(), e);
+                LOG.log(Level.SEVERE, "String -> int failed " + attribute.getValue(), e);
             }
         }
 
@@ -53,27 +56,27 @@ class XOMMapper_SimpelGegenstand extends XOMMapper_Gegenstand implements XOMMapp
         simpleDing.setArt(FactoryFinder.find().getData().getCharKompFromPrefix(art));
 
     }
-    
+
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement, nu.xom.Element)
     public void map(CharElement charElement, Element xmlElement) {
 
         // super mapping
         super.map(charElement, xmlElement);
-        
+
         // my mapping
         final SimpelGegenstand simpleDing = (SimpelGegenstand) charElement;
-        
+
         // TODO This is strange somehow!
         // xmlElement.setLocalName(tagName);
-        
+
         // Schreiben der Anzahl
         final int anzahl = simpleDing.getAnzahl();
         if (anzahl != 1) {
             xmlElement.addAttribute(new Attribute("anzahl", Integer.toString(anzahl)));
         }
-        
+
         // Schreiben der Art
         final CharKomponente art = simpleDing.getArt();
-        xmlElement.addAttribute(new Attribute("art", art.getPrefix()));        
+        xmlElement.addAttribute(new Attribute("art", art.getPrefix()));
     }
 }

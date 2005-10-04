@@ -10,13 +10,13 @@
 package org.d3s.alricg.store.xom.map;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import nu.xom.Attribute;
 import nu.xom.Element;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.charZusatz.SchwarzeGabe;
-import org.d3s.alricg.controller.ProgAdmin;
 
 /**
  * <code>XOMMapper</code> für eine <code>SchwarzeGabe</code>.
@@ -26,6 +26,9 @@ import org.d3s.alricg.controller.ProgAdmin;
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 class XOMMapper_SchwarzeGabe extends XOMMapper_CharElement implements XOMMapper {
+
+    /** <code>XOMMapper_SchwarzeGabe</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(XOMMapper_SchwarzeGabe.class.getName());
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
@@ -43,7 +46,7 @@ class XOMMapper_SchwarzeGabe extends XOMMapper_CharElement implements XOMMapper 
             }
             schwarzeGabe.setKosten(Integer.parseInt(xmlElement.getAttributeValue("kosten")));
         } catch (NumberFormatException exc) {
-            ProgAdmin.logger.log(Level.SEVERE, "String -> int failed", exc);
+            LOG.log(Level.SEVERE, "String -> int failed", exc);
         }
     }
 

@@ -9,6 +9,7 @@
 package org.d3s.alricg.prozessor.generierung;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Eigenschaft;
@@ -39,6 +40,10 @@ import org.d3s.alricg.store.TextStore;
  * @author V. Strelow
  */
 public class EigenschaftBoxGen extends AbstractBoxGen {
+    
+    /** <code>EigenschaftBoxGen</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(EigenschaftBoxGen.class.getName());
+    
     private int eigenschaftGpKosten = 0;
 
     private int eigenschaftTalentGpKosten = 0;
@@ -689,7 +694,7 @@ public class EigenschaftBoxGen extends AbstractBoxGen {
         genLink = this.getEqualLink(link);
 
         if (genLink == null) {
-            ProgAdmin.logger.warning("Konnte Link nicht finden beim Entfernen eines Modis");
+            LOG.warning("Konnte Link nicht finden beim Entfernen eines Modis");
         }
 
         /*

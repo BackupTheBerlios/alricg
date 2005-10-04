@@ -15,8 +15,7 @@ import java.lang.reflect.Constructor;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
-
-import org.d3s.alricg.controller.ProgAdmin;
+import java.util.logging.Logger;
 
 /**
  * Eine Finderklasse zur Auswahl der konkreten <code>AbstractStoreFactory</code>.
@@ -49,6 +48,9 @@ import org.d3s.alricg.controller.ProgAdmin;
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 public final class FactoryFinder {
+    
+    /** <code>FactoryFinder</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(FactoryFinder.class.getName());
 
     /**
      * Die zu verwendende <code>AbstractStoreFactory</code>.
@@ -97,7 +99,7 @@ public final class FactoryFinder {
                 factoryInstance = (AbstractStoreFactory) conny.newInstance(new Object[0]);
             } catch (Exception e) {
                 factoryInstance = null;
-                ProgAdmin.logger.log(Level.SEVERE, "AbstractStoreFactory instantiation failed!", e);
+                LOG.log(Level.SEVERE, "AbstractStoreFactory instantiation failed!", e);
                 throw new ConfigurationException("AbstractStoreFactory instantiation failed!", e);
             }
             factoryInstance.initialize();

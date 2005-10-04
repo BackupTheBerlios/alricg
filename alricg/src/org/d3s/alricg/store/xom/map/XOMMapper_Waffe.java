@@ -11,6 +11,7 @@ package org.d3s.alricg.store.xom.map;
 
 import java.util.ArrayList;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import nu.xom.Attribute;
 import nu.xom.Element;
@@ -20,7 +21,6 @@ import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Talent;
 import org.d3s.alricg.charKomponenten.charZusatz.Waffe;
 import org.d3s.alricg.charKomponenten.charZusatz.WuerfelSammlung;
-import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.store.FactoryFinder;
 
 /**
@@ -31,6 +31,9 @@ import org.d3s.alricg.store.FactoryFinder;
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 abstract class XOMMapper_Waffe extends XOMMapper_Gegenstand implements XOMMapper {
+
+    /** <code>XOMMapper_Waffe</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(XOMMapper_Waffe.class.getName());
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
@@ -81,7 +84,7 @@ abstract class XOMMapper_Waffe extends XOMMapper_Gegenstand implements XOMMapper
                 waffe.setIni(Integer.parseInt(attr.getValue()));
             }
         } catch (NumberFormatException exc) {
-            ProgAdmin.logger.log(Level.SEVERE, "String -> int failed", exc);
+            LOG.log(Level.SEVERE, "String -> int failed", exc);
         }
 
         // Talente, mit denen die Waffe geführt werden kann
@@ -89,7 +92,8 @@ abstract class XOMMapper_Waffe extends XOMMapper_Gegenstand implements XOMMapper
         Talent[] talente = new Talent[children.size()];
         for (int i = 0; i < talente.length; i++) {
             final String value = children.get(i).getValue();
-            talente[i] = (Talent) FactoryFinder.find().getData().getCharElement(value, FactoryFinder.find().getData().getCharKompFromId(value));
+            talente[i] = (Talent) FactoryFinder.find().getData().getCharElement(value,
+                    FactoryFinder.find().getData().getCharKompFromId(value));
         }
         waffe.setTalent(talente);
     }

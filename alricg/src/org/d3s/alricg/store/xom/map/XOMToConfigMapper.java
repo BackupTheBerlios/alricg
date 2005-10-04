@@ -12,11 +12,11 @@ package org.d3s.alricg.store.xom.map;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 import nu.xom.Element;
 import nu.xom.Elements;
 
-import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
 import org.d3s.alricg.store.ConfigStore;
 import org.d3s.alricg.store.ConfigurationException;
@@ -29,6 +29,9 @@ import org.d3s.alricg.store.xom.XOMHelper;
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 public class XOMToConfigMapper {
+
+    /** <code>XOMToConfigMapper</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(XOMToConfigMapper.class.getName());
 
     /** Pfad und Name der Konfigurationsdatei */
     private static final String CONFIG_FILE = "ressourcen/config.xml";
@@ -103,9 +106,9 @@ public class XOMToConfigMapper {
                     }
                 }
             } catch (NumberFormatException e) {
-                ProgAdmin.logger.severe("Konnte Zahlen-String aus SKT nicht in int umwandeln.");
+                LOG.severe("Konnte Zahlen-String aus SKT nicht in int umwandeln.");
             } catch (NullPointerException e) {
-                ProgAdmin.logger.severe("Ein erwarteter XML-Tag der SKT ist nicht vorhanden.");
+                LOG.severe("Ein erwarteter XML-Tag der SKT ist nicht vorhanden.");
             }
             return new XOMConfigStore(result);
         } catch (Exception e) {

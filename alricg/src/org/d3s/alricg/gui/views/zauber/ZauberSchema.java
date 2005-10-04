@@ -20,6 +20,9 @@ import org.d3s.alricg.gui.views.zauber.ZauberSpalten.Spalten;
  *
  */
 public class ZauberSchema implements ZeilenSchema {
+    
+    /** <code>ZauberSchema</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(ZauberSchema.class.getName());
 
 	// Nach was diese Tabelle geordent werden kann
 	public enum Ordnung {
@@ -61,7 +64,7 @@ public class ZauberSchema implements ZeilenSchema {
 		case minus: return SpaltenSchema.buttonValue;
 	}
 	
-	ProgAdmin.logger.severe("Case-Fall konnte nicht gefunden werden!");
+	LOG.severe("Case-Fall konnte nicht gefunden werden!");
 	return null;
 	}
 

@@ -11,6 +11,7 @@ package org.d3s.alricg.gui.views.talent;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.logging.Logger;
 
 import org.d3s.alricg.charKomponenten.Talent;
 import org.d3s.alricg.charKomponenten.links.IdLink;
@@ -19,8 +20,8 @@ import org.d3s.alricg.controller.ImageAdmin;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.gui.komponenten.table.renderer.ImageTextObject;
 import org.d3s.alricg.gui.views.ComparatorCollection;
-import org.d3s.alricg.gui.views.ZeilenSchema;
 import org.d3s.alricg.gui.views.SpaltenSchema;
+import org.d3s.alricg.gui.views.ZeilenSchema;
 import org.d3s.alricg.gui.views.talent.TalentSpalten.Spalten;
 import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
 import org.d3s.alricg.store.FactoryFinder;
@@ -35,6 +36,10 @@ import org.d3s.alricg.store.TextStore;
  * @author V. Strelow
  */
 public class TalentSchema implements ZeilenSchema {
+    
+    /** <code>TalentSchema</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(TalentSchema.class.getName());
+    
 	private static TalentSchema self; // Statischer selbst verweis
 	
 	// Arbeistobjekte, um Parameter zu übergeben. Aus performancegründen 
@@ -135,7 +140,7 @@ public class TalentSchema implements ZeilenSchema {
 			case minus: return SpaltenSchema.buttonValue;
 		}
 		
-		ProgAdmin.logger.warning("Case-Fall konnte nicht gefunden werden!");
+		LOG.warning("Case-Fall konnte nicht gefunden werden!");
 		return null;
 	}
 	
@@ -153,7 +158,7 @@ public class TalentSchema implements ZeilenSchema {
 		case kostenKlasse: return ComparatorCollection.compKostenKlasse;
 		}
 		
-		ProgAdmin.logger.warning("Case-Fall konnte nicht gefunden werden!");
+		LOG.warning("Case-Fall konnte nicht gefunden werden!");
 		return null;
 	}
 	
@@ -219,7 +224,7 @@ public class TalentSchema implements ZeilenSchema {
 			case minus: return lib.getToolTipTxt("TblHeaderMinusButton");
 		}
 		
-		ProgAdmin.logger.severe("Case-Fall konnte nicht gefunden werden!");
+		LOG.severe("Case-Fall konnte nicht gefunden werden!");
 		return null;
 	}
 	

@@ -10,6 +10,7 @@
 package org.d3s.alricg.store.xom.map;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import nu.xom.Attribute;
 import nu.xom.Element;
@@ -20,7 +21,6 @@ import org.d3s.alricg.charKomponenten.Fertigkeit;
 import org.d3s.alricg.charKomponenten.Werte;
 import org.d3s.alricg.charKomponenten.Werte.CharArten;
 import org.d3s.alricg.charKomponenten.links.Voraussetzung;
-import org.d3s.alricg.controller.ProgAdmin;
 
 /**
  * Abstrakter <code>XOMMapper</code> für eine <code>Fertigkeit</code>.
@@ -30,6 +30,9 @@ import org.d3s.alricg.controller.ProgAdmin;
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 abstract class XOMMapper_Fertigkeit extends XOMMapper_CharElement implements XOMMapper {
+
+    /** <code>XOMMapper_Fertigkeit</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(XOMMapper_Fertigkeit.class.getName());
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
@@ -45,7 +48,7 @@ abstract class XOMMapper_Fertigkeit extends XOMMapper_CharElement implements XOM
             try {
                 fertigkeit.setAdditionsWert(Integer.parseInt(current.getAttributeValue("wertigkeit")));
             } catch (NumberFormatException exc) {
-                ProgAdmin.logger.log(Level.SEVERE, "String -> int failed", exc);
+                LOG.log(Level.SEVERE, "String -> int failed", exc);
             }
         }
 
@@ -67,7 +70,7 @@ abstract class XOMMapper_Fertigkeit extends XOMMapper_CharElement implements XOM
             assert current.getValue().equalsIgnoreCase("true") || current.getValue().equalsIgnoreCase("false");
             fertigkeit.setElementAngabe(current.getValue().equalsIgnoreCase("true"));
         }
-        
+
         // Einlesen der vorgeschlagenen Texte
         current = xmlElement.getFirstChildElement("textVorschlaege");
         if (current != null) {
@@ -78,7 +81,6 @@ abstract class XOMMapper_Fertigkeit extends XOMMapper_CharElement implements XOM
             }
             fertigkeit.setTextVorschlaege(textVorschlaege);
         }
-
 
         // Auslesen, ob normal Wählbar oder nur über Herkunft o.ä. zu bekommen
         current = xmlElement.getFirstChildElement("istWaehlbar");
@@ -108,7 +110,7 @@ abstract class XOMMapper_Fertigkeit extends XOMMapper_CharElement implements XOM
         try {
             fertigkeit.setGpKosten(Integer.parseInt(xmlElement.getAttributeValue("gp")));
         } catch (NumberFormatException exc) {
-            ProgAdmin.logger.log(Level.SEVERE, "String -> int failed", exc);
+            LOG.log(Level.SEVERE, "String -> int failed", exc);
         }
     }
 
@@ -142,10 +144,10 @@ abstract class XOMMapper_Fertigkeit extends XOMMapper_CharElement implements XOM
             e.appendChild(fertigkeit.isElementAngabe() ? "true" : "false");
             xmlElement.appendChild(e);
         }
-        
-        final String [] textVorschlaege = fertigkeit.getTextVorschlaege();
+
+        final String[] textVorschlaege = fertigkeit.getTextVorschlaege();
         if (textVorschlaege != null) {
-            final Element e= new Element("textVorschlaege");
+            final Element e = new Element("textVorschlaege");
             xmlElement.appendChild(e);
             for (int i = 0; i < textVorschlaege.length; i++) {
                 final Element ee = new Element("text");
@@ -153,7 +155,6 @@ abstract class XOMMapper_Fertigkeit extends XOMMapper_CharElement implements XOM
                 e.appendChild(ee);
             }
         }
-
 
         // Schreiben, ob das Element normal wählbar ist
         {

@@ -10,6 +10,7 @@
 package org.d3s.alricg.store.xom.map;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import nu.xom.Attribute;
 import nu.xom.Element;
@@ -17,7 +18,6 @@ import nu.xom.Element;
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.VorNachteil;
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
-import org.d3s.alricg.controller.ProgAdmin;
 
 /**
  * Abstrakter <code>XOMMapper</code> für einen <code>VorNachteil</code>.
@@ -27,6 +27,9 @@ import org.d3s.alricg.controller.ProgAdmin;
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 abstract class XOMMapper_VorNachteil extends XOMMapper_Fertigkeit implements XOMMapper {
+
+    /** <code>XOMMapper_VorNachteil</code>'s logger */
+    private static final Logger LOG = Logger.getLogger(XOMMapper_VorNachteil.class.getName());
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
@@ -64,7 +67,7 @@ abstract class XOMMapper_VorNachteil extends XOMMapper_Fertigkeit implements XOM
                 }
             }
         } catch (NumberFormatException exc) {
-            ProgAdmin.logger.log(Level.SEVERE, "String -> int failed", exc);
+            LOG.log(Level.SEVERE, "String -> int failed", exc);
         }
 
         // Auslesen welche Vorteile mit diesem Vor/Nachteil verboten sind
@@ -141,8 +144,8 @@ abstract class XOMMapper_VorNachteil extends XOMMapper_Fertigkeit implements XOM
 
         // Schreiben welche Vorteile verboten sind
         // if ( verbietetVorteil != null ) {
-        // xmlElement.appendChild(verbietetVorteil.writeXmlElement("verbietetVorteil")); } 
-        // Schreiben welche Nachteile verboten sind 
+        // xmlElement.appendChild(verbietetVorteil.writeXmlElement("verbietetVorteil")); }
+        // Schreiben welche Nachteile verboten sind
         // if ( verbietetNachteil != null ) {
         // xmlElement.appendChild(verbietetNachteil.writeXmlElement("verbietetNachteil")); }
         //
