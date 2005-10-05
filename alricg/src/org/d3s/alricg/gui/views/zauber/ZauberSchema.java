@@ -4,12 +4,12 @@
 package org.d3s.alricg.gui.views.zauber;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import javax.swing.Icon;
 
 import org.d3s.alricg.charKomponenten.Zauber;
 import org.d3s.alricg.charKomponenten.Werte.MagieMerkmal;
-import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.gui.views.SpaltenSchema;
 import org.d3s.alricg.gui.views.ZeilenSchema;
 import org.d3s.alricg.gui.views.talent.TalentSpalten;
