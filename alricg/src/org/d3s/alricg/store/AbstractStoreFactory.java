@@ -18,8 +18,14 @@ package org.d3s.alricg.store;
  * <li>ConfigStore: Konfiguration, v.a. für interne Daten.</li>
  * <li>TextStore: lokalisierbare Texte.</li>
  * </ul>
+ * Verhalten/Anforderungen:
+ * <ul>
+ * <li>Eine StoreFactory muss erst nach Aufruf von <code>initialize()</code> nicht-leere Stores zurcükliefern.</li>
+ * <li>Klassen, die dieses Interface implementieren, müssen einen "no argument"-Konstruktor zur Verfügung stellen.</li>
+ * </ul> 
  * </p>
  * 
+ * @see org.d3s.alricg.store.FactoryFinder
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 public interface AbstractStoreFactory {

@@ -11,6 +11,8 @@ package org.d3s.alricg.store;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
@@ -44,11 +46,11 @@ import java.util.logging.Logger;
  * Der Eintrag zum erstne gefundenen Schlüssel, wird als Klassenname interpretiert und versucht über Reflection zu
  * laden. Die Klasse muss das Interface {@link org.d3s.alricg.store.AbstractStoreFactory} implementieren.
  * </p>
- *      
+ * 
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 public final class FactoryFinder {
-    
+
     /** <code>FactoryFinder</code>'s logger */
     private static final Logger LOG = Logger.getLogger(FactoryFinder.class.getName());
 
@@ -71,8 +73,8 @@ public final class FactoryFinder {
     }
 
     /**
-     * Initialisiert die zu verwendende <code>AbstractStoreFactory</code>, sofern das noch nicht geschehen ist und gibt
-     * sie zurück.
+     * Initialisiert die zu verwendende <code>AbstractStoreFactory</code>, sofern das noch nicht geschehen ist und
+     * gibt sie zurück.
      * 
      * @param factoryFile Die Datei aus der die <code>AbstractStoreFactory</code> Implementierung gelesen werden soll.
      * @return Die zu verwendende <code>AbstractStoreFactory</code>.
@@ -87,12 +89,7 @@ public final class FactoryFinder {
             try {
                 String classname = "org.d3s.alricg.store.xom.XOMFactory";
                 if (factoryFile.exists() && factoryFile.canRead()) {
-                    ResourceBundle rb = new PropertyResourceBundle(new FileInputStream(factoryFile));
-                    try {
-                        classname = rb.getString("data.store.factory.impl");
-                    } catch (NullPointerException npe) {
-                        classname = rb.getString("data.store.factory.default");
-                    }
+                    classname = getClassName(factoryFile);
                 }
                 final Class<?> clazz = Class.forName(classname);
                 final Constructor<?> conny = clazz.getConstructor(new Class[0]);
@@ -108,9 +105,22 @@ public final class FactoryFinder {
 
     }
 
+    private static String getClassName(File factoryFile) throws FileNotFoundException, IOException {
+        ResourceBundle rb = new PropertyResourceBundle(new FileInputStream(factoryFile));
+        try {
+            return rb.getString("data.store.factory.impl");
+        } catch (NullPointerException npe) {
+            try {
+                return rb.getString("data.store.factory.default");
+            } catch (NullPointerException npe2) {
+                return "org.d3s.alricg.store.xom.XOMFactory";
+            }
+        }
+    }
+
     /**
-     * Initialisiert die zu verwendende <code>AbstractStoreFactory</code>, sofern das noch nicht geschehen ist und gibt
-     * sie zurück.
+     * Initialisiert die zu verwendende <code>AbstractStoreFactory</code>, sofern das noch nicht geschehen ist und
+     * gibt sie zurück.
      * 
      * @see #init(File)
      * @return Die zu verwendende <code>AbstractStoreFactory</code>.
