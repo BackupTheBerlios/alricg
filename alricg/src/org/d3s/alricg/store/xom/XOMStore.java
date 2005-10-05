@@ -181,10 +181,6 @@ public class XOMStore implements DataStore {
      * Erzeugt einen neuen <code>XOMStore</code>.
      */
     XOMStore() {
-        // Initialiserung der HashMap für schnellen Zugriff auf Komponenten über deren ID
-        for (int i = 0; i < CharKomponente.values().length; i++) {
-            charKompMap.put(CharKomponente.values()[i].getPrefix(), CharKomponente.values()[i]);
-        }
     }
 
     /**
@@ -577,9 +573,6 @@ public class XOMStore implements DataStore {
         }
     }
     
-    void readData(Configuration config) throws ConfigurationException {
-        new XOMToDataMapper().readData(config, this);
-    }
 
     // @see org.d3s.alricg.store.AbstractStoreFactory#storeData()
     public void storeData() throws ConfigurationException {
@@ -609,6 +602,16 @@ public class XOMStore implements DataStore {
         } catch (Exception e) {
             throw new ConfigurationException(e);
         }
+    }
+
+    void init(Configuration config) throws ConfigurationException {
+    	
+    	// Initialiserung der HashMap für schnellen Zugriff auf Komponenten über deren ID
+    	for (int i = 0; i < CharKomponente.values().length; i++) {
+    		charKompMap.put(CharKomponente.values()[i].getPrefix(), CharKomponente.values()[i]);
+    	}
+    	
+    	new XOMToDataMapper().readData(config, this);
     }
 
     /**

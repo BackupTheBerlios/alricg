@@ -49,7 +49,7 @@ public class XOMConfigStore implements ConfigStore {
         return (HashMap<KostenKlasse, Integer[]>) props.get(SKT_KEY);
     }
 
-    void readData() throws ConfigurationException {
+    void init() throws ConfigurationException {
         Properties newProps = new XOMToConfigMapper().readData();
         props.putAll(newProps);
     }

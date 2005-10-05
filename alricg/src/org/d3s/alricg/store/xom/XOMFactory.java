@@ -36,9 +36,8 @@ public final class XOMFactory implements AbstractStoreFactory {
 
     /** Erzeugt eine neue <code>XOMFactory</code>. */
     public XOMFactory() {
-        super();
-        config = new XOMConfigStore();
-        library = new XOMTextStore();
+    	config = new XOMConfigStore();
+    	library = new XOMTextStore();
         data = new XOMStore();
     }
 
@@ -64,9 +63,9 @@ public final class XOMFactory implements AbstractStoreFactory {
         }
         
         // init stores
-        config.readData();
-        library.readData(config.getConfig());
-        data.readData(config.getConfig());        
+        config.init();
+        library.init(config.getConfig());
+        data.init(config.getConfig());        
         initialized = true;
     }
 }

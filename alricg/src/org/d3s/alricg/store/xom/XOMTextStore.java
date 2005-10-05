@@ -99,7 +99,7 @@ public class XOMTextStore implements TextStore {
         return toolTipTxt.get(key);
     }
 
-    void readData(Configuration config) throws ConfigurationException {
+    void init(Configuration config) throws ConfigurationException {
         final XOMToLibraryMapper mappy = new XOMToLibraryMapper();
         final List<Map<String, String>> maps = mappy.readData(config);
         lang = mappy.getLanguage();
