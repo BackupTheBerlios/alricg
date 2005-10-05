@@ -25,9 +25,7 @@ import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.store.ConfigStore;
 import org.d3s.alricg.store.Configuration;
 import org.d3s.alricg.store.ConfigurationException;
-import org.d3s.alricg.store.TextStore;
 import org.d3s.alricg.store.xom.XOMHelper;
-import org.d3s.alricg.store.xom.XOMTextStore;
 
 /**
  * Mapper für lokalisierbare Texte.
@@ -38,37 +36,60 @@ public class XOMToLibraryMapper {
 
     /** <code>XOMToLibraryMapper</code>'s logger */
     private static final Logger LOG = Logger.getLogger(XOMToLibraryMapper.class.getName());
+    
+    /** Sprche der Library */
+    private String language;
+
+    /** 
+     * Gibt die Sprache der Library zurück.
+     * <p>
+     * Erst nach Aufruf von <code>readData(Configuration)</code> leifert diese Mehtode einen sinnvollen Wert.
+     * </p>
+     * @return Die Sprache der Library.
+     */
+    public String getLanguage() {
+        return language;
+    }
 
     /**
-     * Initialisiert einen neuen <code>TextStore</code> auf Basis der Daten in <code>props</code> und gibt ihn
-     * zurück.
+     * Erstellt eine Liste von Text-Tabellen auf Basis der Daten in <code>props</code> und gibt diese zurück.
+     * <p>
+     * Die Reihenfolge der Tabellen in der Liste:
+     * <ol>
+     * <li>kurze Texte</li>
+     * <li>mitellange Texte</li>
+     * <li>lange Texte</li>
+     * <li>Fehlertexte</li>
+     * <li>Tooltiptexte</li>
+     * </p>
      * 
      * @param props Die Konfiguration mit den benötigten Einstellungen
-     * @return Ein neuer <code>TextStore</code>
+     * @return Liste mit den Text-Tabellen
      * @throws ConfigurationException Falls die Konfiguration fehlerhaft ist.
      */
-    public TextStore readData(Configuration props) throws ConfigurationException {
+    public List<Map<String, String>> readData(Configuration props) throws ConfigurationException {
 
         try {
             final Element configRoot = XOMHelper.getRootElementNoLog(new File(props
                     .getProperty(ConfigStore.Key.config_file)));
+            language = configRoot.getFirstChildElement("library").getAttributeValue("lang");
             final String d3sLibDir = props.getProperty(ConfigStore.Key.d3s_library_path);
             final String fileName = configRoot.getFirstChildElement("library").getAttribute("file").getValue();
             final Element element = XOMHelper.getRootElementNoLog(new File(d3sLibDir, fileName));
-            final String language = configRoot.getFirstChildElement("library").getAttributeValue("lang");
             if (element != null) {
 
                 final Element xmlElement = element.getFirstChildElement("library");
                 final List<String> messages = new ArrayList<String>();
-                final Map<String, String> s = read(language, xmlElement.getFirstChildElement("short"), messages);
-                final Map<String, String> m = read(language, xmlElement.getFirstChildElement("middle"), messages);
-                final Map<String, String> l = read(language, xmlElement.getFirstChildElement("long"), messages);
-                final Map<String, String> e = read(language, xmlElement.getFirstChildElement("errorMsg"), messages);
-                final Map<String, String> t = read(language, xmlElement.getFirstChildElement("toolTip"), messages);
+                final List<Map<String, String>> maps = new ArrayList<Map<String, String>>();
+                maps.add(read(language, xmlElement.getFirstChildElement("short"), messages));
+                maps.add(read(language, xmlElement.getFirstChildElement("middle"), messages));
+                maps.add(read(language, xmlElement.getFirstChildElement("long"), messages));
+                maps.add(read(language, xmlElement.getFirstChildElement("errorMsg"), messages));
+                maps.add(read(language, xmlElement.getFirstChildElement("toolTip"), messages));
 
                 if (!messages.isEmpty()) {
-                    LOG.warning("Library-Entries für die Sprache " + language + " mit den keys '"
-                            + messages.toString() + "'" + "konnten nicht gefunden werden.");
+                    LOG.warning("Library-Entries für die Sprache " + language + " mit den keys '" + messages.toString()
+                            + "'" + "konnten nicht gefunden werden.");
 
                     ProgAdmin.messenger.showMessage(Messenger.Level.fehler,
                             "Es konnten nicht alle Texte geladen werden! \n"
@@ -77,9 +98,7 @@ public class XOMToLibraryMapper {
                                     + "im Originalzustand vorliegt. \n" + "\n"
                                     + "Das Programm wird wahrscheinlich nur fehlerhaft funktionieren.");
                 }
-
-                final TextStore library = new XOMTextStore(language, s, m, l, e, t);
-                return library;
+                return maps;
             } else {
 
                 // Fehler ist aufgetreten, Programm wird geschlossen!
@@ -131,4 +150,5 @@ public class XOMToLibraryMapper {
         }
         return result;
     }
+
 }

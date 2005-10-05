@@ -14,9 +14,6 @@ import org.d3s.alricg.store.ConfigStore;
 import org.d3s.alricg.store.ConfigurationException;
 import org.d3s.alricg.store.DataStore;
 import org.d3s.alricg.store.TextStore;
-import org.d3s.alricg.store.xom.map.XOMToConfigMapper;
-import org.d3s.alricg.store.xom.map.XOMToDataMapper;
-import org.d3s.alricg.store.xom.map.XOMToLibraryMapper;
 
 /**
  * <code>AbstractStoreFactory</code> auf Basis des xom-Frameworks.
@@ -26,16 +23,24 @@ import org.d3s.alricg.store.xom.map.XOMToLibraryMapper;
 public final class XOMFactory implements AbstractStoreFactory {
 
     /** Lokalisierte Texte. */
-    private TextStore library;
+    private final XOMTextStore library;
 
     /** alricg-Konfiguration. */
-    private ConfigStore config;
+    private final XOMConfigStore config;
 
     /** Alle Regeln zur Charaktererschaffung. */
-    private DataStore data;
+    private final XOMStore data;
 
     /** Initialisierungsstatus der Factory. */
     private boolean initialized;
+
+    /** Erzeugt eine neue <code>XOMFactory</code>. */
+    public XOMFactory() {
+        super();
+        config = new XOMConfigStore();
+        library = new XOMTextStore();
+        data = new XOMStore();
+    }
 
     // @see org.d3s.alricg.store.AbstractStoreFactory#getData()
     public DataStore getData() {
@@ -57,16 +62,11 @@ public final class XOMFactory implements AbstractStoreFactory {
         if (initialized) {
             return;
         }
-        // init config
-        config = new XOMToConfigMapper().readData();
-
-        // init library
-        library = new XOMToLibraryMapper().readData(config.getConfig());
-
-        // init data
-        data = new XOMStore();
-        new XOMToDataMapper().readData(config.getConfig(), (XOMStore) data);
-
+        
+        // init stores
+        config.readData();
+        library.readData(config.getConfig());
+        data.readData(config.getConfig());        
         initialized = true;
     }
 }

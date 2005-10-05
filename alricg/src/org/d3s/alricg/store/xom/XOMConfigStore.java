@@ -17,6 +17,7 @@ import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
 import org.d3s.alricg.store.ConfigStore;
 import org.d3s.alricg.store.Configuration;
 import org.d3s.alricg.store.ConfigurationException;
+import org.d3s.alricg.store.xom.map.XOMToConfigMapper;
 
 /**
  * <code>ConfigStore</code> auf Basis des xom-Frameworks
@@ -33,11 +34,9 @@ public class XOMConfigStore implements ConfigStore {
 
     /**
      * Erzeugt einen neuen <code>XOMConfigStore</code>
-     * 
-     * @param props Die konfigurationsrelevanten Einstellungen
      */
-    public XOMConfigStore(Properties props) {
-        this.props = props;
+    XOMConfigStore() {
+        this.props = new Properties();
     }
 
     // @see org.d3s.alricg.store.ConfigStore#getConfig()
@@ -48,5 +47,10 @@ public class XOMConfigStore implements ConfigStore {
     // @see org.d3s.alricg.store.ConfigStore#getSkt()
     public Map<KostenKlasse, Integer[]> getSkt() throws ConfigurationException {
         return (HashMap<KostenKlasse, Integer[]>) props.get(SKT_KEY);
+    }
+
+    void readData() throws ConfigurationException {
+        Properties newProps = new XOMToConfigMapper().readData();
+        props.putAll(newProps);
     }
 }

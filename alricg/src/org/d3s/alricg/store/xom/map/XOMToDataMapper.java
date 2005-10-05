@@ -165,14 +165,21 @@ public class XOMToDataMapper {
         // Files auslesen, hier kann eigentlich kein Lade Fehler auftreten,
         // da alle File bereits durch "loadRegleXML" geladen waren!
         final Element[] rootElements = new Element[files.size()];
-        for (int i = 0; i < rootElements.length; i++) {
-            rootElements[i] = XOMHelper.getRootElement(files.get(i));
+        final String[] fileNames = new String[files.size()];
+        try {
+            for (int i = 0; i < rootElements.length; i++) {
+                rootElements[i] = XOMHelper.getRootElement(files.get(i));
+                fileNames[i] = files.get(i).getCanonicalPath();
+            }
+        } catch (IOException ioe) {
+            throw new ConfigurationException("A file does not exist", ioe);
         }
 
         // Erzeuge alle CharElement-Objekte
         for (int i = 0; i < charKomps.length; i++) { // Alle CharKomps...
             final CharKomponente current = charKomps[i];
-            for (int ii = 0; ii < rootElements.length; ii++) { // Für alle Files...
+            for (int ii = 0; ii < files.size(); ii++) { // Für alle Files...
+
                 final Element firstChild = rootElements[ii].getFirstChildElement(current.getKategorie());
 
                 if (firstChild == null) {
@@ -184,11 +191,7 @@ public class XOMToDataMapper {
 
                 // Entscheiden ob initialisierung der Elemente oder mapping der Daten
                 if (init) {
-                    try {
-                        initHelpCharKomponents(kategorien, current, store, files.get(ii).getCanonicalPath());
-                    } catch (IOException ioe) {
-                        throw new ConfigurationException("A file does not exist", ioe);
-                    }
+                    initHelpCharKomponents(kategorien, current, store, fileNames[ii]);
                 } else {
                     mapHelpCharKomponents(kategorien, current, store);
                 }

@@ -10,9 +10,13 @@
 package org.d3s.alricg.store.xom;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.d3s.alricg.store.Configuration;
+import org.d3s.alricg.store.ConfigurationException;
 import org.d3s.alricg.store.TextStore;
+import org.d3s.alricg.store.xom.map.XOMToLibraryMapper;
 
 /**
  * <code>TextStore</code> auf Basis des xom-Frameworks
@@ -25,22 +29,28 @@ public class XOMTextStore implements TextStore {
     private String lang;
 
     /** Kurze Texte */
-    private Map<String, String> shortTxt = new HashMap<String, String>();
+    private final Map<String, String> shortTxt;
 
     /** Mittellange Texte */
-    private Map<String, String> middleTxt = new HashMap<String, String>();
+    private final Map<String, String> middleTxt;
 
     /** Lange Texte */
-    private Map<String, String> longTxt = new HashMap<String, String>();
+    private final Map<String, String> longTxt;
 
     /** Fehlertexte */
-    private Map<String, String> errorMsgTxt = new HashMap<String, String>();
+    private final Map<String, String> errorMsgTxt;
 
     /** Tooltiptexte */
-    private Map<String, String> toolTipTxt = new HashMap<String, String>();
+    private final Map<String, String> toolTipTxt;
+
+    XOMTextStore() {
+        this("", new HashMap<String, String>(), new HashMap<String, String>(), new HashMap<String, String>(),
+                new HashMap<String, String>(), new HashMap<String, String>());
+    }
 
     /**
      * Erzeugt eine neue Instanz mit den angebenenen Tabellen
+     * 
      * @param language Die Sprache
      * @param shortT kurze Texte
      * @param middleT mitellange Texte
@@ -48,8 +58,8 @@ public class XOMTextStore implements TextStore {
      * @param errT Fehlertexte
      * @param ttT ToolTips
      */
-    public XOMTextStore(String language, Map<String, String> shortT,
-            Map<String, String> middleT, Map<String, String> longT, Map<String, String> errT, Map<String, String> ttT) {
+    private XOMTextStore(String language, Map<String, String> shortT, Map<String, String> middleT,
+            Map<String, String> longT, Map<String, String> errT, Map<String, String> ttT) {
 
         lang = language;
         shortTxt = shortT;
@@ -87,6 +97,17 @@ public class XOMTextStore implements TextStore {
     public String getToolTipTxt(String key) {
         assert toolTipTxt.get(key) != null;
         return toolTipTxt.get(key);
+    }
+
+    void readData(Configuration config) throws ConfigurationException {
+        final XOMToLibraryMapper mappy = new XOMToLibraryMapper();
+        final List<Map<String, String>> maps = mappy.readData(config);
+        lang = mappy.getLanguage();
+        shortTxt.putAll(maps.get(0));
+        middleTxt.putAll(maps.get(1));
+        longTxt.putAll(maps.get(2));
+        errorMsgTxt.putAll(maps.get(3));
+        toolTipTxt.putAll(maps.get(4));
     }
 
 }

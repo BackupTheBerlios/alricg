@@ -52,12 +52,12 @@ public class XOMToConfigMapper {
     private static final String USER_DATA_PATH = "ressourcen/userDaten/";
 
     /**
-     * Liest die Daten der Konfigurationsdatei und gibt einen neuen <code>ConfigStore</code> zurück
+     * Liest die Daten der Konfigurationsdatei und gibt sie als <code>Properties</code> zurück
      * 
-     * @return Ein <code>ConfigStore</code> mit den Daten der Konfigurationsdatei.
+     * @return Die Daten der Konfigurationsdatei als Properties.
      * @throws ConfigurationException
      */
-    public ConfigStore readData() throws ConfigurationException {
+    public Properties readData() throws ConfigurationException {
 
         try {
             // Validity check
@@ -110,7 +110,7 @@ public class XOMToConfigMapper {
             } catch (NullPointerException e) {
                 LOG.severe("Ein erwarteter XML-Tag der SKT ist nicht vorhanden.");
             }
-            return new XOMConfigStore(result);
+            return result;
         } catch (Exception e) {
             throw new ConfigurationException(e);
         }

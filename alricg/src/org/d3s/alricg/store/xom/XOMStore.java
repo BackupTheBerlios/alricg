@@ -60,11 +60,13 @@ import org.d3s.alricg.charKomponenten.charZusatz.SchwarzeGabe;
 import org.d3s.alricg.charKomponenten.charZusatz.Tier;
 import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.store.Configuration;
 import org.d3s.alricg.store.ConfigurationException;
 import org.d3s.alricg.store.DataStore;
 import org.d3s.alricg.store.FactoryFinder;
 import org.d3s.alricg.store.KeyExistsException;
 import org.d3s.alricg.store.xom.map.DataToXOMMapper;
+import org.d3s.alricg.store.xom.map.XOMToDataMapper;
 
 /**
  * <code>DataStore</code> auf Basis des xom-Frameworks
@@ -178,7 +180,7 @@ public class XOMStore implements DataStore {
     /**
      * Erzeugt einen neuen <code>XOMStore</code>.
      */
-    public XOMStore() {
+    XOMStore() {
         // Initialiserung der HashMap für schnellen Zugriff auf Komponenten über deren ID
         for (int i = 0; i < CharKomponente.values().length; i++) {
             charKompMap.put(CharKomponente.values()[i].getPrefix(), CharKomponente.values()[i]);
@@ -573,6 +575,10 @@ public class XOMStore implements DataStore {
             LOG.logp(Level.SEVERE, "CharKompAdmin", "initCharKomponents", "Ein CharKomp wurde nicht gefunden: "
                     + charKomp);
         }
+    }
+    
+    void readData(Configuration config) throws ConfigurationException {
+        new XOMToDataMapper().readData(config, this);
     }
 
     // @see org.d3s.alricg.store.AbstractStoreFactory#storeData()
