@@ -7,8 +7,11 @@
 
 package org.d3s.alricg.controller;
 
-import java.util.logging.ConsoleHandler;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.logging.Level;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.d3s.alricg.gui.SplashScreen;
@@ -18,7 +21,8 @@ import org.d3s.alricg.store.FactoryFinder;
 
 /**
  * <b>Beschreibung:</b><br>
- * Verwaltet Progammweite Einstellgrößen wie Pfade zu Dateien. Steuert den Progammstart.
+ * Verwaltet Progammweite Einstellgrößen wie Pfade zu Dateien. Steuert den
+ * Progammstart.
  * 
  * @author V.Strelow
  * @stereotype singelton
@@ -26,71 +30,87 @@ import org.d3s.alricg.store.FactoryFinder;
 public class ProgAdmin {
 
 	// Singeltons
-	private static final Logger LOG = Logger.getLogger(ProgAdmin.class.getName()); // Für Nachrichten aller Art
+	private static final Logger LOG = Logger.getLogger(ProgAdmin.class
+			.getName()); // Für Nachrichten aller Art
 
-	public static Messenger messenger; // Für Nachrichten die Angezeigt werden sollen
-	
+	public static Messenger messenger; // Für Nachrichten die Angezeigt werden
+	// sollen
+
 	public static HeldenAdmin heldenAdmin; // Verwaltung der Helden
-	
-	public static Notepad notepad;
 
+	public static Notepad notepad;
 
 	/**
 	 * 
-	 * @param args An der Stelle "0" ist der Parameter "noScreen" möglich, 
-	 * um eine anzeige des Splash-Screen zu unterdrücken (for allem für Test-Zwecke)
+	 * @param args
+	 *            An der Stelle "0" ist der Parameter "noScreen" möglich, um
+	 *            eine anzeige des Splash-Screen zu unterdrücken (for allem für
+	 *            Test-Zwecke)
 	 */
 	public static void main(String[] args) {
 		final boolean showSplash;
-		
+
 		// Auswerten der Parameter
-		if (args == null  || args.length == 0) {
+		if (args == null || args.length == 0) {
 			showSplash = true;
 		} else if (args[0].equals("noScreen")) {
 			showSplash = false;
 		} else {
 			showSplash = true;
 		}
-		
-        // Logger & Messenger
-        LOG.setUseParentHandlers(false); // disbale default logger
-        LOG.addHandler(new ConsoleHandler());
-        heldenAdmin = new HeldenAdmin();
-        messenger = new Messenger();
-        notepad = new Notepad();
 
-        // SplashScreen
-        final SplashScreen splash = new SplashScreen();
-        splash.setVisible(showSplash);
+		// Logger & Messenger
+		try {
+			final File f = new File("ressourcen/logging.properties");
+			LogManager.getLogManager()
+					.readConfiguration(new FileInputStream(f));
+		} catch (IOException ioe) {
+			LOG.severe("Cannot stup logging correctly!");
+			LOG.throwing(ProgAdmin.class.getName(), "main", ioe);
+		}
+		heldenAdmin = new HeldenAdmin();
+		messenger = new Messenger();
+		notepad = new Notepad();
 
-        // init Programm
-        init();
+		// SplashScreen
+		final SplashScreen splash = new SplashScreen();
+		splash.setVisible(showSplash);
 
-        // Cleanup
-        splash.setVisible(false);
-        splash.prepareDispose(); // Vom Messenger abmelden
-        splash.dispose();
-        System.gc();   
-    }
+		// init Programm
+		init();
 
-    private static final void init() {
-    	
-        try {
-            // Initialize store & factory
-            FactoryFinder.init();
-            LOG.info("Data Store Factory initialisiert...");
-            
-            FormelSammlung.initFormelSanmmlung();
-            
-        } catch (ConfigurationException ce) {
-            LOG.log(Level.SEVERE, "Config Datei konnte nicht geladen werden. Programm beendet.", ce);
-            messenger.showMessage(Messenger.Level.fehler,
-                    "Die Config-Datei konnte nicht geladen werden! Bitte überprüfen sie ob die Datei \n"
-                            + "zugriffsbereit ist und im Orginalzustand vorliegt. \n" + "\n"
-                            + "Das Programm konnte ohne diese Datei nicht gestartet werden \n"
-                            + "und wird nun wieder geschlossen!");
+		// Cleanup
+		splash.setVisible(false);
+		splash.prepareDispose(); // Vom Messenger abmelden
+		splash.dispose();
+		System.gc();
+	}
 
-            System.exit(1); // Programm Beenden
-        }
-    }
+	private static final void init() {
+
+		try {
+			// Initialize store & factory
+			FactoryFinder.init();
+			LOG.info("Data Store Factory initialisiert...");
+
+			FormelSammlung.initFormelSanmmlung();
+
+		} catch (ConfigurationException ce) {
+			LOG
+					.log(
+							Level.SEVERE,
+							"Config Datei konnte nicht geladen werden. Programm beendet.",
+							ce);
+			messenger
+					.showMessage(
+							Messenger.Level.fehler,
+							"Die Config-Datei konnte nicht geladen werden! Bitte überprüfen sie ob die Datei \n"
+									+ "zugriffsbereit ist und im Orginalzustand vorliegt. \n"
+									+ "\n"
+									+ "Das Programm konnte ohne diese Datei nicht gestartet werden \n"
+									+ "und wird nun wieder geschlossen!");
+
+			System.exit(1); // Programm Beenden
+		}
+	}
 }
