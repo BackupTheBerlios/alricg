@@ -264,13 +264,13 @@ public class Profession extends Herkunft {
     }
     
 	/**
-	 * @return Liefert das Attribut varianten.
+	 * @return Die möglichen Varianten zu dieser Profession.
 	 */
 	public ProfessionVariante[] getVarianten() {
 		return varianten;
 	}
 	/**
-	 * @param varianten Setzt das Attribut varianten.
+	 * @param varianten Die möglichen Varianten zu dieser Profession.
 	 */
 	public void setVarianten(ProfessionVariante[] varianten) {
 		this.varianten = varianten;

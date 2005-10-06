@@ -20,51 +20,74 @@ import org.d3s.alricg.charKomponenten.links.IdLinkList;
 public interface HerkunftVariante {
 	
 	/**
-	 * @return Liefert das Attribut entferneElement.
+	 * @return Liste von Elementen die aus der original-Kultur "entfernt" (also nicht beachtet) 
+	 * werden sollen, z.B. SF, Vorteile, Nachteile. 
+	 * KEINE Elemente die in einer Auswahl stehen!.
 	 */
 	public IdLinkList getEntferneElement();
 	
 	/**
-	 * @param entferneElement Setzt das Attribut entferneElement.
+	 * @param entferneElement Liste von Elementen die aus der original-Kultur "entfernt"
+	 * (also nicht beachtet) werden sollen, z.B. SF, Vorteile, Nachteile. 
+	 * KEINE Elemente die in einer Auswahl stehen!.
 	 */
 	public void setEntferneElement(IdLinkList entferneElement);
 	
 	/**
-	 * @return Liefert das Attribut entferneXmlTag.
+	 * @return Liste von XML-Tags die aus der original-Kultur "entfernt" (also nicht beachtet) 
+	 * werden sollen, z.B. "sonderfertigkeiten", "vorteile" (ins Schema schauen für Namen).
+	 * Natürlich soll nicht wirklich etwas aus den CharElement entfernt werden, sondern nur
+	 * nicht übernommen in das neue Objekt.
 	 */
 	public String[] getEntferneXmlTag();
 	
 	/**
-	 * @param entferneXmlTag Setzt das Attribut entferneXmlTag.
+	 * @param entferneXmlTag Liste von XML-Tags die aus der original-Kultur "entfernt" 
+	 * (also nicht beachtet) werden sollen, z.B. "sonderfertigkeiten", "vorteile" 
+	 * (ins Schema schauen für Namen) atürlich soll nicht wirklich etwas aus den 
+	 * CharElement entfernt werden, sondern nur nicht übernommen in das neue Objekt
 	 */
 	public void setEntferneXmlTag(String[] entferneXmlTag);
 	
-	/**
-	 * @return Liefert das Attribut isMultibel.
+	/** Gibt an ob diese Varante mit anderen Varianten zusammen gewählt werden kann.
+	 * @return true - Diese Variante kann zusätzlich zu anderen gewählt werden, 
+	 * ansonsten false
 	 */
 	public boolean isMultibel();
 	
-	/**
-	 * @param isMultibel Setzt das Attribut isMultibel.
+	/** Gibt an ob diese Varante mit anderen Varianten zusammen gewählt werden kann.
+	 * Ob immer nur eine Variante aktiv sein kann, oder mehrere gleichzeitig.
+	 * @param isMultibel true - Diese Variante kann zusätzlich zu anderen gewählt werden, 
+	 * ansonsten false
 	 */
 	public void setMultibel(boolean isMultibel);
 	
 	/**
-	 * @return Liefert das Attribut varianteVon.
+	 * @return Die Herkunft, von der diese "abstammt". Kann auch wiederum eine Variante sein.
 	 */
 	public Herkunft getVarianteVon();
 	
 	/**
-	 * @param varianteVon Setzt das Attribut varianteVon.
+	 * @param varianteVon Die Herkunft, von der diese "abstammt". Kann auch wiederum eine Variante sein.
 	 */
 	public void setVarianteVon(Herkunft varianteVon);
 	
 	/**
-	 * @return Liefert das Attribut isAdditionsVariante.
+	 * Bei einer AdditionsVariante (=true) werden alle Werte/ Elemente der Varinate zu der 
+	 * original-Kultur hinzugefügt (mit den entfernten Elementen). 
+	 * Eine NICHT AdditionsVariante (=false) ist eine eigenständige Kultur ohne Abhängigkeiten, 
+	 * von der "original-Rasse". Alle nötigen angaben sind dementsprechend enthalten.
+	 * true - Es ist eine AdditionsVariante, ansonsten false 
+	 * @return true - diese Variante ist eine additionsvariante, ansonsten false.
 	 */
 	public boolean isAdditionsVariante();
 	
 	/**
+	 * Bei einer AdditionsVariante (=true) werden alle Werte/ Elemente der Varinate zu der 
+	 * original-Kultur hinzugefügt (mit den entfernten Elementen). 
+	 * Eine NICHT AdditionsVariante (=false) ist eine eigenständige Kultur ohne Abhängigkeiten, 
+	 * von der "original-Rasse". Alle nötigen angaben sind dementsprechend enthalten.
+	 * true - Es ist eine AdditionsVariante, ansonsten false 
 	 * @param isAdditionsVariante Setzt das Attribut isAdditionsVariante.
 	 */
 	public void setAdditionsVariante(boolean isAdditionsVariante);

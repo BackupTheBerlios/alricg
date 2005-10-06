@@ -167,12 +167,14 @@ public class Kultur extends Herkunft {
 		this.zweitsprache = zweitsprache;
 	}
 	/**
+	 * Die möglichen Varianten zu dieser Kultur
 	 * @return Liefert das Attribut varianten.
 	 */
 	public KulturVariante[] getVarianten() {
 		return varianten;
 	}
 	/**
+	 * Die möglichen Varianten zu dieser Kultur
 	 * @param varianten Setzt das Attribut varianten.
 	 */
 	public void setVarianten(KulturVariante[] varianten) {
