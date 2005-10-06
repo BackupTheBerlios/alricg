@@ -21,7 +21,6 @@ import org.d3s.alricg.charKomponenten.Kultur;
  * @author V. Strelow
  */
 public class ZweiWeltenKultur extends Kultur {
-	private ZweiWeltenUtil herkunft;
 	private Kultur kulturEins;
 	private Kultur kulturZwei;
 	

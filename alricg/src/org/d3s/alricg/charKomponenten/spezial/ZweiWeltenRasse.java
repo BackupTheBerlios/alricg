@@ -8,7 +8,8 @@
  */
 package org.d3s.alricg.charKomponenten.spezial;
 
-import org.d3s.alricg.charKomponenten.Rasse;;
+import org.d3s.alricg.charKomponenten.Rasse;import org.d3s.alricg.charKomponenten.charZusatz.WuerfelSammlung;
+;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -21,7 +22,6 @@ import org.d3s.alricg.charKomponenten.Rasse;;
  * @author V. Strelow
  */
 public class ZweiWeltenRasse extends Rasse {
-	private ZweiWeltenUtil herkunft;
 	private Rasse rasseEins;
 	private Rasse rasseZwei;
 	
@@ -38,7 +38,7 @@ public class ZweiWeltenRasse extends Rasse {
 		this.rasseZwei = rasseZwei;
 		
 	}
-	
+
 	/* TODO implement!
 	 * 
 	 * - Das meißte sollte über die Setter erledigt werden können, ohne Methoden 
