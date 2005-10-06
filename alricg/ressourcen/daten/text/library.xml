@@ -171,6 +171,104 @@
         <e lang="EN">Base Ranged Value</e>
       </entry>
 
+<!-- *************** Werte für CharKomponenten ********************************** --> 		
+      <entry key="RAS">
+        <e lang="DE">Rasse</e>
+	  </entry>
+      <entry key="KUL">
+        <e lang="DE">Kultur</e>
+      </entry>
+      <entry key="PRO">
+        <e lang="DE">Profession</e>
+      </entry>
+	  <entry key="RAV">
+        <e lang="DE">Rassen Variante</e>
+      </entry>
+      <entry key="KUV">
+        <e lang="DE">Kultur Variante</e>
+	  </entry>
+      <entry key="PRV">
+        <e lang="DE">Profession Variante</e>
+      </entry>	
+      <entry key="ZPR">
+        <e lang="DE">Zusatzprofession</e>
+      </entry>
+	  <entry key="VOR">
+        <e lang="DE">Vorteil</e>
+      </entry>
+      <entry key="GAB">
+        <e lang="DE">Gabe</e>
+	  </entry>
+      <entry key="NAC">
+        <e lang="DE">Nachteil</e>
+      </entry>
+      <entry key="SF">
+        <e lang="DE">Sonderfertigkeit</e>
+      </entry>
+	  <entry key="LRK">
+        <e lang="DE">RitualKenntnise</e>
+      </entry>
+      <entry key="TAL">
+        <e lang="DE">Talent</e>
+      </entry>
+	  <entry key="SPR">
+        <e lang="DE">Sprache</e>
+      </entry>
+      <entry key="SFT">
+        <e lang="DE">Schrift</e>
+	  </entry>
+      <entry key="ZAU">
+        <e lang="DE">Zauber</e>
+      </entry>
+      <entry key="LIT">
+        <e lang="DE">Liturgie</e>
+      </entry>
+	  <entry key="RIT">
+        <e lang="DE">Ritual</e>
+      </entry>				
+      <entry key="AUS">
+        <e lang="DE">Ausrüstung</e>
+      </entry>
+      <entry key="FAH">
+        <e lang="DE">Fahrzeug</e>
+      </entry>
+	  <entry key="NKW">
+        <e lang="DE">Nahkampfwaffe</e>
+      </entry>
+      <entry key="FKW">
+        <e lang="DE">Fernkampfwaffe</e>
+      </entry>
+      <entry key="RUE">
+        <e lang="DE">Rüstung</e>
+      </entry>
+	  <entry key="SLD">
+        <e lang="DE">Schild</e>
+      </entry>
+      <entry key="DAE">
+        <e lang="DE">Dämonenpakt</e>
+      </entry>
+      <entry key="SGA">
+        <e lang="DE">Schwarze Gabe</e>
+      </entry>
+	  <entry key="TIE">
+        <e lang="DE">Tier</e>
+      </entry>
+	  <entry key="REG">
+        <e lang="DE">Region</e>
+      </entry>
+      <entry key="GOT">
+        <e lang="DE">Gottheit</e>
+      </entry>
+      <entry key="REP">
+        <e lang="DE">Repräsentation</e>
+      </entry>
+	  <entry key="EIG">
+        <e lang="DE">Eigenschaft</e>
+      </entry>
+	  <entry key="SR">
+        <e lang="DE">Sonderregel</e>
+      </entry>
+		
 <!-- *************** Werte für Talent Enums **********************************  -->
       <entry key="kampf">
         <e lang="DE">Kampf</e>
@@ -555,6 +653,9 @@
         <e lang="DE">Verzeichnis zur besseren Ordnung der Elemente</e>
         <e lang="EN">Directory for ordering the elements</e>
       </entry>
+	  <entry key="TblTalentModisKeine">
+        <e lang="DE">Kein Modifikationen vorhanden</e>
+      </entry>
       
 <!-- **************************** ToolTips für Talente******************************* -->
       
@@ -570,7 +671,19 @@
         <e lang="DE">Spezialtalente können durch intensive Beschäftigung gelernt werden</e>
         <e lang="EN">Special abilities can be learnt through intensive experience</e>
       </entry>
-    
+	  <entry key="TblTalentLeitwertTrue">
+        <e lang="DE">Dieses Talent ist ein Leittalent (nur für "Elfische Weltsicht" wichtig)</e>
+      </entry>
+	  <entry key="TblTalentLeitwertFalse">
+        <e lang="DE">Dieses Talent ist KEIN Leittalent (nur für "Elfische Weltsicht" wichtig)</e>
+      </entry>		
+      <entry key="TblTalentSpeziKeine">
+        <e lang="DE">Keine Spezialisierungen vorhanden für dieses Talent</e>
+      </entry>		
+      <entry key="TblTalentSpezi">
+        <e lang="DE">Zeigt die Spezialisierungen für dieses Talent an</e>
+      </entry>			
+		
     
 <!-- **************************** Tabellen-Überschriften ******************************* -->
       <entry key="TblHeaderName">
