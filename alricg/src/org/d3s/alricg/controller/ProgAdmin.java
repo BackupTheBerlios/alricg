@@ -93,7 +93,7 @@ public class ProgAdmin {
 			FactoryFinder.init();
 			LOG.info("Data Store Factory initialisiert...");
 
-			FormelSammlung.initFormelSanmmlung();
+			FormelSammlung.initFormelSammlung();
 
 		} catch (ConfigurationException ce) {
 			LOG

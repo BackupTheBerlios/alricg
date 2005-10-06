@@ -98,6 +98,11 @@ public class XOMTextStore implements TextStore {
         assert toolTipTxt.get(key) != null;
         return toolTipTxt.get(key);
     }
+    
+    // @see org.d3s.alricg.store.TextStore#getLanguage()
+    public String getLanguage() {
+    	return lang;
+    }
 
     void init(Configuration config) throws ConfigurationException {
         final XOMToLibraryMapper mappy = new XOMToLibraryMapper();

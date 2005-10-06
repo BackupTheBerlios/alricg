@@ -12,12 +12,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import javax.sql.DataSource;
+
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.controller.Messenger;
 import org.d3s.alricg.controller.Notepad;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.store.ConfigStore;
 import org.d3s.alricg.store.ConfigurationException;
+import org.d3s.alricg.store.DataStore;
 import org.d3s.alricg.store.FactoryFinder;
 import org.d3s.alricg.store.TextStore;
 
@@ -103,12 +106,13 @@ public class FormelSammlung {
     	sehrGuterLehrmeister // ein Spalte leichter
     }
     
-    public static void initFormelSanmmlung() {
+    public static void initFormelSammlung() {
 
         final TextStore lib = FactoryFinder.find().getLibrary();
         final ConfigStore config= FactoryFinder.find().getConfiguration();
+        final DataStore data = FactoryFinder.find().getData();
     	try {
-    		skt = config.getSkt(); 
+    		skt = data.getSkt(); 
     	} catch (ConfigurationException ex) {
             LOG.severe(ex.getMessage());
             ProgAdmin.messenger.showMessage(Messenger.Level.fehler, 

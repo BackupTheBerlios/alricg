@@ -60,6 +60,7 @@ import org.d3s.alricg.charKomponenten.charZusatz.SchwarzeGabe;
 import org.d3s.alricg.charKomponenten.charZusatz.Tier;
 import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
 import org.d3s.alricg.store.Configuration;
 import org.d3s.alricg.store.ConfigurationException;
 import org.d3s.alricg.store.DataStore;
@@ -176,6 +177,9 @@ public class XOMStore implements DataStore {
 
     /** Zusätzliche Professionen */
     private final Map<String, ZusatzProfession> zusatzProfMap = new HashMap<String, ZusatzProfession>();
+    
+    /** Steigerungskostentabelle */
+    private final Map<KostenKlasse, Integer[]> skt = new HashMap<KostenKlasse, Integer[]>();
 
     /**
      * Erzeugt einen neuen <code>XOMStore</code>.
@@ -240,10 +244,6 @@ public class XOMStore implements DataStore {
 
     /**
      * Ermöglicht den lesenden Zugriff auf die Map mit den charKomponenten.
-     * <p>
-     * Bemerkung: Durch die Konstruktion <code>Map&lt;String, ? extends CharElement&gt;</code> kann kein Element zu
-     * einer <code>map</code> hinzugefügt werden.
-     * </p>
      * 
      * @param charKomp Die CharKomponente zu der die HashMap zurückgegeben werden soll
      * @return HashMap mit allen Elementen zu dieser CharKomponente
@@ -253,77 +253,77 @@ public class XOMStore implements DataStore {
         switch (charKomp) {
         // >>>>>>>>>>>>>>> Herkunft
         case rasse:
-            return rasseMap;
+            return Collections.unmodifiableMap(rasseMap);
         case kultur:
-            return kulturMap;
+            return Collections.unmodifiableMap(kulturMap);
         case profession:
-            return professionMap;
+            return Collections.unmodifiableMap(professionMap);
         case rasseVariante:
-            return rasseVarianteMap;
+            return Collections.unmodifiableMap(rasseVarianteMap);
         case kulturVariante:
-            return kulturVarianteMap;
+            return Collections.unmodifiableMap(kulturVarianteMap);
         case professionVariante:
-            return professionVarianteMap;
+            return Collections.unmodifiableMap(professionVarianteMap);
         case zusatzProfession:
-            return zusatzProfMap;
+            return Collections.unmodifiableMap(zusatzProfMap);
 
         // >>>>>>>>>>>>>>> Fertigkeiten & Fähigkeiten
         case vorteil:
-            return vorteilMap;
+            return Collections.unmodifiableMap(vorteilMap);
         case gabe:
             return gabeMap;
         case nachteil:
-            return nachteilMap;
+            return Collections.unmodifiableMap(nachteilMap);
         case sonderfertigkeit:
-            return sonderfMap;
+            return Collections.unmodifiableMap(sonderfMap);
         case ritLitKenntnis:
-            return ritLitKentMap;
+            return Collections.unmodifiableMap(ritLitKentMap);
         case talent:
-            return talentMap;
+            return Collections.unmodifiableMap(talentMap);
         case zauber:
-            return zauberMap;
+            return Collections.unmodifiableMap(zauberMap);
 
         // >>>>>>>>>>>>>>> Sprachen
         case sprache:
-            return spracheMap;
+            return Collections.unmodifiableMap(spracheMap);
         case schrift:
-            return schriftMap;
+            return Collections.unmodifiableMap(schriftMap);
 
         // >>>>>>>>>>>>>>> Götter
         case liturgie:
-            return liturgieMap;
+            return Collections.unmodifiableMap(liturgieMap);
         case ritual:
-            return ritualMap;
+            return Collections.unmodifiableMap(ritualMap);
 
         // >>>>>>>>>>>>>>> Ausrüstung
         case ausruestung:
-            return ausruestungMap;
+            return Collections.unmodifiableMap(ausruestungMap);
         case fahrzeug:
-            return fahrzeugMap;
+            return Collections.unmodifiableMap(fahrzeugMap);
         case waffeNk:
-            return waffeNkMap;
+            return Collections.unmodifiableMap(waffeNkMap);
         case waffeFk:
-            return waffeFkMap;
+            return Collections.unmodifiableMap(waffeFkMap);
         case ruestung:
-            return ruestungMap;
+            return Collections.unmodifiableMap(ruestungMap);
         case schild:
-            return schildMap;
+            return Collections.unmodifiableMap(schildMap);
 
         // >>>>>>>>>>>>>>> Zusätzliches
         case daemonenPakt:
-            return daemonenPaktMap;
+            return Collections.unmodifiableMap(daemonenPaktMap);
         case schwarzeGabe:
-            return schwarzeGabeMap;
+            return Collections.unmodifiableMap(schwarzeGabeMap);
         case tier:
-            return tierMap;
+            return Collections.unmodifiableMap(tierMap);
         case region:
-            return regionMap;
+            return Collections.unmodifiableMap(regionMap);
         case gottheit:
-            return gottheitMap;
+            return Collections.unmodifiableMap(gottheitMap);
         case repraesentation:
-            return repraesentMap;
+            return Collections.unmodifiableMap(repraesentMap);
         case eigenschaft:
-            return eigenschaftMap;
+            return Collections.unmodifiableMap(eigenschaftMap);
 
         // >>>>>>>>>>>>>>> DEFAULT
         default:
@@ -338,6 +338,11 @@ public class XOMStore implements DataStore {
      */
     public Map<String, List<String>> getOrigin() {
         return origin;
+    }
+
+    // @see org.d3s.alricg.store.DataStore#getSkt()
+    public Map<KostenKlasse, Integer[]> getSkt() throws ConfigurationException {
+    	return Collections.unmodifiableMap(skt);
     }
 
     // @see org.d3s.alricg.store.DataStore#getUnmodifieableCollection(org.d3s.alricg.controller.CharKomponente)
@@ -611,7 +616,9 @@ public class XOMStore implements DataStore {
     		charKompMap.put(CharKomponente.values()[i].getPrefix(), CharKomponente.values()[i]);
     	}
     	
-    	new XOMToDataMapper().readData(config, this);
+    	final XOMToDataMapper mappy = new XOMToDataMapper();
+    	mappy.readData(config, this);
+    	skt.putAll(mappy.skt(config));
     }
 
     /**
@@ -628,4 +635,5 @@ public class XOMStore implements DataStore {
             throw new KeyExistsException("Der Schlüssel " + key + " wird bereits verwendet");
         }
     }
+
 }

@@ -16,6 +16,11 @@ package org.d3s.alricg.store;
  */
 public interface TextStore {
 
+	/**
+	 * Gibt die Sprache des <cocde>TestStore</code>'s zurück.
+	 */
+	String getLanguage();
+	
     /**
      * Gibt einen zu <code>key</code> gehörigen, kurzen Text (ein Wort) zurück.
      * @param key Der Schlüssel des gesuchten Textes

@@ -9,11 +9,8 @@
 
 package org.d3s.alricg.store.xom;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
-import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
 import org.d3s.alricg.store.ConfigStore;
 import org.d3s.alricg.store.Configuration;
 import org.d3s.alricg.store.ConfigurationException;
@@ -26,31 +23,23 @@ import org.d3s.alricg.store.xom.map.XOMToConfigMapper;
  */
 public class XOMConfigStore implements ConfigStore {
 
-    /** Key in der Konfiguration für die Steigerungskostentabelle */
-    public static final String SKT_KEY = "alricg.internal.skt";
+	/** Speichert die konfigurationsrelevanten Einstellungen */
+	private final Properties props;
 
-    /** Speichert die konfigurationsrelevanten Einstellungen */
-    private final Properties props;
+	/**
+	 * Erzeugt einen neuen <code>XOMConfigStore</code>
+	 */
+	XOMConfigStore() {
+		this.props = new Properties();
+	}
 
-    /**
-     * Erzeugt einen neuen <code>XOMConfigStore</code>
-     */
-    XOMConfigStore() {
-        this.props = new Properties();
-    }
+	// @see org.d3s.alricg.store.ConfigStore#getConfig()
+	public Configuration getConfig() {
+		return new Configuration(props);
+	}
 
-    // @see org.d3s.alricg.store.ConfigStore#getConfig()
-    public Configuration getConfig() {
-        return new Configuration(props);
-    }
-
-    // @see org.d3s.alricg.store.ConfigStore#getSkt()
-    public Map<KostenKlasse, Integer[]> getSkt() throws ConfigurationException {
-        return (HashMap<KostenKlasse, Integer[]>) props.get(SKT_KEY);
-    }
-
-    void init() throws ConfigurationException {
-        Properties newProps = new XOMToConfigMapper().readData();
-        props.putAll(newProps);
-    }
+	void init() throws ConfigurationException {
+		Properties newProps = new XOMToConfigMapper().readData();
+		props.putAll(newProps);
+	}
 }
