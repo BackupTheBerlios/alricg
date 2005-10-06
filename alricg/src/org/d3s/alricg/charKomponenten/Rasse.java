@@ -98,7 +98,7 @@ public class Rasse extends Herkunft {
     public int getGroesseZufall() {
         return groesseWuerfel.getWuerfelWurf();
     }
-
+    
     /**
      * @return Liefert das Attribut groesseWuerfel.
      */
@@ -116,7 +116,7 @@ public class Rasse extends Herkunft {
     public int getAlterZufall() {
         return alterWuerfel.getWuerfelWurf();
     }
-
+    
     /**
      * @return Liefert das Attribut alterWuerfel.
      */
@@ -188,13 +188,13 @@ public class Rasse extends Herkunft {
     }
     
 	/**
-	 * @return Liefert das Attribut varianten.
+	 * @return Die möglichen Varianten zu dieser Rasse.
 	 */
 	public RasseVariante[] getVarianten() {
 		return varianten;
 	}
 	/**
-	 * @param varianten Setzt das Attribut varianten.
+	 * @param varianten Die möglichen Varianten zu dieser Rasse
 	 */
 	public void setVarianten(RasseVariante[] varianten) {
 		this.varianten = varianten;
