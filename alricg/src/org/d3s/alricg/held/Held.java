@@ -55,6 +55,11 @@ public class Held {
 	private String herkunft;
 	private String beschreibung;
 
+	// Infos ünber den Werdegang des Helden
+	private boolean isAbgebrocheAusbildung;
+	private boolean isKindZweiterWeltenRas;
+	private boolean isKindZweiterWeltenKul;
+	
 	// Alle CharElemente des Helden, nach Komponeten Sortiert
 	private HashMap<CharKomponente, AbstractBoxGen> boxenHash;
 	
@@ -299,6 +304,60 @@ public class Held {
 		}
 
 	}
+
+	/**
+	 * @return Liefert das Attribut isAbgebrocheAusbildung.
+	 */
+	public boolean isAbgebrocheAusbildung() {
+		return isAbgebrocheAusbildung;
+	}
+
+	/**
+	 * @param isAbgebrocheAusbildung Setzt das Attribut isAbgebrocheAusbildung.
+	 */
+	public void setAbgebrocheAusbildung(boolean isAbgebrocheAusbildung) {
+		this.isAbgebrocheAusbildung = isAbgebrocheAusbildung;
+	}
+
+	/**
+	 * @return Liefert das Attribut isKindZweiterWeltenKul.
+	 */
+	public boolean isKindZweiterWeltenKul() {
+		return isKindZweiterWeltenKul;
+	}
+
+	public boolean isVeteran() {
+		// TODO implement
+		return false;
+	}
+	
+	public boolean isBreitgefaecherteBildung()  {
+		// TODO implement
+		return false;
+	}
+	
+	/**
+	 * @param isKindZweiterWeltenKul Setzt das Attribut isKindZweiterWeltenKul.
+	 */
+	public void setKindZweiterWeltenKul(boolean isKindZweiterWeltenKul) {
+		this.isKindZweiterWeltenKul = isKindZweiterWeltenKul;
+	}
+
+	/**
+	 * @return Liefert das Attribut isKindZweiterWeltenRas.
+	 */
+	public boolean isKindZweiterWeltenRas() {
+		return isKindZweiterWeltenRas;
+	}
+
+	/**
+	 * @param isKindZweiterWeltenRas Setzt das Attribut isKindZweiterWeltenRas.
+	 */
+	public void setKindZweiterWeltenRas(boolean isKindZweiterWeltenRas) {
+		this.isKindZweiterWeltenRas = isKindZweiterWeltenRas;
+	}
+	
+	
 	
 	/**
 	 * Ermöglicht einen einfachen Zugriff auf die Links zu den Eigenschaften (alle die in 
