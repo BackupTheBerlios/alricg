@@ -64,17 +64,48 @@ public class WuerfelSammlung {
 	}
 	
 	/**
+	 * @return Liefert den minimal möglichen Wert (also wenn alle Würfel eine "1" Zeigen)
+	 */
+	public int getMinWurf() {
+		int tmpInt = festWert;
+		
+		for (int i1 = 0; i1 < anzahlWuerfel.length; i1++) {
+			for (int i2 = 0; i2 < anzahlWuerfel[i1]; i2++) {
+				tmpInt++;
+			}
+		}
+		return tmpInt;
+	}
+	
+	/**
+	 * @return Liefert den maximal möglichen Wert (also wenn alle Würfel den höchsten Wert zeigen)
+	 */
+	public int getMaxWurf() {
+		int tmpInt = festWert;
+		
+		for (int i1 = 0; i1 < anzahlWuerfel.length; i1++) {
+			for (int i2 = 0; i2 < anzahlWuerfel[i1]; i2++) {
+				tmpInt += augenWuerfel[i1];
+			}
+		}
+		
+		return tmpInt;
+	}
+	
+	/**
 	 * @return Liefert das Attribut anzahlWuerfel.
 	 */
 	public int[] getAnzahlWuerfel() {
 		return anzahlWuerfel;
 	}
+	
 	/**
 	 * @return Liefert das Attribut augenWuerfel.
 	 */
 	public int[] getAugenWuerfel() {
 		return augenWuerfel;
 	}
+	
 	/**
 	 * @return Liefert das Attribut festWert.
 	 */
