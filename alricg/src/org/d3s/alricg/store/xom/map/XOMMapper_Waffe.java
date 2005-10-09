@@ -30,129 +30,145 @@ import org.d3s.alricg.store.FactoryFinder;
  * @see org.d3s.alricg.charKomponenten.charZusatz.Waffe
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-abstract class XOMMapper_Waffe extends XOMMapper_Gegenstand implements XOMMapper {
+abstract class XOMMapper_Waffe extends XOMMapper_Gegenstand implements
+		XOMMapper {
 
-    /** <code>XOMMapper_Waffe</code>'s logger */
-    private static final Logger LOG = Logger.getLogger(XOMMapper_Waffe.class.getName());
+	/** <code>XOMMapper_Waffe</code>'s logger */
+	private static final Logger LOG = Logger.getLogger(XOMMapper_Waffe.class
+			.getName());
 
-    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
-    public void map(Element xmlElement, CharElement charElement) {
+	// @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element,
+	// org.d3s.alricg.charKomponenten.CharElement)
+	public void map(Element xmlElement, CharElement charElement) {
 
-        super.map(xmlElement, charElement);
+		super.map(xmlElement, charElement);
 
-        // my mapping
-        final Waffe waffe = (Waffe) charElement;
+		// my mapping
+		final Waffe waffe = (Waffe) charElement;
 
-        // Trefferpunkte
-        try {
-            Element child = xmlElement.getFirstChildElement("tp");
-            final ArrayList<Integer> arrayAugen = new ArrayList<Integer>(1);
-            final ArrayList<Integer> arrayWuerfel = new ArrayList<Integer>(1);
-            if (child != null) {
-                Attribute attr = child.getAttribute("W6");
-                if (attr != null) {
-                    arrayWuerfel.add(Integer.valueOf(attr.getValue()));
-                    arrayAugen.add(6);
-                }
-                attr = child.getAttribute("W20");
-                if (attr != null) {
-                    arrayWuerfel.add(Integer.valueOf(attr.getValue()));
-                    arrayAugen.add(20);
-                }
+		// Trefferpunkte
+		try {
+			Element child = xmlElement.getFirstChildElement("tp");
+			final ArrayList<Integer> arrayAugen = new ArrayList<Integer>(1);
+			final ArrayList<Integer> arrayWuerfel = new ArrayList<Integer>(1);
+			if (child != null) {
+				Attribute attr = child.getAttribute("W6");
+				if (attr != null) {
+					arrayWuerfel.add(Integer.valueOf(attr.getValue()));
+					arrayAugen.add(6);
+				}
+				attr = child.getAttribute("W20");
+				if (attr != null) {
+					arrayWuerfel.add(Integer.valueOf(attr.getValue()));
+					arrayAugen.add(20);
+				}
 
-                int[] augenAugen = new int[arrayAugen.size()];
-                int[] augenWuerfel = new int[arrayWuerfel.size()];
-                for (int i = 0; i < arrayWuerfel.size(); i++) {
-                    augenAugen[i] = arrayAugen.get(i);
-                    augenWuerfel[i] = arrayWuerfel.get(i);
-                }
+				int[] augenAugen = new int[arrayAugen.size()];
+				int[] augenWuerfel = new int[arrayWuerfel.size()];
+				for (int i = 0; i < arrayWuerfel.size(); i++) {
+					augenAugen[i] = arrayAugen.get(i);
+					augenWuerfel[i] = arrayWuerfel.get(i);
+				}
 
-                final int plus = Integer.parseInt(child.getAttributeValue("plus"));
-                waffe.setTP(new WuerfelSammlung(plus, augenWuerfel, augenAugen));
-            }
+				final int plus = Integer.parseInt(child
+						.getAttributeValue("plus"));
+				waffe
+						.setTP(new WuerfelSammlung(plus, augenWuerfel,
+								augenAugen));
+			}
 
-            // Länge
-            child = xmlElement.getFirstChildElement("eigenschaften");
-            Attribute attr = child.getAttribute("laenge");
-            if (child != null && attr != null) {
-                waffe.setLaenge(Integer.parseInt(attr.getValue()));
-            }
+			// Länge
+			child = xmlElement.getFirstChildElement("eigenschaften");
+			if (child != null) {
+				Attribute attr = child.getAttribute("laenge");
 
-            // ini
-            attr = child.getAttribute("ini");
-            if (child != null && attr != null) {
-                waffe.setIni(Integer.parseInt(attr.getValue()));
-            }
-        } catch (NumberFormatException exc) {
-            LOG.log(Level.SEVERE, "String -> int failed", exc);
-        }
+				if (attr != null) {
+					waffe.setLaenge(Integer.parseInt(attr.getValue()));
+				}
 
-        // Talente, mit denen die Waffe geführt werden kann
-        Elements children = xmlElement.getChildElements("talentId");
-        Talent[] talente = new Talent[children.size()];
-        for (int i = 0; i < talente.length; i++) {
-            final String value = children.get(i).getValue();
-            talente[i] = (Talent) FactoryFinder.find().getData().getCharElement(value,
-                    FactoryFinder.find().getData().getCharKompFromId(value));
-        }
-        waffe.setTalent(talente);
-    }
+				// ini
+				attr = child.getAttribute("ini");
+				if (child != null && attr != null) {
+					waffe.setIni(Integer.parseInt(attr.getValue()));
+				}
+			}
+		} catch (NumberFormatException exc) {
+			LOG.log(Level.SEVERE, "String -> int failed", exc);
+		}
 
-    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement, nu.xom.Element)
-    public void map(CharElement charElement, Element xmlElement) {
-        super.map(charElement, xmlElement);
+		// Talente, mit denen die Waffe geführt werden kann
+		Elements children = xmlElement.getChildElements("talentId");
+		Talent[] talente = new Talent[children.size()];
+		for (int i = 0; i < talente.length; i++) {
+			final String value = children.get(i).getValue();
+			talente[i] = (Talent) FactoryFinder.find().getData()
+					.getCharElement(
+							value,
+							FactoryFinder.find().getData().getCharKompFromId(
+									value));
+		}
+		waffe.setTalent(talente);
+	}
 
-        // my mapping
-        final Waffe waffe = (Waffe) charElement;
+	// @see
+	// org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement,
+	// nu.xom.Element)
+	public void map(CharElement charElement, Element xmlElement) {
+		super.map(charElement, xmlElement);
 
-        // Trefferpunkte der Waffe
-        WuerfelSammlung tp = waffe.getTP();
-        if (tp != null) {
-            Element e = new Element("tp");
-            for (int i = 0; i < tp.getAugenWuerfel().length; i++) {
-                if (tp.getAugenWuerfel()[i] == 6) {
-                    final String value = Integer.toString(tp.getAnzahlWuerfel()[i]);
-                    final Attribute a = new Attribute("W6", value);
-                    e.addAttribute(a);
+		// my mapping
+		final Waffe waffe = (Waffe) charElement;
 
-                } else if (tp.getAugenWuerfel()[i] == 20) {
-                    final String value = Integer.toString(tp.getAnzahlWuerfel()[i]);
-                    final Attribute a = new Attribute("W20", value);
-                    e.addAttribute(a);
-                }
-            }
-            final String value = Integer.toString(tp.getFestWert());
-            e.addAttribute(new Attribute("plus", value));
-            xmlElement.appendChild(e);
-        }
+		// Trefferpunkte der Waffe
+		WuerfelSammlung tp = waffe.getTP();
+		if (tp != null) {
+			Element e = new Element("tp");
+			for (int i = 0; i < tp.getAugenWuerfel().length; i++) {
+				if (tp.getAugenWuerfel()[i] == 6) {
+					final String value = Integer
+							.toString(tp.getAnzahlWuerfel()[i]);
+					final Attribute a = new Attribute("W6", value);
+					e.addAttribute(a);
 
-        // länge der Waffe
-        int laenge = waffe.getLaenge();
-        Element e = null;
-        if (laenge != CharElement.KEIN_WERT) {
-            e = new Element("eigenschaften");
-            e.addAttribute(new Attribute("laenge", Integer.toString(laenge)));
-        }
+				} else if (tp.getAugenWuerfel()[i] == 20) {
+					final String value = Integer
+							.toString(tp.getAnzahlWuerfel()[i]);
+					final Attribute a = new Attribute("W20", value);
+					e.addAttribute(a);
+				}
+			}
+			final String value = Integer.toString(tp.getFestWert());
+			e.addAttribute(new Attribute("plus", value));
+			xmlElement.appendChild(e);
+		}
 
-        // Ini Bouns
-        int ini = waffe.getIni();
-        if (ini != CharElement.KEIN_WERT) {
-            if (e == null) {
-                e = new Element("eigenschaften");
-            }
-            e.addAttribute(new Attribute("ini", Integer.toString(ini)));
-        }
+		// länge der Waffe
+		int laenge = waffe.getLaenge();
+		Element e = null;
+		if (laenge != CharElement.KEIN_WERT) {
+			e = new Element("eigenschaften");
+			e.addAttribute(new Attribute("laenge", Integer.toString(laenge)));
+		}
 
-        if (e != null) {
-            xmlElement.appendChild(e);
-        }
+		// Ini Bouns
+		int ini = waffe.getIni();
+		if (ini != CharElement.KEIN_WERT) {
+			if (e == null) {
+				e = new Element("eigenschaften");
+			}
+			e.addAttribute(new Attribute("ini", Integer.toString(ini)));
+		}
 
-        // Talente
-        Talent[] talente = waffe.getTalent();
-        for (int i = 0; i < talente.length; i++) {
-            Element e2 = new Element("talentId");
-            e2.appendChild(talente[i].getId());
-            xmlElement.appendChild(e2);
-        }
-    }
+		if (e != null) {
+			xmlElement.appendChild(e);
+		}
+
+		// Talente
+		Talent[] talente = waffe.getTalent();
+		for (int i = 0; i < talente.length; i++) {
+			Element e2 = new Element("talentId");
+			e2.appendChild(talente[i].getId());
+			xmlElement.appendChild(e2);
+		}
+	}
 }

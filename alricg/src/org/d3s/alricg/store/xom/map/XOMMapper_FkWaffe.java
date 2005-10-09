@@ -65,7 +65,7 @@ class XOMMapper_FkWaffe extends XOMMapper_Waffe implements XOMMapper {
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement, nu.xom.Element)
     public void map(CharElement charElement, Element xmlElement) {
-        super.map(xmlElement, charElement);
+        super.map(charElement, xmlElement);
 
         // my mapping
         FkWaffe waffe = (FkWaffe) charElement;

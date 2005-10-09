@@ -40,337 +40,368 @@ import org.d3s.alricg.store.FactoryFinder;
  */
 class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
 
-    /** <code>XOMMapper_Profession</code>'s logger */
-    private static final Logger LOG = Logger.getLogger(XOMMapper_Profession.class.getName());
+	/** <code>XOMMapper_Profession</code>'s logger */
+	private static final Logger LOG = Logger
+			.getLogger(XOMMapper_Profession.class.getName());
 
-    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
-    public void map(Element xmlElement, CharElement charElement) {
-        super.map(xmlElement, charElement);
+	// @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element,
+	// org.d3s.alricg.charKomponenten.CharElement)
+	public void map(Element xmlElement, CharElement charElement) {
+		super.map(xmlElement, charElement);
 
-        // my mapping
-        final Profession profession = (Profession) charElement;
-        xmlElement.setLocalName("profession");
+		// my mapping
+		final Profession profession = (Profession) charElement;
+		xmlElement.setLocalName("profession");
 
-        // Auslesen des Attribus "aufwand"
-        Attribute a = xmlElement.getAttribute("aufwand");
-        if (a != null) {
+		// Auslesen des Attribus "aufwand"
+		Attribute a = xmlElement.getAttribute("aufwand");
+		if (a != null) {
 
-            // Sicherstellen das der Wertebereich gültig ist:
-            String attVal = a.getValue();
-            assert attVal.equalsIgnoreCase(Aufwand.erstprof.getValue())
-                    || attVal.equalsIgnoreCase(Aufwand.zeitaufw.getValue());
+			// Sicherstellen das der Wertebereich gültig ist:
+			String attVal = a.getValue();
+			assert attVal.equalsIgnoreCase(Aufwand.erstprof.getValue())
+					|| attVal.equalsIgnoreCase(Aufwand.zeitaufw.getValue());
 
-            if (attVal.equalsIgnoreCase(Aufwand.erstprof.getValue())) {
-                profession.setAufwand(Aufwand.erstprof);
-            } else {
-                profession.setAufwand(Aufwand.zeitaufw);
-            }
-        }
+			if (attVal.equalsIgnoreCase(Aufwand.erstprof.getValue())) {
+				profession.setAufwand(Aufwand.erstprof);
+			} else {
+				profession.setAufwand(Aufwand.zeitaufw);
+			}
+		}
 
-        // Auslesen der Art dieser Profession
-        profession.setArt(getArtByValue(xmlElement.getFirstChildElement("art").getValue()));
+		// Auslesen der Art dieser Profession
+		profession.setArt(getArtByValue(xmlElement.getFirstChildElement("art")
+				.getValue()));
 
-        // Auslesen der MagierAkademie, sofern vorhanden
-        Element current = xmlElement.getFirstChildElement("magierAkademie");
-        if (current != null) {
-            final Element e = xmlElement.getFirstChildElement("magierAkademie");
-            final MagierAkademie magierAkademie = profession.new MagierAkademie(profession);
-            mapMagierAkademie(e, magierAkademie);
-            profession.setMagierAkademie(magierAkademie);
-        }
+		// Auslesen der MagierAkademie, sofern vorhanden
+		Element current = xmlElement.getFirstChildElement("magierAkademie");
+		if (current != null) {
+			final Element e = xmlElement.getFirstChildElement("magierAkademie");
+			final MagierAkademie magierAkademie = profession.new MagierAkademie(
+					profession);
+			mapMagierAkademie(e, magierAkademie);
+			profession.setMagierAkademie(magierAkademie);
+		}
 
-        // Auslesen der Geweihten-Werte, sofern vorhanden
-        current = xmlElement.getFirstChildElement("geweiht");
-        if (current != null) {
-            final String val = current.getAttributeValue("gottheitId");
-            profession.setGeweihtGottheit((Gottheit) FactoryFinder.find().getData().getCharElement(val,
-                    CharKomponente.gottheit));
+		// Auslesen der Geweihten-Werte, sofern vorhanden
+		current = xmlElement.getFirstChildElement("geweiht");
+		if (current != null) {
+			final String val = current.getAttributeValue("gottheitId");
+			profession.setGeweihtGottheit((Gottheit) FactoryFinder.find()
+					.getData().getCharElement(val, CharKomponente.gottheit));
 
-            final Auswahl ritusModis = new Auswahl(profession);
-            XOMMappingHelper.instance().mapAuswahl(current.getFirstChildElement("modis"), ritusModis);
-            profession.setRitusModis(ritusModis);
-        }
+			final Auswahl ritusModis = new Auswahl(profession);
+			XOMMappingHelper.instance().mapAuswahl(
+					current.getFirstChildElement("modis"), ritusModis);
+			profession.setRitusModis(ritusModis);
+		}
 
-        // Auslesen der verbotenen Vorteile
-        current = xmlElement.getFirstChildElement("verboteVT");
-        if (current != null) {
-            final IdLinkList ids = new IdLinkList(profession);
-            XOMMappingHelper.instance().mapIdLinkList(current, ids);
-            profession.setVerbotenVort(ids);
-        }
+		// Auslesen der verbotenen Vorteile
+		current = xmlElement.getFirstChildElement("verboteVT");
+		if (current != null) {
+			final IdLinkList ids = new IdLinkList(profession);
+			XOMMappingHelper.instance().mapIdLinkList(current, ids);
+			profession.setVerbotenVort(ids);
+		}
 
-        // Auslesen der verbotenen Nachteile
-        current = xmlElement.getFirstChildElement("verboteNT");
-        if (current != null) {
-            final IdLinkList ids = new IdLinkList(profession);
-            XOMMappingHelper.instance().mapIdLinkList(current, ids);
-            profession.setVerbotenNacht(ids);
-        }
+		// Auslesen der verbotenen Nachteile
+		current = xmlElement.getFirstChildElement("verboteNT");
+		if (current != null) {
+			final IdLinkList ids = new IdLinkList(profession);
+			XOMMappingHelper.instance().mapIdLinkList(current, ids);
+			profession.setVerbotenNacht(ids);
+		}
 
-        // Auslesen der verbotenen Sonderfertigkeiten
-        current = xmlElement.getFirstChildElement("verboteSF");
-        if (current != null) {
-            final IdLinkList ids = new IdLinkList(profession);
-            XOMMappingHelper.instance().mapIdLinkList(current, ids);
-            profession.setVerbotenSF(ids);
-        }
+		// Auslesen der verbotenen Sonderfertigkeiten
+		current = xmlElement.getFirstChildElement("verboteSF");
+		if (current != null) {
+			final IdLinkList ids = new IdLinkList(profession);
+			XOMMappingHelper.instance().mapIdLinkList(current, ids);
+			profession.setVerbotenSF(ids);
+		}
 
-        // Auslesen der Sprachen Auswahl
-        current = xmlElement.getFirstChildElement("sprachen");
-        if (current != null) {
-            final Auswahl auswahl = new Auswahl(profession);
-            XOMMappingHelper.instance().mapAuswahl(current, auswahl);
-            profession.setSprachen(auswahl);
-        }
+		// Auslesen der Sprachen Auswahl
+		current = xmlElement.getFirstChildElement("sprachen");
+		if (current != null) {
+			final Auswahl auswahl = new Auswahl(profession);
+			XOMMappingHelper.instance().mapAuswahl(current, auswahl);
+			profession.setSprachen(auswahl);
+		}
 
-        // Auslesen der Schriften Auswahl
-        current = xmlElement.getFirstChildElement("schriften");
-        if (current != null) {
-            final Auswahl auswahl = new Auswahl(profession);
-            XOMMappingHelper.instance().mapAuswahl(current, auswahl);
-            profession.setSchriften(auswahl);
-        }
+		// Auslesen der Schriften Auswahl
+		current = xmlElement.getFirstChildElement("schriften");
+		if (current != null) {
+			final Auswahl auswahl = new Auswahl(profession);
+			XOMMappingHelper.instance().mapAuswahl(current, auswahl);
+			profession.setSchriften(auswahl);
+		}
 
-        // Auslesen der Ausrüstung Auswahl
-        current = xmlElement.getFirstChildElement("ausruestung");
-        if (current != null) {
-            final AuswahlAusruestung auswahlA = new AuswahlAusruestung(profession);
-            XOMMappingHelper.instance().mapAuswahlAusruestung(current, auswahlA);
-            profession.setAusruestung(auswahlA);
-        }
+		// Auslesen der Ausrüstung Auswahl
+		current = xmlElement.getFirstChildElement("ausruestung");
+		if (current != null) {
+			final AuswahlAusruestung auswahlA = new AuswahlAusruestung(
+					profession);
+			XOMMappingHelper.instance()
+					.mapAuswahlAusruestung(current, auswahlA);
+			profession.setAusruestung(auswahlA);
+		}
 
-        // Auslesen der besondere Besitz Auswahl
-        current = xmlElement.getFirstChildElement("besondererBesitz");
-        if (current != null) {
-            final AuswahlAusruestung auswahlA = new AuswahlAusruestung(profession);
-            XOMMappingHelper.instance().mapAuswahlAusruestung(current, auswahlA);
-            profession.setBesondererBesitz(auswahlA);
-        }
+		// Auslesen der besondere Besitz Auswahl
+		current = xmlElement.getFirstChildElement("besondererBesitz");
+		if (current != null) {
+			final AuswahlAusruestung auswahlA = new AuswahlAusruestung(
+					profession);
+			XOMMappingHelper.instance()
+					.mapAuswahlAusruestung(current, auswahlA);
+			profession.setBesondererBesitz(auswahlA);
+		}
 
-        // Auslesen der Varianten
-        ArrayList<ProfessionVariante> arList = new ArrayList<ProfessionVariante>();
-        current = xmlElement.getFirstChildElement("varianten");
-        if (current != null) {
-            Elements varianten = current.getChildElements("variante");
-            for (int i = 0; i < varianten.size(); i++) {
-                final ProfessionVariante variante = (ProfessionVariante) FactoryFinder.find().getData().getCharElement(
-                        varianten.get(i).getAttributeValue("id"));
-                XOMMappingHelper.instance().mapVarianten(varianten.get(i), variante, profession, this);
-                arList.add(variante);
-            }
-            profession.setVarianten(arList.toArray(new ProfessionVariante[arList.size()]));
-        }
+		// Auslesen der Varianten
+		ArrayList<ProfessionVariante> arList = new ArrayList<ProfessionVariante>();
+		current = xmlElement.getFirstChildElement("varianten");
+		if (current != null) {
+			Elements varianten = current.getChildElements("variante");
+			for (int i = 0; i < varianten.size(); i++) {
+				final ProfessionVariante variante = (ProfessionVariante) FactoryFinder
+						.find().getData().getCharElement(
+								varianten.get(i).getAttributeValue("id"));
+				XOMMappingHelper.instance().mapVarianten(varianten.get(i),
+						variante, profession, this);
+				arList.add(variante);
+			}
+			profession.setVarianten(arList
+					.toArray(new ProfessionVariante[arList.size()]));
+		}
 
-    }
+	}
 
-    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement, nu.xom.Element)
-    public void map(CharElement charElement, Element xmlElement) {
-        super.map(charElement, xmlElement);
+	// @see
+	// org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement,
+	// nu.xom.Element)
+	public void map(CharElement charElement, Element xmlElement) {
+		super.map(charElement, xmlElement);
 
-        // my mapping
-        final Profession profession = (Profession) charElement;
-        xmlElement.setLocalName("profession");
+		// my mapping
+		final Profession profession = (Profession) charElement;
+		xmlElement.setLocalName("profession");
 
-        // Schreiben des Attributs "Aufwand", wenn nötig
-        if (!profession.getAufwand().equals(Profession.Aufwand.normal)) {
-            xmlElement.addAttribute(new Attribute("aufwand", profession.getAufwand().getValue()));
-        }
+		// Schreiben des Attributs "Aufwand", wenn nötig
+		if (profession.getAufwand() != null && !profession.getAufwand().equals(Profession.Aufwand.normal)) {
+			xmlElement.addAttribute(new Attribute("aufwand", profession
+					.getAufwand().getValue()));
+		}
 
-        // Schreiben der Art der Profession
-        Element e = new Element("art");
-        e.appendChild(profession.getArt().getValue());
-        xmlElement.appendChild(e);
+		// Schreiben der Art der Profession
+		Element e = new Element("art");
+		e.appendChild(profession.getArt().getValue());
+		xmlElement.appendChild(e);
 
-        // Schreiben der MagierAkademie
-        final MagierAkademie magierAkademie = profession.getMagierAkademie();
-        if (magierAkademie != null) {
-            e = new Element("magierAkademie");
-            mapMagierAkademie(magierAkademie, e);
-            xmlElement.appendChild(e);
-        }
+		// Schreiben der MagierAkademie
+		final MagierAkademie magierAkademie = profession.getMagierAkademie();
+		if (magierAkademie != null) {
+			e = new Element("magierAkademie");
+			mapMagierAkademie(magierAkademie, e);
+			xmlElement.appendChild(e);
+		}
 
-        // Schreiben der Geweihten angaben
-        final Gottheit geweihtGottheit = profession.getGeweihtGottheit();
-        if (geweihtGottheit != null) {
-            e = new Element("geweiht");
-            e.addAttribute(new Attribute("gottheitId", geweihtGottheit.getId()));
-            final Element ee = new Element("modis");
-            XOMMappingHelper.instance().mapAuswahl(profession.getRitusModis(), ee);
-            e.appendChild(ee);
-            xmlElement.appendChild(e);
-        }
+		// Schreiben der Geweihten angaben
+		final Gottheit geweihtGottheit = profession.getGeweihtGottheit();
+		if (geweihtGottheit != null) {
+			e = new Element("geweiht");
+			e
+					.addAttribute(new Attribute("gottheitId", geweihtGottheit
+							.getId()));
+			final Element ee = new Element("modis");
+			XOMMappingHelper.instance().mapAuswahl(profession.getRitusModis(),
+					ee);
+			e.appendChild(ee);
+			xmlElement.appendChild(e);
+		}
 
-        // Schreiben der verbotenen Vorteile
-        IdLinkList ids = profession.getVerbotenVort();
-        if (ids != null) {
-            e = new Element("verboteVT");
-            XOMMappingHelper.instance().mapIdLinkList(ids, e);
-            xmlElement.appendChild(e);
-        }
+		// Schreiben der verbotenen Vorteile
+		IdLinkList ids = profession.getVerbotenVort();
+		if (ids != null) {
+			e = new Element("verboteVT");
+			XOMMappingHelper.instance().mapIdLinkList(ids, e);
+			xmlElement.appendChild(e);
+		}
 
-        // Schreiben der verbotenen Nachteile
-        ids = profession.getVerbotenNacht();
-        if (ids != null) {
-            e = new Element("verboteNT");
-            XOMMappingHelper.instance().mapIdLinkList(ids, e);
-            xmlElement.appendChild(e);
-        }
+		// Schreiben der verbotenen Nachteile
+		ids = profession.getVerbotenNacht();
+		if (ids != null) {
+			e = new Element("verboteNT");
+			XOMMappingHelper.instance().mapIdLinkList(ids, e);
+			xmlElement.appendChild(e);
+		}
 
-        // Schreiben der verbotenen Sonderfertigkeiten
-        ids = profession.getVerbotenSF();
-        if (ids != null) {
-            e = new Element("verboteSF");
-            XOMMappingHelper.instance().mapIdLinkList(ids, e);
-            xmlElement.appendChild(e);
-        }
+		// Schreiben der verbotenen Sonderfertigkeiten
+		ids = profession.getVerbotenSF();
+		if (ids != null) {
+			e = new Element("verboteSF");
+			XOMMappingHelper.instance().mapIdLinkList(ids, e);
+			xmlElement.appendChild(e);
+		}
 
-        // Schreiben der Sprachen
-        Auswahl auswahl = profession.getSprachen();
-        if (auswahl != null) {
-            e = new Element("sprachen");
-            XOMMappingHelper.instance().mapAuswahl(auswahl, e);
-            xmlElement.appendChild(e);
-        }
+		// Schreiben der Sprachen
+		Auswahl auswahl = profession.getSprachen();
+		if (auswahl != null) {
+			e = new Element("sprachen");
+			XOMMappingHelper.instance().mapAuswahl(auswahl, e);
+			xmlElement.appendChild(e);
+		}
 
-        // Schreiben der Schriften
-        auswahl = profession.getSchriften();
-        if (auswahl != null) {
-            e = new Element("schriften");
-            XOMMappingHelper.instance().mapAuswahl(auswahl, e);
-            xmlElement.appendChild(e);
-        }
+		// Schreiben der Schriften
+		auswahl = profession.getSchriften();
+		if (auswahl != null) {
+			e = new Element("schriften");
+			XOMMappingHelper.instance().mapAuswahl(auswahl, e);
+			xmlElement.appendChild(e);
+		}
 
-        // Schreiben der Ausrüstung
-        AuswahlAusruestung auswahlA = profession.getAusruestung();
-        if (auswahl != null) {
-            e = new Element("ausruestung");
-            XOMMappingHelper.instance().mapAuswahlAusruestung(auswahlA, e);
-            xmlElement.appendChild(e);
-        }
+		// Schreiben der Ausrüstung
+		AuswahlAusruestung auswahlA = profession.getAusruestung();
+		if (auswahl != null) {
+			e = new Element("ausruestung");
+			XOMMappingHelper.instance().mapAuswahlAusruestung(auswahlA, e);
+			xmlElement.appendChild(e);
+		}
 
-        // Schreiben des besonderen Besitzens
-        auswahlA = profession.getBesondererBesitz();
-        if (auswahl != null) {
-            e = new Element("besondererBesitz");
-            XOMMappingHelper.instance().mapAuswahlAusruestung(auswahlA, e);
-            xmlElement.appendChild(e);
-        }
+		// Schreiben des besonderen Besitzens
+		auswahlA = profession.getBesondererBesitz();
+		if (auswahl != null) {
+			e = new Element("besondererBesitz");
+			XOMMappingHelper.instance().mapAuswahlAusruestung(auswahlA, e);
+			xmlElement.appendChild(e);
+		}
 
-        // Schreiben der Varianten
-        ProfessionVariante[] varianten = profession.getVarianten();
-        if (varianten != null) {
-            e = new Element("varianten");
+		// Schreiben der Varianten
+		ProfessionVariante[] varianten = profession.getVarianten();
+		if (varianten != null) {
+			e = new Element("varianten");
 
-            for (int i = 0; i < varianten.length; i++) {
-                final Element variante = new Element("variante");
-                XOMMappingHelper.instance().mapVarianten(varianten[i], variante, this);
-                e.appendChild(variante);
-            }
-            xmlElement.appendChild(e);
-        }
+			for (int i = 0; i < varianten.length; i++) {
+				final Element variante = new Element("variante");
+				XOMMappingHelper.instance().mapVarianten(varianten[i],
+						variante, this);
+				e.appendChild(variante);
+			}
+			xmlElement.appendChild(e);
+		}
 
-    }
+	}
 
-    /**
-     * Liefert zu einem xml-Tag die entsprechende Enum der Prof-Art zurück.
-     * 
-     * @param value Der xml-Tag art aus dem Element Profession
-     * @return Die Enum Art die zu den xmlTag gehört
-     */
-    private Art getArtByValue(String value) {
-        Art[] artArray = Art.values();
+	/**
+	 * Liefert zu einem xml-Tag die entsprechende Enum der Prof-Art zurück.
+	 * 
+	 * @param value
+	 *            Der xml-Tag art aus dem Element Profession
+	 * @return Die Enum Art die zu den xmlTag gehört
+	 */
+	private Art getArtByValue(String value) {
+		Art[] artArray = Art.values();
 
-        // Suchen des richtigen Elements
-        for (int i = 0; i < artArray.length; i++) {
-            if (value.equals(artArray[i].getValue())) {
-                return artArray[i]; // Gefunden
-            }
-        }
-        LOG.severe("XmlValue konnte nicht gefunden werden!");
-        return null;
-    }
+		// Suchen des richtigen Elements
+		for (int i = 0; i < artArray.length; i++) {
+			if (value.equals(artArray[i].getValue())) {
+				return artArray[i]; // Gefunden
+			}
+		}
+		LOG.severe("XmlValue konnte nicht gefunden werden!");
+		return null;
+	}
 
-    /**
-     * Befüllt eine Magierakademie (aus der CharElement-Hierarchie) mit den Daten des xom-Elements
-     * 
-     * @param xmlElement Das xml-Element mit den Daten
-     * @param makademie Die zu befüllende Akademie
-     */
-    private void mapMagierAkademie(Element xmlElement, MagierAkademie makademie) {
+	/**
+	 * Befüllt eine Magierakademie (aus der CharElement-Hierarchie) mit den
+	 * Daten des xom-Elements
+	 * 
+	 * @param xmlElement
+	 *            Das xml-Element mit den Daten
+	 * @param makademie
+	 *            Die zu befüllende Akademie
+	 */
+	private void mapMagierAkademie(Element xmlElement, MagierAkademie makademie) {
 
-        // Auslesen der Gildenzugehörigkeit
-        makademie.setGilde(Werte.getGildeByValue(xmlElement.getFirstChildElement("gilde").getValue()));
+		// Auslesen der Gildenzugehörigkeit
+		makademie.setGilde(Werte.getGildeByValue(xmlElement
+				.getFirstChildElement("gilde").getValue()));
 
-        // Auslesen der Merkmale der Akademie
-        Elements children = xmlElement.getChildElements("merkmale");
-        final MagieMerkmal[] merkmale = new MagieMerkmal[children.size()];
-        for (int i = 0; i < merkmale.length; i++) {
-            merkmale[i] = Werte.getMagieMerkmalByValue(children.get(i).getValue());
-        }
+		// Auslesen der Merkmale der Akademie
+		Elements children = xmlElement.getChildElements("merkmale");
+		final MagieMerkmal[] merkmale = new MagieMerkmal[children.size()];
+		for (int i = 0; i < merkmale.length; i++) {
+			merkmale[i] = Werte.getMagieMerkmalByValue(children.get(i)
+					.getValue());
+		}
 
-        // Auslesen ob ein Zweitstudium möglich ist
-        Element current = xmlElement.getFirstChildElement("zweitStudiumMoeglich");
-        if (current != null) {
-            String v = current.getValue().toLowerCase();
-            assert v.equals("false") || v.equals("true");
-            makademie.setZweitStudiumMoeglich(v.equals("true"));
-        }
+		// Auslesen ob ein Zweitstudium möglich ist
+		Element current = xmlElement
+				.getFirstChildElement("zweitStudiumMoeglich");
+		if (current != null) {
+			String v = current.getValue().toLowerCase();
+			assert v.equals("false") || v.equals("true");
+			makademie.setZweitStudiumMoeglich(v.equals("true"));
+		}
 
-        // Auslesen ob ein Drittstudium möglich ist
-        current = xmlElement.getFirstChildElement("drittStudiumMoeglich");
-        if (current != null) {
-            String v = current.getValue().toLowerCase();
-            assert v.equals("false") || v.equals("true");
-            makademie.setDrittStudiumMoeglich(v.equals("true"));
-        }
+		// Auslesen ob ein Drittstudium möglich ist
+		current = xmlElement.getFirstChildElement("drittStudiumMoeglich");
+		if (current != null) {
+			String v = current.getValue().toLowerCase();
+			assert v.equals("false") || v.equals("true");
+			makademie.setDrittStudiumMoeglich(v.equals("true"));
+		}
 
-        // Anmerkungen zu der Akademie auslesen
-        current = xmlElement.getFirstChildElement("anmerkung");
-        if (current != null) {
-            makademie.setAnmerkung(current.getValue());
-        }
+		// Anmerkungen zu der Akademie auslesen
+		current = xmlElement.getFirstChildElement("anmerkung");
+		if (current != null) {
+			makademie.setAnmerkung(current.getValue());
+		}
 
-    }
+	}
 
-    /**
-     * Befüllt ein xml-Element mit den Daten einer Magierakademie (aus der CharElement-Hierarchie)
-     * 
-     * @param makadmie Das CharElement mit den Daten
-     * @param xmlElement Das zu befüllende xml-Element
-     */
-    private void mapMagierAkademie(MagierAkademie makadmie, Element xmlElement) {
+	/**
+	 * Befüllt ein xml-Element mit den Daten einer Magierakademie (aus der
+	 * CharElement-Hierarchie)
+	 * 
+	 * @param makadmie
+	 *            Das CharElement mit den Daten
+	 * @param xmlElement
+	 *            Das zu befüllende xml-Element
+	 */
+	private void mapMagierAkademie(MagierAkademie makadmie, Element xmlElement) {
 
-        // Schreiben der Gilde
-        Element e = new Element("gilde");
-        e.appendChild(makadmie.getGilde().getValue());
-        xmlElement.appendChild(e);
+		// Schreiben der Gilde
+		Element e = new Element("gilde");
+		e.appendChild(makadmie.getGilde().getValue());
+		xmlElement.appendChild(e);
 
-        // Schreiben der magischen Merkmale
-        final MagieMerkmal[] merkmale = makadmie.getMerkmale();
-        for (int i = 0; i < merkmale.length; i++) {
-            e = new Element("merkmale");
-            e.appendChild(merkmale[i].getValue());
-            xmlElement.appendChild(e);
-        }
+		// Schreiben der magischen Merkmale
+		final MagieMerkmal[] merkmale = makadmie.getMerkmale();
+		if (merkmale != null) {
+			for (int i = 0; i < merkmale.length; i++) {
+				e = new Element("merkmale");
+				e.appendChild(merkmale[i].getValue());
+				xmlElement.appendChild(e);
+			}
+		}
 
-        // Schreiben ob Zweitstudium möglich
-        e = new Element("zweitStudiumMoeglich");
-        e.appendChild(Boolean.toString(makadmie.isZweitStudiumMoeglich()));
-        xmlElement.appendChild(e);
+		// Schreiben ob Zweitstudium möglich
+		e = new Element("zweitStudiumMoeglich");
+		e.appendChild(Boolean.toString(makadmie.isZweitStudiumMoeglich()));
+		xmlElement.appendChild(e);
 
-        // Schreiben ob Drittstudium möglich
-        e = new Element("drittStudiumMoeglich");
-        e.appendChild(Boolean.toString(makadmie.isDrittStudiumMoeglich()));
-        xmlElement.appendChild(e);
+		// Schreiben ob Drittstudium möglich
+		e = new Element("drittStudiumMoeglich");
+		e.appendChild(Boolean.toString(makadmie.isDrittStudiumMoeglich()));
+		xmlElement.appendChild(e);
 
-        // Schreiben der Anmerkung zur Akademie
-        final String anmerkung = makadmie.getAnmerkung();
-        if (anmerkung != null && anmerkung.trim().length() > 0) {
-            e = new Element("anmerkung");
-            e.appendChild(anmerkung.trim());
-            xmlElement.appendChild(e);
-        }
+		// Schreiben der Anmerkung zur Akademie
+		final String anmerkung = makadmie.getAnmerkung();
+		if (anmerkung != null && anmerkung.trim().length() > 0) {
+			e = new Element("anmerkung");
+			e.appendChild(anmerkung.trim());
+			xmlElement.appendChild(e);
+		}
 
-    }
+	}
 
 }

@@ -30,9 +30,9 @@ class XOMMapper_Ruestung extends XOMMapper_Gegenstand implements XOMMapper {
     /** <code>XOMMapper_Ruestung</code>'s logger */
     private static final Logger LOG = Logger.getLogger(XOMMapper_Ruestung.class.getName());
 
-    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement, nu.xom.Element)
-    public void map(CharElement charElement, Element xmlElement) {
-        super.map(charElement, xmlElement);
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
+    public void map(Element xmlElement, CharElement charElement) {
+        super.map(xmlElement, charElement);
 
         // my mapping
         final Ruestung ruestung = (Ruestung) charElement;
@@ -62,9 +62,9 @@ class XOMMapper_Ruestung extends XOMMapper_Gegenstand implements XOMMapper {
 
     }
 
-    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
-    public void map(Element xmlElement, CharElement charElement) {
-        super.map(xmlElement, charElement);
+    // @see org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement, nu.xom.Element)
+    public void map(CharElement charElement, Element xmlElement) {
+        super.map(charElement, xmlElement);
 
         // my mapping
         final Ruestung ruestung = (Ruestung) charElement;

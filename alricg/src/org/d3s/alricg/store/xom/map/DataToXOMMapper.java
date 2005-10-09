@@ -59,7 +59,7 @@ public class DataToXOMMapper {
                 root.appendChild(current);
             }
             final CharElement charElement = dataStore.getCharElement(id, charKomp);
-            final Element xmlElement = new Element("");
+            final Element xmlElement = new Element("tempName");
             mappy.map(charElement, xmlElement);
             current.appendChild(xmlElement);
         }
