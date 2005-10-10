@@ -28,67 +28,70 @@ import org.d3s.alricg.store.FactoryFinder;
  */
 public class XM_Faehigkeit_Test extends TestCase {
 
-    private XOMMapper mappy;
+	private XOMMapper mappy;
 
-    public XM_Faehigkeit_Test(String name) {
-        super(name);
-    }
+	public XM_Faehigkeit_Test(String name) {
+		super(name);
+	}
 
-    protected void setUp() throws Exception {
-        super.setUp();
-        ProgAdmin.messenger = new MessengerMock();
+	protected void setUp() throws Exception {
+		super.setUp();
+		ProgAdmin.messenger = new MessengerMock();
+		mappy = new XOMMapper_FaehigkeitBase();
+		FactoryFinder.init(new File(
+				"test/org/d3s/alricg/store/factory.properties"));
+	}
 
-        FactoryFinder.init(new File("test/org/d3s/alricg/store/StoreFactoryFinder.properties"));
-        mappy = new XOMMapper_FaehigkeitBase();
-    }
+	public void testMapFromXML() {
+		final Element xom = new Element("FaehigkeitBase");
+		final Element probe = new Element("probenWurf");
+		probe.addAttribute(new Attribute("eigen1", "EIG-MU"));
+		probe.addAttribute(new Attribute("eigen2", "EIG-FF"));
+		probe.addAttribute(new Attribute("eigen3", "EIG-KK"));
+		xom.appendChild(probe);
+		xom.addAttribute(new Attribute("kostenKlasse", "A"));
 
-    public void testMapFromXMLSimple() {
-        final Element xom = new Element("FaehigkeitBase");
-        final Element probe = new Element("probenWurf");
-        probe.addAttribute(new Attribute("eigen1", "EIG-MU"));
-        probe.addAttribute(new Attribute("eigen2", "EIG-FF"));
-        probe.addAttribute(new Attribute("eigen3", "EIG-KK"));
-        xom.appendChild(probe);
-        xom.addAttribute(new Attribute("kostenKlasse", "A"));
+		Faehigkeit f = new FaehigkeitBase();
+		mappy.map(xom, f);
 
-        Faehigkeit f = new FaehigkeitBase();
-        mappy.map(xom, f);
+		assertEquals("Eigenschaft 1 falsch", EigenschaftEnum.MU, f
+				.get3Eigenschaften()[0].getEigenschaftEnum());
+		assertEquals("Eigenschaft 2 falsch", EigenschaftEnum.FF, f
+				.get3Eigenschaften()[1].getEigenschaftEnum());
+		assertEquals("Eigenschaft 3 falsch", EigenschaftEnum.KK, f
+				.get3Eigenschaften()[2].getEigenschaftEnum());
+		assertEquals("KostenKlasse falsch", KostenKlasse.A, f.getKostenKlasse());
+		assertEquals("KostenKlasse falsch", "A", f.getKostenKlasse().getValue());
+	}
 
-        assertEquals("Eigenschaft 1 falsch", EigenschaftEnum.MU, f.get3Eigenschaften()[0].getEigenschaftEnum());
-        assertEquals("Eigenschaft 2 falsch", EigenschaftEnum.FF, f.get3Eigenschaften()[1].getEigenschaftEnum());
-        assertEquals("Eigenschaft 3 falsch", EigenschaftEnum.KK, f.get3Eigenschaften()[2].getEigenschaftEnum());
-        assertEquals("Eigenachaften falsch", "MU/FF/KK", f.get3EigenschaftenString());
-        assertEquals("KostenKlasse falsch", KostenKlasse.A, f.getKostenKlasse());
-        assertEquals("KostenKlasse falsch", "A", f.getKostenKlasse().getValue());
-    }
+	public void testMapToXML() {
+		fail("Not implemented yet!");
+	}
 
-    public void testMapToXML() {
-        // TODO Implement!
-    }
+	/**
+	 * Konkrete "do-nothing-special" Impl. der abtrakten Superklasse
+	 * XOMMapper_Faehigkeit
+	 * 
+	 * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+	 */
+	private class XOMMapper_FaehigkeitBase extends XOMMapper_Faehigkeit {
+		public void map(Element xmlElement, CharElement charElement) {
+			super.map(xmlElement, charElement);
+		}
 
-    /**
-     * Konkrete "do-nothing-special" Impl. der abtrakten Superklasse XOMMapper_Faehigkeit
-     * 
-     * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
-     */
-    private class XOMMapper_FaehigkeitBase extends XOMMapper_Faehigkeit {
-        public void map(Element xmlElement, CharElement charElement) {
-            super.map(xmlElement, charElement);
-        }
+		public void map(CharElement charElement, Element xmlElement) {
+			super.map(charElement, xmlElement);
+		}
+	}
 
-        public void map(CharElement charElement, Element xmlElement) {
-            super.map(charElement, xmlElement);
-        }
-    }
-
-    /**
-     * Konkrete "do-nothing-special" Impl. der abtrakten Superklasse Faehigkeit
-     * 
-     * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
-     */
-    private class FaehigkeitBase extends Faehigkeit {
-        public CharKomponente getCharKomponente() {
-            return null;
-        }
-    }
+	/**
+	 * Konkrete "do-nothing-special" Impl. der abtrakten Superklasse Faehigkeit
+	 * 
+	 * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
+	 */
+	private class FaehigkeitBase extends Faehigkeit {
+		public CharKomponente getCharKomponente() {
+			return null;
+		}
+	}
 }

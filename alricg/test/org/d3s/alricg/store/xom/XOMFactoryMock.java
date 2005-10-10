@@ -15,35 +15,44 @@ import org.d3s.alricg.store.TextStore;
 
 /**
  * Mock-Object für die XOMFactory
+ * 
  * @author <a href="mailto:msturzen@mac.com>St. Martin</a>
- *
+ * 
  */
 public class XOMFactoryMock implements AbstractStoreFactory {
 
-    private XOMFactory x = new XOMFactory();
-    
-    
-    // @see org.d3s.alricg.store.AbstractStoreFactory#initialize()
-    public void initialize() throws ConfigurationException {
-        x.initialize();
-        System.out.println("initialized");
-    }
+    private final XOMTextStoreMock library = new XOMTextStoreMock();
 
-    // @see org.d3s.alricg.store.AbstractStoreFactory#getData()
-    public DataStore getData() {
-        System.out.println("getData");
-        return x.getData();
-    }
+    private final XOMConfigStoreMock config = new XOMConfigStoreMock();
 
-    // @see org.d3s.alricg.store.AbstractStoreFactory#getConfiguration()
-    public ConfigStore getConfiguration() {
-        System.out.println("getConfig");
-        return x.getConfiguration();
-    }
+    private final XOMStoreMock data = new XOMStoreMock();
 
-    // @see org.d3s.alricg.store.AbstractStoreFactory#getLibrary()
-    public TextStore getLibrary() {
-        System.out.println("getLib");
-        return x.getLibrary();
-    }
+    private boolean initialized;
+
+	// @see org.d3s.alricg.store.AbstractStoreFactory#initialize()
+	public void initialize() throws ConfigurationException {
+		if (initialized) {
+			return;
+		}
+
+		// init stores
+		config.init();
+		library.init(config.getConfig());
+		data.init(config.getConfig());
+		initialized = true;
+
+		System.out.println("initialized");
+	}
+
+	public DataStore getData() {
+		return data;
+	}
+
+	public ConfigStore getConfiguration() {
+		return config;
+	}
+
+	public TextStore getLibrary() {
+		return library;
+	}
 }
