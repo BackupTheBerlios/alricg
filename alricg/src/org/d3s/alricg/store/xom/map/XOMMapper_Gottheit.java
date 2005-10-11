@@ -38,7 +38,7 @@ class XOMMapper_Gottheit extends XOMMapper_CharElement implements XOMMapper {
         assert currentValue.equalsIgnoreCase(KenntnisArt.liturgie.getValue())
                 || currentValue.equalsIgnoreCase(KenntnisArt.ritual.getValue());
 
-        if (currentValue.equals(KenntnisArt.liturgie.getValue())) {
+        if (currentValue.equalsIgnoreCase(KenntnisArt.liturgie.getValue())) {
             gottheit.setKenntnisArt(KenntnisArt.liturgie);
         } else {
             gottheit.setKenntnisArt(KenntnisArt.ritual);

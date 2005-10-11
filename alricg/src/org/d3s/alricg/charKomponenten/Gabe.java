@@ -16,8 +16,8 @@ import org.d3s.alricg.controller.CharKomponente;
  * @author V.Strelow
  */
 public class Gabe extends Faehigkeit {
-	private int minStufe = 1;
-	private int maxStufe = 1;
+	private int minStufe = KEIN_WERT;
+	private int maxStufe = KEIN_WERT;
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
