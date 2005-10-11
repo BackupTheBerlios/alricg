@@ -62,7 +62,7 @@ class XOMMapper_RegionVolk extends XOMMapper_CharElement implements XOMMapper {
         }
 
         // Auslesen der Nachnamen
-        xmlElement.getFirstChildElement("nachnamen");
+        current = xmlElement.getFirstChildElement("nachnamen");
         if (current != null) {
             final Elements children = current.getChildElements("name");
             final String[] nachnamen = new String[children.size()];
