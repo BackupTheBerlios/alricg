@@ -38,11 +38,10 @@ public class XM_Ritus_Test extends TestCase {
 		super.setUp();
 
 		oma = new XOMStoreObjectMother();
+		mappy = new XOMMapper_RitusBase();
 		ProgAdmin.messenger = new MessengerMock();
-
 		FactoryFinder.init(new File(
 				"test/org/d3s/alricg/store/factory.properties"));
-		mappy = new XOMMapper_RitusBase();
 	}
 
 	public void testMapFromXML() {
