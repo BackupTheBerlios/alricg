@@ -23,6 +23,7 @@ public class AllTests extends TestCase {
         testSuite.addTestSuite(XM_CharElement_Test.class);
         testSuite.addTestSuite(XM_Faehigkeit_Test.class);
         testSuite.addTestSuite(XM_Gegenstand_Test.class);
+        testSuite.addTestSuite(XM_RegionVolk_Test.class);        
         testSuite.addTestSuite(XM_Repraesentation_Test.class);
         testSuite.addTestSuite(XM_Ritus_Test.class);
         testSuite.addTestSuite(XM_SchriftSprache_Test.class);
