@@ -11,8 +11,31 @@ import org.d3s.alricg.charKomponenten.Herkunft;
 
 /**
  * <b>Beschreibung:</b><br>
+ * Oftmals werden Werte von CharElementen modifiziert, die geschieht über die
+ * Auswahl. In einer Auswahl kann einerseits eine Liste von festen Modifikationen
+ * stehten und außerdem kann eine Liste von variablen Modifikationen 
+ * enthalten sein.
+ * 
+ *  Beispiel von festen Elementen einer Auswahl:
+ * - "Schwerter +3, Klettern +2, Schwimmen +4". Dies ist eine feste Liste von 
+ * Modis. Es ist einfach eine Auflistung der Modifikationen ohne das der
+ * Benutzer etwas wählen kann. Diese Liste kann als Array mit der 
+ * Methode "getFesteAuswahl()" abgerufen werden
+ * 
+ * 
  * Wenn es möglich ist, das der Benutzer unter mehreren Möglichtkeiten wählt, so
- * wird diese Klasse zur Speicherung der Elemente benutzt.
+ * wird ebenfalls diese Klasse zur Speicherung der Elemente benutzt.
+ * 
+ * Beispiel von variablen Elementen einer Auswahl:
+ * - "Talent Schwerter +2 oder Talent Dolche +3" (Modus ANZAHL) 
+ * - "Die Werte +3, +2, +1 beliebig auf die Talente Schwerter, Dolche, 
+ * 		Klettern verteilen" (Modus LISTE)
+ * - "Fünf Punkte beliebig verteilen auf die Talente Schwerter und Dolche"
+ * (Modus VERTEILUNG)
+ * 
+ * Ein Array aller variablen Auswahlen kann über die Methode 
+ * "getVarianteAuswahl()" abgerufen werden. Wie oben angegeben hat jede v. Auswahl
+ * einen Modus, der angibt wie die Werte zu interpretieren sind.
  * 
  * @author V.Strelow
  */
@@ -52,6 +75,11 @@ public class Auswahl {
 	}
 	
 	/**
+	 * Dies ist eine feste Liste von Modis. Es ist einfach eine Auflistung der
+	 * Modifikationen ohne das der Benutzer etwas wählen kann.
+	 * Beispiel:
+	 * 	"Schwerter +3, Klettern +2, Schwimmen +4" 
+	 *   
 	 * @return Array von festen Elementen, die das auf jedenfall zu dieser
 	 * Auswahl gehören (also nicht gewählt werden).
 	 */
@@ -74,6 +102,18 @@ public class Auswahl {
 	*/
 	
 	/**
+	 * 
+	 * Ein Array aller variablen Auswahlen kann. Wie oben angegeben hat 
+	 * jede v. Auswahl einen Modus, der angibt wie die Werte zu interpretieren 
+	 * sind.
+	 * 
+	 * 	Beispiele:
+	 * - "Talent Schwerter +2 oder Talent Dolche +3" (Modus ANZAHL) 
+	 * - "Die Werte +3, +2, +1 beliebig auf die Talente Schwerter, Dolche, 
+	 * 		Klettern verteilen" (Modus LISTE)
+	 * - "Fünf Punkte beliebig verteilen auf die Talente Schwerter und Dolche"
+	 * (Modus VERTEILUNG)
+	 * 
 	 * @return Liefert das Attribut varianteAuswahl.
 	 */
 	public VariableAuswahl[] getVarianteAuswahl() {
@@ -125,12 +165,18 @@ public class Auswahl {
 		}
 		
 		/**
+		 * Nur im Modus "VERTEILUNG" wichtig!
+		 * Gibt die maximal Stufe der gewählten CharElemente an.
+		 * 
 		 * @return Liefert das Attribut max.
 		 */
 		public int getMax() {
 			return max;
 		}
 		/**
+		 * Nur im Modus "VERTEILUNG" wichtig!
+		 * Gibt die maximal Stufe der gewählten CharElemente an.
+		 * 
 		 * @param max Setzt das Attribut max.
 		 */
 		public void setMax(int max) {
@@ -138,12 +184,18 @@ public class Auswahl {
 		}
 		
 		/**
+		 * Nur im Modus "ANZAHL" & "VERTEILUNG" wichtig!
+		 * Gibt die Anzahl an zu wählenden CharElemente an.
+		 * 
 		 * @return Liefert das Attribut anzahl.
 		 */
 		public int getAnzahl() {
 			return anzahl;
 		}
 		/**
+		 * Nur im Modus "ANZAHL" & "VERTEILUNG" wichtig!
+		 * Gibt die Anzahl an zu wählenden CharElemente an.
+		 * 
 		 * @param anzahl Setzt das Attribut anzahl.
 		 */
 		public void setAnzahl(int anzahl) {
@@ -174,12 +226,38 @@ public class Auswahl {
 			this.modus = modus;
 		}
 		/**
+		 * Eine Option ist eine möglichkeit die gewählt werden kann. Jede
+		 * Option ist ein Link und somit auch ein CharElement.
+		 * Diese Methode leifert ein Array aller möglichen Optionen, jede 
+		 * Arraystelle ist eine Option. Wie die Optionen ausgewählt werden,
+		 * wird durch den Modus angegeben.
+		 * 
+		 * Beispiel:
+		 * - "Schwerter +5 oder Dolche +5"
+		 * 		Optionen sind:
+		 * 			Link mit Ziel "Schwerter" und Wert "5"
+		 * 			LInk mit Ziel "Dolche" und Wert "5"
+		 * - "3 Punkte 
+		 * 
+		 * @see getOptionsGruppe()
 		 * @return Liefert das Attribut optionen.
 		 */
 		public IdLink[] getOptionen() {
 			return optionen;
 		}
 		/**
+		 * Eine Optionsgruppe ist erstmal eine gleichberechtigte Option
+		 * wie auch jene, die per "getOptionen()" geliefert werden. In einer 
+		 * Optionsgruppe sind jedoch mehrer Link (und somit CharElemente) enthalten,
+		 * die alle nur gemeinsam gewählt oder nicht gewählt werden können.
+		 * 
+		 * Beispiel:
+		 * 	- "Schwerter +5 oder Dolche +2 und Klettern +3"
+		 * In diesem Beispiel ist eine normale Option enthalten (Schwerter)
+		 * und eine Gruppe (Dolche und Klettern) die nur gemeinsam gewählt 
+		 * werden können. 
+		 * 
+		 * @see getOptionen()
 		 * @param optionen Setzt das Attribut optionen.
 		 */
 		public void setOptionen(IdLink[] optionen) {
@@ -198,12 +276,28 @@ public class Auswahl {
 			this.optionsGruppe = optionsGruppe;
 		}
 		/**
+		 * Nur für "LISTE" und "VERTEILUNG" wichtig!
+		 * LISTE - In "wert" steht eine Liste von Werten, wobei jeder Wert einer
+		 * 	"option" zugewiesen werden muß. Es werden soviele optionen gewählt, wie
+		 * 	 es werte gibt.
+		 * ANZAHL - In "wert" steht eine Zahl, die angibt wieviele der "optionen"
+		 * 	gewählt werden müssen. Jede option kann einen Wert haben (über den
+		 * 	"Link").
+		 * 
 		 * @return Liefert das Attribut werte.
 		 */
 		public int[] getWerte() {
 			return werte;
 		}
 		/**
+		 * Nur für "LISTE" und "VERTEILUNG" wichtig!
+		 * LISTE - In "wert"steht eine Liste von Werten, wobei jeder Wert einer
+		 * 	"option" zugewiesen werden muß. Es werden soviele optionen gewählt, wie
+		 * 	 es werte gibt. 
+		 * ANZAHL - In "wert" steht eine Zahl, die angibt wieviele der "optionen"
+		 * 	gewählt werden müssen. Jede option kann einen Wert haben (über den
+		 * 	"Link").
+		 * 
 		 * @param werte Setzt das Attribut werte.
 		 */
 		public void setWerte(int[] werte) {
