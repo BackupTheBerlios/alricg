@@ -58,7 +58,7 @@ public class XM_SchwarzeGabe_Test extends TestCase {
 		stufengrenzen.addAttribute(new Attribute("maxStufe", "" + maxstufe));
 		xom.appendChild(stufengrenzen);
 
-		s = new SchwarzeGabe("SGA-Schuppenechse");
+		s = new SchwarzeGabe(name);
 		mappy.map(xom, s);
 		assertEquals("Kosten falsch", kosten, s.getKosten());
 		assertEquals("MinStufe falsch", minstufe, s.getMinStufe());
