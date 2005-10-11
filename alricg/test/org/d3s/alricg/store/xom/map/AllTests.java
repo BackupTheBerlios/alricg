@@ -22,9 +22,11 @@ public class AllTests extends TestCase {
         TestSuite testSuite = new TestSuite("All Tests for org.d3s.alricg.store.xom.map");
         testSuite.addTestSuite(XM_CharElement_Test.class);
         testSuite.addTestSuite(XM_Faehigkeit_Test.class);
+        testSuite.addTestSuite(XM_Gegenstand_Test.class);
+        testSuite.addTestSuite(XM_Repraesentation_Test.class);
         testSuite.addTestSuite(XM_Ritus_Test.class);
         testSuite.addTestSuite(XM_SchriftSprache_Test.class);
-        testSuite.addTestSuite(XM_Gegenstand_Test.class);
+        testSuite.addTestSuite(XM_SchwarzeGabe_Test.class);
         return testSuite;
     }
 }
