@@ -25,11 +25,14 @@ public class AllTests extends TestCase {
         testSuite.addTestSuite(XM_Gabe_Test.class);
         testSuite.addTestSuite(XM_Gegenstand_Test.class);
         testSuite.addTestSuite(XM_Gottheit_Test.class);
+        testSuite.addTestSuite(XM_LiturgieRitualKenntnis_Test.class);
         testSuite.addTestSuite(XM_RegionVolk_Test.class);        
         testSuite.addTestSuite(XM_Repraesentation_Test.class);
         testSuite.addTestSuite(XM_Ritus_Test.class);
         testSuite.addTestSuite(XM_SchriftSprache_Test.class);
         testSuite.addTestSuite(XM_SchwarzeGabe_Test.class);
+        testSuite.addTestSuite(XM_Talent_Test.class);
+        testSuite.addTestSuite(XM_Zauber_Test.class);
         return testSuite;
     }
 }
