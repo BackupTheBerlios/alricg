@@ -17,7 +17,7 @@ import org.d3s.alricg.controller.CharKomponente;
 public class Zauber extends Faehigkeit {
 	private MagieMerkmal[] merkmale;
 	private Verbreitung[] verbreitung; // Welche Repräsentationen den Zauber können
-	private String probenModi = ""; // Modis auf die Probe "+MR" / "+Modi"
+	private String probenModi; // Modis auf die Probe "+MR" / "+Modi"
 	private String zauberdauer;
 	private String aspKosten;
 	private String ziel;
