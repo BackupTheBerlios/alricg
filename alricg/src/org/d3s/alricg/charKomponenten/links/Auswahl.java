@@ -42,19 +42,49 @@ import org.d3s.alricg.charKomponenten.Herkunft;
 public class Auswahl {
 	
 	/**
-	 *Gibt den Modus der Auswahl an
+	 *Gibt den Modus der Auswahl an.
+	 *
+	 * LISTE - In "wert" steht eine Liste von Werten, wobei jeder Wert einer "option"
+	 *   zugewiesen werden muß. Es werden soviele optionen gewählt, wie es werte gibt. 
+	 *  (Das Attribut "anzahl" und "max" wird nicht benutzt)
+	 *  Beispiel: "Gaukler" S. 87 AH
+	 *  	"Abrichten o. Falschspiel o. Malen/Zeichen o. Musizieren +4, ein anderes +2"
+	 *  	: wert="4,2" 
+	 *  	  optionen="Abrichten, Falschspiel, Malen/Zeichen, Musizieren"
+	 *  
+	 * ANZAHL - In "anzahl" steht eine Zahl, die angibt wieviele der "optionen" gewählt 
+	 *  werden müssen. Jede option kann einen Wert haben (über den "idLinkTyp").
+	 *  (Das attribut "wert" und "max" wird	nicht benutzt)
+	 *  Beispiel:
+	 *  	"Goldgier 5 o. Schulden 1000 Dukaten"
+	 *  	: anzahl="1" 
+	 *  	  optionen="Goldgier(wert=4), Schulden(wert=1000)"
+	 *  
+	 * VERTEILUNG - Der Wert in "wert" kann auf soviele der Optionen verteilt werden, wie
+	 *  im Attribut "anzahl" angegeben. D.h. erst werden die Optionen ausgewählt, dann der
+	 *  "wert" beliebig auf die gewählten optionen verteilt. 
+	 *  (Siehe "Elfische Siedlung" S. 37 im AZ( In "max" steht wie hoch die Stufe
+	 *   jeder gewählten option sein darf.
+	 *  Beispiel: "Tagelöhnerin" S. 101 AH
+	 *  	"20 Punkte auf passende Handwerkstalente (je max +3)"
+	 *  	: wert="20" 
+	 *  	  anzahl="0" (für keine Begegrenzung)
+	 * 		  mas = "3"
+	 *  	  optionen="Holzarbeiten, Lederarbeiten, Wundenheilen, ...."
 	 */
 	public enum Modus {
 		LISTE("LISTE"), ANZAHL("ANZAHL"), VERTEILUNG("VERTEILUNG");
 		
 		private String value;
 		
+		/* Konstruktor
+		 */
 		private Modus(String value) {
 			this.value = value;
 		}
 		
 		/**
-		 * @return Den Wert, wie er im XML Dokument auftaucht
+		 * @return Den Bezeichner, wie er im XML Dokument auftaucht
 		 */
 		public String getValue() {
 			return value;
@@ -88,6 +118,15 @@ public class Auswahl {
 	}
 	
 	/**
+	 * @return true - Es gibt eine "feste Auswahl", d.h. es gibt eine Liste 
+	 * 	von Werten bei denen der User nicht wählen kann. 
+	 * 		false - Es gibt KEINE solche Liste.
+	 */
+	public boolean hasFesteAuswahl() {
+		return (festeAuswahl != null && festeAuswahl.length != 0);
+	}
+	
+	/**
 	 * Jede Auswahl gehört zu einem Element, von dem diese Auswahl stammt.
 	 * @return Liefert das CharElement, von dem diese Auswahl stammt.
 	 */
@@ -95,16 +134,10 @@ public class Auswahl {
 		return herkunft;
 	}
 	
-	/*
-	public void addVarianteAuswahl(Modus modus, int[] werte, int anzahl, IdLink[] optionen) {
-		// TODO Implement
-	}
-	*/
-	
 	/**
 	 * 
 	 * Ein Array aller variablen Auswahlen kann. Wie oben angegeben hat 
-	 * jede v. Auswahl einen Modus, der angibt wie die Werte zu interpretieren 
+	 * jede variable Auswahl einen Modus, der angibt wie die Werte zu interpretieren 
 	 * sind.
 	 * 
 	 * 	Beispiele:
@@ -119,18 +152,47 @@ public class Auswahl {
 	public VariableAuswahl[] getVarianteAuswahl() {
 		return varianteAuswahl;
 	}
+	
 	/**
+	 * @return true - Es gibt eine "variante Auswahl", d.h. es gibt eine Liste 
+	 * 	von Werten bei denen der User wählen kann welche Optionen der haben 
+	 *  möchte und welche nicht. 
+	 * 		false - Es gibt KEINE solche Liste.
+	 */
+	public boolean hasVarianteAuswahl() {
+		return (varianteAuswahl != null && varianteAuswahl.length != 0);
+	}
+	
+	/**
+	 * Ein Array aller variablen Auswahlen kann. Wie oben angegeben hat 
+	 * jede variable Auswahl einen Modus, der angibt wie die Werte zu interpretieren 
+	 * sind.
+	 * 
+	 * 	Beispiele:
+	 * - "Talent Schwerter +2 oder Talent Dolche +3" (Modus ANZAHL) 
+	 * - "Die Werte +3, +2, +1 beliebig auf die Talente Schwerter, Dolche, 
+	 * 		Klettern verteilen" (Modus LISTE)
+	 * - "Fünf Punkte beliebig verteilen auf die Talente Schwerter und Dolche"
+	 * (Modus VERTEILUNG)
+	 * 
 	 * @param varianteAuswahl Setzt das Attribut varianteAuswahl.
 	 */
 	public void setVarianteAuswahl(VariableAuswahl[] varianteAuswahl) {
 		this.varianteAuswahl = varianteAuswahl;
 	}
+	
 	/**
+	 * Dies ist eine feste Liste von Modis. Es ist einfach eine Auflistung der
+	 * Modifikationen ohne das der Benutzer etwas wählen kann.
+	 * Beispiel:
+	 * 	"Schwerter +3, Klettern +2, Schwimmen +4"
+	 *  
 	 * @param festeAuswahl Setzt das Attribut festeAuswahl.
 	 */
 	public void setFesteAuswahl(IdLink[] festeAuswahl) {
 		this.festeAuswahl = festeAuswahl;
 	}
+	
 	/**
 	 * @param herkunft Setzt das Attribut herkunft.
 	 */
@@ -139,18 +201,9 @@ public class Auswahl {
 	}
 	
 	/**
-	 * Bedeutung des Modus (siehe enum Oben):
-	 * LISTE - In "wert"steht eine Liste von Werten, wobei jeder Wert einer
-     * 	"option" zugewiesen werden muß. Es werden soviele optionen gewählt, wie
-     * 	 es werte gibt. (Das attribut "anzahl" wird nicht benutzt)
- 	 * ANZAHL - In "wert" steht eine Zahl, die angibt wieviele der "optionen"
-     * 	gewählt werden müssen. Jede option kann einen Wert haben (über den
-     * 	"idLinkTyp"). (Das attribut "anzahl" wird nicht benutzt)
-	 * VERTEILUNG - Der Wert in "wert" kann auf soviele der Optionen verteilt
-     *  werden, wie im Attribut "anzahl" angegeben. D.h. erst werden die
-     *  Optionen ausgewählt, dann der "wert" beliebig auf die gewählten optionen
-     *  verteilt. (Siehe "Elfische Siedlung" S. 37 im AZ)
-	*/
+	 * Wenn der Benutzer zwischen mehrern Optionen auswählen kann, wird eine 
+	 * Opbjekt dieser Klasse zur repräsentation benutzt.
+	 */
 	public class VariableAuswahl {
         private Modus modus;
         private int[] werte;
@@ -160,6 +213,10 @@ public class Auswahl {
         private IdLink[][] optionsGruppe;
         private Auswahl auswahl;
         
+        /**
+         * Konstruktor
+         * @param auswahl Die Auswahl, zu der diese VariableAuswahl gehört
+         */
 		public VariableAuswahl(Auswahl auswahl) {
 			this.auswahl = auswahl;
 		}
@@ -185,8 +242,16 @@ public class Auswahl {
 		
 		/**
 		 * Nur im Modus "ANZAHL" & "VERTEILUNG" wichtig!
-		 * Gibt die Anzahl an zu wählenden CharElemente an.
 		 * 
+		 * ANZAHL - In "anzahl" steht eine Zahl, die angibt wieviele der "optionen" gewählt
+		 *  werden müssen. Jede option kann einen Wert haben (über den "idLinkTyp"). 
+		 * VERTEILUNG - Der Wert in "wert" kann auf soviele der Optionen verteilt werden,
+		 *  wie im Attribut "anzahl" angegeben. D.h. erst werden die Optionen ausgewählt, 
+		 *  dann der "wert" beliebig auf die gewählten optionen verteilt. (Siehe "Elfische 
+		 *  Siedlung" S. 37 im AZ) In "max" steht wie hoch die Stufe jeder 
+		 *  gewählten option sein darf 
+		 * 
+		 * Ist "anzahl = 0", so gibt es keine Begrenzung!
 		 * @return Liefert das Attribut anzahl.
 		 */
 		public int getAnzahl() {
@@ -194,21 +259,23 @@ public class Auswahl {
 		}
 		/**
 		 * Nur im Modus "ANZAHL" & "VERTEILUNG" wichtig!
-		 * Gibt die Anzahl an zu wählenden CharElemente an.
+		 * Ist "anzahl = 0", so gibt es keine Begrenzung!
 		 * 
+		 * @see getAnzahl()
 		 * @param anzahl Setzt das Attribut anzahl.
 		 */
 		public void setAnzahl(int anzahl) {
 			this.anzahl = anzahl;
 		}
 		/**
-		 * @return Liefert das Attribut auswahl.
+		 * 
+		 * @return Liefert die Auswahl, zu der diese VariableAuswahl gehört
 		 */
 		public Auswahl getAuswahl() {
 			return auswahl;
 		}
 		/**
-		 * @param auswahl Setzt das Attribut auswahl.
+		 * @param auswahl Die Auswahl, zu der diese VariableAuswahl gehört
 		 */
 		public void setAuswahl(Auswahl auswahl) {
 			this.auswahl = auswahl;
@@ -233,18 +300,48 @@ public class Auswahl {
 		 * wird durch den Modus angegeben.
 		 * 
 		 * Beispiel:
-		 * - "Schwerter +5 oder Dolche +5"
+		 * - "Schwerter +5 oder Dolche +5" (modus ANZAHL)
 		 * 		Optionen sind:
 		 * 			Link mit Ziel "Schwerter" und Wert "5"
-		 * 			LInk mit Ziel "Dolche" und Wert "5"
-		 * - "3 Punkte 
+		 * 			Link mit Ziel "Dolche" und Wert "5"
+		 * - "3 Punkte beliebig auf Schwerter und Dolche" (Modus VERTEILUNG)
+		 * 		Optionen sind:
+		 * 			Link mit Ziel "Schwerter"
+		 * 			Link mit Ziel "Dolche"
+		 * 			(Werte werden in Auswahl angegeben, nicht in dem Link)
 		 * 
 		 * @see getOptionsGruppe()
-		 * @return Liefert das Attribut optionen.
+		 * @return Liefert ein Array aller (ausgenommen Optionsgruppen) wählbareren Optionen.
 		 */
 		public IdLink[] getOptionen() {
 			return optionen;
 		}
+		
+		/**
+		 * @return true - Es gibt eine Liste von wählbaren "einstelligen"
+		 * 	Optionen, ansonsten false (es gibt keine einstelligen Optionenen sondern
+		 * nur evtl. Optionsgruppen).
+		 */
+		public boolean hasOptionen() {
+			return (optionen != null && optionen.length != 0);
+		}
+		
+		/**
+		 * @return true - Es gibt eine Liste von wählbaren Gruppen von
+		 * 	Optionen, ansonsten false.
+		 */
+		public boolean hasOptionsgruppen() {
+			return (optionsGruppe != null && optionsGruppe.length != 0);
+		}
+		
+		/**
+		 * @see getOptionen()
+		 * @param optionen Alle wählbaren Optionen
+		 */
+		public void setOptionen(IdLink[] optionen) {
+			this.optionen = optionen;
+		}
+		
 		/**
 		 * Eine Optionsgruppe ist erstmal eine gleichberechtigte Option
 		 * wie auch jene, die per "getOptionen()" geliefert werden. In einer 
@@ -260,16 +357,22 @@ public class Auswahl {
 		 * @see getOptionen()
 		 * @param optionen Setzt das Attribut optionen.
 		 */
-		public void setOptionen(IdLink[] optionen) {
-			this.optionen = optionen;
-		}
-		/**
-		 * @return Liefert das Attribut optionsGruppe.
-		 */
 		public IdLink[][] getOptionsGruppe() {
 			return optionsGruppe;
 		}
 		/**
+		 * Eine Optionsgruppe ist erstmal eine gleichberechtigte Option
+		 * wie auch jene, die per "getOptionen()" geliefert werden. In einer 
+		 * Optionsgruppe sind jedoch mehrer Link (und somit CharElemente) enthalten,
+		 * die alle nur gemeinsam gewählt oder nicht gewählt werden können.
+		 * 
+		 * Beispiel:
+		 * 	- "Schwerter +5 oder Dolche +2 und Klettern +3"
+		 * In diesem Beispiel ist eine normale Option enthalten (Schwerter)
+		 * und eine Gruppe (Dolche und Klettern) die nur gemeinsam gewählt 
+		 * werden können. 
+		 * 
+		 * @see getOptionen()
 		 * @param optionsGruppe Setzt das Attribut optionsGruppe.
 		 */
 		public void setOptionsGruppe(IdLink[][] optionsGruppe) {
@@ -277,12 +380,14 @@ public class Auswahl {
 		}
 		/**
 		 * Nur für "LISTE" und "VERTEILUNG" wichtig!
-		 * LISTE - In "wert" steht eine Liste von Werten, wobei jeder Wert einer
+		 * LISTE - In "wert"steht eine Liste von Werten, wobei jeder Wert einer
 		 * 	"option" zugewiesen werden muß. Es werden soviele optionen gewählt, wie
-		 * 	 es werte gibt.
-		 * ANZAHL - In "wert" steht eine Zahl, die angibt wieviele der "optionen"
-		 * 	gewählt werden müssen. Jede option kann einen Wert haben (über den
-		 * 	"Link").
+		 * 	 es werte gibt. 
+		 * VERTEILUNG - Der Wert in "wert" kann auf soviele der Optionen verteilt werden,
+		 *  wie im Attribut "anzahl" angegeben. D.h. erst werden die Optionen ausgewählt, 
+		 *  dann der "wert" beliebig auf die gewählten optionen verteilt. (Siehe 
+		 *  "Elfische Siedlung" S. 37 im AZ)
+		 * 	In "max" steht wie hoch die Stufe jeder gewählten option sein darf
 		 * 
 		 * @return Liefert das Attribut werte.
 		 */
@@ -294,9 +399,11 @@ public class Auswahl {
 		 * LISTE - In "wert"steht eine Liste von Werten, wobei jeder Wert einer
 		 * 	"option" zugewiesen werden muß. Es werden soviele optionen gewählt, wie
 		 * 	 es werte gibt. 
-		 * ANZAHL - In "wert" steht eine Zahl, die angibt wieviele der "optionen"
-		 * 	gewählt werden müssen. Jede option kann einen Wert haben (über den
-		 * 	"Link").
+		 * VERTEILUNG - Der Wert in "wert" kann auf soviele der Optionen verteilt werden,
+		 *  wie im Attribut "anzahl" angegeben. D.h. erst werden die Optionen ausgewählt, 
+		 *  dann der "wert" beliebig auf die gewählten optionen verteilt. (Siehe 
+		 *  "Elfische Siedlung" S. 37 im AZ)
+		 * 	In "max" steht wie hoch die Stufe jeder gewählten option sein darf
 		 * 
 		 * @param werte Setzt das Attribut werte.
 		 */
