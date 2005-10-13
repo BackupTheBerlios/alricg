@@ -17,7 +17,7 @@ import org.d3s.alricg.controller.CharKomponente;
  * @author V.Strelow
  */
 public class Ausruestung extends Gegenstand {
-    private boolean istBehaelter = false;
+    private boolean istBehaelter;
 	private String haltbarkeit;
     
 	/* (non-Javadoc) Methode überschrieben
