@@ -194,7 +194,7 @@ final class XOMMappingHelper {
         }
 
         // Schreiben der "variablen" Elemente
-        final VariableAuswahl[] varianteAuswahl = auswahl.getVarianteAuswahl();
+        final VariableAuswahl[] varianteAuswahl = auswahl.getVariableAuswahl();
         for (int i = 0; i < varianteAuswahl.length; i++) {
             final Element e = new Element("auswahl");
             instance.mapVariableAuswahl(varianteAuswahl[i], e);
@@ -221,12 +221,12 @@ final class XOMMappingHelper {
 
         // Auslesen der Auswahlmöglichkeiten
         children = xmlElement.getChildElements("auswahl");
-        final VariableAuswahl[] varianteAuswahl = new VariableAuswahl[children.size()];
-        for (int i = 0; i < varianteAuswahl.length; i++) {
-            varianteAuswahl[i] = auswahl.new VariableAuswahl(auswahl);
-            instance.mapVariableAuswahl(children.get(i), varianteAuswahl[i]);
+        final VariableAuswahl[] variableAuswahl = new VariableAuswahl[children.size()];
+        for (int i = 0; i < variableAuswahl.length; i++) {
+            variableAuswahl[i] = auswahl.new VariableAuswahl(auswahl);
+            instance.mapVariableAuswahl(children.get(i), variableAuswahl[i]);
         }
-        auswahl.setVarianteAuswahl(varianteAuswahl);
+        auswahl.setVariableAuswahl(variableAuswahl);
     }
 
     /**
