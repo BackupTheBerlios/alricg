@@ -9,7 +9,6 @@ package org.d3s.alricg.store.xom.map;
 import java.io.File;
 
 import junit.framework.TestCase;
-import nu.xom.Attribute;
 import nu.xom.Element;
 
 import org.d3s.alricg.charKomponenten.CharElement;
@@ -20,6 +19,7 @@ import org.d3s.alricg.controller.MessengerMock;
 import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
 import org.d3s.alricg.store.FactoryFinder;
+import org.d3s.alricg.store.xom.XOMStoreObjectMother;
 
 /**
  * Tests für XOMMapper_Faehigkeit
@@ -28,6 +28,7 @@ import org.d3s.alricg.store.FactoryFinder;
  */
 public class XM_Faehigkeit_Test extends TestCase {
 
+	private XOMStoreObjectMother oma;
 	private XOMMapper mappy;
 
 	public XM_Faehigkeit_Test(String name) {
@@ -36,20 +37,17 @@ public class XM_Faehigkeit_Test extends TestCase {
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		ProgAdmin.messenger = new MessengerMock();
+		oma = new XOMStoreObjectMother();
 		mappy = new XOMMapper_FaehigkeitBase();
+		ProgAdmin.messenger = new MessengerMock();
 		FactoryFinder.init(new File(
 				"test/org/d3s/alricg/store/factory.properties"));
 	}
 
 	public void testMapFromXML() {
 		final Element xom = new Element("FaehigkeitBase");
-		final Element probe = new Element("probenWurf");
-		probe.addAttribute(new Attribute("eigen1", "EIG-MU"));
-		probe.addAttribute(new Attribute("eigen2", "EIG-FF"));
-		probe.addAttribute(new Attribute("eigen3", "EIG-KK"));
-		xom.appendChild(probe);
-		xom.addAttribute(new Attribute("kostenKlasse", "A"));
+		oma.addProbe(xom);
+		oma.addKostenKlasse(xom);
 
 		Faehigkeit f = new FaehigkeitBase();
 		mappy.map(xom, f);

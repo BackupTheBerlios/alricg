@@ -41,8 +41,8 @@ public class XM_Talent_Test extends TestCase {
 	public void testMapFromXML() {
 		try {
 			final Element xom = new Element("talent");
-			xom.appendChild(oma.getProbe());
-			xom.addAttribute(oma.getKostenKlasse());
+			oma.addProbe(xom);
+			oma.addKostenKlasse(xom);
 
 			Element e = new Element("einordnung");
 			Attribute art = new Attribute("art", "n/a");

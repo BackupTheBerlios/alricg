@@ -63,24 +63,22 @@ public class XM_Ritus_Test extends TestCase {
 		String[] gKeys = new String[] { "GOT-PER", "GOT-BOR", "GOT-RAH" };
 		Gottheit[] gott = new Gottheit[] { new Gottheit(gKeys[0]),
 				new Gottheit(gKeys[1]), new Gottheit(gKeys[2]) };
-		oma.add(CharKomponente.gottheit, gKeys, gott);
 
+		Ritus r = new RitusBase();
 		for (int i = 0; i < gKeys.length; i++) {
+			oma.add(CharKomponente.gottheit, gKeys[i], gott[i]);
+
 			element = new Element("gottheit");
 			element.appendChild(gKeys[i]);
 			xom.appendChild(element);
-		}
 
-		Ritus r = new RitusBase();
-		mappy.map(xom, r);
+			r = new RitusBase();
+			mappy.map(xom, r);
 
-		assertEquals("Grad falsch", grad, r.getGrad());
-		assertEquals("AdditionsId", aID, r.getAdditionsId());
-		assertEquals("Anzahl Götter falsch", gott.length,
-				r.getGottheit().length);
-		for (int i = 0; i < gott.length; i++) {
-			assertEquals("Gottheit falsch [" + gott[i] + "]", gott[i], r
-					.getGottheit()[i]);
+			assertEquals("Grad falsch", grad, r.getGrad());
+			assertEquals("AdditionsId", aID, r.getAdditionsId());
+			assertEquals("Anzahl Götter falsch", i + 1, r.getGottheit().length);
+			assertEquals("Gottheit falsch ", gott[i], r.getGottheit()[i]);
 		}
 	}
 

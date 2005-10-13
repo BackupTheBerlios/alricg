@@ -40,8 +40,8 @@ public class XM_LiturgieRitualKenntnis_Test extends TestCase {
 	public void testMapFromXML() {
 		try {
 			final Element xom = new Element("liRiKenntnis");
-			xom.appendChild(oma.getProbe());
-			xom.addAttribute(oma.getKostenKlasse());
+			oma.addProbe(xom);
+			oma.addKostenKlasse(xom);
 			
 			final String name = "LRK-SadoMaso";
 

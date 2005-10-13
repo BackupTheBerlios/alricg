@@ -17,20 +17,26 @@ import org.d3s.alricg.store.FactoryFinder;
 public class XOMStoreObjectMother {
 
 	public <T extends CharElement> void add(CharKomponente komponente,
-			String[] keys, T[] elements) {
-		data().put(komponente, keys, elements);
+			String key, T element) {
+		data().put(komponente, key, element);
 	}
-	
-	public Element getProbe() {
+
+	public void addProbe(Element xom) {
 		final Element probe = new Element("probenWurf");
 		probe.addAttribute(new Attribute("eigen1", "EIG-MU"));
 		probe.addAttribute(new Attribute("eigen2", "EIG-FF"));
 		probe.addAttribute(new Attribute("eigen3", "EIG-KK"));
-		return probe;
+		xom.appendChild(probe);
 	}
-	
-	public Attribute getKostenKlasse() {
-		return new Attribute("kostenKlasse", "A");
+
+	public void addErhaeltlichBei(Element xom, String regionName) {
+		final Element element = new Element("erhaeltlichBei");
+		element.appendChild(regionName);
+		xom.appendChild(element);
+	}
+
+	public void addKostenKlasse(Element xom) {
+		xom.addAttribute(new Attribute("kostenKlasse", "A"));
 	}
 
 	XOMStoreMock data() {

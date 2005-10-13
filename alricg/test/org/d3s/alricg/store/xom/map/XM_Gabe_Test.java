@@ -38,8 +38,8 @@ public class XM_Gabe_Test extends TestCase {
 	public void testMapFromXML() {
 		try {
 			final Element xom = new Element("gabe");
-			xom.appendChild(oma.getProbe());
-			xom.addAttribute(oma.getKostenKlasse());
+			oma.addProbe(xom);
+			oma.addKostenKlasse(xom);
 
 			final String name = "GAB-Durchblick";
 

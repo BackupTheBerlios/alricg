@@ -45,36 +45,33 @@ public class XM_Gegenstand_Test extends TestCase {
 	public void testMapFromXML() {
 		final Element xom = new Element("GegenstandBase");
 		Element element = null;
-		
+
 		// erhaeltlichBei: RegionVolk[] /min: 1
-		String[] rvKeys = new String[] { "REG-BAY", "REG-MHA", "REG-KHO",
-				"REG-GAR" };
+		String[] rvKeys = new String[] { "REG-B", "REG-M", "REG-K", "REG-G" };
+
 		RegionVolk[] rv = new RegionVolk[] { new RegionVolk(rvKeys[0]),
 				new RegionVolk(rvKeys[1]), new RegionVolk(rvKeys[2]),
 				new RegionVolk(rvKeys[3]) };
-		oma.add(CharKomponente.region, rvKeys, rv);
-		for (int i = 0; i < rvKeys.length; i++) {
-			element = new Element("erhaeltlichBei");
-			element.appendChild(rvKeys[i]);
-			xom.appendChild(element);
-		}
-
 
 		Gegenstand g = new GegenstandBase();
-		mappy.map(xom, g);
+		for (int i = 0; i < rvKeys.length; i++) {
+			oma.add(CharKomponente.region, rvKeys[i], rv[i]);
+			oma.addErhaeltlichBei(xom, rvKeys[i]);
 
-		assertEquals("Anzahl Regionen falsch", rv.length,
-				g.getErhältlichBei().length);
-		for (int i = 0; i < rv.length; i++) {
-			assertEquals("Region falsch [" + rv[i] + "]", rv[i], g
-					.getErhältlichBei()[i]);
+			g = new GegenstandBase();
+			mappy.map(xom, g);
+
+			assertEquals("# Regionen falsch", i + 1,
+					g.getErhältlichBei().length);
+
+			assertEquals("Region falsch", rv[i], g.getErhältlichBei()[i]);
+
+			assertEquals("Gewicht falsch", CharElement.KEIN_WERT, g
+					.getGewicht());
+			assertEquals("Wert falsch", CharElement.KEIN_WERT, g.getWert());
+			assertEquals("Einordnung falsch", null, g.getEinordnung());
 		}
 
-		assertEquals("Gewicht falsch", CharElement.KEIN_WERT, g.getGewicht());
-		assertEquals("Wert falsch", CharElement.KEIN_WERT, g.getWert());
-		assertEquals("Einordnung falsch", null, g.getEinordnung());
-
-		
 		// gewicht: int/optional
 		int gewicht = 564463;
 		element = new Element("gewicht");

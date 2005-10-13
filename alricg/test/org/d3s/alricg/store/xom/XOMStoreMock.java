@@ -66,20 +66,22 @@ public class XOMStoreMock extends Object implements DataStore {
 		return skt;
 	}
 
-	<T extends CharElement> void put(CharKomponente komponente, String[] keys,
-			T[] vals) {
+	<T extends CharElement> void put(CharKomponente komponente, String key,
+			T val) {
+
+		Map<String, T> n = null;
 		if (!mapOfMaps.containsKey(komponente)) {
-			Map<String, T> n = new HashMap<String, T>();
+			n = new HashMap<String, T>();
 			mapOfMaps.put(komponente, n);
-			put(komponente, keys, vals);
+		} else {
+			// must use unchecked cast
+			n = (Map<String, T>) mapOfMaps.get(komponente);
+
 		}
 
-		// must use unchecked cast
-		Map<String, T> n = (Map<String, T>) mapOfMaps.get(komponente);
-		for (int i = 0; i < keys.length; i++) {
-			n.put(keys[i], vals[i]);
-			// ClassCastException may be thrown here.
-		}
+		// ClassCastException may be thrown here.
+		n.put(key, val);
+
 	}
 
 	void init(Configuration config) throws ConfigurationException {

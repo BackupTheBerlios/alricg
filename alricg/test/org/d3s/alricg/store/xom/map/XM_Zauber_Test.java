@@ -44,9 +44,9 @@ public class XM_Zauber_Test extends TestCase {
 	public void testMapFromXML() {
 		try {
 			final Element xom = new Element("zauber");
-			xom.appendChild(oma.getProbe());
-			xom.addAttribute(oma.getKostenKlasse());
-
+			oma.addProbe(xom);
+			oma.addKostenKlasse(xom);
+			
 			String dauer = "666 h";
 			Element e = new Element("zauberdauer");
 			e.appendChild(dauer);
@@ -108,10 +108,12 @@ public class XM_Zauber_Test extends TestCase {
 			// verbreitung
 			String[] bekanntKeys =  {"REP-111", "REP-222"};
 			Repraesentation[] bekanntVals = {new Repraesentation(bekanntKeys[0]), new Repraesentation(bekanntKeys[1])};
-			oma.add(CharKomponente.repraesentation, bekanntKeys, bekanntVals);
+			oma.add(CharKomponente.repraesentation, bekanntKeys[0], bekanntVals[0]);
+			oma.add(CharKomponente.repraesentation, bekanntKeys[1], bekanntVals[1]);
 			String[] repKeys =  {"REP-987", "REP-654"};
 			Repraesentation[] repVals = {new Repraesentation(repKeys[0]), new Repraesentation(repKeys[1])};
-			oma.add(CharKomponente.repraesentation, repKeys, repVals);
+			oma.add(CharKomponente.repraesentation, repKeys[0], repVals[0]);
+			oma.add(CharKomponente.repraesentation, repKeys[1], repVals[1]);
 			int[] wert = {100, 21000};
 
 			e = new Element("verbreitung");
