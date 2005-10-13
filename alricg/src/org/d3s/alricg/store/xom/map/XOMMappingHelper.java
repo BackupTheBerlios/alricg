@@ -22,13 +22,13 @@ import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Herkunft;
 import org.d3s.alricg.charKomponenten.HerkunftVariante;
 import org.d3s.alricg.charKomponenten.charZusatz.SimpelGegenstand;
+import org.d3s.alricg.charKomponenten.links.AbstractVariableAuswahl;
 import org.d3s.alricg.charKomponenten.links.Auswahl;
 import org.d3s.alricg.charKomponenten.links.AuswahlAusruestung;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
 import org.d3s.alricg.charKomponenten.links.Voraussetzung;
-import org.d3s.alricg.charKomponenten.links.Auswahl.Modus;
-import org.d3s.alricg.charKomponenten.links.Auswahl.VariableAuswahl;
+import org.d3s.alricg.charKomponenten.links.AbstractVariableAuswahl.Modus;
 import org.d3s.alricg.charKomponenten.links.AuswahlAusruestung.HilfsAuswahl;
 import org.d3s.alricg.charKomponenten.links.Voraussetzung.IdLinkVoraussetzung;
 import org.d3s.alricg.controller.CharKomponente;
@@ -194,7 +194,7 @@ final class XOMMappingHelper {
         }
 
         // Schreiben der "variablen" Elemente
-        final VariableAuswahl[] varianteAuswahl = auswahl.getVariableAuswahl();
+        final AbstractVariableAuswahl[] varianteAuswahl = auswahl.getVariableAuswahl();
         for (int i = 0; i < varianteAuswahl.length; i++) {
             final Element e = new Element("auswahl");
             instance.mapVariableAuswahl(varianteAuswahl[i], e);
@@ -221,9 +221,13 @@ final class XOMMappingHelper {
 
         // Auslesen der Auswahlmöglichkeiten
         children = xmlElement.getChildElements("auswahl");
-        final VariableAuswahl[] variableAuswahl = new VariableAuswahl[children.size()];
+        
+        final AbstractVariableAuswahl[] variableAuswahl = new AbstractVariableAuswahl[children.size()];
         for (int i = 0; i < variableAuswahl.length; i++) {
-            variableAuswahl[i] = auswahl.new VariableAuswahl(auswahl);
+        	
+        	variableAuswahl[i] = AbstractVariableAuswahl.createAuswahl(auswahl, 
+        			children.get(i).getAttributeValue("modus"));
+        	
             instance.mapVariableAuswahl(children.get(i), variableAuswahl[i]);
         }
         auswahl.setVariableAuswahl(variableAuswahl);
@@ -718,13 +722,14 @@ final class XOMMappingHelper {
      * @param xmlElement Das xml-Element mit der variablen Auswahl.
      * @param variableAuswahl Die VariableAuswahl, der verändert werden soll.
      */
-    private void mapVariableAuswahl(Element xmlElement, VariableAuswahl variableAuswahl) {
+    private void mapVariableAuswahl(Element xmlElement, AbstractVariableAuswahl variableAuswahl) {
 
         // Überprüfung oder der Modus-Wert gültig ist:
         final String attValue = xmlElement.getAttributeValue("modus");
         assert attValue.equals(Modus.LISTE.getValue()) || attValue.equals(Modus.ANZAHL.getValue())
                 || attValue.equals(Modus.VERTEILUNG.getValue());
 
+        /* Nicht mehr nötig, da im Konstruktor der Auswahl schon gesetzt
         // Einlesen des Modus
         if (attValue.equals(Modus.LISTE.getValue())) {
             variableAuswahl.setModus(Modus.LISTE);
@@ -733,25 +738,36 @@ final class XOMMappingHelper {
         } else { // ... .equals(Modus.VERTEILUNG.getValue())
             variableAuswahl.setModus(Modus.VERTEILUNG);
         }
+        */
 
         try {
-            // Einlesen der Werte / optional
-            if (xmlElement.getAttribute("werte") != null) {
+        	// Einlesen der Werte / optional
+            // --- Für den Modus Verteilung
+            if (variableAuswahl.getModus().equals(Modus.VERTEILUNG)) {
+            	variableAuswahl.setWert(Integer.parseInt(xmlElement.getAttributeValue("werte")));
+            }
+            
+            // --- Für den Modus Liste
+            if (variableAuswahl.getModus().equals(Modus.LISTE)) {
                 final String[] attValues = xmlElement.getAttributeValue("werte").split(" ");
                 final int[] werte = new int[attValues.length];
                 for (int i = 0; i < attValues.length; i++) {
                     werte[i] = Integer.parseInt(attValues[i]);
                 }
-                variableAuswahl.setWerte(werte);
+                variableAuswahl.setWerteListe(werte);
             }
 
             // Einlesen des optionalen Feldes Anzahl
-            if (xmlElement.getAttribute("anzahl") != null) {
+            if ( (variableAuswahl.getModus().equals(Modus.VERTEILUNG) || 
+            		variableAuswahl.getModus().equals(Modus.ANZAHL))
+            		&& xmlElement.getAttributeValue("anzahl") != null ) {
                 variableAuswahl.setAnzahl(Integer.parseInt(xmlElement.getAttributeValue("anzahl")));
             }
 
             // Einlesen des Maximalen Wertes / optional
-            if (xmlElement.getAttribute("max") != null) {
+            if ( variableAuswahl.getModus().equals(Modus.VERTEILUNG) 
+            		&& xmlElement.getAttributeValue("max") != null ) {
+
                 variableAuswahl.setMax(Integer.parseInt(xmlElement.getAttributeValue("max")));
             }
 
@@ -784,7 +800,7 @@ final class XOMMappingHelper {
      * @param variableAuswahl Die VariableAuswahl, die ausgelesen werden soll.
      * @param xmlElement Das xml-Element, das geschrieben werden soll.
      */
-    private void mapVariableAuswahl(VariableAuswahl variableAuswahl, Element xmlElement) {
+    private void mapVariableAuswahl(AbstractVariableAuswahl variableAuswahl, Element xmlElement) {
 
         // Schreiben der einzelnen Optionen:
         final IdLink[] optionen = variableAuswahl.getOptionen();
@@ -809,26 +825,33 @@ final class XOMMappingHelper {
         }
 
         // Schreiben des Attributs "werte"
-        final int[] werte = variableAuswahl.getWerte();
-        final StringBuffer buffy = new StringBuffer();
-        for (int i = 0; i < werte.length; i++) {
-            buffy.append(Integer.toString(werte[i]));
-            buffy.append(" ");
+        // --- Für den Modus Verteilung
+        if (variableAuswahl.getModus().equals(Modus.VERTEILUNG)) {
+	        final int wert = variableAuswahl.getWert();
+	        xmlElement.addAttribute(new Attribute("werte", Integer.toString(wert)));
         }
-        if (buffy.length() > 0) {
-            xmlElement.addAttribute(new Attribute("werte", buffy.toString().trim()));
+        // --- Für den Modus Liste
+        if (variableAuswahl.getModus().equals(Modus.LISTE)) {
+	        final int[] werte = variableAuswahl.getWerteListe();
+	        final StringBuffer buffy = new StringBuffer();
+	        for (int i = 0; i < werte.length; i++) {
+	            buffy.append(Integer.toString(werte[i]));
+	            buffy.append(" ");
+	        }
+	        if (buffy.length() > 0) {
+	            xmlElement.addAttribute(new Attribute("werte", buffy.toString().trim()));
+	        }
         }
-
+        
         // Schreiben des Attribus "anzahl"
-        final int anzahl = variableAuswahl.getAnzahl();
-        if (anzahl != 0) {
-            xmlElement.addAttribute(new Attribute("anzahl", Integer.toString(anzahl)));
+        if (variableAuswahl.getModus().equals(Modus.VERTEILUNG) || 
+        		variableAuswahl.getModus().equals(Modus.ANZAHL) ) {
+            xmlElement.addAttribute(new Attribute("anzahl", Integer.toString(variableAuswahl.getAnzahl())));
         }
 
         // Schreiben des Attribus "max"
-        final int max = variableAuswahl.getMax();
-        if (max != 0) {
-            xmlElement.addAttribute(new Attribute("max", Integer.toString(max)));
+        if (variableAuswahl.getModus().equals(Modus.VERTEILUNG) ) {
+            xmlElement.addAttribute(new Attribute("max", Integer.toString(variableAuswahl.getMax())));
         }
 
         // Schreiben des Attributs "modus"
@@ -842,7 +865,7 @@ final class XOMMappingHelper {
      * @param va Die zu berücksichtigende VariableAuswahl
      * @return Ein Array, der die ID-Links des xml-Elements enthält
      */
-    private IdLink[] readOptionen(Elements xmlElements, VariableAuswahl va) {
+    private IdLink[] readOptionen(Elements xmlElements, AbstractVariableAuswahl va) {
         final IdLink[] optionen = new IdLink[xmlElements.size()];
         for (int i = 0; i < optionen.length; i++) {
             optionen[i] = new IdLink(va.getAuswahl().getHerkunft(), va.getAuswahl());
