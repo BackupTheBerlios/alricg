@@ -37,6 +37,7 @@ public class AllTests extends TestCase {
         testSuite.addTestSuite(XM_SchwarzeGabe_Test.class);
         testSuite.addTestSuite(XM_SimpelGegenstand_Test.class);
         testSuite.addTestSuite(XM_SonderFertigkeit_Test.class);
+        testSuite.addTestSuite(XM_Sprache_Test.class);
         testSuite.addTestSuite(XM_Talent_Test.class);
         testSuite.addTestSuite(XM_VorNachteil_Test.class);
         testSuite.addTestSuite(XM_Zauber_Test.class);
