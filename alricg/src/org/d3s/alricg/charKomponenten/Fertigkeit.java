@@ -20,9 +20,9 @@ public abstract class Fertigkeit extends CharElement {
 
     private Voraussetzung voraussetzung; // Es muß die Voraussetzungen gelten!
 
-    private boolean hasText = false; // Gibt es noch einen Text zu der Fertigkeit? (Vorurteile gegen "Orks")
+    private boolean hasText; // Gibt es noch einen Text zu der Fertigkeit? (Vorurteile gegen "Orks")
 
-    private boolean hasElementAngabe = false; // Gibt es noch ein Element zu dieser Fertigkeit (Unfähigkeit
+    private boolean hasElementAngabe; // Gibt es noch ein Element zu dieser Fertigkeit (Unfähigkeit
                                                 // "Schwerter")
 
     private String[] textVorschlaege; // Eine Liste Möglicher angaben für den Text

@@ -15,7 +15,7 @@ import org.d3s.alricg.controller.CharKomponente;
  * @author V.Strelow
  */
 public class Nachteil extends VorNachteil {
-	private boolean isSchlechteEigen = false;
+	private boolean isSchlechteEigen;
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
