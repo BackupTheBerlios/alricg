@@ -460,9 +460,6 @@
 							<xsd:attribute name="gottheitId" type="xsd:string" use="required"/>
 						</xsd:complexType>
 					</xsd:element>
-					<xsd:element name="verboteVT" type="idListe" minOccurs="0"/>
-					<xsd:element name="verboteNT" type="idListe" minOccurs="0"/>
-					<xsd:element name="verboteSF" type="idListe" minOccurs="0"/>
 					<xsd:element name="sprachen" type="auswahlTyp" minOccurs="0"/>
 					<xsd:element name="schriften" type="auswahlTyp" minOccurs="0"/>
 					<xsd:element name="ausruestung" type="auswahlGegenstandTyp" minOccurs="0"/>
@@ -474,7 +471,6 @@
 							</xsd:sequence>
 						</xsd:complexType>
 					</xsd:element>
-					<!-- Verbote sind nicht erlaubte Eigenschaften, die als Voraussetzung gelten -->
 				</xsd:sequence>
 				<xsd:attribute name="aufwand" use="optional">
 					<xsd:simpleType>
@@ -1672,6 +1668,36 @@
 			<!- liRiKenntnis ist Liturgie/ Ritualkenntnis (eine SF), Gaben sind VORTEILE! ->
 		</xsd:sequence>
 	</xsd:complexType> -->
+	
+	<!--****************************************************************************************************************** -->
+	<xsd:complexType name="veraenderteKostenListeTyp">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="DE">
+				neuKosten - Die neuen Kosten des CharElements
+				modus - Ob die neuen Kosten absolut oder Prozentual angegeben sind
+					neuKosten="75" und modus="prozent" bedeutet z.B. das die neuen Kosten 
+						75% der alten Kosten betragen. 
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="link" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexContent>
+					<xsd:extension base="idLinkTyp">
+						<xsd:attribute name="neuKosten" type="xsd:int" use="required"/>
+						<xsd:attribute name="modus" use="optional">
+							<xsd:simpleType>
+								<xsd:restriction base="xsd:string">
+									<xsd:enumeration value="absolut"/>
+									<xsd:enumeration value="prozent"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+						</xsd:attribute>
+					</xsd:extension>
+				</xsd:complexContent>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	
 	<!--****************************************************************************************************************** -->
 	<xsd:complexType name="idLinkTyp">
 		<xsd:annotation>
