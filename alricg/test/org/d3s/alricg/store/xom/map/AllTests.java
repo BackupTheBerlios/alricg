@@ -22,25 +22,42 @@ public class AllTests extends TestCase {
         TestSuite testSuite = new TestSuite("All Tests for org.d3s.alricg.store.xom.map");
         testSuite.addTestSuite(XM_Ausruestung_Test.class);
         testSuite.addTestSuite(XM_CharElement_Test.class);
+        //testSuite.addTestSuite(XM_DaemonenPakt_Test.class);
         testSuite.addTestSuite(XM_Faehigkeit_Test.class);
         testSuite.addTestSuite(XM_Fahrzeug_Test.class);
         testSuite.addTestSuite(XM_Fertigkeit_Test.class);
+        //testSuite.addTestSuite(XM_FkWaffe_Test.class);
         testSuite.addTestSuite(XM_Gabe_Test.class);
         testSuite.addTestSuite(XM_Gegenstand_Test.class);
         testSuite.addTestSuite(XM_Gottheit_Test.class);
+        //testSuite.addTestSuite(XM_Herkunft_Test.class);
+        //testSuite.addTestSuite(XM_Kultur_Test.class);
+        //testSuite.addTestSuite(XM_Liturgue_Test.class); --> unnötig; wie Ritus.
         testSuite.addTestSuite(XM_LiturgieRitualKenntnis_Test.class);
         testSuite.addTestSuite(XM_Nachteil_Test.class);
+        //testSuite.addTestSuite(XM_NahkWaffe_Test.class);
+        //testSuite.addTestSuite(XM_Profession_Test.class);
+        //testSuite.addTestSuite(XM_Rasse_Test.class);
         testSuite.addTestSuite(XM_RegionVolk_Test.class);        
         testSuite.addTestSuite(XM_Repraesentation_Test.class);
+        //testSuite.addTestSuite(XM_Ritual_Test.class);
         testSuite.addTestSuite(XM_Ritus_Test.class);
+        //testSuite.addTestSuite(XM_Ruestung_Test.class);
+        //testSuite.addTestSuite(XM_Schild_Test.class);
+        //testSuite.addTestSuite(XM_Schrift_Test.class); --> unnötig; wie SchriftSprache
         testSuite.addTestSuite(XM_SchriftSprache_Test.class);
         testSuite.addTestSuite(XM_SchwarzeGabe_Test.class);
         testSuite.addTestSuite(XM_SimpelGegenstand_Test.class);
         testSuite.addTestSuite(XM_SonderFertigkeit_Test.class);
         testSuite.addTestSuite(XM_Sprache_Test.class);
         testSuite.addTestSuite(XM_Talent_Test.class);
+        //testSuite.addTestSuite(XM_Tier_Test.class); --> unnötig; wie CharElement
         testSuite.addTestSuite(XM_VorNachteil_Test.class);
+        //testSuite.addTestSuite(XM_Vorteil_Test.class); --> unnötig; wie VorNachteil
+        //testSuite.addTestSuite(XM_Waffe_Test.class);
         testSuite.addTestSuite(XM_Zauber_Test.class);
+        //testSuite.addTestSuite(XM_ZusatzProfession_Test.class);
+        //testSuite.addTestSuite(XM_Helper_Test.class);
         return testSuite;
     }
 }

@@ -42,6 +42,13 @@ public class XOMStoreObjectMother {
 	public void addGPKosten(Element xom) {
 		xom.addAttribute(new Attribute("gp", "15"));
 	}
+	
+	public void addSchriftSprachDaten(Element xom) {
+		final Element daten = new Element("daten");
+		addKostenKlasse(daten);
+		daten.addAttribute(new Attribute("komplexitaet", "3"));
+		xom.appendChild(daten);
+	}
 
 	XOMStoreMock data() {
 		return (XOMStoreMock) FactoryFinder.find().getData();
