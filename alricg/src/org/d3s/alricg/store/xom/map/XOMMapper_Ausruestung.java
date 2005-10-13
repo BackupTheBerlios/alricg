@@ -30,7 +30,6 @@ class XOMMapper_Ausruestung extends XOMMapper_Gegenstand implements XOMMapper {
 
         // my mapping
         final Ausruestung ausruestung = (Ausruestung) charElement;
-        xmlElement.setLocalName("gegenstand");
 
         // Behälter
         Element child = xmlElement.getFirstChildElement("istBehaelter");
@@ -55,7 +54,7 @@ class XOMMapper_Ausruestung extends XOMMapper_Gegenstand implements XOMMapper {
 
         // my mapping
         final Ausruestung ausruestung = (Ausruestung) charElement;
-        xmlElement.setLocalName("gegenstand");
+        xmlElement.setLocalName("ausruestung");
 
         // Behälter
         if (!ausruestung.istBehaelter()) {

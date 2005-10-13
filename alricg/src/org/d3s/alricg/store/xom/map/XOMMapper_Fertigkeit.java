@@ -59,7 +59,7 @@ abstract class XOMMapper_Fertigkeit extends XOMMapper_CharElement implements XOM
             // Sicherstellen des Wertebereiches
             assert current.getValue().equalsIgnoreCase("true") || current.getValue().equalsIgnoreCase("false");
 
-            fertigkeit.setHasText(current.getValue().equalsIgnoreCase("true"));
+            fertigkeit.setHasText(Boolean.parseBoolean(current.getValue()));
         }
 
         // Auslesen, ob diese Fertigkeit noch die Angabe eines Elements benötigt
@@ -68,7 +68,7 @@ abstract class XOMMapper_Fertigkeit extends XOMMapper_CharElement implements XOM
 
             // Sicherstellen des Wertebereiches
             assert current.getValue().equalsIgnoreCase("true") || current.getValue().equalsIgnoreCase("false");
-            fertigkeit.setElementAngabe(current.getValue().equalsIgnoreCase("true"));
+            fertigkeit.setElementAngabe(Boolean.parseBoolean(current.getValue()));
         }
 
         // Einlesen der vorgeschlagenen Texte
@@ -87,7 +87,7 @@ abstract class XOMMapper_Fertigkeit extends XOMMapper_CharElement implements XOM
         if (current != null) {
             assert current.getValue().equalsIgnoreCase("true") || current.getValue().equalsIgnoreCase("false");
 
-            fertigkeit.setWaehlbar(current.getValue().equalsIgnoreCase("true"));
+            fertigkeit.setWaehlbar(Boolean.parseBoolean(current.getValue()));
         }
 
         // Auslesen für welche CharArten die Fertigkeit ist

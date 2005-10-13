@@ -37,7 +37,7 @@ class XOMMapper_Nachteil extends XOMMapper_VorNachteil implements XOMMapper {
             // Prüfen des Wertebereichs
             assert current.getValue().equalsIgnoreCase("true") || current.getValue().equalsIgnoreCase("false");
 
-            nachteil.setSchlechteEigen(current.getValue().equalsIgnoreCase("true"));
+            nachteil.setSchlechteEigen(Boolean.parseBoolean(current.getValue()));
         }
     }
 

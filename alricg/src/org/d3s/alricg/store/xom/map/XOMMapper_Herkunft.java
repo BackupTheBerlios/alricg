@@ -53,9 +53,8 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement implements XOMMa
             if (current != null) {
 
                 // Sicherstellen, das der Wert gültig ist
-                String value = current.getValue().toLowerCase();
-                assert value.equals("false") || value.equals("true");
-                herkunft.setKannGewaehltWerden(value.equals("true"));
+                assert current.getValue().equalsIgnoreCase("false") || current.getValue().equalsIgnoreCase("true");
+                herkunft.setKannGewaehltWerden(Boolean.parseBoolean(current.getValue()));
             }
 
             // Auslesen des Geschlechts

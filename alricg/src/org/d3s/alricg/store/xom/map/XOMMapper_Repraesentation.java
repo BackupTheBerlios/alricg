@@ -35,7 +35,7 @@ class XOMMapper_Repraesentation extends XOMMapper_CharElement implements XOMMapp
         final Element current = xmlElement.getFirstChildElement("isEchteRep");
         if (current != null) {
             assert current.getValue().equalsIgnoreCase("true") || current.getValue().equalsIgnoreCase("false");
-            repraesentation.setEchteRep(current.getValue().equalsIgnoreCase("true"));
+            repraesentation.setEchteRep(Boolean.parseBoolean(current.getValue()));
         }
 
         // Auslesen der Abkürzung

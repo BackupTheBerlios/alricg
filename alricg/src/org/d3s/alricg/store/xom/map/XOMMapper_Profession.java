@@ -339,7 +339,7 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
 		if (current != null) {
 			String v = current.getValue().toLowerCase();
 			assert v.equals("false") || v.equals("true");
-			makademie.setZweitStudiumMoeglich(v.equals("true"));
+			makademie.setZweitStudiumMoeglich(Boolean.parseBoolean(v));
 		}
 
 		// Auslesen ob ein Drittstudium möglich ist
@@ -347,7 +347,7 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
 		if (current != null) {
 			String v = current.getValue().toLowerCase();
 			assert v.equals("false") || v.equals("true");
-			makademie.setDrittStudiumMoeglich(v.equals("true"));
+			makademie.setDrittStudiumMoeglich(Boolean.parseBoolean(v));
 		}
 
 		// Anmerkungen zu der Akademie auslesen

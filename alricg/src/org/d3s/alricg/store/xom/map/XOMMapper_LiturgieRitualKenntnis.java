@@ -34,9 +34,8 @@ class XOMMapper_LiturgieRitualKenntnis extends XOMMapper_Faehigkeit implements X
         final Element current = xmlElement.getFirstChildElement("istLiturgieKenntnis");
         if (current != null) {
             // Wertebereich prüfen
-            assert current.getValue().equals("true") || current.getValue().equals("false");
-
-            lrk.setLiturgieKenntnis(current.getValue().equalsIgnoreCase("true"));
+            assert current.getValue().equalsIgnoreCase("true") || current.getValue().equalsIgnoreCase("false");
+            lrk.setLiturgieKenntnis(Boolean.parseBoolean(current.getValue()));
         }
     }
 
