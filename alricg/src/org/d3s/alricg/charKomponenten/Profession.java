@@ -11,7 +11,6 @@ import org.d3s.alricg.charKomponenten.Werte.Gilde;
 import org.d3s.alricg.charKomponenten.Werte.MagieMerkmal;
 import org.d3s.alricg.charKomponenten.links.Auswahl;
 import org.d3s.alricg.charKomponenten.links.AuswahlAusruestung;
-import org.d3s.alricg.charKomponenten.links.IdLinkList;
 import org.d3s.alricg.controller.CharKomponente;
 
 /**
@@ -55,12 +54,6 @@ public class Profession extends Herkunft {
     private Art art;
 
     private MagierAkademie magierAkademie;
-
-    private IdLinkList verbotenVort;
-
-    private IdLinkList verbotenNacht;
-
-    private IdLinkList verbotenSF;
 
     private Auswahl sprachen;
 
@@ -219,48 +212,6 @@ public class Profession extends Herkunft {
      */
     public void setSprachen(Auswahl sprachen) {
         this.sprachen = sprachen;
-    }
-
-    /**
-     * @return Liefert das Attribut verbotenNacht.
-     */
-    public IdLinkList getVerbotenNacht() {
-        return verbotenNacht;
-    }
-
-    /**
-     * @param verbotenNacht Setzt das Attribut verbotenNacht.
-     */
-    public void setVerbotenNacht(IdLinkList verbotenNacht) {
-        this.verbotenNacht = verbotenNacht;
-    }
-
-    /**
-     * @return Liefert das Attribut verbotenSF.
-     */
-    public IdLinkList getVerbotenSF() {
-        return verbotenSF;
-    }
-
-    /**
-     * @param verbotenSF Setzt das Attribut verbotenSF.
-     */
-    public void setVerbotenSF(IdLinkList verbotenSF) {
-        this.verbotenSF = verbotenSF;
-    }
-
-    /**
-     * @return Liefert das Attribut verbotenVort.
-     */
-    public IdLinkList getVerbotenVort() {
-        return verbotenVort;
-    }
-
-    /**
-     * @param verbotenVort Setzt das Attribut verbotenVort.
-     */
-    public void setVerbotenVort(IdLinkList verbotenVort) {
-        this.verbotenVort = verbotenVort;
     }
     
 	/**
