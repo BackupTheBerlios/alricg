@@ -38,6 +38,10 @@ public class XOMStoreObjectMother {
 	public void addKostenKlasse(Element xom) {
 		xom.addAttribute(new Attribute("kostenKlasse", "A"));
 	}
+	
+	public void addGPKosten(Element xom) {
+		xom.addAttribute(new Attribute("gp", "15"));
+	}
 
 	XOMStoreMock data() {
 		return (XOMStoreMock) FactoryFinder.find().getData();
