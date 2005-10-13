@@ -42,7 +42,8 @@ import org.d3s.alricg.charKomponenten.Herkunft;
 public class Auswahl {
 	
 	/**
-	 *Gibt den Modus der Auswahl an.
+	 * Gibt den Modus der Auswahl an. Der Modus ist nur für VariableAuswahlen wichtigt
+	 * und gibt an in welcher Art die Optionen ausgewählt werden können. 
 	 *
 	 * LISTE - In "wert" steht eine Liste von Werten, wobei jeder Wert einer "option"
 	 *   zugewiesen werden muß. Es werden soviele optionen gewählt, wie es werte gibt. 
@@ -91,8 +92,32 @@ public class Auswahl {
 		}
 	}
 	
+	/**
+	 * Ein Array aller variablen Auswahlen bei denen der User wählen kann, 
+	 * was er zu seinem Char hinzufügen möchte. Wie oben angegeben hat 
+	 * jede variable Auswahl einen Modus, der angibt wie die Werte zu interpretieren 
+	 * sind.
+	 * 
+	 * 	Beispiele:
+	 * - "Talent Schwerter +2 oder Talent Dolche +3" (Modus ANZAHL) 
+	 * - "Die Werte +3, +2, +1 beliebig auf die Talente Schwerter, Dolche, 
+	 * 		Klettern verteilen" (Modus LISTE)
+	 * - "Fünf Punkte beliebig verteilen auf die Talente Schwerter und Dolche"
+	 * (Modus VERTEILUNG)
+	 */
 	private VariableAuswahl[] varianteAuswahl;
-    private Herkunft herkunft; // Das CharElement, von dem die Auswahl kommt
+	
+	/**
+	 * Das CharElement, von dem die Auswahl kommt
+	 */
+    private Herkunft herkunft;
+    
+    /**
+     * Dies ist eine feste Liste von Modis. Es ist einfach eine Auflistung der
+	 * Modifikationen ohne das der Benutzer etwas wählen kann.
+	 * Beispiel:
+	 * 	"Schwerter +3, Klettern +2, Schwimmen +4" 
+     */
 	protected IdLink[] festeAuswahl; // Die unveränderlichen Werte
 	
 	
@@ -135,8 +160,8 @@ public class Auswahl {
 	}
 	
 	/**
-	 * 
-	 * Ein Array aller variablen Auswahlen kann. Wie oben angegeben hat 
+	 * Ein Array aller variablen Auswahlen bei denen der User wählen kann, 
+	 * was er zu seinem Char hinzufügen möchte. Wie oben angegeben hat 
 	 * jede variable Auswahl einen Modus, der angibt wie die Werte zu interpretieren 
 	 * sind.
 	 * 
@@ -149,7 +174,7 @@ public class Auswahl {
 	 * 
 	 * @return Liefert das Attribut varianteAuswahl.
 	 */
-	public VariableAuswahl[] getVarianteAuswahl() {
+	public VariableAuswahl[] getVariableAuswahl() {
 		return varianteAuswahl;
 	}
 	
@@ -177,7 +202,7 @@ public class Auswahl {
 	 * 
 	 * @param varianteAuswahl Setzt das Attribut varianteAuswahl.
 	 */
-	public void setVarianteAuswahl(VariableAuswahl[] varianteAuswahl) {
+	public void setVariableAuswahl(VariableAuswahl[] varianteAuswahl) {
 		this.varianteAuswahl = varianteAuswahl;
 	}
 	
