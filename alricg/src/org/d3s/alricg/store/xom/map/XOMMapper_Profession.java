@@ -27,7 +27,6 @@ import org.d3s.alricg.charKomponenten.Profession.MagierAkademie;
 import org.d3s.alricg.charKomponenten.Werte.MagieMerkmal;
 import org.d3s.alricg.charKomponenten.links.Auswahl;
 import org.d3s.alricg.charKomponenten.links.AuswahlAusruestung;
-import org.d3s.alricg.charKomponenten.links.IdLinkList;
 import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.store.FactoryFinder;
 
@@ -96,6 +95,7 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
 			profession.setRitusModis(ritusModis);
 		}
 
+		/*
 		// Auslesen der verbotenen Vorteile
 		current = xmlElement.getFirstChildElement("verboteVT");
 		if (current != null) {
@@ -119,6 +119,7 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
 			XOMMappingHelper.instance().mapIdLinkList(current, ids);
 			profession.setVerbotenSF(ids);
 		}
+		*/
 
 		// Auslesen der Sprachen Auswahl
 		current = xmlElement.getFirstChildElement("sprachen");
@@ -217,7 +218,8 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
 			e.appendChild(ee);
 			xmlElement.appendChild(e);
 		}
-
+		
+		/*
 		// Schreiben der verbotenen Vorteile
 		IdLinkList ids = profession.getVerbotenVort();
 		if (ids != null) {
@@ -241,7 +243,8 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
 			XOMMappingHelper.instance().mapIdLinkList(ids, e);
 			xmlElement.appendChild(e);
 		}
-
+		*/
+		
 		// Schreiben der Sprachen
 		Auswahl auswahl = profession.getSprachen();
 		if (auswahl != null) {
