@@ -22,7 +22,7 @@ public class SimpelGegenstand extends Gegenstand {
 	public static final String TEMP_ID = "SIM-temp"; 
 //	 Legt die art des Gegenstandes Fest, da dies aus der Klasse nicht erkennbar ist
 	private CharKomponente art;
-	private int anzahl = 1; 
+	private int anzahl; 
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()

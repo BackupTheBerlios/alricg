@@ -48,7 +48,10 @@ class XOMMapper_SimpelGegenstand extends XOMMapper_Gegenstand implements XOMMapp
                 simpleDing.setAnzahl(Integer.parseInt(attribute.getValue()));
             } catch (NumberFormatException e) {
                 LOG.log(Level.SEVERE, "String -> int failed " + attribute.getValue(), e);
+                simpleDing.setAnzahl(1);
             }
+        } else {
+        	simpleDing.setAnzahl(1);
         }
 
         // Art (minOcc=1; maxOcc=1)
