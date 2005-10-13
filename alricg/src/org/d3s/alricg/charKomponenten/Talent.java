@@ -64,7 +64,6 @@ public class Talent extends Faehigkeit {
 	private String[] spezialisierungen;
 	private Art art;
     private Sorte sorte;
-    private int abWert; // Bezieht sich auf Voraussetzung
     private TalentVoraussetzung voraussetzung;
     
     
@@ -96,18 +95,6 @@ public class Talent extends Faehigkeit {
 		return sorte;
 	}
 	
-	/**
-	 * @return Liefert das Attribut abWert.
-	 */
-	public int getAbWert() {
-		return abWert;
-	}
-	/**
-	 * @param abWert Setzt das Attribut abWert.
-	 */
-	public void setAbWert(int abWert) {
-		this.abWert = abWert;
-	}
 	/**
 	 * @return Liefert das Attribut spezialisierungen.
 	 */
