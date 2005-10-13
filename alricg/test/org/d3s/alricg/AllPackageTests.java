@@ -35,6 +35,7 @@ public class AllPackageTests extends TestCase {
         testSuite.addTest(org.d3s.alricg.store.AllTests.suite());
         testSuite.addTest(org.d3s.alricg.store.xom.AllTests.suite());
         testSuite.addTest(org.d3s.alricg.store.xom.map.AllTests.suite());
+        testSuite.addTest(org.d3s.alricg.charKomponenten.charZusatz.AllTests.suite());
         return testSuite;
     }
 }

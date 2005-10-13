@@ -41,6 +41,11 @@ public class WuerfelSammlungTest extends TestCase {
 
 	protected void tearDown() throws Exception {
 		super.tearDown();
+		
+		w0 = null;
+		w1 = null;
+		w2 = null;
+		w3 = null;
 	}
 
 	/**
@@ -67,14 +72,14 @@ public class WuerfelSammlungTest extends TestCase {
 	 * Testet ob die Zufallszahlen auch in den Grenzen liegen
 	 */
 	public void testWuerfelwurf() {
-		
-		assertTrue(w0.getMinWurf() < w0.getWuerfelWurf()
-				&& w0.getWuerfelWurf() < w0.getMinWurf());
-		assertTrue(w1.getMinWurf() < w1.getWuerfelWurf()
-				&& w1.getWuerfelWurf() < w1.getMinWurf());
-		assertTrue(w2.getMinWurf() < w2.getWuerfelWurf()
-				&& w2.getWuerfelWurf() < w2.getMinWurf());
-		assertTrue(w3.getMinWurf() < w3.getWuerfelWurf()
-				&& w3.getWuerfelWurf() < w3.getMinWurf());
+
+		assertTrue(w0.getMinWurf() <= w0.getWuerfelWurf()
+				&& w0.getWuerfelWurf() <= w0.getMaxWurf());
+		assertTrue(w1.getMinWurf() <= w1.getWuerfelWurf()
+				&& w1.getWuerfelWurf() <= w1.getMaxWurf());
+		assertTrue(w2.getMinWurf() <= w2.getWuerfelWurf()
+				&& w2.getWuerfelWurf() <= w2.getMaxWurf());
+		assertTrue(w3.getMinWurf() <= w3.getWuerfelWurf()
+				&& w3.getWuerfelWurf() <= w3.getMaxWurf());
 	}
 }
