@@ -40,7 +40,7 @@ public class AllTests extends TestCase {
         //testSuite.addTestSuite(XM_Rasse_Test.class);
         testSuite.addTestSuite(XM_RegionVolk_Test.class);        
         testSuite.addTestSuite(XM_Repraesentation_Test.class);
-        //testSuite.addTestSuite(XM_Ritual_Test.class);
+        //testSuite.addTestSuite(XM_Ritual_Test.class); --> unnötig; wie Ritus.
         testSuite.addTestSuite(XM_Ritus_Test.class);
         //testSuite.addTestSuite(XM_Ruestung_Test.class);
         //testSuite.addTestSuite(XM_Schild_Test.class);
