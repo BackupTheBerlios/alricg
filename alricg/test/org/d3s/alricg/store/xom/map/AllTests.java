@@ -26,7 +26,7 @@ public class AllTests extends TestCase {
         testSuite.addTestSuite(XM_Faehigkeit_Test.class);
         testSuite.addTestSuite(XM_Fahrzeug_Test.class);
         testSuite.addTestSuite(XM_Fertigkeit_Test.class);
-        //testSuite.addTestSuite(XM_FkWaffe_Test.class);
+        testSuite.addTestSuite(XM_FkWaffe_Test.class);
         testSuite.addTestSuite(XM_Gabe_Test.class);
         testSuite.addTestSuite(XM_Gegenstand_Test.class);
         testSuite.addTestSuite(XM_Gottheit_Test.class);
@@ -35,15 +35,15 @@ public class AllTests extends TestCase {
         //testSuite.addTestSuite(XM_Liturgue_Test.class); --> unnötig; wie Ritus.
         testSuite.addTestSuite(XM_LiturgieRitualKenntnis_Test.class);
         testSuite.addTestSuite(XM_Nachteil_Test.class);
-        //testSuite.addTestSuite(XM_NahkWaffe_Test.class);
+        testSuite.addTestSuite(XM_NahkWaffe_Test.class);
         //testSuite.addTestSuite(XM_Profession_Test.class);
         //testSuite.addTestSuite(XM_Rasse_Test.class);
         testSuite.addTestSuite(XM_RegionVolk_Test.class);        
         testSuite.addTestSuite(XM_Repraesentation_Test.class);
         //testSuite.addTestSuite(XM_Ritual_Test.class); --> unnötig; wie Ritus.
         testSuite.addTestSuite(XM_Ritus_Test.class);
-        //testSuite.addTestSuite(XM_Ruestung_Test.class);
-        //testSuite.addTestSuite(XM_Schild_Test.class);
+        testSuite.addTestSuite(XM_Ruestung_Test.class);
+        testSuite.addTestSuite(XM_Schild_Test.class);
         //testSuite.addTestSuite(XM_Schrift_Test.class); --> unnötig; wie SchriftSprache
         testSuite.addTestSuite(XM_SchriftSprache_Test.class);
         testSuite.addTestSuite(XM_SchwarzeGabe_Test.class);
@@ -54,7 +54,7 @@ public class AllTests extends TestCase {
         //testSuite.addTestSuite(XM_Tier_Test.class); --> unnötig; wie CharElement
         testSuite.addTestSuite(XM_VorNachteil_Test.class);
         //testSuite.addTestSuite(XM_Vorteil_Test.class); --> unnötig; wie VorNachteil
-        //testSuite.addTestSuite(XM_Waffe_Test.class);
+        testSuite.addTestSuite(XM_Waffe_Test.class);
         testSuite.addTestSuite(XM_Zauber_Test.class);
         //testSuite.addTestSuite(XM_ZusatzProfession_Test.class);
         //testSuite.addTestSuite(XM_Helper_Test.class);
