@@ -1461,6 +1461,7 @@
 							<xsd:attribute name="repraesentId" type="xsd:string" use="optional"/>
 						</xsd:complexType>
 					</xsd:element>
+					
 					<!-- <xsd:element name="varianteVon" type="xsd:string" minOccurs="0"/> -->
 					<!--
 					( ist bei EigenschaftModi nun auch Möglich)
@@ -1675,25 +1676,30 @@
 			<xsd:documentation xml:lang="DE">
 				neuKosten - Die neuen Kosten des CharElements
 				modus - Ob die neuen Kosten absolut oder Prozentual angegeben sind
-					neuKosten="75" und modus="prozent" bedeutet z.B. das die neuen Kosten 
-						75% der alten Kosten betragen. 
+						DEFAULT: "absolut"
+				
+				Z.B. bedeutet neuKosten="75" und modus="prozent" das die neuen Kosten 
+						75% der alten Kosten betragen.
+						
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:sequence>
 			<xsd:element name="link" minOccurs="0" maxOccurs="unbounded">
-				<xsd:complexContent>
-					<xsd:extension base="idLinkTyp">
-						<xsd:attribute name="neuKosten" type="xsd:int" use="required"/>
-						<xsd:attribute name="modus" use="optional">
-							<xsd:simpleType>
-								<xsd:restriction base="xsd:string">
-									<xsd:enumeration value="absolut"/>
-									<xsd:enumeration value="prozent"/>
-								</xsd:restriction>
-							</xsd:simpleType>
-						</xsd:attribute>
-					</xsd:extension>
-				</xsd:complexContent>
+				<xsd:complexType>
+					<xsd:complexContent>
+						<xsd:extension base="idLinkTyp">
+							<xsd:attribute name="neuKosten" type="xsd:int" use="required"/>
+							<xsd:attribute name="modus" use="optional">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:string">
+										<xsd:enumeration value="absolut"/>
+										<xsd:enumeration value="prozent"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:attribute>
+						</xsd:extension>
+					</xsd:complexContent>
+				</xsd:complexType>
 			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
