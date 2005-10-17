@@ -25,16 +25,16 @@ public class WuerfelSammlungTest extends TestCase {
 		super.setUp();
 		
 		//Würfel mit 0 + 1W6
-		w0 = new WuerfelSammlung(0, new int[] {1}, new int[] {6});
+		w0 = new WuerfelSammlung(0, new Integer[] {1}, new Integer[] {6});
 		
 		// Würfel mit 2 + 2W6 + 2W20
-		w1 = new WuerfelSammlung(2, new int[] {2,2}, new int[] {6,20});
+		w1 = new WuerfelSammlung(2, new Integer[] {2,2}, new Integer[] {6,20});
 		
 		// Würfel mit 2 + 3W3 + 3W4
-		w2 = new WuerfelSammlung(2, new int[] {3,3}, new int[] {3,4});
+		w2 = new WuerfelSammlung(2, new Integer[] {3,3}, new Integer[] {3,4});
 		
 		// Würfel mit 2 + 1W100 + 3W10
-		w3 = new WuerfelSammlung(2, new int[] {1,3}, new int[] {100,4});
+		w3 = new WuerfelSammlung(2, new Integer[] {1,3}, new Integer[] {100,4});
 		
 		
 	}

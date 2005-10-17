@@ -334,7 +334,7 @@ public class TestDriver {
 	}
 	
 	private void testWuerfel() {
-		WuerfelSammlung w = new WuerfelSammlung(5, null, new int[]{6});
+		WuerfelSammlung w = new WuerfelSammlung(5, null, new Integer[]{6});
 		
 		System.out.println(w.getWuerfelWurf());
 		System.out.println(w.getWuerfelWurf());

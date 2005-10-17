@@ -10,6 +10,7 @@
 package org.d3s.alricg.store.xom.map;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,46 +50,42 @@ abstract class XOMMapper_Waffe extends XOMMapper_Gegenstand implements
 		// Trefferpunkte
 		try {
 			Element child = xmlElement.getFirstChildElement("tp");
-			final ArrayList<Integer> arrayAugen = new ArrayList<Integer>(1);
-			final ArrayList<Integer> arrayWuerfel = new ArrayList<Integer>(1);
+			final List<Integer> augenWuerfel = new ArrayList<Integer>();
+			final List<Integer> anzahlWuerfel = new ArrayList<Integer>();
 			if (child != null) {
 				Attribute attr = child.getAttribute("W6");
 				if (attr != null) {
-					arrayWuerfel.add(Integer.valueOf(attr.getValue()));
-					arrayAugen.add(6);
+					anzahlWuerfel.add(Integer.valueOf(attr.getValue()));
+					augenWuerfel.add(6);
 				}
 				attr = child.getAttribute("W20");
 				if (attr != null) {
-					arrayWuerfel.add(Integer.valueOf(attr.getValue()));
-					arrayAugen.add(20);
+					anzahlWuerfel.add(Integer.valueOf(attr.getValue()));
+					augenWuerfel.add(20);
 				}
 
-				int[] augenAugen = new int[arrayAugen.size()];
-				int[] augenWuerfel = new int[arrayWuerfel.size()];
-				for (int i = 0; i < arrayWuerfel.size(); i++) {
-					augenAugen[i] = arrayAugen.get(i);
-					augenWuerfel[i] = arrayWuerfel.get(i);
+				attr = child.getAttribute("plus");
+				int plus = 0;
+				if (attr != null) {
+					plus = Integer.parseInt(attr.getValue());
 				}
 
-				final int plus = Integer.parseInt(child
-						.getAttributeValue("plus"));
-				waffe
-						.setTP(new WuerfelSammlung(plus, augenWuerfel,
-								augenAugen));
+				Integer[] anzahl = anzahlWuerfel.toArray(new Integer[0]);
+				Integer[] augen = augenWuerfel.toArray(new Integer[0]);
+				waffe.setTP(new WuerfelSammlung(plus, anzahl, augen));
 			}
 
 			// Länge
 			child = xmlElement.getFirstChildElement("eigenschaften");
 			if (child != null) {
 				Attribute attr = child.getAttribute("laenge");
-
 				if (attr != null) {
 					waffe.setLaenge(Integer.parseInt(attr.getValue()));
 				}
 
 				// ini
 				attr = child.getAttribute("ini");
-				if (child != null && attr != null) {
+				if (attr != null) {
 					waffe.setIni(Integer.parseInt(attr.getValue()));
 				}
 			}

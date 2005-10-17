@@ -71,8 +71,8 @@ class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
             // Einlesen des Start-Alters
             current = xmlElement.getFirstChildElement("alter");
             Elements children = current.getChildElements("wuerfel");
-            int[] anzahlWuerfel = new int[children.size()];
-            int[] augenWuerfel = new int[children.size()];
+            Integer[] anzahlWuerfel = new Integer[children.size()];
+            Integer[] augenWuerfel = new Integer[children.size()];
             for (int i = 0; i < children.size(); i++) {
                 anzahlWuerfel[i] = Integer.parseInt(children.get(i).getAttributeValue("anzWuerfel"));
                 augenWuerfel[i] = Integer.parseInt(children.get(i).getAttributeValue("augenWuerfel"));
@@ -84,8 +84,8 @@ class XOMMapper_Rasse extends XOMMapper_Herkunft implements XOMMapper {
             // Einlesen der Größe
             current = xmlElement.getFirstChildElement("groesse");
             children = current.getChildElements("wuerfel");
-            anzahlWuerfel = new int[children.size()];
-            augenWuerfel = new int[children.size()];
+            anzahlWuerfel = new Integer[children.size()];
+            augenWuerfel = new Integer[children.size()];
             for (int i = 0; i < children.size(); i++) {
                 anzahlWuerfel[i] = Integer.parseInt(children.get(i).getAttributeValue("anzWuerfel"));
                 augenWuerfel[i] = Integer.parseInt(children.get(i).getAttributeValue("augenWuerfel"));
