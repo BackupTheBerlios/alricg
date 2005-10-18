@@ -29,10 +29,12 @@ import org.d3s.alricg.charKomponenten.links.Voraussetzung;
  * @see org.d3s.alricg.charKomponenten.Fertigkeit
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-abstract class XOMMapper_Fertigkeit extends XOMMapper_CharElement implements XOMMapper {
+abstract class XOMMapper_Fertigkeit extends XOMMapper_CharElement {
 
     /** <code>XOMMapper_Fertigkeit</code>'s logger */
     private static final Logger LOG = Logger.getLogger(XOMMapper_Fertigkeit.class.getName());
+    
+    private final XOMMapper<Voraussetzung> vorausMapper = new XOMMapper_Voraussetzung();
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
@@ -102,7 +104,7 @@ abstract class XOMMapper_Fertigkeit extends XOMMapper_CharElement implements XOM
         current = xmlElement.getFirstChildElement("voraussetzungen");
         if (current != null) {
             final Voraussetzung voraussetzung = new Voraussetzung(fertigkeit);
-            XOMMappingHelper.instance().mapVoraussetzung(current, voraussetzung);
+            vorausMapper.map(current, voraussetzung);
             fertigkeit.setVoraussetzung(voraussetzung);
         }
 
@@ -175,7 +177,7 @@ abstract class XOMMapper_Fertigkeit extends XOMMapper_CharElement implements XOM
         final Voraussetzung voraussetzung = fertigkeit.getVoraussetzung();
         if (voraussetzung != null) {
             final Element e = new Element("voraussetzungen");
-            XOMMappingHelper.instance().mapVoraussetzung(voraussetzung, e);
+            vorausMapper.map(voraussetzung, e);
             xmlElement.appendChild(e);
         }
 

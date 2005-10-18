@@ -25,7 +25,7 @@ import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
  */
 public class XM_SchriftSprache_Test extends TestCase {
 
-	private XOMMapper mappy;
+	private XOMMapper<CharElement> mappy;
 
 	public XM_SchriftSprache_Test(String name) {
 		super(name);

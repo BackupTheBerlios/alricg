@@ -20,7 +20,13 @@ public class AllTests extends TestCase {
     
     public static Test suite() {
         TestSuite testSuite = new TestSuite("All Tests for org.d3s.alricg.store.xom.map");
+        //testSuite.addTestSuite(DataToXOMMapper_Test.class);
+        //testSuite.addTestSuite(XOMToDataMapper_Test.class);
+        //testSuite.addTestSuite(XOMToConfigMapper_Test.class);
+        //testSuite.addTestSuite(XOMToLibraryMapper_Test.class);
         testSuite.addTestSuite(XM_Ausruestung_Test.class);
+        //testSuite.addTestSuite(XM_Auswahl_Test.class);
+        //testSuite.addTestSuite(XM_AuswahlAusruestung_Test.class);
         testSuite.addTestSuite(XM_CharElement_Test.class);
         //testSuite.addTestSuite(XM_DaemonenPakt_Test.class);
         testSuite.addTestSuite(XM_Faehigkeit_Test.class);
@@ -31,6 +37,10 @@ public class AllTests extends TestCase {
         testSuite.addTestSuite(XM_Gegenstand_Test.class);
         testSuite.addTestSuite(XM_Gottheit_Test.class);
         //testSuite.addTestSuite(XM_Herkunft_Test.class);
+        //testSuite.addTestSuite(XM_HerkunftVariante_Test.class);
+        //testSuite.addTestSuite(XM_IdLink_Test.class);
+        //testSuite.addTestSuite(XM_IdLinkList_Test.class);
+        //testSuite.addTestSuite(XM_IdLinkVoraussetzung_Test.class);
         //testSuite.addTestSuite(XM_Kultur_Test.class);
         //testSuite.addTestSuite(XM_Liturgue_Test.class); --> unnötig; wie Ritus.
         testSuite.addTestSuite(XM_LiturgieRitualKenntnis_Test.class);
@@ -52,6 +62,7 @@ public class AllTests extends TestCase {
         testSuite.addTestSuite(XM_Sprache_Test.class);
         testSuite.addTestSuite(XM_Talent_Test.class);
         //testSuite.addTestSuite(XM_Tier_Test.class); --> unnötig; wie CharElement
+        //testSuite.addTestSuite(XM_Voraussetzung_Test.class);
         testSuite.addTestSuite(XM_VorNachteil_Test.class);
         //testSuite.addTestSuite(XM_Vorteil_Test.class); --> unnötig; wie VorNachteil
         testSuite.addTestSuite(XM_Waffe_Test.class);

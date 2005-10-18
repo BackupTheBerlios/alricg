@@ -11,6 +11,7 @@ import java.io.File;
 import junit.framework.TestCase;
 import nu.xom.Element;
 
+import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Nachteil;
 import org.d3s.alricg.controller.MessengerMock;
 import org.d3s.alricg.controller.ProgAdmin;
@@ -25,7 +26,7 @@ import org.d3s.alricg.store.xom.XOMStoreObjectMother;
 public class XM_Nachteil_Test extends TestCase {
 
 	private XOMStoreObjectMother oma;
-	private XOMMapper mappy;
+	private XOMMapper<CharElement> mappy;
 
 	public XM_Nachteil_Test(String name) {
 		super(name);

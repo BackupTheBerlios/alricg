@@ -28,7 +28,7 @@ import org.d3s.alricg.store.FactoryFinder;
  * @see org.d3s.alricg.charKomponenten.Ritus
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-abstract class XOMMapper_Ritus extends XOMMapper_CharElement implements XOMMapper {
+abstract class XOMMapper_Ritus extends XOMMapper_CharElement {
 
     /** <code>XOMMapper_Ritus</code>'s logger */
     private static final Logger LOG = Logger.getLogger(XOMMapper_Ritus.class.getName());

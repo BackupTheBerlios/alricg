@@ -26,7 +26,7 @@ import org.d3s.alricg.prozessor.FormelSammlung;
  * @see org.d3s.alricg.charKomponenten.SchriftSprache
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-abstract class XOMMapper_SchriftSprache extends XOMMapper_CharElement implements XOMMapper {
+abstract class XOMMapper_SchriftSprache extends XOMMapper_CharElement {
 
     /** <code>XOMMapper_SchriftSprache</code>'s logger */
     private static final Logger LOG = Logger.getLogger(XOMMapper_SchriftSprache.class.getName());

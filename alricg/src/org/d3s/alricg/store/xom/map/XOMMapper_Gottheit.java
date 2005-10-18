@@ -23,7 +23,7 @@ import org.d3s.alricg.charKomponenten.Gottheit.KenntnisArt;
  * @see org.d3s.alricg.charKomponenten.Gottheit
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-class XOMMapper_Gottheit extends XOMMapper_CharElement implements XOMMapper {
+class XOMMapper_Gottheit extends XOMMapper_CharElement {
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {

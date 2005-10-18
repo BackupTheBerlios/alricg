@@ -20,7 +20,7 @@ import org.d3s.alricg.charKomponenten.CharElement;
  * @see org.d3s.alricg.charKomponenten.Schrift
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-class XOMMapper_Schrift extends XOMMapper_SchriftSprache implements XOMMapper {
+class XOMMapper_Schrift extends XOMMapper_SchriftSprache {
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {

@@ -25,7 +25,7 @@ import org.d3s.alricg.charKomponenten.charZusatz.Ruestung;
  * @see org.d3s.alricg.charKomponenten.charZusatz.Ruestung
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-class XOMMapper_Ruestung extends XOMMapper_Gegenstand implements XOMMapper {
+class XOMMapper_Ruestung extends XOMMapper_Gegenstand {
 
     /** <code>XOMMapper_Ruestung</code>'s logger */
     private static final Logger LOG = Logger.getLogger(XOMMapper_Ruestung.class.getName());

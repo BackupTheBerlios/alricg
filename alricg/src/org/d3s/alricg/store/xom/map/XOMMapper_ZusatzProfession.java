@@ -26,10 +26,12 @@ import org.d3s.alricg.charKomponenten.links.IdLinkList;
  * @see org.d3s.alricg.charKomponenten.ZusatzProfession
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-class XOMMapper_ZusatzProfession extends XOMMapper_Profession implements XOMMapper {
+class XOMMapper_ZusatzProfession extends XOMMapper_Profession {
 
     /** <code>XOMMapper_ZusatzProfession</code>'s logger */
     private static final Logger LOG = Logger.getLogger(XOMMapper_ZusatzProfession.class.getName());
+    
+    private final XOMMapper<IdLinkList> idLinkListMapper = new XOMMapper_IdLinkList();
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
@@ -37,12 +39,12 @@ class XOMMapper_ZusatzProfession extends XOMMapper_Profession implements XOMMapp
 
         // my mapping
         final ZusatzProfession zusatzProfession = (ZusatzProfession) charElement;
-
+        
         // Auslesen der üblichen Professionen
         Element current = xmlElement.getFirstChildElement("professionUeblich");
         if (current != null) {
             final IdLinkList professionUeblich = new IdLinkList(zusatzProfession);
-            XOMMappingHelper.instance().mapIdLinkList(current, professionUeblich);
+            idLinkListMapper.map(current, professionUeblich);
             zusatzProfession.setProfessionUeblich(professionUeblich);
         }
 
@@ -50,7 +52,7 @@ class XOMMapper_ZusatzProfession extends XOMMapper_Profession implements XOMMapp
         current = xmlElement.getFirstChildElement("professionMoeglich");
         if (current != null) {
             final IdLinkList professionMoeglich = new IdLinkList(zusatzProfession);
-            XOMMappingHelper.instance().mapIdLinkList(current, professionMoeglich);
+            idLinkListMapper.map(current, professionMoeglich);
             zusatzProfession.setProfessionMoeglich(professionMoeglich);
         }
 
@@ -85,7 +87,7 @@ class XOMMapper_ZusatzProfession extends XOMMapper_Profession implements XOMMapp
         IdLinkList ids = zusatzProfession.getProfessionUeblich();
         if (ids != null) {
             Element e = new Element("professionUeblich");
-            XOMMappingHelper.instance().mapIdLinkList(ids, e);
+            idLinkListMapper.map(ids, e);
             xmlElement.appendChild(e);
         }
 
@@ -93,7 +95,7 @@ class XOMMapper_ZusatzProfession extends XOMMapper_Profession implements XOMMapp
         ids = zusatzProfession.getProfessionMoeglich();
         if (ids != null) {
             Element e = new Element("professionMoeglich");
-            XOMMappingHelper.instance().mapIdLinkList(ids, e);
+            idLinkListMapper.map(ids, e);
             xmlElement.appendChild(e);
         }
 

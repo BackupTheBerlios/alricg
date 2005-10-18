@@ -25,7 +25,7 @@ import org.d3s.alricg.store.xom.XOMStoreObjectMother;
 public class XM_Schild_Test extends TestCase {
 
 	private XOMStoreObjectMother oma;
-	private XOMMapper mappy;
+	private XOMMapper<CharElement> mappy;
 
 	public XM_Schild_Test(String name) {
 		super(name);

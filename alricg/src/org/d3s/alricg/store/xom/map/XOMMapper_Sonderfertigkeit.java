@@ -27,8 +27,7 @@ import org.d3s.alricg.prozessor.FormelSammlung;
  * @see org.d3s.alricg.charKomponenten.Sonderfertigkeit
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-class XOMMapper_Sonderfertigkeit extends XOMMapper_Fertigkeit implements
-		XOMMapper {
+class XOMMapper_Sonderfertigkeit extends XOMMapper_Fertigkeit {
 
 	/** <code>XOMMapper_Sonderfertigkeit</code>'s logger */
 	private static final Logger LOG = Logger

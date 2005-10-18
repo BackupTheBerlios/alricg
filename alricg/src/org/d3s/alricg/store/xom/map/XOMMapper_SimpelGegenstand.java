@@ -27,7 +27,7 @@ import org.d3s.alricg.store.FactoryFinder;
  * @see org.d3s.alricg.charKomponenten.charZusatz.SimpelGegenstand
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-class XOMMapper_SimpelGegenstand extends XOMMapper_Gegenstand implements XOMMapper {
+class XOMMapper_SimpelGegenstand extends XOMMapper_Gegenstand {
 
     /** <code>XOMMapper_SimpelGegenstand</code>'s logger */
     private static final Logger LOG = Logger.getLogger(XOMMapper_SimpelGegenstand.class.getName());

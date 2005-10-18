@@ -13,6 +13,7 @@ import junit.framework.TestCase;
 import nu.xom.Attribute;
 import nu.xom.Element;
 
+import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Repraesentation;
 import org.d3s.alricg.charKomponenten.Zauber;
 import org.d3s.alricg.charKomponenten.Werte.MagieMerkmal;
@@ -25,7 +26,7 @@ import org.d3s.alricg.store.xom.XOMStoreObjectMother;
 public class XM_Zauber_Test extends TestCase {
 
 	private XOMStoreObjectMother oma;
-	private XOMMapper mappy;
+	private XOMMapper<CharElement> mappy;
 
 	public XM_Zauber_Test(String name) {
 		super(name);

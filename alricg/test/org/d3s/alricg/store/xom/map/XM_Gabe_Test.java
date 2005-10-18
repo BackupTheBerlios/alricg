@@ -21,7 +21,7 @@ import org.d3s.alricg.store.xom.XOMStoreObjectMother;
 public class XM_Gabe_Test extends TestCase {
 
 	private XOMStoreObjectMother oma;
-	private XOMMapper mappy;
+	private XOMMapper<CharElement> mappy;
 
 	public XM_Gabe_Test(String name) {
 		super(name);

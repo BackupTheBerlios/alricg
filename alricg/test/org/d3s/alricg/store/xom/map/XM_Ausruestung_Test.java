@@ -12,6 +12,7 @@ import java.io.File;
 import junit.framework.TestCase;
 import nu.xom.Element;
 
+import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.RegionVolk;
 import org.d3s.alricg.charKomponenten.charZusatz.Ausruestung;
 import org.d3s.alricg.controller.CharKomponente;
@@ -23,7 +24,7 @@ import org.d3s.alricg.store.xom.XOMStoreObjectMother;
 public class XM_Ausruestung_Test extends TestCase {
 
 	private XOMStoreObjectMother oma;
-	private XOMMapper mappy;
+	private XOMMapper<CharElement> mappy;
 
 	public XM_Ausruestung_Test(String name) {
 		super(name);

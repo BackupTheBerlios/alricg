@@ -25,7 +25,7 @@ import org.d3s.alricg.charKomponenten.charZusatz.NahkWaffe;
  * @see org.d3s.alricg.charKomponenten.charZusatz.NahkWaffe
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-class XOMMapper_NahkWaffe extends XOMMapper_Waffe implements XOMMapper {
+class XOMMapper_NahkWaffe extends XOMMapper_Waffe {
 
     /** <code>XOMMapper_NahkWaffe</code>'s logger */
     private static final Logger LOG = Logger.getLogger(XOMMapper_NahkWaffe.class.getName());

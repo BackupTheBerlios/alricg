@@ -25,7 +25,7 @@ import org.d3s.alricg.charKomponenten.charZusatz.Schild;
  * @see org.d3s.alricg.charKomponenten.charZusatz.Schild
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-class XOMMapper_Schild extends XOMMapper_Gegenstand implements XOMMapper {
+class XOMMapper_Schild extends XOMMapper_Gegenstand {
 
     /** <code>XOMMapper_Schild</code>'s logger */
     private static final Logger LOG = Logger.getLogger(XOMMapper_Schild.class.getName());

@@ -25,7 +25,7 @@ import org.d3s.alricg.charKomponenten.charZusatz.FkWaffe;
  * @see org.d3s.alricg.charKomponenten.charZusatz.FkWaffe
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-class XOMMapper_FkWaffe extends XOMMapper_Waffe implements XOMMapper {
+class XOMMapper_FkWaffe extends XOMMapper_Waffe {
 
     /** <code>XOMMapper_FkWaffe</code>'s logger */
     private static final Logger LOG = Logger.getLogger(XOMMapper_FkWaffe.class.getName());

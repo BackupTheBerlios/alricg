@@ -21,7 +21,7 @@ import org.d3s.alricg.controller.CharKomponente;
  */
 public class XM_CharElement_Test extends TestCase {
 
-	private XOMMapper mappy;
+	private XOMMapper<CharElement> mappy;
 
 	public XM_CharElement_Test(String name) {
 		super(name);

@@ -16,7 +16,7 @@ import org.d3s.alricg.charKomponenten.charZusatz.SchwarzeGabe;
 
 public class XM_SchwarzeGabe_Test extends TestCase {
 
-	private XOMMapper mappy;
+	private XOMMapper<CharElement> mappy;
 
 	public XM_SchwarzeGabe_Test(String name) {
 		super(name);

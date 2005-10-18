@@ -11,11 +11,12 @@ import junit.framework.TestCase;
 import nu.xom.Attribute;
 import nu.xom.Element;
 
+import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.RegionVolk;
 
 public class XM_RegionVolk_Test extends TestCase {
 
-	private XOMMapper mappy;
+	private XOMMapper<CharElement> mappy;
 
 	public XM_RegionVolk_Test(String name) {
 		super(name);

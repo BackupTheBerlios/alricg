@@ -18,6 +18,7 @@ import nu.xom.Elements;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Gottheit;
+import org.d3s.alricg.charKomponenten.HerkunftVariante;
 import org.d3s.alricg.charKomponenten.Profession;
 import org.d3s.alricg.charKomponenten.ProfessionVariante;
 import org.d3s.alricg.charKomponenten.Werte;
@@ -37,11 +38,18 @@ import org.d3s.alricg.store.FactoryFinder;
  * @see org.d3s.alricg.charKomponenten.Profession
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
+class XOMMapper_Profession extends XOMMapper_Herkunft {
 
 	/** <code>XOMMapper_Profession</code>'s logger */
 	private static final Logger LOG = Logger
 			.getLogger(XOMMapper_Profession.class.getName());
+
+	private final XOMMapper<Auswahl> auswahlMapper = new XOMMapper_Auswahl();
+
+	private final XOMMapper<AuswahlAusruestung> auswahlAusMapper = new XOMMapper_AuswahlAusruestung();
+	
+	private final XOMMapper<HerkunftVariante> variantenMapper = new XOMMapper_HerkunftVariante();
+	
 
 	// @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element,
 	// org.d3s.alricg.charKomponenten.CharElement)
@@ -90,42 +98,34 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
 					.getData().getCharElement(val, CharKomponente.gottheit));
 
 			final Auswahl ritusModis = new Auswahl(profession);
-			XOMMappingHelper.instance().mapAuswahl(
-					current.getFirstChildElement("modis"), ritusModis);
+			auswahlMapper
+					.map(current.getFirstChildElement("modis"), ritusModis);
 			profession.setRitusModis(ritusModis);
 		}
 
 		/*
-		// Auslesen der verbotenen Vorteile
-		current = xmlElement.getFirstChildElement("verboteVT");
-		if (current != null) {
-			final IdLinkList ids = new IdLinkList(profession);
-			XOMMappingHelper.instance().mapIdLinkList(current, ids);
-			profession.setVerbotenVort(ids);
-		}
-
-		// Auslesen der verbotenen Nachteile
-		current = xmlElement.getFirstChildElement("verboteNT");
-		if (current != null) {
-			final IdLinkList ids = new IdLinkList(profession);
-			XOMMappingHelper.instance().mapIdLinkList(current, ids);
-			profession.setVerbotenNacht(ids);
-		}
-
-		// Auslesen der verbotenen Sonderfertigkeiten
-		current = xmlElement.getFirstChildElement("verboteSF");
-		if (current != null) {
-			final IdLinkList ids = new IdLinkList(profession);
-			XOMMappingHelper.instance().mapIdLinkList(current, ids);
-			profession.setVerbotenSF(ids);
-		}
-		*/
+		 * // Auslesen der verbotenen Vorteile current =
+		 * xmlElement.getFirstChildElement("verboteVT"); if (current != null) {
+		 * final IdLinkList ids = new IdLinkList(profession);
+		 * XOMMappingHelper.instance().mapIdLinkList(current, ids);
+		 * profession.setVerbotenVort(ids); }
+		 *  // Auslesen der verbotenen Nachteile current =
+		 * xmlElement.getFirstChildElement("verboteNT"); if (current != null) {
+		 * final IdLinkList ids = new IdLinkList(profession);
+		 * XOMMappingHelper.instance().mapIdLinkList(current, ids);
+		 * profession.setVerbotenNacht(ids); }
+		 *  // Auslesen der verbotenen Sonderfertigkeiten current =
+		 * xmlElement.getFirstChildElement("verboteSF"); if (current != null) {
+		 * final IdLinkList ids = new IdLinkList(profession);
+		 * XOMMappingHelper.instance().mapIdLinkList(current, ids);
+		 * profession.setVerbotenSF(ids); }
+		 */
 
 		// Auslesen der Sprachen Auswahl
 		current = xmlElement.getFirstChildElement("sprachen");
 		if (current != null) {
 			final Auswahl auswahl = new Auswahl(profession);
-			XOMMappingHelper.instance().mapAuswahl(current, auswahl);
+			auswahlMapper.map(current, auswahl);
 			profession.setSprachen(auswahl);
 		}
 
@@ -133,7 +133,7 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
 		current = xmlElement.getFirstChildElement("schriften");
 		if (current != null) {
 			final Auswahl auswahl = new Auswahl(profession);
-			XOMMappingHelper.instance().mapAuswahl(current, auswahl);
+			auswahlMapper.map(current, auswahl);
 			profession.setSchriften(auswahl);
 		}
 
@@ -142,8 +142,7 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
 		if (current != null) {
 			final AuswahlAusruestung auswahlA = new AuswahlAusruestung(
 					profession);
-			XOMMappingHelper.instance()
-					.mapAuswahlAusruestung(current, auswahlA);
+			auswahlAusMapper.map(current, auswahlA);
 			profession.setAusruestung(auswahlA);
 		}
 
@@ -152,8 +151,7 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
 		if (current != null) {
 			final AuswahlAusruestung auswahlA = new AuswahlAusruestung(
 					profession);
-			XOMMappingHelper.instance()
-					.mapAuswahlAusruestung(current, auswahlA);
+			auswahlAusMapper.map(current, auswahlA);
 			profession.setBesondererBesitz(auswahlA);
 		}
 
@@ -166,8 +164,12 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
 				final ProfessionVariante variante = (ProfessionVariante) FactoryFinder
 						.find().getData().getCharElement(
 								varianten.get(i).getAttributeValue("id"));
-				XOMMappingHelper.instance().mapVarianten(varianten.get(i),
-						variante, profession, this);
+				
+				// Setzen von welcher Herkunft dies eine Variante ist
+				variante.setVarianteVon(profession);
+				map(varianten.get(i),variante);
+				variantenMapper.map(varianten.get(i), variante);
+				
 				arList.add(variante);
 			}
 			profession.setVarianten(arList
@@ -187,7 +189,8 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
 		xmlElement.setLocalName("profession");
 
 		// Schreiben des Attributs "Aufwand", wenn nötig
-		if (profession.getAufwand() != null && !profession.getAufwand().equals(Profession.Aufwand.normal)) {
+		if (profession.getAufwand() != null
+				&& !profession.getAufwand().equals(Profession.Aufwand.normal)) {
 			xmlElement.addAttribute(new Attribute("aufwand", profession
 					.getAufwand().getValue()));
 		}
@@ -213,43 +216,31 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
 					.addAttribute(new Attribute("gottheitId", geweihtGottheit
 							.getId()));
 			final Element ee = new Element("modis");
-			XOMMappingHelper.instance().mapAuswahl(profession.getRitusModis(),
-					ee);
+			auswahlMapper.map(profession.getRitusModis(), ee);
 			e.appendChild(ee);
 			xmlElement.appendChild(e);
 		}
-		
+
 		/*
-		// Schreiben der verbotenen Vorteile
-		IdLinkList ids = profession.getVerbotenVort();
-		if (ids != null) {
-			e = new Element("verboteVT");
-			XOMMappingHelper.instance().mapIdLinkList(ids, e);
-			xmlElement.appendChild(e);
-		}
+		 * // Schreiben der verbotenen Vorteile IdLinkList ids =
+		 * profession.getVerbotenVort(); if (ids != null) { e = new
+		 * Element("verboteVT"); XOMMappingHelper.instance().mapIdLinkList(ids,
+		 * e); xmlElement.appendChild(e); }
+		 *  // Schreiben der verbotenen Nachteile ids =
+		 * profession.getVerbotenNacht(); if (ids != null) { e = new
+		 * Element("verboteNT"); XOMMappingHelper.instance().mapIdLinkList(ids,
+		 * e); xmlElement.appendChild(e); }
+		 *  // Schreiben der verbotenen Sonderfertigkeiten ids =
+		 * profession.getVerbotenSF(); if (ids != null) { e = new
+		 * Element("verboteSF"); XOMMappingHelper.instance().mapIdLinkList(ids,
+		 * e); xmlElement.appendChild(e); }
+		 */
 
-		// Schreiben der verbotenen Nachteile
-		ids = profession.getVerbotenNacht();
-		if (ids != null) {
-			e = new Element("verboteNT");
-			XOMMappingHelper.instance().mapIdLinkList(ids, e);
-			xmlElement.appendChild(e);
-		}
-
-		// Schreiben der verbotenen Sonderfertigkeiten
-		ids = profession.getVerbotenSF();
-		if (ids != null) {
-			e = new Element("verboteSF");
-			XOMMappingHelper.instance().mapIdLinkList(ids, e);
-			xmlElement.appendChild(e);
-		}
-		*/
-		
 		// Schreiben der Sprachen
 		Auswahl auswahl = profession.getSprachen();
 		if (auswahl != null) {
 			e = new Element("sprachen");
-			XOMMappingHelper.instance().mapAuswahl(auswahl, e);
+			auswahlMapper.map(auswahl, e);
 			xmlElement.appendChild(e);
 		}
 
@@ -257,7 +248,7 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
 		auswahl = profession.getSchriften();
 		if (auswahl != null) {
 			e = new Element("schriften");
-			XOMMappingHelper.instance().mapAuswahl(auswahl, e);
+			auswahlMapper.map(auswahl, e);
 			xmlElement.appendChild(e);
 		}
 
@@ -265,7 +256,7 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
 		AuswahlAusruestung auswahlA = profession.getAusruestung();
 		if (auswahl != null) {
 			e = new Element("ausruestung");
-			XOMMappingHelper.instance().mapAuswahlAusruestung(auswahlA, e);
+			auswahlAusMapper.map(auswahlA, e);
 			xmlElement.appendChild(e);
 		}
 
@@ -273,7 +264,7 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
 		auswahlA = profession.getBesondererBesitz();
 		if (auswahl != null) {
 			e = new Element("besondererBesitz");
-			XOMMappingHelper.instance().mapAuswahlAusruestung(auswahlA, e);
+			auswahlAusMapper.map(auswahlA, e);
 			xmlElement.appendChild(e);
 		}
 
@@ -284,8 +275,8 @@ class XOMMapper_Profession extends XOMMapper_Herkunft implements XOMMapper {
 
 			for (int i = 0; i < varianten.length; i++) {
 				final Element variante = new Element("variante");
-				XOMMappingHelper.instance().mapVarianten(varianten[i],
-						variante, this);
+				map(varianten[i],variante);
+				variantenMapper.map(varianten[i], variante);
 				e.appendChild(variante);
 			}
 			xmlElement.appendChild(e);

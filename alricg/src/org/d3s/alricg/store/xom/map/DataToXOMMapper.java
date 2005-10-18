@@ -38,7 +38,7 @@ public class DataToXOMMapper {
         final Element root = new Element("alricgXML");
 
         Element current = root;
-        XOMMapper mappy = null;
+        XOMMapper<CharElement> mappy = null;
 
         // Die CharElemente zu den ids holen und über ihre XOMMapper persistieren.
         for (Iterator<String> ii = ids.iterator(); ii.hasNext();) {

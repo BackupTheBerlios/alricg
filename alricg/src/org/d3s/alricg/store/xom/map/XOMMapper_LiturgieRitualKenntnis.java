@@ -21,7 +21,7 @@ import org.d3s.alricg.charKomponenten.LiturgieRitualKenntnis;
  * @see org.d3s.alricg.charKomponenten.LiturgieRitualKenntnis
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-class XOMMapper_LiturgieRitualKenntnis extends XOMMapper_Faehigkeit implements XOMMapper {
+class XOMMapper_LiturgieRitualKenntnis extends XOMMapper_Faehigkeit {
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {

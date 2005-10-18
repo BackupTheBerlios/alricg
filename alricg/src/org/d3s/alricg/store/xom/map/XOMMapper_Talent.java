@@ -21,6 +21,7 @@ import org.d3s.alricg.charKomponenten.Talent;
 import org.d3s.alricg.charKomponenten.Talent.Art;
 import org.d3s.alricg.charKomponenten.Talent.Sorte;
 import org.d3s.alricg.charKomponenten.Talent.TalentVoraussetzung;
+import org.d3s.alricg.charKomponenten.links.Voraussetzung;
 
 /**
  * <code>XOMMapper</code> für ein <code>Talent</code>.
@@ -29,10 +30,12 @@ import org.d3s.alricg.charKomponenten.Talent.TalentVoraussetzung;
  * @see org.d3s.alricg.charKomponenten.Talent
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-class XOMMapper_Talent extends XOMMapper_Faehigkeit implements XOMMapper {
+class XOMMapper_Talent extends XOMMapper_Faehigkeit {
 
     /** <code>XOMMapper_Talent</code>'s logger */
     private static final Logger LOG = Logger.getLogger(XOMMapper_Talent.class.getName());
+    
+    private final XOMMapper<Voraussetzung> vorausMapper = new XOMMapper_Voraussetzung();
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
@@ -90,7 +93,7 @@ class XOMMapper_Talent extends XOMMapper_Faehigkeit implements XOMMapper {
                 try {
                     final int abWert = Integer.parseInt(current.getAttributeValue("abWert"));
                     final TalentVoraussetzung voraussetzung = talent.new TalentVoraussetzung(talent, abWert);
-                    XOMMappingHelper.instance().mapVoraussetzung(current, voraussetzung);
+                    vorausMapper.map(current, voraussetzung);
                     talent.setVoraussetzung(voraussetzung);
                 } catch (NumberFormatException exc) {
                     LOG.log(Level.SEVERE, "String -> int failed!", exc);
@@ -130,7 +133,7 @@ class XOMMapper_Talent extends XOMMapper_Faehigkeit implements XOMMapper {
         TalentVoraussetzung voraussetzung = talent.getVoraussetzung();
         if (voraussetzung != null) {
             e = new Element("voraussetzungTalent");
-            XOMMappingHelper.instance().mapVoraussetzung(voraussetzung, e);
+            vorausMapper.map(voraussetzung, e);
 
             // Schreiben ab wann die Voraussetzung gilt
             int abWert = voraussetzung.getAbWert();

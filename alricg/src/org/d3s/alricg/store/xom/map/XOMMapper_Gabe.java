@@ -25,7 +25,7 @@ import org.d3s.alricg.charKomponenten.Gabe;
  * @see org.d3s.alricg.charKomponenten.Gabe
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-class XOMMapper_Gabe extends XOMMapper_Faehigkeit implements XOMMapper {
+class XOMMapper_Gabe extends XOMMapper_Faehigkeit {
 
     /** <code>XOMMapper_Gabe</code>'s logger */
     private static final Logger LOG = Logger.getLogger(XOMMapper_Gabe.class.getName());

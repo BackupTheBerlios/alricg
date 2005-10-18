@@ -32,7 +32,7 @@ import org.d3s.alricg.store.FactoryFinder;
  * @see org.d3s.alricg.charKomponenten.Zauber
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-class XOMMapper_Zauber extends XOMMapper_Faehigkeit implements XOMMapper {
+class XOMMapper_Zauber extends XOMMapper_Faehigkeit {
 
     /** <code>XOMMapper_Zauber</code>'s logger */
     private static final Logger LOG = Logger.getLogger(XOMMapper_Zauber.class.getName());

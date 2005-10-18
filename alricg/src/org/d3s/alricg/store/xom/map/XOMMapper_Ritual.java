@@ -20,7 +20,7 @@ import org.d3s.alricg.charKomponenten.CharElement;
  * @see org.d3s.alricg.charKomponenten.Ritual
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-class XOMMapper_Ritual extends XOMMapper_Ritus implements XOMMapper {
+class XOMMapper_Ritual extends XOMMapper_Ritus {
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {

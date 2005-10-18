@@ -21,7 +21,7 @@ import org.d3s.alricg.charKomponenten.Nachteil;
  * @see org.d3s.alricg.charKomponenten.Nachteil
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-class XOMMapper_Nachteil extends XOMMapper_VorNachteil implements XOMMapper {
+class XOMMapper_Nachteil extends XOMMapper_VorNachteil {
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {

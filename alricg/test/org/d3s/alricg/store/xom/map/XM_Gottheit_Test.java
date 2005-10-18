@@ -10,13 +10,14 @@ package org.d3s.alricg.store.xom.map;
 import junit.framework.TestCase;
 import nu.xom.Element;
 
+import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Gottheit;
 import org.d3s.alricg.charKomponenten.Gottheit.GottheitArt;
 import org.d3s.alricg.charKomponenten.Gottheit.KenntnisArt;
 
 public class XM_Gottheit_Test extends TestCase {
 
-	private XOMMapper mappy;
+	private XOMMapper<CharElement> mappy;
 
 	public XM_Gottheit_Test(String name) {
 		super(name);

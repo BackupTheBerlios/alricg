@@ -21,7 +21,7 @@ import org.d3s.alricg.charKomponenten.charZusatz.Ausruestung;
  * @see org.d3s.alricg.charKomponenten.charZusatz.Ausruestung
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-class XOMMapper_Ausruestung extends XOMMapper_Gegenstand implements XOMMapper {
+class XOMMapper_Ausruestung extends XOMMapper_Gegenstand {
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {

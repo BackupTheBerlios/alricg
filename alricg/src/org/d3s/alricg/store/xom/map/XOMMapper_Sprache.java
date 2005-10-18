@@ -27,11 +27,13 @@ import org.d3s.alricg.prozessor.FormelSammlung;
  * @see org.d3s.alricg.charKomponenten.Sprache
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-class XOMMapper_Sprache extends XOMMapper_SchriftSprache implements XOMMapper {
+class XOMMapper_Sprache extends XOMMapper_SchriftSprache {
 
     /** <code>XOMMapper_Sprache</code>'s logger */
     private static final Logger LOG = Logger.getLogger(XOMMapper_Sprache.class.getName());
 
+    private final XOMMapper<IdLinkList> idLinkListMapper = new XOMMapper_IdLinkList();
+    
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
         super.map(xmlElement, charElement);
@@ -55,7 +57,7 @@ class XOMMapper_Sprache extends XOMMapper_SchriftSprache implements XOMMapper {
         current = xmlElement.getFirstChildElement("schriften");
         if (current != null) {
             final IdLinkList zugehoerigeSchrift = new IdLinkList(sprache);
-            XOMMappingHelper.instance().mapIdLinkList(current, zugehoerigeSchrift);
+            idLinkListMapper.map(current, zugehoerigeSchrift);
             sprache.setZugehoerigeSchrift(zugehoerigeSchrift);
         }
     }
@@ -82,7 +84,7 @@ class XOMMapper_Sprache extends XOMMapper_SchriftSprache implements XOMMapper {
         final IdLinkList zugehoerigeSchrift = sprache.getZugehoerigeSchrift();
         if (zugehoerigeSchrift != null) {
             e = new Element("schriften");
-            XOMMappingHelper.instance().mapIdLinkList(zugehoerigeSchrift, e);
+            idLinkListMapper.map(zugehoerigeSchrift, e);
             xmlElement.appendChild(e);
         }
 

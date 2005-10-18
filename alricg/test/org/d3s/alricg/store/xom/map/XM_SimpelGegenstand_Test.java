@@ -13,6 +13,7 @@ import junit.framework.TestCase;
 import nu.xom.Attribute;
 import nu.xom.Element;
 
+import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.RegionVolk;
 import org.d3s.alricg.charKomponenten.charZusatz.SimpelGegenstand;
 import org.d3s.alricg.controller.CharKomponente;
@@ -24,7 +25,7 @@ import org.d3s.alricg.store.xom.XOMStoreObjectMother;
 public class XM_SimpelGegenstand_Test extends TestCase {
 
 	private XOMStoreObjectMother oma;
-	private XOMMapper mappy;
+	private XOMMapper<CharElement> mappy;
 
 	public XM_SimpelGegenstand_Test(String name) {
 		super(name);

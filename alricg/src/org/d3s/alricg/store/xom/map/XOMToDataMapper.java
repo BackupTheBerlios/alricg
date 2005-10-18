@@ -347,7 +347,7 @@ public class XOMToDataMapper {
 	 */
 	private void mapHelpCharKomponents(Elements kategorien,
 			CharKomponente current, XOMStore store) {
-		final XOMMapper mappy = XOMMappingHelper.instance().chooseXOMMapper(
+		final XOMMapper<CharElement> mappy = XOMMappingHelper.instance().chooseXOMMapper(
 				current);
 		if (mappy != null) {
 			for (int iii = 0; iii < kategorien.size(); iii++) {

@@ -22,7 +22,7 @@ import org.d3s.alricg.charKomponenten.sonderregeln.SonderregelAdapter;
  * @see org.d3s.alricg.charKomponenten.CharElement
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-abstract class XOMMapper_CharElement implements XOMMapper {
+abstract class XOMMapper_CharElement implements XOMMapper<CharElement> {
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {

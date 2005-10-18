@@ -31,8 +31,7 @@ import org.d3s.alricg.store.FactoryFinder;
  * @see org.d3s.alricg.charKomponenten.charZusatz.Waffe
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
-abstract class XOMMapper_Waffe extends XOMMapper_Gegenstand implements
-		XOMMapper {
+abstract class XOMMapper_Waffe extends XOMMapper_Gegenstand {
 
 	/** <code>XOMMapper_Waffe</code>'s logger */
 	private static final Logger LOG = Logger.getLogger(XOMMapper_Waffe.class

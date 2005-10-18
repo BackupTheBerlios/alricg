@@ -30,7 +30,7 @@ import org.d3s.alricg.store.FactoryFinder;
  * @author <a href="mailto:msturzen@mac.com">St. Martin</a>
  */
 
-abstract class XOMMapper_Gegenstand extends XOMMapper_CharElement implements XOMMapper {
+abstract class XOMMapper_Gegenstand extends XOMMapper_CharElement {
 
     /** <code>XOMMapper_Gegenstand</code>'s logger */
     private static final Logger LOG = Logger.getLogger(XOMMapper_Gegenstand.class.getName());
