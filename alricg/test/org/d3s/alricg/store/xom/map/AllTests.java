@@ -38,8 +38,8 @@ public class AllTests extends TestCase {
         testSuite.addTestSuite(XM_Gottheit_Test.class);
         //testSuite.addTestSuite(XM_Herkunft_Test.class);
         //testSuite.addTestSuite(XM_HerkunftVariante_Test.class);
-        //testSuite.addTestSuite(XM_IdLink_Test.class);
-        //testSuite.addTestSuite(XM_IdLinkList_Test.class);
+        testSuite.addTestSuite(XM_IdLink_Test.class);
+        testSuite.addTestSuite(XM_IdLinkList_Test.class);
         //testSuite.addTestSuite(XM_IdLinkVoraussetzung_Test.class);
         //testSuite.addTestSuite(XM_Kultur_Test.class);
         //testSuite.addTestSuite(XM_Liturgue_Test.class); --> unnötig; wie Ritus.
@@ -68,7 +68,7 @@ public class AllTests extends TestCase {
         testSuite.addTestSuite(XM_Waffe_Test.class);
         testSuite.addTestSuite(XM_Zauber_Test.class);
         //testSuite.addTestSuite(XM_ZusatzProfession_Test.class);
-        //testSuite.addTestSuite(XM_Helper_Test.class);
+        testSuite.addTestSuite(XOMMappingHelper_Test.class);
         return testSuite;
     }
 }
