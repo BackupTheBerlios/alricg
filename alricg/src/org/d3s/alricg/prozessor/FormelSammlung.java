@@ -12,8 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.sql.DataSource;
-
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.controller.Messenger;
 import org.d3s.alricg.controller.Notepad;
