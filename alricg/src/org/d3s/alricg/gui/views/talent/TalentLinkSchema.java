@@ -4,7 +4,6 @@
  * This file is part of the project ALRICG. The file is copyright
  * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
- *
  */
 package org.d3s.alricg.gui.views.talent;
 
@@ -42,12 +41,45 @@ public class TalentLinkSchema implements ZeilenSchema {
     
 	HeldProzessor prozessor;
 	
+	/**
+	 * <u>Beschreibung:</u><br> 
+	 * Gibt die Möglichkeiten an, nach denen die Elemente in der Tabelle geordnet 
+	 * werden können. "keine" ist immer vorhanden und bedeutet das nur eine
+	 * normale Tabelle angezeigt wird, keine TreeTable. Ansonsten wird die 
+	 * TreeTable nach der gewählten Ordnung angeordnet.
+	 * @author V. Strelow
+	 */
 	public enum Ordnung {
-		bla;
+		keine,
+		sorte;
+		
+		private String bezeichner;
+		
+		public String toString() {
+			return bezeichner;
+		}
 	}
 	
+	/**
+	 * <u>Beschreibung:</u><br> 
+	 * Gibt die Möglichkeiten an, nach denen die Elemente in der Tabelle gefiltert 
+	 * werden können. Es werden nur solche Elemente angezeigt, die zu dem Filter 
+	 * passen.
+	 * @author V. Strelow
+	 */
 	public enum Filter {
-		bla;
+		keiner,
+		nurAktivierte,
+		nurModifizierte,
+		nurBasisTalente,
+		nurSpezialTalente,
+		nurBerufTalente;
+		
+		private String bezeichner;
+		
+		public String toString() {
+			return bezeichner;
+		}
 	}
 	
 	public TalentLinkSchema() {
@@ -261,7 +293,10 @@ public class TalentLinkSchema implements ZeilenSchema {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	/* (non-Javadoc)
+	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getComparator(java.lang.Object)
+	 */
 	public Comparator getComparator(Object column) {
 		Comparator tmpCpm;
 		

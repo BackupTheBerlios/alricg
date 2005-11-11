@@ -35,14 +35,14 @@ public class SortableTableModel<E> extends AbstractTableModel
 	private ArrayList<E> dataList = new ArrayList<E>();
 	private Enum[] columns;
 	private final SpaltenSchema spaSchema; // Spezifische Methoden für die Spalten
-	private final ZeilenSchema worSchema; // Spezifische Methoden für Typ <E>
+	private final ZeilenSchema zeilSchema; // Spezifische Methoden für die Zeilen
 	private boolean[] lastAscSorted;
 	
 	public SortableTableModel(SpaltenSchema sSchema, ZeilenSchema wSchema, SpaltenArt art) {
 		
 		this.columns = sSchema.getSpalten(art);
 		this.spaSchema = sSchema;
-		this.worSchema = wSchema;
+		this.zeilSchema = wSchema;
 		lastAscSorted = new boolean[columns.length];
 		
 		Arrays.fill(lastAscSorted, false); // Damit überall ein Wert steht
@@ -87,21 +87,21 @@ public class SortableTableModel<E> extends AbstractTableModel
 	 * @see org.d3s.alricg.GUI.komponenten.table.SortableTableModelInterface#getToolTip(int, int)
 	 */
 	public String getToolTip(int rowIdx, int colIdx) {
-		return worSchema.getToolTip(dataList.get(rowIdx), columns[colIdx]);
+		return zeilSchema.getToolTip(dataList.get(rowIdx), columns[colIdx]);
 	}
 
 	/* (non-Javadoc) Methode überschrieben
 	 * @see javax.swing.table.TableModel#getValueAt(int, int)
 	 */
 	public Object getValueAt(int rowIdx, int colIdx) {
-		return worSchema.getCellValue(dataList.get(rowIdx), columns[colIdx]);
+		return zeilSchema.getCellValue(dataList.get(rowIdx), columns[colIdx]);
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see javax.swing.table.TableModel#setValueAt(java.lang.Object, int, int)
 	 */
 	public void setValueAt(Object aValue, int rowIdx, int colIdx) {
-		worSchema.setCellValue(aValue, dataList.get(rowIdx), columns[colIdx]);
+		zeilSchema.setCellValue(aValue, dataList.get(rowIdx), columns[colIdx]);
 	}
  
 	/* (non-Javadoc) Methode überschrieben
@@ -109,14 +109,14 @@ public class SortableTableModel<E> extends AbstractTableModel
 	 */
 	@Override
 	public boolean isCellEditable(int rowIdx, int colIdx) {
-		return worSchema.isCellEditable(dataList.get(rowIdx), columns[colIdx]);
+		return zeilSchema.isCellEditable(dataList.get(rowIdx), columns[colIdx]);
 	}
 
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.GUI.komponenten.table.SortableTableModelInterface#sortTableByColumn(int)
 	 */
 	public void sortTableByColumn(int colIdx) {
-		Collections.sort(dataList, worSchema.getComparator(columns[colIdx]));
+		Collections.sort(dataList, zeilSchema.getComparator(columns[colIdx]));
 		
 		// Somit wird beim zweiten klick die Reihenfolge vertauscht
 		if ( lastAscSorted[colIdx]) {
@@ -146,7 +146,7 @@ public class SortableTableModel<E> extends AbstractTableModel
 	}
 	
 	public ZeilenSchema getZeilenSchema() {
-		return worSchema;
+		return zeilSchema;
 	}
 }
 

@@ -46,7 +46,7 @@ public abstract class LinkElementBox<E extends HeldenLink> extends AbstractList 
 	}
 	
 	/**
-	 * @return Eine nicht veränderbare List mit allen enthaltenen Elementen
+	 * @return Eine nicht veränderbare Liste mit allen enthaltenen Elementen
 	 */
 	public List<E> getUnmodifiableList() {
 		return Collections.unmodifiableList(linkArray);

@@ -47,14 +47,18 @@ public class TalentSchema implements ZeilenSchema {
 	private final static ImageTextObject tmpImageObj = new ImageTextObject();
 	private final static Link tmpLink = new IdLink(null, null);
 	
+	/**
+	 * <u>Beschreibung:</u><br> 
+	 * Gibt die Möglichkeiten an, nach denen die Elemente in der Tabelle geordnet 
+	 * werden können. "keine" ist immer vorhanden und bedeutet das nur eine
+	 * normale Tabelle angezeigt wird, keine TreeTable. Ansonsten wird die 
+	 * TreeTable nach der gewählten Ordnung angeordnet.
+	 * @author V. Strelow
+	 */
 	public enum Ordnung {
+		keine,
 		sorte;
-	}
-	
-	public enum Filter {
-		keiner,
-		nurWaehlbar,
-		nurVerbilligt;
+		
 		private String bezeichner;
 		
 		public String toString() {
@@ -63,11 +67,26 @@ public class TalentSchema implements ZeilenSchema {
 	}
 	
 	/**
-	 * Konstruktur
+	 * <u>Beschreibung:</u><br> 
+	 * Gibt die Möglichkeiten an, nach denen die Elemente in der Tabelle gefiltert 
+	 * werden können. Es werden nur solche Elemente angezeigt, die zu dem Filter 
+	 * passen.
+	 * @author V. Strelow
 	 */
-	public TalentSchema() {
-
+	public enum Filter {
+		keiner,
+		nurWaehlbar,
+		nurVerbilligt,
+		nurSpezialTalente,
+		nurBerufTalente;
+		
+		private String bezeichner;
+		
+		public String toString() {
+			return bezeichner;
+		}
 	}
+	
 	
 	/**
 	 * Liefert eine Instanz dieser Klasse. 
@@ -99,6 +118,7 @@ public class TalentSchema implements ZeilenSchema {
 										.changeKostenKlasse(
 												((Talent) object).getKostenKlasse(), tmpLink
 											);
+											
 				tmpImageObj.setText( tmpKK.toString() );
 				
 				if ( tmpKK.equals( ((Talent) object).getKostenKlasse() ) )  {
@@ -166,7 +186,12 @@ public class TalentSchema implements ZeilenSchema {
 	 * @see org.d3s.alricg.gui.views.ZeilenSchema#setCellValue()
 	 */
 	public void setCellValue(Object newValue, Object object, Object column) {
-		// noop!
+		
+		switch ((Spalten) column) {
+		// Wenn ein Button geklickt wird
+		case plus:
+		case minus:
+		}
 	}
 
 	/* (non-Javadoc) Methode überschrieben
@@ -196,6 +221,9 @@ public class TalentSchema implements ZeilenSchema {
 				} else {
 					return lib.getToolTipTxt("TblOrdner");
 				}
+			case stern: // TODO implement
+				return "fehlt";
+				
 			case art: 	
 				
 				if (object instanceof Talent) {

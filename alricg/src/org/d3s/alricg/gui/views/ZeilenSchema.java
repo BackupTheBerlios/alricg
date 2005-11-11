@@ -129,7 +129,5 @@ public interface ZeilenSchema {
 	 * @return Liste von Elementen die gemäß des aktuellen Filters "bereinigt" wurde
 	 */
 	public ArrayList doFilterElements(Enum filter, ArrayList aList);
-	
-
 
 }

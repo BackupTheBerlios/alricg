@@ -1,5 +1,9 @@
-/**
- * 
+/*
+ * Created on 20.09.2005
+ *
+ * This file is part of the project ALRICG. The file is copyright
+ * protected and under the GNU General Public License.
+ * For more information see "http://alricg.die3sphaere.de/".
  */
 package org.d3s.alricg.gui.views.zauber;
 
@@ -13,8 +17,13 @@ import org.d3s.alricg.gui.views.SpaltenSchema;
 import org.d3s.alricg.store.FactoryFinder;
 
 /**
+ * <u>Beschreibung:</u><br> 
+ * Schema für die Darstellung von Zaubern in SortableTables. Hier sind alle Methoden
+ * zusammengefaßt, die NICHT von dem dargestellten Objekt abhängen, sondern nur
+ * von der Objek-Art und der Spalte.
  * 
- * @author Vincent
+ * @see org.d3s.alricg.gui.views.SpaltenSchema
+ * @author V. Strelow
  */
 public class ZauberSpalten implements SpaltenSchema {
     

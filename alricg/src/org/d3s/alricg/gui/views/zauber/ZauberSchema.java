@@ -1,9 +1,14 @@
-/**
- * 
+/*
+ * Created on 20.09.2005
+ *
+ * This file is part of the project ALRICG. The file is copyright
+ * protected and under the GNU General Public License.
+ * For more information see "http://alricg.die3sphaere.de/".
  */
 package org.d3s.alricg.gui.views.zauber;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.logging.Logger;
 
 import javax.swing.Icon;
@@ -16,8 +21,12 @@ import org.d3s.alricg.gui.views.talent.TalentSpalten;
 import org.d3s.alricg.gui.views.zauber.ZauberSpalten.Spalten;
 
 /**
- * @author Vincent
- *
+ * <u>Beschreibung:</u><br> 
+ * Das Schema für das handling von Zaubern. Die Objekte hier sind direkt Zauber, keine Links.
+ * Das Schema wird für die Auswahl von Zaubern (Generierung und Management) oder für den 
+ * Editor verwendet.
+ * @see org.d3s.alricg.gui.views.ZeilenSchema
+ * @author V. Strelow
  */
 public class ZauberSchema implements ZeilenSchema {
     
@@ -133,6 +142,11 @@ public class ZauberSchema implements ZeilenSchema {
 	 * @see org.d3s.alricg.gui.views.ZeilenSchema#doFilterElements(java.lang.Enum, java.util.ArrayList)
 	 */
 	public ArrayList doFilterElements(Enum filter, ArrayList aList) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Comparator getComparator(Object column) {
 		// TODO Auto-generated method stub
 		return null;
 	}

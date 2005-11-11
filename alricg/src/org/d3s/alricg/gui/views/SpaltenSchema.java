@@ -76,6 +76,15 @@ public interface SpaltenSchema {
 	 */
 	public String getHeaderToolTip(Object column);
 	
-
+	
+	public void addListener();
+	
+	public void setOrdnung(Enum  ordnung);
+	
+	public void setFilter(Enum filter);
+	
+	public Enum getActiveOrdnung();
+	
+	public Enum getActiveFilter();
 
 }

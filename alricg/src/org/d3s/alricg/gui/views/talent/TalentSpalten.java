@@ -16,7 +16,6 @@ import org.d3s.alricg.store.FactoryFinder;
 import org.d3s.alricg.store.TextStore;
 
 /**
- * 
  * <u>Beschreibung:</u><br> 
  * Schema für die Darstellung von Talenten in SortableTables. Hier sind alle Methoden
  * zusammengefaßt, die NICHT von dem dargestellten Objekt abhängen, sondern nur
@@ -153,8 +152,6 @@ public class TalentSpalten implements SpaltenSchema {
 		default:
 			LOG.warning("Case-Fall konnte nicht gefunden werden!");
 		}
-		
-		
 		
 	}
 	
