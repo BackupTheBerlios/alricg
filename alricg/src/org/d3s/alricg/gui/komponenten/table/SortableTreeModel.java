@@ -481,11 +481,6 @@ public class SortableTreeModel<E> extends AbstractTreeTableModel {
 		return ((DefaultMutableTreeNode) node).getChildCount();
 	}
 	
-	// TEST
-	public void TEST() {
-		this.n
-	}
-	
 	/**
 	 * <u>Beschreibung:</u><br> 
 	 * Dient ledeglich als Wapper damit die Objekte in einem DefaultMutableTreeNode 
