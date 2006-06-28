@@ -15,7 +15,7 @@ import javax.swing.Icon;
 
 /**
  * <u>Beschreibung: </u> <br>
- * Ermöglicht es mehrer Icon auf eine JLabel/JButton/cell-renderer darzustellen.
+ * Ermöglicht es mehrere Icons auf einen JLabel/JButton/cell-renderer darzustellen.
  * 
  * @author Jan Bösenberg (www.javalobby.org)
  * @author V. Strelow

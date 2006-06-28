@@ -23,7 +23,6 @@ import org.d3s.alricg.gui.komponenten.table.renderer.ButtonEditor;
 import org.d3s.alricg.gui.komponenten.table.renderer.ButtonRenderer;
 import org.d3s.alricg.gui.komponenten.table.renderer.ImageRenderer;
 import org.d3s.alricg.gui.komponenten.table.renderer.ImageTextRenderer;
-import org.d3s.alricg.gui.views.SpaltenSchema;
 
 import com.sun.java.swing.plaf.motif.MotifGraphicsUtils;
 
@@ -54,6 +53,7 @@ public class SortableTable extends JTable {
 		super.setModel(model);
 		this.model = model;
 		init();
+		
 	}
     
     private void init() {
@@ -83,7 +83,7 @@ public class SortableTable extends JTable {
                     setHorizontalAlignment(SwingConstants.CENTER);
                     setHorizontalTextPosition(SwingConstants.LEFT);
                     
-                    // Setzen des Pfeils aabhängig von der Sortierung
+                    // Setzen des Pfeils abhängig von der Sortierung
                     if (model.isSortColumnDesc(column)) {
                         setIcon(UP_ICON);
                     } else {

@@ -84,7 +84,7 @@ public class SortableTreeTable extends SortableTable {
 	 * @param model
 	 *            Das Datenmodell der TreeTable
 	 */
-	public SortableTreeTable(SortableTreeModel model) {
+	public SortableTreeTable(SortableTreeTableModel model) {
 
 		// Creates the tree. It will be used as a renderer and editor.
 		tree = new TreeTableCellRenderer(model);

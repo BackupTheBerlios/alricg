@@ -10,15 +10,18 @@ package org.d3s.alricg.sonderregeln;
 
 import junit.framework.TestCase;
 
+import org.d3s.alricg.charKomponenten.Eigenschaft;
 import org.d3s.alricg.charKomponenten.EigenschaftEnum;
 import org.d3s.alricg.charKomponenten.Rasse;
 import org.d3s.alricg.charKomponenten.Vorteil;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.sonderregeln.HerausragendeEigenschaft;
 import org.d3s.alricg.controller.CharKomponente;
-import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.held.GeneratorLink;
-import org.d3s.alricg.prozessor.HeldProzessor;
+import org.d3s.alricg.held.Held;
+import org.d3s.alricg.prozessor.LinkProzessorFront;
+import org.d3s.alricg.prozessor.common.GeneratorLink;
+import org.d3s.alricg.prozessor.elementBox.ElementBox;
+import org.d3s.alricg.prozessor.generierung.extended.ExtendedProzessorEigenschaft;
 import org.d3s.alricg.store.DataStore;
 import org.d3s.alricg.store.FactoryFinder;
 
@@ -28,7 +31,9 @@ import org.d3s.alricg.store.FactoryFinder;
  * @author V. Strelow
  */
 public class HerausragendeEigenschaftTest extends TestCase {
-	private HeldProzessor prozessor;
+    private LinkProzessorFront<Eigenschaft, ExtendedProzessorEigenschaft, GeneratorLink> prozessor;
+    private ElementBox<GeneratorLink> box;
+    private Held held;
 	private Vorteil v, v2;
 	private Rasse r;
 	private HerausragendeEigenschaft herausEigen;
@@ -40,13 +45,15 @@ public class HerausragendeEigenschaftTest extends TestCase {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		super.setUp();
-	
+		
+        // initialisieren
         FactoryFinder.init();
         data = FactoryFinder.find().getData();
+        held = new Held();
         
-		ProgAdmin.heldenAdmin.initHeldGenerierung();
-		prozessor = ProgAdmin.heldenAdmin.getActiveProzessor();
+        held.initGenrierung();
+        prozessor = held.getProzessor(CharKomponente.eigenschaft);
+        box = prozessor.getElementBox();
 		
 		v = new Vorteil("VOR-jUnit-test");
 		v2 = new Vorteil("VOR-jUnit-test2");
@@ -54,31 +61,13 @@ public class HerausragendeEigenschaftTest extends TestCase {
 		herausEigen = new HerausragendeEigenschaft();
 	}
 
-	/* (non-Javadoc) Methode überschrieben
-	 * @see junit.framework.TestCase#tearDown()
-	 */
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-		
-		prozessor = null;
-		v = null;
-		link = null;
-	}
-
 	/**
 	 * Liefert den Link zu der Eigenschaft zurück
 	 * @param enu Die gerwünschte Eigenschaft
-	 * @return Der Link von Prozessor zu der Eigenschaft
+	 * @return Der Link von ProzessorXX zu der Eigenschaft
 	 */
 	private GeneratorLink getLink(EigenschaftEnum enu) {
-		
-		return (GeneratorLink) prozessor.getLinkById(
-				enu.getId(), 
-				null, 
-				null, 
-				CharKomponente.eigenschaft);
-		
+		return  box.getObjectById(enu.getId());
 	}
 	
 	/**
@@ -86,27 +75,21 @@ public class HerausragendeEigenschaftTest extends TestCase {
 	 * wenn bereits die Eigenschaft einen negativen Modi besitzt.
 	 */
 	public void testCanAddSelf() {
-		prozessor.updateElement(getLink(EigenschaftEnum.KO), 10, null, null);
+		prozessor.updateWert(getLink(EigenschaftEnum.KO), 10);
 		
 		// Der Link der die Sonderregel enthält
 		v.setSonderregel( herausEigen );
 		link = new IdLink(null, null);
-		link.setZielId(v);
+		link.setZiel(v);
 		link.setZweitZiel( data.getCharElement(EigenschaftEnum.KO.getId()) );
 		
 		// Simulation einer Rasse mit Modiikation von "-1" auf KO
 		link2 = new IdLink(r, null);
-		link2.setZielId(data.getCharElement(EigenschaftEnum.KO.getId()));
+		link2.setZiel(data.getCharElement(EigenschaftEnum.KO.getId()));
 		link2.setWert(-1);
 		
 		// Prüfung durch die SR selbst
-		assertEquals(
-				true, 
-				herausEigen.canAddSelf(
-						prozessor, 
-						true, 
-						link)
-		);
+		assertTrue( herausEigen.canAddSelf(held, true, link) );
 		
 		// MaxWert und MinWert sind normal
 		assertEquals(14, prozessor.getMaxWert(getLink(EigenschaftEnum.KO)));
@@ -116,13 +99,7 @@ public class HerausragendeEigenschaftTest extends TestCase {
 		getLink(EigenschaftEnum.KO).addLink(link2);
 		
 		// Prüfung durch die SR selbst
-		assertEquals(
-				false, 
-				herausEigen.canAddSelf(
-						prozessor, 
-						true, 
-						link)
-		);
+		assertFalse( herausEigen.canAddSelf( held, true, link) );
 		
 		// MaxWert und MinWert um eins verringert
 		assertEquals(13, prozessor.getMaxWert(getLink(EigenschaftEnum.KO)));
@@ -136,13 +113,7 @@ public class HerausragendeEigenschaftTest extends TestCase {
 		assertEquals(8, prozessor.getMinWert(getLink(EigenschaftEnum.KO)));
 		
 		// Prüfung durch die SR selbst
-		assertEquals(
-				true, 
-				herausEigen.canAddSelf(
-						prozessor, 
-						true, 
-						link)
-		);
+		assertTrue( herausEigen.canAddSelf(held, true, link) );
 		
 		// MaxWert und MinWert sind normal
 		assertEquals(14, prozessor.getMaxWert(getLink(EigenschaftEnum.KO)));
@@ -153,13 +124,13 @@ public class HerausragendeEigenschaftTest extends TestCase {
 	 * Testet das hinzufügen und entfernen der Sonderregel.
 	 */
 	public void testSonderregelMitAdmin() {
-		prozessor.updateElement(getLink(EigenschaftEnum.KL), 10, null, null);
-		prozessor.updateElement(getLink(EigenschaftEnum.IN), 9, null, null);
+		prozessor.updateWert(getLink(EigenschaftEnum.KL), 10);
+		prozessor.updateWert(getLink(EigenschaftEnum.IN), 9);
 		
 		// Der Link der die Sonderregel enthält
 		v.setSonderregel( herausEigen );
 		link = new IdLink(null, null);
-		link.setZielId(v);
+		link.setZiel(v);
 		link.setWert(2); // Wert 2 -> Also Eigenschaft +2
 		link.setZweitZiel( data.getCharElement(EigenschaftEnum.KL.getId()) );
 		
@@ -169,13 +140,13 @@ public class HerausragendeEigenschaftTest extends TestCase {
 		assertEquals(10, getLink(EigenschaftEnum.KL).getWert());
 		
 		// SR kann zum Helden hinzugefügt werden
-		assertEquals(true, herausEigen.canAddSelf(prozessor, true, link));
+		assertTrue( herausEigen.canAddSelf(held, true, link) );
 		
 		// Sonderregel zum Helden hinzufügen
-		prozessor.getSonderregelAdmin().addSonderregel(link);
+		held.getSonderregelAdmin().addSonderregel(link);
 		
 		// SR kann nun nichtmehr zum helden hinzugefügt werden, da schon vorhanden
-		assertEquals(false, herausEigen.canAddSelf(prozessor, true, link));
+		assertFalse( herausEigen.canAddSelf(held, true, link) );
 		
 		// MaxWert und MinWert sind nun 16; Aktuell 16
 		assertEquals(16, prozessor.getMaxWert(getLink(EigenschaftEnum.KL)));
@@ -188,7 +159,7 @@ public class HerausragendeEigenschaftTest extends TestCase {
 		assertEquals(9, getLink(EigenschaftEnum.IN).getWert());
 		
 		// Sonderregel wieder entfernen
-		prozessor.getSonderregelAdmin().removeSonderregel(link);
+		held.getSonderregelAdmin().removeSonderregel(link);
 		
 		// MaxWert und MinWert sind normal; Aktuell 14
 		assertEquals(14, prozessor.getMaxWert(getLink(EigenschaftEnum.KL)));
@@ -196,7 +167,7 @@ public class HerausragendeEigenschaftTest extends TestCase {
 		assertEquals(14, getLink(EigenschaftEnum.KL).getWert());
 		
 		// Es sollte nun keine Sonderregel mehr aktiv sein
-		assertEquals(0, prozessor.getSonderregelAdmin().countSonderregeln());
+		assertEquals(0, held.getSonderregelAdmin().countSonderregeln());
 		
 	}
 
@@ -204,20 +175,20 @@ public class HerausragendeEigenschaftTest extends TestCase {
 	 * Testet das Hinzufügen und entfernen von zwei Sonderregeln
 	 */
 	public void testZweiSonderregelMitAdmin() {
-		prozessor.updateElement(getLink(EigenschaftEnum.MU), 10, null, null);
-		prozessor.updateElement(getLink(EigenschaftEnum.FF), 9, null, null);
+		prozessor.updateWert(getLink(EigenschaftEnum.MU), 10);
+		prozessor.updateWert(getLink(EigenschaftEnum.FF), 9);
 		
 		// Der Link der die Sonderregel enthält
 		v.setSonderregel( herausEigen );
 		link = new IdLink(null, null);
-		link.setZielId(v);
+		link.setZiel(v);
 		link.setWert(1); // Wert 1 -> Also Eigenschaft +1
 		link.setZweitZiel( data.getCharElement(EigenschaftEnum.MU.getId()) );
 		
 		// Der Link2 der die Sonderregel enthält
 		v2.setSonderregel( herausEigen );
 		link2 = new IdLink(null, null);
-		link2.setZielId(v);
+		link2.setZiel(v);
 		link2.setWert(2); // Wert 2 -> Also Eigenschaft 2
 		link2.setZweitZiel(data.getCharElement(EigenschaftEnum.FF.getId()) );
 		
@@ -230,11 +201,11 @@ public class HerausragendeEigenschaftTest extends TestCase {
 		assertEquals(9, getLink(EigenschaftEnum.FF).getWert());
 		
 		// Sonderregel zum Helden hinzufügen
-		prozessor.getSonderregelAdmin().addSonderregel(link);
-		prozessor.getSonderregelAdmin().addSonderregel(link2);
+		held.getSonderregelAdmin().addSonderregel(link);
+		held.getSonderregelAdmin().addSonderregel(link2);
 		
 		// Es sollte nun zwei Sonderregeln aktiv sein
-		assertEquals(2, prozessor.getSonderregelAdmin().countSonderregeln());
+		assertEquals(2, held.getSonderregelAdmin().countSonderregeln());
 		
 		// MaxWert und MinWert sind nun 15 bzw. 16;
 		assertEquals(15, prozessor.getMaxWert(getLink(EigenschaftEnum.MU)));
@@ -245,10 +216,10 @@ public class HerausragendeEigenschaftTest extends TestCase {
 		assertEquals(16, getLink(EigenschaftEnum.FF).getWert());
 		
 		// Entfernen der Sonderregel auf Mut
-		prozessor.getSonderregelAdmin().removeSonderregel(link);
+		held.getSonderregelAdmin().removeSonderregel(link);
 		
 		// Es sollte nun eine Sonderregeln aktiv sein
-		assertEquals(1, prozessor.getSonderregelAdmin().countSonderregeln());
+		assertEquals(1, held.getSonderregelAdmin().countSonderregeln());
 
 		// MaxWert und MinWert sind nun normal bzw. 16;
 		assertEquals(14, prozessor.getMaxWert(getLink(EigenschaftEnum.MU)));
@@ -260,7 +231,7 @@ public class HerausragendeEigenschaftTest extends TestCase {
 		
 		// Wieder hinzufügen der Sonderregel, diesmal mit "+3"
 		link.setWert(3);
-		prozessor.getSonderregelAdmin().addSonderregel(link);
+		held.getSonderregelAdmin().addSonderregel(link);
 		
 		// MaxWert und MinWert sind nun 17 bzw. 16;
 		assertEquals(17, prozessor.getMaxWert(getLink(EigenschaftEnum.MU)));
@@ -271,15 +242,15 @@ public class HerausragendeEigenschaftTest extends TestCase {
 		assertEquals(16, getLink(EigenschaftEnum.FF).getWert());
 		
 		// Die Stufen können nun nicht mehr geändert werden
-		assertEquals(false,	prozessor.canUpdateStufe(getLink(EigenschaftEnum.MU)));
-		assertEquals(false,	prozessor.canUpdateStufe(getLink(EigenschaftEnum.FF)));
+		assertFalse(prozessor.canUpdateWert(getLink(EigenschaftEnum.MU)));
+		assertFalse(prozessor.canUpdateWert(getLink(EigenschaftEnum.FF)));
 		
 		// Entfernen der beiden Sonderregeln
-		prozessor.getSonderregelAdmin().removeSonderregel(link);
-		prozessor.getSonderregelAdmin().removeSonderregel(link2);
+		held.getSonderregelAdmin().removeSonderregel(link);
+		held.getSonderregelAdmin().removeSonderregel(link2);
 		
 		// Es sollte nun keine Sonderregeln aktiv sein
-		assertEquals(0, prozessor.getSonderregelAdmin().countSonderregeln());
+		assertEquals(0, held.getSonderregelAdmin().countSonderregeln());
 		
 		// MaxWert und MinWert sind normal
 		assertEquals(14, prozessor.getMaxWert(getLink(EigenschaftEnum.MU)));
@@ -290,12 +261,12 @@ public class HerausragendeEigenschaftTest extends TestCase {
 		assertEquals(14, getLink(EigenschaftEnum.FF).getWert());
 		
 		// Die Stufen können wieder geändert werden
-		assertEquals(true,	prozessor.canUpdateStufe(getLink(EigenschaftEnum.MU)));
-		assertEquals(true,	prozessor.canUpdateStufe(getLink(EigenschaftEnum.FF)));
+		assertEquals(true,	prozessor.canUpdateWert(getLink(EigenschaftEnum.MU)));
+		assertEquals(true,	prozessor.canUpdateWert(getLink(EigenschaftEnum.FF)));
 		
 		// Setzen der Werte
-		prozessor.updateElement(getLink(EigenschaftEnum.MU), 10, null, null);
-		prozessor.updateElement(getLink(EigenschaftEnum.FF), 9, null, null);
+		prozessor.updateWert(getLink(EigenschaftEnum.MU), 10);
+		prozessor.updateWert(getLink(EigenschaftEnum.FF), 9);
 		
 		// Werte überprüfen
 		assertEquals(10, getLink(EigenschaftEnum.MU).getWert());

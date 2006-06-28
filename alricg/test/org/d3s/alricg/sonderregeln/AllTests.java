@@ -7,6 +7,8 @@
  */
 package org.d3s.alricg.sonderregeln;
 
+import org.d3s.alricg.controller.ProgAdmin;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -20,6 +22,8 @@ public class AllTests extends TestCase {
 
     public static Test suite() {
         TestSuite testSuite = new TestSuite("All Tests for org.d3s.alricg.sonderregeln");
+        ProgAdmin.main(new String[] { "noScreen" });
+        
         testSuite.addTestSuite(BegabungFuerTalentgruppeTest.class);
         testSuite.addTestSuite(BegabungFuerTalentTest.class);
         testSuite.addTestSuite(HerausragendeEigenschaftTest.class);

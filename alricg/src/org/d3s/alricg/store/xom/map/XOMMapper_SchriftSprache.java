@@ -17,7 +17,7 @@ import nu.xom.Element;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.SchriftSprache;
-import org.d3s.alricg.prozessor.FormelSammlung;
+import org.d3s.alricg.prozessor.utils.FormelSammlung;
 
 /**
  * Abstrakter <code>XOMMapper</code> für eine <code>SchriftSprache</code>.

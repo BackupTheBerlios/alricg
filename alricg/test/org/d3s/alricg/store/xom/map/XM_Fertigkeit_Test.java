@@ -64,13 +64,14 @@ public class XM_Fertigkeit_Test extends TestCase {
 		assertEquals("Additionswert falsch", CharElement.KEIN_WERT, f
 				.getAdditionsWert());
 
-		xom.getAttribute("gp").setValue("n/a");
+		xom.getAttribute("gp").setValue("0");
 		f = new FertigkeitBase();
 		mappy.map(xom, f);
 		assertEquals("GP falsch", 0, f.getGpKosten());
 
 		Element e = new Element("addition");
 		String id = "SSS";
+		e.addAttribute(new Attribute("id", id));
 		e.addAttribute(new Attribute("id", id));
 		xom.appendChild(e);
 		f = new FertigkeitBase();

@@ -9,22 +9,30 @@ package org.d3s.alricg.held;
 
 import java.util.HashMap;
 
+import org.d3s.alricg.charKomponenten.Eigenschaft;
 import org.d3s.alricg.charKomponenten.EigenschaftEnum;
 import org.d3s.alricg.charKomponenten.Kultur;
 import org.d3s.alricg.charKomponenten.Profession;
 import org.d3s.alricg.charKomponenten.Rasse;
 import org.d3s.alricg.charKomponenten.Sprache;
+import org.d3s.alricg.charKomponenten.Talent;
+import org.d3s.alricg.charKomponenten.Zauber;
 import org.d3s.alricg.controller.CharKomponente;
-import org.d3s.alricg.prozessor.FormelSammlung;
-import org.d3s.alricg.prozessor.HeldProzessor;
-import org.d3s.alricg.prozessor.LinkElementBox;
-import org.d3s.alricg.prozessor.generierung.AbstractBoxGen;
-import org.d3s.alricg.prozessor.generierung.EigenschaftBoxGen;
-import org.d3s.alricg.prozessor.generierung.NachteilBoxGen;
-import org.d3s.alricg.prozessor.generierung.SonderfBoxGen;
-import org.d3s.alricg.prozessor.generierung.TalentBoxGen;
-import org.d3s.alricg.prozessor.generierung.VorteilBoxGen;
-import org.d3s.alricg.prozessor.generierung.ZauberBoxGen;
+import org.d3s.alricg.controller.Notepad;
+import org.d3s.alricg.controller.ProgAdmin;
+import org.d3s.alricg.prozessor.LinkProzessorFront;
+import org.d3s.alricg.prozessor.common.GeneratorLink;
+import org.d3s.alricg.prozessor.common.HeldenLink;
+import org.d3s.alricg.prozessor.common.SonderregelAdmin;
+import org.d3s.alricg.prozessor.common.VerbilligteFertigkeitAdmin;
+import org.d3s.alricg.prozessor.common.VoraussetzungenAdmin;
+import org.d3s.alricg.prozessor.elementBox.ElementBox;
+import org.d3s.alricg.prozessor.generierung.ProzessorEigenschaften;
+import org.d3s.alricg.prozessor.generierung.ProzessorTalent;
+import org.d3s.alricg.prozessor.generierung.ProzessorZauber;
+import org.d3s.alricg.prozessor.generierung.extended.ExtendedProzessorEigenschaft;
+import org.d3s.alricg.prozessor.generierung.extended.ExtendedProzessorTalent;
+import org.d3s.alricg.prozessor.utils.FormelSammlung;
 import org.d3s.alricg.store.FactoryFinder;
 
 /**
@@ -35,47 +43,48 @@ import org.d3s.alricg.store.FactoryFinder;
  */
 public class Held {
 
-//	Die Herkunft
+	// Die Herkunft
 	private Rasse rasse;
 	private Kultur kultur;
 	private Profession profession;
 		
-// 	Allgemeine Daten des Helden
-	private String Name;
-	private String titel;
-	private String stand;
-	private String geschlecht; //TODO Klasse ändern
-	private String geburtstag;
-	private String zeitmass; // Ob n.Hal, v.Hal, n. Bosparans Fall, usw.
-	private int groesse;
-	private String haarfarbe;
-	private String augenfarbe;
-	private String geburtsort;
-	private String aussehen;
-	private String herkunft;
-	private String beschreibung;
-
-	// Infos ünber den Werdegang des Helden
-	private boolean isAbgebrocheAusbildung;
-	private boolean isKindZweiterWeltenRas;
-	private boolean isKindZweiterWeltenKul;
+	// Die Daten zu dem Char
+	private CharakterDaten daten;
 	
-	// Alle CharElemente des Helden, nach Komponeten Sortiert
-	private HashMap<CharKomponente, AbstractBoxGen> boxenHash;
+	// Alle Prozessoren und somit CharElemente des Helden, nach Komponeten sortiert
+	private HashMap<CharKomponente, LinkProzessorFront> prozessorHash;
 	
-	// Die Eigenschaften, diese sind auch in der "heldKomponetenBoxen"
+	// Die Eigenschaften, diese sind auch in der "prozessorHash"
 	// enthalten, aber wegen ihrer besonderen Bedeutung nochmal hier
 	private HashMap<EigenschaftEnum, HeldenLink> eigenschaftHash;
 	
+	// Die sprachen
 	private Sprache[] muttersprache;  // kann mehrere geben, siehe "Golbin Festumer G"
 	private Sprache[] zweitsprache; 
 	private Sprache[] lehrsprache; 
 	
 	private int abenteuerPunkte;
-	private CharLogBuch lnkLogBuch;
+	private LogBuch lnkLogBuch;
+	
+	// Admins zur Heldenverwaltung
+	private SonderregelAdmin sonderregelAdmin;
+	private VoraussetzungenAdmin voraussetzungAdmin;
+	private VerbilligteFertigkeitAdmin verbFertigkeitenAdmin;
+	
+	// Infos ünber den Werdegang des Helden
+	private boolean isAbgebrocheAusbildung;
+	private boolean isKindZweiterWeltenRas;
+	private boolean isKindZweiterWeltenKul;
+	
+	private boolean isVollzauberer;
+	private boolean isHalbzauberer;
+	private boolean isViertelzauberer;
+	private boolean isGeweiht;
+	
+	private boolean isGeneriertung;
 	
 	//public static HeldUtilitis heldUtils; 
-	//private HeldProzessor heldProzessor; // Prozessor mit dem der Held bearbeitet wird
+	//private HeldProzessor heldProzessor; // ProzessorXX mit dem der Held bearbeitet wird
 	
 	/**
 	 * Konstruktor. Erzeugt einen neuen Helden, nur mit den Eigenschaften ausgestattet.
@@ -87,106 +96,114 @@ public class Held {
 	/**
 	 * Initiiert den Helden für das Management des Helden, vor allem werden die Boxen erzeugt
 	 */
-	public void initManagement(HeldProzessor prozessor) {
+	public void initManagement() {
+		isGeneriertung = false;
 		// TODO Boxen für das Management erzeugen
-		
-		initEigenschaften(prozessor);
-		initEigenschaftMap(prozessor);
-		
-	}
-	
-	public HashMap<CharKomponente, AbstractBoxGen> initHashMap() {
-		// Hash erzeugen
-		boxenHash = new HashMap<CharKomponente, AbstractBoxGen>();
-		
-		return boxenHash;
 	}
 	
 	/**
 	 * Initiiert den Helden für die Generierung, vor allem werden die Boxen erzeugt.
-	 * @param Der Prozessor zu diesem Helden
 	 */
-	public void initGenrierung(HeldProzessor prozessor) {
+	public void initGenrierung() {
+		LinkProzessorFront frontProzessor;
 		
-		// Boxen für die CharElemente erzeugen und platzieren
-		boxenHash.put(CharKomponente.eigenschaft, new EigenschaftBoxGen(prozessor));
-		boxenHash.put(CharKomponente.talent, new TalentBoxGen(prozessor));
-		boxenHash.put(CharKomponente.vorteil, new VorteilBoxGen(prozessor));
-		boxenHash.put(CharKomponente.nachteil, new NachteilBoxGen(prozessor));
-		boxenHash.put(CharKomponente.sonderfertigkeit, new SonderfBoxGen(prozessor));
-		boxenHash.put(CharKomponente.zauber, new ZauberBoxGen(prozessor));
-		// TODO restliche Boxen einbauen
+		// Prozessorübergreifende Objekte erzeugen
+		sonderregelAdmin = new SonderregelAdmin(this);
+		voraussetzungAdmin= new VoraussetzungenAdmin(this);
+		verbFertigkeitenAdmin = new VerbilligteFertigkeitAdmin(this);
+		
+		Notepad notepad = ProgAdmin.notepad;
+		
+		isGeneriertung = true;
+		
+		// --------- Prozessoren erzeugen
+		prozessorHash = new HashMap<CharKomponente, LinkProzessorFront>();
+		
+		// Für die Eigenschaften
+		frontProzessor = new LinkProzessorFront<Eigenschaft, ExtendedProzessorEigenschaft, GeneratorLink>(
+				sonderregelAdmin, 
+				voraussetzungAdmin, 
+				new ProzessorEigenschaften(sonderregelAdmin, this, notepad));
+		prozessorHash.put(CharKomponente.eigenschaft, frontProzessor);
 		
 		// Erzeugt alle Eigenschaften
-		initEigenschaften(prozessor);
+		initEigenschaften((LinkProzessorFront) prozessorHash.get(CharKomponente.eigenschaft));
 		
 		// Setzt die Eigenschaften in ein zusätzliches Hash für besseren Zugriff
-		initEigenschaftMap(prozessor);
+		initEigenschaftMap(frontProzessor);
+		
+		// Für die Talente
+		frontProzessor = new LinkProzessorFront<Talent, ExtendedProzessorTalent, GeneratorLink>(
+				sonderregelAdmin, 
+				voraussetzungAdmin, 
+				new ProzessorTalent(sonderregelAdmin, verbFertigkeitenAdmin, this, notepad));
+		prozessorHash.put(CharKomponente.talent, frontProzessor);
+		
+		// Für die Zauber
+		frontProzessor = new LinkProzessorFront<Zauber, ExtendedProzessorTalent, GeneratorLink>(
+				sonderregelAdmin, 
+				voraussetzungAdmin, 
+				new ProzessorZauber(sonderregelAdmin, verbFertigkeitenAdmin, this, notepad));
+		prozessorHash.put(CharKomponente.zauber, frontProzessor);
 	}
+
 	
 	/**
 	 * Erzeugt alle Eigenschaften und fügt sie zum Helden hinzu. Es werden initiale Werte
 	 * gesetzt.
 	 * @param Der Prozessor zu diesem Helden
 	 */ 
-	private void initEigenschaften(HeldProzessor prozessor) {
+	private void initEigenschaften(LinkProzessorFront prozessor) {
+		ElementBox<HeldenLink> box;
 		
 		EigenschaftEnum[] enums = EigenschaftEnum.values();
 		
 		// Erstmal alle Eigenschaften mit "0" setzen
 		for (int i = 0; i < enums.length; i++) {
-			prozessor.addCharElement(
-				FactoryFinder.find().getData().getCharElement(enums[i].getId(), CharKomponente.eigenschaft),
-				0
+			prozessor.addNewElement(
+				FactoryFinder.find().getData().getCharElement(enums[i].getId(), CharKomponente.eigenschaft)
 			);
 		}
 		
+		box = prozessor.getElementBox();
+		
 		//  Grund-Eigenschaften auf initialwert "8" setzen
-		prozessor.updateElement(
-				prozessor.getLinkById(EigenschaftEnum.MU.getId(), null, null),
-				8,
-				null, null
+		prozessor.updateWert(
+				box.getObjectById(EigenschaftEnum.MU.getId()),
+				8
 		);
-		prozessor.updateElement(
-				prozessor.getLinkById(EigenschaftEnum.CH.getId(), null, null),
-				8,
-				null, null
+		prozessor.updateWert(
+				box.getObjectById(EigenschaftEnum.CH.getId()),
+				8
 		);
-		prozessor.updateElement(
-				prozessor.getLinkById(EigenschaftEnum.FF.getId(), null, null),
-				8,
-				null, null
+		prozessor.updateWert(
+				box.getObjectById(EigenschaftEnum.FF.getId()),
+				8
 		);
-		prozessor.updateElement(
-				prozessor.getLinkById(EigenschaftEnum.GE.getId(), null, null),
-				8,
-				null, null
+		prozessor.updateWert(
+				box.getObjectById(EigenschaftEnum.GE.getId()),
+				8
 		);
-		prozessor.updateElement(
-				prozessor.getLinkById(EigenschaftEnum.IN.getId(), null, null),
-				8,
-				null, null
+		prozessor.updateWert(
+				box.getObjectById(EigenschaftEnum.IN.getId()),
+				8
 		);
-		prozessor.updateElement(
-				prozessor.getLinkById(EigenschaftEnum.KK.getId(), null, null),
-				8,
-				null, null
+		prozessor.updateWert(
+				box.getObjectById(EigenschaftEnum.KK.getId()),
+				8
 		);
-		prozessor.updateElement(
-				prozessor.getLinkById(EigenschaftEnum.KL.getId(), null, null),
-				8,
-				null, null
+		prozessor.updateWert(
+				box.getObjectById(EigenschaftEnum.KL.getId()),
+				8
 		);
-		prozessor.updateElement(
-				prozessor.getLinkById(EigenschaftEnum.KO.getId(), null, null),
-				8,
-				null, null
+		prozessor.updateWert(
+				box.getObjectById(EigenschaftEnum.KO.getId()),
+				8
 		);
 		
-		prozessor.updateElement(
-				prozessor.getLinkById(EigenschaftEnum.SO.getId(), null, null),
-				1,
-				null, null
+		prozessor.updateWert(
+				box.getObjectById(EigenschaftEnum.SO.getId()),
+				1
 		);
 		
 	}
@@ -196,7 +213,7 @@ public class Held {
 	 * Eigenschaften öfter benötigt werden.
 	 * @param prozessor
 	 */
-	private void initEigenschaftMap(HeldProzessor prozessor) {
+	private void initEigenschaftMap(LinkProzessorFront<Eigenschaft, ?, ? extends HeldenLink> prozessor) {
 		
 		EigenschaftEnum[] enums = EigenschaftEnum.values();
 		
@@ -206,7 +223,7 @@ public class Held {
 		// direkt in ein Hash gesichert für einfachen Zugriff
 		for (int i = 0; i < enums.length; i++) {
 			eigenschaftHash.put(enums[i], 
-					prozessor.getLinkById(enums[i].getId(), null, null)
+					prozessor.getElementBox().getObjectById(enums[i].getId())
 			);
 		}
 	}
@@ -221,11 +238,11 @@ public class Held {
 	 * @return Die LinkElementBoxzu die alle CharElemente des Helden der Art "komponente"
 	 *  enthält.
 	 */
-	public LinkElementBox getElementBox(CharKomponente komponente) {
+	public LinkProzessorFront getProzessor(CharKomponente komponente) {
 		// Eigenschaften können hier NICHT abgerufen werden, da sie errechnet werden
 		//if ( komponente.equals(CharKomponente.eigenschaft) ) return null;
 		
-		return boxenHash.get(komponente);
+		return prozessorHash.get(komponente);
 	}
 	
 	/**
@@ -356,8 +373,77 @@ public class Held {
 	public void setKindZweiterWeltenRas(boolean isKindZweiterWeltenRas) {
 		this.isKindZweiterWeltenRas = isKindZweiterWeltenRas;
 	}
+
+	/**
+	 * @return Liefert das Attribut sonderregelAdmin.
+	 */
+	public SonderregelAdmin getSonderregelAdmin() {
+		return sonderregelAdmin;
+	}
+
+	/**
+	 * @return Liefert das Attribut verbFertigkeitenAdmin.
+	 */
+	public VerbilligteFertigkeitAdmin getVerbFertigkeitenAdmin() {
+		return verbFertigkeitenAdmin;
+	}
+
+	/**
+	 * @return Liefert das Attribut voraussetzungAdmin.
+	 */
+	public VoraussetzungenAdmin getVoraussetzungAdmin() {
+		return voraussetzungAdmin;
+	}
 	
+	/**
+	 * @return true - Der Held befindet sich in der Generierung, ansonsten false
+	 */
+	public boolean isGenerierung() {
+		return isGeneriertung;
+	}
 	
+	/**
+	 * @return true - Der Held befindet sich im Helden-Management, ansonsten false
+	 */
+	public boolean isManagement() {
+		return !isGeneriertung;
+	}
+	
+	/**
+	 * @return true - Der Held besitzt den Vorteil "Vollzauberer", ansonsten false
+	 */
+	public boolean isVollzauberer() {
+		return this.isVollzauberer;
+	}
+	
+	/**
+	 * @return true - Der Held besitzt den Vorteil "Halbzauberer", ansonsten false
+	 */
+	public boolean isHalbzauberer() {
+		return this.isHalbzauberer;
+	}
+	
+	/**
+	 * @return true - Der Held besitzt den Vorteil "Viertelzauberer", ansonsten false
+	 */
+	public boolean isViertelzauberer() {
+		return this.isViertelzauberer;
+	}
+	
+	/**
+	 * @return true - Der Held ist ein Geweihter, ansonsten false
+	 */
+	public boolean isGeweiht() {
+		return this.isGeweiht;
+	}
+	
+	/**
+	 * Prüft ob der Held "normal" ist, also kein Magier oder Geweihter.
+	 * @return true - Der Charakter ist nicht Magisch oder geweiht, ansonsten false
+	 */
+	public boolean isNormaloChar() {
+		return !(isVollzauberer || isHalbzauberer || isViertelzauberer || isGeweiht);
+	}
 	
 	/**
 	 * Ermöglicht einen einfachen Zugriff auf die Links zu den Eigenschaften (alle die in 

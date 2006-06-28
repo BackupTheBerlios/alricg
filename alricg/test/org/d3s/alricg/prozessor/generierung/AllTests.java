@@ -20,8 +20,8 @@ public class AllTests extends TestCase {
 
     public static Test suite() {
         TestSuite testSuite = new TestSuite("All Tests for org.d3s.alricg.prozessor.generierung");
-        testSuite.addTestSuite(EigenschaftBoxGenTest.class);
-        testSuite.addTestSuite(TalentBoxGenTest.class);
+        testSuite.addTestSuite(ProzessorEigenschaftenTest.class);
+        //testSuite.addTestSuite(ProzessorTalentTest.class);
         return testSuite;
     }
 

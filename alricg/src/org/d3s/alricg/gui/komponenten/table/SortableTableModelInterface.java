@@ -10,6 +10,7 @@ package org.d3s.alricg.gui.komponenten.table;
 
 import javax.swing.table.TableModel;
 
+import org.d3s.alricg.gui.ProzessorObserver;
 import org.d3s.alricg.gui.views.SpaltenSchema;
 import org.d3s.alricg.gui.views.ZeilenSchema;
 
@@ -20,7 +21,7 @@ import org.d3s.alricg.gui.views.ZeilenSchema;
  * benötigten Methoden.
  * @author V. Strelow
  */
-public interface SortableTableModelInterface extends TableModel {
+public interface SortableTableModelInterface extends TableModel, ProzessorObserver {
 
 	/**
 	 * Prüft ob eine Spalte sortierbar ist.

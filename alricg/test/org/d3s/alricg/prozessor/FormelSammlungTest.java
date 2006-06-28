@@ -11,9 +11,9 @@ package org.d3s.alricg.prozessor;
 import junit.framework.TestCase;
 
 import org.d3s.alricg.charKomponenten.CharElement;
-import org.d3s.alricg.prozessor.FormelSammlung;
-import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
-import org.d3s.alricg.prozessor.FormelSammlung.Lernmethode;
+import org.d3s.alricg.prozessor.utils.FormelSammlung;
+import org.d3s.alricg.prozessor.utils.FormelSammlung.KostenKlasse;
+import org.d3s.alricg.prozessor.utils.FormelSammlung.Lernmethode;
 
 /**
  * <u>Beschreibung:</u><br> 

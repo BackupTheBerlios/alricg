@@ -23,7 +23,8 @@ import org.d3s.alricg.gui.views.ComparatorCollection;
 import org.d3s.alricg.gui.views.SpaltenSchema;
 import org.d3s.alricg.gui.views.ZeilenSchema;
 import org.d3s.alricg.gui.views.talent.TalentSpalten.Spalten;
-import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
+import org.d3s.alricg.held.Held;
+import org.d3s.alricg.prozessor.utils.FormelSammlung.KostenKlasse;
 import org.d3s.alricg.store.FactoryFinder;
 import org.d3s.alricg.store.TextStore;
 
@@ -40,12 +41,15 @@ public class TalentSchema implements ZeilenSchema {
     /** <code>TalentSchema</code>'s logger */
     private static final Logger LOG = Logger.getLogger(TalentSchema.class.getName());
     
-	private static TalentSchema self; // Statischer selbst verweis
+	///private static TalentSchema self; // Statischer selbst verweis
 	
 	// Arbeistobjekte, um Parameter zu übergeben. Aus performancegründen 
 	// als Attribute
 	private final static ImageTextObject tmpImageObj = new ImageTextObject();
 	private final static Link tmpLink = new IdLink(null, null);
+	private Held held;
+	// TODO Held initialisieren!
+	
 	
 	/**
 	 * <u>Beschreibung:</u><br> 
@@ -93,11 +97,8 @@ public class TalentSchema implements ZeilenSchema {
 	 * @return Eine Instance von TalentSpalten
 	 */
 	public static TalentSchema getInstance() {
-		if (self == null) {
-			self = new TalentSchema();
-		} 
 		
-		return self;
+		return new TalentSchema();
 	}
 	
 	
@@ -113,9 +114,8 @@ public class TalentSchema implements ZeilenSchema {
 			case sorte: return ((Talent) object).getSorte();
 			case art: 	return ((Talent) object).getArt();
 			case kostenKlasse: 
-				tmpLink.setZielId((Talent) object);
-				tmpKK = ProgAdmin.heldenAdmin.getActiveProzessor().getSonderregelAdmin()
-										.changeKostenKlasse(
+				tmpLink.setZiel((Talent) object);
+				tmpKK = held.getSonderregelAdmin().changeKostenKlasse(
 												((Talent) object).getKostenKlasse(), tmpLink
 											);
 											

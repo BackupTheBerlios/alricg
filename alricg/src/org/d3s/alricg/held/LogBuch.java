@@ -7,6 +7,9 @@
 
 package org.d3s.alricg.held;
 
+import org.d3s.alricg.prozessor.common.HeldenLink;
+
+
 /**
  * <b>Beschreibung:</b><br> TODO Beschreibung einfügen
  * @author V.Strelow

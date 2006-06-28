@@ -11,7 +11,7 @@ import java.util.Comparator;
 
 import org.d3s.alricg.charKomponenten.Faehigkeit;
 import org.d3s.alricg.charKomponenten.links.Link;
-import org.d3s.alricg.held.HeldenLink;
+import org.d3s.alricg.prozessor.common.HeldenLink;
 
 /**
  * Eine Sammlung von Comaratoren für den Vergelich von Tabellen-Elementen. Die Hier
@@ -22,7 +22,6 @@ import org.d3s.alricg.held.HeldenLink;
  */
 public interface ComparatorCollection {
 
-	
 	/**
 	 * Dient dazu Links mit Comparatoren zu vergleichen, die nicht für Links
 	 * sondern die CharElemente gemacht sind.

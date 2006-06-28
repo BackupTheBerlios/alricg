@@ -18,7 +18,7 @@ import nu.xom.Element;
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Sonderfertigkeit;
 import org.d3s.alricg.charKomponenten.Sonderfertigkeit.Art;
-import org.d3s.alricg.prozessor.FormelSammlung;
+import org.d3s.alricg.prozessor.utils.FormelSammlung;
 
 /**
  * <code>XOMMapper</code> für eine <code>Sonderfertigkeit</code>.

@@ -11,6 +11,7 @@ package org.d3s.alricg.gui.komponenten.table;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -32,11 +33,13 @@ import org.d3s.alricg.gui.views.SpaltenSchema.SpaltenArt;
  */
 public class SortableTableModel<E> extends AbstractTableModel 
 								implements SortableTableModelInterface {
+	
 	private ArrayList<E> dataList = new ArrayList<E>();
 	private Enum[] columns;
 	private final SpaltenSchema spaSchema; // Spezifische Methoden für die Spalten
 	private final ZeilenSchema zeilSchema; // Spezifische Methoden für die Zeilen
 	private boolean[] lastAscSorted;
+	private int columnToSort = 0;
 	
 	public SortableTableModel(SpaltenSchema sSchema, ZeilenSchema wSchema, SpaltenArt art) {
 		
@@ -46,14 +49,6 @@ public class SortableTableModel<E> extends AbstractTableModel
 		lastAscSorted = new boolean[columns.length];
 		
 		Arrays.fill(lastAscSorted, false); // Damit überall ein Wert steht
-	}
-	
-	/**
-	 * Setzt die Elemente des DatenModells
-	 * @param elemListe Liste von allem Elementen die die Tabelle anzeigen soll
-	 */
-	public void setData(ArrayList<E> elemListe) {
-		dataList = elemListe;
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -118,13 +113,16 @@ public class SortableTableModel<E> extends AbstractTableModel
 	public void sortTableByColumn(int colIdx) {
 		Collections.sort(dataList, zeilSchema.getComparator(columns[colIdx]));
 		
-		// Somit wird beim zweiten klick die Reihenfolge vertauscht
+		// Somit wird beim zweiten Klick die Reihenfolge vertauscht
 		if ( lastAscSorted[colIdx]) {
 			Collections.reverse(dataList);
 			lastAscSorted[colIdx] = false;
 		} else {
 			lastAscSorted[colIdx] = true;
 		}
+		
+		// speichert die column, nach der als letztes sortiert wurde
+		columnToSort = colIdx;
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -141,6 +139,57 @@ public class SortableTableModel<E> extends AbstractTableModel
 		return !lastAscSorted[colIdx];
 	}
 
+// ----------- Methoden aus dem Observer Interface --------------	
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.komponenten.table.ProzessorObserver#addElement(java.lang.Object)
+	 */
+	public void addElement(Object obj) {
+		int idx;
+		
+		dataList.add((E) obj);
+		sortTableByColumn(columnToSort);
+		
+		idx = dataList.indexOf(obj);
+		
+		this.fireTableRowsInserted(idx, idx);
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.komponenten.table.ProzessorObserver#removeElement(java.lang.Object)
+	 */
+	public void removeElement(Object obj) {
+		int idx;
+		
+		idx = dataList.indexOf(obj);
+		dataList.remove((E) obj);
+		
+		this.fireTableRowsDeleted(idx, idx);
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.komponenten.table.ProzessorObserver#updateElement(java.lang.Object)
+	 */
+	public void updateElement(Object obj) {
+		int idx;
+		
+		idx = dataList.indexOf(obj);
+		
+		this.fireTableRowsUpdated(idx, idx);
+	}
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.komponenten.table.ProzessorObserver#setData(java.util.List)
+	 */
+	public void setData(List list) {
+		dataList.clear();
+		dataList.addAll(list);
+		
+		this.fireTableDataChanged();
+	}
+
+// ---------------------------------------------------------
+	
 	public SpaltenSchema getSpaltenSchema() {
 		return spaSchema;
 	}

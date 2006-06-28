@@ -71,15 +71,14 @@ public class ZauberSpalten implements SpaltenSchema {
 	 */
 	public void initTable(SortableTable table, SpaltenArt art) {
 		if ( art.equals(SpaltenArt.objektDirekt) ) {
-			table.setColumnMultiImage(1);
-			table.setColumnButton(5, "+");
-			table.setColumnButton(6, "-");
+			table.setColumnMultiImage(Spalten.merkmale.toString());
+			table.setColumnButton(Spalten.plus.toString(), "+");
+			table.setColumnButton(Spalten.minus.toString(), "-");
 		} else if ( art.equals(SpaltenArt.objektLinkGen) ) {
 			
 		} else if ( art.equals(SpaltenArt.editorAuswahl) ) {
 		
 		}
-
 
 	}
 
@@ -130,4 +129,45 @@ public class ZauberSpalten implements SpaltenSchema {
 		return null;
 	}
 
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.views.SpaltenSchema#addListener()
+	 */
+	public void addListener() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.views.SpaltenSchema#getActiveFilter()
+	 */
+	public Enum getActiveFilter() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.views.SpaltenSchema#getActiveOrdnung()
+	 */
+	public Enum getActiveOrdnung() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.views.SpaltenSchema#setFilter(java.lang.Enum)
+	 */
+	public void setFilter(Enum filter) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.views.SpaltenSchema#setOrdnung(java.lang.Enum)
+	 */
+	public void setOrdnung(Enum ordnung) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }

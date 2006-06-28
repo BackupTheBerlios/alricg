@@ -26,7 +26,7 @@ class XOMMapper_IdLink implements XOMMapper<IdLink> {
 		final CharKomponente charKomp = data.getCharKompFromId(idValue);
 
 		// Ziel ID; muﬂ ein Idlink enthalten
-		to.setZielId(data.getCharElement(idValue, charKomp));
+		to.setZiel(data.getCharElement(idValue, charKomp));
 
 		// Optionaler Text
 		Attribute attribute = from.getAttribute("text");

@@ -20,7 +20,6 @@ import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Fertigkeit;
 import org.d3s.alricg.charKomponenten.Werte;
 import org.d3s.alricg.charKomponenten.Werte.CharArten;
-import org.d3s.alricg.charKomponenten.links.Voraussetzung;
 
 /**
  * Abstrakter <code>XOMMapper</code> für eine <code>Fertigkeit</code>.
@@ -33,8 +32,6 @@ abstract class XOMMapper_Fertigkeit extends XOMMapper_CharElement {
 
     /** <code>XOMMapper_Fertigkeit</code>'s logger */
     private static final Logger LOG = Logger.getLogger(XOMMapper_Fertigkeit.class.getName());
-    
-    private final XOMMapper<Voraussetzung> vorausMapper = new XOMMapper_Voraussetzung();
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
@@ -100,14 +97,6 @@ abstract class XOMMapper_Fertigkeit extends XOMMapper_CharElement {
         }
         fertigkeit.setFuerWelcheChars(fuerWelcheChars);
 
-        // Auslesen der Voraussetzungen
-        current = xmlElement.getFirstChildElement("voraussetzungen");
-        if (current != null) {
-            final Voraussetzung voraussetzung = new Voraussetzung(fertigkeit);
-            vorausMapper.map(current, voraussetzung);
-            fertigkeit.setVoraussetzung(voraussetzung);
-        }
-
         // Auslesen der GP Kosten
         try {
             fertigkeit.setGpKosten(Integer.parseInt(xmlElement.getAttributeValue("gp")));
@@ -170,14 +159,6 @@ abstract class XOMMapper_Fertigkeit extends XOMMapper_CharElement {
         for (int i = 0; i < fuerWelcheChars.length; i++) {
             final Element e = new Element("fuerWelcheChars");
             e.appendChild(fuerWelcheChars[i].getValue());
-            xmlElement.appendChild(e);
-        }
-
-        // Schreiben der Voraussetzungen
-        final Voraussetzung voraussetzung = fertigkeit.getVoraussetzung();
-        if (voraussetzung != null) {
-            final Element e = new Element("voraussetzungen");
-            vorausMapper.map(voraussetzung, e);
             xmlElement.appendChild(e);
         }
 

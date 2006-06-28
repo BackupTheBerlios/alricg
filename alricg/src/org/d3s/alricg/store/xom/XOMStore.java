@@ -60,7 +60,7 @@ import org.d3s.alricg.charKomponenten.charZusatz.SchwarzeGabe;
 import org.d3s.alricg.charKomponenten.charZusatz.Tier;
 import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
+import org.d3s.alricg.prozessor.utils.FormelSammlung.KostenKlasse;
 import org.d3s.alricg.store.Configuration;
 import org.d3s.alricg.store.ConfigurationException;
 import org.d3s.alricg.store.DataStore;

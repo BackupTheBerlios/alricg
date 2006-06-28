@@ -21,7 +21,6 @@ import org.d3s.alricg.charKomponenten.Repraesentation;
 import org.d3s.alricg.charKomponenten.Werte.Geschlecht;
 import org.d3s.alricg.charKomponenten.links.Auswahl;
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
-import org.d3s.alricg.charKomponenten.links.Voraussetzung;
 import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.store.FactoryFinder;
 
@@ -38,7 +37,6 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement {
     private static final Logger LOG = Logger.getLogger(XOMMapper_Herkunft.class.getName());
     
     private final XOMMapper<Auswahl> auswahlMapper = new XOMMapper_Auswahl();
-    private final XOMMapper<Voraussetzung> vorausMapper = new XOMMapper_Voraussetzung();
     private final XOMMapper<IdLinkList> idLinkListMapper = new XOMMapper_IdLinkList();
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
@@ -95,14 +93,6 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement {
                 if (current.getAttribute("soMax") != null) {
                     herkunft.setSoMax(Integer.parseInt(current.getAttributeValue("soMax")));
                 }
-            }
-
-            // Auslesen der Voraussetzung
-            current = xmlElement.getFirstChildElement("voraussetzung");
-            if (current != null) {
-                final Voraussetzung voraussetzung = new Voraussetzung(herkunft);
-                vorausMapper.map(current, voraussetzung);
-                herkunft.setVoraussetzung(voraussetzung);
             }
 
             // Auslesen der Vorteile
@@ -321,14 +311,6 @@ abstract class XOMMapper_Herkunft extends XOMMapper_CharElement {
             if (soMax != Herkunft.SO_MAX_DEFAULT) {
                 e.addAttribute(new Attribute("soMax", Integer.toString(soMax)));
             }
-            xmlElement.appendChild(e);
-        }
-
-        // Hinzufügen der Voraussetzungen
-        Voraussetzung v = herkunft.getVoraussetzung();
-        if (v != null) {
-            e = new Element("voraussetzung");
-            vorausMapper.map(v, e);
             xmlElement.appendChild(e);
         }
 

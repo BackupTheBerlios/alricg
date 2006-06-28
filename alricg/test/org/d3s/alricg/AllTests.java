@@ -7,6 +7,8 @@
  */
 package org.d3s.alricg;
 
+import org.d3s.alricg.controller.ProgAdmin;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -19,7 +21,22 @@ import junit.framework.TestSuite;
 public class AllTests extends TestCase {
 
     public static Test suite() {
-        TestSuite testSuite = new TestSuite("All Tests for org.d3s.alricg");
+    	
+        // Starten des Programms
+        ProgAdmin.main(new String[] { "noScreen" });
+        
+        // Die einzelnen Tests
+        TestSuite testSuite = new TestSuite("All Tests for Alricg");
+        testSuite.addTest(org.d3s.alricg.sonderregeln.AllTests.suite());
+        testSuite.addTest(org.d3s.alricg.prozessor.AllTests.suite());
+        testSuite.addTest(org.d3s.alricg.prozessor.generierung.AllTests.suite());
+        testSuite.addTest(org.d3s.alricg.charKomponenten.charZusatz.AllTests.suite());
+        
+        
+        testSuite.addTest(org.d3s.alricg.store.AllTests.suite());
+        testSuite.addTest(org.d3s.alricg.store.xom.AllTests.suite());
+        testSuite.addTest(org.d3s.alricg.store.xom.map.AllTests.suite());
+        
         return testSuite;
     }
 

@@ -13,7 +13,9 @@ import nu.xom.Elements;
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.RegelAnmerkung;
 import org.d3s.alricg.charKomponenten.RegelAnmerkung.Modus;
-import org.d3s.alricg.charKomponenten.sonderregeln.SonderregelAdapter;
+import org.d3s.alricg.charKomponenten.links.Voraussetzung;
+import org.d3s.alricg.charKomponenten.sonderregeln.principle.Sonderregel;
+import org.d3s.alricg.charKomponenten.sonderregeln.principle.SonderregelAdapter;
 
 /**
  * Abstrakter <code>XOMMapper</code> für ein <code>CharElement</code>.
@@ -24,6 +26,8 @@ import org.d3s.alricg.charKomponenten.sonderregeln.SonderregelAdapter;
  */
 abstract class XOMMapper_CharElement implements XOMMapper<CharElement> {
 
+    private final XOMMapper<Voraussetzung> vorausMapper = new XOMMapper_Voraussetzung();
+	
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(nu.xom.Element, org.d3s.alricg.charKomponenten.CharElement)
     public void map(Element xmlElement, CharElement charElement) {
 
@@ -82,8 +86,15 @@ abstract class XOMMapper_CharElement implements XOMMapper<CharElement> {
         child = xmlElement.getFirstChildElement("sammelbegriff");
         if (child != null) {
             charElement.setSammelberiff(child.getValue().trim());
-
         }
+        
+        child = xmlElement.getFirstChildElement("voraussetzungen");
+        if (child != null) {
+        	final Voraussetzung voraussetzung = new Voraussetzung(charElement);
+            vorausMapper.map(child, voraussetzung);
+            charElement.setVoraussetzung(voraussetzung);
+        }
+
     }
 
     // @see org.d3s.alricg.store.xom.map.XOMMapper#map(org.d3s.alricg.charKomponenten.CharElement, nu.xom.Element)
@@ -112,11 +123,11 @@ abstract class XOMMapper_CharElement implements XOMMapper<CharElement> {
 
         // Sonderregel
         if (charElement.hasSonderregel()) {
-            final SonderregelAdapter sonderregel = charElement.createSonderregel();
+            final Sonderregel sonderregel = charElement.createSonderregel();
             final Element e = new Element("sonderregel");
-            final Attribute a = new Attribute("id", sonderregel.getId());
+            final Attribute a = new Attribute("id", ((SonderregelAdapter)sonderregel).getId());
             e.addAttribute(a);
-            e.appendChild(sonderregel.getBeschreibung());
+            e.appendChild( ((SonderregelAdapter)sonderregel).getBeschreibung() );
             xmlElement.appendChild(e);
         }
 
@@ -143,6 +154,14 @@ abstract class XOMMapper_CharElement implements XOMMapper<CharElement> {
         if (sValue.length() > 0) {
             final Element e = new Element("sammelbegriff");
             e.appendChild(sValue);
+            xmlElement.appendChild(e);
+        }
+        
+        // Schreiben der Voraussetzungen
+        Voraussetzung voraussetzung = charElement.getVoraussetzung();
+        if (voraussetzung != null) {
+        	final Element e = new Element("voraussetzungen");
+            vorausMapper.map(voraussetzung, e);
             xmlElement.appendChild(e);
         }
     }

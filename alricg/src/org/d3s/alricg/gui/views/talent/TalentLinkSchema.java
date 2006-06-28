@@ -12,17 +12,16 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Talent;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
-import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.gui.views.ComparatorCollection;
 import org.d3s.alricg.gui.views.ZeilenSchema;
 import org.d3s.alricg.gui.views.talent.TalentSpalten.Spalten;
-import org.d3s.alricg.held.GeneratorLink;
-import org.d3s.alricg.held.HeldenLink;
-import org.d3s.alricg.prozessor.HeldProzessor;
+import org.d3s.alricg.prozessor.LinkProzessorFront;
+import org.d3s.alricg.prozessor.common.GeneratorLink;
+import org.d3s.alricg.prozessor.common.HeldenLink;
+import org.d3s.alricg.prozessor.generierung.extended.ExtendedProzessorTalent;
 import org.d3s.alricg.store.FactoryFinder;
 import org.d3s.alricg.store.TextStore;
 
@@ -38,8 +37,8 @@ public class TalentLinkSchema implements ZeilenSchema {
     
     /** <code>TalentLinkSchema</code>'s logger */
     private static final Logger LOG = Logger.getLogger(TalentLinkSchema.class.getName());
-    
-	HeldProzessor prozessor;
+	private LinkProzessorFront<Talent, ExtendedProzessorTalent, HeldenLink> prozessor;
+
 	
 	/**
 	 * <u>Beschreibung:</u><br> 
@@ -82,8 +81,8 @@ public class TalentLinkSchema implements ZeilenSchema {
 		}
 	}
 	
-	public TalentLinkSchema() {
-		prozessor = ProgAdmin.heldenAdmin.getActiveProzessor();
+	public TalentLinkSchema(LinkProzessorFront<Talent, ExtendedProzessorTalent, HeldenLink> prozessor) {
+		this.prozessor = prozessor;
 	}
 	
 	/*(non-Javadoc)
@@ -159,17 +158,14 @@ public class TalentLinkSchema implements ZeilenSchema {
 	public void setCellValue(Object newValue, Object object, Object column) {
 		
 		switch ((TalentSpalten.Spalten) column) {
-			case stufe: prozessor.updateElement(
+			case stufe: prozessor.updateWert(
 							(HeldenLink) object, 
-							(Integer) newValue, 
-							null, 
-							null);
+							(Integer) newValue);
 			
-			case spezialisierungen: prozessor.updateElement(
-							(HeldenLink) object, 
-							CharElement.KEIN_WERT, 
-							newValue.toString(), 
-							null);
+			case spezialisierungen: prozessor.updateText(
+							(HeldenLink) object,
+							newValue.toString());
+			
 			default:
 				LOG.warning("Case-Fall konnte nicht gefunden werden!");
 		}
@@ -190,7 +186,7 @@ public class TalentLinkSchema implements ZeilenSchema {
 		// Diese können im Normalfall editiert werden
 		if ( object instanceof HeldenLink ) {
 			switch ((TalentSpalten.Spalten) column) {
-				case stufe: return prozessor.canUpdateStufe((HeldenLink) object);
+				case stufe: return prozessor.canUpdateWert((HeldenLink) object);
 				case spezialisierungen:	return prozessor.canUpdateText((HeldenLink) object);
 			}
 		}

@@ -16,7 +16,7 @@ import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Eigenschaft;
 import org.d3s.alricg.charKomponenten.Faehigkeit;
 import org.d3s.alricg.controller.CharKomponente;
-import org.d3s.alricg.prozessor.FormelSammlung;
+import org.d3s.alricg.prozessor.utils.FormelSammlung;
 import org.d3s.alricg.store.DataStore;
 import org.d3s.alricg.store.FactoryFinder;
 

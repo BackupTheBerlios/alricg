@@ -18,11 +18,13 @@ import org.d3s.alricg.charKomponenten.Talent;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.sonderregeln.Stubenhocker;
 import org.d3s.alricg.controller.CharKomponente;
-import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.held.GeneratorLink;
-import org.d3s.alricg.prozessor.HeldProzessor;
-import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
-import org.d3s.alricg.prozessor.generierung.GenerierungProzessor;
+import org.d3s.alricg.held.Held;
+import org.d3s.alricg.prozessor.LinkProzessorFront;
+import org.d3s.alricg.prozessor.common.GeneratorLink;
+import org.d3s.alricg.prozessor.elementBox.ElementBox;
+import org.d3s.alricg.prozessor.generierung.extended.ExtendedProzessorEigenschaft;
+import org.d3s.alricg.prozessor.generierung.extended.ExtendedProzessorTalent;
+import org.d3s.alricg.prozessor.utils.FormelSammlung.KostenKlasse;
 import org.d3s.alricg.store.DataStore;
 import org.d3s.alricg.store.FactoryFinder;
 
@@ -34,22 +36,30 @@ import org.d3s.alricg.store.FactoryFinder;
 public class StubenhockerTest extends TestCase {
 	private Talent talent1, talent2, talent3, talent4, talent5, talent6, 
 				talentBasis1, talentBasis2, talentBasis3;
+	private LinkProzessorFront<Talent, ExtendedProzessorTalent, GeneratorLink> prozessorTalent;
+	private LinkProzessorFront<Eigenschaft, ExtendedProzessorEigenschaft, GeneratorLink> prozessorEigenschaft;
+
+	private ElementBox<GeneratorLink> boxTalent;
 	private IdLink link1, link2, link3;
 	private Rasse ras;
 	private Nachteil nachteil;
-	private HeldProzessor prozessor;
+	private Held held;
 	private Stubenhocker stubenSR;
 	private DataStore data;
 	
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		// Initialisierung des Helden
+        // initialisieren
         FactoryFinder.init();
         data = FactoryFinder.find().getData();
-		ProgAdmin.heldenAdmin.initHeldGenerierung();
-		prozessor = ProgAdmin.heldenAdmin.getActiveProzessor();
-		
+        held = new Held();
+        
+        held.initGenrierung();
+        prozessorTalent = held.getProzessor(CharKomponente.talent);
+        prozessorEigenschaft = held.getProzessor(CharKomponente.eigenschaft);
+        boxTalent = prozessorTalent.getElementBox();
+        
 		// Sonderregel erzeugen
 		stubenSR = new Stubenhocker();
 		
@@ -189,39 +199,45 @@ public class StubenhockerTest extends TestCase {
 	 * Helden hinzugefügt werden kann.
 	 */
 	public void testCanAddSelf() {
-		prozessor.updateElement(getLinkEigenschaft(EigenschaftEnum.GE), 9, null, null);
-		prozessor.updateElement(getLinkEigenschaft(EigenschaftEnum.KO), 10, null, null);
-		prozessor.updateElement(getLinkEigenschaft(EigenschaftEnum.KK), 11, null, null);
+		prozessorEigenschaft.updateWert(getLinkEigenschaft(EigenschaftEnum.GE), 9);
+		prozessorEigenschaft.updateWert(getLinkEigenschaft(EigenschaftEnum.KO), 10);
+		prozessorEigenschaft.updateWert(getLinkEigenschaft(EigenschaftEnum.KK), 11);
 		
 		// Link zu dem Nachteil erzeugen
 		link1 = new IdLink(null, null);
-		link1.setZielId(nachteil);
+		link1.setZiel(nachteil);
 		
 		// Prüfen ob hinzugefügt werden darf
-		assertEquals(true, stubenSR.canAddSelf(prozessor, true, link1));
+		assertTrue(stubenSR.canAddSelf(held, true, link1));
 		
 		// Ändern der KK auf unzulässigen Wert
-		prozessor.updateElement(getLinkEigenschaft(EigenschaftEnum.KK), 12, null, null);
-		assertEquals(false, stubenSR.canAddSelf(prozessor, true, link1));
+		prozessorEigenschaft.updateWert(getLinkEigenschaft(EigenschaftEnum.KK), 12);
+		assertFalse(stubenSR.canAddSelf(held, true, link1));
 		
 		// Wieder auf zulässigen Wert setzen
-		prozessor.updateElement(getLinkEigenschaft(EigenschaftEnum.KK), 11, null, null);
-		assertEquals(true, stubenSR.canAddSelf(prozessor, true, link1));
+		prozessorEigenschaft.updateWert(getLinkEigenschaft(EigenschaftEnum.KK), 11);
+		assertTrue(stubenSR.canAddSelf(held, true, link1));
 		
 		// 5 körperliche/ Kampf-Talente, noch zulässig
-		prozessor.addCharElement(talent1, 1);
-		prozessor.addCharElement(talent2, 1);
-		prozessor.addCharElement(talent3, 1);
-		prozessor.addCharElement(talent4, 1);
-		prozessor.addCharElement(talent5, 1);
-		prozessor.addCharElement(talentBasis1, 0); // Egal, da keine Kosten
-		prozessor.addCharElement(talentBasis2, 0); // Egal, da keine Kosten
+		prozessorTalent.addNewElement(talent1);
+		prozessorTalent.addNewElement(talent2);
+		prozessorTalent.addNewElement(talent3);
+		prozessorTalent.addNewElement(talent4);
+		prozessorTalent.addNewElement(talent5);
+		prozessorTalent.updateWert(getLinkTalent(talent1), 1);
+		prozessorTalent.updateWert(getLinkTalent(talent2), 1);
+		prozessorTalent.updateWert(getLinkTalent(talent3), 1);
+		prozessorTalent.updateWert(getLinkTalent(talent4), 1);
+		prozessorTalent.updateWert(getLinkTalent(talent5), 1);
 		
-		assertEquals(true, stubenSR.canAddSelf(prozessor, true, link1));
+		prozessorTalent.addNewElement(talentBasis1); // Egal, da keine Kosten
+		prozessorTalent.addNewElement(talentBasis2); // Egal, da keine Kosten
+		
+		assertTrue(stubenSR.canAddSelf(held, true, link1));
 		
 		// Jetzt nicht mehr zulässig
-		prozessor.addCharElement(talent6, 0); // Auch Null kostet, da Aktivierungskosten
-		assertEquals(false, stubenSR.canAddSelf(prozessor, true, link1));
+		prozessorTalent.addNewElement(talent6); // Auch Null kostet, da Aktivierungskosten
+		assertFalse(stubenSR.canAddSelf(held, true, link1));
 	}
 	
 	/**
@@ -230,25 +246,25 @@ public class StubenhockerTest extends TestCase {
 	public void testEigenschaften() {
 		// Link zu dem Nachteil erzeugen
 		link1 = new IdLink(null, null);
-		link1.setZielId(nachteil);
+		link1.setZiel(nachteil);
 		
 		// Sonderregel hinzufügen
-		prozessor.getSonderregelAdmin().addSonderregel(link1);
+		held.getSonderregelAdmin().addSonderregel(link1);
 		
 		// Jetzt sind die Max Wert (KO, KK, GE) auf 11 begrenzt
-		assertEquals(11, prozessor.getMaxWert(getLinkEigenschaft(EigenschaftEnum.GE)));
-		assertEquals(11, prozessor.getMaxWert(getLinkEigenschaft(EigenschaftEnum.KO)));
-		assertEquals(11, prozessor.getMaxWert(getLinkEigenschaft(EigenschaftEnum.KK)));
-		assertEquals(14, prozessor.getMaxWert(getLinkEigenschaft(EigenschaftEnum.FF)));
+		assertEquals(11, prozessorEigenschaft.getMaxWert(getLinkEigenschaft(EigenschaftEnum.GE)));
+		assertEquals(11, prozessorEigenschaft.getMaxWert(getLinkEigenschaft(EigenschaftEnum.KO)));
+		assertEquals(11, prozessorEigenschaft.getMaxWert(getLinkEigenschaft(EigenschaftEnum.KK)));
+		assertEquals(14, prozessorEigenschaft.getMaxWert(getLinkEigenschaft(EigenschaftEnum.FF)));
 		
 		// Sonderregel entfernen
-		prozessor.getSonderregelAdmin().removeSonderregel(link1);
+		held.getSonderregelAdmin().removeSonderregel(link1);
 		
 		// Normale Begrenzung mehr
-		assertEquals(14, prozessor.getMaxWert(getLinkEigenschaft(EigenschaftEnum.GE)));
-		assertEquals(14, prozessor.getMaxWert(getLinkEigenschaft(EigenschaftEnum.KO)));
-		assertEquals(14, prozessor.getMaxWert(getLinkEigenschaft(EigenschaftEnum.KK)));
-		assertEquals(14, prozessor.getMaxWert(getLinkEigenschaft(EigenschaftEnum.FF)));
+		assertEquals(14, prozessorEigenschaft.getMaxWert(getLinkEigenschaft(EigenschaftEnum.GE)));
+		assertEquals(14, prozessorEigenschaft.getMaxWert(getLinkEigenschaft(EigenschaftEnum.KO)));
+		assertEquals(14, prozessorEigenschaft.getMaxWert(getLinkEigenschaft(EigenschaftEnum.KK)));
+		assertEquals(14, prozessorEigenschaft.getMaxWert(getLinkEigenschaft(EigenschaftEnum.FF)));
 	}
 	
 	/**
@@ -257,124 +273,129 @@ public class StubenhockerTest extends TestCase {
 	public void testTalentStufen() {
 		// Link zu dem Nachteil erzeugen
 		link1 = new IdLink(null, null);
-		link1.setZielId(nachteil);
+		link1.setZiel(nachteil);
 		
 		// Sonderregel hinzufügen
-		prozessor.getSonderregelAdmin().addSonderregel(link1);
+		held.getSonderregelAdmin().addSonderregel(link1);
 		
 		// Prüfen ob hinzufügbar
-		assertTrue(prozessor.canAddCharElement(talent1, null, null, 1));
+		assertTrue(prozessorTalent.canAddElement(talent1));
 		
 		// Körperliche/Kampf-Talente hinzufügen noch zulässig
-		prozessor.addCharElement(talent1, 1);
-		prozessor.addCharElement(talent2, 1);
+		prozessorTalent.addNewElement(talent1);
+		prozessorTalent.addNewElement(talent2);
+		prozessorTalent.updateWert(getLinkTalent(talent1), 1);
+		prozessorTalent.updateWert(getLinkTalent(talent2), 1);
 		
 		// Maximalwerte Testen
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talent1)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talent2)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talent1)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talent2)));
 		
 		// Modifikationen hinzufügen
 		// Modifikator (durch eine Rasse) erzeugen
 		link2 = new IdLink(ras, null);
-		link2.setZielId(talent1);
+		link2.setZiel(talent1);
 		link2.setWert(3);
 
 		// Modifikator hinzufügen
-		prozessor.addLink(link2);
+		prozessorTalent.addModi(link2);
 		
 		// Maximalwerte Testen
-		assertEquals(5, prozessor.getMaxWert(this.getLinkCharElement(talent1)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talent2)));
+		assertEquals(5, prozessorTalent.getMaxWert(this.getLinkTalent(talent1)));
+		assertEquals(2, prozessorTalent.getMaxWert(this.getLinkTalent(talent2)));
 		
 		// Weitere Körper/Kampf Talente hinzufügen
-		prozessor.addCharElement(talent3, 1);
-		prozessor.addCharElement(talent4, 1);
-		prozessor.addCharElement(talent5, 1);
-		prozessor.addCharElement(talentBasis1, 0); // Egal, da keine Kosten
-		prozessor.addCharElement(talentBasis2, 0); // Egal, da keine Kosten
+		prozessorTalent.addNewElement(talent3);
+		prozessorTalent.addNewElement(talent4);
+		prozessorTalent.addNewElement(talent5);
+		prozessorTalent.updateWert(getLinkTalent(talent3), 1);
+		prozessorTalent.updateWert(getLinkTalent(talent4), 1);
+		prozessorTalent.updateWert(getLinkTalent(talent5), 1);
+		prozessorTalent.addNewElement(talentBasis1); // Egal, da keine Kosten
+		prozessorTalent.addNewElement(talentBasis2); // Egal, da keine Kosten
 		
 		// talent1, talentBasis1, talentBasis2 kosten nix! Daher alle anderen Steigerbar!
-		assertEquals(5, prozessor.getMaxWert(this.getLinkCharElement(talent1)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talent2)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talent3)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talent4)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talent5)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talentBasis1)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talentBasis2)));
+		assertEquals(5, prozessorTalent.getMaxWert(getLinkTalent(talent1)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talent2)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talent3)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talent4)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talent5)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talentBasis1)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talentBasis2)));
 		
 		// Stufe ändern um 5 Talente mit Kosten zu haben
-		prozessor.updateElement(getLinkCharElement(talentBasis1), 1, null, null);
+		prozessorTalent.updateWert(getLinkTalent(talentBasis1), 1);
 		
 		// Nur die 5 Talente steigerbar, die bereits etwas kosten
-		assertEquals(3, prozessor.getMaxWert(this.getLinkCharElement(talent1)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talent2)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talent3)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talent4)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talent5)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talentBasis1)));
-		assertEquals(0, prozessor.getMaxWert(this.getLinkCharElement(talentBasis2)));
+		assertEquals(3, prozessorTalent.getMaxWert(getLinkTalent(talent1)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talent2)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talent3)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talent4)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talent5)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talentBasis1)));
+		assertEquals(0, prozessorTalent.getMaxWert(getLinkTalent(talentBasis2)));
 
 		// Stufen ändern, sollte aber nix am ergebnis verändern!
-		prozessor.updateElement(getLinkCharElement(talent2), 0, null, null);
-		prozessor.updateElement(getLinkCharElement(talent3), 0, null, null);
+		prozessorTalent.updateWert(getLinkTalent(talent2), 0);
+		prozessorTalent.updateWert(getLinkTalent(talent3), 0);
 		
 		// Nur die 5 Talente steigerbar, die bereits etwas kosten
-		assertEquals(3, prozessor.getMaxWert(this.getLinkCharElement(talent1)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talent2)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talent3)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talent4)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talent5)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talentBasis1)));
-		assertEquals(0, prozessor.getMaxWert(this.getLinkCharElement(talentBasis2)));
+		assertEquals(3, prozessorTalent.getMaxWert(getLinkTalent(talent1)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talent2)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talent3)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talent4)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talent5)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talentBasis1)));
+		assertEquals(0, prozessorTalent.getMaxWert(getLinkTalent(talentBasis2)));
 		
 		// Modifikator (durch eine Rasse) erzeugen
 		link2 = new IdLink(ras, null);
-		link2.setZielId(talent6);
+		link2.setZiel(talent6);
 		link2.setWert(3);
 		
 		// Link der KEIN modi ist erzeugen
 		link3 = new IdLink(null, null);
-		link3.setZielId(talent6);
+		link3.setZiel(talent6);
 		link3.setWert(3);		
 		
 		// Prüfen ob die Links hinzugefügt werden können
-		assertTrue(((GenerierungProzessor) prozessor).canAddLinkAsNewElement(link2));
-		assertFalse(((GenerierungProzessor) prozessor).canAddLinkAsNewElement(link3));
+		assertTrue(prozessorTalent.canAddElement(link2));
+		assertFalse(prozessorTalent.canAddElement(link3));
 		
 		// Prüfen von "canUpdate"
-		assertFalse(prozessor.canUpdateStufe(getLinkCharElement(talent1)));
-		assertTrue(prozessor.canUpdateStufe(getLinkCharElement(talent2)));
-		assertTrue(prozessor.canUpdateStufe(getLinkCharElement(talentBasis1)));
-		assertFalse(prozessor.canUpdateStufe(getLinkCharElement(talentBasis2)));
-		
+		assertFalse(prozessorTalent.canUpdateWert(getLinkTalent(talent1)));
+		assertTrue(prozessorTalent.canUpdateWert(getLinkTalent(talent2)));
+		assertTrue(prozessorTalent.canUpdateWert(getLinkTalent(talentBasis1)));
+		assertFalse(prozessorTalent.canUpdateWert(getLinkTalent(talentBasis2)));
+
 		// Ein Talent entfernen, wieder alle Talente um zwei steigerbar!
-		prozessor.removeElement(getLinkCharElement(talent2));
+		prozessorTalent.removeElement(getLinkTalent(talent2));
 
 		// Alle Talente wieder um zwei steigerbar!
-		assertEquals(5, prozessor.getMaxWert(this.getLinkCharElement(talent1)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talent3)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talent4)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talent5)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talentBasis1)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talentBasis2)));
-		assertTrue(((GenerierungProzessor) prozessor).canAddLinkAsNewElement(link2));
-		assertTrue(((GenerierungProzessor) prozessor).canAddLinkAsNewElement(link3));
+		assertEquals(5, prozessorTalent.getMaxWert(getLinkTalent(talent1)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talent3)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talent4)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talent5)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talentBasis1)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talentBasis2)));
+		assertTrue(prozessorTalent.canAddElement(link2));
+		assertTrue(prozessorTalent.canAddElement(link3));
 		
 		// Stufen ändern, jetzt kosten wieder 5 Talente etwas!
-		prozessor.updateElement(getLinkCharElement(talent1), 4, null, null);
+		prozessorTalent.updateWert(getLinkTalent(talent1), 4);
 		
 		// Alle Talente wieder um zwei steigerbar!
-		assertEquals(5, prozessor.getMaxWert(this.getLinkCharElement(talent1)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talent3)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talent4)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talent5)));
-		assertEquals(2, prozessor.getMaxWert(this.getLinkCharElement(talentBasis1)));
-		assertEquals(0, prozessor.getMaxWert(this.getLinkCharElement(talentBasis2)));
+		assertEquals(5, prozessorTalent.getMaxWert(getLinkTalent(talent1)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talent3)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talent4)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talent5)));
+		assertEquals(2, prozessorTalent.getMaxWert(getLinkTalent(talentBasis1)));
+		assertEquals(0, prozessorTalent.getMaxWert(getLinkTalent(talentBasis2)));
 		
 		// Prüfen von "canUpdate"
-		assertTrue(prozessor.canUpdateStufe(getLinkCharElement(talent3)));
-		assertTrue(prozessor.canUpdateStufe(getLinkCharElement(talentBasis1)));
-		assertFalse(prozessor.canUpdateStufe(getLinkCharElement(talentBasis2)));
+		assertTrue(prozessorTalent.canUpdateWert(getLinkTalent(talent3)));
+		assertTrue(prozessorTalent.canUpdateWert(getLinkTalent(talentBasis1)));
+		assertFalse(prozessorTalent.canUpdateWert(getLinkTalent(talentBasis2)));
 	}
 	
 	/**
@@ -383,38 +404,42 @@ public class StubenhockerTest extends TestCase {
 	public void testTalentKosten() {
 		// Link zu dem Nachteil erzeugen
 		link1 = new IdLink(null, null);
-		link1.setZielId(nachteil);
+		link1.setZiel(nachteil);
 		
 		// Körperliche/Kampf-Talente hinzufügen
-		prozessor.addCharElement(talent1, 1);
-		prozessor.addCharElement(talent2, 1);
-		prozessor.addCharElement(talent3, 1);
+		prozessorTalent.addNewElement(talent1);
+		prozessorTalent.addNewElement(talent2);
+		prozessorTalent.addNewElement(talent3);
+		prozessorTalent.updateWert(getLinkTalent(talent1), 1);
+		prozessorTalent.updateWert(getLinkTalent(talent2), 1);
+		prozessorTalent.updateWert(getLinkTalent(talent3), 1);
 		
 		// Normale Kosten
-		assertEquals(2, getLinkCharElement(talent1).getKosten());
-		assertEquals(4, getLinkCharElement(talent2).getKosten());
-		assertEquals(5, getLinkCharElement(talent3).getKosten());
+		assertEquals(2, getLinkTalent(talent1).getKosten());
+		assertEquals(4, getLinkTalent(talent2).getKosten());
+		assertEquals(5, getLinkTalent(talent3).getKosten());
 		
 		// Sonderregel hinzufügen
-		prozessor.getSonderregelAdmin().addSonderregel(link1);
+		held.getSonderregelAdmin().addSonderregel(link1);
 		
 		// Kosten um eine Klasse erhöht
-		assertEquals(4, getLinkCharElement(talent1).getKosten());
-		assertEquals(5, getLinkCharElement(talent2).getKosten());
-		assertEquals(7, getLinkCharElement(talent3).getKosten());
+		assertEquals(4, getLinkTalent(talent1).getKosten());
+		assertEquals(5, getLinkTalent(talent2).getKosten());
+		assertEquals(7, getLinkTalent(talent3).getKosten());
 		
 		// Talent hinzufügen
-		prozessor.addCharElement(talent4, 1);
-		assertEquals(9, getLinkCharElement(talent4).getKosten());
+		prozessorTalent.addNewElement(talent4);
+		prozessorTalent.updateWert(getLinkTalent(talent4), 1);
+		assertEquals(9, getLinkTalent(talent4).getKosten());
 		
 		// Sonderregel entfernen
-		prozessor.getSonderregelAdmin().removeSonderregel(link1);
+		held.getSonderregelAdmin().removeSonderregel(link1);
 		
 		// Normale Kosten
-		assertEquals(2, getLinkCharElement(talent1).getKosten());
-		assertEquals(4, getLinkCharElement(talent2).getKosten());
-		assertEquals(5, getLinkCharElement(talent3).getKosten());
-		assertEquals(7, getLinkCharElement(talent4).getKosten());
+		assertEquals(2, getLinkTalent(talent1).getKosten());
+		assertEquals(4, getLinkTalent(talent2).getKosten());
+		assertEquals(5, getLinkTalent(talent3).getKosten());
+		assertEquals(7, getLinkTalent(talent4).getKosten());
 
 	}
 	
@@ -423,28 +448,21 @@ public class StubenhockerTest extends TestCase {
 	/**
 	 * Liefert den Link zu dem CharElement zurück
 	 * @param enu Die gewünschte Eigenschaft
-	 * @return Der Link von Prozessor zu der Eigenschaft
+	 * @return Der Link von ProzessorXX zu der Eigenschaft
 	 */
-	private GeneratorLink getLinkCharElement(CharElement elem) {
+	private GeneratorLink getLinkTalent(CharElement elem) {
 		
-		return (GeneratorLink) prozessor.getLinkByCharElement(
-				elem, 
-				null, 
-				null);
+		return boxTalent.getObjectById(elem);
 	}
 	
 	/**
 	 * Liefert den Link zu der Eigenschaft zurück
 	 * @param enu Die gerwünschte Eigenschaft
-	 * @return Der Link von Prozessor zu der Eigenschaft
+	 * @return Der Link von ProzessorXX zu der Eigenschaft
 	 */
 	private GeneratorLink getLinkEigenschaft(EigenschaftEnum enu) {
 		
-		return (GeneratorLink) prozessor.getLinkById(
-				enu.getId(), 
-				null, 
-				null, 
-				CharKomponente.eigenschaft);
+		return prozessorEigenschaft.getElementBox().getObjectById(enu.getId());
 		
 	}
 }

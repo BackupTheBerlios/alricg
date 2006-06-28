@@ -17,34 +17,34 @@ import org.d3s.alricg.charKomponenten.Vorteil;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.sonderregeln.BegabungFuerTalentgruppe;
 import org.d3s.alricg.controller.CharKomponente;
-import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.held.GeneratorLink;
-import org.d3s.alricg.prozessor.HeldProzessor;
-import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
+import org.d3s.alricg.held.Held;
+import org.d3s.alricg.prozessor.LinkProzessorFront;
+import org.d3s.alricg.prozessor.common.GeneratorLink;
+import org.d3s.alricg.prozessor.elementBox.ElementBox;
+import org.d3s.alricg.prozessor.generierung.extended.ExtendedProzessorTalent;
+import org.d3s.alricg.prozessor.utils.FormelSammlung.KostenKlasse;
 import org.d3s.alricg.store.DataStore;
 import org.d3s.alricg.store.FactoryFinder;
 
 public class BegabungFuerTalentgruppeTest extends TestCase {
-    private Vorteil vorteil;
-
-    private HeldProzessor prozessor;
-
+	private LinkProzessorFront<Talent, ExtendedProzessorTalent, GeneratorLink> prozessor;
+	private ElementBox<GeneratorLink> box, boxEigenschaft;
+	private Held held;
     private IdLink link1;
-
+    private Vorteil vorteil;
     private Talent talent1, talent2, talent3, talent4;
-    
     private DataStore data;
-
     private BegabungFuerTalentgruppe begabungSR;
 
     protected void setUp() throws Exception {
-        super.setUp();
-        
+        // initialisieren
         FactoryFinder.init();
         data = FactoryFinder.find().getData();
-
-        ProgAdmin.heldenAdmin.initHeldGenerierung();
-        prozessor = ProgAdmin.heldenAdmin.getActiveProzessor();
+        held = new Held();
+        
+        held.initGenrierung();
+        prozessor = held.getProzessor(CharKomponente.talent);
+        box = prozessor.getElementBox();
 
         // SR erzeugen
         begabungSR = new BegabungFuerTalentgruppe();
@@ -106,85 +106,90 @@ public class BegabungFuerTalentgruppeTest extends TestCase {
 
     public void testKosten() {
         // Talente hinzufügen
-        prozessor.addCharElement(talent1, 1);
-        prozessor.addCharElement(talent2, 1);
-        prozessor.addCharElement(talent3, 1);
+        prozessor.addNewElement(talent1);
+        prozessor.addNewElement(talent2);
+        prozessor.addNewElement(talent3);
 
+        prozessor.updateWert(getLink(talent1), 1);
+        prozessor.updateWert(getLink(talent2), 1);
+        prozessor.updateWert(getLink(talent3), 1);
+        
         // Normale Kosten
-        assertEquals(2, getLinkCharElement(talent1).getKosten());
-        assertEquals(2, getLinkCharElement(talent2).getKosten()); // Keine Aktivierungskosten
-        assertEquals(5, getLinkCharElement(talent3).getKosten());
+        assertEquals(2, getLink(talent1).getKosten());
+        assertEquals(2, getLink(talent2).getKosten()); // Keine Aktivierungskosten
+        assertEquals(5, getLink(talent3).getKosten());
 
         // Sonderregel hinzufügen
         link1 = new IdLink(null, null);
-        link1.setZielId(vorteil);
+        link1.setZiel(vorteil);
         link1.setText(Talent.Sorte.handwerk.getValue());
-        prozessor.getSonderregelAdmin().addSonderregel(link1);
+        held.getSonderregelAdmin().addSonderregel(link1);
 
         // Kosten prüfen, alle HandwerksTalente nun billiger!
-        assertEquals(2, getLinkCharElement(talent1).getKosten());
-        assertEquals(1, getLinkCharElement(talent2).getKosten()); // Keine Aktivierungskosten !!SR!!
-        assertEquals(5, getLinkCharElement(talent3).getKosten());
+        assertEquals(2, getLink(talent1).getKosten());
+        assertEquals(1, getLink(talent2).getKosten()); // Keine Aktivierungskosten !!SR!!
+        assertEquals(5, getLink(talent3).getKosten());
 
         // Weiteres Handwerkstalent hinzufügen
-        prozessor.addCharElement(talent4, 3);
-
+        prozessor.addNewElement(talent4);
+        prozessor.updateWert(getLink(talent4), 3);
+        
         // Kosten prüfen
-        assertEquals(2, getLinkCharElement(talent1).getKosten());
-        assertEquals(1, getLinkCharElement(talent2).getKosten()); // Keine Aktivierungskosten !!SR!!
-        assertEquals(5, getLinkCharElement(talent3).getKosten());
-        assertEquals(20, getLinkCharElement(talent4).getKosten()); // !!SR!!
+        assertEquals(2, getLink(talent1).getKosten());
+        assertEquals(1, getLink(talent2).getKosten()); // Keine Aktivierungskosten !!SR!!
+        assertEquals(5, getLink(talent3).getKosten());
+        assertEquals(20, getLink(talent4).getKosten()); // !!SR!!
 
         // Eine Stufe steigern
-        prozessor.updateElement(getLinkCharElement(talent2), 3, null, null);
+        prozessor.updateWert(getLink(talent2), 3);
 
-        assertEquals(2, getLinkCharElement(talent1).getKosten());
-        assertEquals(6, getLinkCharElement(talent2).getKosten()); // Keine Aktivierungskosten !!SR!!
-        assertEquals(5, getLinkCharElement(talent3).getKosten());
-        assertEquals(20, getLinkCharElement(talent4).getKosten()); // !!SR!!
+        assertEquals(2, getLink(talent1).getKosten());
+        assertEquals(6, getLink(talent2).getKosten()); // Keine Aktivierungskosten !!SR!!
+        assertEquals(5, getLink(talent3).getKosten());
+        assertEquals(20, getLink(talent4).getKosten()); // !!SR!!
 
         // Sonderregel wieder entfernen
-        prozessor.getSonderregelAdmin().removeSonderregel(link1);
+        held.getSonderregelAdmin().removeSonderregel(link1);
 
         // Alle Kosten wieder normal
-        assertEquals(2, getLinkCharElement(talent1).getKosten());
-        assertEquals(12, getLinkCharElement(talent2).getKosten()); // Keine Aktivierungskosten
-        assertEquals(5, getLinkCharElement(talent3).getKosten());
-        assertEquals(26, getLinkCharElement(talent4).getKosten());
+        assertEquals(2, getLink(talent1).getKosten());
+        assertEquals(12, getLink(talent2).getKosten()); // Keine Aktivierungskosten
+        assertEquals(5, getLink(talent3).getKosten());
+        assertEquals(26, getLink(talent4).getKosten());
 
         // SR wieder hinzufügen, nun mir "körper"
         link1.setText(Talent.Sorte.koerper.getValue());
-        prozessor.getSonderregelAdmin().addSonderregel(link1);
+        held.getSonderregelAdmin().addSonderregel(link1);
 
         // Nix ändert sich, da talent1 bereits "A" als KK hat!
-        assertEquals(2, getLinkCharElement(talent1).getKosten()); // !!SR!!
-        assertEquals(12, getLinkCharElement(talent2).getKosten()); // Keine Aktivierungskosten
-        assertEquals(5, getLinkCharElement(talent3).getKosten());
-        assertEquals(26, getLinkCharElement(talent4).getKosten());
+        assertEquals(2, getLink(talent1).getKosten()); // !!SR!!
+        assertEquals(12, getLink(talent2).getKosten()); // Keine Aktivierungskosten
+        assertEquals(5, getLink(talent3).getKosten());
+        assertEquals(26, getLink(talent4).getKosten());
 
         // Sonderregel wieder entfernen
-        prozessor.getSonderregelAdmin().removeSonderregel(link1);
+        held.getSonderregelAdmin().removeSonderregel(link1);
 
         // SR wieder hinzufügen, nun mir "natur"
         link1.setText(Talent.Sorte.natur.getValue());
-        prozessor.getSonderregelAdmin().addSonderregel(link1);
+        held.getSonderregelAdmin().addSonderregel(link1);
 
         // Kosten für Naturtalente nun gesenkt!
-        assertEquals(2, getLinkCharElement(talent1).getKosten());
-        assertEquals(12, getLinkCharElement(talent2).getKosten()); // Keine Aktivierungskosten
-        assertEquals(4, getLinkCharElement(talent3).getKosten()); // !!SR!!
-        assertEquals(26, getLinkCharElement(talent4).getKosten());
+        assertEquals(2, getLink(talent1).getKosten());
+        assertEquals(12, getLink(talent2).getKosten()); // Keine Aktivierungskosten
+        assertEquals(4, getLink(talent3).getKosten()); // !!SR!!
+        assertEquals(26, getLink(talent4).getKosten());
     }
 
     /**
      * Liefert den Link zu dem CharElement zurück
      * 
      * @param enu Die gewünschte Eigenschaft
-     * @return Der Link von Prozessor zu der Eigenschaft
+     * @return Der Link von ProzessorXX zu der Eigenschaft
      */
-    private GeneratorLink getLinkCharElement(CharElement elem) {
+    private GeneratorLink getLink(CharElement elem) {
 
-        return (GeneratorLink) prozessor.getLinkByCharElement(elem, null, null);
+        return box.getObjectById(elem);
     }
 
 }

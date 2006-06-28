@@ -15,8 +15,8 @@ import org.d3s.alricg.charKomponenten.SchriftSprache;
 import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.controller.MessengerMock;
 import org.d3s.alricg.controller.ProgAdmin;
-import org.d3s.alricg.prozessor.FormelSammlung;
-import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
+import org.d3s.alricg.prozessor.utils.FormelSammlung;
+import org.d3s.alricg.prozessor.utils.FormelSammlung.KostenKlasse;
 
 /**
  * Tests für XOMMapper_SchriftSprache

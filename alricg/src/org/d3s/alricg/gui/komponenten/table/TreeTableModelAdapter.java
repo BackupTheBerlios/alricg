@@ -45,6 +45,8 @@
 
 package org.d3s.alricg.gui.komponenten.table;
 
+import java.util.List;
+
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TreeExpansionEvent;
@@ -70,18 +72,18 @@ import org.d3s.alricg.gui.views.ZeilenSchema;
  * @author Scott Violet
  */
 public class TreeTableModelAdapter extends AbstractTableModel 
-									implements SortableTableModelInterface 
+									implements SortableTableModelInterface  
 {
     private JTree tree;
-    private SortableTreeModel treeTableModel;
+    private SortableTreeTableModel treeTableModel;
     private SpaltenSchema spaSchema;
-    private ZeilenSchema worSchema;
+    private ZeilenSchema zeiSchema;
 
-    public TreeTableModelAdapter(SortableTreeModel treeTableModel, JTree tree) {
+    public TreeTableModelAdapter(SortableTreeTableModel treeTableModel, JTree tree) {
         this.tree = tree;
         this.treeTableModel = treeTableModel;
         this.spaSchema = treeTableModel.getSpaltenSchema();
-        this.worSchema = treeTableModel.getWorkSchema();
+        this.zeiSchema = treeTableModel.getWorkSchema();
         
 		tree.addTreeExpansionListener(new TreeExpansionListener() {
 		    // Don't use fireTableRowsInserted() here; the selection model
@@ -189,7 +191,7 @@ public class TreeTableModelAdapter extends AbstractTableModel
 	 * @see org.d3s.alricg.GUI.komponenten.table.SortableTableModelInterface#getToolTip(int, int)
 	 */
 	public String getToolTip(int row, int column) {
-		return worSchema.getToolTip(
+		return zeiSchema.getToolTip(
 				((DefaultMutableTreeNode) nodeForRow(row)).getUserObject(),
 				treeTableModel.getColumnObject(column)
 			);
@@ -200,6 +202,40 @@ public class TreeTableModelAdapter extends AbstractTableModel
 	 */
 	public String getHeaderToolTip(int column) {
 		return spaSchema.getHeaderToolTip(treeTableModel.getColumnObject(column));
+	}
+
+	
+	
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.komponenten.table.ProzessorObserver#addElement(java.lang.Object)
+	 */
+	public void addElement(Object obj) {
+//		 TODO Auto-generated method stub
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.komponenten.table.ProzessorObserver#removeElement(java.lang.Object)
+	 */
+	public void removeElement(Object obj) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.komponenten.table.ProzessorObserver#setData(java.util.List)
+	 */
+	public void setData(List list) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.komponenten.table.ProzessorObserver#updateElement(java.lang.Object)
+	 */
+	public void updateElement(Object obj) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/* (non-Javadoc) Methode überschrieben
@@ -213,7 +249,7 @@ public class TreeTableModelAdapter extends AbstractTableModel
 	 * @see org.d3s.alricg.gui.komponenten.table.SortableTableModelInterface#getWorkSchema()
 	 */
 	public ZeilenSchema getZeilenSchema() {
-		return worSchema;
+		return zeiSchema;
 	}
 }
 

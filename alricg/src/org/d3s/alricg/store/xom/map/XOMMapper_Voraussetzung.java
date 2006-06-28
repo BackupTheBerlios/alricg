@@ -7,6 +7,7 @@
  */
 package org.d3s.alricg.store.xom.map;
 
+import nu.xom.Attribute;
 import nu.xom.Element;
 import nu.xom.Elements;
 
@@ -20,6 +21,13 @@ class XOMMapper_Voraussetzung implements XOMMapper<Voraussetzung> {
 	private final XOMMapper<IdLinkList> idLinkListMapper = new XOMMapper_IdLinkList();
 	
 	public void map(Element from, Voraussetzung to) {
+		
+		// Auslesen des "abWert" -Wertes
+		if (from.getAttributeValue("abWert") != null) {
+			to.setAbWert(
+				Integer.parseInt(from.getAttributeValue("abWert"))
+			);
+		}
 		
 		// Auslesen der "festen" Elemente
 		Elements children = from.getChildElements("fest");
@@ -56,6 +64,7 @@ class XOMMapper_Voraussetzung implements XOMMapper<Voraussetzung> {
 		}
 		to.setAuswahlVoraussetzung(auswahlVoraussetzung);
 
+		
 	}
 
 	public void map(Voraussetzung from, Element to) {
@@ -71,7 +80,7 @@ class XOMMapper_Voraussetzung implements XOMMapper<Voraussetzung> {
         // Hinzufügen der "nichtErlaubt" Elemente
         final IdLinkList nichtErlaubt = from.getNichtErlaubt();
         if (nichtErlaubt != null) {
-            final Element e = new Element("empfVorteile");
+            final Element e = new Element("nichtErlaubt");
             idLinkListMapper.map(nichtErlaubt, e);
             to.appendChild(e);
         }
@@ -87,7 +96,11 @@ class XOMMapper_Voraussetzung implements XOMMapper<Voraussetzung> {
             }
             to.appendChild(e);
         }
-
+        
+        // Schreiben ab wann die Voraussetzung gilt
+        if (from.getAbWert() != 0) {
+        	to.addAttribute(new Attribute("abWert", Integer.toString(from.getAbWert())));
+        }
 	}
 
 }
