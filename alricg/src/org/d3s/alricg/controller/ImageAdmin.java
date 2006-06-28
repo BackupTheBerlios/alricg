@@ -16,9 +16,7 @@ import javax.swing.ImageIcon;
  * @author V. Strelow
  */
 public class ImageAdmin {
-    private static final String MERKMAL_PFAD = "ressourcen/img/zauberMerkmale/";
-
-    
+    private static final String MERKMAL_PFAD = "ressourcen/img/zauberMerkmale/"; 
     
     public static ImageIcon pfeileGruen3;
     public static ImageIcon pfeileGruen2;

@@ -21,6 +21,7 @@ public class Voraussetzung {
     private IdLinkVoraussetzung[] festeVoraussetzung; // Die unveränderlichen Werte
     private IdLinkList nichtErlaubt; // Diese Elemente sind NICHT erlaubt
     private CharElement quelle; // Das CharElement, das diese Voraussetzung besitzt
+    private int abWert; // Ab welchem Wert diese Voraussetzung gilt (0 = immer)
     
     // Pro Array muß mindesten eine LinkVoraussetzung erfüllt sein
     private IdLinkVoraussetzung[][] auswahlVoraussetzung;
@@ -96,6 +97,14 @@ public class Voraussetzung {
      */
     public void setNichtErlaubt(IdLinkList nichtErlaubt) {
         this.nichtErlaubt = nichtErlaubt;
+    }
+    
+    public void setAbWert(int wert) {
+    	this.abWert = wert;
+    }
+    
+    public int getAbWert() {
+    	return abWert;
     }
     
     /**

@@ -22,8 +22,9 @@ import org.d3s.alricg.controller.CharKomponente;
 public class Profession extends Herkunft {
 
     public enum Art {
-        handwerklich("handwerklich"), kriegerisch("kriegerisch"), gesellschaftlich("gesellschaftlich"), wildnis(
-                "wildnis"), magisch("magisch"), geweiht("geweiht"), schamanisch("schamanisch");
+        handwerklich("handwerklich"), kriegerisch("kriegerisch"), gesellschaftlich("gesellschaftlich"), 
+        	wildnis("wildnis"), magisch("magisch"), geweiht("geweiht"), schamanisch("schamanisch");
+        
         private String value; // VALUE des Elements
 
         private Art(String value) {

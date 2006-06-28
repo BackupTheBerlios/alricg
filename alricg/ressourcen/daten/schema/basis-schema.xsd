@@ -651,9 +651,6 @@
 		<xsd:annotation>
 			<xsd:documentation xml:lang="DE">
 				spezialisierungen - mögliche Spezialisierungen
-				voraussetzungTalent - Was man benötig für dieses Talent
-				voraussetzungTalent.wert - Erst wenn das Talent auf diesen Wert gehoben werden soll, wird die
-					Voraussetzung benötigt
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexContent>
@@ -689,15 +686,6 @@
 							<xsd:sequence>
 								<xsd:element name="name" type="xsd:string" maxOccurs="unbounded"/>
 							</xsd:sequence>
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:element name="voraussetzungTalent" minOccurs="0">
-						<xsd:complexType>
-							<xsd:complexContent>
-								<xsd:extension base="voraussetzungTyp">
-									<xsd:attribute name="abWert" type="xsd:positiveInteger" use="optional"/>
-								</xsd:extension>
-							</xsd:complexContent>
 						</xsd:complexType>
 					</xsd:element>
 				</xsd:sequence>
@@ -1328,6 +1316,7 @@
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="sammelbegriff" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="voraussetzungen" type="voraussetzungTyp" minOccurs="0"/>
 			<!-- Z.B. "Rituale" Zur besseren Ordnung gleichartiger Elemente -->
 		</xsd:sequence>
 		<xsd:attribute name="name" type="xsd:string" use="required"/>
@@ -1391,7 +1380,6 @@
 					</xsd:element>
 					<xsd:element name="istWaehlbar" type="xsd:boolean" minOccurs="0"/>
 					<xsd:element name="fuerWelcheChars" type="charArtenTyp" maxOccurs="6"/>
-					<xsd:element name="voraussetzungen" type="voraussetzungTyp" minOccurs="0"/>
 				</xsd:sequence>
 				<xsd:attribute name="gp" type="xsd:int" use="required"/>
 			</xsd:extension>
@@ -1434,7 +1422,6 @@
 							<xsd:attribute name="soMax" type="xsd:nonNegativeInteger" use="optional"/>
 						</xsd:complexType>
 					</xsd:element>
-					<xsd:element name="voraussetzung" type="voraussetzungTyp" minOccurs="0"/>
 					<xsd:element name="vorteile" type="auswahlTyp" minOccurs="0"/>
 					<xsd:element name="nachteile" type="auswahlTyp" minOccurs="0"/>
 					<xsd:element name="sonderf" type="auswahlTyp" minOccurs="0"/>
@@ -1639,6 +1626,7 @@
 				</xsd:complexType>
 			</xsd:element>
 		</xsd:sequence>
+		<xsd:attribute name="abWert" type="xsd:positiveInteger" use="optional"/>
 	</xsd:complexType>
 	<xsd:complexType name="voraussetzungHilfsTyp">
 		<xsd:complexContent>

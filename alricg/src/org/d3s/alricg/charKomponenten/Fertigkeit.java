@@ -7,7 +7,6 @@
 
 package org.d3s.alricg.charKomponenten;
 
-import org.d3s.alricg.charKomponenten.links.Voraussetzung;
 
 /**
  * <b>Beschreibung:</b><br>
@@ -17,8 +16,6 @@ import org.d3s.alricg.charKomponenten.links.Voraussetzung;
  */
 public abstract class Fertigkeit extends CharElement {
     private Werte.CharArten[] fuerWelcheChars; // Welche Chars diese Fertigkeit wählen können
-
-    private Voraussetzung voraussetzung; // Es muß die Voraussetzungen gelten!
 
     private boolean hasText; // Gibt es noch einen Text zu der Fertigkeit? (Vorurteile gegen "Orks")
 
@@ -90,15 +87,6 @@ public abstract class Fertigkeit extends CharElement {
     }
 
     /**
-     * Es muß nur die Voraussetzungen gelten, damit diese Fertigkeit vom Charakter gewählt werden darf.
-     * 
-     * @return Liefert die voraussetzungen.
-     */
-    public Voraussetzung getVoraussetzung() {
-        return voraussetzung;
-    }
-
-    /**
      * @param additionsID Setzt das Attribut additionsID.
      */
     public void setAdditionsID(String additionsID) {
@@ -138,13 +126,6 @@ public abstract class Fertigkeit extends CharElement {
      */
     public void setWaehlbar(boolean isWaehlbar) {
         this.isWaehlbar = isWaehlbar;
-    }
-
-    /**
-     * @param voraussetzung Setzt das Attribut voraussetzung.
-     */
-    public void setVoraussetzung(Voraussetzung voraussetzung) {
-        this.voraussetzung = voraussetzung;
     }
 
     /**

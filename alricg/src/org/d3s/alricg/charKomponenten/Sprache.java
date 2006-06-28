@@ -9,7 +9,7 @@ package org.d3s.alricg.charKomponenten;
 
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
 import org.d3s.alricg.controller.CharKomponente;
-import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
+import org.d3s.alricg.prozessor.utils.FormelSammlung.KostenKlasse;
 
 /**
  * <b>Beschreibung:</b><br>

@@ -6,19 +6,19 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
-package org.d3s.alricg.charKomponenten.sonderregeln;
+package org.d3s.alricg.charKomponenten.sonderregeln.principle;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.links.Link;
-import org.d3s.alricg.held.HeldenLink;
-import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
+import org.d3s.alricg.prozessor.common.HeldenLink;
+import org.d3s.alricg.prozessor.utils.FormelSammlung.KostenKlasse;
 
 /**
  * <u>Beschreibung:</u><br> 
  * Diese Interface muß nicht nur von allen Sonderregeln erfüllt werden, sondern auch 
  * vom SonderregelAdmin. Für eine nähere Beschreibung siehe SonderregelInterface.
  * 
- * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelInterface
+ * @see org.d3s.alricg.charKomponenten.sonderregeln.principle.Sonderregel
  * @author V. Strelow
  */
 public interface BasisSonderregelInterface {
@@ -60,7 +60,7 @@ public interface BasisSonderregelInterface {
 	 * @param link Der Link zu dem Element, desen maximaler Wert gefragt ist
 	 * @return Der resultierende maximale Wert (Stufe) oder KEIN_WERT wenn es keinen Wert gibt
 	 */
-	public int changeMaxStufe(int maxWert, Link link);
+	public int changeMaxWert(int maxWert, Link link);
 
 	/**
 	 * Wird immer aufgerufen, wenn von einem Element der minimale Wert bestimmt wird.
@@ -68,7 +68,7 @@ public interface BasisSonderregelInterface {
 	 * @param link Der Link zu dem Element, desen minimaler Wert gefragt ist
 	 * @return Der resultierende minimale Wert oder KEIN_WERT wenn es keinen Wert gibt
 	 */
-	public int changeMinStufe(int minWert, Link link);
+	public int changeMinWert(int minWert, Link link);
 
 	/**
 	 * Wird immer aufgerufen, wenn überprüft wird ob ein neues Element zum Helden
@@ -86,7 +86,7 @@ public interface BasisSonderregelInterface {
 	 * @param link Link des Elements, das entfernd werden soll
 	 * @return true - Das Element kann entfernd werden, sonst false
 	 */
-	public boolean changeCanRemoveElemet(boolean canRemove, Link link);
+	public boolean changeCanRemoveElement(boolean canRemove, Link link);
 
 	/**
 	 * Wird immer dann aufgerufen, wenn ein Element des Helden (durch den User) geändert
@@ -124,7 +124,8 @@ public interface BasisSonderregelInterface {
 	 * (ZweitZiel ist z.B. bei "Unfähigkeit für Schwerter" das Talent "Schwerter")
 	 * @param canUpdate Der bisher berechnete Wert der Prüfung
 	 * @param link Link des Elements, dass geprüft werden soll
+	 * @param charElem TODO
 	 */
-	public boolean changeCanUpdateZweitZiel(boolean canUpdate,	HeldenLink link);
+	public boolean changeCanUpdateZweitZiel(boolean canUpdate,	HeldenLink link, CharElement charElem);
 
 }

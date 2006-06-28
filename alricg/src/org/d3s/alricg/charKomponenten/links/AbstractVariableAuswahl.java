@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * @author V. Strelow
  */
 public abstract class AbstractVariableAuswahl {
-    /** <code>FormelSammlung</code>'s logger */
+    /** <code>AbstractVariableAuswahl</code>'s logger */
     private static final Logger LOG = Logger.getLogger(AbstractVariableAuswahl.class.getName());
 	
     private IdLink[] optionen;
@@ -236,7 +236,7 @@ public abstract class AbstractVariableAuswahl {
 	/**
 	 * Eine Option ist eine möglichkeit die gewählt werden kann. Jede
 	 * Option ist ein Link und somit auch ein CharElement.
-	 * Diese Methode leifert ein Array aller möglichen Optionen, jede 
+	 * Diese Methode liefert ein Array aller möglichen Optionen, jede 
 	 * Arraystelle ist eine Option. Wie die Optionen ausgewählt werden,
 	 * wird durch den Modus angegeben.
 	 * 

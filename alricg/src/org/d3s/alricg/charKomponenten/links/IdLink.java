@@ -22,7 +22,6 @@ import org.d3s.alricg.store.FactoryFinder;
 public class IdLink extends Link {
 
     private Auswahl auswahl; // Falls dieser IdLink durch eine Auswahl entstand
-
     private CharElement quelle; // Falls dieser IdLink NICHT durch eine Auswahl entstand
 
     /*
@@ -71,6 +70,6 @@ public class IdLink extends Link {
      * indem nur die zielId übergeben wird. @param id Die zielID des IdLinks.
      */
     public void loadFromId(String id) {
-        this.setZielId(FactoryFinder.find().getData().getCharElement(id));
+        this.setZiel(FactoryFinder.find().getData().getCharElement(id));
     }
 }

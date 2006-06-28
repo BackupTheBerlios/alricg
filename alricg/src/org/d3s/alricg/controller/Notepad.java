@@ -1,5 +1,5 @@
 /*
- * Created on 16.05.2005 / 00:54:50
+ * Created on 21.06.2006 / 11:33:02
  *
  * This file is part of the project ALRICG. The file is copyright
  * protected and under the GNU General Public License.
@@ -8,185 +8,103 @@
  */
 package org.d3s.alricg.controller;
 
-import java.util.logging.Logger;
-
-import org.d3s.alricg.store.FactoryFinder;
-
+import org.d3s.alricg.charKomponenten.sonderregeln.principle.Sonderregel;
 
 /**
  * <u>Beschreibung:</u><br> 
  * Diese Klasse dient der Speicherung von Meldungen die zu einer Nachricht zusammen
  * gesetzt werden. 
- * Diese Klasse ist vor allem für die HeldenProzessoren gedacht, um die Verarbeitung eines
- * Helden für den User transparent zu gestallten. Bei jeder Aktion auf dem Helden wird durch
- * den Heldprozessor eine neue Nachricht erzeugt, bei der Verarbeitung werden die Texte 
- * hinzugefügt. 
- * 
- * Es gibt zwei Klassen von Nachrichten:
- * - Primäre:
- * 	Dies sind alle Nachrichten, die der Benutzer in jedem Fall erwartet. 
- * 	Beispiele:
- * 		- Wenn Werte durch das Hinzufügen einer Sonderregel neu gesetzt werden
- * 		- Ein CharElement mit Voraussetzungen hinzugefügt wird, anzeigen welche CharElemente
- * 			als Voraussetzungen hinzugefügt wurden.
- * 
- * - Sekundäre:
- * 	Dies sind "Hintergrund"-Informationen über die Verarbeitung des Helden. Diese Nachrichten
- * 	erwartet der Benutzer normalerweise nicht, sie werden nur dann angezeigt wenn der Benutzer
- * 	dies explizit wünscht. ("Warum kostet das Talent X GP?", "Woher kommt der Modi der Stufe?")
- *  Sekundäre Nachrichten werden vor allem bei der Berechnung von Stufen, Kosten, Modis,
- *  "ob etwas erlaubt ist oder nicht" usw. erzeugt.
- *  
- * Es kann angegeben werden ob Sekundäre Nachrichten auch gespeichert werden sollen, oder nicht. 
+ * Diese Klasse ist vor allem dafür gedacht, die Verarbeitung eines Helden für den User
+ * transparent zu gestalten. Bei bestimmten operationen (Kostenberechnung, ob ein Element
+ * hinzugefügt/entfernt werden kann) werden durch den Helden Prozessor die
+ * einzelnen Schritte der Berechnung über das Notepad festgehalten. 
+ * Diese können dann vom User angezeigt werden
  * 
  * @author V. Strelow
  */
 public class Notepad {
-    
-    private static final Logger LOG = Logger.getLogger(Notepad.class.getName());
-    
+	/*	 Ist das Notepad aktiv? Ansonsten werden keine Nachrichen gespeichert
+	 * (bessere performance)*/
+	private boolean isActive; 
 	private StringBuilder messageBuf; // Sammelt die Texte
-	private Nachricht lastMessage; // Speichert die letzte beendete Nachricht
-	private String titel;
 	
 	/**
-	 * 
-	 * <u>Beschreibung:</u><br> 
-	 * Bei manchen Methoden wird die angabe benötigt, welcher Tag aus der 
-	 * Library gemeint ist. Dafür ist diese enum vorhanden.
-	 * @author V. Strelow
+	 * Macht das Notepad bereit für den erhalt einer neuen Message.
+	 * Wird von der GUI aufgerufen, wenn der User eine Nachricht sehen möchte.
 	 */
-	public enum LibTag {
-		shortTag,
-		middleTag,
-		longTag
-	}
-	
-	/* true - Es werden alle Nachrichten gespeichert
-	 * false - Es werden nur die "nicht Hintergrund" Nachrichten gespeichert
-	 */
-	private boolean storeSecondaryMsg;
-	
-	/**
-	 * Erzeugt ein neues Nodepad
-	 */
-	public Notepad() {
-		messageBuf = new StringBuilder();
-		storeSecondaryMsg = false;
-	}
-	
-	/**
-	 * Initiiert eine Neue Nachricht. Zu dieser Nachricht kann mit den 
-	 * "add..." Methoden Text hinzugefügt werden.
-	 */
-	public void startMessage(String titel) {
+	public void startMessage() {
+		isActive = true;
+		
 		messageBuf = new StringBuilder();
 		messageBuf.append("<html>");
-		this.titel = titel;
 	}
 	
 	/**
-	 * Setzt ob auch die per "addSecondaryMsg()" gesendeten Texte zur 
-	 * Nachricht hinzugefügt werden sollen.
-	 * @param storeHg
+	 * Schließt eine Message ab. Wird von der GUI aufgerufen, wenn die gewünschte 
+	 * Berechnung abgeschlossen ist.
+	 * @return Der aufgezeichnet Text zu der Nachricht.
 	 */
-	public void setStoreSecondary(boolean storeSecondary) {
-		storeSecondaryMsg = storeSecondary;
-	}
-	
-	/**
-	 * Liefert zurück ob per "addSecondaryMsg()" gesendeten Texte zur 
-	 * Nachricht hinzugefügt werden.
-	 * @return true Per "addSecondaryMsg()" gesendeten Texte werden hinzugefügt,
-	 * 	ansonsten false.
-	 */
-	public boolean isStoreSecondary() {
-		return storeSecondaryMsg;
-	}
-	
-	/**
-	 * Fügt einen Text der Nachricht hinzu. (Am Ende der Nachricht wird
-	 * ein Zeilenumbruch gemacht)
-	 * @param text Der text der Hinzugefügt wird
-	 */
-	public void addPrimaryMsg(String text) {
-		messageBuf.append("&#8226; ").append(text).append("<br>");
-	}
-	
-	/**
-	 * Fügt einen Text der Nachricht hinzu, aber nur wenn "storeSecondaryMsg = true"
-	 * ist. Diese Methode ist für typischen Zugriff mittels einer Library gedacht.
-	 * Diese Methode  Performanter als "addSecondaryMsg(String text)", da
-	 * nur auf die Library zugegriffen wird, wenn es nötig ist.
-	 * Er Text wird in der Form zusammengesetzt:
-	 * "*" + "text-durch-key-aus-Library" + "text"
-	 * 
-	 * @param tag Der Tag in Library File, in dem der Text steht
-	 * @param key Das Schlüsselword zu dem Text 
-	 * @param text zusätzlicher Text der hinten angehangen wird (typischer weise eine Zahl)
-	 */
-	public void addSecondaryMsg(LibTag tag, String key, String text) {
-		// Prüfen ob überhaupt eine derartige Nachricht hinzugefügt werden soll
-		if (!storeSecondaryMsg) {
-			return;
-		}
+	public String endMessage() {
+		isActive = false;
 		
-		messageBuf.append("&#8226; ");
-		
-		// Auswählen der richtigen Library
-		switch (tag) {
-		case shortTag:
-			messageBuf.append(FactoryFinder.find().getLibrary().getShortTxt("Kosten-Kategorie"));
-			break;
-		case middleTag:
-			messageBuf.append(FactoryFinder.find().getLibrary().getMiddleTxt("Kosten-Kategorie"));
-			break;
-		case longTag:
-			messageBuf.append(FactoryFinder.find().getLibrary().getLongTxt("Kosten-Kategorie"));
-			break;
-		default: 
-			LOG.warning("Der angegebene Library Tag konnte nicht " +
-					"gefunden werden: " + tag);
-		}
-		
-		messageBuf.append(text).append("<br>");
-	}
-	
-	
-	/**
-	 * Fügt einen Text der Nachricht hinzu, aber nur wenn "storeSecondaryMsg = true"
-	 * ist. Fall für den Text auf die Library zugegriffen wir, sollte wenn möglich
-	 * die Methode "addSecondaryMsg(LibTag tag, String key, String text)" benutzt werden,
-	 *  da diese Performanter ist.
-	 * @param text Der text der Hinzugefügt wird
-	 */
-	public void addSecondaryMsg(String text) {
-		// Prüfen ob überhaupt eine derartige Nachricht hinzugefügt werden soll
-		if (!storeSecondaryMsg) {
-			return;
-		}
-		messageBuf.append("&#8226; ").append(text).append("<br>");
-	}
-
-	/**
-	 * Beendet eine Nachricht und sendet diese an den Messenger weiter, wenn
-	 * "sendToListeners = true". Ansonsten wird nur die "letzte-Nachricht" 
-	 * neu gesetzt.
-	 */
-	public void endMessage() {
 		// Löschen des letzten "<br>"
 		messageBuf.delete(messageBuf.length()- 4, messageBuf.length() + 1);
-		
 		messageBuf.append("</html>");
 		
-		lastMessage = new Nachricht(titel, Messenger.Level.regeln, messageBuf.toString());
+		return messageBuf.toString();
 	}
 	
 	/**
-	 * @return Die letzte Nachricht wie beim letzten Aufruf von "endMessage()".
+	 * @return true - Das Notepad zeichnet gerade Nachrichten auf, ansonsten false
+	 * Zeichnet das Notepad KEINE Nachrichten auf, so werden die "write"-Methoden
+	 * ignoriert
 	 */
-	public Nachricht getLastMessage() {
-		return lastMessage;
+	public boolean hasActiveMessage() {
+		return isActive;
 	}
 	
+	/**
+	 * @return Der aufgezeichnet Text zu der letzten Nachricht.
+	 */
+	public String getActiveMessage() {
+		return messageBuf.toString();
+	}
+	
+	/**
+	 * Wenn Sonderregeln eine Änderung vornehmen, wird dies über diese Methode
+	 * aufgezeichnet.
+	 * 
+	 * @param sr Die Sonderregel, welche die Änderung vorgenommen hat
+	 * @param text Der Text zu der Änderung
+	 */
+	public void writeSonderregelMessage(Sonderregel sr, String text) {
+		if (!isActive) return;
+		
+		messageBuf.append("&#8226; ")
+					.append("SR ")
+					.append(sr.getName())
+					.append(": ")
+					.append(text)
+					.append("<br>");
+	}
+	
+	/**
+	 * Fügt einen Text zur Message hinzu.
+	 * 
+	 * @param text Text der hinzugefügt werden soll
+	 */
+	public void writeMessage(String text) {
+		if (!isActive) return;
+		
+		messageBuf.append("&#8226; ").append(text).append("<br>");
+	}
+	
+	/**
+	 * TODO implement
+	 */
+	public void writeVoraussetzungMessage() {
+		if (!isActive) return;
+		
+		// TODO implement		
+	}
 }

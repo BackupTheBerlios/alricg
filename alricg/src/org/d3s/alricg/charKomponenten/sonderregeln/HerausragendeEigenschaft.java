@@ -14,11 +14,15 @@ import org.d3s.alricg.charKomponenten.EigenschaftEnum;
 import org.d3s.alricg.charKomponenten.Kultur;
 import org.d3s.alricg.charKomponenten.Profession;
 import org.d3s.alricg.charKomponenten.Rasse;
+import org.d3s.alricg.charKomponenten.Talent;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
-import org.d3s.alricg.held.GeneratorLink;
-import org.d3s.alricg.held.HeldenLink;
-import org.d3s.alricg.prozessor.HeldProzessor;
+import org.d3s.alricg.charKomponenten.sonderregeln.principle.SonderregelAdapter;
+import org.d3s.alricg.controller.CharKomponente;
+import org.d3s.alricg.held.Held;
+import org.d3s.alricg.prozessor.LinkProzessor;
+import org.d3s.alricg.prozessor.common.GeneratorLink;
+import org.d3s.alricg.prozessor.common.HeldenLink;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -32,14 +36,8 @@ import org.d3s.alricg.prozessor.HeldProzessor;
  * @author V. Strelow
  */
 public class HerausragendeEigenschaft extends SonderregelAdapter {
-//	Liste aller möglichen Ziele dieser Sonderregel
-	//private CharElement[] moeglicheZweitZiele;
-	
 	private Eigenschaft eigen;
-//	 Speicher die Eigenschaften durch diese Sonderregel "herausragend" sind
-	//private ArrayList<String> eigenschArray; 
-	//private HeldProzessor prozessor;
-	
+	private LinkProzessor<Eigenschaft, HeldenLink> prozessor;
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.charKomponenten.CharElement#getId()
@@ -93,13 +91,16 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 	 * - Es darf keine Eigenschaft die SF "Herausragende Eigenschaft" bekommen, die 
 	 *   durch die Herkunft gesenkt wurde.
 	 */
-	public boolean canAddSelf(HeldProzessor prozessor, boolean ok, Link srlink) {
+	public boolean canAddSelf(Held held, boolean ok, Link srlink) {
 		Eigenschaft element;
 		Link tmpLink;
 		
 		// Auslesen des gewünschten Links
 		element = (Eigenschaft) srlink.getZweitZiel();
-		tmpLink = prozessor.getLinkByCharElement(element, null, null);
+		tmpLink = ((LinkProzessor<Eigenschaft, HeldenLink>) held
+						.getProzessor(CharKomponente.eigenschaft))
+							.getElementBox()
+							.getObjectById(element);
 		
 		// Überprüfung ob die Modis durch die Herkunft u.ä. negativ sind,
 		// dann dürfte diese SR nicht gewählt werden
@@ -108,7 +109,7 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 		}
 		
 		// Die Sonderregel darf nur einmal zu einem ELement existieren
-		if (prozessor.getSonderregelAdmin().hasSonderregel(this.getId(), null, element)) {
+		if (held.getSonderregelAdmin().hasSonderregel(this.getId(), null, element)) {
 			return false;
 		}
 		
@@ -117,7 +118,7 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 				|| element.getEigenschaftEnum().equals(EigenschaftEnum.KK)
 				|| element.getEigenschaftEnum().equals(EigenschaftEnum.KO)
 		) {
-			if ( prozessor.getSonderregelAdmin().hasSonderregel("SR-Stubenhocker", null, null) ) {
+			if ( held.getSonderregelAdmin().hasSonderregel("SR-Stubenhocker", null, null) ) {
 				return false;
 			}
 		}
@@ -133,17 +134,17 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 	 *  - Die betreffende Eigenschaft wird auf das Maximum gesetzt und um den
 	 *    Wert in "link" erhöht. 
 	 */
-	public void initSonderregel(HeldProzessor prozessor, Link srLink) {
+	public void initSonderregel(Held held, Link srLink) {
 		GeneratorLink tmpLink;
 		IdLink modiLink;
 		
 		assert srLink.getZweitZiel() != null;
 		
-		this.prozessor = prozessor;
+		this.prozessor = held.getProzessor(CharKomponente.eigenschaft);
 		
 		// Auslesen des gewünschten Links
 		eigen = (Eigenschaft) srLink.getZweitZiel();
-		tmpLink = (GeneratorLink) prozessor.getLinkByCharElement(eigen, null, null);
+		tmpLink = (GeneratorLink) prozessor.getElementBox().getObjectById(eigen);
 		
 		// Link erstellen der die Eigenschaft um den gewünschten Wert erhöht  
 		modiLink = new IdLink(this, null);
@@ -167,11 +168,11 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 		
 		// Auslesen des gewünschten Links
 		element = link.getZweitZiel();
-		tmpLink = (GeneratorLink) prozessor.getLinkByCharElement(element, null, null);
+		tmpLink = (GeneratorLink) prozessor.getElementBox().getObjectById(element);
 
 		// Suche und entferne den Link aus dem Element
-		eigen = null;
 		tmpLink.removeLinkByQuelle(this);
+		eigen = null;
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -197,7 +198,7 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelInterface#changeMaxStufe(int, org.d3s.alricg.charKomponenten.links.Link)
 	 */
-	public int changeMaxStufe(int maxStufe, Link link) {
+	public int changeMaxWert(int maxStufe, Link link) {
 		// Muß wahrscheinlich nicht Implementiert werden!
 		return maxStufe;
 	}
@@ -208,7 +209,7 @@ public class HerausragendeEigenschaft extends SonderregelAdapter {
 	 * - Da eine Herausragende Eigenschaft nicht gesenkt werden kann gilt:
 	 *  Minimale Stufe = Maximale Stufe.
 	 */
-	public int changeMinStufe(int minStufe, Link link) {
+	public int changeMinWert(int minStufe, Link link) {
 		
 		if ( eigen.equals( link.getZiel()) ) {
 			// Der Wert kann nicht mehr gesenkt werden!

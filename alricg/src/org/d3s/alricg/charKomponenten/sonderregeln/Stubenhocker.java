@@ -16,11 +16,13 @@ import org.d3s.alricg.charKomponenten.EigenschaftEnum;
 import org.d3s.alricg.charKomponenten.Talent;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
+import org.d3s.alricg.charKomponenten.sonderregeln.principle.SonderregelAdapter;
 import org.d3s.alricg.controller.CharKomponente;
-import org.d3s.alricg.held.GeneratorLink;
-import org.d3s.alricg.held.HeldenLink;
-import org.d3s.alricg.prozessor.HeldProzessor;
-import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
+import org.d3s.alricg.held.Held;
+import org.d3s.alricg.prozessor.LinkProzessor;
+import org.d3s.alricg.prozessor.common.GeneratorLink;
+import org.d3s.alricg.prozessor.common.HeldenLink;
+import org.d3s.alricg.prozessor.utils.FormelSammlung.KostenKlasse;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -34,7 +36,8 @@ import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
  * @author V. Strelow
  */
 public class Stubenhocker extends SonderregelAdapter {
-	private HeldProzessor prozessor;
+	private Held held;
+
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.prozessor.sonderregeln.SonderregelAdapter#getId()
@@ -50,8 +53,9 @@ public class Stubenhocker extends SonderregelAdapter {
 	public void finalizeSonderregel(Link link) {
 		final List<GeneratorLink> list;
 		Talent tmpTalent;
-		
-		list = prozessor.getHeld().getElementBox(CharKomponente.talent).getUnmodifiableList();
+
+		LinkProzessor<Talent, GeneratorLink> prozessorTalent = held.getProzessor(CharKomponente.talent);
+		list = prozessorTalent.getUnmodifiableList();
 		
 		// Die Veränderung der Kosten wieder rückgängig machen!
 		for (int i = 0; i < list.size(); i++) {
@@ -61,7 +65,7 @@ public class Stubenhocker extends SonderregelAdapter {
 					|| tmpTalent.getSorte().equals(Talent.Sorte.koerper) ) )
 			{
 				// Kosten anpassen
-				prozessor.updateKosten(list.get(i));
+				prozessorTalent.updateKosten(list.get(i));
 			}
 		}
 	}
@@ -72,18 +76,19 @@ public class Stubenhocker extends SonderregelAdapter {
 	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelAdapter#initSonderregel(org.d3s.alricg.prozessor.HeldProzessor, org.d3s.alricg.charKomponenten.links.Link)
 	 */
 	@Override
-	public void initSonderregel(HeldProzessor prozessor, Link srLink) {
-		final List<GeneratorLink> list;
-		Talent tmpTalent;
-		
-		this.prozessor = prozessor;
-		
-		if ( !prozessor.isGenerierung() ) {
+	public void initSonderregel(Held held, Link srLink) {
+
+		this.held = held;
+
+		if ( !held.isGenerierung() ) {
 			return;
 		}
 		
-		list = prozessor.getHeld().getElementBox(CharKomponente.talent).getUnmodifiableList();
-		
+		LinkProzessor<Talent, GeneratorLink> prozessorTalent = held.getProzessor(CharKomponente.talent);
+
+		List<GeneratorLink> list = (List<GeneratorLink>) prozessorTalent.getUnmodifiableList();
+		Talent tmpTalent;
+			
 		// Alle Kampf/Körper Talente max um zweit gesteigert!
 		for (int i = 0; i < list.size(); i++) {
 			tmpTalent = (Talent) list.get(i).getZiel();
@@ -93,10 +98,10 @@ public class Stubenhocker extends SonderregelAdapter {
 			{
 				if ( list.get(i).getWert()-2 >  list.get(i).getWertModis() ) {
 					// Stufe aktualisieren
-					prozessor.updateElement(list.get(i), list.get(i).getWertModis()+2, null, null);
+					prozessorTalent.updateWert( list.get(i), list.get(i).getWertModis()+2);
 				} else {
 					// Kosten anpassen
-					prozessor.updateKosten(list.get(i));
+					prozessorTalent.updateKosten(list.get(i));
 				}
 			}
 		}
@@ -119,7 +124,7 @@ public class Stubenhocker extends SonderregelAdapter {
 		final Talent talent = (Talent) tmpLink.getZiel();
 		
 		// Guards: 
-		if (!prozessor.isGenerierung() ) {
+		if (!held.isGenerierung() ) {
 			// Nach der Generierung ist ein hinzufügen immer OK.
 			return canAdd; 
 		} else if ( !tmpLink.getZiel().getCharKomponente().equals(CharKomponente.talent) ) {
@@ -152,7 +157,8 @@ public class Stubenhocker extends SonderregelAdapter {
 		int counter = 0;
 		
 		// Die Eigenschaften (GE, KK, KO) dürfen nach der Generierung nicht geändert werden!
-		if (link.getZiel() instanceof Eigenschaft && !prozessor.isGenerierung()) {
+		// Siehe "Tanz der Mada"!
+		if (link.getZiel() instanceof Eigenschaft && !held.isGenerierung()) {
 			tmpId = ((Eigenschaft) link.getZiel()).getId();
 			
 			if ( tmpId.equals(EigenschaftEnum.GE.getId())
@@ -163,7 +169,7 @@ public class Stubenhocker extends SonderregelAdapter {
 			}
 		} 
 		
-		if (!prozessor.isGenerierung()) {
+		if (held.isManagement()) {
 			return canUpdate;
 		}
 
@@ -171,7 +177,7 @@ public class Stubenhocker extends SonderregelAdapter {
 		if (link.getZiel() instanceof Talent
 				&& ( ((Talent) link.getZiel()).getSorte().equals(Talent.Sorte.kampf)
 						 || ((Talent) link.getZiel()).getSorte().equals(Talent.Sorte.koerper) )
-				&& prozessor.isGenerierung()) 
+				&& held.isGenerierung()) 
 		{
 			if ( ((GeneratorLink) link).getKosten() == 0  
 					&& getKampfKoerpAnzahl() >= 5 ) {
@@ -202,11 +208,11 @@ public class Stubenhocker extends SonderregelAdapter {
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.prozessor.sonderregeln.SonderregelInterface#changeMaxStufe(int, org.d3s.alricg.charKomponenten.links.Link)
 	 */
-	public int changeMaxStufe(int maxStufe, Link link) {
+	public int changeMaxWert(int maxStufe, Link link) {
 		final CharElement element = link.getZiel();
 		final String tmpId;
 		
-		if (element instanceof Talent && prozessor.isGenerierung()) {
+		if (element instanceof Talent && held.isGenerierung()) {
 			if ( ((Talent) element).getSorte().equals(Talent.Sorte.kampf)
 				|| ((Talent) element).getSorte().equals(Talent.Sorte.koerper) ) 
 			{
@@ -238,15 +244,15 @@ public class Stubenhocker extends SonderregelAdapter {
 	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelAdapter#canAddSelf(org.d3s.alricg.prozessor.HeldProzessor, boolean, org.d3s.alricg.charKomponenten.links.Link)
 	 */
 	@Override
-	public boolean canAddSelf(HeldProzessor prozessor, boolean ok, Link srLink) {
+	public boolean canAddSelf(Held held, boolean ok, Link srLink) {
 
-		if ( getKampfKoerpAnzahl(prozessor) > 5) {
+		if ( getKampfKoerpAnzahl(held) > 5) {
 			return false;
-		} else if ( prozessor.getHeld().getEigenschaftsWert(EigenschaftEnum.GE) > 11) {
+		} else if ( held.getEigenschaftsWert(EigenschaftEnum.GE) > 11) {
 			return false;
-		} else if (prozessor.getHeld().getEigenschaftsWert(EigenschaftEnum.KK)  > 11) {
+		} else if (held.getEigenschaftsWert(EigenschaftEnum.KK)  > 11) {
 			return false;
-		} else if (prozessor.getHeld().getEigenschaftsWert(EigenschaftEnum.KO)  > 11) {
+		} else if (held.getEigenschaftsWert(EigenschaftEnum.KO)  > 11) {
 			return false;
 		}
 		
@@ -258,18 +264,18 @@ public class Stubenhocker extends SonderregelAdapter {
 	 * @return Die Anzahl an gesteigerten Kampf/ Körperlichen Talenten (max. sind 5 erlaubt)
 	 */
 	private int getKampfKoerpAnzahl() {
-		return getKampfKoerpAnzahl(prozessor);
+		return getKampfKoerpAnzahl(held);
 	}
 	
 	/**
 	 * Zählt wie viele Körperliche/ Kampf Talenten bisher mit Talent-GP gesteigert wurden.
 	 * @return Die Anzahl an gesteigerten Kampf/ Körperlichen Talenten (max. sind 5 erlaubt)
 	 */
-	private int getKampfKoerpAnzahl(HeldProzessor prozessorIn) {
+	private int getKampfKoerpAnzahl(Held held) {
 		final List<GeneratorLink> list;
 		int counter = 0;
 		
-		list = prozessorIn.getHeld().getElementBox(CharKomponente.talent).getUnmodifiableList();
+		list = held.getProzessor(CharKomponente.talent).getUnmodifiableList();
 		
 		for (int i = 0; i < list.size(); i++) {
 			if ( list.get(i).getKosten() > 0 && 

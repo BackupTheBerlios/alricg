@@ -7,7 +7,6 @@
 
 package org.d3s.alricg.charKomponenten;
 
-import org.d3s.alricg.charKomponenten.links.Voraussetzung;
 import org.d3s.alricg.controller.CharKomponente;
 import org.d3s.alricg.store.FactoryFinder;
 
@@ -64,7 +63,6 @@ public class Talent extends Faehigkeit {
 	private String[] spezialisierungen;
 	private Art art;
     private Sorte sorte;
-    private TalentVoraussetzung voraussetzung;
     
     
 	/* (non-Javadoc) Methode überschrieben
@@ -108,18 +106,6 @@ public class Talent extends Faehigkeit {
 		this.spezialisierungen = spezialisierungen;
 	}
 	/**
-	 * @return Liefert das Attribut voraussetzung.
-	 */
-	public TalentVoraussetzung getVoraussetzung() {
-		return voraussetzung;
-	}
-	/**
-	 * @param voraussetzung Setzt das Attribut voraussetzung.
-	 */
-	public void setVoraussetzung(TalentVoraussetzung voraussetzung) {
-		this.voraussetzung = voraussetzung;
-	}
-	/**
 	 * @param art Setzt das Attribut art.
 	 */
 	public void setArt(Art art) {
@@ -131,27 +117,4 @@ public class Talent extends Faehigkeit {
 	public void setSorte(Sorte sorte) {
 		this.sorte = sorte;
 	}
-    
-    /**
-     * <u>Beschreibung:</u><br> 
-     * Bei manchen Talenten gilt die Voraussetzung erst am einem bestimmten Wert
-     * (typischer Weise 10). Dieser Wert kann hier angegeben werden!
-     * @author V. Strelow
-     */
-    public class TalentVoraussetzung extends Voraussetzung {
-    	private int abWert = 1; // Ab welchem Wert diese Voraussetzung gilt
-    	
-        public TalentVoraussetzung(CharElement quelle) {
-            super(quelle);
-        }
-
-        public TalentVoraussetzung(CharElement quelle, int abWert) {
-			super(quelle);
-            this.abWert = abWert;
-		}
-        
-        public int getAbWert() {
-            return abWert;
-        }
-    }
 }

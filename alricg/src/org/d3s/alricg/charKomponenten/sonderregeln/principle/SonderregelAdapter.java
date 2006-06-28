@@ -6,14 +6,14 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
-package org.d3s.alricg.charKomponenten.sonderregeln;
+package org.d3s.alricg.charKomponenten.sonderregeln.principle;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.links.Link;
 import org.d3s.alricg.controller.CharKomponente;
-import org.d3s.alricg.held.HeldenLink;
-import org.d3s.alricg.prozessor.HeldProzessor;
-import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
+import org.d3s.alricg.held.Held;
+import org.d3s.alricg.prozessor.common.HeldenLink;
+import org.d3s.alricg.prozessor.utils.FormelSammlung.KostenKlasse;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -25,10 +25,9 @@ import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
  * Für die Beschreibungen der Methoden siehe "SonderregelInterface".
  * 
  * @author V. Strelow
- * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelInterface
+ * @see org.d3s.alricg.charKomponenten.sonderregeln.principle.Sonderregel
  */
-public abstract class SonderregelAdapter extends CharElement implements SonderregelInterface {
-	protected HeldProzessor prozessor;
+public abstract class SonderregelAdapter extends CharElement implements Sonderregel {
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.charKomponenten.CharElement#getCharKomponente()
@@ -40,14 +39,14 @@ public abstract class SonderregelAdapter extends CharElement implements Sonderre
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.prozessor.sonderregeln.SonderregelInterface#canAddSelf(boolean, org.d3s.alricg.charKomponenten.links.Link)
 	 */
-	public boolean canAddSelf(HeldProzessor prozessor, boolean ok, Link srLink) {
+	public boolean canAddSelf(Held held, boolean ok, Link srLink) {
 		return ok;
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.prozessor.sonderregeln.SonderregelInterface#initSonderregel(org.d3s.alricg.held.Held, org.d3s.alricg.charKomponenten.links.Link)
 	 */
-	public void initSonderregel(HeldProzessor prozessor, Link srLink) {
+	public void initSonderregel(Held held, Link srLink) {
 		// Noop!
 	}
 	
@@ -75,7 +74,7 @@ public abstract class SonderregelAdapter extends CharElement implements Sonderre
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.prozessor.sonderregeln.SonderregelInterface#changeCanRemoveElemet(boolean, org.d3s.alricg.charKomponenten.links.Link)
 	 */
-	public boolean changeCanRemoveElemet(boolean canRemove, Link link) {
+	public boolean changeCanRemoveElement(boolean canRemove, Link link) {
 		return canRemove;
 	}
 	
@@ -96,7 +95,7 @@ public abstract class SonderregelAdapter extends CharElement implements Sonderre
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.prozessor.sonderregeln.SonderregelInterface#changeCanUpdateZweitZiel(boolean, org.d3s.alricg.held.HeldenLink)
 	 */
-	public boolean changeCanUpdateZweitZiel(boolean canUpdate, HeldenLink link) {
+	public boolean changeCanUpdateZweitZiel(boolean canUpdate, HeldenLink link, CharElement charElem) {
 		return canUpdate;
 	}
 	
@@ -117,14 +116,14 @@ public abstract class SonderregelAdapter extends CharElement implements Sonderre
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.prozessor.sonderregeln.SonderregelInterface#changeMaxStufe(int, org.d3s.alricg.charKomponenten.links.Link)
 	 */
-	public int changeMaxStufe(int maxStufe, Link link) {
+	public int changeMaxWert(int maxStufe, Link link) {
 		return maxStufe;
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.prozessor.sonderregeln.SonderregelInterface#changeMinStufe(int, org.d3s.alricg.charKomponenten.links.Link)
 	 */
-	public int changeMinStufe(int minStufe, Link link) {
+	public int changeMinWert(int minStufe, Link link) {
 		return minStufe;
 	}
 	
@@ -173,14 +172,5 @@ public abstract class SonderregelAdapter extends CharElement implements Sonderre
 	 */
 	public boolean isSonderregel(String id, String text, CharElement zweitZiel) {
 		return id.equals( this.getId() );
-	}
-	
-	/**
-	 * Setzt den HeldProzessor
-	 * @param prozessor Der HeldProzessor, mit dem der Held zu dieser Sonderregel 
-	 * 	bearbeitet werden kann.
-	 */
-	protected final void setProzessor(HeldProzessor prozessor) {
-		this.prozessor = prozessor;
 	}
 }

@@ -14,11 +14,15 @@ import java.util.logging.Logger;
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Talent;
 import org.d3s.alricg.charKomponenten.links.Link;
+import org.d3s.alricg.charKomponenten.sonderregeln.principle.Sonderregel;
+import org.d3s.alricg.charKomponenten.sonderregeln.principle.SonderregelAdapter;
 import org.d3s.alricg.controller.CharKomponente;
-import org.d3s.alricg.held.GeneratorLink;
-import org.d3s.alricg.prozessor.FormelSammlung;
-import org.d3s.alricg.prozessor.HeldProzessor;
-import org.d3s.alricg.prozessor.FormelSammlung.KostenKlasse;
+import org.d3s.alricg.held.Held;
+import org.d3s.alricg.prozessor.LinkProzessor;
+import org.d3s.alricg.prozessor.common.GeneratorLink;
+import org.d3s.alricg.prozessor.common.HeldenLink;
+import org.d3s.alricg.prozessor.utils.FormelSammlung;
+import org.d3s.alricg.prozessor.utils.FormelSammlung.KostenKlasse;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -38,7 +42,9 @@ public class BegabungFuerTalentgruppe extends SonderregelAdapter {
     /** <code>BegabungFuerTalentgruppe</code>'s logger */
     private static final Logger LOG = Logger.getLogger(BegabungFuerTalentgruppe.class.getName());
     
-	private static Talent.Sorte sorte;
+	private Talent.Sorte sorte;
+	private LinkProzessor<Talent, HeldenLink> prozessor;
+	
 	
 	public BegabungFuerTalentgruppe() {
 		this.setId("SR-BegabungFuerTalentgruppe");
@@ -57,11 +63,11 @@ public class BegabungFuerTalentgruppe extends SonderregelAdapter {
 	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelAdapter#canAddSelf(org.d3s.alricg.prozessor.HeldProzessor, boolean, org.d3s.alricg.charKomponenten.links.Link)
 	 */
 	@Override
-	public boolean canAddSelf(HeldProzessor prozessor, boolean ok, Link srLink) {
-		final SonderregelAdapter sr;
+	public boolean canAddSelf(Held held, boolean ok, Link srLink) {
+		final Sonderregel sr;
 		
 		// Prüfen ob "Begabt für Talent" mit der selben Sorte --> Nicht erlaubt!
-		sr = prozessor.getSonderregelAdmin().getSonderregel("SR-BegabungFuerTalent", null, null);
+		sr = held.getSonderregelAdmin().getSonderregel("SR-BegabungFuerTalent", null, null);
 
 		if (sr != null) {
 			if ( ((BegabungFuerTalent) sr).getZweitZiel().getSorte()
@@ -71,7 +77,7 @@ public class BegabungFuerTalentgruppe extends SonderregelAdapter {
 			}
 		}
 		
-		return super.canAddSelf(prozessor, ok, srLink);
+		return ok;
 	}
 
 	/* (non-Javadoc) Methode überschrieben
@@ -100,10 +106,10 @@ public class BegabungFuerTalentgruppe extends SonderregelAdapter {
 	 */
 	@Override
 	public void finalizeSonderregel(Link link) {
-		final List<GeneratorLink> list;
+		final List<HeldenLink> list;
 		
 		// Alle Kosten der Talente updaten
-		list = prozessor.getHeld().getElementBox(CharKomponente.talent).getUnmodifiableList();
+		list = prozessor.getUnmodifiableList();
 		
 		for (int i = 0; i < list.size(); i++) {
 			if ( list.get(i).getKosten() > 0 && 
@@ -123,10 +129,10 @@ public class BegabungFuerTalentgruppe extends SonderregelAdapter {
 	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelAdapter#initSonderregel(org.d3s.alricg.prozessor.HeldProzessor, org.d3s.alricg.charKomponenten.links.Link)
 	 */
 	@Override
-	public void initSonderregel(HeldProzessor prozessor, Link srLink) {
-		final List<GeneratorLink> list;
+	public void initSonderregel(Held held, Link srLink) {
+		final List<HeldenLink> list;
 		
-		this.prozessor = prozessor;
+		this.prozessor = held.getProzessor(CharKomponente.talent);
 		sorte = null;
 		
 		// Nach der richtigen Sorte suchen. Die sorte wird als Text im Link übergeben
@@ -143,7 +149,7 @@ public class BegabungFuerTalentgruppe extends SonderregelAdapter {
 		}
 		
 		// Alle Kosten der Talente updaten
-		list = prozessor.getHeld().getElementBox(CharKomponente.talent).getUnmodifiableList();
+		list = prozessor.getUnmodifiableList();
 		
 		for (int i = 0; i < list.size(); i++) {
 			if ( list.get(i).getKosten() > 0 && 
@@ -158,7 +164,7 @@ public class BegabungFuerTalentgruppe extends SonderregelAdapter {
 	/** Methode überschrieben
 	 * Wird ein Text angegeben, so wird der Text auch geprüft (als Value einer Talent.Sorte). 
 	 * Wird es nicht angegeben, so wird auch nur die ID überprüft!
-	 * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelAdapter#isSonderregel(java.lang.String, java.lang.String, org.d3s.alricg.charKomponenten.CharElement)
+	 * @see org.d3s.alricg.charKomponenten.sonderregeln.principle.SonderregelAdapter#isSonderregel(java.lang.String, java.lang.String, org.d3s.alricg.charKomponenten.CharElement)
 	 */
 	@Override
 	public boolean isSonderregel(String id, String text, CharElement zweitZiel) {

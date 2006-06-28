@@ -6,11 +6,11 @@
  * For more information see "http://alricg.die3sphaere.de/".
  *
  */
-package org.d3s.alricg.charKomponenten.sonderregeln;
+package org.d3s.alricg.charKomponenten.sonderregeln.principle;
 
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.links.Link;
-import org.d3s.alricg.prozessor.HeldProzessor;
+import org.d3s.alricg.held.Held;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -28,9 +28,9 @@ import org.d3s.alricg.prozessor.HeldProzessor;
  * (Bisherige Implementierungen: "HerrausragendeEigenschaft")
  * 
  * @author V. Strelow
- * @see org.d3s.alricg.charKomponenten.sonderregeln.SonderregelAdapter
+ * @see org.d3s.alricg.charKomponenten.sonderregeln.principle.SonderregelAdapter
  */
-public interface SonderregelInterface extends BasisSonderregelInterface {
+public interface Sonderregel extends BasisSonderregelInterface {
 	
 	/**
 	 * Wird aufgerufen um festzustellen ob diese Sonderregel zum Helden
@@ -45,18 +45,18 @@ public interface SonderregelInterface extends BasisSonderregelInterface {
 	 * 		Wert, Text oder zweitZiel ausgelesen werden
 	 * @return true - Die SR kann zum Helden hinzugefügt werden, andernfalls false.
 	 */
-	public boolean canAddSelf(HeldProzessor prozessor, boolean ok, Link srLink);
+	public boolean canAddSelf(Held held, boolean ok, Link srLink);
 	
 	/**
 	 * Wird aufgerufen wenn diese Sonderregel zum Helden hinzugefügt wurde.
 	 * 
-	 * @param prozessor Der HeldenProzessor für die Bearbeitung
+	 * @param held Der HeldenProzessor für die Bearbeitung
 	 * @param srLink Der Link zu dem CharElement welches diese Sonderregel enthält. 
 	 * 		Bei der Sonderregel "Herausragende Eigenschaft" währe dies der Link
 	 * 		mit dem Vorteil "Herausragende Eigenschaft". Aus diesem können evtl.
 	 * 		Wert, Text oder zweitZiel ausgelesen werden.
 	 */
-	public void initSonderregel(HeldProzessor prozessor, Link srLink);
+	public void initSonderregel(Held held, Link srLink);
 	// Evtl. Änderungen von Werten sollten hier vorgenommen werden
 	
 	/**
@@ -93,5 +93,10 @@ public interface SonderregelInterface extends BasisSonderregelInterface {
 	 * @return true - Diese Sonderregel wird zum Management angewendet, ansonsten false
 	 */
 	public boolean isForManagement();
+	
+	/**
+	 * @return Liefert den Namen der Sonderregel
+	 */
+	public String getName();
 	
 }

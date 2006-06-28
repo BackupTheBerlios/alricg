@@ -120,8 +120,8 @@ public abstract class Link {
 	/**
 	 * @param linkId Setzt das Attribut linkId.
 	 */
-	public void setZweitZiel(CharElement linkId) {
-		this.zweitZiel = linkId;
+	public void setZweitZiel(CharElement link) {
+		this.zweitZiel = link;
 	}
 	/**
 	 * @param text Setzt das Attribut text.
@@ -143,9 +143,8 @@ public abstract class Link {
 	/**
 	 * @param zielId Setzt das Attribut zielId. (Das Ziel dieses Links, z.B. eine SF)
 	 */
-	public void setZielId(CharElement zielId)   {//, CharKomponente zielKomponete) {
-		this.ziel = zielId;
-		//this.zielTyp = zielKomponete;
+	public void setZiel(CharElement ziel)   {//, CharKomponente zielKomponete) {
+		this.ziel = ziel;
 	}
 	
 	/**
@@ -161,16 +160,29 @@ public abstract class Link {
 	 * @return true - Der übergebene link ist das gleiche Element, ansonsten false 
 	 */
 	public boolean isEqualLink(Link link) {
+		return isEqualLink(link.getZiel().getId(), link.getText(), link.getZweitZiel());
+	}
+	
+	/**
+	 * Überprüft ob die Angaben zu dem Link passen, also "das selbe Element" meint.
+	 * 
+	 * @param id Die des zu prüfenden Links
+	 * @param text Text des zu prüfenden Links (kann null sein)
+	 * @param zweitZiel Das ZweitZiel des zu prüfenden Links (kann null sein)
+	 * @return true - Die übergebenen Parameter meinen das gleiche Element, 
+	 * 					ansonsten false 
+	 */
+	public boolean isEqualLink(String id, String text, CharElement zweitZiel) {
 		// Prüft ob zielId, text und linkId gleich sind, nur dann "true"
-		if ( !ziel.equals(link.getZiel()) ) {
+		if ( !ziel.getId().equals(id) ) {
 			return false;
-		} else if ( !text.equals(link.getText()) ) {
+		} else if ( text != null && !this.text.equals(text) ) {
 			return false;
-		} else if ( zweitZiel == null && link.getZweitZiel() == null ) {
+		} else if ( zweitZiel == null && zweitZiel == null ) {
 			return true; 
-		} else if ( zweitZiel == null || link.getZweitZiel() == null ) {
+		} else if ( zweitZiel == null || zweitZiel == null ) {
 			return false; 
-		} else if ( !zweitZiel.equals(link.getZweitZiel()) ) {
+		} else if ( !zweitZiel.equals(zweitZiel) ) {
 			return false;
 		}
 		

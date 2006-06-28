@@ -9,7 +9,9 @@ package org.d3s.alricg.charKomponenten;
 
 import java.util.logging.Logger;
 
-import org.d3s.alricg.charKomponenten.sonderregeln.SonderregelAdapter;
+import org.d3s.alricg.charKomponenten.links.Voraussetzung;
+import org.d3s.alricg.charKomponenten.sonderregeln.principle.Sonderregel;
+import org.d3s.alricg.charKomponenten.sonderregeln.principle.SonderregelAdapter;
 import org.d3s.alricg.controller.CharKomponente;
 
 /**
@@ -38,6 +40,8 @@ abstract public class CharElement implements Comparable<CharElement> {
 
     private SonderregelAdapter sonderregel; // Zu beachtende Sonderreglen
 
+    private Voraussetzung voraussetzung; // Voraussetzungen die erfüllt sein müssen, um diese CharElement hinzuzufügen
+    
     /**
      * Soll das Element angezeigt werden? Sinnvoll für und VorNachteile die in der Gui anders verwendet werden, wie z.B.
      * Herausragende Eigenschaft. Diese soll unter den Vorteilen nicht wählbar sein, da sie bei den Eigenschaften
@@ -162,6 +166,19 @@ abstract public class CharElement implements Comparable<CharElement> {
         return regelAnmerkung;
     }
 
+	/**
+	 * @return Liefert das Attribut voraussetzung.
+	 */
+	public Voraussetzung getVoraussetzung() {
+		return voraussetzung;
+	}
+	/**
+	 * @param voraussetzung Setzt das Attribut voraussetzung.
+	 */
+	public void setVoraussetzung(Voraussetzung voraussetzung) {
+		this.voraussetzung = voraussetzung;
+	}
+    
     /**
      * Der "sammelBegriff" dient einer besseren Struckturierung, zu können z.B. mehrer Zwergenrassen unter "Zwerge"
      * gesammelt werden.
@@ -171,7 +188,8 @@ abstract public class CharElement implements Comparable<CharElement> {
     public String getSammelBegriff() {
         return sammelBegriff;
     }
-
+    
+    
     /**
      * @return true Dieses Element verfügt über einen Sammelbegriff, sonst false.
      */
@@ -186,7 +204,7 @@ abstract public class CharElement implements Comparable<CharElement> {
      * 
      * @return Liefert ein neues Object der Sonderregel, oder null falls es keine Sonderregel gibt.
      */
-    public SonderregelAdapter createSonderregel() {
+    public Sonderregel createSonderregel() {
 
         // Prüfen ob es überhaupt eine SR gibt
         if (sonderregel == null) {
@@ -240,7 +258,7 @@ abstract public class CharElement implements Comparable<CharElement> {
         return id.compareTo(ce.getId());
     }
 
-    public SonderregelAdapter getSonderregel() {
+    public Sonderregel getSonderregel() {
         return sonderregel;
     }
 

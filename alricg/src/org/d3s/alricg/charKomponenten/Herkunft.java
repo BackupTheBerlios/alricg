@@ -10,7 +10,6 @@ package org.d3s.alricg.charKomponenten;
 import org.d3s.alricg.charKomponenten.Werte.Geschlecht;
 import org.d3s.alricg.charKomponenten.links.Auswahl;
 import org.d3s.alricg.charKomponenten.links.IdLinkList;
-import org.d3s.alricg.charKomponenten.links.Voraussetzung;
 
 /**
  * <b>Beschreibung: </b> <br>
@@ -40,7 +39,7 @@ public abstract class Herkunft extends CharElement {
     
     // TODO: Es gibt doch auch hier ne Auswahl??
     private Auswahl eigenschaftModis;
-    private Voraussetzung voraussetzung;
+
     private Repraesentation repraesentation;
     
     private Auswahl vorteileAuswahl;
@@ -273,18 +272,6 @@ public abstract class Herkunft extends CharElement {
 	 */
 	public void setVerbilligteVort(IdLinkList verbilligteVort) {
 		this.verbilligteVort = verbilligteVort;
-	}
-	/**
-	 * @return Liefert das Attribut voraussetzung.
-	 */
-	public Voraussetzung getVoraussetzung() {
-		return voraussetzung;
-	}
-	/**
-	 * @param voraussetzung Setzt das Attribut voraussetzung.
-	 */
-	public void setVoraussetzung(Voraussetzung voraussetzung) {
-		this.voraussetzung = voraussetzung;
 	}
 	/**
 	 * @return Liefert das Attribut zauberNichtBeginn.

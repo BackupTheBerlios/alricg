@@ -15,7 +15,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.d3s.alricg.gui.SplashScreen;
-import org.d3s.alricg.prozessor.FormelSammlung;
+import org.d3s.alricg.prozessor.utils.FormelSammlung;
 import org.d3s.alricg.store.ConfigurationException;
 import org.d3s.alricg.store.FactoryFinder;
 
@@ -33,10 +33,9 @@ public class ProgAdmin {
 	private static final Logger LOG = Logger.getLogger(ProgAdmin.class
 			.getName()); // Für Nachrichten aller Art
 
-	public static Messenger messenger; // Für Nachrichten die Angezeigt werden
-	// sollen
+	public static Messenger messenger; // Für Nachrichten die Angezeigt werden sollen
 
-	public static HeldenAdmin heldenAdmin; // Verwaltung der Helden
+	//public static HeldenAdmin heldenAdmin; // Verwaltung der Helden
 
 	public static Notepad notepad;
 
@@ -68,10 +67,10 @@ public class ProgAdmin {
 			LOG.severe("Cannot stup logging correctly!");
 			LOG.throwing(ProgAdmin.class.getName(), "main", ioe);
 		}
-		heldenAdmin = new HeldenAdmin();
+
 		messenger = new Messenger();
 		notepad = new Notepad();
-
+		
 		// SplashScreen
 		final SplashScreen splash = new SplashScreen();
 		splash.setVisible(showSplash);
@@ -93,7 +92,7 @@ public class ProgAdmin {
 			FactoryFinder.init();
 			LOG.info("Data Store Factory initialisiert...");
 
-			FormelSammlung.initFormelSammlung();
+			FormelSammlung.initFormelSammlung(notepad);
 
 		} catch (ConfigurationException ce) {
 			LOG
