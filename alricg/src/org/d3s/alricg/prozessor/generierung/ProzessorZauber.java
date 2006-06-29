@@ -67,6 +67,12 @@ public class ProzessorZauber extends BaseProzessorElementBox<Zauber, GeneratorLi
 		 * Voraussetzungen werden vom LinkProzessorFront überprüft.
 		 */
 		
+		/*
+		 * Hier sollte mit Hilfe des "this.notepade" Objekts protokoliert werden, wie
+		 * der errechnete Wert zustande kommt. Der User kann dies dann später abrufen.
+		 * (Siehe z.B. im TalentProzessor zum Verständnis)
+		 */
+		
 		return false;
 	}
 
@@ -161,6 +167,17 @@ public class ProzessorZauber extends BaseProzessorElementBox<Zauber, GeneratorLi
 	public void updateKosten(GeneratorLink Link) {
 		// TODO Auto-generated method stub
 		
+		/*
+		 * Hier sollte mit Hilfe des "this.notepade" Objekts protokoliert werden, wie
+		 * der errechnete Wert zustande kommt. Der User kann dies dann später abrufen.
+		 * (Siehe z.B. im TalentProzessor zum Verständnis)
+		 */
+		
+		/*
+		 * Dies ist die einzige Methode (im Normalfall) wo das Objekt "this.sonderregelAdmin" 
+		 * eingesetzt werden muß. Bei allen anderen Methoden übernimmt dies der "LinkProzessorFront".
+		 * Bei dieser Methode ist dies jedoch nicht möglich - also aufpassen!
+		 */
 	}
 
 	/* (non-Javadoc) Methode überschrieben
@@ -192,6 +209,7 @@ public class ProzessorZauber extends BaseProzessorElementBox<Zauber, GeneratorLi
 	 */
 	public GeneratorLink addNewElement(Zauber ziel) {
 		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -200,6 +218,19 @@ public class ProzessorZauber extends BaseProzessorElementBox<Zauber, GeneratorLi
 	 */
 	public boolean canAddElement(Zauber ziel) {
 		// TODO Auto-generated method stub
+		
+		/* 
+		 * Es werden hier nur allgemeingültige Voraussetzungen überprüft. Also nichts
+		 * was von einem Bestimmten Element abhängt. Sonderregel und Element spezifische
+		 * Voraussetzungen werden vom LinkProzessorFront überprüft.
+		 */
+		
+		/*
+		 * Hier sollte mit Hilfe des "this.notepade" Objekts protokoliert werden, wie
+		 * der errechnete Wert zustande kommt. Der User kann dies dann später abrufen.
+		 * (Siehe z.B. im TalentProzessor zum Verständnis)
+		 */
+		
 		return false;
 	}
 
@@ -208,6 +239,18 @@ public class ProzessorZauber extends BaseProzessorElementBox<Zauber, GeneratorLi
 	 */
 	public boolean canRemoveElement(GeneratorLink element) {
 		// TODO Auto-generated method stub
+		
+		/* 
+		 * Es werden hier nur allgemeingültige Voraussetzungen überprüft. Also nichts
+		 * was von einem Bestimmten Element abhängt. Sonderregel und Element spezifische
+		 * Voraussetzungen werden vom LinkProzessorFront überprüft.
+		 */
+		/*
+		 * Hier sollte mit Hilfe des "this.notepade" Objekts protokoliert werden, wie
+		 * der errechnete Wert zustande kommt. Der User kann dies dann später abrufen.
+		 * (Siehe z.B. im TalentProzessor zum Verständnis)
+		 */
+		
 		return false;
 	}
 
