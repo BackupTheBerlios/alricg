@@ -57,8 +57,9 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
+import org.d3s.alricg.charKomponenten.links.Link;
 import org.d3s.alricg.gui.views.SpaltenSchema;
-import org.d3s.alricg.gui.views.ZeilenSchema;
+import org.d3s.alricg.gui.views.TypSchema;
 
 /**
  * This is a wrapper class takes a TreeTableModel and implements 
@@ -72,18 +73,18 @@ import org.d3s.alricg.gui.views.ZeilenSchema;
  * @author Scott Violet
  */
 public class TreeTableModelAdapter extends AbstractTableModel 
-									implements SortableTableModelInterface  
+									implements SortableTableModelInterface, SortableTreeOrTableInterface  
 {
     private JTree tree;
     private SortableTreeTableModel treeTableModel;
-    private SpaltenSchema spaSchema;
-    private ZeilenSchema zeiSchema;
+    private SpaltenSchema spaltenSchema;
+    private TypSchema typSchema;
 
     public TreeTableModelAdapter(SortableTreeTableModel treeTableModel, JTree tree) {
         this.tree = tree;
         this.treeTableModel = treeTableModel;
-        this.spaSchema = treeTableModel.getSpaltenSchema();
-        this.zeiSchema = treeTableModel.getWorkSchema();
+        this.spaltenSchema = treeTableModel.getSpaltenSchema();
+        this.typSchema = treeTableModel.getTypSchema();
         
 		tree.addTreeExpansionListener(new TreeExpansionListener() {
 		    // Don't use fireTableRowsInserted() here; the selection model
@@ -154,7 +155,14 @@ public class TreeTableModelAdapter extends AbstractTableModel
     	treeTableModel.setValueAt(value, nodeForRow(row), column);
     }
 
-    /**
+    /* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.komponenten.table.SortableTableModelInterface#getValueAt(int)
+	 */
+	public Object getValueAt(int row) {
+		return ((DefaultMutableTreeNode) nodeForRow(row)).getUserObject();
+	}
+
+	/**
      * Invokes fireTableDataChanged after all the pending events have been
      * processed. SwingUtilities.invokeLater is used to handle this.
      */
@@ -170,7 +178,7 @@ public class TreeTableModelAdapter extends AbstractTableModel
 	 * @see org.d3s.alricg.GUI.komponenten.table.SortableTableModelInterface#isSortable(int)
 	 */
 	public boolean isSortable(int column) {
-		return spaSchema.isSortable(treeTableModel.getColumnObject(column));
+		return spaltenSchema.isSortable(treeTableModel.getColumnObject(column));
 	}
 
 	/* (non-Javadoc) Methode überschrieben
@@ -191,7 +199,7 @@ public class TreeTableModelAdapter extends AbstractTableModel
 	 * @see org.d3s.alricg.GUI.komponenten.table.SortableTableModelInterface#getToolTip(int, int)
 	 */
 	public String getToolTip(int row, int column) {
-		return zeiSchema.getToolTip(
+		return typSchema.getToolTip(
 				((DefaultMutableTreeNode) nodeForRow(row)).getUserObject(),
 				treeTableModel.getColumnObject(column)
 			);
@@ -201,56 +209,70 @@ public class TreeTableModelAdapter extends AbstractTableModel
 	 * @see org.d3s.alricg.GUI.komponenten.table.SortableTableModelInterface#getHeaderToolTip(int)
 	 */
 	public String getHeaderToolTip(int column) {
-		return spaSchema.getHeaderToolTip(treeTableModel.getColumnObject(column));
+		return spaltenSchema.getHeaderToolTip(treeTableModel.getColumnObject(column));
 	}
 
 	
-	
+	// --------------------------------------------------------------------------------
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.gui.komponenten.table.ProzessorObserver#addElement(java.lang.Object)
 	 */
 	public void addElement(Object obj) {
-//		 TODO Auto-generated method stub
+		treeTableModel.addElement(obj);
 	}
 
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.gui.komponenten.table.ProzessorObserver#removeElement(java.lang.Object)
 	 */
 	public void removeElement(Object obj) {
-		// TODO Auto-generated method stub
-		
+		treeTableModel.removeElement(obj);
 	}
 
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.gui.komponenten.table.ProzessorObserver#setData(java.util.List)
 	 */
 	public void setData(List list) {
-		// TODO Auto-generated method stub
-		
+		treeTableModel.setData(list);
 	}
 
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.gui.komponenten.table.ProzessorObserver#updateElement(java.lang.Object)
 	 */
 	public void updateElement(Object obj) {
-		// TODO Auto-generated method stub
-		
+		treeTableModel.updateElement(obj);
 	}
 
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.gui.komponenten.table.SortableTableModelInterface#getViewSchema()
 	 */
 	public SpaltenSchema getSpaltenSchema() {
-		return spaSchema;
+		return spaltenSchema;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.d3s.alricg.gui.komponenten.table.SortableTableModelInterface#getWorkSchema()
 	 */
-	public ZeilenSchema getZeilenSchema() {
-		return zeiSchema;
+	public TypSchema getTypSchema() {
+		return typSchema;
 	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.komponenten.table.SortableTreeOrTableInterface#setFilter(java.lang.Enum)
+	 */
+	public void setFilter(Enum filter) {
+		treeTableModel.setFilter(filter);
+	}
+	
+	/**
+	 * Setzt die Ordnung des Trees, also die "ordner", nach dem die Elemente
+	 * im Tree eingeordnet werden.
+	 * @param ordnungsEnumNew Das Enum, welches die neue Ordnung beschreibt
+	 */
+	public void setOrdnung(Enum ordnung) {
+		treeTableModel.setOrdnung(ordnung);
+	}
+	
 }
 
 

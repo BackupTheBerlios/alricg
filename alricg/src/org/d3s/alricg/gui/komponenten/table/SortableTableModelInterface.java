@@ -12,7 +12,7 @@ import javax.swing.table.TableModel;
 
 import org.d3s.alricg.gui.ProzessorObserver;
 import org.d3s.alricg.gui.views.SpaltenSchema;
-import org.d3s.alricg.gui.views.ZeilenSchema;
+import org.d3s.alricg.gui.views.TypSchema;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -55,6 +55,13 @@ public interface SortableTableModelInterface extends TableModel, ProzessorObserv
 	public abstract String getToolTip(int row, int column);
 
 	/**
+	 * Liefert das Object an der stelle "row" zurück. Im Gegensatz zu "getValueAt(row,colum)"
+	 * wird hier kein String, sondern das CharElemnet bzw. der Link zurückgeliefert.
+	 *
+	 */
+	public abstract Object getValueAt(int row);
+	
+	/**
 	 * Liefert den ToolTip Text für die Überschrift der Splate "column".
 	 * @param column  Die Spalte des gewünschten ToolTip-Textes
 	 * @return Der ToolTip- Text an der Stelle column
@@ -62,14 +69,14 @@ public interface SortableTableModelInterface extends TableModel, ProzessorObserv
 	public abstract String getHeaderToolTip(int column);
 	
 	/**
-	 * liefert das ViewSchema zurück, auf das diese Tabelle aufbaut
+	 * Liefert das ViewSchema zurück, auf das diese Tabelle aufbaut
 	 * @return Das benutze ViewSchema
 	 */
 	public abstract SpaltenSchema getSpaltenSchema();
 	
 	/**
 	 * liefert das ViewSchema zurück, auf das diese Tabelle aufbaut
-	 * @return Das benutze ZeilenSchema
+	 * @return Das benutze TypSchema
 	 */
-	public abstract ZeilenSchema getZeilenSchema();
+	public abstract TypSchema getTypSchema();
 }

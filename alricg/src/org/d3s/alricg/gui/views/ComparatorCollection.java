@@ -9,6 +9,8 @@ package org.d3s.alricg.gui.views;
 
 import java.util.Comparator;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import org.d3s.alricg.charKomponenten.Faehigkeit;
 import org.d3s.alricg.charKomponenten.links.Link;
 import org.d3s.alricg.prozessor.common.HeldenLink;
@@ -17,7 +19,7 @@ import org.d3s.alricg.prozessor.common.HeldenLink;
  * Eine Sammlung von Comaratoren für den Vergelich von Tabellen-Elementen. Die Hier
  * aufgeführten Comparatoren werden für die Tabellen von mehreren CharElementen benutzt.
  * (Comparatoren die nur für ein CharElement benutzt werden, werde bei dem entsprechenden 
- * ZeilenSchema angegeben)
+ * TypSchema angegeben)
  * @author Vincent
  */
 public interface ComparatorCollection {
@@ -41,6 +43,28 @@ public interface ComparatorCollection {
 		public int compare(Link o1, Link o2) {
 			return comparator.compare(o1.getZiel(), o2.getZiel());
 		}
+	}
+	
+	/**
+	 * <u>Beschreibung:</u><br> 
+	 * Dient ledeglich als Wapper damit die Objekte in einem DefaultMutableTreeNode 
+	 * miteinander verglichen werden können.
+	 * @author V. Strelow
+	 */
+	class NodeComparator implements Comparator<DefaultMutableTreeNode> {
+		private Comparator realComp;
+		
+		public void setRealComparator(Comparator comp) {
+			realComp = comp;
+		}
+
+		/* (non-Javadoc) Methode überschrieben
+		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+		 */
+		public int compare(DefaultMutableTreeNode node0, DefaultMutableTreeNode node1) {
+			return realComp.compare(node0.getUserObject(), node1.getUserObject());
+		}
+		
 	}
 	
 	/**

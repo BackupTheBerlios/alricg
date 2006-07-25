@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
@@ -22,6 +23,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLayeredPane;
 import javax.swing.JList;
@@ -29,6 +31,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+
+import com.sun.java.swing.plaf.motif.MotifGraphicsUtils;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -39,26 +43,60 @@ import javax.swing.SwingUtilities;
  * @author V. Strelow
  */
 public class TextFieldList extends JPanel {
+    private final ImageIcon DOWN_ICON = new ImageIcon(MotifGraphicsUtils.class
+			.getResource("icons/ScrollDownArrow.gif"));
+    
 	private static int LIST_HEIGHT = 75;
 	private JTextField txtText = null;
 	private JButton butList = null;
 	private JList lstPopList = null;
-	private JScrollPane panPopList = null;
+	protected JScrollPane panPopList = null;
 	private DefaultListModel listModel = null;
+	private ActionListener[] actionListener = new ActionListener[0];
+	
 	/**
 	 * This is the default constructor
 	 */
 	public TextFieldList() {
-		super();
 		initialize();
-
 	}
+	
 	/**
-	 * This method initializes this
-	 * 
-	 * @return void
+	 * This is the default constructor
 	 */
-	private  void initialize() {
+	public TextFieldList(String text) {
+		initialize();
+		txtText.setText(text);
+	}
+	
+	/**
+	 * Fügt einen Listener hinzu. Der Listener reagiert nur auf "Enter" KeyEvents.
+	 * @param listener Listener der zur TextList hinzugefügt wird
+	 */
+	public void addEnterKeyListener(ActionListener listener) {
+		ActionListener[] listenerAR = new ActionListener[actionListener.length + 1];
+		
+		for (int i = 0; i < actionListener.length; i++) {
+			listenerAR[i] = actionListener[i];
+		}
+		listenerAR[listenerAR.length-1] = listener;
+		
+		actionListener = listenerAR;
+	}
+	
+	/**
+	 * Informiert alle Listener über ein drücken der "Enter" Taste.
+	 */
+	private void firePressEnter() {
+		for (int i = 0; i < actionListener.length; i++) {
+			actionListener[i].actionPerformed(null);
+		}
+	}
+	
+	/**
+	 * Initialisiert das TextFieldList
+	 */
+	private void initialize() {
 		this.setLayout(new BorderLayout());
 		this.setSize(126, 20);
 		this.add(getTxtText(), java.awt.BorderLayout.CENTER);
@@ -73,11 +111,16 @@ public class TextFieldList extends JPanel {
 					public void componentResized(ComponentEvent e) {
 						doResizeList();
 					}
-					
-					public void componentHidden(ComponentEvent e) {
-						doResizeList();
+				}
+		);
+		txtText.addKeyListener(
+			new KeyAdapter() {
+				public void keyPressed(KeyEvent event) {
+					if (event.getKeyCode() == KeyEvent.VK_ENTER) {
+		        		firePressEnter();
 					}
 				}
+			}		
 		);
 		
 		panPopList = getPanPopList();
@@ -103,7 +146,7 @@ public class TextFieldList extends JPanel {
 		if (butList == null) {
 			butList = new JButton();
 			butList.setMargin(new java.awt.Insets(0,0,0,0));
-			butList.setText("v");
+			butList.setIcon(DOWN_ICON);
 			
 			// Listener zum schließen der PopList
 			butList.addActionListener(
@@ -133,8 +176,6 @@ public class TextFieldList extends JPanel {
 			lstPopList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 			lstPopList.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.SystemColor.activeCaptionBorder,1));
 
-			
-			// Listener zum schließen der PopList
 			lstPopList.addFocusListener(
 					new FocusAdapter() {
 						public void focusLost(FocusEvent e) {
@@ -153,24 +194,20 @@ public class TextFieldList extends JPanel {
 							listItemToText();
 						}
 				        public void mouseClicked(MouseEvent evt) {
-				        	if (evt.getClickCount() == 2) {
-				        		listItemToText();
-				        		hidePopList();
-				            }
+			        		listItemToText();
+			        		hidePopList();
 				        }
 					}
 			);
 			// Listener für die Auswahl mit "Enter"
 			lstPopList.addKeyListener(
 					new KeyAdapter() {
-						
 						public void keyPressed(KeyEvent event) {
 							if (event.getKeyCode() == KeyEvent.VK_ENTER) {
 				        		listItemToText();
 				        		hidePopList();
 							}
 						}
-
 					}
 			);
 		}
@@ -193,7 +230,6 @@ public class TextFieldList extends JPanel {
 	 * Zeigt die "Button-Liste" an und ermöglicht so eine Auswahl 
 	 */
 	private void showPopList() {
-		
 		this.getRootPane().getLayeredPane().add(panPopList, JLayeredPane.POPUP_LAYER);
 		panPopList.setVisible(true);
 		
@@ -205,7 +241,7 @@ public class TextFieldList extends JPanel {
 	 * Passt die Liste an die Position und die Größe des TextFields und des Buttons 
 	 * an. Wird beim Anzeigen und bei Größenveränderungen aufgerufen. 
 	 */
-	private void doResizeList() {
+	protected void doResizeList() {
 		
 		if (panPopList != null && panPopList.isVisible()) {
 		    // Errechne die Richtigen Koordinaten auf dem LayeredPane
@@ -227,11 +263,22 @@ public class TextFieldList extends JPanel {
 	}
 	
 	/**
-	 * Schließt die Liste wieder
+	 * Liefert zurück, ob die PopList sichbar ist oder nicht
+	 * @return true - Die PopList ist sichtbar, ansonsten false
 	 */
-	private void hidePopList() {
+	public boolean isPopListVisible() {
+		return panPopList.isVisible();
+	}
+	
+	/**
+	 * Schließt die Pop-List
+	 */
+	public void hidePopList() {
 		panPopList.setVisible(false);
-		this.getRootPane().getLayeredPane().remove(panPopList);
+		
+		if (this.getRootPane() != null) {
+			this.getRootPane().getLayeredPane().remove(panPopList);
+		}
 	}
 	
 	/**
@@ -266,4 +313,55 @@ public class TextFieldList extends JPanel {
 		listModel.addElement(entry);
 	}
 	
+	/**
+	 * Fügt einen neuen Eintrag zu der Auswahl-Liste hinzu an der stelle idx
+	 * @param idx Position des neuen Eintrags
+	 * @param entry Neuer Eintrga
+	 */
+	public void addListValueAt(int idx, String entry) {
+		listModel.add(idx, entry);
+	}
+	
+	/**
+	 * Entfernt einen Eintrag aus der Auswahl-Liste
+	 * @param entry Eintrag zum entfernen
+	 */
+	public void removeListValue(String entry) {
+		listModel.removeElement(entry);
+	}
+	
+	/**
+	 * Entfernt einen Eintrag aus der Auswahl-Liste
+	 * @param idx Index des Eintrags, der entfernt werden soll
+	 */
+	public void removeListValue(int idx) {
+		listModel.remove(idx);
+	}
+	
+	/**
+	 * Entfernd alle Einträge
+	 */
+	public void removeAllListValues() {
+		listModel.removeAllElements();
+	}
+	
+	/**
+	 * Liefert den EIntrag aus der AuswahlList an der Position idx
+	 * @param idx gewünschte Position
+	 *
+	public String getListValue(int idx) {
+		return listModel.get(idx).toString();
+	}*/
+	
+	/**
+	 * @return Die Anzahl der Einträge in der Auswahl-Liste
+	 */
+	public int countListValues() {
+		return listModel.size();
+	}
+	
+	public void setListVisible(boolean visible) {
+		panPopList.setVisible(visible);
+	}
+
  }  //  @jve:decl-index=0:visual-constraint="10,10"

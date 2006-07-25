@@ -7,27 +7,24 @@
  */
 package org.d3s.alricg.gui.views;
 
-import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
+
+import org.d3s.alricg.prozessor.Prozessor;
+import org.d3s.alricg.prozessor.elementBox.ElementBox;
 
 /**
  * <u>Beschreibung:</u><br> 
  * Dient den SortableTreeTable und SortableTables als Vorlage für die Darstellung.
- * In diesen Schemas werden spezielle Methoden für die Anzeige von Elementen 
- * zusammengefasst, und zwar nur solche Methoden die von den Elementen in der Tabelle abhängen,
- * andere Methoden sind in "SpaltenSchema" zu finden.  Da jedes CharElement andere 
- * Funktionalitäten benötigt, wird für jedesCharElemnt ein Spaltenschema benötigt.
+ * 
+ * In diesen Schemas werden spezielle Methoden für die Anzeige von Elementen zusammengefasst, 
+ * und zwar nur solche Methoden die von dem Typ der Elementen (Link, CharElement) in der Tabelle abhängen.
+ * Andere, nicht von Typ abhängige Methoden sind im "SpaltenSchema" zu finden.  Da jedes CharElement 
+ * andere Funktionalitäten benötigt, wird für jedesCharElemnt ein TypSchema benötigt.
+ * 
  * @author V. Strelow
  */
-public interface ZeilenSchema {
-	
-	
-	/**
-	 * Erspart überflüssiges Sortieren.
-	 * @return true: Die Elemente dieses Schemas können auch Sammelbegriffe enthalten,
-	 * 			 sonst false
-	 */
-	public boolean hasSammelbegriff();
+public interface TypSchema {
 	
 	/**
 	 * Um Tablen nach verschiedenen Spalten sortieren zu können, muß für 
@@ -52,11 +49,11 @@ public interface ZeilenSchema {
 
 	/**
 	 * Setzt einen Wert neu an einer bestimmten Position der Tabelle.
+	 * @param newValue Der veränderte Wert an der stelle "column"
 	 * @param object Das Objekt welches eigentlich dargestellt wird (Talent,
 	 * 		Rasse, Zauber, Link, usw.)
-	 * @param column Die "Spalte" welche aus diesem Objekt gefragt ist (Talent.sorte,
+	 * @param column Die "Spalte" welche geändert wurde (Talent.sorte,
 	 * 		Rasse.gp, Zauber.merkmale, usw.)
-	 * @param newValue Der Neue Wert an dieser Stelle
 	 */
 	public void setCellValue(Object newValue, Object object, Object column);
 	
@@ -79,13 +76,14 @@ public interface ZeilenSchema {
 	
 	/**
 	 * Liefert die Elemente nach denen die TreeTable geordnet werden kann 
-	 * (Also nach denen die Elemente der TreeTable in Ordner angeordnet werden).
+	 * (also nach denen die Elemente der TreeTable in Ordner angeordnet werden).
 	 * Das Element "Keine" gibt es immer, wird jedoch durch das Panel hinzugefügt,
 	 * taucht hier also NICHT auf!
 	 * Beispiel: "Sorte" bei Talenten
 	 * @return Die Elemente zum Ordnen der TreeTable (ohne "Keine")
-	 */
+	 *
 	public Enum[] getOrdnungElem();
+	*/
 	
 	/**
 	 * Liefert die Elemente nach denen die TreeTable gefiltert werden kann. 
@@ -94,33 +92,44 @@ public interface ZeilenSchema {
 	 * die hier zurückgeliefert werden!
 	 * Beispiel: "Nur Wählbare"
 	 * @return Die Elemente zum Filtern der TreeTable (mit "Keiner")
-	 */
+	 *
 	public Enum[] getFilterElem();
+	*/
 	
 	/**
-	 * Wird von "sortiereNachOrdnern(...)" benutzt. Liefert ein Array von Objekten,
-	 * nach denen der Tree sortiert und geordnet werden soll. 
-	 * Die Methode "getOrdinalFromElement(...)" muß mit dieser Methode abgestimmt sein.
+	 * Liefert zu einer Ordnung (die aus der Methode "getOrdnungElem()" stammt)
+	 * die Enums(=Ordner), nach dem die Elemente geordnet werden können.
+	 * Nach diesen Enums wird eine TreeTable also geordnet, wenn die "ordnung"
+	 * gewählt ist.
 	 * 
+	 * BEISPIEL: 
+	 * - Eine Ordnung bei Talenten ist "Sorte"; Die Enums sind die einzelen Sorten 
+	 * 		"Kampf", "Natur", "Gesellschaft", ...
+	 * - Eine Ordnung bei Zauber ist "Merkmal"; Die Enums sind die einzelnen Merkmale 
+	 * 		"Illusion", "Metamagie", "Verständigung", "Heilung", "Form"....
+	 * 
+	 * @param ordnung Die gewünscht Ordnung der Elemente ( entspring getOrdnungElem() )
 	 * @return Ein Array von Objekten nach denen der Tree geordnent wird, oder null
 	 * 		wenn nach NICHT geordnet wird
 	 */
-	public Object[] getSortOrdner();
+	public Enum[] getOrdnerForOrdnung(Enum ordnung);
 	
 	/**
-	 * Wird von "sortiereNachOrdnern(...)" benutzt. Liefert zu den übergebenen 
-	 * elementen die Ordinal-Zahl des betreffenden Elements zurück.
-	 * Wichtig ist, das der zurückgelieferte Index mit dem Index der Methode
-	 * "getSortOrdner()" abgestimmt ist.
-	 * WICHTIG: Wenn nicht geordnet werden soll, so gibt diese Methode
-	 * stehts die Zahl "0" zurück.
+	 * Liefert zu den übergebenen "element" in Verbindung mit einer "ordnung"
+	 * alles Enums zu dieser "ordnung" zurück, in die das "element" eingeordnet
+	 * ist. Wenn nicht geordnet werden soll, so gibt diese Methode c
 	 * 
-	 * @param element Das Element zu dem eine Ordner herausgesucht werden soll und
-	 * 		dessen ordinal-Zahl zurückgeliefert wird
-	 * @return Die gewünschte ordinal-Zahl des Elements bzw. "0" wenn nicht nach
-	 * 		Elementen geordnet wird.
+	 * BEISPIEL: 
+	 * - Element Talent "Schwerter" mit Ordnung "sorte" ergibt die Enums "Kampf"
+	 * - Der Zauber "Balsam" mit Ordnung "Merkmak" ergibt die Enums "Heilung" und "Form"
+	 * 
+	 * @param element Das Element, zu dem die Enums, in die dieses Element eingeordnet 
+	 * 		ist, zurückgeliefert werden soll
+	 * @param ordnung Die "Ordnung" in die das Element eingeordnt wird. Jede Ordnung besitzt
+	 * 		andere Enums
+	 * @return Die Enums in die das "element" innerhalb der "ordnung" eingeordent wird.
 	 */
-	public int[] getOrdinalFromElement(Object element);
+	public Enum[] getEnumsFromElement(Object element, Enum ordnung);
 	
 	/**
 	 * Nimmt eine Liste von Elementen und sortiert alle nicht zum Filter passenden 
@@ -128,6 +137,34 @@ public interface ZeilenSchema {
 	 * @param aList Liste von Elementen aus der Tabelle
 	 * @return Liste von Elementen die gemäß des aktuellen Filters "bereinigt" wurde
 	 */
-	public ArrayList doFilterElements(Enum filter, ArrayList aList);
+	public List doFilterElements(Enum filter, List aList);
+	
+	/**
+	 * Liefert zurück um welche Art von Elementen die mit dem Schema verarbeitet werden
+	 * es sich handelt.
+	 * 
+	 * @return true - Dieses Schema behandelt als Elemente Links, andernfalls sind
+	 * 	die Elemente CharElemente
+	 */
+	public boolean hasLinksAsElements();
+	
+	/**
+	 * Liefert den aktuellen Prozessor zurück, der von dem Schema zur Verarbeitung 
+	 * der Werte eingesetzt wird.
+	 * 
+	 * @return Aktueller Prozessor
+	 */
+	public Prozessor getProzessor();
+	
+	/**
+	 * Setzt den Prozessor neu, mit dem das Schema die Daten verarbeitet.
+	 * @param prozessor neuer Prozessor
+	 */
+	public void setProzessor(Prozessor prozessor);
 
+	
+	public ElementBox getElementBox();
+
+	
+	public void setElementBox(ElementBox box);
 }

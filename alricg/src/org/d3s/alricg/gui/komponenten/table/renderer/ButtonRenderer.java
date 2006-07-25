@@ -45,9 +45,9 @@ public class ButtonRenderer implements TableCellRenderer {
 	 */
 	public Component getTableCellRendererComponent(JTable table, Object value,
 				boolean isSelected, boolean hasFocus, int row, int column) {
-
-		// Prüfen, ob dort überhaupt ein Button hin soll
-		if (!value.equals(SpaltenSchema.buttonValue)) {
+		
+		// Prüfen, ob dort überhaupt ein Button hin soll und hin darf
+		if (!value.equals(SpaltenSchema.buttonValue) || !table.getModel().isCellEditable(row, column)) {
 			// Wenn nicht wird ein Label eingefügt
 			if (isSelected) {
 				label.setForeground(table.getSelectionForeground());
@@ -66,6 +66,7 @@ public class ButtonRenderer implements TableCellRenderer {
 			button.setForeground(table.getForeground());
 			button.setBackground(UIManager.getColor("Button.background"));
 		}
+
 		
 		return button;
 	}

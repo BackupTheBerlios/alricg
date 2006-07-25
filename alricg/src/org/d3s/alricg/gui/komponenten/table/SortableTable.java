@@ -41,9 +41,9 @@ public class SortableTable extends JTable {
 	
 	// Pfeile für die Sortierung
     private final ImageIcon UP_ICON = new ImageIcon(MotifGraphicsUtils.class
-            .getResource("icons/ScrollUpArrow.gif"));
-    private ImageIcon DOWN_ICON = new ImageIcon(MotifGraphicsUtils.class
-            .getResource("icons/ScrollDownArrow.gif"));
+            		.getResource("icons/ScrollUpArrow.gif"));
+    private final ImageIcon DOWN_ICON = new ImageIcon(MotifGraphicsUtils.class
+    				.getResource("icons/ScrollDownArrow.gif"));
     
     
     /* (non-Javadoc) Methode überschrieben
@@ -181,13 +181,5 @@ public class SortableTable extends JTable {
     public void setColumnMultiImage(String colName) {    	
     	this.getColumn(colName).setCellRenderer(new ImageRenderer());
     }
-    
-    /*
-     * Liefert das benutze Schema zum Anzeigen der Elemente
-     * @return Das Benutze Schema für die Elemente
-     *
-    public SpaltenSchema getViewSchema() {
-    	return model.getSpaltenSchema();
-    } */
     
 }

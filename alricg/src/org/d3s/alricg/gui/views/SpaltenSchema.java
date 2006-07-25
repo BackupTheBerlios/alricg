@@ -7,20 +7,17 @@
  */
 package org.d3s.alricg.gui.views;
 
-import java.util.Comparator;
-
 import org.d3s.alricg.gui.komponenten.table.SortableTable;
 
 /**
  * <u>Beschreibung:</u><br> 
  * Dient den SortableTreeTable und SortableTables als Vorlage für die Darstellung.
- * In diesem Schema werden spezielle Methoden für die Anzeige von Elementen  
- * zusammengefasst, und zwar solche Methoden die nur mit den Spalten der Tabelle, nicht mit
- * den Elementen in der Tabelle zusammenhängen. Da jedes CharElement andere Spalten benötigt,
- * wird für jedesCharElemnt ein Spaltenschema benötigt.
+ * 
+ * In diesem Schema werden spezielle Methoden für die Anzeige für die Spalten der Tabellen zusammengefasst.
+ * Da jedes CharElement andere Spalten benötigt, wird für jedes CharElemnt ein neues SpaltenSchema benötigt.
  * In jeder Implementierung des Spaltenschemas wird per Enum angegeben, welche Spalten zu
- * dem CharElement existieren. Per "getSpalten" werden dann jeweils die passenden 
- * Spalten geliefert.
+ * dem CharElement existieren. Per "getSpalten" werden dann jeweils die passenden Spalten geliefert.
+ * 
  * @author V. Strelow
  */
 public interface SpaltenSchema {
@@ -76,15 +73,34 @@ public interface SpaltenSchema {
 	 */
 	public String getHeaderToolTip(Object column);
 	
+	/**
+	 * Liefert für die Anzeige als TreeTable den Namen des ersten Elements, des 
+	 * "WurzelKnoten". Typischer weise ist dies für Talente "Talente", Zauber "Zauber" usw.
+	 * 
+	 * @return Name des RootNodes
+	 */
+	public String getRootNodeName();
 	
-	public void addListener();
+	/**
+	 * Liefert die Elemente nach denen die TreeTable gefiltert werden kann. 
+	 * Bestimmte Elementen sollen je nach Filter nicht angezeigt werden.
+	 * Das Elemente "Keiner" gibt es immer, es gehört mit zu dem Elementen 
+	 * die hier zurückgeliefert werden!
+	 * Beispiel: "Nur Wählbare"
+	 * @return Die Elemente zum Filtern der TreeTable (mit "Keiner")
+	 */
+	public Enum[] getFilterElem(SpaltenArt art);
 	
-	public void setOrdnung(Enum  ordnung);
+	/**
+	 * Liefert die Elemente nach denen die TreeTable geordnet werden kann 
+	 * (also nach denen die Elemente der TreeTable in Ordner angeordnet werden).
+	 * Das Element "Keine" gibt es immer, wird jedoch durch das Panel hinzugefügt,
+	 * taucht hier also NICHT auf!
+	 * Beispiel: "Sorte" bei Talenten
+	 * @return Die Elemente zum Ordnen der TreeTable (ohne "Keine")
+	 */
+	public Enum[] getOrdnungElem(SpaltenArt art);
 	
-	public void setFilter(Enum filter);
 	
-	public Enum getActiveOrdnung();
-	
-	public Enum getActiveFilter();
 
 }

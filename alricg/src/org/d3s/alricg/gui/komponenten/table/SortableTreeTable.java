@@ -72,7 +72,7 @@ import javax.swing.tree.TreePath;
  * <b>Beschreibung: </b> <br>
  * Mischung aus Tree und Table. Wichtig zur Anzeige von Datenmengen aller Art.
  * 
- * @author V.Strelow
+ * @author Sun Microsystems
  */
 public class SortableTreeTable extends SortableTable {
 	/** A subclass of JTree. */
@@ -123,12 +123,13 @@ public class SortableTreeTable extends SortableTable {
 	public void updateUI() {
 		super.updateUI();
 		if (tree != null) {
-			tree.updateUI();
+			tree.updateUI();			
 			// Do this so that the editor is referencing the current renderer
 			// from the tree. The renderer can potentially change each time
 			// laf changes.
 			setDefaultEditor(TreeTableModel.class, new TreeTableCellEditor());
 		}
+	
 		// Use the tree's default foreground and background colors in the
 		// table.
 		LookAndFeel.installColorsAndFont(this, "Tree.background",

@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import org.d3s.alricg.gui.komponenten.table.SortableTable;
 import org.d3s.alricg.gui.views.SpaltenSchema;
+import org.d3s.alricg.gui.views.talent.komponenten.TalentSpezialisierungCellEditor;
 import org.d3s.alricg.store.FactoryFinder;
 import org.d3s.alricg.store.TextStore;
 
@@ -26,9 +27,10 @@ import org.d3s.alricg.store.TextStore;
  */
 public class TalentSpalten implements SpaltenSchema {
     /** <code>Spalten</code>'s logger */
-    private static final Logger LOG = Logger.getLogger(Spalten.class.getName());
+    private static final Logger LOG = Logger.getLogger(TalentSpalten.class.getName());
 	//private static TalentSpalten self; // Statischer selbst verweis
-	
+    private static final String TEXT_ROOT_NODE_NAME = "Talent";
+    
 	public enum Spalten {
 		name("Name"),
 		stern("*"),
@@ -61,8 +63,65 @@ public class TalentSpalten implements SpaltenSchema {
 			return bezeichner;
 		}
 	}
-	
 
+	/**
+	 * <u>Beschreibung:</u><br> 
+	 * Gibt die Möglichkeiten an, nach denen die Elemente in der Tabelle geordnet 
+	 * werden können. "keine" ist immer vorhanden und bedeutet das nur eine
+	 * normale Tabelle angezeigt wird, keine TreeTable. Ansonsten wird die 
+	 * TreeTable nach der gewählten Ordnung angeordnet.
+	 * @author V. Strelow
+	 */
+	public enum Ordnung {
+		keine("Keine"),
+		sorte("Sorte"); // Standard bei init
+		
+		private Ordnung(String value) {
+			this.bezeichner = value;
+			//bezeichner = FactoryFinder.find().getLibrary().getShortTxt(value);
+		}
+		
+		private String bezeichner;
+		
+		public String toString() {
+			return bezeichner;
+		}
+	}
+	
+	/**
+	 * <u>Beschreibung:</u><br> 
+	 * Gibt die Möglichkeiten an, nach denen die Elemente in der Tabelle gefiltert 
+	 * werden können. Es werden nur solche Elemente angezeigt, die zu dem Filter 
+	 * passen.
+	 * @author V. Strelow
+	 */
+	public enum Filter {
+		keiner("Keiner"), // Standart bei init
+		
+		// Nur für direkte anzeige!
+		nurWaehlbar("Nur Wählbare"),
+		nurVerbilligt("Nur Verbilligte"),
+		nurBasisTalente("Nur Basis-Talente"),
+		nurSpezialTalente("Nur Spezial-Talente"),
+		nurBerufTalente("Nur Berufs-Talente"),
+
+		
+//		 Nur für Generierung
+		nurAktivierte("Nur Aktivierte"), 
+		nurModifizierte("Nur Modifizierte");
+		
+		private Filter(String value) {
+			this.bezeichner = value;
+			//bezeichner = FactoryFinder.find().getLibrary().getShortTxt(value);
+		}
+		
+		private String bezeichner;
+		
+		public String toString() {
+			return bezeichner;
+		}
+	}
+	
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.GUI.views.SpaltenSchema#getSpalten()
@@ -108,6 +167,7 @@ public class TalentSpalten implements SpaltenSchema {
 				Spalten.probe, 
 				Spalten.plus
 			};
+			
 		case editorGewaehlt:
 			return new Spalten[] {
 				Spalten.name, 
@@ -135,18 +195,25 @@ public class TalentSpalten implements SpaltenSchema {
 			table.setColumnTextImage(Spalten.kostenKlasse.toString(), false);
 			table.setColumnButton(Spalten.plus.toString(), "+");
 			break;
+		
+		case objektLinkHel:
+			break;
 			
 		case objektLinkGen:
 			table.setColumnTextImage(Spalten.kostenKlasse.toString(), false);
-			table.setColumnButton(Spalten.minus.toString(), "+");
+			
+			table.getColumn(Spalten.spezialisierungen.toString()).setCellEditor(new TalentSpezialisierungCellEditor());
+			
+			table.setColumnButton(Spalten.minus.toString(), Spalten.minus.toString());
+			setCellEditor(table, Spalten.stufe);
 			break;
 			
 		case editorAuswahl:
-			table.setColumnButton(Spalten.plus.toString(), "+");
+			table.setColumnButton(Spalten.plus.toString(), Spalten.plus.toString());
 			break;
 			
 		case editorGewaehlt:
-			table.setColumnButton(Spalten.minus.toString(), "-");
+			table.setColumnButton(Spalten.minus.toString(), Spalten.minus.toString());
 			break;
 			
 		default:
@@ -170,6 +237,67 @@ public class TalentSpalten implements SpaltenSchema {
 		
 		return true;
 	}
+	
+	private void setCellEditor(SortableTable table, Spalten spalte) {
+		
+		
+		
+		switch (spalte) {
+		case stufe:
+			
+		}
+
+		/*
+		TableColumn sportColumn = sTree.getColumnModel().getColumn(2);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.addItem("Snowboarding");
+		comboBox.addItem("Rowing");
+		comboBox.addItem("Chasing toddlers");
+		comboBox.addItem("Speed reading");
+		comboBox.addItem("Teaching high school");
+		comboBox.addItem("None");
+		sportColumn.setCellEditor(new DefaultCellEditor(comboBox));
+		*/
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.d3s.alricg.gui.views.TypSchema#getOrdnungElem()
+	 */
+	public Enum[] getOrdnungElem(SpaltenArt art) {
+		return Ordnung.values();
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.d3s.alricg.gui.views.TypSchema#getFilterElem()
+	 */
+	public Enum[] getFilterElem(SpaltenArt art) {
+		switch (art) {
+		case objektDirekt:
+			return new Enum[] { Filter.keiner }; // TODO
+			
+		case objektLinkHel:
+			return new Enum[] { Filter.keiner,  Filter.nurWaehlbar,  
+								Filter.nurVerbilligt,  Filter.nurBasisTalente,  
+								Filter.nurSpezialTalente,  Filter.nurBerufTalente }; // TODO
+			
+		case objektLinkGen:
+			return new Enum[] { Filter.keiner, Filter.nurAktivierte, 
+								Filter.nurModifizierte };
+			
+		case editorAuswahl:
+			return new Enum[] { Filter.keiner }; // TODO
+			
+		case editorGewaehlt:
+			return new Enum[] { Filter.keiner }; // TODO
+			
+		default:
+			LOG.warning("Case-Fall konnte nicht gefunden werden!");
+			return null;
+		}
+		
+	}
+	
 	
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.GUI.views.SpaltenSchema#getHeaderToolTip(java.lang.Enum)
@@ -199,45 +327,10 @@ public class TalentSpalten implements SpaltenSchema {
 	}
 
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.SpaltenSchema#addListener()
+	 * @see org.d3s.alricg.gui.views.SpaltenSchema#getRootNodeName()
 	 */
-	public void addListener() {
-		// TODO Auto-generated method stub
-		
+	public String getRootNodeName() {
+		return TEXT_ROOT_NODE_NAME;
 	}
-
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.SpaltenSchema#getActiveFilter()
-	 */
-	public Enum getActiveFilter() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.SpaltenSchema#getActiveOrdnung()
-	 */
-	public Enum getActiveOrdnung() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.SpaltenSchema#setFilter(java.lang.Enum)
-	 */
-	public void setFilter(Enum filter) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.SpaltenSchema#setOrdnung(java.lang.Enum)
-	 */
-	public void setOrdnung(Enum ordnung) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
 
 }

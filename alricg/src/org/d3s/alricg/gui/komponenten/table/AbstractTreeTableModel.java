@@ -61,15 +61,15 @@ import javax.swing.tree.TreePath;
 public abstract class AbstractTreeTableModel implements TreeTableModel {
     protected Object root;     
     protected EventListenerList listenerList = new EventListenerList();
-  
-    public AbstractTreeTableModel(Object root) {
-        this.root = root; 
-    }
 
+    public void setRoot(Object root) {
+    	this.root = root; 
+    }
+    
     //
     // Default implementations for methods in the TreeModel interface. 
     //
-
+    
     public Object getRoot() {
         return root;
     }
@@ -106,7 +106,7 @@ public abstract class AbstractTreeTableModel implements TreeTableModel {
      * the fire method.
      * @see EventListenerList
      */
-    protected void fireTreeNodesChanged(Object source, Object[] path, 
+    public void fireTreeNodesChanged(Object source, Object[] path, 
                                         int[] childIndices, 
                                         Object[] children) {
         // Guaranteed to return a non-null array
@@ -132,7 +132,7 @@ public abstract class AbstractTreeTableModel implements TreeTableModel {
      * the fire method.
      * @see EventListenerList
      */
-    protected void fireTreeNodesInserted(Object source, Object[] path, 
+    public void fireTreeNodesInserted(Object source, Object[] path, 
                                         int[] childIndices, 
                                         Object[] children) {
         // Guaranteed to return a non-null array
@@ -158,7 +158,7 @@ public abstract class AbstractTreeTableModel implements TreeTableModel {
      * the fire method.
      * @see EventListenerList
      */
-    protected void fireTreeNodesRemoved(Object source, Object[] path, 
+    public void fireTreeNodesRemoved(Object source, Object[] path, 
                                         int[] childIndices, 
                                         Object[] children) {
         // Guaranteed to return a non-null array
@@ -184,7 +184,7 @@ public abstract class AbstractTreeTableModel implements TreeTableModel {
      * the fire method.
      * @see EventListenerList
      */
-    protected void fireTreeStructureChanged(Object source, Object[] path, 
+    public void fireTreeStructureChanged(Object source, Object[] path, 
                                         int[] childIndices, 
                                         Object[] children) {
         // Guaranteed to return a non-null array
@@ -229,5 +229,7 @@ public abstract class AbstractTreeTableModel implements TreeTableModel {
      *   public String getColumnName(Object node, int column)  
      *   public Object getValueAt(Object node, int column) 
      */
+    
+    
 }
 

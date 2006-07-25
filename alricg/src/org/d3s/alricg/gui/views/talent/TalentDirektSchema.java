@@ -4,26 +4,30 @@
  * This file is part of the project ALRICG. The file is copyright
  * protected and under the GNU General Public License.
  * For more information see "http://alricg.die3sphaere.de/".
- *
  */
 package org.d3s.alricg.gui.views.talent;
 
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.d3s.alricg.charKomponenten.Talent;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
 import org.d3s.alricg.controller.ImageAdmin;
-import org.d3s.alricg.controller.ProgAdmin;
 import org.d3s.alricg.gui.komponenten.table.renderer.ImageTextObject;
 import org.d3s.alricg.gui.views.ComparatorCollection;
 import org.d3s.alricg.gui.views.SpaltenSchema;
-import org.d3s.alricg.gui.views.ZeilenSchema;
+import org.d3s.alricg.gui.views.TypSchema;
+import org.d3s.alricg.gui.views.ViewFilter;
+import org.d3s.alricg.gui.views.talent.TalentSpalten.Filter;
+import org.d3s.alricg.gui.views.talent.TalentSpalten.Ordnung;
 import org.d3s.alricg.gui.views.talent.TalentSpalten.Spalten;
 import org.d3s.alricg.held.Held;
+import org.d3s.alricg.prozessor.Prozessor;
+import org.d3s.alricg.prozessor.elementBox.ElementBox;
 import org.d3s.alricg.prozessor.utils.FormelSammlung.KostenKlasse;
 import org.d3s.alricg.store.FactoryFinder;
 import org.d3s.alricg.store.TextStore;
@@ -33,77 +37,37 @@ import org.d3s.alricg.store.TextStore;
  * Das Schema für das handling von Talenten. Die Objekte hier sind direkt Talente, keine Links.
  * Das Schema wird für die Auswahl von Talenten (Generierung und Management) oder für den 
  * Editor verwendet.
- * @see org.d3s.alricg.gui.views.ZeilenSchema
+ * @see org.d3s.alricg.gui.views.TypSchema
  * @author V. Strelow
  */
-public class TalentSchema implements ZeilenSchema {
+public class TalentDirektSchema implements TypSchema {
     
     /** <code>TalentSchema</code>'s logger */
-    private static final Logger LOG = Logger.getLogger(TalentSchema.class.getName());
+    private static final Logger LOG = Logger.getLogger(TalentDirektSchema.class.getName());
+	private Prozessor prozessor;
+	private ElementBox<Talent> elementBox;
     
 	///private static TalentSchema self; // Statischer selbst verweis
 	
-	// Arbeistobjekte, um Parameter zu übergeben. Aus performancegründen 
+	// Arbeitsobjekte, um Parameter zu übergeben. Aus performancegründen 
 	// als Attribute
-	private final static ImageTextObject tmpImageObj = new ImageTextObject();
-	private final static Link tmpLink = new IdLink(null, null);
+	private final ImageTextObject tmpImageObj = new ImageTextObject();
+	private final Link tmpLink = new IdLink(null, null);
 	private Held held;
-	// TODO Held initialisieren!
-	
-	
-	/**
-	 * <u>Beschreibung:</u><br> 
-	 * Gibt die Möglichkeiten an, nach denen die Elemente in der Tabelle geordnet 
-	 * werden können. "keine" ist immer vorhanden und bedeutet das nur eine
-	 * normale Tabelle angezeigt wird, keine TreeTable. Ansonsten wird die 
-	 * TreeTable nach der gewählten Ordnung angeordnet.
-	 * @author V. Strelow
-	 */
-	public enum Ordnung {
-		keine,
-		sorte;
-		
-		private String bezeichner;
-		
-		public String toString() {
-			return bezeichner;
-		}
+
+	public TalentDirektSchema(Held held) {
+		this.held = held;
 	}
-	
-	/**
-	 * <u>Beschreibung:</u><br> 
-	 * Gibt die Möglichkeiten an, nach denen die Elemente in der Tabelle gefiltert 
-	 * werden können. Es werden nur solche Elemente angezeigt, die zu dem Filter 
-	 * passen.
-	 * @author V. Strelow
-	 */
-	public enum Filter {
-		keiner,
-		nurWaehlbar,
-		nurVerbilligt,
-		nurSpezialTalente,
-		nurBerufTalente;
-		
-		private String bezeichner;
-		
-		public String toString() {
-			return bezeichner;
-		}
-	}
-	
-	
-	/**
-	 * Liefert eine Instanz dieser Klasse. 
-	 * @return Eine Instance von TalentSpalten
-	 */
-	public static TalentSchema getInstance() {
-		
-		return new TalentSchema();
-	}
-	
 	
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getCellValue(java.lang.Object, java.lang.Enum)
+	 * @see org.d3s.alricg.gui.views.TypSchema#hasLinksAsElements()
+	 */
+	public boolean hasLinksAsElements() {
+		return false;
+	}
+
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.views.TypSchema#getCellValue(java.lang.Object, java.lang.Enum)
 	 */
 	public Object getCellValue(Object object, Object column) {
 		KostenKlasse tmpKK;
@@ -167,14 +131,13 @@ public class TalentSchema implements ZeilenSchema {
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.GUI.views.ViewSchema#getComparator(java.lang.Enum)
 	 */
-	public Comparator< ? > getComparator(Object column) {
-		Comparator tmpCpm;
+	public Comparator getComparator(Object column) {
 		
 		switch ((Spalten) column) {
 		case name: 	return ComparatorCollection.compNamensComparator;
-		case stern:	return TalentSchema.compStern;
-		case sorte: return TalentSchema.compSorte;
-		case art: 	return TalentSchema.compArt;
+		case stern:	return TalentDirektSchema.compStern;
+		case sorte: return TalentDirektSchema.compSorte;
+		case art: 	return TalentDirektSchema.compArt;
 		case kostenKlasse: return ComparatorCollection.compKostenKlasse;
 		}
 		
@@ -183,7 +146,7 @@ public class TalentSchema implements ZeilenSchema {
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.ZeilenSchema#setCellValue()
+	 * @see org.d3s.alricg.gui.views.TypSchema#setCellValue()
 	 */
 	public void setCellValue(Object newValue, Object object, Object column) {
 		
@@ -195,7 +158,7 @@ public class TalentSchema implements ZeilenSchema {
 	}
 
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.ZeilenSchema#isCellEditable()
+	 * @see org.d3s.alricg.gui.views.TypSchema#isCellEditable()
 	 */
 	public boolean isCellEditable(Object object, Object column) {
 		if (column.equals(TalentSpalten.Spalten.name)
@@ -204,15 +167,19 @@ public class TalentSchema implements ZeilenSchema {
 			// diese müssen immer True sein, damit die Navigation funktioniert
 			return true;
 		}
+	
 		return false;
 	}
 
 	
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getToolTip(java.lang.Object, java.lang.Enum)
+	 * @see org.d3s.alricg.gui.views.TypSchema#getToolTip(java.lang.Object, java.lang.Enum)
 	 */
 	public String getToolTip(Object object, Object column) {
 		final TextStore lib = FactoryFinder.find().getLibrary();
+		
+		if (object instanceof Enum) return null;
+		if (object instanceof String) return null;
 		
 		switch ((TalentSpalten.Spalten) column) {
 			case name: 	
@@ -257,52 +224,123 @@ public class TalentSchema implements ZeilenSchema {
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getEnums()
+	 * @see org.d3s.alricg.gui.views.TypSchema#getEnums()
 	 */
-	public Enum[] getSortOrdner() {
-		return Talent.Sorte.values();
+	public Enum[] getOrdnerForOrdnung(Enum ordnung) {
+		if (ordnung == Ordnung.sorte) {
+			return Talent.Sorte.values();
+		} else {
+			return null;
+		}
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getOrdinalFromElement(org.d3s.alricg.CharKomponenten.CharElement)
+	 * @see org.d3s.alricg.gui.views.TypSchema#getOrdinalFromElement(org.d3s.alricg.CharKomponenten.CharElement)
 	 */
-	public int[] getOrdinalFromElement(Object element) {
-		int[] tmp = new int[1];
-		tmp[0] = ((Talent) element).getSorte().ordinal();
+	public Enum[] getEnumsFromElement(Object element, Enum ordnung) {
+		Enum[] tmp;
+		
+		if (ordnung == Ordnung.sorte) {
+			tmp = new Enum[1];
+			tmp[0] = ((Talent) element).getSorte();
+		} else {
+			tmp = new Enum[0];
+		}
+		
 		return tmp;
 	}
-
+	
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getFilterElem()
+	 * @see org.d3s.alricg.gui.views.TypSchema#getProzessor()
 	 */
-	public Enum[] getFilterElem() {
-		return Filter.values();
+	public Prozessor getProzessor() {
+		return prozessor;
 	}
 
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.ZeilenSchema#getOrdnungElem()
+	 * @see org.d3s.alricg.gui.views.TypSchema#setProzessor(org.d3s.alricg.prozessor.Prozessor)
 	 */
-	public Enum[] getOrdnungElem() {
-		return Ordnung.values();
+	public void setProzessor(Prozessor prozessor) {
+		this.prozessor = prozessor;
+		
+	}
+	
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.views.TypSchema#getElementBox()
+	 */
+	public ElementBox getElementBox() {
+		return elementBox;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.ZeilenSchema#hasSammelbegriff()
-	 */
-	public boolean hasSammelbegriff() {
-		return true;
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.views.TypSchema#setElementBox(ElementBox)
+ 	 */
+	public void setElementBox(ElementBox box) {
+		elementBox = box;
 	}
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.d3s.alricg.gui.views.ZeilenSchema#doFilterElements(java.lang.Enum, java.util.ArrayList)
+	 * @see org.d3s.alricg.gui.views.TypSchema#doFilterElements(java.lang.Enum, java.util.ArrayList)
 	 */
-	public ArrayList doFilterElements(Enum filter, ArrayList aList) {
-		// TODO Auto-generated method stub
-		return null;
+	public List doFilterElements(Enum filter, List aList) {
+		ViewFilter viewFilter = null;
+		List<Talent> list = new ArrayList<Talent>();
+		
+		switch((Filter) filter) {
+		case keiner: return aList; 
+		case nurWaehlbar: 
+			
+			for (int i = 0; i < aList.size(); i++) {
+				if ( prozessor.canAddElement((Talent) aList.get(i)) ) {
+					list.add((Talent) aList.get(i));
+				}
+			}
+			
+			return list; 
+			
+		case nurVerbilligt: 
+			
+			for (int i = 0; i < aList.size(); i++) {
+				Talent t = (Talent) aList.get(i);
+				tmpLink.setZiel(t);
+				
+				if ( isVerbilligt(t) )  {
+					list.add(t);
+				}
+			}
+			return list;
+			
+		case nurBasisTalente: viewFilter = filterBasisTalente; break;
+		case nurSpezialTalente: viewFilter = filterSpezialTalente; break;
+		case nurBerufTalente: viewFilter = filterBerufTalente; break;
+		default: LOG.warning("Case fall nicht gefunden!");
+		}
+		
+		for (int i = 0; i < aList.size(); i++) {
+			if ( viewFilter.matchFilter(aList.get(i)) ) {
+				list.add((Talent) aList.get(i));
+			}
+		}
+		
+		return list;
 	}
-
+	
+	/**
+	 * Überprüft, ob ein Talent verbilligt wird (durch änderung der SKT) oder nicht
+	 * @param t Das zu prüfende Talent
+	 * @return true - Dieses Talent wird verbilligt, ansonsten false.
+	 */
+	private boolean isVerbilligt(Talent t) {
+		tmpLink.setZiel(t);
+		
+		if ( t.getKostenKlasse().isTeurerAls( held.getSonderregelAdmin().changeKostenKlasse(t.getKostenKlasse(), tmpLink)) ) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 	// Comperatoren, um Spalten sortieren zu können!
 	private static Comparator compSorte = 
 		new Comparator<Talent>() {
@@ -326,6 +364,26 @@ public class TalentSchema implements ZeilenSchema {
 			}
 		};
 	
-
+	// Filter, um Elemente aussortieren zu können
+	private static ViewFilter filterBasisTalente =
+		new ViewFilter<Talent>() {
+			public boolean matchFilter(Talent talent) {
+				return  talent.getArt().equals(Talent.Art.basis);
+			}
+		};
+		
+	private static ViewFilter filterSpezialTalente =
+		new ViewFilter<Talent>() {
+			public boolean matchFilter(Talent talent) {
+				return  talent.getArt().equals(Talent.Art.spezial);
+			}
+		};
+			
+	private static ViewFilter filterBerufTalente =
+		new ViewFilter<Talent>() {
+			public boolean matchFilter(Talent talent) {
+				return  talent.getArt().equals(Talent.Art.beruf);
+			}
+		};
 
 }
