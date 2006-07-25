@@ -75,14 +75,11 @@ public class ProzessorTalent extends BaseProzessorElementBox<Talent, GeneratorLi
 	private int talentGpKosten = 0;
 
 	
-	public ProzessorTalent(SonderregelAdmin srAdmin, 
-								VerbilligteFertigkeitAdmin vfAdmin, 
-								Held held, 
-								Notepad notepade) {
-		this.sonderregelAdmin = srAdmin;
+	public ProzessorTalent(Held held, Notepad notepade) {
+		this.sonderregelAdmin = held.getSonderregelAdmin();
 		this.held = held;
 		this.notepade = notepade;
-		this.verbFertigkeitenAdmin = vfAdmin;
+		this.verbFertigkeitenAdmin = held.getVerbFertigkeitenAdmin();
 		this.elementBox = new ElementBoxLink<GeneratorLink>();
 		
 		aktivierteTalente = new ArrayList<Talent>();
@@ -274,12 +271,16 @@ public class ProzessorTalent extends BaseProzessorElementBox<Talent, GeneratorLi
 	 * @see org.d3s.alricg.prozessor.LinkProzessor#canUpdateText(org.d3s.alricg.charKomponenten.links.Link)
 	 */
 	public boolean canUpdateText(GeneratorLink link) {
+		
+		/*
+		
 		// Kann nur geändert werden, wenn schon Text (= Eine SF) besteht!)
 		if (link.hasText()) {
 			return true;
 		}
+		*/
 		
-		return false;
+		return true;
 	}
 
 	/* (non-Javadoc) Methode überschrieben

@@ -39,10 +39,10 @@ public class ProzessorZauber extends BaseProzessorElementBox<Zauber, GeneratorLi
 	private final Notepad notepade;
 	private final Held held;
 	
-	public ProzessorZauber(SonderregelAdmin srAdmin, VerbilligteFertigkeitAdmin vfAdmin, Held held, Notepad notepade) {
-		this.sonderregelAdmin = srAdmin;
+	public ProzessorZauber(Held held, Notepad notepade) {
+		this.sonderregelAdmin = held.getSonderregelAdmin();
+		this.verbFertigkeitenAdmin = held.getVerbFertigkeitenAdmin();
 		this.held = held;
-		this.verbFertigkeitenAdmin = vfAdmin;
 		this.notepade = notepade;
 		this.elementBox = new ElementBoxLink<GeneratorLink>();
 	}

@@ -13,6 +13,7 @@ import java.util.List;
 import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
+import org.d3s.alricg.held.Held;
 import org.d3s.alricg.prozessor.common.HeldenLink;
 import org.d3s.alricg.prozessor.common.SonderregelAdmin;
 import org.d3s.alricg.prozessor.common.VoraussetzungenAdmin;
@@ -42,11 +43,9 @@ public class LinkProzessorFront<ZIEL extends CharElement, EXTENDED, LINK extends
     
 	protected LinkProzessor<ZIEL, LINK> prozessor;
 	
-	public LinkProzessorFront(SonderregelAdmin srAdmin, 
-								VoraussetzungenAdmin vaAdmin, 
-								LinkProzessor<ZIEL, ? extends HeldenLink> proz) {
-		this.sonderregelAdmin = srAdmin;
-		this.voraussetzungenAdmin = vaAdmin;
+	public LinkProzessorFront(Held held, LinkProzessor<ZIEL, ? extends HeldenLink> proz) {
+		this.sonderregelAdmin = held.getSonderregelAdmin();
+		this.voraussetzungenAdmin = held.getVoraussetzungAdmin();
 		this.prozessor = (LinkProzessor<ZIEL, LINK>) proz;
 	}
 	
@@ -223,7 +222,7 @@ public class LinkProzessorFront<ZIEL extends CharElement, EXTENDED, LINK extends
 	 * @see org.d3s.alricg.prozessor.LinkProzessor#getMaxWert(org.d3s.alricg.charKomponenten.links.Link)
 	 */
 	public int getMaxWert(Link link) {
-		int wert; 
+		int wert;
 		
 		wert = prozessor.getMaxWert(link);
 		wert = voraussetzungenAdmin.changeMaxWert(wert, link);

@@ -105,6 +105,27 @@ public class FormelSammlung {
 			
 			return KostenKlasse.values()[this.ordinal()-1];
 		}
+		
+		/**
+		 * Prüft ob diese KostenKlasse "teurer" als eine andere ist.
+		 * Beispiel: B ist teurer als A
+		 * @param kk Die KostenKlasse zum Vergleich
+		 * @return true - Diese Kostenklasse ist teuerer als die KostenKlasse "kk", ansonsten false
+		 */
+		public boolean isTeurerAls(KostenKlasse kk) {
+			return this.ordinal() > kk.ordinal();
+		}
+		
+		/**
+		 * Prüft ob diese KostenKlasse "billiger" als eine andere ist.
+		 * Beispiel: A ist billiger als B
+		 * @param kk Die KostenKlasse zum Vergleich
+		 * @return true - Diese Kostenklasse ist billiger als die KostenKlasse "kk", ansonsten false
+		 */
+		public boolean isBilligerAls(KostenKlasse kk) {
+			return this.ordinal() < kk.ordinal();
+		}
+		
     }
     public enum Lernmethode {
     	selbstStudium, // eine Spalte schwerer, bei Talent ab 10 sogar 2 Spalten schwerer

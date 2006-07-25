@@ -98,4 +98,14 @@ public class VerbilligteFertigkeitAdmin {
 		// TODO implement
 		return kosten;
 	}
+	
+	/**
+	 * Prüft, ob eine Fertigkeit durch den VerbilligteFertigkeitAdmin verbilligt wird.
+	 * @param fertigkeit Die zu überprüfende Fertigkeit
+	 * @return true - Die Fertigkeit "fertigkeit" wird durch den VF-Admin verbilligt
+	 */
+	public boolean isVerbilligt(Fertigkeit fertigkeit) {
+		// TODO implement
+		return false;
+	}
 }

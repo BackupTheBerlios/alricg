@@ -121,9 +121,8 @@ public class Held {
 		
 		// Für die Eigenschaften
 		frontProzessor = new LinkProzessorFront<Eigenschaft, ExtendedProzessorEigenschaft, GeneratorLink>(
-				sonderregelAdmin, 
-				voraussetzungAdmin, 
-				new ProzessorEigenschaften(sonderregelAdmin, this, notepad));
+				this,
+				new ProzessorEigenschaften(this, notepad));
 		prozessorHash.put(CharKomponente.eigenschaft, frontProzessor);
 		
 		// Erzeugt alle Eigenschaften
@@ -134,16 +133,14 @@ public class Held {
 		
 		// Für die Talente
 		frontProzessor = new LinkProzessorFront<Talent, ExtendedProzessorTalent, GeneratorLink>(
-				sonderregelAdmin, 
-				voraussetzungAdmin, 
-				new ProzessorTalent(sonderregelAdmin, verbFertigkeitenAdmin, this, notepad));
+				this,
+				new ProzessorTalent(this, notepad));
 		prozessorHash.put(CharKomponente.talent, frontProzessor);
 		
 		// Für die Zauber
 		frontProzessor = new LinkProzessorFront<Zauber, ExtendedProzessorTalent, GeneratorLink>(
-				sonderregelAdmin, 
-				voraussetzungAdmin, 
-				new ProzessorZauber(sonderregelAdmin, verbFertigkeitenAdmin, this, notepad));
+				this,
+				new ProzessorZauber(this, notepad));
 		prozessorHash.put(CharKomponente.zauber, frontProzessor);
 	}
 

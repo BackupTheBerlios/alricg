@@ -58,8 +58,8 @@ public class ProzessorEigenschaften extends BaseProzessorElementBox<Eigenschaft,
     private final Notepad notepad;
     
     
-    public ProzessorEigenschaften(SonderregelAdmin srAdmin, Held held, Notepad notepad) {
-		this.sonderregelAdmin = srAdmin;
+    public ProzessorEigenschaften(Held held, Notepad notepad) {
+		this.sonderregelAdmin = held.getSonderregelAdmin();
 		this.held = held;
 		this.notepad = notepad;
 		this.elementBox = new ElementBoxLink<GeneratorLink>();
