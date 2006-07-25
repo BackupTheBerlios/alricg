@@ -64,6 +64,9 @@ public abstract class Herkunft extends CharElement {
     
     //protected Herkunft varianteVon;
     
+    
+    public abstract HerkunftVariante[] getVarianten();
+    
     /**
      * @return true - Diese Herkunft ist Variante einer anderen Herkunft
      *
