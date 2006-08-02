@@ -275,12 +275,12 @@ public class TalentSpalten implements SpaltenSchema {
 	public Enum[] getFilterElem(SpaltenArt art) {
 		switch (art) {
 		case objektDirekt:
-			return new Enum[] { Filter.keiner }; // TODO
+			return new Enum[] { Filter.keiner,  Filter.nurWaehlbar,  
+					Filter.nurVerbilligt,  Filter.nurBasisTalente,  
+					Filter.nurSpezialTalente,  Filter.nurBerufTalente };
 			
 		case objektLinkHel:
-			return new Enum[] { Filter.keiner,  Filter.nurWaehlbar,  
-								Filter.nurVerbilligt,  Filter.nurBasisTalente,  
-								Filter.nurSpezialTalente,  Filter.nurBerufTalente }; // TODO
+			return new Enum[] { Filter.keiner }; // TODO
 			
 		case objektLinkGen:
 			return new Enum[] { Filter.keiner, Filter.nurAktivierte, 

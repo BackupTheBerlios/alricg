@@ -109,6 +109,13 @@ public class TalentTreeTables {
         	prozessor.addModi(linkRasse);
         }
         
+        // Basis-Talente hinzufügen
+        for (int i = 0; i < list.size(); i++) {
+        	if (((Talent) list.get(i)).getArt() == Talent.Art.basis) {
+            	prozessor.addNewElement((Talent) list.get(i));
+        	}
+        }
+        
         linkSchema = new TalentLinkSchema( held, SpaltenArt.objektLinkGen );
         linkSchema.setProzessor(prozessor);
         linkSchema.setElementBox(prozessor.getElementBox());

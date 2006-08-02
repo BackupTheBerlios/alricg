@@ -92,8 +92,6 @@ public class TalentLinkSchema implements TypSchema {
 					tmpString.append("/ ");
 				}
 				
-				System.out.println(tmpString.toString());
-				
 				// Löschen der letzen Trennzeichen ("/ ")
 				tmpString.delete(tmpString.length() - 2, tmpString.length() - 1);
 				return tmpString.toString();

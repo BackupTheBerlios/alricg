@@ -128,9 +128,9 @@ public class TabellenPanel extends JPanel implements ProzessorObserver {
 			FlowLayout flowLayout = new FlowLayout();
 			flowLayout.setAlignment(java.awt.FlowLayout.LEFT);
 			lblFilter = new JLabel();
-			lblFilter.setText("JLabel");
+			lblFilter.setText("Filter:");
 			lblOrdnung = new JLabel();
-			lblOrdnung.setText("JLabel");
+			lblOrdnung.setText("Ordnung:");
 			optionsPanel = new JPanel();
 			optionsPanel.setLayout(flowLayout);
 			optionsPanel.add(lblOrdnung, null);
