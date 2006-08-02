@@ -14,6 +14,8 @@ import org.d3s.alricg.charKomponenten.Zauber;
 import org.d3s.alricg.gui.komponenten.table.SortableTable;
 import org.d3s.alricg.gui.views.ComparatorCollection;
 import org.d3s.alricg.gui.views.SpaltenSchema;
+import org.d3s.alricg.gui.views.SpaltenSchema.SpaltenArt;
+import org.d3s.alricg.prozessor.Prozessor;
 import org.d3s.alricg.store.FactoryFinder;
 
 /**
@@ -121,7 +123,15 @@ public class ZauberSpalten implements SpaltenSchema {
 		}
 	}
 
-	/* (non-Javadoc)
+	/* (non-Javadoc) Methode überschrieben
+	 * @see org.d3s.alricg.gui.views.SpaltenSchema#getFilterElem(org.d3s.alricg.gui.views.SpaltenSchema.SpaltenArt)
+	 */
+	public Enum[] getFilterElem(SpaltenArt art) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.gui.views.SpaltenSchema#getHeaderToolTip(java.lang.Object)
 	 */
 	public String getHeaderToolTip(Object column) {
@@ -130,44 +140,30 @@ public class ZauberSpalten implements SpaltenSchema {
 	}
 
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.SpaltenSchema#addListener()
+	 * @see org.d3s.alricg.gui.views.SpaltenSchema#getOrdnungElem(org.d3s.alricg.gui.views.SpaltenSchema.SpaltenArt)
 	 */
-	public void addListener() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.SpaltenSchema#getActiveFilter()
-	 */
-	public Enum getActiveFilter() {
+	public Enum[] getOrdnungElem(SpaltenArt art) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.SpaltenSchema#getActiveOrdnung()
+	 * @see org.d3s.alricg.gui.views.SpaltenSchema#getRootNodeName()
 	 */
-	public Enum getActiveOrdnung() {
+	public String getRootNodeName() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.SpaltenSchema#setFilter(java.lang.Enum)
+	 * @see org.d3s.alricg.gui.views.SpaltenSchema#initTable(org.d3s.alricg.prozessor.Prozessor, org.d3s.alricg.gui.komponenten.table.SortableTable, org.d3s.alricg.gui.views.SpaltenSchema.SpaltenArt)
 	 */
-	public void setFilter(Enum filter) {
+	public void initTable(Prozessor prozessor, SortableTable table, SpaltenArt art) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	/* (non-Javadoc) Methode überschrieben
-	 * @see org.d3s.alricg.gui.views.SpaltenSchema#setOrdnung(java.lang.Enum)
-	 */
-	public void setOrdnung(Enum ordnung) {
-		// TODO Auto-generated method stub
-		
-	}
 
+	
 	
 }
