@@ -27,6 +27,7 @@ import org.d3s.alricg.prozessor.Prozessor;
 import org.d3s.alricg.prozessor.common.GeneratorLink;
 import org.d3s.alricg.prozessor.common.HeldenLink;
 import org.d3s.alricg.prozessor.elementBox.ElementBox;
+import org.d3s.alricg.prozessor.elementBox.ElementBoxLink;
 import org.d3s.alricg.prozessor.generierung.extended.ExtendedProzessorTalent;
 import org.d3s.alricg.store.FactoryFinder;
 import org.d3s.alricg.store.TextStore;
@@ -53,6 +54,8 @@ public class TalentLinkSchema implements TypSchema {
 		this.held = held;
 		this.direktSchema = new TalentDirektSchema(held);
 		this.spaltenart = spaltenart;
+		
+		this.elementBox = new ElementBoxLink<Link>();
 	}
 	
 	/* (non-Javadoc) Methode überschrieben
@@ -89,8 +92,10 @@ public class TalentLinkSchema implements TypSchema {
 					tmpString.append("/ ");
 				}
 				
+				System.out.println(tmpString.toString());
+				
 				// Löschen der letzen Trennzeichen ("/ ")
-				tmpString.delete(tmpString.length() - 3, tmpString.length() - 1);
+				tmpString.delete(tmpString.length() - 2, tmpString.length() - 1);
 				return tmpString.toString();
 				
 			case kosten: return ((HeldenLink) object).getKosten();
@@ -131,18 +136,23 @@ public class TalentLinkSchema implements TypSchema {
 	public void setCellValue(Object newValue, Object object, Object column) {
 		
 		switch ((TalentSpalten.Spalten) column) {
-			case stufe: prozessor.updateWert(
-							(HeldenLink) object, 
-							(Integer) newValue);
-			
-			case spezialisierungen: prozessor.updateText(
+			case stufe: 
+				prozessor.updateWert(
+						(HeldenLink) object, 
+						Integer.parseInt( newValue.toString() ));
+				break;
+					
+			case spezialisierungen: 
+				prozessor.updateText(
 							(HeldenLink) object,
 							newValue.toString());
 				//TODO: Sonderregel hinzufügen, wenn Sonderregelprozessor
-			
+				break;
+				
 			case minus: 
 				prozessor.removeElement((HeldenLink) object);
-
+				break;
+				
 			default:
 				LOG.warning("Case-Fall konnte nicht gefunden werden!");
 		}

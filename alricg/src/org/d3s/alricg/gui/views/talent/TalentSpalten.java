@@ -13,6 +13,9 @@ import java.util.logging.Logger;
 import org.d3s.alricg.gui.komponenten.table.SortableTable;
 import org.d3s.alricg.gui.views.SpaltenSchema;
 import org.d3s.alricg.gui.views.talent.komponenten.TalentSpezialisierungCellEditor;
+import org.d3s.alricg.gui.views.talent.komponenten.WertComboboxCellEditor;
+import org.d3s.alricg.prozessor.LinkProzessor;
+import org.d3s.alricg.prozessor.Prozessor;
 import org.d3s.alricg.store.FactoryFinder;
 import org.d3s.alricg.store.TextStore;
 
@@ -105,7 +108,6 @@ public class TalentSpalten implements SpaltenSchema {
 		nurSpezialTalente("Nur Spezial-Talente"),
 		nurBerufTalente("Nur Berufs-Talente"),
 
-		
 //		 Nur für Generierung
 		nurAktivierte("Nur Aktivierte"), 
 		nurModifizierte("Nur Modifizierte");
@@ -187,7 +189,7 @@ public class TalentSpalten implements SpaltenSchema {
 	/* (non-Javadoc) Methode überschrieben
 	 * @see org.d3s.alricg.GUI.views.SpaltenSchema#initTable()
 	 */
-	public void initTable(SortableTable table, SpaltenArt art) {
+	public void initTable(Prozessor prozessor, SortableTable table, SpaltenArt art) {
 		
 		switch (art) {
 		case objektDirekt:
@@ -201,9 +203,8 @@ public class TalentSpalten implements SpaltenSchema {
 			
 		case objektLinkGen:
 			table.setColumnTextImage(Spalten.kostenKlasse.toString(), false);
-			
 			table.getColumn(Spalten.spezialisierungen.toString()).setCellEditor(new TalentSpezialisierungCellEditor());
-			
+			table.getColumn(Spalten.stufe.toString()).setCellEditor(new WertComboboxCellEditor((LinkProzessor) prozessor));
 			table.setColumnButton(Spalten.minus.toString(), Spalten.minus.toString());
 			setCellEditor(table, Spalten.stufe);
 			break;

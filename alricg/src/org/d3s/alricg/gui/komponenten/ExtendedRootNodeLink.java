@@ -55,15 +55,17 @@ public class ExtendedRootNodeLink extends ExtendedRootNode<Link> {
 				((Enum) ((DefaultMutableTreeNode) root.getChildAt(i)).getUserObject()).ordinal() ) {
 					root.insert(ordnerNode, i);
 					modelConnector.fireTreeNodesInserted(this, root.getPath(), new int[] {i}, new Object[] {ordnerNode});
+					break; // Schleife abbrechen
 				}
 			}
 			
 			// Wurde die Position nicht gefunden (da ordinal grösser), so den Node am Ende einfügen 
 			if (!root.isNodeChild(ordnerNode)) {
 				root.insert(ordnerNode, root.getChildCount());
-				modelConnector.fireTreeNodesInserted(this, root.getPath(), new int[] {root.getChildCount()}, new Object[] {ordnerNode});
+				modelConnector.fireTreeNodesInserted(this, root.getPath(), new int[] {root.getChildCount()-1}, new Object[] {ordnerNode});
 			}
 		}
+
 	}
 	
 	/**
@@ -77,17 +79,18 @@ public class ExtendedRootNodeLink extends ExtendedRootNode<Link> {
 	 */
 	protected void removeNodeHelp(Link userObject, DefaultMutableTreeNode ordnerNode) {
 		final DefaultMutableTreeNode node = findNode(userObject, ordnerNode);
-		final int index = ordnerNode.getIndex(node);
+		int index = ordnerNode.getIndex(node);
 		
 		ordnerNode.remove( node );
 		
 		// Tree aktualisieren
-		modelConnector.fireTreeNodesRemoved(this, ordnerNode.getPath(), new int[] {ordnerNode.getIndex(node)}, new Object[] {node});			
+		modelConnector.fireTreeNodesRemoved(this, ordnerNode.getPath(), new int[] {index}, new Object[] {node});			
 
 		// Wenn der Ordner keine "Childs" mehr besitzt, dann muss der Ordner geupdatet werden
 		if ( ordnerNode.getChildCount() == 0 ) {
+			index = root.getIndex(ordnerNode);
 			root.remove(ordnerNode);
-			modelConnector.fireTreeNodesRemoved(this, root.getPath(), new int[] {root.getIndex(ordnerNode)}, new Object[] {ordnerNode});
+			modelConnector.fireTreeNodesRemoved(this, root.getPath(), new int[] {index}, new Object[] {ordnerNode});
 		}
 	}
 	

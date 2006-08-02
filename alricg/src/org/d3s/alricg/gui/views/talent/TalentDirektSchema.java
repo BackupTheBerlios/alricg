@@ -13,6 +13,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.d3s.alricg.charKomponenten.CharElement;
 import org.d3s.alricg.charKomponenten.Talent;
 import org.d3s.alricg.charKomponenten.links.IdLink;
 import org.d3s.alricg.charKomponenten.links.Link;
@@ -153,7 +154,11 @@ public class TalentDirektSchema implements TypSchema {
 		switch ((Spalten) column) {
 		// Wenn ein Button geklickt wird
 		case plus:
-		case minus:
+			prozessor.addNewElement((CharElement) object);
+			break; 
+			
+		default:
+			LOG.warning("Case-Fall konnte nicht gefunden werden!");
 		}
 	}
 
@@ -161,11 +166,11 @@ public class TalentDirektSchema implements TypSchema {
 	 * @see org.d3s.alricg.gui.views.TypSchema#isCellEditable()
 	 */
 	public boolean isCellEditable(Object object, Object column) {
-		if (column.equals(TalentSpalten.Spalten.name)
-				|| column.equals(TalentSpalten.Spalten.minus)
-				|| column.equals(TalentSpalten.Spalten.plus) ) {
+		if (column.equals(TalentSpalten.Spalten.name)) {
 			// diese müssen immer True sein, damit die Navigation funktioniert
 			return true;
+		} else if (column.equals(TalentSpalten.Spalten.plus) ) {
+			return prozessor.canAddElement((CharElement) object);
 		}
 	
 		return false;

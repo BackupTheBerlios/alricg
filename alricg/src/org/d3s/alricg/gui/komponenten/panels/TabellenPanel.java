@@ -47,6 +47,7 @@ public class TabellenPanel extends JPanel implements ProzessorObserver {
 	//private SortableTreeOrTableInterface currentTableModel = null;
 	private SortableTableModel tableModel;
 	private SortableTreeTableModel treeModel;
+
 	
 	/**
 	 * This is the default constructor
@@ -60,7 +61,7 @@ public class TabellenPanel extends JPanel implements ProzessorObserver {
 		initialize(spaltenSchema, spaltenArt);
 	}
 	
-	public void initializeData(TypSchema typSchema, SpaltenSchema spaltenSchema, SpaltenArt spaltenArt) {
+	private void initializeData(TypSchema typSchema, SpaltenSchema spaltenSchema, SpaltenArt spaltenArt) {
 		
 		// Modelle für TreeTable und Table erzeugen
 		tableModel = new SortableTableModel(spaltenSchema, typSchema, spaltenArt);
@@ -76,8 +77,8 @@ public class TabellenPanel extends JPanel implements ProzessorObserver {
 		treeModel.setData( typSchema.getElementBox().getUnmodifiableList() );
 
 		// Tabelle initialisiren
-		spaltenSchema.initTable(sortableTreeTable, spaltenArt);
-		spaltenSchema.initTable(sortableTable, spaltenArt);
+		spaltenSchema.initTable(typSchema.getProzessor(), sortableTreeTable, spaltenArt);
+		spaltenSchema.initTable(typSchema.getProzessor(), sortableTable, spaltenArt);
 	}
 	
 	private void stateChangedOrdnung(ItemEvent e) {
@@ -102,7 +103,6 @@ public class TabellenPanel extends JPanel implements ProzessorObserver {
 	private void stateChangedFilter(ItemEvent e) {
 		tableModel.setFilter((Enum) e.getItem());
 		treeModel.setFilter((Enum) e.getItem());
-
 	}
 
 	/**

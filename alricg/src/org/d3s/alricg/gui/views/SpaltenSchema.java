@@ -8,6 +8,7 @@
 package org.d3s.alricg.gui.views;
 
 import org.d3s.alricg.gui.komponenten.table.SortableTable;
+import org.d3s.alricg.prozessor.Prozessor;
 
 /**
  * <u>Beschreibung:</u><br> 
@@ -56,7 +57,7 @@ public interface SpaltenSchema {
 	 * @param table Die Table/ TreeTable die vorbereitet werden soll
 	 * @param art Die Art der darzustellenden Spalten
 	 */
-	public void initTable(SortableTable table, SpaltenArt art);
+	public void initTable(Prozessor prozessor, SortableTable table, SpaltenArt art);
 		
 	/**
 	 * Gibt zurück, ob nach einer Spalte sortiert werden kann, also dafür 
